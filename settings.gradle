@@ -1,5 +1,12 @@
 rootProject.name = 'aiguilleur'
 
+include 'jj_core'
+include 'jj_jdk'
+include 'jj_jsweet'
+include 'jj_test'
+include 'jj_test_jdk'
+include 'jj_test_jsweet'
+
 include 'ntro_core'
 include 'ntro_core_jdk'
 include 'ntro_core_jsweet'
