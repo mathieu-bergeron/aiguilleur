@@ -23,6 +23,7 @@
     * (ré)-exécuter la tâche quand la valeur de l'objet change
     * on pousse un set de Revisions dans le scope pour permetter d'accéder aux modifs apportées à l'objet depuis le dernier appel
     * NOTES:
+        * chaque objet permanent a UN ID (chemin) UNE VERSION (qui pourrait être celle de Git dans le cas de fichiers)
         * on implante avec un mélange de messages et d'un ObjetStore qui conserve en mémoire les objets permanents
         * le chemin est un identifiant unique pour l'objet
 

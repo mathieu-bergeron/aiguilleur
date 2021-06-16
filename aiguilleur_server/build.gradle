@@ -1,0 +1,119 @@
+plugins{
+    id 'local-java-plugin'
+    id 'local-jsweet-plugin'
+    id 'com.github.hesch.execfork' version '0.1.15'
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
+}
+
+dependencies {
+    // Ntro
+    implementation project(':ntro_core')
+    implementation project(':ntro_jdk')
+
+    // aquiletour
+    implementation project(':aquiletour_core')
+
+    // Jetty web server
+    implementation group: 'org.eclipse.jetty', name: 'jetty-server', version: '9.4.28.v20200408'
+    implementation group: 'org.eclipse.jetty.websocket', name: 'websocket-server', version: '9.4.28.v20200408'
+
+    // Vertx web server and SockJS server
+    implementation 'io.vertx:vertx-web:4.0.2'
+
+    // https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver
+    implementation group: 'org.mongodb', name: 'mongo-java-driver', version: '3.12.8'
+
+    // https://mvnrepository.com/artifact/javax.mail/mail
+    implementation group: 'javax.mail', name: 'mail', version: '1.5.0-b01'
+
+    // https://mvnrepository.com/artifact/com.google.guava/guava
+    implementation group: 'com.google.guava', name: 'guava', version: '30.1-jre'
+
+    // jsoup HTML parser library @ https://jsoup.org/
+    implementation 'org.jsoup:jsoup:1.13.1'
+
+    testImplementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
+
+    testImplementation 'junit:junit:4.13'
+
+    // https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-client
+    testImplementation group: 'org.eclipse.jetty', name: 'jetty-client', version: '9.4.36.v20210114'
+
+}
+
+configurations{
+    // XXX: not needed in runtime 
+    //      and conflicts with selenium and gson
+    testRuntime.exclude group: 'org.jsweet'
+    runtime.exclude group: 'org.jsweet' 
+}
+
+
+
+tasks.test{
+    dependsOn 'testServer'
+    /*
+    testLogging {
+        showStandardStreams = true
+    }*/
+    afterTest { desc, result -> 
+        logger.quiet "Executing test ${desc.name} [${desc.className}] with result: ${result.resultType}"
+    }
+}
+
+
+task server (type:JavaExec) {
+    dependsOn 'classes'
+    main = 'ca.aquiletour.server.JavaMainServer'
+    classpath = sourceSets.main.runtimeClasspath
+    //jvmArgs('-Dfile.encoding=UTF-8','-Xverify:none') // -Xverify:none for profiling in jvisualvm 
+    jvmArgs('-Dfile.encoding=UTF-8') 
+    standardInput = System.in
+}
+
+task testEmail (type:JavaExec) {
+    dependsOn 'classes'
+    main = 'ca.aquiletour.server.email.SendEmail'
+    classpath = sourceSets.main.runtimeClasspath
+    //jvmArgs('-Dfile.encoding=UTF-8','-Xverify:none') // -Xverify:none for profiling in jvisualvm 
+    jvmArgs('-Dfile.encoding=UTF-8') 
+    standardInput = System.in
+
+    if(project.hasProperty('recipient')){
+        args(recipient)
+    }
+}
+
+
+task vertx (type:JavaExec) {
+    dependsOn 'classes'
+    main = 'ca.aquiletour.server.vertx.JavaMainVertx'
+    classpath = sourceSets.main.runtimeClasspath
+    //jvmArgs('-Dfile.encoding=UTF-8','-Xverify:none') // -Xverify:none for profiling in jvisualvm 
+    jvmArgs('-Dfile.encoding=UTF-8') 
+    standardInput = System.in
+}
+
+def dummyOutputStream = new OutputStream() {
+    @Override
+    public void write(int b) {}
+}
+
+task testServer(type: com.github.psxpaul.task.JavaExecFork) {
+    dependsOn 'classes'
+    main = 'ca.aquiletour.server.JavaMainServer'
+    classpath = sourceSets.main.runtimeClasspath
+    jvmArgs('-Dfile.encoding=UTF-8') 
+    standardOutput = dummyOutputStream
+    errorOutput = dummyOutputStream
+    stopAfter = tasks.test
+    killDescendants=false
+
+    doLast{
+        def dumpFilePaths = new FileNameFinder().getFileNames(rootProject.projectDir.toString(), 'build_*')
+        dumpFilePaths.each{ dumpFilePath -> new File(dumpFilePath).delete()}
+    }
+}
+
+
+

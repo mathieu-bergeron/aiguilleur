@@ -1,0 +1,35 @@
+rootProject.name = 'aiguilleur'
+
+include 'ntro_core'
+include 'ntro_core_jdk'
+include 'ntro_core_jsweet'
+include 'ntro_web'
+include 'ntro_web_jdk'
+include 'ntro_web_jsweet'
+include 'ntro_server'
+include 'ntro_server_jdk'
+include 'ntro_test'
+include 'ntro_test_jdk'
+include 'ntro_test_jsweet'
+
+include 'aiguilleur_core'
+include 'aiguilleur_jsweet'
+include 'aiguilleur_server'
+
+buildscript {
+	repositories {
+	    mavenCentral()
+		maven { url "http://repository.jsweet.org/artifactory/libs-release-local" }
+		maven { url "http://repository.jsweet.org/artifactory/libs-snapshot-local" }
+		maven { url "http://repository.jsweet.org/artifactory/plugins-release-local" }
+		maven { url "http://repository.jsweet.org/artifactory/plugins-snapshot-local" }
+		maven { url "http://google-diff-match-patch.googlecode.com/svn/trunk/maven" }
+	}
+
+	dependencies {
+		classpath('org.jsweet:jsweet-gradle-plugin:2.3.0-SNAPSHOT') { 
+		    transitive = true 
+	    }
+    }
+}
+

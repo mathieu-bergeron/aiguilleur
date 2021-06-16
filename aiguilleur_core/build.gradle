@@ -1,0 +1,11 @@
+plugins {
+    id 'local-java-plugin'
+    id 'local-jsweet-plugin'
+}
+
+project.group = 'ca.aiguilleur'
+project.version = '0.1'
+
+dependencies {
+    compile project(':ntro_core')
+}
