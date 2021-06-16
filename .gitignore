@@ -32,26 +32,11 @@ bin
 /jsweet
 jsweet
 
-# Dev databases
-*.db
-__data__
-
 # Tests
-__json__
-jsonLimitations.json
-javaSerialization.bin
 build_*
 
 # MAC_OS
 .DS_Store
-
-# task graphs
-__task_graphs__
-__backend_task_graphs__
-aquiletour_server/TMP
-
-# Git module
-dockers/git/depot/
 
 # Vertx file uploads
 file-uploads
