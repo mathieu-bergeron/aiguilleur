@@ -7,11 +7,11 @@ plugins{
 
 dependencies {
     // Ntro
-    implementation project(':ntro_core')
-    implementation project(':ntro_jdk')
+    //implementation project(':ntro_core')
+    //implementation project(':ntro_jdk')
 
     // aquiletour
-    implementation project(':aquiletour_core')
+    //implementation project(':aquiletour_core')
 
     // Jetty web server
     implementation group: 'org.eclipse.jetty', name: 'jetty-server', version: '9.4.28.v20200408'

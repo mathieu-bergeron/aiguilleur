@@ -7,6 +7,7 @@ project.group = 'ca.ntro'
 project.version = '0.1'
 
 dependencies {
+/*
 
     implementation project(':ntro_core')
     implementation group: 'ca.ntro', name: 'ntro_core', version: '0.1'
@@ -19,11 +20,13 @@ dependencies {
 
 	// XXX: must be 'compile' and not 'implementation'
     compile group: 'org.jsweet.candies.ext', name: 'jquery', version: "1.10.0-SNAPSHOT"
+    */
 }
 
 
 tasks.jsweet{
 
+/*
     dependsOn ':ntro_core:jsweet'
     dependsOn ':ntro_jsweet:jsweet'
     dependsOn ':ntro_test:jsweet'
@@ -48,6 +51,7 @@ tasks.jsweet{
             copyLargeDir(srcDir, outDir, true)
         }
     }
+    */
 }
 
 // adapted from  https://stackoverflow.com/questions/6214703/copy-entire-directory-contents-to-another-directory

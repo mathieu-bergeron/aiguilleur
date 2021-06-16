@@ -15,7 +15,7 @@ repositories {
 gradlePlugin {
     plugins {
         LocalJSweetPlugin {
-            id = 'local-jsweet-plugin'
+            id = 'localJSweetPlugin'
             implementationClass = 'LocalJsweetPluginPlugin'
         }
         LocalJavaPlugin {

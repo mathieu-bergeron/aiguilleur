@@ -8,11 +8,13 @@ project.version = '0.1'
 
 dependencies {
 
+/*
     implementation project(':ntro_core')
     implementation group: 'ca.ntro', name: 'ntro_core', version: '0.1'
 
     implementation project(':ntro_jsweet')
     implementation group: 'ca.ntro', name: 'ntro_jsweet', version: '0.1'
+    */
 
 	// XXX: must be 'compile' and not 'implementation'
     compile group: 'org.jsweet.candies.ext', name: 'jquery', version: "1.10.0-SNAPSHOT"
@@ -21,6 +23,6 @@ dependencies {
 }
 
 tasks.jsweet{
-    dependsOn ':ntro_core:jsweet'
-    dependsOn ':ntro_jsweet:jsweet'
+    //dependsOn ':ntro_core:jsweet'
+    //dependsOn ':ntro_jsweet:jsweet'
 }

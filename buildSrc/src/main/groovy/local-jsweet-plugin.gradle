@@ -3,6 +3,12 @@ plugins {
     id 'maven'
 }
 
+class LocalJSweetPluginExtension {
+   String webRoot = null
+   List<Map<String,String>> localJSweetDependencies = []
+}
+
+def extension = project.extensions.create('localJSweetPlugin', LocalJSweetPluginExtension) 
 
 project.gradle.projectsEvaluated {
     jsweet {
@@ -18,6 +24,37 @@ project.gradle.projectsEvaluated {
 	    bundle = true
 	    declaration = true
 	    //enableAssertions = true
+    }
+
+    def webRoot = extension.webRoot
+
+    for(localDependency in extension.localJSweetDependencies){
+
+        def localProject = project(":$localDependency")
+        def name = localProject.name
+        def version = localProject.version
+        def projectDir = localProject.projectDir
+        def group = localProject.group
+
+        def localCandy = [group:"$group", name:"$name", version:"$version"]
+
+        def groupSegments = group.split('\\.')
+        def groupTld = groupSegments[0]
+        def groupName = groupSegments[1]
+
+        project.getDependencies().add('compile', localProject)
+        project.getDependencies().add('compile', localCandy)
+
+        tasks.jsweet.dependsOn ":$name:jsweet"
+        tasks.jsweet.inputs.dir("${System.getProperty('user.home')}/.m2/repository/$groupTld/$groupName/$name") 
+
+        if(webRoot != null){
+
+            def outDir = new File("$webRoot/public/js/${name}")
+            outDir.mkdirs()
+            def srcDir = new File("$projectDir/jsweet/jsOut/META-INF/resources/webjars/$name/$version")
+            copyLargeDir(srcDir, outDir, true)
+        }
     }
 }
 
@@ -57,6 +94,7 @@ tasks.build {
 }
 
 tasks.jsweet {
+
     inputs.dir("${project.projectDir}/src/main/java")
     outputs.dir("${project.projectDir}/jsweet")
 
@@ -95,4 +133,24 @@ install {
         }
     }
 }
+
+// adapted from  https://stackoverflow.com/questions/6214703/copy-entire-directory-contents-to-another-directory
+def copyLargeDir(File dirFrom, File dirTo, boolean excludeHiddenFiles){
+    if (!dirTo.exists()){
+        dirTo.mkdir();
+    }
+
+    dirFrom.eachFile(groovy.io.FileType.FILES){File source ->
+        if(!excludeHiddenFiles || !source.getName().startsWith(".")){
+            File target = new File(dirTo,source.getName());
+            target.bytes = source.bytes;
+        }
+    }
+
+    dirFrom.eachFile(groovy.io.FileType.DIRECTORIES){File source ->
+        File target = new File(dirTo,source.getName());
+        copyLargeDir(source, target, excludeHiddenFiles)
+    }
+}
+
 
