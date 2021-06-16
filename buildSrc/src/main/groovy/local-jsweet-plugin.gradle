@@ -53,7 +53,9 @@ project.gradle.projectsEvaluated {
             def outDir = new File("$webRoot/public/jsweet/${name}")
             outDir.mkdirs()
             def srcDir = new File("$projectDir/jsweet/jsOut/META-INF/resources/webjars/$name/$version")
-            copyLargeDir(srcDir, outDir, true)
+            if(srcDir.exists()){
+                copyLargeDir(srcDir, outDir, true)
+            }
         }
     }
 }
