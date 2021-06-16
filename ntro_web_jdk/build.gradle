@@ -1,6 +1,6 @@
 plugins {
-    id 'local-java-plugin'
-    id 'local-jsweet-plugin'
+    id 'localJavaPlugin'
+    id 'localJSweetPlugin'
     id 'maven'
 }
 
