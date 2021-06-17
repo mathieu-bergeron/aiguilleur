@@ -20,10 +20,8 @@ package ca.ntro.server;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import ca.ntro.core.system.trace.__T;
 import ca.ntro.jdk.digest.PasswordDigest;
-import ca.ntro.jj.services.RouterService;
-import ca.ntro.jj.trace.__T;
-import ca.ntro.web.NtroWebServer;
 
 public class JavaMainServer {
 	

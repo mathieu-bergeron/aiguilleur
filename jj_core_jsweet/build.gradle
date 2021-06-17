@@ -11,3 +11,10 @@ localJSweetPlugin {
     localJSweetDependencies = ['jj_core']
 
 }
+
+dependencies {
+
+	// XXX: must be 'compile' and not 'implementation'
+    compile group: 'org.jsweet.candies.ext', name: 'jquery', version: "1.10.0-SNAPSHOT"
+
+}

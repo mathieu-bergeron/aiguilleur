@@ -1,7 +1,7 @@
 package ca.ntro.test.json;
 
-import ca.ntro.jj.json.JsonSerializable;
-import source.T;
+import ca.ntro.core.json.JsonSerializable;
+import ca.ntro.core.system.trace.T;
 
 public class TestCourseSummary implements JsonSerializable  {
 

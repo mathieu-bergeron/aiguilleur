@@ -2,7 +2,8 @@ package ca.ntro.web;
 
 import java.util.Map;
 
-import ca.ntro.jj.Path;
+import ca.ntro.core.Path;
+
 
 public interface RequestHandler {
 

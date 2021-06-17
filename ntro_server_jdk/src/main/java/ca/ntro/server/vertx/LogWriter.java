@@ -1,7 +1,7 @@
 package ca.ntro.server.vertx;
 
 import ca.ntro.backend.BackendError;
-import ca.ntro.jj.services.ModelStoreSync;
+import ca.ntro.services.ModelStoreSync;
 
 public interface LogWriter {
 

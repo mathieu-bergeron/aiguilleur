@@ -1,13 +1,13 @@
 package ca.ntro.test.functionnal;
 
 
-import static ca.ntro.jj.assertions.Factory.that;
+import static ca.ntro.assertions.Factory.that;
 
 import org.junit.Test;
 
 import ca.ntro.core.models.StoredList;
 import ca.ntro.core.models.lambdas.Break;
-import ca.ntro.jj.services.Ntro;
+import ca.ntro.services.Ntro;
 
 
 public class BreakTests {

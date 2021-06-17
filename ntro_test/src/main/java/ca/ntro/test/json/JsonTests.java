@@ -2,9 +2,9 @@ package ca.ntro.test.json;
 
 import org.junit.Test;
 
-import ca.ntro.jj.services.Ntro;
+import ca.ntro.services.Ntro;
 
-import static ca.ntro.jj.assertions.Factory.that;
+import static ca.ntro.assertions.Factory.that;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,6 +14,7 @@ import java.util.Map;
 public class JsonTests {
 
 	public static void registerSerializableClasses() {
+		/*
 		Ntro.registerSerializableClass(ListItemA.class);
 		Ntro.registerSerializableClass(ListItemB.class);
 		Ntro.registerSerializableClass(LinkedListNode.class);
@@ -26,6 +27,7 @@ public class JsonTests {
 		Ntro.registerSerializableClass(TestDashboard.class);
 		Ntro.registerSerializableClass(TestCourseList.class);
 		Ntro.registerSerializableClass(TestCourseSummary.class);
+		*/
 	}
 
 	@Test
