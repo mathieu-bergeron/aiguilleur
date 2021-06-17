@@ -26,6 +26,19 @@ addAppointementForm.append(messageInput);
 messageInput.hide();
 messageInput.text(Ntro.jsonService().toString(message));
 
+### NOTE: dans un vue JavaFX
+
+On aurait plutôt:
+
+@FXML
+Button monBouton;
+
+monBouton.addEventListener(e -> {
+    Ntro.messages.send(message);
+});
+
+
+
 # Sur le serveur
 
 On peut décoder automatiquement les POST de cette forme:
@@ -36,3 +49,5 @@ for(String messageText : parameters.get("message")){
 }
 
 // Ça couvre beaucoup de cas qu'on a pas à écrire à la main dans AquiletourRequestHandler/AquiletourBackendRequestHandler
+
+
