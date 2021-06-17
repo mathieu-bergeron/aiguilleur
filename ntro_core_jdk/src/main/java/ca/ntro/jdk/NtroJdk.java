@@ -19,8 +19,8 @@ package ca.ntro.jdk;
 
 import ca.ntro.core.Constants;
 import ca.ntro.jdk.services.EarlyInitializationJdk;
-import ca.ntro.services.NtroInitializationTask;
 import ca.ntro.jdk.services.InitializationTaskJdk;
+import ca.ntro.jj.services.NtroInitializationTask;
 import ca.ntro.jj.trace.__T;
 
 public class NtroJdk {

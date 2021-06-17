@@ -5,9 +5,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import ca.ntro.core.tasks.GraphWriter;
-import ca.ntro.core.tasks.NodeDescription;
 import ca.ntro.jj.assertions.MustNot;
+import ca.ntro.jj.tasks.GraphWriter;
+import ca.ntro.jj.tasks.NodeDescription;
 import guru.nidi.graphviz.attribute.Label;
 import guru.nidi.graphviz.attribute.Rank;
 import guru.nidi.graphviz.attribute.Rank.RankDir;

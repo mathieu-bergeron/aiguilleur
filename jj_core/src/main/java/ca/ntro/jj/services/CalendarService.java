@@ -1,7 +1,7 @@
 package ca.ntro.jj.services;
 
-import ca.ntro.models.NtroDate;
-import ca.ntro.models.NtroTimeOfDay;
+import ca.ntro.jj.date.NtroDate;
+import ca.ntro.jj.date.NtroTimeOfDay;
 
 public abstract class CalendarService {
 

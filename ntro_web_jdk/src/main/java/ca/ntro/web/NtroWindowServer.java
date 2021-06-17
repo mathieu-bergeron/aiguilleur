@@ -7,12 +7,11 @@ import java.nio.charset.StandardCharsets;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import ca.ntro.web.NtroWindowWeb;
-import ca.ntro.jdk.dom.HtmlDocumentJdk;
 import ca.ntro.jj.assertions.MustNot;
 import ca.ntro.jj.log.Log;
 import ca.ntro.jj.trace.T;
 import ca.ntro.jj.web.dom.HtmlDocument;
+import ca.ntro.web.dom.HtmlDocumentJdk;
 
 public class NtroWindowServer extends NtroWindowWeb implements Cloneable {
 	

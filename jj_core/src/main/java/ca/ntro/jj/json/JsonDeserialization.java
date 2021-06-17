@@ -7,10 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ca.ntro.core.system.log.Log;
 import ca.ntro.jj.introspection.NtroClass;
 import ca.ntro.jj.introspection.NtroMethod;
-import ca.ntro.services.Ntro;
 
 public class JsonDeserialization {
 

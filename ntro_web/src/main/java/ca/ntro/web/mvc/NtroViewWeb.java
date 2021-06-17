@@ -5,8 +5,8 @@ import ca.ntro.core.mvc.NtroContext;
 import ca.ntro.core.mvc.NtroView;
 import ca.ntro.core.mvc.StringFilter;
 import ca.ntro.core.mvc.ViewLoaders;
+import ca.ntro.jj.services.Ntro;
 import ca.ntro.jj.web.dom.HtmlElement;
-import ca.ntro.services.Ntro;
 import source.T;
 
 public abstract class NtroViewWeb implements NtroView {

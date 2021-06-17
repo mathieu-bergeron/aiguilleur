@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 
-import ca.ntro.jj.json.JsonLoader;
+import ca.ntro.JsonLoader;
 import ca.ntro.jj.log.Log;
 import ca.ntro.jj.trace.T;
 

@@ -5,7 +5,7 @@ import org.junit.Test;
 import ca.ntro.core.models.NtroModelValue;
 import ca.ntro.jj.introspection.NtroClass;
 import ca.ntro.jj.introspection.NtroMethod;
-import ca.ntro.services.Ntro;
+import ca.ntro.jj.services.Ntro;
 import ca.ntro.test.introspector.classes.ChildClassAB;
 import ca.ntro.test.introspector.classes.GrandParentClassAB;
 import ca.ntro.test.introspector.classes.ParentClassAB;

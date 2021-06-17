@@ -24,12 +24,12 @@ import java.util.TimerTask;
 
 import ca.ntro.backend.BackendError;
 import ca.ntro.core.Constants;
-import ca.ntro.core.tasks.NtroTaskAsync;
 import ca.ntro.jdk.digest.PasswordDigest;
 import ca.ntro.jj.log.Log;
+import ca.ntro.jj.services.ModelStoreSync;
+import ca.ntro.jj.services.Ntro;
+import ca.ntro.jj.tasks.NtroTaskAsync;
 import ca.ntro.jj.trace.T;
-import ca.ntro.services.ModelStoreSync;
-import ca.ntro.services.Ntro;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;

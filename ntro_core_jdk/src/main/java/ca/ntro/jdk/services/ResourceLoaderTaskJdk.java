@@ -23,8 +23,8 @@ import java.util.Scanner;
 import ca.ntro.jdk.FileLoader;
 import ca.ntro.jdk.FileLoaderDev;
 import ca.ntro.jj.assertions.MustNot;
+import ca.ntro.jj.services.ResourceLoaderTask;
 import ca.ntro.jj.trace.T;
-import ca.ntro.services.ResourceLoaderTask;
 
 public class ResourceLoaderTaskJdk extends ResourceLoaderTask {
 	

@@ -2,7 +2,7 @@ package ca.ntro.test.json;
 
 import org.junit.Test;
 
-import ca.ntro.services.Ntro;
+import ca.ntro.jj.services.Ntro;
 
 import static ca.ntro.jj.assertions.Factory.that;
 

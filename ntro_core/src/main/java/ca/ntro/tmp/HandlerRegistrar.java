@@ -1,7 +1,7 @@
 package ca.ntro.tmp;
 
 import ca.ntro.backend.BackendMessageHandler;
-import ca.ntro.messages.NtroMessage;
+import ca.ntro.jj.messages.NtroMessage;
 
 public interface HandlerRegistrar {
 

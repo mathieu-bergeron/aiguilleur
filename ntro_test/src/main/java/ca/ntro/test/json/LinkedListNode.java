@@ -1,7 +1,7 @@
 package ca.ntro.test.json;
 
 import ca.ntro.jj.json.JsonSerializable;
-import ca.ntro.services.Ntro;
+import ca.ntro.jj.services.Ntro;
 
 public class LinkedListNode implements JsonSerializable {
 	

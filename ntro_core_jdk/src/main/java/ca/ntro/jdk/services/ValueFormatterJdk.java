@@ -23,9 +23,9 @@ import java.math.BigInteger;
 import java.util.Formatter;
 import java.util.List;
 
+import ca.ntro.jj.services.Ntro;
 import ca.ntro.jj.services.ValueFormatter;
 import ca.ntro.jj.trace.T;
-import ca.ntro.services.Ntro;
 
 public class ValueFormatterJdk extends ValueFormatter {
 

@@ -8,7 +8,7 @@ import java.util.Set;
 
 import ca.ntro.jj.introspection.NtroClass;
 import ca.ntro.jj.introspection.NtroMethod;
-import ca.ntro.services.Ntro;
+import ca.ntro.jj.services.Ntro;
 
 public class NtroClassJdk extends NtroClass {
 	

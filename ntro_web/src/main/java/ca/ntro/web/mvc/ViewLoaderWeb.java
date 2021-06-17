@@ -20,9 +20,9 @@ package ca.ntro.web.mvc;
 import ca.ntro.core.mvc.NtroView;
 import ca.ntro.core.mvc.ViewLoader;
 import ca.ntro.jj.assertions.MustNot;
+import ca.ntro.jj.services.Ntro;
+import ca.ntro.jj.services.ResourceLoaderTask;
 import ca.ntro.jj.web.dom.HtmlElement;
-import ca.ntro.services.Ntro;
-import ca.ntro.services.ResourceLoaderTask;
 import source.T;
 
 public abstract class ViewLoaderWeb extends ViewLoader {

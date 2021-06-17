@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import ca.ntro.core.models.StoredList;
 import ca.ntro.core.models.lambdas.Break;
-import ca.ntro.services.Ntro;
+import ca.ntro.jj.services.Ntro;
 
 
 public class BreakTests {

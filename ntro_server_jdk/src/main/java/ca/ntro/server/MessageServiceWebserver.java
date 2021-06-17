@@ -7,9 +7,9 @@ import ca.ntro.server.registered_sockets.RegisteredSocketsSockJS;
 import ca.ntro.backend.BackendError;
 import ca.ntro.jdk.services.MessageServiceJdk;
 import ca.ntro.jj.log.Log;
+import ca.ntro.jj.messages.NtroMessage;
+import ca.ntro.jj.services.Ntro;
 import ca.ntro.jj.trace.T;
-import ca.ntro.messages.NtroMessage;
-import ca.ntro.services.Ntro;
 
 public class MessageServiceWebserver extends MessageServiceJdk {
 	

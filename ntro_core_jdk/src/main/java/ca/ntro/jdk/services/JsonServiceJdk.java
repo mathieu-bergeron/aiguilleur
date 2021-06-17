@@ -5,8 +5,8 @@ import com.google.gson.GsonBuilder;
 
 import ca.ntro.jj.log.Log;
 import ca.ntro.jj.services.JsonService;
+import ca.ntro.jj.services.Ntro;
 import ca.ntro.jj.trace.T;
-import ca.ntro.services.Ntro;
 
 public class JsonServiceJdk extends JsonService {
 

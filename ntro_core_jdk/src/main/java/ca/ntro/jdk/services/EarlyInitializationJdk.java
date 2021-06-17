@@ -3,13 +3,13 @@ package ca.ntro.jdk.services;
 import ca.ntro.jdk.regex.RegExJdk;
 import ca.ntro.jj.introspection.Introspector;
 import ca.ntro.jj.regex.RegEx;
+import ca.ntro.jj.services.AppCloser;
 import ca.ntro.jj.services.CollectionsService;
+import ca.ntro.jj.services.ConfigService;
+import ca.ntro.jj.services.EarlyInitialization;
 import ca.ntro.jj.services.Logger;
 import ca.ntro.jj.trace.T;
 import ca.ntro.jj.trace.__T;
-import ca.ntro.services.AppCloser;
-import ca.ntro.services.ConfigService;
-import ca.ntro.services.EarlyInitialization;
 
 public class EarlyInitializationJdk extends EarlyInitialization {
 

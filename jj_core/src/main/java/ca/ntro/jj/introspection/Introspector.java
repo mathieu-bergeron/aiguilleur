@@ -24,11 +24,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ca.ntro.core.models.NtroModel;
-import ca.ntro.core.models.NtroModelValue;
-import ca.ntro.core.system.log.Log;
-import ca.ntro.core.system.trace.T;
-import ca.ntro.stores.ValuePath;
+import ca.ntro.jj.ValuePath;
+
 
 public abstract class Introspector {
 	
@@ -258,12 +255,13 @@ public abstract class Introspector {
 		
 		String fieldName = valuePath.fieldName(0);
 		
+		/*
 		if(ntroClass.ifImplements(NtroModel.class)
 				|| ntroClass.ifImplements(NtroModelValue.class)) {
 			
 			result = getFieldValue(object, ntroClass, fieldName);
 
-		}else if(object instanceof List) {
+		}else */ if(object instanceof List) {
 			
 			result = getListValue(object, fieldName);
 			

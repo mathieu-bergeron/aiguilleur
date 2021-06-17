@@ -1,7 +1,7 @@
 package ca.ntro.jj.threads;
 
-import ca.ntro.messages.MessageHandler;
-import ca.ntro.messages.NtroMessage;
+import ca.ntro.jj.messages.MessageHandler;
+import ca.ntro.jj.messages.NtroMessage;
 
 public interface NtroThread {
 	
