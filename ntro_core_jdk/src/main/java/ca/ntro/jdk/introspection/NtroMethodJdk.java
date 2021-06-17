@@ -6,8 +6,8 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.ntro.core.introspection.MethodSignature;
-import ca.ntro.core.introspection.NtroMethod;
+import ca.ntro.jj.introspection.MethodSignature;
+import ca.ntro.jj.introspection.NtroMethod;
 
 public class NtroMethodJdk extends NtroMethod {
 

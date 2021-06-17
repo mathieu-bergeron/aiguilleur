@@ -1,10 +1,10 @@
 package ca.ntro.users;
 
 import ca.ntro.core.models.NtroModel;
-import ca.ntro.core.system.log.Log;
-import ca.ntro.core.system.trace.T;
+import ca.ntro.jj.log.Log;
 import ca.ntro.models.NtroDate;
 import ca.ntro.services.Ntro;
+import source.T;
 
 public class NtroSession implements NtroModel {
 

@@ -17,11 +17,17 @@
 
 package ca.ntro.services;
 
-import ca.ntro.core.system.stack.StackAnalyzer;
-import ca.ntro.core.system.trace.T;
-import ca.ntro.core.system.trace.__T;
 import ca.ntro.core.tasks.NtroTaskSync;
-import ca.ntro.web.mvc.ViewLoaderWeb;
+import ca.ntro.jj.services.AssertService;
+import ca.ntro.jj.services.CalendarService;
+import ca.ntro.jj.services.JsonService;
+import ca.ntro.jj.services.SystemService;
+import ca.ntro.jj.services.ThreadService;
+import ca.ntro.jj.services.ValueFormatter;
+import ca.ntro.jj.services.__Ntro;
+import ca.ntro.jj.stack.StackAnalyzer;
+import ca.ntro.jj.trace.T;
+import ca.ntro.jj.trace.__T;
 
 public abstract class InitializationTask extends NtroTaskSync {
 
@@ -43,7 +49,7 @@ public abstract class InitializationTask extends NtroTaskSync {
 
 		Ntro.registerResourceLoader(provideResourceLoader());
 		
-		Ntro.registerViewLoaderWebClass(provideViewLoaderWebClass());
+		//Ntro.registerViewLoaderWebClass(provideViewLoaderWebClass());
 		
 		Ntro.registerThreadService(provideThreadService());
 		Ntro.registerMessageServiceClass(provideMessageServiceClass());
@@ -68,7 +74,7 @@ public abstract class InitializationTask extends NtroTaskSync {
 
 	protected abstract StackAnalyzer provideStackAnalyzer();
 	protected abstract ResourceLoader provideResourceLoader();
-	protected abstract Class<? extends ViewLoaderWeb> provideViewLoaderWebClass();
+	//protected abstract Class<? extends ViewLoaderWeb> provideViewLoaderWebClass();
 	protected abstract ThreadService provideThreadService();
 	protected abstract Class<? extends MessageService> provideMessageServiceClass();
 	protected abstract Class<? extends BackendService> provideBackendServiceClass();

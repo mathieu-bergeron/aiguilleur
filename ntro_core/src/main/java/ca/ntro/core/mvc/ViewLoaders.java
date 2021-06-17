@@ -3,9 +3,8 @@ package ca.ntro.core.mvc;
 import java.util.HashMap;
 import java.util.Map;
 
-import ca.ntro.core.system.trace.T;
-import ca.ntro.web.mvc.NtroViewWeb;
-import ca.ntro.web.mvc.ViewLoaderWeb;
+import ca.ntro.jj.trace.T;
+
 
 public class ViewLoaders {
 	
@@ -61,6 +60,7 @@ public class ViewLoaders {
 		return (ViewLoader) viewLoader.clone();
 	}
 
+	/*
 	public static Class<? extends NtroViewWeb> getViewTargetClassWeb(Class<? extends NtroView> viewClass, String lang) {
 		T.call(ViewLoaders.class);
 		
@@ -76,5 +76,6 @@ public class ViewLoaders {
 		}
 
 		return viewTargetClass;
-	}
+	}*/
+
 }

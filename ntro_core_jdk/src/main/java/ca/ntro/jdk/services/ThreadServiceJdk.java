@@ -5,13 +5,13 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import ca.ntro.core.system.trace.T;
 import ca.ntro.core.tasks.NtroTask;
 import ca.ntro.jdk.thread.NtroThreadJdk;
+import ca.ntro.jj.services.ThreadService;
+import ca.ntro.jj.threads.NtroThread;
+import ca.ntro.jj.trace.T;
 import ca.ntro.messages.NtroMessage;
 import ca.ntro.services.Ntro;
-import ca.ntro.services.ThreadService;
-import ca.ntro.threads.NtroThread;
 
 public class ThreadServiceJdk extends ThreadService {
 

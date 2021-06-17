@@ -27,14 +27,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import ca.ntro.core.introspection.NtroClass;
-import ca.ntro.core.introspection.NtroMethod;
-import ca.ntro.core.introspection.ConstructorSignature;
-import ca.ntro.core.introspection.FieldSignature;
-import ca.ntro.core.introspection.Introspector;
-import ca.ntro.core.system.trace.T;
 import ca.ntro.jdk.introspection.NtroClassJdk;
 import ca.ntro.jdk.introspection.NtroMethodJdk;
+import ca.ntro.jj.introspection.ConstructorSignature;
+import ca.ntro.jj.introspection.FieldSignature;
+import ca.ntro.jj.introspection.Introspector;
+import ca.ntro.jj.introspection.NtroClass;
+import ca.ntro.jj.introspection.NtroMethod;
+import ca.ntro.jj.trace.T;
 
 public class IntrospectorJdk extends Introspector {
 

@@ -1,9 +1,9 @@
 package ca.ntro.messages.ntro_messages;
 
 import ca.ntro.core.models.NtroModel;
+import ca.ntro.jj.DocumentPath;
 import ca.ntro.messages.NtroModelMessage;
 import ca.ntro.messages.NtroUserMessage;
-import ca.ntro.stores.DocumentPath;
 import ca.ntro.users.NtroUser;
 
 public class NtroGetModelMessage extends NtroUserMessage<NtroUser> implements NtroModelMessage {

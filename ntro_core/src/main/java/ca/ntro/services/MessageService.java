@@ -3,12 +3,12 @@ package ca.ntro.services;
 import java.util.HashMap;
 import java.util.Map;
 
-import ca.ntro.core.system.trace.T;
+import ca.ntro.jj.threads.NtroThread;
 import ca.ntro.messages.MessageHandler;
 import ca.ntro.messages.MessageHandlerTask;
 import ca.ntro.messages.NtroMessage;
 import ca.ntro.messages.NtroUserMessage;
-import ca.ntro.threads.NtroThread;
+import source.T;
 
 public abstract class MessageService {
 	

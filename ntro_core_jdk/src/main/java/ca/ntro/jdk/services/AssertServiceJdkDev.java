@@ -1,6 +1,6 @@
 package ca.ntro.jdk.services;
 
-import ca.ntro.services.AssertService;
+import ca.ntro.jj.services.AssertService;
 
 public class AssertServiceJdkDev extends AssertService {
 

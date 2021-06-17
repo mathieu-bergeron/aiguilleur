@@ -1,9 +1,9 @@
 package ca.ntro.core.models;
 
-import ca.ntro.core.json.JsonSerializable;
-import ca.ntro.core.system.trace.T;
+import ca.ntro.jj.ValuePath;
+import ca.ntro.jj.json.JsonSerializable;
 import ca.ntro.services.ModelStore;
-import ca.ntro.stores.ValuePath;
+import source.T;
 
 public abstract class StoredValue implements NtroModelValue, JsonSerializable {
 	

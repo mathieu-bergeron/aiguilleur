@@ -2,9 +2,9 @@ package ca.ntro.test.introspector;
 
 import org.junit.Test;
 
-import ca.ntro.core.introspection.NtroClass;
-import ca.ntro.core.introspection.NtroMethod;
 import ca.ntro.core.models.NtroModelValue;
+import ca.ntro.jj.introspection.NtroClass;
+import ca.ntro.jj.introspection.NtroMethod;
 import ca.ntro.services.Ntro;
 import ca.ntro.test.introspector.classes.ChildClassAB;
 import ca.ntro.test.introspector.classes.GrandParentClassAB;
@@ -15,8 +15,9 @@ import ca.ntro.test.introspector.interfaces.ParentInterfaceA;
 import ca.ntro.test.introspector.interfaces.ParentInterfaceB;
 import ca.ntro.test.introspector.ntro_bug.MyStoredList;
 
-import static ca.ntro.assertions.Factory.thatObject;
-import static ca.ntro.assertions.Factory.thatList;
+import static ca.ntro.jj.assertions.Factory.thatList;
+import static ca.ntro.jj.assertions.Factory.thatObject;
+
 import java.util.List;
 import java.util.Set;
 

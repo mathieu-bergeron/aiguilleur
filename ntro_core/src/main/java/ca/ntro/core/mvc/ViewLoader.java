@@ -17,8 +17,8 @@
 
 package ca.ntro.core.mvc;
 
-import ca.ntro.core.system.trace.T;
 import ca.ntro.core.tasks.NtroTaskAsync;
+import source.T;
 
 public abstract class ViewLoader extends NtroTaskAsync implements Cloneable {
 	

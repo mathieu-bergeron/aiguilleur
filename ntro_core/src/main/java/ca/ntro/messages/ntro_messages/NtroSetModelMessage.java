@@ -1,8 +1,8 @@
 package ca.ntro.messages.ntro_messages;
 
 import ca.ntro.core.models.NtroModel;
+import ca.ntro.jj.DocumentPath;
 import ca.ntro.messages.NtroMessage;
-import ca.ntro.stores.DocumentPath;
 
 public class NtroSetModelMessage extends NtroMessage {
 	

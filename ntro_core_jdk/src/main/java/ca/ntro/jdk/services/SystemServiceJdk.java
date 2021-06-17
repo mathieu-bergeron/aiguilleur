@@ -1,7 +1,7 @@
 package ca.ntro.jdk.services;
 
-import ca.ntro.core.system.trace.T;
-import ca.ntro.services.SystemService;
+import ca.ntro.jj.services.SystemService;
+import ca.ntro.jj.trace.T;
 
 public class SystemServiceJdk extends SystemService {
 

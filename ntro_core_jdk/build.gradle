@@ -8,6 +8,9 @@ project.group = 'ca.ntro'
 project.version = '0.1'
 
 dependencies {
+    implementation project(':jj_core')
+    implementation project(':jj_core_jdk')
+
     implementation project(':ntro_core')
 
     // https://github.com/google/gson

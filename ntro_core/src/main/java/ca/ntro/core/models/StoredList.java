@@ -11,8 +11,8 @@ import ca.ntro.core.models.listeners.ClearItemsListener;
 import ca.ntro.core.models.listeners.ItemAddedListener;
 import ca.ntro.core.models.listeners.ItemRemovedListener;
 import ca.ntro.core.models.listeners.ListObserver;
-import ca.ntro.core.system.trace.T;
 import ca.ntro.services.Ntro;
+import source.T;
 
 @SuppressWarnings("serial")   
 public abstract class StoredList<I extends Object> extends StoredProperty<List<I>> { //implements NtroModelValue {

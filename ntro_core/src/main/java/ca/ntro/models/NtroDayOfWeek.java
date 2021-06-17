@@ -1,8 +1,8 @@
 package ca.ntro.models;
 
 import ca.ntro.core.models.NtroModelValue;
-import ca.ntro.core.system.log.Log;
-import ca.ntro.core.system.trace.T;
+import ca.ntro.jj.log.Log;
+import source.T;
 
 public class NtroDayOfWeek implements NtroModelValue {
 	

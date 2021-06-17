@@ -1,18 +1,18 @@
 package ca.ntro.services;
 
 import ca.ntro.backend.BackendError;
-import ca.ntro.core.Path;
 import ca.ntro.core.models.ModelInitializer;
 import ca.ntro.core.models.ModelReader;
 import ca.ntro.core.models.ModelExtractor;
 import ca.ntro.core.models.ModelUpdater;
 import ca.ntro.core.models.NtroModel;
 import ca.ntro.core.models.listeners.ValueObserver;
-import ca.ntro.core.system.assertions.MustNot;
-import ca.ntro.core.system.log.Log;
-import ca.ntro.core.system.trace.T;
-import ca.ntro.stores.DocumentPath;
+import ca.ntro.jj.DocumentPath;
+import ca.ntro.jj.Path;
+import ca.ntro.jj.assertions.MustNot;
+import ca.ntro.jj.log.Log;
 import ca.ntro.users.NtroSession;
+import source.T;
 
 public class ModelStoreSync {
 

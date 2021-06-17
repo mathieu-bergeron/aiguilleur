@@ -19,17 +19,19 @@ package ca.ntro.jdk.services;
 
 import java.util.Map;
 
-import ca.ntro.core.Path;
 import ca.ntro.core.mvc.NtroContext;
-import ca.ntro.core.system.stack.StackAnalyzer;
-import ca.ntro.core.system.trace.T;
-import ca.ntro.core.system.trace.__T;
-import ca.ntro.jdk.web.ViewLoaderWebJdk;
-import ca.ntro.services.AssertService;
+import ca.ntro.jj.Path;
+import ca.ntro.jj.services.AssertService;
+import ca.ntro.jj.services.CalendarService;
+import ca.ntro.jj.services.JsonService;
+import ca.ntro.jj.services.SystemService;
+import ca.ntro.jj.services.ThreadService;
+import ca.ntro.jj.services.ValueFormatter;
+import ca.ntro.jj.stack.StackAnalyzer;
+import ca.ntro.jj.trace.T;
+import ca.ntro.jj.trace.__T;
 import ca.ntro.services.BackendService;
-import ca.ntro.services.CalendarService;
 import ca.ntro.services.InitializationTask;
-import ca.ntro.services.JsonService;
 import ca.ntro.services.MessageService;
 import ca.ntro.services.ModelStore;
 import ca.ntro.services.Ntro;
@@ -37,9 +39,7 @@ import ca.ntro.services.ConfigService;
 import ca.ntro.services.ResourceLoader;
 import ca.ntro.services.RouterService;
 import ca.ntro.services.SessionService;
-import ca.ntro.services.SystemService;
-import ca.ntro.services.ThreadService;
-import ca.ntro.services.ValueFormatter;
+import ca.ntro.web.ViewLoaderWebJdk;
 import ca.ntro.web.mvc.ViewLoaderWeb;
 
 public class InitializationTaskJdk extends InitializationTask { 
@@ -68,12 +68,13 @@ public class InitializationTaskJdk extends InitializationTask {
 		return new ResourceLoaderJdk();
 	}
 
+	/*
 	@Override
 	protected Class<? extends ViewLoaderWeb> provideViewLoaderWebClass() {
 		__T.call(InitializationTaskJdk.class, "provideViewLoaderWeb");
 
 		return ViewLoaderWebJdk.class;
-	}
+	}*/
 
 	@Override
 	protected ThreadService provideThreadService() {

@@ -18,10 +18,10 @@
 package ca.ntro.jdk;
 
 import ca.ntro.core.Constants;
-import ca.ntro.core.system.trace.__T;
 import ca.ntro.jdk.services.EarlyInitializationJdk;
 import ca.ntro.services.NtroInitializationTask;
 import ca.ntro.jdk.services.InitializationTaskJdk;
+import ca.ntro.jj.trace.__T;
 
 public class NtroJdk {
 

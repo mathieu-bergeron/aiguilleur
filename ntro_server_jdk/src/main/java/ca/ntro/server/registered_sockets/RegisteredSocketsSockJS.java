@@ -7,13 +7,13 @@ import java.util.Map;
 import java.util.Set;
 
 import ca.ntro.backend.BackendError;
-import ca.ntro.core.system.log.Log;
-import ca.ntro.core.system.trace.T;
+import ca.ntro.jj.DocumentPath;
+import ca.ntro.jj.ValuePath;
+import ca.ntro.jj.log.Log;
+import ca.ntro.jj.trace.T;
 import ca.ntro.messages.NtroMessage;
 import ca.ntro.messages.ntro_messages.NtroInvokeValueMethodMessage;
 import ca.ntro.services.Ntro;
-import ca.ntro.stores.DocumentPath;
-import ca.ntro.stores.ValuePath;
 import ca.ntro.users.NtroUser;
 import io.vertx.core.impl.ConcurrentHashSet;
 import io.vertx.ext.web.handler.sockjs.SockJSSocket;

@@ -17,9 +17,9 @@
 
 package ca.ntro.jdk.services;
 
-import ca.ntro.core.system.source.SourceFileLocation;
-import ca.ntro.core.system.stack.StackAnalyzer;
-import ca.ntro.core.system.stack.StackFrame;
+import ca.ntro.jj.stack.StackAnalyzer;
+import ca.ntro.jj.stack.StackFrame;
+import ca.ntro.jj.trace.SourceFileLocation;
 
 public class StackAnalyzerJdk extends StackAnalyzer {
 

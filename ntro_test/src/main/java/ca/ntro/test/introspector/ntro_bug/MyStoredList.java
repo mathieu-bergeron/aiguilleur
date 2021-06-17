@@ -2,7 +2,7 @@ package ca.ntro.test.introspector.ntro_bug;
 
 
 import ca.ntro.core.models.StoredList;
-import ca.ntro.core.system.trace.T;
+import source.T;
 
 public class MyStoredList extends StoredList<MyListItem> {
 

@@ -4,12 +4,12 @@ import org.junit.Test;
 
 import ca.ntro.services.Ntro;
 
+import static ca.ntro.jj.assertions.Factory.that;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static ca.ntro.assertions.Factory.that;
 
 public class JsonTests {
 

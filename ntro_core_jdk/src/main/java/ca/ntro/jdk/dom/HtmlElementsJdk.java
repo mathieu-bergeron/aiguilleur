@@ -2,10 +2,10 @@ package ca.ntro.jdk.dom;
 
 import org.jsoup.select.Elements;
 
-import ca.ntro.core.system.trace.T;
-import ca.ntro.web.dom.HtmlElement;
-import ca.ntro.web.dom.HtmlElementLambda;
-import ca.ntro.web.dom.HtmlElements;
+import ca.ntro.jj.trace.T;
+import ca.ntro.jj.web.dom.HtmlElement;
+import ca.ntro.jj.web.dom.HtmlElementLambda;
+import ca.ntro.jj.web.dom.HtmlElements;
 
 public class HtmlElementsJdk extends HtmlElements {
 	

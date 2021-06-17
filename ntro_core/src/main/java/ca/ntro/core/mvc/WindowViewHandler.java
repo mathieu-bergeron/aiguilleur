@@ -1,9 +1,9 @@
 package ca.ntro.core.mvc;
 
-import ca.ntro.core.system.trace.T;
 import ca.ntro.core.tasks.GraphTraceConnector;
 import ca.ntro.core.tasks.NtroTask;
 import ca.ntro.core.tasks.TaskWrapper;
+import source.T;
 
 public  abstract class WindowViewHandler<V extends NtroView> implements TaskWrapper {
 

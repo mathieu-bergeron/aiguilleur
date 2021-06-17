@@ -1,7 +1,7 @@
 package ca.ntro.messages;
 
 import ca.ntro.core.models.NtroModel;
-import ca.ntro.stores.DocumentPath;
+import ca.ntro.jj.DocumentPath;
 
 public class NtroModelMessageImpl implements NtroModelMessage {
 	

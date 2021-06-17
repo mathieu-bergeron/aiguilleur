@@ -1,6 +1,6 @@
 package ca.ntro.core.mvc;
 
-import ca.ntro.core.system.trace.T;
+import source.T;
 
 public class Handler<C extends NtroAbstractController> {
 

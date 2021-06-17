@@ -13,8 +13,8 @@ import ca.ntro.core.models.lambdas.MapMapper;
 import ca.ntro.core.models.lambdas.MapReducer;
 import ca.ntro.core.models.listeners.EntryAddedListener;
 import ca.ntro.core.models.listeners.MapObserver;
-import ca.ntro.core.system.trace.T;
 import ca.ntro.services.Ntro;
+import source.T;
 
 public class StoredMap<V extends Object> extends StoredProperty<Map<String, V>> implements NtroCloneable<StoredMap<V>> {
 

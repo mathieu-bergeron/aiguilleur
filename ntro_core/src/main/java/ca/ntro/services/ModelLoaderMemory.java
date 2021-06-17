@@ -2,8 +2,8 @@ package ca.ntro.services;
 
 import ca.ntro.core.models.ModelLoader;
 import ca.ntro.core.models.NtroModel;
-import ca.ntro.core.system.trace.T;
-import ca.ntro.stores.DocumentPath;
+import ca.ntro.jj.DocumentPath;
+import source.T;
 
 public class ModelLoaderMemory extends ModelLoader {
 	

@@ -1,6 +1,6 @@
 package ca.ntro.core.models;
 
-import ca.ntro.core.system.trace.T;
+import source.T;
 
 public class StoredString extends StoredProperty<String> {
 

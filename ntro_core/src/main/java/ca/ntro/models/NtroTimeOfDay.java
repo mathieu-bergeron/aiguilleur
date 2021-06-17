@@ -1,7 +1,7 @@
 package ca.ntro.models;
 
 import ca.ntro.core.models.NtroModelValue;
-import ca.ntro.core.system.trace.T;
+import source.T;
 
 public class NtroTimeOfDay implements NtroModelValue {
 	

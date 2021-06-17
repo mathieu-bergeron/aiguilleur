@@ -6,8 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import ca.ntro.core.introspection.NtroClass;
-import ca.ntro.core.introspection.NtroMethod;
+import ca.ntro.jj.introspection.NtroClass;
+import ca.ntro.jj.introspection.NtroMethod;
 import ca.ntro.services.Ntro;
 
 public class NtroClassJdk extends NtroClass {

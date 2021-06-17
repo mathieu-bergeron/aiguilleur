@@ -13,5 +13,8 @@ tasks.test{
 }
 
 dependencies {
+
+    implementation project(':jj_core')
+
     testImplementation 'junit:junit:4.13'
 }

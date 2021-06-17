@@ -9,11 +9,6 @@ import java.util.Map;
 import java.util.Set;
 
 import ca.ntro.backend.BackendError;
-import ca.ntro.core.Path;
-import ca.ntro.core.introspection.NtroClass;
-import ca.ntro.core.introspection.NtroMethod;
-import ca.ntro.core.json.Constants;
-import ca.ntro.core.json.JsonLoader;
 import ca.ntro.core.models.ModelFactory;
 import ca.ntro.core.models.ModelInitializer;
 import ca.ntro.core.models.ModelLoader;
@@ -23,14 +18,19 @@ import ca.ntro.core.models.ModelUpdater;
 import ca.ntro.core.models.NtroModel;
 import ca.ntro.core.models.DoNotCacheModel;
 import ca.ntro.core.models.listeners.ValueListener;
-import ca.ntro.core.system.assertions.MustNot;
-import ca.ntro.core.system.log.Log;
-import ca.ntro.core.system.trace.T;
 import ca.ntro.core.tasks.NtroTaskSync;
+import ca.ntro.jj.DocumentPath;
+import ca.ntro.jj.Path;
+import ca.ntro.jj.ValuePath;
+import ca.ntro.jj.assertions.MustNot;
+import ca.ntro.jj.introspection.NtroClass;
+import ca.ntro.jj.introspection.NtroMethod;
+import ca.ntro.jj.json.Constants;
+import ca.ntro.jj.json.JsonLoader;
+import ca.ntro.jj.log.Log;
 import ca.ntro.messages.NtroModelMessage;
-import ca.ntro.stores.DocumentPath;
 import ca.ntro.stores.ExternalUpdateListener;
-import ca.ntro.stores.ValuePath;
+import source.T;
 
 public abstract class ModelStore {
 

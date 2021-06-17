@@ -1,6 +1,6 @@
 package ca.ntro.core.tasks;
 
-import ca.ntro.core.system.trace.T;
+import source.T;
 
 public abstract class TaskWrapperImpl implements TaskWrapper {
 	

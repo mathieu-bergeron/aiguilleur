@@ -20,8 +20,8 @@ package ca.ntro.jdk.regex;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.ntro.core.regex.Matcher;
-import ca.ntro.core.system.trace.T;
+import ca.ntro.jj.regex.Matcher;
+import ca.ntro.jj.trace.T;
 
 public class MatcherJdk extends Matcher {
 	

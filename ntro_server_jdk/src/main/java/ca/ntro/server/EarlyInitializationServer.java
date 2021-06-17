@@ -3,8 +3,8 @@ package ca.ntro.server;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import ca.ntro.core.system.trace.T;
 import ca.ntro.jdk.services.EarlyInitializationJdk;
+import ca.ntro.jj.trace.T;
 import ca.ntro.services.ConfigService;
 
 public class EarlyInitializationServer extends EarlyInitializationJdk {

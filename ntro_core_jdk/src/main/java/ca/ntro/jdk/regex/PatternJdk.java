@@ -17,8 +17,8 @@
 
 package ca.ntro.jdk.regex;
 
-import ca.ntro.core.regex.Matcher;
-import ca.ntro.core.regex.Pattern;
+import ca.ntro.jj.regex.Matcher;
+import ca.ntro.jj.regex.Pattern;
 
 public class PatternJdk extends Pattern {
 

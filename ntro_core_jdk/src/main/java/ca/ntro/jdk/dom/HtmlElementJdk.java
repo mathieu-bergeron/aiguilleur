@@ -12,13 +12,13 @@ import org.jsoup.nodes.Node;
 import org.jsoup.parser.Tag;
 import org.jsoup.select.Elements;
 
-import ca.ntro.core.system.assertions.MustNot;
-import ca.ntro.core.system.trace.T;
-import ca.ntro.web.dom.AnimationListener;
-import ca.ntro.web.dom.HtmlElement;
-import ca.ntro.web.dom.HtmlElements;
-import ca.ntro.web.dom.HtmlEventListener;
-import ca.ntro.web.dom.HtmlFileListener;
+import ca.ntro.jj.assertions.MustNot;
+import ca.ntro.jj.trace.T;
+import ca.ntro.jj.web.dom.AnimationListener;
+import ca.ntro.jj.web.dom.HtmlElement;
+import ca.ntro.jj.web.dom.HtmlElements;
+import ca.ntro.jj.web.dom.HtmlEventListener;
+import ca.ntro.jj.web.dom.HtmlFileListener;
 
 public class HtmlElementJdk extends HtmlElement {
 

@@ -20,18 +20,26 @@ package ca.ntro.services;
 import java.util.HashMap;
 import java.util.Map;
 
-import ca.ntro.assertions.AssertExpression;
 import ca.ntro.core.Constants;
-import ca.ntro.core.introspection.Factory;
-import ca.ntro.core.introspection.Introspector;
-import ca.ntro.core.json.JsonSerializable;
 import ca.ntro.core.mvc.NtroContext;
-import ca.ntro.core.regex.RegEx;
-import ca.ntro.core.system.log.Log;
-import ca.ntro.core.system.trace.__T;
+import ca.ntro.jj.assertions.AssertExpression;
+import ca.ntro.jj.introspection.Factory;
+import ca.ntro.jj.introspection.Introspector;
+import ca.ntro.jj.json.JsonSerializable;
+import ca.ntro.jj.log.Log;
+import ca.ntro.jj.regex.RegEx;
+import ca.ntro.jj.services.AssertService;
+import ca.ntro.jj.services.CalendarService;
+import ca.ntro.jj.services.CollectionsService;
+import ca.ntro.jj.services.JsonService;
+import ca.ntro.jj.services.Logger;
+import ca.ntro.jj.services.SystemService;
+import ca.ntro.jj.services.ThreadService;
+import ca.ntro.jj.services.ValueFormatter;
 import ca.ntro.users.NtroUser;
 import ca.ntro.users.NtroSession;
 import ca.ntro.web.mvc.ViewLoaderWeb;
+import source.__T;
 
 public class Ntro {
 
@@ -304,6 +312,7 @@ public class Ntro {
 	
 	/* <ViewLoaderWeb> */
 
+	/*
 	private static Class<? extends ViewLoaderWeb> viewLoaderWebClass;
 
 	static void registerViewLoaderWebClass(Class<? extends ViewLoaderWeb> viewLoaderWebClass) {
@@ -317,6 +326,7 @@ public class Ntro {
 
 		return Ntro.factory().newInstance(viewLoaderWebClass);
 	}
+	*/
 
 	/* </ViewLoaderWeb> */
 	

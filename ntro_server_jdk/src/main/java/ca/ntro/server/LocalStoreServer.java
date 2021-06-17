@@ -11,18 +11,18 @@ import java.util.List;
 
 import ca.ntro.core.Constants;
 import ca.ntro.server.registered_sockets.RegisteredSocketsSockJS;
-import ca.ntro.core.json.JsonLoader;
-import ca.ntro.core.json.JsonLoaderMemory;
 import ca.ntro.core.models.NtroModel;
-import ca.ntro.core.system.log.Log;
-import ca.ntro.core.system.trace.T;
 import ca.ntro.jdk.services.LocalStoreFiles;
 import ca.ntro.jdk.services.ResourceLoaderTaskJdk;
+import ca.ntro.jj.DocumentPath;
+import ca.ntro.jj.ValuePath;
+import ca.ntro.jj.json.JsonLoader;
+import ca.ntro.jj.json.JsonLoaderMemory;
+import ca.ntro.jj.log.Log;
+import ca.ntro.jj.trace.T;
 import ca.ntro.messages.NtroModelMessage;
 import ca.ntro.services.ModelStore;
 import ca.ntro.services.Ntro;
-import ca.ntro.stores.DocumentPath;
-import ca.ntro.stores.ValuePath;
 
 public class LocalStoreServer extends LocalStoreFiles {
 //public class LocalStoreServer extends LocalStoreMongoDbServer {

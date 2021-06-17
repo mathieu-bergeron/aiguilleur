@@ -3,8 +3,8 @@ package ca.ntro.jdk.digest;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import ca.ntro.core.Constants;
-import ca.ntro.core.system.trace.T;
 import ca.ntro.jdk.random.SecureRandomString;
+import ca.ntro.jj.trace.T;
 
 public class PasswordDigest {
 	

@@ -5,9 +5,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 
-import ca.ntro.core.json.JsonLoader;
-import ca.ntro.core.system.log.Log;
-import ca.ntro.core.system.trace.T;
+import ca.ntro.jj.json.JsonLoader;
+import ca.ntro.jj.log.Log;
+import ca.ntro.jj.trace.T;
 
 public class JsonLoaderFiles extends JsonLoader {
 

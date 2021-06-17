@@ -5,9 +5,9 @@ import java.util.List;
 
 import ca.ntro.server.registered_sockets.RegisteredSocketsSockJS;
 import ca.ntro.backend.BackendError;
-import ca.ntro.core.system.log.Log;
-import ca.ntro.core.system.trace.T;
 import ca.ntro.jdk.services.MessageServiceJdk;
+import ca.ntro.jj.log.Log;
+import ca.ntro.jj.trace.T;
 import ca.ntro.messages.NtroMessage;
 import ca.ntro.services.Ntro;
 

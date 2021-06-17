@@ -3,9 +3,9 @@ package ca.ntro.jdk.dom;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import ca.ntro.core.system.trace.T;
-import ca.ntro.web.dom.HtmlElements;
-import ca.ntro.web.dom.HtmlDocument;
+import ca.ntro.jj.trace.T;
+import ca.ntro.jj.web.dom.HtmlDocument;
+import ca.ntro.jj.web.dom.HtmlElements;
 
 
 public class HtmlDocumentJdk implements HtmlDocument, Cloneable {

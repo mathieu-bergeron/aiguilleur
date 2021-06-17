@@ -1,7 +1,5 @@
 package ca.ntro.services;
 
-import ca.ntro.core.Path;
-import ca.ntro.core.introspection.Introspector;
 import ca.ntro.core.models.StoredBoolean;
 import ca.ntro.core.models.StoredDouble;
 import ca.ntro.core.models.StoredInteger;
@@ -10,8 +8,13 @@ import ca.ntro.core.models.StoredLong;
 import ca.ntro.core.models.StoredMap;
 import ca.ntro.core.models.StoredProperty;
 import ca.ntro.core.models.StoredString;
-import ca.ntro.core.regex.RegEx;
-import ca.ntro.core.system.trace.T;
+import ca.ntro.jj.DocumentPath;
+import ca.ntro.jj.Path;
+import ca.ntro.jj.ValuePath;
+import ca.ntro.jj.introspection.Introspector;
+import ca.ntro.jj.regex.RegEx;
+import ca.ntro.jj.services.CollectionsService;
+import ca.ntro.jj.services.Logger;
 import ca.ntro.messages.ntro_messages.NtroErrorMessage;
 import ca.ntro.messages.ntro_messages.NtroGetModelMessage;
 import ca.ntro.messages.ntro_messages.NtroInvokeValueMethodMessage;
@@ -21,9 +24,8 @@ import ca.ntro.messages.ntro_messages.NtroUpdateSessionMessage;
 import ca.ntro.models.NtroDate;
 import ca.ntro.models.NtroDayOfWeek;
 import ca.ntro.models.NtroTimeOfDay;
-import ca.ntro.stores.DocumentPath;
-import ca.ntro.stores.ValuePath;
 import ca.ntro.users.NtroUser;
+import source.T;
 import ca.ntro.users.NtroSession;
 import ca.ntro.users.NtroSessionData;
 

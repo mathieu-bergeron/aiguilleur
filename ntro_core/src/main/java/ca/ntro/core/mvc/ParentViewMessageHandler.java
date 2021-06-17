@@ -1,10 +1,10 @@
 package ca.ntro.core.mvc;
 
-import ca.ntro.core.system.trace.T;
 import ca.ntro.core.tasks.GraphTraceConnector;
 import ca.ntro.core.tasks.NtroTask;
 import ca.ntro.core.tasks.TaskWrapper;
 import ca.ntro.messages.NtroMessage;
+import source.T;
 
 public abstract class ParentViewMessageHandler<PV extends NtroView, 
                                                CV extends NtroView, 

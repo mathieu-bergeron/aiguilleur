@@ -9,11 +9,11 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Locale;
 
-import ca.ntro.core.system.log.Log;
-import ca.ntro.core.system.trace.T;
+import ca.ntro.jj.log.Log;
+import ca.ntro.jj.services.CalendarService;
+import ca.ntro.jj.trace.T;
 import ca.ntro.models.NtroDate;
 import ca.ntro.models.NtroTimeOfDay;
-import ca.ntro.services.CalendarService;
 
 public class CalendarServiceJdk extends CalendarService {
 

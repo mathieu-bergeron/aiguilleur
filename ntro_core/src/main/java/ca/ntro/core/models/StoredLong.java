@@ -1,7 +1,7 @@
 package ca.ntro.core.models;
 
-import ca.ntro.core.system.trace.T;
 import ca.ntro.services.Ntro;
+import source.T;
 
 public class StoredLong extends StoredProperty<Long> {
 

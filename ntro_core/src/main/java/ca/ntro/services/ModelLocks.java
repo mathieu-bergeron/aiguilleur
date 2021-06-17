@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import ca.ntro.backend.BackendError;
-import ca.ntro.core.system.log.Log;
-import ca.ntro.core.system.trace.T;
-import ca.ntro.stores.DocumentPath;
+import ca.ntro.jj.DocumentPath;
+import ca.ntro.jj.log.Log;
+import source.T;
 
 public class ModelLocks {
 

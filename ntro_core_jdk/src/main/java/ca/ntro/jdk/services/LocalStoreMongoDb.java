@@ -15,21 +15,21 @@ import com.mongodb.client.model.ReplaceOptions;
 import static com.mongodb.client.model.Filters.eq;
 
 import ca.ntro.backend.BackendError;
-import ca.ntro.core.json.JsonLoader;
-import ca.ntro.core.json.JsonLoaderMemory;
 import ca.ntro.core.models.NtroModel;
 import ca.ntro.core.models.listeners.ValueListener;
-import ca.ntro.core.system.log.Log;
-import ca.ntro.core.system.trace.T;
-import ca.ntro.core.wrappers.options.EmptyOptionException;
-import ca.ntro.core.wrappers.options.Optionnal;
+import ca.ntro.jj.DocumentPath;
+import ca.ntro.jj.ValuePath;
+import ca.ntro.jj.json.JsonLoader;
+import ca.ntro.jj.json.JsonLoaderMemory;
+import ca.ntro.jj.log.Log;
+import ca.ntro.jj.option.EmptyOptionException;
+import ca.ntro.jj.option.Optionnal;
+import ca.ntro.jj.trace.T;
 import ca.ntro.messages.NtroModelMessage;
 import ca.ntro.services.ModelIdReader;
 import ca.ntro.services.ModelStore;
 import ca.ntro.services.Ntro;
-import ca.ntro.stores.DocumentPath;
 import ca.ntro.stores.ExternalUpdateListener;
-import ca.ntro.stores.ValuePath;
 
 public abstract class LocalStoreMongoDb extends ModelStore {
 	

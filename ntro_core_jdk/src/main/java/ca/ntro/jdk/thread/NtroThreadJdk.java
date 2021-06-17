@@ -1,8 +1,8 @@
 package ca.ntro.jdk.thread;
 
+import ca.ntro.jj.threads.NtroThread;
 import ca.ntro.messages.MessageHandler;
 import ca.ntro.messages.NtroMessage;
-import ca.ntro.threads.NtroThread;
 
 public class NtroThreadJdk extends Thread implements NtroThread {
 	
