@@ -19,6 +19,13 @@ package ca.ntro.services;
 
 public abstract class Logger {
 
+	/*
+	public abstract void info(String... messages);
+	public abstract void debug(String... messages);
+	public abstract void warning(String... messages);
+	public abstract void error(String... messages);
+	*/
+
 	public void text(String text) {
 		System.out.println(text);
 	}

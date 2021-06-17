@@ -1,0 +1,51 @@
+plugins {
+    id 'localJavaPlugin'
+    id 'localJSweetPlugin'
+    id 'maven'
+}
+
+project.group = 'ca.ntro.jj'
+project.version = '0.1'
+
+dependencies {
+    implementation project(':jj_core')
+    implementation project(':jj_core_jdk')
+
+    implementation project(':jj_test')
+
+    // https://github.com/google/gson
+    implementation ('com.google.code.gson:gson:2.8.6')
+
+    // jsoup HTML parser library @ https://jsoup.org/
+    implementation 'org.jsoup:jsoup:1.13.1'
+
+    // https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver
+    implementation group: 'org.mongodb', name: 'mongo-java-driver', version: '3.12.8'
+
+    // https://mvnrepository.com/artifact/commons-codec/commons-codec
+    implementation group: 'commons-codec', name: 'commons-codec', version: '1.15'
+
+    implementation 'guru.nidi:graphviz-java-all-j2v8:0.18.0'
+    implementation group: 'org.dizitart', name: 'nitrite', version: '3.4.1'
+
+}
+
+configurations{
+    // XXX: not needed in runtime 
+    //      and conflicts with selenium and gson
+    runtime.exclude group: 'org.jsweet' 
+}
+
+
+tasks.build {
+    finalizedBy 'install'
+}
+
+tasks.test{
+    testLogging.showStandardStreams = true
+
+    afterTest { desc, result -> 
+        logger.quiet "Executing test ${desc.name} [${desc.className}] with result: ${result.resultType}"
+    }
+}
+

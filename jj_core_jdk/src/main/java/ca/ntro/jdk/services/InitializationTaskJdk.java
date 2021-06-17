@@ -103,7 +103,7 @@ public class InitializationTaskJdk extends InitializationTask {
 
 	@Override
 	protected JsonService provideJsonService() {
-		return new JsonServiceJdk();
+		return new JsonServiceJdk(null, null);
 	}
 
 	@Override

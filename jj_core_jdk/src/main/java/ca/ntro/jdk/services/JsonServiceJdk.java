@@ -5,10 +5,17 @@ import com.google.gson.GsonBuilder;
 
 import ca.ntro.core.system.log.Log;
 import ca.ntro.core.system.trace.T;
+import ca.ntro.jj_services.Tracer;
 import ca.ntro.services.JsonService;
+import ca.ntro.services.Logger;
 import ca.ntro.services.Ntro;
 
 public class JsonServiceJdk extends JsonService {
+
+	public JsonServiceJdk(Tracer tracer, Logger logger) {
+		super(tracer, logger);
+		tracer().call(this);
+	}
 
 	private static final Gson gsonPrettyPrint = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
 	private static final Gson gson = new GsonBuilder().create();
