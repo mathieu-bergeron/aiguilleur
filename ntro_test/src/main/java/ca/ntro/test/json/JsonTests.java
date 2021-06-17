@@ -10,6 +10,14 @@ import java.util.Map;
 import static ca.ntro.assertions.Factory.that;
 
 public class JsonTests {
+	
+	private static JsonService json;
+	private static AssertionService _assert;
+	
+	public static void initialize(JsonService json, AssertionService _assert) {
+		JsonTests.json = json;
+		JsonTests._assert = _assert;
+	}
 
 	public static void registerSerializableClasses() {
 
@@ -19,9 +27,8 @@ public class JsonTests {
 	private void simpleStringSerialization() {
 		String javaString = "test";
 
-		String jsonString = Ntro.jsonService().toString(javaString);
+		String jsonString = json.toString(javaString);
 		
-		Ntro.verify(that(jsonString.equals("\"" + javaString + "\"")).isTrue());
+		_assert.verify(that(jsonString.equals("\"" + javaString + "\"")).isTrue());
 	}
-
 }
