@@ -1,12 +1,20 @@
 plugins{
     id 'localJavaPlugin'
+    id 'localJSweetPlugin'
+}
+
+localJSweetPlugin {
+
+    localJSweetDependencies = ['ntro_core']
+
 }
 
 dependencies {
-    // Ntro
-    //implementation project(':ntro_core')
-    //implementation project(':ntro_jdk')
+
+    implementation project(':ntro_core_jdk')
+
 }
+
 
 configurations{
     // XXX: not needed in runtime 

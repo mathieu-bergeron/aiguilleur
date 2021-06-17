@@ -6,6 +6,7 @@ plugins {
 project.group = 'ca.ntro'
 project.version = '0.1'
 
+
 dependencies {
 
     implementation project(':ntro_core')
@@ -14,6 +15,15 @@ dependencies {
     implementation project(':ntro_test')
     implementation group: 'ca.ntro', name: 'ntro_test', version: '0.1'
 
+    testImplementation project(':ntro_test')
     implementation 'junit:junit:4.13'
 }
+
+configurations{
+    // XXX: not needed in runtime 
+    //      and conflicts with selenium and gson
+    testRuntime.exclude group: 'org.jsweet'
+    runtime.exclude group: 'org.jsweet' 
+}
+
 

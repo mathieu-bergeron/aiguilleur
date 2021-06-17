@@ -1,0 +1,17 @@
+plugins {
+    id 'localJavaPlugin'
+    id 'localJSweetPlugin'
+}
+
+project.group = 'ca.ntro.jj'
+project.version = '0.1'
+
+tasks.test{
+    afterTest { desc, result -> 
+        logger.quiet "Executing test ${desc.name} [${desc.className}] with result: ${result.resultType}"
+    }
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.13'
+}
