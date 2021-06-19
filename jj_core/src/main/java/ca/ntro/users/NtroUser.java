@@ -1,6 +1,7 @@
 package ca.ntro.users;
 
 import ca.ntro.core.models.NtroModel;
+import ca.ntro.core.models.NtroModelValue;
 
 public class NtroUser implements NtroModel {
 	
@@ -39,5 +40,11 @@ public class NtroUser implements NtroModel {
 
 	public void setAuthToken(String authToken) {
 		this.authToken = authToken;
+	}
+
+	@Override
+	public NtroModelValue findSubModelById() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

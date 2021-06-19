@@ -17,20 +17,25 @@
 
 package ca.ntro.jdk.services;
 
-import ca.ntro.core.system.trace.__T;
-import ca.ntro.services.Logger;
-import ca.ntro.services.Ntro;
+import ca.ntro.jj.services.JsonService;
+import ca.ntro.jj.services.Logger;
+import ca.ntro.ntro_services.Ntro;
 
 public class LoggerJdk extends Logger {
 
 	@Override
 	public void value(Object value) {
-		__T.call(LoggerJdk.class, "value");
+		trace(this);
 		
 		StringBuilder builder = new StringBuilder();
 		
 		Ntro.valueFormatter().format(builder, value);
 		
 		System.out.println(builder.toString());
+	}
+
+	@Override
+	public void trace(Object calledObjectOrClass) {
+		
 	}
 }

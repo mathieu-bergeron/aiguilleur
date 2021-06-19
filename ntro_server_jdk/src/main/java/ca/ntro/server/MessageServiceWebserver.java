@@ -9,7 +9,7 @@ import ca.ntro.core.system.log.Log;
 import ca.ntro.core.system.trace.T;
 import ca.ntro.jdk.services.MessageServiceJdk;
 import ca.ntro.messages.NtroMessage;
-import ca.ntro.services.Ntro;
+import ca.ntro.ntro_services.Ntro;
 
 public class MessageServiceWebserver extends MessageServiceJdk {
 	

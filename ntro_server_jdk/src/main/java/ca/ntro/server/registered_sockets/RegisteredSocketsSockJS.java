@@ -11,7 +11,7 @@ import ca.ntro.core.system.log.Log;
 import ca.ntro.core.system.trace.T;
 import ca.ntro.messages.NtroMessage;
 import ca.ntro.messages.ntro_messages.NtroInvokeValueMethodMessage;
-import ca.ntro.services.Ntro;
+import ca.ntro.ntro_services.Ntro;
 import ca.ntro.stores.DocumentPath;
 import ca.ntro.stores.ValuePath;
 import ca.ntro.users.NtroUser;

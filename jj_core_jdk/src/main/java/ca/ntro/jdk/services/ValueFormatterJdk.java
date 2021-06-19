@@ -24,8 +24,8 @@ import java.util.Formatter;
 import java.util.List;
 
 import ca.ntro.core.system.trace.T;
-import ca.ntro.services.Ntro;
-import ca.ntro.services.ValueFormatter;
+import ca.ntro.jj.services.ValueFormatter;
+import ca.ntro.ntro_services.Ntro;
 
 public class ValueFormatterJdk extends ValueFormatter {
 

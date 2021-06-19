@@ -5,7 +5,7 @@ import ca.ntro.core.json.JsonLoader;
 import ca.ntro.core.system.log.Log;
 import ca.ntro.core.system.trace.T;
 import ca.ntro.core.tasks.NtroTaskAsync;
-import ca.ntro.services.ModelStore;
+import ca.ntro.ntro_services.ModelStore;
 import ca.ntro.stores.DocumentPath;
 
 public class ModelLoader extends NtroTaskAsync {

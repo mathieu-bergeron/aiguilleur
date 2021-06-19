@@ -18,7 +18,7 @@
 package ca.ntro.core.system.trace;
 
 import ca.ntro.core.regex.Pattern;
-import ca.ntro.services.Ntro;
+import ca.ntro.ntro_services.Ntro;
 
 public class TraceFilterRegEx extends TraceFilter {
 	

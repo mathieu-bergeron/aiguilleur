@@ -11,9 +11,9 @@ import ca.ntro.core.tasks.NtroTaskSync;
 import ca.ntro.messages.MessageHandler;
 import ca.ntro.messages.NtroMessage;
 import ca.ntro.messages.ntro_messages.NtroErrorMessage;
-import ca.ntro.services.BackendService;
-import ca.ntro.services.ModelStoreSync;
-import ca.ntro.services.Ntro;
+import ca.ntro.ntro_services.BackendService;
+import ca.ntro.ntro_services.ModelStoreSync;
+import ca.ntro.ntro_services.Ntro;
 
 public abstract class BackendServiceServer extends BackendService {
 

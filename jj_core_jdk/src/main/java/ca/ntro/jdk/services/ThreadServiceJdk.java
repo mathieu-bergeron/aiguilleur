@@ -8,9 +8,9 @@ import java.util.concurrent.Executors;
 import ca.ntro.core.system.trace.T;
 import ca.ntro.core.tasks.NtroTask;
 import ca.ntro.jdk.thread.NtroThreadJdk;
+import ca.ntro.jj.services.ThreadService;
 import ca.ntro.messages.NtroMessage;
-import ca.ntro.services.Ntro;
-import ca.ntro.services.ThreadService;
+import ca.ntro.ntro_services.Ntro;
 import ca.ntro.threads.NtroThread;
 
 public class ThreadServiceJdk extends ThreadService {

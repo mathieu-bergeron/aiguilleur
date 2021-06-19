@@ -24,7 +24,7 @@ import ca.ntro.core.system.assertions.MustNot;
 import ca.ntro.core.system.trace.T;
 import ca.ntro.jdk.FileLoader;
 import ca.ntro.jdk.FileLoaderDev;
-import ca.ntro.services.ResourceLoaderTask;
+import ca.ntro.ntro_services.ResourceLoaderTask;
 
 public class ResourceLoaderTaskJdk extends ResourceLoaderTask {
 	

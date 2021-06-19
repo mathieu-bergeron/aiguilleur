@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import ca.ntro.core.system.trace.T;
-import ca.ntro.services.Ntro;
+import ca.ntro.ntro_services.Ntro;
 
 public class MessageReceptors {
 

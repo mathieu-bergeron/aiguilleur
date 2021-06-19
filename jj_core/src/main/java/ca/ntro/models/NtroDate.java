@@ -2,7 +2,7 @@ package ca.ntro.models;
 
 import ca.ntro.core.models.NtroModelValue;
 import ca.ntro.core.system.trace.T;
-import ca.ntro.services.Ntro;
+import ca.ntro.ntro_services.Ntro;
 
 public class NtroDate implements NtroModelValue {
 	

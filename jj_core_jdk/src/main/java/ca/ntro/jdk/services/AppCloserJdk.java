@@ -18,7 +18,7 @@
 package ca.ntro.jdk.services;
 
 import ca.ntro.core.system.trace.T;
-import ca.ntro.services.AppCloser;
+import ca.ntro.ntro_services.AppCloser;
 
 public class AppCloserJdk extends AppCloser {
 

@@ -10,7 +10,7 @@ import java.util.Map;
 import ca.ntro.core.introspection.NtroClass;
 import ca.ntro.core.introspection.NtroMethod;
 import ca.ntro.core.system.log.Log;
-import ca.ntro.services.Ntro;
+import ca.ntro.ntro_services.Ntro;
 
 public class JsonSerialization {
 

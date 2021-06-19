@@ -1,6 +1,6 @@
 package ca.ntro.assertions;
 
-import ca.ntro.services.Ntro;
+import ca.ntro.ntro_services.Ntro;
 
 public class ObjectExpression extends SimpleAssertExpression {
 	

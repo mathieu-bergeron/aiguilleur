@@ -12,8 +12,6 @@ import ca.ntro.core.Constants;
 import ca.ntro.core.json.JsonLoader;
 import ca.ntro.core.json.JsonLoaderMemory;
 import ca.ntro.server.registered_sockets.RegisteredSocketsSockJS;
-import ca.ntro.services.ModelStore;
-import ca.ntro.services.Ntro;
 import ca.ntro.stores.DocumentPath;
 import ca.ntro.stores.ValuePath;
 import ca.ntro.core.models.NtroModel;
@@ -22,6 +20,8 @@ import ca.ntro.core.system.trace.T;
 import ca.ntro.jdk.services.LocalStoreFiles;
 import ca.ntro.jdk.services.ResourceLoaderTaskJdk;
 import ca.ntro.messages.NtroModelMessage;
+import ca.ntro.ntro_services.ModelStore;
+import ca.ntro.ntro_services.Ntro;
 
 public class LocalStoreServer extends LocalStoreFiles {
 //public class LocalStoreServer extends LocalStoreMongoDbServer {

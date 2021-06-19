@@ -5,16 +5,16 @@ import com.google.gson.GsonBuilder;
 
 import ca.ntro.core.system.log.Log;
 import ca.ntro.core.system.trace.T;
-import ca.ntro.jj_services.Tracer;
-import ca.ntro.services.JsonService;
-import ca.ntro.services.Logger;
-import ca.ntro.services.Ntro;
+import ca.ntro.jj.services.JsonService;
+import ca.ntro.jj.services.Logger;
+import ca.ntro.jj.services.Tracer;
+import ca.ntro.ntro_services.Ntro;
 
 public class JsonServiceJdk extends JsonService {
 
-	public JsonServiceJdk(Tracer tracer, Logger logger) {
-		super(tracer, logger);
-		tracer().call(this);
+	public JsonServiceJdk(Logger logger) {
+		super(logger);
+		logger().trace(this);
 	}
 
 	private static final Gson gsonPrettyPrint = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
@@ -22,14 +22,14 @@ public class JsonServiceJdk extends JsonService {
 
 	@Override
 	protected String writeJson(Object javaValue) {
-		T.call(this);
+		logger().trace(this);
 
 		return writeJson(javaValue, (ifPrettyPrinting() && !Ntro.config().isProd()));
 	}
 
 	@Override
 	protected String writeJson(Object javaValue, boolean prettyPrinting) {
-		T.call(this);
+		logger().trace(this);
 
 		String result = null;
 
@@ -47,6 +47,7 @@ public class JsonServiceJdk extends JsonService {
 
 	@Override
 	protected Object loadJson(String jsonString) {
+		logger().trace(this);
 		
 		Object result = null;
 		
@@ -63,6 +64,4 @@ public class JsonServiceJdk extends JsonService {
 		
 		return result;
 	}
-
-
 }

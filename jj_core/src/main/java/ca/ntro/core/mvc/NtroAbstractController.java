@@ -12,7 +12,8 @@ import ca.ntro.core.tasks.TaskWrapper;
 import ca.ntro.messages.MessageHandlerTask;
 import ca.ntro.messages.NtroMessage;
 import ca.ntro.messages.NtroModelMessage;
-import ca.ntro.services.Ntro;
+import ca.ntro.ntro_services.Ntro;
+
 import static ca.ntro.core.mvc.Constants.MODEL_LOADER_TASK_ID;
 import static ca.ntro.core.mvc.Constants.SUB_MODEL_LOADER_TASK_ID;
 import static ca.ntro.core.mvc.Constants.VIEW_LOADER_TASK_ID;

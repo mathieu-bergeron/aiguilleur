@@ -19,8 +19,8 @@ package ca.ntro.core.system.log;
 
 import ca.ntro.core.system.stack.StackAnalyzer;
 import ca.ntro.core.system.stack.StackFrame;
-import ca.ntro.services.Ntro;
-import ca.ntro.services.__Ntro;
+import ca.ntro.ntro_services.Ntro;
+import ca.ntro.ntro_services.__Ntro;
 
 public class Log {
 

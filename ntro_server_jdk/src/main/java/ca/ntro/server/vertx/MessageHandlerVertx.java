@@ -23,11 +23,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import ca.ntro.server.registered_sockets.RegisteredSocketsSockJS;
-import ca.ntro.services.Ntro;
 import ca.ntro.core.system.log.Log;
 import ca.ntro.core.system.trace.T;
 import ca.ntro.messages.NtroMessage;
 import ca.ntro.messages.ntro_messages.NtroRegisterSocketMessage;
+import ca.ntro.ntro_services.Ntro;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerRequest;

@@ -21,8 +21,8 @@ import ca.ntro.core.mvc.NtroView;
 import ca.ntro.core.mvc.ViewLoader;
 import ca.ntro.core.system.assertions.MustNot;
 import ca.ntro.core.system.trace.T;
-import ca.ntro.services.Ntro;
-import ca.ntro.services.ResourceLoaderTask;
+import ca.ntro.ntro_services.Ntro;
+import ca.ntro.ntro_services.ResourceLoaderTask;
 import ca.ntro.web.dom.HtmlElement;
 
 public abstract class ViewLoaderWeb extends ViewLoader {

@@ -3,11 +3,11 @@ package ca.ntro.jdk.web;
 import ca.ntro.core.Constants;
 import ca.ntro.core.system.trace.__T;
 import ca.ntro.jdk.services.BackendServiceServer;
-import ca.ntro.services.EarlyInitialization;
-import ca.ntro.services.MessageService;
-import ca.ntro.services.ModelStore;
-import ca.ntro.services.NtroInitializationTask;
-import ca.ntro.services.RouterService;
+import ca.ntro.ntro_services.EarlyInitialization;
+import ca.ntro.ntro_services.MessageService;
+import ca.ntro.ntro_services.ModelStore;
+import ca.ntro.ntro_services.NtroInitializationTask;
+import ca.ntro.ntro_services.RouterService;
 
 public class NtroWebServer {
 

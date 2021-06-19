@@ -1,7 +1,7 @@
 package ca.ntro.backend;
 
 import ca.ntro.messages.NtroMessage;
-import ca.ntro.services.ModelStoreSync;
+import ca.ntro.ntro_services.ModelStoreSync;
 
 public abstract class BackendMessageHandler<M extends NtroMessage> {
 	

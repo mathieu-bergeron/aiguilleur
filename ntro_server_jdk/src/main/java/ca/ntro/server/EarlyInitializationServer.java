@@ -5,7 +5,7 @@ import java.nio.file.Paths;
 
 import ca.ntro.core.system.trace.T;
 import ca.ntro.jdk.services.EarlyInitializationJdk;
-import ca.ntro.services.ConfigService;
+import ca.ntro.ntro_services.ConfigService;
 
 public class EarlyInitializationServer extends EarlyInitializationJdk {
 

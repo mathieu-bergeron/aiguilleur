@@ -1,6 +1,7 @@
 package ca.ntro.test.json;
 
 import ca.ntro.core.models.NtroModel;
+import ca.ntro.core.models.NtroModelValue;
 import ca.ntro.core.system.trace.T;
 
 public class TestUsers implements NtroModel {
@@ -31,6 +32,12 @@ public class TestUsers implements NtroModel {
 		T.call(this);
 		
 		users.removeEntry(userId);
+	}
+
+	@Override
+	public NtroModelValue findSubModelById() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

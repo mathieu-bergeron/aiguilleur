@@ -27,7 +27,7 @@ import ca.ntro.core.Constants;
 import ca.ntro.core.system.trace.T;
 import ca.ntro.core.tasks.NtroTaskAsync;
 import ca.ntro.jdk.digest.PasswordDigest;
-import ca.ntro.services.Ntro;
+import ca.ntro.ntro_services.Ntro;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;

@@ -3,7 +3,7 @@ package ca.ntro.core.mvc;
 import ca.ntro.core.system.trace.T;
 import ca.ntro.messages.MessageHandlerTask;
 import ca.ntro.messages.NtroMessage;
-import ca.ntro.services.Ntro;
+import ca.ntro.ntro_services.Ntro;
 
 public abstract class NtroController<AC extends NtroAbstractController> extends NtroAbstractController {
 

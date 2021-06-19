@@ -4,7 +4,6 @@ import java.net.HttpURLConnection;
 
 import ca.ntro.core.Constants;
 import ca.ntro.server.registered_sockets.RegisteredSocketsSockJS;
-import ca.ntro.services.Ntro;
 import ca.ntro.stores.DocumentPath;
 import ca.ntro.core.models.ModelLoader;
 import ca.ntro.core.models.NtroModel;
@@ -13,6 +12,7 @@ import ca.ntro.core.system.trace.T;
 import ca.ntro.messages.NtroMessage;
 import ca.ntro.messages.ntro_messages.NtroGetModelMessage;
 import ca.ntro.messages.ntro_messages.NtroSetModelMessage;
+import ca.ntro.ntro_services.Ntro;
 import ca.ntro.users.NtroUser;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerRequest;

@@ -25,7 +25,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import ca.ntro.core.system.trace.T;
-import ca.ntro.services.CollectionsService;
+import ca.ntro.jj.services.CollectionsService;
 
 public class CollectionsServiceJdk extends CollectionsService {
 

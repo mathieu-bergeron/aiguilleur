@@ -1,6 +1,7 @@
 package ca.ntro.test.json;
 
 import ca.ntro.core.models.NtroModel;
+import ca.ntro.core.models.NtroModelValue;
 import ca.ntro.core.system.trace.T;
 
 public class TestDashboard implements NtroModel {
@@ -81,5 +82,11 @@ public class TestDashboard implements NtroModel {
 				currentCourse.setIsQueueOpen(availabilty);
 			}
 		}
+	}
+
+	@Override
+	public NtroModelValue findSubModelById() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

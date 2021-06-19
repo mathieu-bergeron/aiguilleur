@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import ca.ntro.services.Ntro;
+import ca.ntro.ntro_services.Ntro;
 
 public abstract class NtroClass {
 

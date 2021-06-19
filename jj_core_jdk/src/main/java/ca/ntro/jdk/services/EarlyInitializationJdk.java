@@ -5,11 +5,11 @@ import ca.ntro.core.regex.RegEx;
 import ca.ntro.core.system.trace.T;
 import ca.ntro.core.system.trace.__T;
 import ca.ntro.jdk.regex.RegExJdk;
-import ca.ntro.services.AppCloser;
-import ca.ntro.services.CollectionsService;
-import ca.ntro.services.ConfigService;
-import ca.ntro.services.EarlyInitialization;
-import ca.ntro.services.Logger;
+import ca.ntro.jj.services.CollectionsService;
+import ca.ntro.jj.services.Logger;
+import ca.ntro.ntro_services.AppCloser;
+import ca.ntro.ntro_services.ConfigService;
+import ca.ntro.ntro_services.EarlyInitialization;
 
 public class EarlyInitializationJdk extends EarlyInitialization {
 
