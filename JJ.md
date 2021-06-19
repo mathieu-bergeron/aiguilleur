@@ -24,3 +24,9 @@ ca.ntro.jj
     * genre Collection et Document
     * observer (watcher) un fichier, avec notion de diff et de ResourceUpdate
 
+1. NOTE: Resource (comme un fichier)
+    * dans le graphe de tâches
+    * getOnce(ResourceDescriptor): récupérer une fois, ensuite la tâche est DONE pour toujours
+    * observe(ResourceDescriptor): ré-exécuter la tâche à chaque fois que la Resource change
+
+
