@@ -15,3 +15,7 @@ ca.ntro.jj
     * aussi mettre NtroMessage (les threads communiquent par message)
     * et aussi Task (?) et un TaskGraph de base (?)
     * après tout, c'est pas spécifique à Ntro (?)
+
+
+1. NOTE: même l'envoi/réception de messages client/serveur aurait du sens
+    * tout sauf Modèle et Vue et Controleur etc.
