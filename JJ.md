@@ -10,3 +10,8 @@ ca.ntro.jj
     * Collections
     * Assertion
     * Etc.
+
+1. NOTE: si on met ThreadService dans Jj, alors on doit 
+    * aussi mettre NtroMessage (les threads communiquent par message)
+    * et aussi Task (?) et un TaskGraph de base (?)
+    * après tout, c'est pas spécifique à Ntro (?)
