@@ -19,3 +19,8 @@ ca.ntro.jj
 
 1. NOTE: même l'envoi/réception de messages client/serveur aurait du sens
     * tout sauf Modèle et Vue et Controleur etc.
+
+1. NOTE: même un notion de ResourceLoader, l'équivalent de charger un fichier et l'observer
+    * genre Collection et Document
+    * observer (watcher) un fichier, avec notion de diff et de ResourceUpdate
+
