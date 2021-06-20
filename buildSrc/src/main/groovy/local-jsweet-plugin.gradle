@@ -4,7 +4,7 @@ plugins {
 }
 
 class LocalJSweetPluginExtension {
-   String webRoot = null
+   String storeDir = null
    List<Map<String,String>> localJSweetDependencies = []
 }
 
@@ -26,7 +26,7 @@ project.gradle.projectsEvaluated {
 	    //enableAssertions = true
     }
 
-    def webRoot = extension.webRoot
+    def storeDir = extension.storeDir
 
     for(localDependency in extension.localJSweetDependencies){
 
@@ -48,9 +48,9 @@ project.gradle.projectsEvaluated {
         tasks.jsweet.dependsOn ":$name:jsweet"
         tasks.jsweet.inputs.dir("${System.getProperty('user.home')}/.m2/repository/$groupTld/$groupName/$name") 
 
-        if(webRoot != null){
+        if(storeDir != null){
 
-            def outDir = new File("$webRoot/public/jsweet/${name}")
+            def outDir = new File("$storeDir/public/jsweet/${name}")
             outDir.mkdirs()
             def srcDir = new File("$projectDir/jsweet/jsOut/META-INF/resources/webjars/$name/$version")
             if(srcDir.exists()){

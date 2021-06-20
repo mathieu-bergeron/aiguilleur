@@ -16,7 +16,7 @@ localJSweetPlugin {
 
        ]
 
-    webRoot = rootProject.projectDir.toString() + "/webroot"
+    storeDir = rootProject.projectDir.toString() + "/_store"
 }
 
 task js {
