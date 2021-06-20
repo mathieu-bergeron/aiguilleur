@@ -50,7 +50,7 @@ project.gradle.projectsEvaluated {
 
         if(storeDir != null){
 
-            def outDir = new File("$storeDir/public/jsweet/${name}")
+            def outDir = new File("$storeDir/_files/jsweet/${name}")
             outDir.mkdirs()
             def srcDir = new File("$projectDir/jsweet/jsOut/META-INF/resources/webjars/$name/$version")
             if(srcDir.exists()){
