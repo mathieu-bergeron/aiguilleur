@@ -9,4 +9,4 @@ La différence?
 1. Resource n'est *pas* modifié par le programme (c'est l'équivalent d'un fichier)
     * on peut quand même l'observer, car la Resource pourraît être modifiée à l'extérieur du programme (on fait un Watch sur le fichier)
 
-1. Le Model est modifié dans le programme
+1. Le Model est modifié dans le programme avec des méthodes comme `updateModel` (accessibles uniquement dans le Backend)
