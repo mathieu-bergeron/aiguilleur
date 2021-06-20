@@ -21,7 +21,7 @@ project.gradle.projectsEvaluated {
 	    candiesJsOut = new File("${project.projectDir}/jsweet/jsIn")
 	    targetVersion = 'ES6'
 	    includes = ['**/*.java']
-	    bundle = true
+	    bundle = false
 	    declaration = true
 	    //enableAssertions = true
     }
