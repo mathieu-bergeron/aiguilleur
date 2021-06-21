@@ -6,3 +6,14 @@ plugins {
 project.group = 'ca.aiguilleur'
 project.version = '0.1'
 
+localJSweetPlugin {
+
+    localJSweetDependencies = [
+            'jj_core', 
+            'jj_core_jsweet', 
+            'ntro_core', 
+            'ntro_core_jsweet',
+            'ntro_web',
+       ]
+}
+

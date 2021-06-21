@@ -3,57 +3,57 @@ package ca.ntro.jj.services.service_factory;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.ntro.jj.common.ExceptionDelayerJj;
 import ca.ntro.jj.services.Service;
+import ca.ntro.jj.services.class_name.ClassNameService;
 import ca.ntro.jj.services.factory.FactoryService;
 import ca.ntro.jj.tasks.base.AtomicTask;
 import ca.ntro.jj.tasks.base.TaskCompleteNotifyier;
-import ca.ntro.jj.tasks.results.AtomicTaskResult;
 import ca.ntro.jj.tasks.results.AtomicTaskResultJj;
-import ca.ntro.jj.tasks.results.TaskResults;
-import ca.ntro.jj.wrappers.result.ExceptionHandler;
+import ca.ntro.jj.tasks.results.NamedResults;
 
-public class ServiceFactoryAtomicTask implements AtomicTask {
+public class ServiceFactoryAtomicTask extends ExceptionDelayerJj<ServiceFactoryAtomicTask> 
+                                      implements AtomicTask<ServiceFactoryAtomicTask> {
 	
+	private ClassNameService classNameService;
 	private FactoryService factoryService;
-	List<Class<? extends Service>> dependencies;
-	private Throwable t;
 	
-	public ServiceFactoryAtomicTask(FactoryService factory, List<Class<? extends Service>> dependencies) {
+	Class<? extends Service> serviceClass;
+	List<Class<? extends Service>> dependencies;
+	
+	public ServiceFactoryAtomicTask(FactoryService factory, 
+									ClassNameService classNameService,
+									Class<? extends Service> serviceClass,
+			                        List<Class<? extends Service>> dependencies) {
+		
+		
+		this.serviceClass = serviceClass;
+		this.classNameService = classNameService;
 		this.factoryService = factory;
 		this.dependencies = dependencies;
 	}
 
 	@Override
-	public void handleException(ExceptionHandler exceptionHandler) {
-		if(t != null) {
-			exceptionHandler.handle(t);
-		}
-	}
-
-	@Override
-	public AtomicTaskResult execute(TaskResults results, TaskCompleteNotifyier notifyier) {
+	public ServiceFactoryAtomicTask execute(NamedResults previousResults, TaskCompleteNotifyier notifyier) {
 		
 		Service service = null;
 		
 		List<Object> resolvedDependencies = new ArrayList<>();
 		for(Class<? extends Service> dependency : dependencies) {
-			resolvedDependencies.add(results.getResult(dependency));
+			String dependencyName = classNameService.simpleNameFor(dependency);
+			resolvedDependencies.add(previousResults.getResult(dependency, dependencyName));
 		}
 
-		@SuppressWarnings("unchecked")
-		Class<? extends Service> serviceClass = results.getResult(Class.class);
-		
 		try {
 			
 			service = factoryService.newInstance(serviceClass, resolvedDependencies);
 			
 		}catch(Throwable t) {
-
-			this.t = t;
-
+			memorizeException(t);
 		}
 
-		return new AtomicTaskResultJj(service);
+		notifyier.taskComplete(new AtomicTaskResultJj(service));
+		
+		return this;
 	}
-
 }

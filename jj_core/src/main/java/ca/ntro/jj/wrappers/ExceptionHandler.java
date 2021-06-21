@@ -1,4 +1,4 @@
-package ca.ntro.jj.wrappers.result;
+package ca.ntro.jj.wrappers;
 
 public interface ExceptionHandler {
 

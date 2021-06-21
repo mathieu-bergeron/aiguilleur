@@ -1,9 +1,9 @@
 package ca.ntro.jj.common;
 
-import ca.ntro.jj.wrappers.result.ExceptionHandler;
+import ca.ntro.jj.wrappers.ExceptionHandler;
 
-public interface ExceptionDelayer {
+public interface ExceptionDelayer<R extends Object> {
 
-	void handleException(ExceptionHandler exceptionHandler);
+	R handleException(ExceptionHandler exceptionHandler);
 
 }

@@ -5,7 +5,10 @@ import java.util.List;
 import ca.ntro.jj.services.Service;
 import ca.ntro.jj.services.class_name.ClassNameService;
 import ca.ntro.jj.services.factory.FactoryService;
+import ca.ntro.jj.tasks.TaskJj;
+import ca.ntro.jj.tasks.base.AtomicTask;
 import ca.ntro.jj.tasks.base.Task;
+import ca.ntro.jj.tasks.meta.TaskMeta;
 import ca.ntro.jj.tasks.task_graph.TaskGraphExecutable;
 
 public class ServiceFactory {
@@ -13,7 +16,7 @@ public class ServiceFactory {
 	private FactoryService factoryService;
 	private ClassNameService classNameService;
 
-	private TaskGraphExecutable initializationGraph;
+	private TaskGraphExecutable<Task> initializationGraph;
 	
 	public ServiceFactory(FactoryService factoryService, ClassNameService classNameService) {
 		this.factoryService = factoryService;
@@ -26,15 +29,18 @@ public class ServiceFactory {
 		
 		for(Class<? extends Service> dependency : dependencies) {
 			
-
-			
+			Task dependencyTask = initializationTaskFor(dependency);
+			task.addPreviousTask(dependencyTask);
 		}
 	}
 
 	private ServiceFactoryTask addTask(ServiceDescriptor<?> serviceDescriptor, List<Class<? extends Service>> dependencies) {
 
 		String taskId = classNameService.simpleNameFor(serviceDescriptor.interfaceClass());
-		ServiceFactoryTask task = new ServiceFactoryTask(factoryService, dependencies);
+		ServiceFactoryTask task = new ServiceFactoryTask(factoryService, 
+														 classNameService,
+														 serviceDescriptor.implementationClass(),
+														 dependencies);
 		
 		initializationGraph.addTask(taskId, task);
 		

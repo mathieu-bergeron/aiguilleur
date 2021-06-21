@@ -1,14 +1,14 @@
 package ca.ntro.jj.wrappers.future;
 
 import ca.ntro.jj.common.ExceptionDelayer;
-import ca.ntro.jj.wrappers.result.ExceptionHandler;
+import ca.ntro.jj.wrappers.ExceptionHandler;
 
-public interface Future<R extends Object> extends ExceptionDelayer {
+public interface Future<R extends Object> extends ExceptionDelayer<Future<R>> {
 	
 	R getNow() throws NotYetAvailable;
 
-	void handleResult(ResultHandler<R> resultHandler);
+	Future<R> handleResult(ResultHandler<R> resultHandler);
 
-	void handleException(ExceptionHandler  exceptionHandler);
+	Future<R> handleException(ExceptionHandler  exceptionHandler);
 
 }

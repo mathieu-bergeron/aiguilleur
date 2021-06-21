@@ -1,45 +1,52 @@
 package ca.ntro.jj.tasks;
 
+import ca.ntro.jj.common.ExceptionDelayerJj;
 import ca.ntro.jj.tasks.base.AtomicTask;
 import ca.ntro.jj.tasks.base.Task;
-import ca.ntro.jj.wrappers.result.ExceptionHandler;
+import ca.ntro.jj.tasks.meta.TaskMeta;
+import ca.ntro.jj.tasks.results.NamedResults;
 
-public class TaskJj implements Task {
+public class TaskJj<TM extends TaskMeta<TM, AtomicTask<?>>> extends ExceptionDelayerJj<TM> implements Task<TM, AtomicTask<?>>, NamedResults {
 
 	@Override
-	public void addPreviousTask(Task previousTask) {
+	public TM addPreviousTask(TM previousTask) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 	@Override
-	public void addEntryTask(AtomicTask entryTask) {
+	public TM addEntryTask(AtomicTask<?> entryTask) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 	@Override
-	public void addSubTask(Task subTask) {
+	public TM addSubTask(TM subTask) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 	@Override
-	public void addExitTask(AtomicTask exitTask) {
+	public TM addExitTask(AtomicTask<?> exitTask) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 	@Override
-	public void addNextTask(Task nextTask) {
+	public TM addNextTask(TM nextTask) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 	@Override
-	public void handleException(ExceptionHandler exceptionHandler) {
-		// TODO Auto-generated method stub
+	public <R> R getResult(Class<R> resultClass, String resultName) {
 		
+		/*
+		 * TODO: search the graph for completed tasks that have 
+		 *       yielded the results
+		 */
+
+		return null;
 	}
 
 }

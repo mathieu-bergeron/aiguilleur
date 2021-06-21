@@ -1,11 +1,10 @@
 package ca.ntro.jj.tasks.meta;
 
-public interface TaskMeta<T extends TaskMeta<T,AT>, AT extends AtomicTaskMeta> {
+public interface TaskMeta<TM extends TaskMeta<TM,ATM>, ATM extends AtomicTaskMeta> {
 
-	void addPreviousTask(T previousTask);
-	void addEntryTask(AT entryTask);
-	void addSubTask(T subTask);
-	void addExitTask(AT exitTask);
-	void addNextTask(T nextTask);
-
+	TM addPreviousTask(TM previousTask);
+	TM addEntryTask(ATM entryTask);
+	TM addSubTask(TM subTask);
+	TM addExitTask(ATM exitTask);
+	TM addNextTask(TM nextTask);
 }

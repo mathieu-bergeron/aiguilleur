@@ -1,12 +1,11 @@
 package ca.ntro.jj.tasks.task_graph;
 
-import ca.ntro.jj.tasks.meta.AtomicTaskMeta;
 import ca.ntro.jj.tasks.meta.TaskMeta;
 
-public interface TaskGraph<T extends TaskMeta<T,AT>, AT extends AtomicTaskMeta> {
+public interface TaskGraph<TM extends TaskMeta<TM,?>> {
 
-	T getTaskById(String taskId);
+	TM getTaskById(String taskId);
 
-	void addTask(String taskId, T task);
+	void addTask(String taskId, TM task);
 
 }
