@@ -10,7 +10,7 @@ import ca.ntro.jj.services.factory.FactoryService;
 import ca.ntro.jj.tasks.base.AtomicTask;
 import ca.ntro.jj.tasks.base.TaskCompleteNotifyier;
 import ca.ntro.jj.tasks.results.AtomicTaskResultJj;
-import ca.ntro.jj.tasks.results.NamedResults;
+import ca.ntro.jj.tasks.results.ObjectMap;
 
 public class ServiceFactoryAtomicTask extends ExceptionDelayerJj<ServiceFactoryAtomicTask> 
                                       implements AtomicTask<ServiceFactoryAtomicTask> {
@@ -34,14 +34,14 @@ public class ServiceFactoryAtomicTask extends ExceptionDelayerJj<ServiceFactoryA
 	}
 
 	@Override
-	public ServiceFactoryAtomicTask execute(NamedResults previousResults, TaskCompleteNotifyier notifyier) {
+	public ServiceFactoryAtomicTask execute(ObjectMap previousResults, TaskCompleteNotifyier notifyier) {
 		
 		Service service = null;
 		
 		List<Object> resolvedDependencies = new ArrayList<>();
 		for(Class<? extends Service> dependency : dependencies) {
 			String dependencyName = classNameService.simpleNameFor(dependency);
-			resolvedDependencies.add(previousResults.getResult(dependency, dependencyName));
+			resolvedDependencies.add(previousResults.get(dependency, dependencyName));
 		}
 
 		try {

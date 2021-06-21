@@ -3,7 +3,7 @@ package ca.ntro.jj.tasks.task_graph;
 import ca.ntro.jj.tasks.base.AtomicTask;
 import ca.ntro.jj.tasks.base.Task;
 import ca.ntro.jj.tasks.meta.TaskMeta;
-import ca.ntro.jj.tasks.results.NamedResults;
+import ca.ntro.jj.tasks.results.ObjectMap;
 import ca.ntro.jj.wrappers.future.Future;
 
 public interface TaskGraphExecutable<TM extends TaskMeta<TM,AtomicTask<?>>>
@@ -18,7 +18,7 @@ public interface TaskGraphExecutable<TM extends TaskMeta<TM,AtomicTask<?>>>
 	 * (NOTE: the graph is re-executed upon a notifyTaskCompleted)
 	 * 
 	 */
-	NamedResults executeBlocking();
+	ObjectMap executeBlocking();
 
 	
 	/* TODO:
@@ -33,6 +33,6 @@ public interface TaskGraphExecutable<TM extends TaskMeta<TM,AtomicTask<?>>>
 	 *       i.e. the ModelLocks is a set of queues (one for each Model)
 	 *       when we are next in queue, the lock is acquired and our execute is called
 	 */
-	Future<NamedResults> execute();
+	Future<ObjectMap> execute();
 
 }

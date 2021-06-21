@@ -17,27 +17,9 @@
 
 package ca.ntro.jj.services.logger;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ca.ntro.jj.services.Service;
-import ca.ntro.jj.services.service_factory.ServiceDescriptor;
-import ca.ntro.jj.services.service_factory.ServiceDescriptorJj;
-import ca.ntro.jj.services.service_factory.ServiceFactory;
-import ca.ntro.jj.services.tracer.Tracer;
-import ca.ntro.jj.tasks.base.Task;
 
 public interface Logger extends Service {
-
-	static List<Class<? extends Service>> dependencies(){
-
-		List<Class<? extends Service>> dependencies = new ArrayList<>();
-
-		dependencies.add(Tracer.class);
-		
-		return dependencies;
-	}
-
 
 	/*
 	public abstract void info(String... messages);
@@ -52,14 +34,4 @@ public interface Logger extends Service {
 
 	void trace(Object calledObjectOrClass);
 
-
-	static Task initializationTask(ServiceFactory factory, 
-			                       Class<? extends Logger> implementationClass) {
-
-		ServiceDescriptor<Logger> serviceDescriptor = new ServiceDescriptorJj<Logger>(Logger.class, implementationClass);
-
-		factory.addInitializationTask(serviceDescriptor, dependencies());
-
-		return factory.initializationTaskFor(Logger.class);
-	}
 }

@@ -1,5 +1,7 @@
 package ca.ntro.jj.services;
 
-public interface Service {
+import ca.ntro.jj.managed_objects.ManagedObject;
+
+public interface Service extends ManagedObject {
 
 }

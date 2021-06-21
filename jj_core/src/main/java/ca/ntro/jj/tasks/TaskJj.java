@@ -4,9 +4,9 @@ import ca.ntro.jj.common.ExceptionDelayerJj;
 import ca.ntro.jj.tasks.base.AtomicTask;
 import ca.ntro.jj.tasks.base.Task;
 import ca.ntro.jj.tasks.meta.TaskMeta;
-import ca.ntro.jj.tasks.results.NamedResults;
+import ca.ntro.jj.tasks.results.ObjectMap;
 
-public class TaskJj<TM extends TaskMeta<TM, AtomicTask<?>>> extends ExceptionDelayerJj<TM> implements Task<TM, AtomicTask<?>>, NamedResults {
+public class TaskJj<TM extends TaskMeta<TM, AtomicTask<?>>> extends ExceptionDelayerJj<TM> implements Task<TM, AtomicTask<?>>, ObjectMap {
 
 	@Override
 	public TM addPreviousTask(TM previousTask) {
@@ -39,7 +39,7 @@ public class TaskJj<TM extends TaskMeta<TM, AtomicTask<?>>> extends ExceptionDel
 	}
 
 	@Override
-	public <R> R getResult(Class<R> resultClass, String resultName) {
+	public <R> R get(Class<R> resultClass, String resultName) {
 		
 		/*
 		 * TODO: search the graph for completed tasks that have 
