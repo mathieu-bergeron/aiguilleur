@@ -1,5 +1,7 @@
 package ca.ntro.jj.services;
 
+import ca.ntro.jj.services.logger.Logger;
+
 public class LoggerNull implements Logger {
 
 	@Override

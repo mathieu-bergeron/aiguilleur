@@ -2,8 +2,8 @@ package ca.ntro.jj.server;
 
 import ca.ntro.core.tasks.NtroTask;
 import ca.ntro.core.tasks.NtroTaskAsync;
-import ca.ntro.jj.services.Logger;
 import ca.ntro.jj.services.LoggerNull;
+import ca.ntro.jj.services.logger.Logger;
 
 public abstract class ServerJj implements Server {
 

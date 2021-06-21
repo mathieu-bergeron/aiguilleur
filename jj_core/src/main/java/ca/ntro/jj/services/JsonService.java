@@ -3,6 +3,7 @@ package ca.ntro.jj.services;
 
 import ca.ntro.core.json.JsonDeserialization;
 import ca.ntro.core.json.JsonSerialization;
+import ca.ntro.jj.services.logger.Logger;
 
 public abstract class JsonService {
 	

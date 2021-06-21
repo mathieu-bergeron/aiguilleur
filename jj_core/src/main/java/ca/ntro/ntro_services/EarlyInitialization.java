@@ -13,7 +13,7 @@ import ca.ntro.core.models.StoredString;
 import ca.ntro.core.regex.RegEx;
 import ca.ntro.core.system.trace.T;
 import ca.ntro.jj.services.CollectionsService;
-import ca.ntro.jj.services.Logger;
+import ca.ntro.jj.services.logger.Logger;
 import ca.ntro.messages.ntro_messages.NtroErrorMessage;
 import ca.ntro.messages.ntro_messages.NtroGetModelMessage;
 import ca.ntro.messages.ntro_messages.NtroInvokeValueMethodMessage;

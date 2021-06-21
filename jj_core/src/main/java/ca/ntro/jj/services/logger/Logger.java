@@ -15,9 +15,16 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with aquiletour.  If not, see <https://www.gnu.org/licenses/>
 
-package ca.ntro.jj.services;
+package ca.ntro.jj.services.logger;
 
 import ca.ntro.core.tasks.NtroTask;
+import ca.ntro.core.tasks.NtroTaskAsync;
+import ca.ntro.jj.services.service_factory.ServiceFactory;
+import ca.ntro.jj.services.tracer.Tracer;
+import ca.ntro.jj.tasks.TaskJj;
+import ca.ntro.jj.tasks.base.AtomicTask;
+import ca.ntro.jj.tasks.base.Task;
+import ca.ntro.jj.wrappers.result.ExceptionHandler;
 
 public interface Logger {
 
@@ -35,22 +42,15 @@ public interface Logger {
 
 	void trace(Object calledObjectOrClass);
 
-	static NtroTask initializationTask(Class<? extends Logger> loggerClass) {
-
-		NtroTask initializationTask = new NtroTaskAsync() {
-			@Override
-			protected void runTaskAsync() {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			protected void onFailure(Exception e) {
-				// TODO Auto-generated method stub
-				
-			}
-		};
+	static Task initializationTask(ServiceFactory factory, 
+			                       Class<? extends Logger> implementationClass) {
 		
-		return initializationTask;
+		Task initializationTaskTracer = factory.initializationTaskFor(Tracer.class);
+		
+		Task initializationTaskLogger = new TaskJj();
+		
+		initializationTaskLogger.addPreviousTask(initializationTaskTracer);
+
+		return initializationTaskLogger;
 	}
 }

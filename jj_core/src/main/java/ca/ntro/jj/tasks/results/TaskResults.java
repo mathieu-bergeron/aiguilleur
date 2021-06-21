@@ -1,4 +1,4 @@
-package ca.ntro.jj.tasks;
+package ca.ntro.jj.tasks.results;
 
 
 public interface TaskResults {

@@ -6,7 +6,7 @@ import ca.ntro.core.system.trace.T;
 import ca.ntro.core.system.trace.__T;
 import ca.ntro.jdk.regex.RegExJdk;
 import ca.ntro.jj.services.CollectionsService;
-import ca.ntro.jj.services.Logger;
+import ca.ntro.jj.services.logger.Logger;
 import ca.ntro.ntro_services.AppCloser;
 import ca.ntro.ntro_services.ConfigService;
 import ca.ntro.ntro_services.EarlyInitialization;
