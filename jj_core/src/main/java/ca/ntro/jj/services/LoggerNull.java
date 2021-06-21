@@ -1,6 +1,10 @@
 package ca.ntro.jj.services;
 
-public class LoggerNull extends Logger {
+public class LoggerNull implements Logger {
+
+	@Override
+	public void text(String text) {
+	}
 
 	@Override
 	public void value(Object value) {
@@ -9,6 +13,5 @@ public class LoggerNull extends Logger {
 	@Override
 	public void trace(Object calledObjectOrClass) {
 	}
-
 
 }

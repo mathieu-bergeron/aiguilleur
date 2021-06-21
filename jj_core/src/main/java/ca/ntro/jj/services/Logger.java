@@ -17,7 +17,10 @@
 
 package ca.ntro.jj.services;
 
-public abstract class Logger {
+import ca.ntro.core.tasks.NtroTask;
+
+public interface Logger {
+
 
 	/*
 	public abstract void info(String... messages);
@@ -26,12 +29,28 @@ public abstract class Logger {
 	public abstract void error(String... messages);
 	*/
 
-	public void text(String text) {
-		System.out.println(text);
-	}
+	void text(String text);
 	
-	public abstract void value(Object value);
+	void value(Object value);
 
-	public abstract void trace(Object calledObjectOrClass);
+	void trace(Object calledObjectOrClass);
 
+	static NtroTask initializationTask(Class<? extends Logger> loggerClass) {
+
+		NtroTask initializationTask = new NtroTaskAsync() {
+			@Override
+			protected void runTaskAsync() {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			protected void onFailure(Exception e) {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+		
+		return initializationTask;
+	}
 }

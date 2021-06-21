@@ -17,11 +17,10 @@
 
 package ca.ntro.jdk.services;
 
-import ca.ntro.jj.services.JsonService;
-import ca.ntro.jj.services.Logger;
+import ca.ntro.jj.services.LoggerAbstract;
 import ca.ntro.ntro_services.Ntro;
 
-public class LoggerJdk extends Logger {
+public class LoggerJdk extends LoggerAbstract {
 
 	@Override
 	public void value(Object value) {
