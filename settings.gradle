@@ -12,6 +12,9 @@ include 'jj_test'
 include 'jj_test_jdk'
 include 'jj_test_jsweet'
 
+include 'jj_server'
+include 'jj_server_jdk'
+
 include 'ntro_core'
 include 'ntro_core_jdk'
 include 'ntro_core_jsweet'
