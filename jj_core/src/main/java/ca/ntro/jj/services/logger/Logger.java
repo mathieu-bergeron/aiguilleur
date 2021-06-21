@@ -17,16 +17,26 @@
 
 package ca.ntro.jj.services.logger;
 
-import ca.ntro.core.tasks.NtroTask;
-import ca.ntro.core.tasks.NtroTaskAsync;
+import java.util.ArrayList;
+import java.util.List;
+
+import ca.ntro.jj.services.Service;
+import ca.ntro.jj.services.service_factory.ServiceDescriptor;
+import ca.ntro.jj.services.service_factory.ServiceDescriptorJj;
 import ca.ntro.jj.services.service_factory.ServiceFactory;
 import ca.ntro.jj.services.tracer.Tracer;
-import ca.ntro.jj.tasks.TaskJj;
-import ca.ntro.jj.tasks.base.AtomicTask;
 import ca.ntro.jj.tasks.base.Task;
-import ca.ntro.jj.wrappers.result.ExceptionHandler;
 
-public interface Logger {
+public interface Logger extends Service {
+
+	static List<Class<? extends Service>> dependencies(){
+
+		List<Class<? extends Service>> dependencies = new ArrayList<>();
+
+		dependencies.add(Tracer.class);
+		
+		return dependencies;
+	}
 
 
 	/*
@@ -42,15 +52,14 @@ public interface Logger {
 
 	void trace(Object calledObjectOrClass);
 
+
 	static Task initializationTask(ServiceFactory factory, 
 			                       Class<? extends Logger> implementationClass) {
-		
-		Task initializationTaskTracer = factory.initializationTaskFor(Tracer.class);
-		
-		Task initializationTaskLogger = new TaskJj();
-		
-		initializationTaskLogger.addPreviousTask(initializationTaskTracer);
 
-		return initializationTaskLogger;
+		ServiceDescriptor<Logger> serviceDescriptor = new ServiceDescriptorJj<Logger>(Logger.class, implementationClass);
+
+		factory.addInitializationTask(serviceDescriptor, dependencies());
+
+		return factory.initializationTaskFor(Logger.class);
 	}
 }

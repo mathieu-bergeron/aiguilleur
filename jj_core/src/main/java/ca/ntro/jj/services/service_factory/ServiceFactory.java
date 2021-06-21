@@ -22,11 +22,11 @@ public class ServiceFactory {
 
 	public void addInitializationTask(ServiceDescriptor<?> serviceDescriptor, List<Class<? extends Service>> dependencies) {
 
-		ServiceFactoryTask task = addTask(serviceDescriptor);
+		ServiceFactoryTask task = addTask(serviceDescriptor, dependencies);
 		
 		for(Class<? extends Service> dependency : dependencies) {
 			
-			Task 
+
 			
 		}
 	}
@@ -34,7 +34,7 @@ public class ServiceFactory {
 	private ServiceFactoryTask addTask(ServiceDescriptor<?> serviceDescriptor, List<Class<? extends Service>> dependencies) {
 
 		String taskId = classNameService.simpleNameFor(serviceDescriptor.interfaceClass());
-		ServiceFactoryTask task = new ServiceFactoryTask(factoryService);
+		ServiceFactoryTask task = new ServiceFactoryTask(factoryService, dependencies);
 		
 		initializationGraph.addTask(taskId, task);
 		

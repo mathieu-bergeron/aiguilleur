@@ -7,57 +7,14 @@ import ca.ntro.jj.services.logger.Logger;
 
 public abstract class ServerJj implements Server {
 
-	private ServerOptions options;
 	private Logger logger;
+	private ServerOptions options;
 
-	// FIXME: no! We need a ServerFactory as 
-	//        ServerJdk and ServerJSweet will not necessarily 
-	//        have the same initializationTask
-	public static NtroTask initializationTask(Class<? extends Server> serverClass,
-											  Class<? extends Logger> loggerClass) {
-		
-		/* TODO: 
-		 * 
-		 * return a TaskGraph that 
-		 * 
-		 * - initializes every dependency
-		 * - fetches the correct TaskResults
-		 * - creates a ServerJj of type serverClass
-		 * 
-		 */
-		
-		NtroTask initializationTask = new NtroTaskAsync() {
-			@Override
-			protected void runTaskAsync() {
-				
-				// XXX: getResult from Logger init task
-				
-			}
-			
-			@Override
-			protected void onFailure(Exception e) {
-				// TODO Auto-generated method stub
-				
-			}
-		};
-		
-		initializationTask.addSubTask(Logger.initializationTask(loggerClass), "logger");
-		
-		return initializationTask;
-	}
-
-
-	public ServerJj(ServerOptions options) {
-
-		this.logger = new LoggerNull();
-		this.options = options;
-	}
-
-	public ServerJj(ServerOptions options, Logger logger) {
+	public ServerJj(Logger logger, ServerOptions options) {
 		logger.trace(this);
 		
-		this.options = options;
 		this.logger = logger;
+		this.options = options;
 	}
 
 	protected ServerOptions getOptions() {

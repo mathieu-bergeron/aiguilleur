@@ -1,5 +1,8 @@
 package ca.ntro.jj.services.service_factory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ca.ntro.jj.services.Service;
 import ca.ntro.jj.services.factory.FactoryService;
 import ca.ntro.jj.tasks.base.AtomicTask;
@@ -12,10 +15,12 @@ import ca.ntro.jj.wrappers.result.ExceptionHandler;
 public class ServiceFactoryAtomicTask implements AtomicTask {
 	
 	private FactoryService factoryService;
+	List<Class<? extends Service>> dependencies;
 	private Throwable t;
 	
-	public ServiceFactoryAtomicTask(FactoryService factory) {
+	public ServiceFactoryAtomicTask(FactoryService factory, List<Class<? extends Service>> dependencies) {
 		this.factoryService = factory;
+		this.dependencies = dependencies;
 	}
 
 	@Override
@@ -29,13 +34,18 @@ public class ServiceFactoryAtomicTask implements AtomicTask {
 	public AtomicTaskResult execute(TaskResults results, TaskCompleteNotifyier notifyier) {
 		
 		Service service = null;
+		
+		List<Object> resolvedDependencies = new ArrayList<>();
+		for(Class<? extends Service> dependency : dependencies) {
+			resolvedDependencies.add(results.getResult(dependency));
+		}
 
 		@SuppressWarnings("unchecked")
 		Class<? extends Service> serviceClass = results.getResult(Class.class);
 		
 		try {
 			
-			service = factoryService.newInstance(serviceClass);
+			service = factoryService.newInstance(serviceClass, resolvedDependencies);
 			
 		}catch(Throwable t) {
 
