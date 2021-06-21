@@ -1,6 +1,7 @@
 package ca.ntro.jj.tasks.base;
 
 import ca.ntro.jj.common.ExceptionDelayer;
+
 import ca.ntro.jj.tasks.meta.AtomicTaskMeta;
 import ca.ntro.jj.tasks.results.NamedResults;
 
