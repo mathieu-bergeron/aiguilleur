@@ -16,12 +16,13 @@ public class JavaMainJSweet {
 
 				       .initialize()
 
-					   .onAppInitialized(services -> {
+					   .onAppInitialized(() -> {
 						   
 						   Log.text("Shortcut classes like Log and T are now initialized");
+						   Log.text("NOTE: other services should be added as dependencies in each Controller");
+						   Log.text("e.g. RegEx might not be needed, and hence we don't want to waste time loading its .js and compiling it");
 
-						   AiguilleurMain.main(services);
-
+						   AiguilleurMain.main();
 						})
 
 					    .onInitializationFailure(e -> {

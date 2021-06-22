@@ -7,6 +7,7 @@ import ca.ntro.jj.initialization.InitializorJj;
 import ca.ntro.jj.services.logger.Logger;
 import ca.ntro.jj.services.tracer.Tracer;
 import ca.ntro.jj.wrappers.ExceptionHandler;
+import ca.ntro.jj.wrappers.Handler;
 import ca.ntro.jj.wrappers.future.Future;
 import ca.ntro.jj.wrappers.future.ResultHandler;
 
@@ -41,13 +42,13 @@ public abstract class AppJj<A extends App<?>> implements App<A> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public A onAppInitialized(ResultHandler<ObjectMap> resultHandler) {
+	public A onAppInitialized(Handler handler) {
 		
 		services.handleResult(services -> {
 
 			Log.initialize(services);
 			
-			resultHandler.handle(services);
+			handler.handle();
 		});
 
 		return (A) this;
