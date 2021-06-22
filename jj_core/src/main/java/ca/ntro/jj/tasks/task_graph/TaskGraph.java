@@ -3,11 +3,12 @@ package ca.ntro.jj.tasks.task_graph;
 import ca.ntro.jj.common.values.ObjectMap;
 import ca.ntro.jj.tasks.base.AtomicTask;
 import ca.ntro.jj.tasks.base.Task;
+import ca.ntro.jj.tasks.generic.GenericTaskGraph;
 import ca.ntro.jj.wrappers.future.Future;
 
 public interface TaskGraph<T extends Task<?,AtomicTask>>
 
-       extends    TaskGraphMeta<T, AtomicTask> {
+       extends    GenericTaskGraph<T, AtomicTask> {
 	
 	/* TODO:
 	 * execute tasks of the graph in a while-loop

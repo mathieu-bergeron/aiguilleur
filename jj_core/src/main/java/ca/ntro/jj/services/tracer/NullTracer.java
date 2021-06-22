@@ -1,7 +1,7 @@
 package ca.ntro.jj.services.tracer;
 
 
-public class TracerNull implements Tracer {
+public class NullTracer implements Tracer {
 
 	@Override
 	public TracedCall traceCall(int stackTraceIncrement) {

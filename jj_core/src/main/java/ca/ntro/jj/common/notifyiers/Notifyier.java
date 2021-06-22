@@ -1,4 +1,4 @@
-package ca.ntro.jj.tasks.base;
+package ca.ntro.jj.common.notifyiers;
 
 import ca.ntro.jj.common.values.ObjectMap;
 

@@ -1,6 +1,5 @@
 package ca.ntro.jj.initialization;
 
-import java.util.List;
 
 import ca.ntro.jj.common.values.ObjectMap;
 

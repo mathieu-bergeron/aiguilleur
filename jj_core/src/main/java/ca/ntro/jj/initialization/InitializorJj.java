@@ -2,6 +2,7 @@ package ca.ntro.jj.initialization;
 
 import ca.ntro.jj.common.identifyiers.ClassId;
 import ca.ntro.jj.common.identifyiers.ObjectId;
+import ca.ntro.jj.common.values.ObjectMap;
 import ca.ntro.jj.tasks.base.Task;
 import ca.ntro.jj.tasks.task_graph.TaskGraph;
 import ca.ntro.jj.wrappers.future.Future;
@@ -17,10 +18,10 @@ public class InitializorJj implements Initializor {
 		return instance;
 	}
 
-	private TaskGraph<? extends Task> initializationGraph;
+	private TaskGraph<? extends Task<?,?>> initializationGraph;
 
 	@Override
-	public <O> void registerSingleton(ClassId<O> classId) {
+	public <O> void registerSingleton(ClassId<O> classId, O object) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -50,9 +51,14 @@ public class InitializorJj implements Initializor {
 	}
 
 	@Override
-	public <O> Future<O> initializedInstance(ObjectId<O> objectId) {
+	public <O> Future<O> initializedObject(ObjectId<O> objectId) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Future<ObjectMap> initializedObjects() {
+		return initializationGraph.execute();
 	}
 
 }

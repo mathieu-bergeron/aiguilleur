@@ -2,11 +2,12 @@ package ca.ntro.jj.initialization;
 
 import ca.ntro.jj.common.identifyiers.ClassId;
 import ca.ntro.jj.common.identifyiers.ObjectId;
+import ca.ntro.jj.common.values.ObjectMap;
 import ca.ntro.jj.wrappers.future.Future;
 
 public interface Initializor {
 	
-	<O extends Object> void registerSingleton(ClassId<O> classId);
+	<O extends Object> void registerSingleton(ClassId<O> classId, O object);
 
 	<O extends Object> void registerObject(ObjectId<O> objectId, O object);
 
@@ -16,6 +17,8 @@ public interface Initializor {
 
 	<O extends Object> Future<O> initializedSingleton(ClassId<O> classId);
 
-	<O extends Object> Future<O> initializedInstance(ObjectId<O> objectId);
+	<O extends Object> Future<O> initializedObject(ObjectId<O> objectId);
+
+	Future<ObjectMap> initializedObjects();
 
 }

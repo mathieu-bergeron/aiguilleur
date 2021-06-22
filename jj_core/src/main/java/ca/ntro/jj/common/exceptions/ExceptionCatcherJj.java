@@ -9,6 +9,7 @@ public class ExceptionCatcherJj<R extends Object> implements ExceptionCatcher<R>
 	
 	private List<Throwable> exceptions = new ArrayList<>();
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public R handleException(ExceptionHandler exceptionHandler) {
 		for(Throwable t : exceptions) {

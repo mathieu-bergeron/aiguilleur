@@ -1,35 +1,17 @@
 package ca.ntro.jj.server;
 
 import ca.ntro.core.Path;
-import ca.ntro.core.json.JsonSerializable;
+import ca.ntro.jj.common.identifyiers.ClassId;
+import ca.ntro.jj.common.identifyiers.ClassIdJj;
 
-public class ServerOptions implements JsonSerializable {
-	
-	private Path privatePath;
-	private Path publicPath;
-	private int port;
+public interface ServerOptions {
 
-	public Path getPrivatePath() {
-		return privatePath;
-	}
+	Path getPrivatePath();
+	Path getPublicPath();
+	int getPort();
 
-	public void setPrivatePath(Path privatePath) {
-		this.privatePath = privatePath;
-	}
 
-	public Path getPublicPath() {
-		return publicPath;
-	}
-
-	public void setPublicPath(Path publicPath) {
-		this.publicPath = publicPath;
-	}
-
-	public int getPort() {
-		return port;
-	}
-
-	public void setPort(int port) {
-		this.port = port;
+	public static ClassId<ServerOptions> classId() {
+		return new ClassIdJj<>(ServerOptions.class);
 	}
 }

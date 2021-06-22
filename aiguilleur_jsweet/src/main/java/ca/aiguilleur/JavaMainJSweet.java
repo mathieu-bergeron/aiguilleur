@@ -1,23 +1,33 @@
 package ca.aiguilleur;
 
-import ca.ntro.jj.JjJSweet;
+import ca.ntro.jj.AppJSweet;
+import ca.ntro.jj.app.Log;
+import ca.ntro.jj.app.Options;
+import ca.ntro.jj.app.OptionsJj;
 
 public class JavaMainJSweet {
 	
 	public static void main(String[] args) {
-		
-		JjJSweet.initialize()
 
-		        .handleResult(services -> {
+		Options options = new OptionsJj();
+		options.setIsProd(false);
 
-		        	AiguilleurMain.main(services);
+		new AppJSweet().addOptions(options)
 
-		        })
+				       .initialize()
 
-		        .handleException(e -> {
+					   .onAppInitialized(services -> {
+						   
+						   Log.text("Shortcut classes like Log and T are now initialized");
 
-		        	e.printStackTrace();
+						   AiguilleurMain.main(services);
 
-				});
-	}
+						})
+
+					    .onInitializationFailure(e -> {
+
+							e.printStackTrace();
+
+					    });
+		}
 }

@@ -17,9 +17,10 @@
 
 package ca.ntro.jj.services.logger;
 
-import ca.ntro.jj.services.Service;
+import ca.ntro.jj.common.identifyiers.ClassId;
+import ca.ntro.jj.common.identifyiers.ClassIdJj;
 
-public interface Logger extends Service {
+public interface Logger {
 
 	/*
 	public abstract void info(String... messages);
@@ -33,5 +34,9 @@ public interface Logger extends Service {
 	void value(Object value);
 
 	void trace(Object calledObjectOrClass);
+
+	static ClassId<Logger> classId() {
+		return new ClassIdJj<>(Logger.class);
+	}
 
 }
