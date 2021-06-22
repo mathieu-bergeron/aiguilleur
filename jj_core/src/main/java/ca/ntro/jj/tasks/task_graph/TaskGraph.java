@@ -3,7 +3,6 @@ package ca.ntro.jj.tasks.task_graph;
 import ca.ntro.jj.common.values.ObjectMap;
 import ca.ntro.jj.tasks.base.AtomicTask;
 import ca.ntro.jj.tasks.base.Task;
-import ca.ntro.jj.tasks.meta.TaskMeta;
 import ca.ntro.jj.wrappers.future.Future;
 
 public interface TaskGraph<T extends Task<?,AtomicTask>>

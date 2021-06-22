@@ -4,7 +4,7 @@ import ca.ntro.jj.common.identifyiers.TaskId;
 import ca.ntro.jj.tasks.meta.AtomicTaskMeta;
 import ca.ntro.jj.tasks.meta.TaskMeta;
 
-public interface TaskGraphMeta<TM extends TaskMeta<TM,ATM>, ATM extends AtomicTaskMeta> {
+public interface TaskGraphMeta<TM extends TaskMeta<?,ATM>, ATM extends AtomicTaskMeta> {
 
 	TM getTaskById(TaskId taskId);
 
