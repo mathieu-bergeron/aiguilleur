@@ -1,6 +1,6 @@
 package ca.ntro.jj;
 
-import ca.ntro.jj.tasks.results.ObjectMap;
+import ca.ntro.jj.common.values.ObjectMap;
 import ca.ntro.jj.wrappers.future.Future;
 
 public class JjJSweet {

@@ -1,11 +1,11 @@
-package ca.ntro.jj.common;
+package ca.ntro.jj.common.exceptions;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ca.ntro.jj.wrappers.ExceptionHandler;
 
-public class ExceptionDelayerJj<R extends Object> implements ExceptionDelayer<R> {
+public class ExceptionCatcherJj<R extends Object> implements ExceptionCatcher<R> {
 	
 	private List<Throwable> exceptions = new ArrayList<>();
 

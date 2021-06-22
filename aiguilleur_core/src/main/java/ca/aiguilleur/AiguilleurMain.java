@@ -1,6 +1,6 @@
 package ca.aiguilleur;
 
-import ca.ntro.jj.tasks.results.ObjectMap;
+import ca.ntro.jj.common.values.ObjectMap;
 
 public class AiguilleurMain {
 

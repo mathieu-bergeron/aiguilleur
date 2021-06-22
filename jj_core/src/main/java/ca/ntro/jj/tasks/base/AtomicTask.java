@@ -1,12 +1,12 @@
 package ca.ntro.jj.tasks.base;
 
-import ca.ntro.jj.common.ExceptionDelayer;
 
+import ca.ntro.jj.common.values.ObjectMap;
 import ca.ntro.jj.tasks.meta.AtomicTaskMeta;
-import ca.ntro.jj.tasks.results.ObjectMap;
 
-public interface AtomicTask<ATM extends AtomicTaskMeta> extends AtomicTaskMeta, ExceptionDelayer<ATM> {
+public interface AtomicTask extends AtomicTaskMeta {
 
-	ATM execute(ObjectMap previousResults, TaskCompleteNotifyier notifyier);
+	void execute(ObjectMap previousResults, Notifyier notifyier);
+	ObjectMap executeBlocking(ObjectMap previousResults);
 
 }
