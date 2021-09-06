@@ -1,10 +1,11 @@
 package drafting.some_model;
 
 import models.Accessor;
+import models.Model;
 import models.ModelRegistrar;
 import models.Mutator;
 
-public class SomeModel {
+public class SomeModel implements Model {
 	
 	static {
 

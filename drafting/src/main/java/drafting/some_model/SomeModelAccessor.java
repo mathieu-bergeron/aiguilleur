@@ -1,15 +1,15 @@
 package drafting.some_model;
 
-public class SomeModelAccessor extends SomeModel {
-	
-	private SomeModel model;
-	
+import models.ModelWrapper;
+
+public class SomeModelAccessor extends ModelWrapper<SomeModel>{
+
 	public SomeModelAccessor(SomeModel model) {
-		this.model = model;
+		super(model);
 	}
 
 	// XXX: getter must be public ONLY in the accessor
 	public int getSomeAttribute() {
-		return model.getSomeAttribute();
+		return model().getSomeAttribute();
 	}
 }

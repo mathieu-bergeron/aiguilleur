@@ -3,8 +3,9 @@ package drafting.queue_model;
 import drafting.appointment_model.AppointmentModel;
 import drafting.collections.NtroList;
 import models.Accessor;
+import models.Model;
 
-public class QueueModel {
+public class QueueModel implements Model {
 	
 	private NtroList<AppointmentModel> appointments = new NtroList<>();
 	
