@@ -6,4 +6,9 @@ public class SomeModelMutator extends SomeModel {
 	public void setSomeAttribute(int someAttribute) {
 		super.setSomeAttribute(someAttribute);
 	}
+
+	// XXX: mutator methods should be generated
+	public void updateNumberOfBlah(int increment) {
+		super.updateNumberOfBlah(increment);
+	}
 }
