@@ -16,8 +16,8 @@ public class SomeModel {
 		// NOTE: the copy can be done via Json serialization/deserialization
 		//
 		
-		AccessorRegistrar.registerAccessorClass(SomeModelAccessor.class);
-		MutatorRegistrar.registerMutatorClass(SomeModelAccessor.class);
+		AccessorRegistrar.registerAccessorClass(SomeModel.class, SomeModelAccessor.class);
+		MutatorRegistrar.registerMutatorClass(SomeModel.class, SomeModelAccessor.class);
 	}
 
 	// XXX: attributes must be private
