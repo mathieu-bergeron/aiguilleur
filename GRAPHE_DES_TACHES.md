@@ -22,6 +22,10 @@
 
 # Exécution du graphe par "point fixe"
 
+1. Le graphe pourrait avoir les méthodes
+    * `canExecuteStep()`
+    * `executeStep()`
+
 1. Quand on exécute le graphe, on veut évaluer chaque noeud au moins une fois avant de recommencer
 
 1. Il faut que chaque évaluation du graphe propage des résultats partout dans le graphe
@@ -30,5 +34,7 @@
     * (jusqu'au prochain message et/ou événement)
 
 1. Dans un serveur HTTP, on va donc exécuter le graphe de l'App jusqu'à point fixe, et ensuite on sait qu'on peut répondre à la requête.
+    * on va donc appeler `executeStep()` tant que possible, et lorsque ce n'est plus possible, on peut répondre à la requête.
+
 
 1. L'exécution est aussi compatible avec Vertx, on peut exécuter de façon asynchrone: on bloque sur au plus une tâche à la fois
