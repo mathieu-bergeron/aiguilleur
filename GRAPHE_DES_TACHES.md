@@ -27,14 +27,11 @@
     * `executeStep()`
 
 1. Quand on exécute le graphe, on veut évaluer chaque noeud au moins une fois avant de recommencer
-
-1. Il faut que chaque évaluation du graphe propage des résultats partout dans le graphe
+    * on veut propager partout dans le graphe avant de revenir à des noeuds déjà visités
 
 1. Si l'évaluation ne change pas l'état du graphe, on peut arrêter 
     * (jusqu'au prochain message et/ou événement)
 
 1. Dans un serveur HTTP, on va donc exécuter le graphe de l'App jusqu'à point fixe, et ensuite on sait qu'on peut répondre à la requête.
-    * on va donc appeler `executeStep()` tant que possible, et lorsque ce n'est plus possible, on peut répondre à la requête.
-
-
-1. L'exécution est aussi compatible avec Vertx, on peut exécuter de façon asynchrone: on bloque sur au plus une tâche à la fois
+    * on va donc appeler `executeStep()` dès que possible, et lorsque ce n'est plus possible, on peut répondre à la requête.
+    * l'exécution est aussi compatible avec Vertx, on peut exécuter de façon asynchrone: on appelle `executeStep()` dès que possible et ainsi on bloque sur au plus une tâche à la fois
