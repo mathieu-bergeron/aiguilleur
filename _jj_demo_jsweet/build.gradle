@@ -11,10 +11,7 @@ localJSweetPlugin {
     localJSweetDependencies = [
             'jj_core', 
             'jj_core_jsweet', 
-            'ntro_core', 
-            'ntro_core_jsweet',
-            'ntro_web',
-            'aiguilleur_core'
+            '_jj_demo_core'
        ]
 
     storeDir = rootProject.projectDir.toString() + "/_store"
