@@ -1,0 +1,14 @@
+plugins {
+    id 'localJavaPlugin'
+    id 'localJSweetPlugin'
+}
+
+project.group = 'ca.jj'
+project.version = '0.1'
+
+localJSweetPlugin {
+
+    localJSweetDependencies = [
+            'jj_core', 
+       ]
+}

@@ -3,8 +3,13 @@ rootProject.name = 'aiguilleur'
 include '_drafting_one'
 include '_drafting_two'
 
+include '_jj_demo_core'
+include '_jj_demo_jsweet'
+include '_jj_demo_jdk'
+
 include 'jj_core'
 include 'jj_core_jdk'
+include 'jj_core_fx'
 include 'jj_core_jsweet'
 
 include 'jj_web'
@@ -13,6 +18,7 @@ include 'jj_web_jsweet'
 
 include 'jj_test'
 include 'jj_test_jdk'
+include 'jj_test_fx'
 include 'jj_test_jsweet'
 
 include 'jj_server'
@@ -20,6 +26,7 @@ include 'jj_server_jdk'
 
 include 'ntro_core'
 include 'ntro_core_jdk'
+include 'ntro_core_fx'
 include 'ntro_core_jsweet'
 
 include 'ntro_web'
@@ -31,6 +38,7 @@ include 'ntro_server_jdk'
 
 include 'ntro_test'
 include 'ntro_test_jdk'
+include 'ntro_test_fx'
 include 'ntro_test_jsweet'
 
 include 'aiguilleur_core'
