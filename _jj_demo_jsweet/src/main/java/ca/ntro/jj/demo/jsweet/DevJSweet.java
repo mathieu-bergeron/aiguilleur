@@ -4,6 +4,7 @@ import ca.ntro.jj.AppJSweet;
 import ca.ntro.jj.app.Log;
 import ca.ntro.jj.app.Options;
 import ca.ntro.jj.app.OptionsJj;
+import ca.ntro.jj.jsweet.globals.JjJSweet;
 
 public class DevJSweet {
 	
