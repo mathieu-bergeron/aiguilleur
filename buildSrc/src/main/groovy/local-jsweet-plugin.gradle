@@ -39,14 +39,17 @@ project.gradle.projectsEvaluated {
         def localCandy = [group:"$group", name:"$name", version:"$version"]
 
         def groupSegments = group.split('\\.')
-        def groupTld = groupSegments[0]
-        def groupName = groupSegments[1]
+        def groupPath = "";
+        for(int i = 0; i < groupSegments.length; i++){
+            groupPath += "/" + groupSegments[i];
+        }
 
         project.getDependencies().add('compile', localProject)
         project.getDependencies().add('compile', localCandy)
 
         tasks.jsweet.dependsOn ":$name:jsweet"
-        tasks.jsweet.inputs.dir("${System.getProperty('user.home')}/.m2/repository/$groupTld/$groupName/$name") 
+        tasks.jsweet.inputs.dir("${System.getProperty('user.home')}/.m2/repository$groupPath/$name") 
+
 
         if(storeDir != null){
 
