@@ -12,4 +12,8 @@ public class Jj {
 		
 	}
 
+	public static void info(String string) {
+		System.out.println("INFO: " + string);
+	}
+
 }

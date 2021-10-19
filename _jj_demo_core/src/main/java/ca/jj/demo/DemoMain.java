@@ -8,5 +8,7 @@ public class DemoMain {
 		Jj.trace(DemoMain.class);
 
 		Jj.log("Bonjour!");
+
+		Jj.info("Bonjour!");
 	}
 }
