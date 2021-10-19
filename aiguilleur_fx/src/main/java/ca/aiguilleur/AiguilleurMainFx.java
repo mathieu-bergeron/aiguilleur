@@ -1,8 +1,11 @@
 package ca.aiguilleur;
 
+import ca.jj.core.Jj;
 import ca.jj.core.JjJdk;
+import javafx.application.Application;
+import javafx.stage.Stage;
 
-public class AiguilleurMainFx {
+public class AiguilleurMainFx extends Application {
 	
 	static {
 		// initializator est un graphe
@@ -15,7 +18,12 @@ public class AiguilleurMainFx {
 		// Jj prêt à utiliser
 	}
 
-	public static void main(String[] args) {
-		AiguilleurMain.main(args);
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		Jj.trace(this);
+		
+		// TODO: enregistrer la fenêtre JavaFx
+
+		AiguilleurMain.main();
 	}
 }

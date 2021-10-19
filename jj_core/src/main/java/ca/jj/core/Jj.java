@@ -8,6 +8,7 @@ public class Jj {
 	}
 
 	public static void trace(Object callerObjectOrClass) {
+		System.out.println("TRACE: " + callerObjectOrClass);
 		
 	}
 
