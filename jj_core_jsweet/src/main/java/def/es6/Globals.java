@@ -17,8 +17,8 @@
 
 package def.es6;
 
-import ca.ntro.jsweet.dom.HtmlElementJSweet;
-import ca.ntro.jsweet.services.OnLoadTask;
+//import ca.ntro.jsweet.dom.HtmlElementJSweet;
+//import ca.ntro.jsweet.services.OnLoadTask;
 import def.dom.Blob;
 import def.js.Object;
 import def.js.Promise;
@@ -52,6 +52,6 @@ public class Globals {
 		public abstract String set(String name, String value, def.js.Object options);
 	}
 
-	public native static void _ntro_initialize_view(String viewName, HtmlElementJSweet viewRootHtmlElement);
+	//public native static void _ntro_initialize_view(String viewName, HtmlElementJSweet viewRootHtmlElement);
 
 }
