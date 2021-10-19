@@ -1,0 +1,17 @@
+plugins {
+    id 'localJavaPlugin'
+}
+
+tasks.test{
+    afterTest { desc, result -> 
+        logger.quiet "Executing test ${desc.name} [${desc.className}] with result: ${result.resultType}"
+    }
+}
+
+dependencies {
+
+    implementation project(':_drafting_one')
+
+
+    testImplementation 'junit:junit:4.13'
+}

@@ -1,6 +1,7 @@
 package drafting.queue_model;
 
 import drafting.appointment_model.AppointmentModelAccessor;
+import drafting.queue_model.QueueModel;
 import models.ModelRegistrar;
 import models.ModelWrapper;
 

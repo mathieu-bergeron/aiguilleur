@@ -17,3 +17,9 @@ localJSweetPlugin {
        ]
 }
 
+dependencies {
+
+    implementation project(':ntro_core_jdk')
+
+}
+
