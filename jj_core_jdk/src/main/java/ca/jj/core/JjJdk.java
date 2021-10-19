@@ -1,9 +1,11 @@
 package ca.jj.core;
 
+import ca.initialization.Initializator;
+
 public class JjJdk {
 
-	public static Object initializator() {
-		return null;
+	public static Initializator initializator() {
+		return new Initializator();
 	}
 
 }
