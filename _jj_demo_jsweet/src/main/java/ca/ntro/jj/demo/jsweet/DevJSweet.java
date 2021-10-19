@@ -12,13 +12,9 @@ public class DevJSweet {
 		JjJSweet.initializator()
 		        .execute()
 		        .onResult(r -> {
+		        	T.trace(DevJSweet.class);
 
-				   Demo.main();
-				 })
-
-				 .onFailure(e -> {
-
-					e.printStackTrace();
+					Demo.main();
 				 });
 		}
 }
