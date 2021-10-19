@@ -1,11 +1,12 @@
 package ca.aiguilleur;
 
 import ca.jj.core.Jj;
+import ca.jj.core.globals.T;
 
 public class AiguilleurMain {
 	
 	public static void main() {
-		Jj.trace(AiguilleurMain.class);
+		T.trace(AiguilleurMain.class);
 
 		Jj.log("Bonjour!");
 	}

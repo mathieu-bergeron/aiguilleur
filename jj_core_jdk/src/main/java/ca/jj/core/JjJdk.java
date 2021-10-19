@@ -1,10 +1,11 @@
 package ca.jj.core;
 
+import ca.jj.core.task_graph.TaskGraph;
 import ca.ntro.jj.wrappers.future.Future;
 
 public class JjJdk {
 	
-	private static Object createInitializationGraph() {
+	private static TaskGraph createInitializationGraph() {
 
 		// initializator est un graphe
 		// de tâche. En JS, le graphe 
@@ -17,18 +18,16 @@ public class JjJdk {
 
 	public static Future<Void> initialize() {
 		
-		Object initializationGraph = createInitializationGraph();
+		TaskGraph initializationGraph = createInitializationGraph();
 		
 		return initializationGraph.execute();
 	}
 
 	public static void initializeBlocking() {
 		
-		Object initializationGraph = createInitializationGraph();
+		TaskGraph initializationGraph = createInitializationGraph();
 		
 		initializationGraph.executeBlocking();
-		
-		
 	}
 
 }
