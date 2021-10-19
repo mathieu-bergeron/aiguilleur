@@ -1,9 +1,6 @@
 package ca.ntro.jj.demo.jsweet;
 
-import ca.ntro.jj.AppJSweet;
-import ca.ntro.jj.app.Log;
-import ca.ntro.jj.app.Options;
-import ca.ntro.jj.app.OptionsJj;
+import ca.jj.core.globals.T;
 import ca.ntro.jj.jsweet.globals.JjJSweet;
 
 public class DevJSweet {
@@ -12,7 +9,7 @@ public class DevJSweet {
 
 		JjJSweet.initializator()
 		        .execute()
-		        .onResult(r -> {
+		        .handleResult(r -> {
 		        	T.trace(DevJSweet.class);
 
 					Demo.main();

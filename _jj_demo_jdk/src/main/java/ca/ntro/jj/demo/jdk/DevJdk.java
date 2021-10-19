@@ -1,8 +1,8 @@
 package ca.ntro.jj.demo.jdk;
 
-import ca.jj.core.JjJdk;
 import ca.jj.core.globals.T;
 import ca.jj.demo.core.Demo;
+import ca.jj.jdk.globals.JjJdk;
 
 public class DevJdk {
 	

@@ -1,6 +1,6 @@
 package ca.aiguilleur;
 
-import ca.jj.core.Jj;
+import ca.jj.core.globals.Jj;
 import ca.jj.core.globals.T;
 
 public class AiguilleurMain {

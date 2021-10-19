@@ -1,6 +1,5 @@
 package ca.ntro.tmp;
 
-import ca.ntro.messages.NtroMessage;
 
 public interface RouterRegistrar {
 
