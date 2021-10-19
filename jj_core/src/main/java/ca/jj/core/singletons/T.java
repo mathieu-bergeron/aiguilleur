@@ -1,4 +1,4 @@
-package ca.jj.core.globals;
+package ca.jj.core.singletons;
 
 public class T {
 

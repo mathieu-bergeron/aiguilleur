@@ -1,7 +1,7 @@
 package ca.jj.demo.core;
 
-import ca.jj.core.globals.Log;
-import ca.jj.core.globals.T;
+import ca.jj.core.singletons.Log;
+import ca.jj.core.singletons.T;
 
 public class Demo {
 	

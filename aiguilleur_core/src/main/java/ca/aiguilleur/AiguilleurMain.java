@@ -1,7 +1,7 @@
 package ca.aiguilleur;
 
-import ca.jj.core.globals.Jj;
-import ca.jj.core.globals.T;
+import ca.jj.core.singletons.Jj;
+import ca.jj.core.singletons.T;
 
 public class AiguilleurMain {
 	

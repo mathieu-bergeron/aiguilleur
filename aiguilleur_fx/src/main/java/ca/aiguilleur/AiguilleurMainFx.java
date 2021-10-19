@@ -1,6 +1,6 @@
 package ca.aiguilleur;
 
-import ca.jj.core.globals.T;
+import ca.jj.core.singletons.T;
 import ca.jj.jdk.globals.JjJdk;
 import javafx.application.Application;
 import javafx.stage.Stage;

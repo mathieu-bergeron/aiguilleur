@@ -3,7 +3,7 @@ plugins {
     id 'localJSweetPlugin'
 }
 
-project.group = 'ca.jj'
+project.group = 'ca.ntro.jj'
 project.version = '0.1'
 
 localJSweetPlugin {
