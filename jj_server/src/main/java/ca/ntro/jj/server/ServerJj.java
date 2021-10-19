@@ -6,26 +6,27 @@ import ca.ntro.jj.initialization.InitializedObject;
 
 public abstract class ServerJj implements Server, InitializedObject {
 
-	private Logger logger = new NullLogger();
-	private Options options = new OptionsJj();
+	//private Logger logger = new NullLogger();
+	//private Options options = new OptionsJj();
 	private ServerOptions serverOptions = new ServerOptionsJj();
 
 	@Override
 	public void registerDependencies(DependencyRegistrar registrar) {
-		registrar.addDependency(Logger.classId());
-		registrar.addDependency(Options.classId());
+		//registrar.addDependency(Logger.classId());
+		//registrar.addDependency(Options.classId());
 		registrar.addDependency(ServerOptions.classId());
 	}
 
 	@Override
 	public void initialize(ObjectMap resolvedDependencies) {
-		logger = resolvedDependencies.getSingleton(Logger.classId());
-		options = resolvedDependencies.getSingleton(Options.classId());
+		//logger = resolvedDependencies.getSingleton(Logger.classId());
+		//options = resolvedDependencies.getSingleton(Options.classId());
 		serverOptions = resolvedDependencies.getSingleton(ServerOptions.classId());
 	}
 
 	protected Logger logger() {
-		return logger;
+		//return logger;
+		return null;
 	}
 
 	protected ServerOptions serverOptions() {
@@ -33,6 +34,7 @@ public abstract class ServerJj implements Server, InitializedObject {
 	}
 
 	protected Options options() {
-		return options;
+		//return options;
+		return null;
 	}
 }

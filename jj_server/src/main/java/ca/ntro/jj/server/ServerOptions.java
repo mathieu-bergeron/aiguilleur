@@ -1,13 +1,12 @@
 package ca.ntro.jj.server;
 
-import ca.ntro.core.Path;
 import ca.ntro.jj.common.identifyiers.ClassId;
 import ca.ntro.jj.common.identifyiers.ClassIdJj;
 
 public interface ServerOptions {
 
-	Path getPrivatePath();
-	Path getPublicPath();
+	//Path getPrivatePath();
+	//Path getPublicPath();
 	int getPort();
 
 
