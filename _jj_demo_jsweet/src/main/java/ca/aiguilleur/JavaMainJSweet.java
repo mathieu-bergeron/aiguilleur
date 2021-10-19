@@ -10,7 +10,7 @@ public class JavaMainJSweet {
 	public static void main(String[] args) {
 
 		Options options = new OptionsJj();
-		options.setIsProd(false);
+		options.setIsProd(true);             // XXX: default is DEV
 
 		new AppJSweet().addOptions(options)
 
