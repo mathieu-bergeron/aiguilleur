@@ -58,6 +58,7 @@ public abstract class InitializerJj implements Initializer {
 					if(initializationTask == null) {
 						initializationTask = provideInitializationTask(classId);
 					}
+
 					thisObjectTask.addPreviousTask(initializationTask);
 				}
 			});
