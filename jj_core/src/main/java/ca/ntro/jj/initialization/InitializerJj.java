@@ -69,7 +69,10 @@ public abstract class InitializerJj implements Initializer {
 				}
 			});
 			
-			thisObjectTask.addEntryTask(new GenericAtomicTask() {
+			// XXX: this is the default init task, 
+			//      but StackAnalyzer in JSWeet has to
+			//      do more  (load remote .map files)
+			thisObjectTask.addExitTask(new GenericAtomicTask() {
 
 				run(ObjectMap objectMap){
 
