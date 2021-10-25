@@ -1,4 +1,4 @@
-package ca.ntro.jj.common.exceptions;
+package ca.ntro.jj.core.exceptions;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,16 +1,7 @@
-package ca.ntro.jj.core.singletons;
+package ca.ntro.jj.core.static_imports;
 
 
-public class Jj {
-
-	public static void log(String string) {
-		System.out.println("LOG: " + string);
-	}
-
-
-	public static void info(String string) {
-		System.out.println("INFO: " + string);
-	}
+public class Factory {
 
 	public static <O extends Object> O newInstance(Class<O> _class) {
 

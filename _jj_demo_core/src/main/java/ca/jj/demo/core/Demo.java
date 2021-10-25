@@ -1,7 +1,7 @@
 package ca.jj.demo.core;
 
-import ca.ntro.jj.core.singletons.Log;
-import ca.ntro.jj.core.singletons.T;
+import ca.ntro.jj.core.static_imports.Log;
+import ca.ntro.jj.core.static_imports.T;
 
 public class Demo {
 	

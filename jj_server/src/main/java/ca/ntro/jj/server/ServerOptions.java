@@ -1,7 +1,7 @@
 package ca.ntro.jj.server;
 
-import ca.ntro.jj.common.identifyiers.ClassId;
-import ca.ntro.jj.common.identifyiers.ClassIdJj;
+import ca.ntro.jj.core.identifyers.ClassId;
+import ca.ntro.jj.core.identifyers.ClassIdJj;
 
 public interface ServerOptions {
 

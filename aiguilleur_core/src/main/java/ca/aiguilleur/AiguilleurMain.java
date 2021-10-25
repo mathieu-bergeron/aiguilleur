@@ -1,13 +1,13 @@
 package ca.aiguilleur;
 
-import ca.ntro.jj.core.singletons.Jj;
-import ca.ntro.jj.core.singletons.T;
+import ca.ntro.jj.core.static_imports.Log;
+import ca.ntro.jj.core.static_imports.T;
 
 public class AiguilleurMain {
 	
 	public static void main() {
 		T.trace(AiguilleurMain.class);
 
-		Jj.log("Bonjour!");
+		Log.info("Bonjour!");
 	}
 }

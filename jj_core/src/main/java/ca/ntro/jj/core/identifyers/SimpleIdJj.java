@@ -1,4 +1,4 @@
-package ca.ntro.jj.common.identifyiers;
+package ca.ntro.jj.core.identifyers;
 
 public class SimpleIdJj implements SimpleId {
 	

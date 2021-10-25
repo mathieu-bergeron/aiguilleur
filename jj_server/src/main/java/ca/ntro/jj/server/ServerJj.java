@@ -1,6 +1,6 @@
 package ca.ntro.jj.server;
 
-import ca.ntro.jj.common.values.ObjectMap;
+import ca.ntro.jj.core.values.ObjectMap;
 import ca.ntro.jj.initialization.DependencyRegistrar;
 import ca.ntro.jj.initialization.InitializedObject;
 

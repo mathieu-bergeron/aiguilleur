@@ -1,6 +1,6 @@
-package ca.ntro.jj.common.notifyiers;
+package ca.ntro.jj.core.notifyers;
 
-import ca.ntro.jj.common.values.ObjectMap;
+import ca.ntro.jj.core.values.ObjectMap;
 
 public interface Notifyier {
 

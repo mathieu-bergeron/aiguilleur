@@ -1,4 +1,4 @@
-package ca.ntro.jj.common.identifyiers;
+package ca.ntro.jj.core.identifyers;
 
 public class ClassIdJj<O extends Object> implements ClassId<O> {
 	

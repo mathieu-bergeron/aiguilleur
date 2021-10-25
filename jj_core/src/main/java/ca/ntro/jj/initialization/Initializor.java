@@ -1,8 +1,8 @@
 package ca.ntro.jj.initialization;
 
-import ca.ntro.jj.common.identifyiers.ClassId;
-import ca.ntro.jj.common.identifyiers.ObjectId;
-import ca.ntro.jj.common.values.ObjectMap;
+import ca.ntro.jj.core.identifyers.ClassId;
+import ca.ntro.jj.core.identifyers.ObjectId;
+import ca.ntro.jj.core.values.ObjectMap;
 import ca.ntro.jj.wrappers.future.Future;
 
 public interface Initializor {
