@@ -1,24 +1,24 @@
 package ca.ntro.jj.services;
 
-import ca.ntro.jj.initialization.DependencyRegistrar;
-import ca.ntro.jj.initialization.InitializedObject;
-import ca.ntro.jj.values.ObjectMap;
+import ca.ntro.jj.initialization.ServiceRequester;
+import ca.ntro.jj.initialization.ServiceDependant;
+import ca.ntro.jj.values.ServiceMap;
 
-public class TracerJj implements Tracer, InitializedObject {
+public class TracerJj extends Tracer implements ServiceDependant {
 	
 	private Logger logger = new LoggerNull();
 	private StackAnalyzer stackAnalyzer = new StackAnalyzerNull();
 
 	@Override
-	public void registerDependencies(DependencyRegistrar registrar) {
-		registrar.addDependency(Logger.classId());
-		registrar.addDependency(StackAnalyzer.classId());
+	public void requestServices(ServiceRequester registrar) {
+		registrar.requestService(logger.serviceId());
+		registrar.requestService(stackAnalyzer.serviceId());
 	}
 
 	@Override
-	public void initialize(ObjectMap resolvedDependencies) {
-		logger = resolvedDependencies.getSingleton(Logger.classId());
-		stackAnalyzer = resolvedDependencies.getSingleton(StackAnalyzer.classId());
+	public void handleServices(ServiceMap services) {
+		logger = services.getService(logger.serviceId());
+		stackAnalyzer = services.getService(stackAnalyzer.serviceId());
 	}
 
 	@Override
@@ -29,4 +29,5 @@ public class TracerJj implements Tracer, InitializedObject {
 
 		logger.trace("TODO");
 	}
+
 }

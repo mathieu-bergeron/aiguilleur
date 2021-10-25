@@ -1,6 +1,6 @@
 package ca.ntro.jj.services;
 
-public class StackAnalyzerNull implements StackAnalyzer {
+public class StackAnalyzerNull extends StackAnalyzer {
 
 	@Override
 	public void analyzeCall(Object calledClassOrObject) {

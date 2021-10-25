@@ -4,11 +4,10 @@ import ca.ntro.jj.files.LocalTextFile;
 import ca.ntro.jj.files.LocalTextFileNull;
 import ca.ntro.jj.values.Path;
 
-public class FileOpenerNull implements FileOpener {
+public class FileOpenerNull extends FileOpener {
 
 	@Override
 	public LocalTextFile openLocalTextFile(Path path) {
 		return new LocalTextFileNull();
 	}
-
 }

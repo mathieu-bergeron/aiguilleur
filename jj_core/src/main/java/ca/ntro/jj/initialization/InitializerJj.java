@@ -21,12 +21,11 @@ public abstract class InitializerJj implements Initializer {
 	
 	private InitializerOptions options = new InitializerOptionsJj();
 	
-	private Map<ObjectId, Task> objectTasks = new HashMap<>();
-	private Map<ClassId, Task> singletonTasks = new HashMap<>();
+	private Map<ClassId<?>, Task> serviceTasks = new HashMap<>();
 	
-	private List<InitializedObject> initializedObjects(){
+	private List<Service<?>> services(){
 
-		List<InitializedObject> initializedObjects = new ArrayList<>();
+		List<Service<?>> initializedObjects = new ArrayList<>();
 
 		initializedObjects.add(new TracerJj());
 		
@@ -37,90 +36,52 @@ public abstract class InitializerJj implements Initializer {
 		
 		TaskGraph graph;
 		
-		for(InitializedObject initializedObject : initializedObjects()) {
+		for(Service<?> service : services()) {
 			
 			Task thisObjectTask = new TaskJj();
 			
-			initializedObject.registerDependencies(new DependencyRegistrar() {
-				@Override
-				public void addDependency(ObjectId<? extends Object> objectId) {
-					Task initializationTask = objectTasks.get(objectId);
+			if(service instanceof ServiceDependant) {
+
+				ServiceDependant serviceDepedant = (ServiceDependant) service;
+				serviceDepedant.requestServices(serviceId -> {
+
+					Task initializationTask = serviceTasks.get(serviceId);
 					
 					if(initializationTask == null) {
-						initializationTask = initializationTask(objectId);
-					}
-
-					if(initializationTask == null) {
-						throw new RuntimeException("[FATAL] Initialization failed for " + initializedObject.id());
+						initializationTask = initializationTask(serviceId);
 					}
 
 					thisObjectTask.addPreviousTask(initializationTask);
-				}
+				});
 				
-				@Override
-				public void addDependency(ClassId<? extends Object> classId) {
-					Task initializationTask = singletonTasks.get(classId);
-					
-					if(initializationTask == null) {
-						initializationTask = initializationTask(classId);
+				thisObjectTask.addExitTask(new GenericAtomicTask() {
+					run(ObjectMap objectMap){
+						((ServiceDependant) service).handleServices(objectMap);
 					}
-
-					thisObjectTask.addPreviousTask(initializationTask);
-				}
-			});
+				});
+				
+			}
 			
-			// XXX: this is the default init task, 
-			//      but StackAnalyzer in JSWeet has to
-			//      do more  (load remote .map files)
-			thisObjectTask.addExitTask(new GenericAtomicTask() {
-
-				run(ObjectMap objectMap){
-
-					initializedObject.initialize(objectMap);
+			if(service instanceof SubTaskDependant) {
+				SubTaskDependant subTaskDependant = (SubTaskDependant) service;
+				
+				subTaskDependant.registerSubTasks((subTaskId, subTask) -> {
 					
-					// XXX: register new initialized object
-					//      as next task might need it to progress
-					objectMap.register(initializedObject.id(), initializedObject);
-				}
-			});
+					thisObjectTask.addSubTask(subTask);
+				});
+				
+				thisObjectTask.addExitTask(new GenericAtomicTask() {
+					run(ObjectMap objectMap){
+						((SubTaskDependant) service).handleSubTaskResults(subTaskResults);
+					}
+				});
+			}
 			
 			graph.addSubTask(thisObjectTask);
 		}
 
 		return graph;
 	}
-	
-	private Task initializationTask(ObjectId<? extends Object> objectId) {
-		
-		Task task = null;
-		
-		task = provideInitializationTask(objectId);
-		
-		return task;
-	}
-
-	private Task initializationTask(ClassId<? extends Object> classId) {
-		
-		Task task = null;
-
-		if(classId.equals(Tracer.classId())) {
-
-			task = TracerJj.initializationTask();
-			
-			
-		}else if(classId.equals(Logger.classId())) {
-			
-			task = LoggerJj.initializationTask();
-
-		}else {
-			
-			task = provideInitializationTask(classId);
-			
-		}
-		
-		return task;
-	}
-	
 	
 	protected abstract Task provideInitializationTask(ObjectId<? extends Object> objectId);
 	protected abstract Task provideInitializationTask(ClassId<? extends Object> classId);
@@ -129,7 +90,7 @@ public abstract class InitializerJj implements Initializer {
 		
 		// XXX: place all static imports inside the same package
 		//      as InitializerJj
-		T.registerTracer(objectMap.getSingleton(Tracer.classId()));
+		T.registerTracer(objectMap.getSingleton(Tracer.serviceId()));
 	}
 
 	@Override

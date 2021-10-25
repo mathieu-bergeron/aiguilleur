@@ -1,6 +1,6 @@
 package ca.ntro.jj.services;
 
-public class LoggerNull implements Logger {
+public class LoggerNull extends Logger {
 
 	@Override
 	public void exception(Throwable e) {

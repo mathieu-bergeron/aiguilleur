@@ -5,11 +5,10 @@ import ca.ntro.jj.values.Url;
 import ca.ntro.jj.wrappers.future.Future;
 import ca.ntro.jj.wrappers.future.FutureNull;
 
-public class FileFetcherNull implements FileFetcher {
+public class FileFetcherNull extends FileFetcher {
 
 	@Override
 	public Future<RemoteTextFile> openRemoteTextFile(Url url) {
 		return new FutureNull<RemoteTextFile>();
 	}
-
 }

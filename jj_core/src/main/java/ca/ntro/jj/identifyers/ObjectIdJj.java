@@ -1,27 +1,27 @@
 package ca.ntro.jj.identifyers;
 
 
-public class ObjectIdJj<O extends Object> extends SimpleIdJj implements ObjectId<O> {
+public class ObjectIdJj extends SimpleIdJj implements ObjectId {
 	
-	private ClassId<O> classId;
+	private ClassId classId;
 
-	public ObjectIdJj(ClassId<O> classId, String id) {
+	public ObjectIdJj(ClassId classId, String id) {
 		super(id);
 		this.classId = classId;
 	}
 	
-	public ObjectIdJj(Class<O> _class, String id) {
+	public ObjectIdJj(Class<?> _class, String id) {
 		super(id);
-		this.classId = new ClassIdJj<O>(_class);
+		this.classId = new ClassIdJj(_class);
 	}
 
 	@Override
-	public Class<O> _class() {
+	public Class<?> _class() {
 		return classId._class();
 	}
 
 	@Override
-	public ClassId<O> classId() {
+	public ClassId classId() {
 		return classId;
 	}
 }

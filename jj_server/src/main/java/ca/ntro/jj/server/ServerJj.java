@@ -1,24 +1,24 @@
 package ca.ntro.jj.server;
 
-import ca.ntro.jj.initialization.DependencyRegistrar;
-import ca.ntro.jj.initialization.InitializedObject;
+import ca.ntro.jj.initialization.ServiceRequester;
+import ca.ntro.jj.initialization.ServiceDependant;
 import ca.ntro.jj.values.ObjectMap;
 
-public abstract class ServerJj implements Server, InitializedObject {
+public abstract class ServerJj implements Server, ServiceDependant {
 
 	//private Logger logger = new NullLogger();
 	//private Options options = new OptionsJj();
 	private ServerOptions serverOptions = new ServerOptionsJj();
 
 	@Override
-	public void registerDependencies(DependencyRegistrar registrar) {
+	public void requestServices(ServiceRequester registrar) {
 		//registrar.addDependency(Logger.classId());
 		//registrar.addDependency(Options.classId());
-		registrar.addDependency(ServerOptions.classId());
+		registrar.requestService(ServerOptions.classId());
 	}
 
 	@Override
-	public void initialize(ObjectMap resolvedDependencies) {
+	public void handleServices(ObjectMap resolvedDependencies) {
 		//logger = resolvedDependencies.getSingleton(Logger.classId());
 		//options = resolvedDependencies.getSingleton(Options.classId());
 		serverOptions = resolvedDependencies.getSingleton(ServerOptions.classId());

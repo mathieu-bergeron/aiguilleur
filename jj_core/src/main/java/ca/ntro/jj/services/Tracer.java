@@ -1,15 +1,11 @@
 package ca.ntro.jj.services;
 
-import ca.ntro.jj.identifyers.ClassId;
-import ca.ntro.jj.identifyers.ClassIdJj;
+import ca.ntro.jj.identifyers.ServiceId;
+import ca.ntro.jj.identifyers.ServiceIdJj;
+import ca.ntro.jj.initialization.Service;
 
-public interface Tracer {
+public abstract class Tracer extends Service<Tracer> {
 
-	void trace(Object calledClassOrObject, Object[] arguments);
-	
-	
-	
-	static ClassId<Tracer> classId(){
-		return new ClassIdJj<Tracer>(Tracer.class);
-	}
+	public abstract void trace(Object calledClassOrObject, Object[] arguments);
+
 }

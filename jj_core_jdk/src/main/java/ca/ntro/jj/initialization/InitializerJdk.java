@@ -20,7 +20,7 @@ public class InitializerJdk extends InitializerJj {
 
 		Task task = null;
 
-		if(objectId.equals(FileOpener.classId())) {
+		if(objectId.equals(FileOpener.serviceId())) {
 
 			task = FileOpenerJdk.initialisationTask();
 		}

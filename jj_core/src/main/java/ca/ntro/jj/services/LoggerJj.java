@@ -1,12 +1,12 @@
 package ca.ntro.jj.services;
 
 import ca.ntro.jj.files.LocalTextFile;
-import ca.ntro.jj.initialization.DependencyRegistrar;
-import ca.ntro.jj.initialization.InitializedObject;
-import ca.ntro.jj.values.ObjectMap;
+import ca.ntro.jj.initialization.ServiceRequester;
+import ca.ntro.jj.initialization.ServiceDependant;
 import ca.ntro.jj.values.Path;
+import ca.ntro.jj.values.ServiceMap;
 
-public class LoggerJj implements Logger, InitializedObject {
+public class LoggerJj extends Logger implements ServiceDependant {
 
 	private Path traceFilePath = new Path();                        // TODO: actual file path
 	private Path exceptionFilePath = new Path();                    // TODO: actual file path
@@ -14,13 +14,13 @@ public class LoggerJj implements Logger, InitializedObject {
 	private FileOpener fileOpener = new FileOpenerNull();
 
 	@Override
-	public void registerDependencies(DependencyRegistrar registrar) {
-		registrar.addDependency(FileOpener.classId());
+	public void requestServices(ServiceRequester requester) {
+		requester.requestService(fileOpener.serviceId());
 	}
 
 	@Override
-	public void initialize(ObjectMap resolvedDependencies) {
-		fileOpener = resolvedDependencies.getSingleton(FileOpener.classId());
+	public void handleServices(ServiceMap services) {
+		fileOpener = services.getService(fileOpener.serviceId());
 	}
 
 	@Override
