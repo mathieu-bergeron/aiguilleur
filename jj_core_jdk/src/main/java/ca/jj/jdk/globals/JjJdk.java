@@ -1,27 +1,11 @@
 package ca.jj.jdk.globals;
 
-import ca.ntro.jj.init.Initializator;
+import ca.jj.jdk.init.InitializerJdk;
+import ca.ntro.jj.init.Initializer;
 
 public class JjJdk {
 
-	public static Initializator initializator() {
-		
-		/* TODO
-		 * 
-		 * add JdkSpecific initialization tasks
-		 * e.g. create a FileOpenerJdk
-		 */
-		
-		/*
-		 * The remainder of the 
-		 * initialization graph is not JdkSpecific and
-		 * done in Jj
-		 * 
-		 * 
-		 */
-		
-		
-		return null;
+	public static Initializer initializer() {
+		return new InitializerJdk();
 	}
-
 }

@@ -1,6 +1,6 @@
 package ca.ntro.jj.init;
 
-public interface InitializationOptions {
+public interface InitializerOptions {
 
 	void setProd(boolean b);
 

@@ -8,7 +8,7 @@ import ca.ntro.jj.core.static_imports.T;
 public class DevJdk {
 	
 	static {
-		JjJdk.initializator().executeBlocking();
+		JjJdk.initializer().executeBlocking();
 	}
 
 	public static void main(String[] args) {

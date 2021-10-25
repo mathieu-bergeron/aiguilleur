@@ -4,15 +4,15 @@ import ca.jj.demo.core.Demo;
 import ca.jj.jdk.globals.JjJdk;
 import ca.jj.jdk.initialization.InitializationOptionsJdk;
 import ca.ntro.jj.core.static_imports.T;
-import ca.ntro.jj.init.InitializationOptions;
+import ca.ntro.jj.init.InitializerOptions;
 
 public class ProdJdk {
 	
 	static {
-		InitializationOptions options = new InitializationOptionsJdk();
+		InitializerOptions options = new InitializationOptionsJdk();
 		options.setProd(true);
 		
-		JjJdk.initializator()
+		JjJdk.initializer()
 		     .setOptions(options)
 		     .executeBlocking();
 	}

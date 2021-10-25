@@ -8,7 +8,7 @@ public class DevJSweet {
 	
 	public static void main(String[] args) {
 
-		JjJSweet.initializator()
+		JjJSweet.initializer()
 		        .execute()
 		        .handleResult(r -> {
 		        	T.trace(DevJSweet.class);
