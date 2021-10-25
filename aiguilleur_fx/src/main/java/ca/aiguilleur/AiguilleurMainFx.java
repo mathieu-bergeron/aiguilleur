@@ -9,6 +9,8 @@ public class AiguilleurMainFx extends Application {
 	
 	public static void main(String[] args) throws Throwable {
 		JjJdk.initializer().executeBlocking();
+
+		launch(args);
 	}
 
 	@Override
