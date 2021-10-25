@@ -1,7 +1,7 @@
 package ca.ntro.jj.demo.jsweet;
 
-import ca.jj.core.singletons.T;
 import ca.jj.demo.core.Demo;
+import ca.ntro.jj.core.singletons.T;
 import ca.ntro.jj.jsweet.globals.JjJSweet;
 
 public class DevJSweet {

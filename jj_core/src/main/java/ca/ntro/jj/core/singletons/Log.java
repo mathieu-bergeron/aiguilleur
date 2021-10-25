@@ -1,4 +1,4 @@
-package ca.jj.core.singletons;
+package ca.ntro.jj.core.singletons;
 
 public class Log {
 

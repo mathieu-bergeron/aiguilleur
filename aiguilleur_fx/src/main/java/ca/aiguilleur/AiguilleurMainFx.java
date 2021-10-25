@@ -1,7 +1,7 @@
 package ca.aiguilleur;
 
-import ca.jj.core.singletons.T;
 import ca.jj.jdk.globals.JjJdk;
+import ca.ntro.jj.core.singletons.T;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
