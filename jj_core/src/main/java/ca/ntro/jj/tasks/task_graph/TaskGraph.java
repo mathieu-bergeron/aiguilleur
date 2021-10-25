@@ -1,9 +1,9 @@
 package ca.ntro.jj.tasks.task_graph;
 
-import ca.ntro.jj.core.values.ObjectMap;
 import ca.ntro.jj.tasks.base.AtomicTask;
 import ca.ntro.jj.tasks.base.Task;
 import ca.ntro.jj.tasks.generic.GenericTaskGraph;
+import ca.ntro.jj.values.ObjectMap;
 import ca.ntro.jj.wrappers.future.Future;
 
 public interface TaskGraph<T extends Task<?,AtomicTask>>

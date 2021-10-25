@@ -1,10 +1,10 @@
 package ca.ntro.jj.initialization;
 
-import ca.ntro.jj.core.identifyers.ClassId;
-import ca.ntro.jj.core.identifyers.ObjectId;
-import ca.ntro.jj.core.values.ObjectMap;
+import ca.ntro.jj.identifyers.ClassId;
+import ca.ntro.jj.identifyers.ObjectId;
 import ca.ntro.jj.tasks.base.Task;
 import ca.ntro.jj.tasks.task_graph.TaskGraph;
+import ca.ntro.jj.values.ObjectMap;
 import ca.ntro.jj.wrappers.future.Future;
 
 public class InitializorJj implements Initializor {

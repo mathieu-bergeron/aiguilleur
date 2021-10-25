@@ -1,6 +1,6 @@
 package ca.ntro.jj.init;
 
-import ca.jj.core.task_graph.TaskGraph;
+import ca.ntro.jj.task_graph.TaskGraph;
 
 public interface Initializer extends TaskGraph {
 	

@@ -1,7 +1,7 @@
 package ca.ntro.jj.initialization;
 
 
-import ca.ntro.jj.core.values.ObjectMap;
+import ca.ntro.jj.values.ObjectMap;
 
 public interface InitializedObject {
 

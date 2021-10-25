@@ -1,8 +1,8 @@
 package ca.ntro.jj.server;
 
-import ca.ntro.jj.core.values.ObjectMap;
 import ca.ntro.jj.initialization.DependencyRegistrar;
 import ca.ntro.jj.initialization.InitializedObject;
+import ca.ntro.jj.values.ObjectMap;
 
 public abstract class ServerJj implements Server, InitializedObject {
 

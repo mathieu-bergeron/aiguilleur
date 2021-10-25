@@ -1,7 +1,7 @@
 package ca.ntro.jj.initialization;
 
-import ca.ntro.jj.core.identifyers.ClassId;
-import ca.ntro.jj.core.identifyers.ObjectId;
+import ca.ntro.jj.identifyers.ClassId;
+import ca.ntro.jj.identifyers.ObjectId;
 
 public interface DependencyRegistrar {
 

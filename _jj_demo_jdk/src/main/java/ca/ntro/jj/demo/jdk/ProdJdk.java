@@ -1,10 +1,10 @@
 package ca.ntro.jj.demo.jdk;
 
 import ca.jj.demo.core.Demo;
-import ca.jj.jdk.globals.JjJdk;
-import ca.jj.jdk.initialization.InitializerOptionsJdk;
-import ca.ntro.jj.core.static_imports.T;
 import ca.ntro.jj.init.InitializerOptions;
+import ca.ntro.jj.initialization.InitializerOptionsJdk;
+import ca.ntro.jj.static_imports.JjJdk;
+import ca.ntro.jj.static_imports.T;
 
 public class ProdJdk {
 	

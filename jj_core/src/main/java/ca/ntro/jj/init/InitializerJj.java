@@ -3,12 +3,12 @@ package ca.ntro.jj.init;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.jj.core.task_graph.TaskGraph;
-import ca.ntro.jj.core.identifyers.ClassId;
-import ca.ntro.jj.core.identifyers.ObjectId;
-import ca.ntro.jj.core.services.TracerJj;
+import ca.ntro.jj.identifyers.ClassId;
+import ca.ntro.jj.identifyers.ObjectId;
 import ca.ntro.jj.initialization.DependencyRegistrar;
 import ca.ntro.jj.initialization.InitializedObject;
+import ca.ntro.jj.services.TracerJj;
+import ca.ntro.jj.task_graph.TaskGraph;
 import ca.ntro.jj.tasks.base.Task;
 import ca.ntro.jj.wrappers.future.Future;
 
@@ -26,6 +26,7 @@ public abstract class InitializerJj implements Initializer {
 	}
 
 	private TaskGraph buildGraph() {
+		
 		
 		for(InitializedObject initializedObject : initializedObjects()) {
 			
