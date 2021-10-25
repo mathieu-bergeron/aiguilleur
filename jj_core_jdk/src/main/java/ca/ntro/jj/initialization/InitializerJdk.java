@@ -3,7 +3,13 @@ package ca.ntro.jj.initialization;
 import ca.ntro.jj.identifyers.ClassId;
 import ca.ntro.jj.identifyers.ObjectId;
 import ca.ntro.jj.initialization.InitializerJj;
+import ca.ntro.jj.services.FileOpener;
 import ca.ntro.jj.tasks.base.Task;
+import ca.ntro.jj.tasks.generic.GenericAtomicTask;
+import ca.ntro.jj.tasks.generic.GenericTask;
+import ca.ntro.jj.values.ObjectMap;
+import ca.ntro.jj.wrappers.ExceptionHandler;
+import ca.ntro.jj.wrappers.future.Future;
 
 public class InitializerJdk extends InitializerJj {
 
@@ -11,7 +17,10 @@ public class InitializerJdk extends InitializerJj {
 	@Override
 	protected Task provideInitializationTask(ObjectId<? extends Object> objectId) {
 
-		return null;
+		if(objectId.equals(FileOpener.classId())) {
+
+			return FileOpenerJdk.initialisationTask();
+		}
 	}
 
 	@Override

@@ -9,6 +9,7 @@ import ca.ntro.jj.services.Tracer;
 import ca.ntro.jj.services.TracerJj;
 import ca.ntro.jj.task_graph.TaskGraph;
 import ca.ntro.jj.tasks.base.Task;
+import ca.ntro.jj.tasks.generic.GenericAtomicTask;
 import ca.ntro.jj.values.ObjectMap;
 import ca.ntro.jj.wrappers.future.Future;
 
@@ -27,23 +28,40 @@ public abstract class InitializerJj implements Initializer {
 
 	private TaskGraph buildGraph() {
 		
+		TaskGraph graph;
 		
 		for(InitializedObject initializedObject : initializedObjects()) {
+			
+			Task thisObjectTask = new Task();
 			
 			initializedObject.registerDependencies(new DependencyRegistrar() {
 				@Override
 				public void addDependency(ObjectId<? extends Object> objectId) {
 					Task initializationTask = provideInitializationTask(objectId);
+					
+					thisObjectTask.addPreviousTask(initializationTask);
 				}
 				
 				@Override
 				public void addDependency(ClassId<? extends Object> classId) {
 					Task initializationTask = provideInitializationTask(classId);
+					
+					thisObjectTask.addPreviousTask(initializationTask);
 				}
 			});
+			
+			thisObjectTask.addEntryTask(new GenericAtomicTask() {
+
+				run(ObjectMap objectMap){
+
+					initializedObject.initialize(objectMap);
+				}
+			});
+			
+			graph.addSubTask(thisObjectTask);
 		}
 
-		return null;
+		return graph;
 	}
 	
 	protected abstract Task provideInitializationTask(ObjectId<? extends Object> objectId);
