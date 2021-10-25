@@ -7,6 +7,8 @@ import java.util.Map;
 
 import ca.ntro.jj.identifyers.ClassId;
 import ca.ntro.jj.identifyers.ObjectId;
+import ca.ntro.jj.services.Logger;
+import ca.ntro.jj.services.LoggerJj;
 import ca.ntro.jj.services.Tracer;
 import ca.ntro.jj.services.TracerJj;
 import ca.ntro.jj.task_graph.TaskGraph;
@@ -45,9 +47,14 @@ public abstract class InitializerJj implements Initializer {
 					Task initializationTask = objectTasks.get(objectId);
 					
 					if(initializationTask == null) {
-						initializationTask = provideInitializationTask(objectId);
+						initializationTask = initializationTask(objectId);
 					}
-					
+
+					if(initializationTask == null) {
+						
+						throw new RuntimeException("[FATAL] Initialization failed for " + initializedObject.id());
+					}
+
 					thisObjectTask.addPreviousTask(initializationTask);
 				}
 				
@@ -56,7 +63,7 @@ public abstract class InitializerJj implements Initializer {
 					Task initializationTask = singletonTasks.get(classId);
 					
 					if(initializationTask == null) {
-						initializationTask = provideInitializationTask(classId);
+						initializationTask = initializationTask(classId);
 					}
 
 					thisObjectTask.addPreviousTask(initializationTask);
@@ -71,7 +78,7 @@ public abstract class InitializerJj implements Initializer {
 					
 					// XXX: register new initialized object
 					//      as next task might need it to progress
-					objectMap.register(initializedObject.classId(), initializedObject.id());
+					objectMap.register(initializedObject.id(), initializedObject);
 				}
 			});
 			
@@ -85,6 +92,29 @@ public abstract class InitializerJj implements Initializer {
 		
 		Task task = null;
 		
+		task = provideInitializationTask(objectId);
+		
+		return task;
+	}
+
+	private Task initializationTask(ClassId<? extends Object> classId) {
+		
+		Task task = null;
+
+		if(classId.equals(Tracer.classId())) {
+
+			task = TracerJj.initializationTask();
+			
+			
+		}else if(classId.equals(Logger.classId())) {
+			
+			task = LoggerJj.initializationTask();
+
+		}else {
+			
+			task = provideInitializationTask(classId);
+			
+		}
 		
 		return task;
 	}
