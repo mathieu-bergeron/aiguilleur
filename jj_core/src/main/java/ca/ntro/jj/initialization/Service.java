@@ -6,6 +6,6 @@ import ca.ntro.jj.identifyers.ServiceIdJj;
 public abstract class Service<S extends Service<S>> {
 
 	public ServiceId<S> serviceId() {
-		return new ServiceIdJj(this.getClass());
+		return new ServiceIdJj<S>(this.getClass());
 	}
 }

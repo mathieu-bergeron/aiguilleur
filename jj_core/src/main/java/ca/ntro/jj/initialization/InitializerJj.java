@@ -7,6 +7,7 @@ import java.util.Map;
 
 import ca.ntro.jj.identifyers.ClassId;
 import ca.ntro.jj.identifyers.ObjectId;
+import ca.ntro.jj.identifyers.ServiceId;
 import ca.ntro.jj.services.Logger;
 import ca.ntro.jj.services.LoggerJj;
 import ca.ntro.jj.services.Tracer;
@@ -21,7 +22,7 @@ public abstract class InitializerJj implements Initializer {
 	
 	private InitializerOptions options = new InitializerOptionsJj();
 	
-	private Map<ClassId<?>, Task> serviceTasks = new HashMap<>();
+	private Map<ServiceId<?>, Task> serviceTasks = new HashMap<>();
 	
 	private List<Service<?>> services(){
 
@@ -48,13 +49,13 @@ public abstract class InitializerJj implements Initializer {
 					Task initializationTask = serviceTasks.get(serviceId);
 					
 					if(initializationTask == null) {
-						initializationTask = initializationTask(serviceId);
+						initializationTask = createServiceTask(serviceId);
 					}
 
 					thisObjectTask.addPreviousTask(initializationTask);
 				});
 				
-				thisObjectTask.addExitTask(new GenericAtomicTask() {
+				thisObjectTask.addEntryTask(new GenericAtomicTask() {
 					run(ObjectMap objectMap){
 						((ServiceDependant) service).handleServices(objectMap);
 					}
@@ -66,7 +67,6 @@ public abstract class InitializerJj implements Initializer {
 				SubTaskDependant subTaskDependant = (SubTaskDependant) service;
 				
 				subTaskDependant.registerSubTasks((subTaskId, subTask) -> {
-					
 					thisObjectTask.addSubTask(subTask);
 				});
 				
@@ -83,6 +83,24 @@ public abstract class InitializerJj implements Initializer {
 		return graph;
 	}
 	
+	private Task createServiceTask(ServiceId<?> serviceId) {
+
+		Task initializationTask = new TaskJj();
+		
+
+		initializationTask.addExitTask(new GenericAtomicTask() {
+
+			run(ObjectMap objectMap){
+
+				Class<?> serviceClass = serviceId._class();
+				Service<?> serviceObj = (Service<?>) Factory.newInstance(serviceClass);
+				
+			}
+		});
+		
+		return initializationTask;
+	}
+
 	protected abstract Task provideInitializationTask(ObjectId<? extends Object> objectId);
 	protected abstract Task provideInitializationTask(ClassId<? extends Object> classId);
 	

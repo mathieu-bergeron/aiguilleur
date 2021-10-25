@@ -5,6 +5,6 @@ import ca.ntro.jj.initialization.Service;
 
 public interface ServiceMap {
 
-	<S extends Service> S getService(ServiceId<S> serviceId);
+	<S extends Service<S>> S getService(ServiceId<S> serviceId);
 
 }
