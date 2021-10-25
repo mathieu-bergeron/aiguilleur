@@ -6,4 +6,8 @@ public class LoggerNull implements Logger {
 	public void exception(Throwable e) {
 	}
 
+	@Override
+	public void trace(String message) {
+	}
+
 }

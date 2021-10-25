@@ -1,7 +1,9 @@
 package ca.ntro.jj.initialization;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ca.ntro.jj.identifyers.ClassId;
 import ca.ntro.jj.identifyers.ObjectId;
@@ -16,6 +18,9 @@ import ca.ntro.jj.wrappers.future.Future;
 public abstract class InitializerJj implements Initializer {
 	
 	private InitializerOptions options = new InitializerOptionsJj();
+	
+	private Map<ObjectId, Task> objectTasks = new HashMap<>();
+	private Map<ClassId, Task> singletonTasks = new HashMap<>();
 	
 	private List<InitializedObject> initializedObjects(){
 
@@ -32,20 +37,27 @@ public abstract class InitializerJj implements Initializer {
 		
 		for(InitializedObject initializedObject : initializedObjects()) {
 			
-			Task thisObjectTask = new Task();
+			Task thisObjectTask = new TaskJj();
 			
 			initializedObject.registerDependencies(new DependencyRegistrar() {
 				@Override
 				public void addDependency(ObjectId<? extends Object> objectId) {
-					Task initializationTask = provideInitializationTask(objectId);
+					Task initializationTask = objectTasks.get(objectId);
+					
+					if(initializationTask == null) {
+						initializationTask = provideInitializationTask(objectId);
+					}
 					
 					thisObjectTask.addPreviousTask(initializationTask);
 				}
 				
 				@Override
 				public void addDependency(ClassId<? extends Object> classId) {
-					Task initializationTask = provideInitializationTask(classId);
+					Task initializationTask = singletonTasks.get(classId);
 					
+					if(initializationTask == null) {
+						initializationTask = provideInitializationTask(classId);
+					}
 					thisObjectTask.addPreviousTask(initializationTask);
 				}
 			});
@@ -55,6 +67,10 @@ public abstract class InitializerJj implements Initializer {
 				run(ObjectMap objectMap){
 
 					initializedObject.initialize(objectMap);
+					
+					// XXX: register new initialized object
+					//      as next task might need it to progress
+					objectMap.register(initializedObject.classId(), initializedObject.id());
 				}
 			});
 			
@@ -63,6 +79,15 @@ public abstract class InitializerJj implements Initializer {
 
 		return graph;
 	}
+	
+	private Task initializationTask(ObjectId<? extends Object> objectId) {
+		
+		Task task = null;
+		
+		
+		return task;
+	}
+	
 	
 	protected abstract Task provideInitializationTask(ObjectId<? extends Object> objectId);
 	protected abstract Task provideInitializationTask(ClassId<? extends Object> classId);

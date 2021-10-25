@@ -6,10 +6,7 @@ import ca.ntro.jj.identifyers.ClassIdJj;
 public interface Logger {
 
 	void exception(Throwable e);
-	
-	
-	
-	
+	void trace(String message);
 	
 
 	static ClassId<Logger> classId(){
