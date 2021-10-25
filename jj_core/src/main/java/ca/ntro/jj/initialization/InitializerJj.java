@@ -51,7 +51,6 @@ public abstract class InitializerJj implements Initializer {
 					}
 
 					if(initializationTask == null) {
-						
 						throw new RuntimeException("[FATAL] Initialization failed for " + initializedObject.id());
 					}
 
