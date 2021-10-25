@@ -1,7 +1,7 @@
 # Reconception du graphe des tâches
 
 1. Une `Task` a la méthode suivante:
-    * `notifyOfNewResult(Task resultFrom, ResultReader resultReader)`
+    * `notifyOfNewResult(TaskId resultFrom, ResultReader resultReader)`
 
 1. Un `ResultReader` a les méthodes suivantes:
     * `hasNextResult()`
