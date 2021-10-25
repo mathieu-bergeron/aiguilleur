@@ -30,7 +30,7 @@ public class TracerJj implements Tracer, InitializedObject {
 		LocalTextFile traceFile = localFiles.openLocalTextFile(traceFilePath);
 
 		// TODO: actual stacktrace analysis
-		traceFile.write("TRACE: " + calledClassOrObject).handleException(e -> {
+		traceFile.append("TRACE: " + calledClassOrObject).handleException(e -> {
 			logger.exception(e);
 		});
 	}

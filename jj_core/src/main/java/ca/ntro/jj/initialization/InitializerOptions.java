@@ -1,4 +1,4 @@
-package ca.ntro.jj.init;
+package ca.ntro.jj.initialization;
 
 public interface InitializerOptions {
 

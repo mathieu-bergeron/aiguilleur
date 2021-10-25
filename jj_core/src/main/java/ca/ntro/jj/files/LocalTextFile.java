@@ -4,6 +4,6 @@ import ca.ntro.jj.wrappers.future.Future;
 
 public interface LocalTextFile {
 	
-	Future<Void> write(String value);
+	Future<Void> append(String value);
 
 }

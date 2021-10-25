@@ -6,7 +6,7 @@ import ca.ntro.jj.wrappers.future.FutureNull;
 public class LocalTextFileNull implements LocalTextFile {
 
 	@Override
-	public Future<Void> write(String value) {
+	public Future<Void> append(String value) {
 		return new FutureNull<Void>();
 	}
 }

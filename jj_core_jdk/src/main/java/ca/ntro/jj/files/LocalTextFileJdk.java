@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import ca.ntro.jj.files.LocalTextFile;
 import ca.ntro.jj.wrappers.future.Future;
+import ca.ntro.jj.wrappers.future.FutureJj;
 
 public class LocalTextFileJdk implements LocalTextFile {
 	
@@ -16,24 +17,21 @@ public class LocalTextFileJdk implements LocalTextFile {
 	}
 
 	@Override
-	public Future<Void> write(String value) {
-		
-		Future<Void> future = null;
-		
+	public Future<Void> append(String value) {
+
+		FutureJj<Void> future = new FutureJj<Void>();
+
 		try {
 
 			FileWriter writer = new FileWriter(file);
 			writer.write(value);
 			writer.close();
 			
-			// Future . notifyOK
-			
+			future.registerValue(null);
 
 		} catch (IOException e) {
 
-			e.printStackTrace();
-			
-			// Future.registerException(e);
+			future.registerException(e);
 		}
 		
 		return future;

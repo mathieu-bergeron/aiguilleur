@@ -1,4 +1,4 @@
-package ca.ntro.jj.init;
+package ca.ntro.jj.initialization;
 
 import ca.ntro.jj.task_graph.TaskGraph;
 

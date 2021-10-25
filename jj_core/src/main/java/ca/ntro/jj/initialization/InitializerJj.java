@@ -1,12 +1,10 @@
-package ca.ntro.jj.init;
+package ca.ntro.jj.initialization;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ca.ntro.jj.identifyers.ClassId;
 import ca.ntro.jj.identifyers.ObjectId;
-import ca.ntro.jj.initialization.DependencyRegistrar;
-import ca.ntro.jj.initialization.InitializedObject;
 import ca.ntro.jj.services.TracerJj;
 import ca.ntro.jj.task_graph.TaskGraph;
 import ca.ntro.jj.tasks.base.Task;

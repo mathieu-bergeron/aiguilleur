@@ -1,7 +1,7 @@
 package ca.ntro.jj.static_imports;
 
-import ca.ntro.jj.init.Initializer;
-import ca.ntro.jj.init.InitializerJdk;
+import ca.ntro.jj.initialization.Initializer;
+import ca.ntro.jj.initialization.InitializerJdk;
 
 public class JjJdk {
 

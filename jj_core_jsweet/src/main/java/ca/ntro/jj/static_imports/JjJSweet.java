@@ -1,6 +1,6 @@
 package ca.ntro.jj.static_imports;
 
-import ca.ntro.jj.init.Initializer;
+import ca.ntro.jj.initialization.Initializer;
 
 public class JjJSweet {
 
