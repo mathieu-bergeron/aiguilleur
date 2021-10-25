@@ -48,6 +48,8 @@ public abstract class InitializerJj implements Initializer {
 
 	@Override
 	public Future<Void> execute() {
+		/* TODO: initialize static imports (T,Log, etc)
+		 */
 		return buildGraph().execute();
 	}
 
