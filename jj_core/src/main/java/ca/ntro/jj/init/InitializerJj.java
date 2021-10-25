@@ -15,17 +15,19 @@ import ca.ntro.jj.wrappers.future.Future;
 public abstract class InitializerJj implements Initializer {
 	
 	private InitializerOptions options = new InitializerOptionsJj();
+	
+	private List<InitializedObject> initializedObjects(){
 
-	private TaskGraph buildGraph() {
-		
 		List<InitializedObject> initializedObjects = new ArrayList<>();
-
 
 		initializedObjects.add(new TracerJj());
 		
+		return initializedObjects;
+	}
+
+	private TaskGraph buildGraph() {
 		
-		
-		for(InitializedObject initializedObject : initializedObjects) {
+		for(InitializedObject initializedObject : initializedObjects()) {
 			
 			initializedObject.registerDependencies(new DependencyRegistrar() {
 				@Override
@@ -39,7 +41,7 @@ public abstract class InitializerJj implements Initializer {
 				}
 			});
 		}
-		
+
 		return null;
 	}
 	
