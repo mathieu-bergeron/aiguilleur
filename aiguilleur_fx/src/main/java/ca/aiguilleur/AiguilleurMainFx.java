@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 public class AiguilleurMainFx extends Application {
 	
 	static {
-		JjJdk.initializeBlocking();
+		JjJdk.initializator().executeBlocking();
 	}
 
 	@Override

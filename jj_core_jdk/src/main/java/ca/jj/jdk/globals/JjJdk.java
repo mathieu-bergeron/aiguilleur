@@ -1,39 +1,27 @@
 package ca.jj.jdk.globals;
 
-import ca.jj.core.task_graph.TaskGraph;
 import ca.ntro.jj.init.Initializator;
-import ca.ntro.jj.wrappers.future.Future;
 
 public class JjJdk {
 
 	public static Initializator initializator() {
-		return null;
-	}
-	
-	private static TaskGraph createInitializationGraph() {
-
-		// initializator est un graphe
-		// de tâche. En JS, le graphe 
-		// est capable de gérer p.ex. le chargement
-		// de fichier .js externe (services)
-		// et le chargement de fichier map
+		
+		/* TODO
+		 * 
+		 * add JdkSpecific initialization tasks
+		 * e.g. create a FileOpenerJdk
+		 */
+		
+		/*
+		 * The remainder of the 
+		 * initialization graph is not JdkSpecific and
+		 * done in Jj
+		 * 
+		 * 
+		 */
+		
 		
 		return null;
 	}
-
-	public static Future<Void> initialize() {
-		
-		TaskGraph initializationGraph = createInitializationGraph();
-		
-		return initializationGraph.execute();
-	}
-
-	public static void initializeBlocking() {
-		
-		TaskGraph initializationGraph = createInitializationGraph();
-		
-		initializationGraph.executeBlocking();
-	}
-
 
 }

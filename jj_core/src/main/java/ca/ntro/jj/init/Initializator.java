@@ -4,8 +4,7 @@ import ca.jj.core.task_graph.TaskGraph;
 
 public interface Initializator extends TaskGraph {
 	
-	TaskGraph addOptions(InitializationOptions options);
-	
+	Initializator setOptions(InitializationOptions options);
 
 
 }

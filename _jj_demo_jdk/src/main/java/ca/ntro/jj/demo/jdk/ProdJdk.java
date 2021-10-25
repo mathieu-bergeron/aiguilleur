@@ -13,7 +13,7 @@ public class ProdJdk {
 		options.setProd(true);
 		
 		JjJdk.initializator()
-		     .addOptions(options)
+		     .setOptions(options)
 		     .executeBlocking();
 	}
 
