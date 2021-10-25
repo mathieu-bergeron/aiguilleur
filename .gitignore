@@ -29,9 +29,7 @@ bin
 
 # JSweet
 .jsweet
-/jsweet
-jsweet
-!/jj_core_jsweet/src/main/java/ca/ntro/jj/jsweet
+_jsweet
 
 # Tests
 build_*

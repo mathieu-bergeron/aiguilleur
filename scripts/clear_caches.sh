@@ -36,7 +36,7 @@ echo "rm ~/.m2/repository/ca/ntro"
 echo "rm ~/.m2/repository/ca/aiguilleur"
 
 rm -rf ~/.m2/repository/ca/ntro
-rm -rf ~/.m2/repository/ca/aquiletour
+rm -rf ~/.m2/repository/ca/aiguilleur
 
 restore_dir
 
