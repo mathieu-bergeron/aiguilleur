@@ -1,4 +1,4 @@
-package ca.ntro.jj.static_imports;
+package ca.ntro.jj.initialization;
 
 public class Log {
 

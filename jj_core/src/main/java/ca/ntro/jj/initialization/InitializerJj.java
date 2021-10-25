@@ -5,9 +5,11 @@ import java.util.List;
 
 import ca.ntro.jj.identifyers.ClassId;
 import ca.ntro.jj.identifyers.ObjectId;
+import ca.ntro.jj.services.Tracer;
 import ca.ntro.jj.services.TracerJj;
 import ca.ntro.jj.task_graph.TaskGraph;
 import ca.ntro.jj.tasks.base.Task;
+import ca.ntro.jj.values.ObjectMap;
 import ca.ntro.jj.wrappers.future.Future;
 
 public abstract class InitializerJj implements Initializer {
@@ -46,17 +48,34 @@ public abstract class InitializerJj implements Initializer {
 	
 	protected abstract Task provideInitializationTask(ObjectId<? extends Object> objectId);
 	protected abstract Task provideInitializationTask(ClassId<? extends Object> classId);
-
-	@Override
-	public Future<Void> execute() {
-		/* TODO: initialize static imports (T,Log, etc)
-		 */
-		return buildGraph().execute();
+	
+	private void initializeStaticImports(ObjectMap objectMap) {
+		
+		// XXX: place all static imports inside the same package
+		//      as InitializerJj
+		T.registerTracer(objectMap.getSingleton(Tracer.classId()));
 	}
 
 	@Override
-	public Future<Void> executeBlocking() {
-		return buildGraph().executeBlocking();
+	public Future<ObjectMap> execute() {
+		
+		Future<ObjectMap> future = buildGraph().execute();
+		
+		future.handleResult(objectMap -> {
+			initializeStaticImports(objectMap);
+		});
+		
+		return future;
+	}
+
+	@Override
+	public ObjectMap executeBlocking() throws Throwable {
+		
+		ObjectMap objectMap = buildGraph().executeBlocking();
+		
+		initializeStaticImports(objectMap);
+		
+		return objectMap;
 	}
 
 	@Override

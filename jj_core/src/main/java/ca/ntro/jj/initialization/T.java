@@ -1,4 +1,4 @@
-package ca.ntro.jj.static_imports;
+package ca.ntro.jj.initialization;
 
 import ca.ntro.jj.services.Tracer;
 import ca.ntro.jj.services.TracerNull;

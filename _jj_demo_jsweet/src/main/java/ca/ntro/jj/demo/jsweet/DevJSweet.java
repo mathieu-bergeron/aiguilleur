@@ -1,8 +1,8 @@
 package ca.ntro.jj.demo.jsweet;
 
 import ca.jj.demo.core.Demo;
+import ca.ntro.jj.initialization.T;
 import ca.ntro.jj.static_imports.JjJSweet;
-import ca.ntro.jj.static_imports.T;
 
 public class DevJSweet {
 	
