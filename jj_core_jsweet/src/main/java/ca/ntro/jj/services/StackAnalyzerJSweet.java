@@ -3,11 +3,9 @@ package ca.ntro.jj.services;
 import ca.ntro.jj.initialization.ServiceRequester;
 import ca.ntro.jj.initialization.ServiceDependant;
 import ca.ntro.jj.initialization.SubTaskRegistrar;
-import ca.ntro.jj.tasks.base.Task;
 import ca.ntro.jj.initialization.SubTaskDependant;
 import ca.ntro.jj.values.ObjectMap;
 import ca.ntro.jj.values.ServiceMap;
-import ca.ntro.jj.values.Url;
 
 public class StackAnalyzerJSweet extends StackAnalyzer implements ServiceDependant, SubTaskDependant {
 	
@@ -25,12 +23,7 @@ public class StackAnalyzerJSweet extends StackAnalyzer implements ServiceDependa
 
 	@Override
 	public void registerSubTasks(SubTaskRegistrar registrar) {
-		/* 
-		 * TODO:
-		 * 
-		 * add a FileFetcher
-		 * 
-		 */
+		/*
 		
 		MultipleFutures loadMapFiles = MultipleFuturesJj();
 		
@@ -38,12 +31,17 @@ public class StackAnalyzerJSweet extends StackAnalyzer implements ServiceDependa
 		
 		
 		registrar.addSubTask(taskId, loadMapFiles);
+		*/
 	}
 
 	@Override
 	public void handleSubTaskResults(ObjectMap subTaskResults) {
 		
+		/*
+		
 		BinaryFile binaryFile = subTaskResults.getObject("mapFileFetcherId");
+		
+		*/
 
 	}
 	
