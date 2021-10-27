@@ -3,6 +3,7 @@ package ca.ntro.jj.server;
 import ca.ntro.jj.initialization.ServiceRequester;
 import ca.ntro.jj.initialization.ServiceDependant;
 import ca.ntro.jj.values.ObjectMap;
+import ca.ntro.jj.values.ServiceMap;
 
 public abstract class ServerJj implements Server, ServiceDependant {
 
@@ -14,14 +15,14 @@ public abstract class ServerJj implements Server, ServiceDependant {
 	public void requestServices(ServiceRequester registrar) {
 		//registrar.addDependency(Logger.classId());
 		//registrar.addDependency(Options.classId());
-		registrar.requestService(ServerOptions.classId());
+		//registrar.requestService(serverOptions.serviceId());
 	}
 
 	@Override
-	public void handleServices(ObjectMap resolvedDependencies) {
+	public void handleServices(ServiceMap resolvedDependencies) {
 		//logger = resolvedDependencies.getSingleton(Logger.classId());
 		//options = resolvedDependencies.getSingleton(Options.classId());
-		serverOptions = resolvedDependencies.getSingleton(ServerOptions.classId());
+		//serverOptions = resolvedDependencies.getSingleton(ServerOptions.classId());
 	}
 
 	protected Logger logger() {

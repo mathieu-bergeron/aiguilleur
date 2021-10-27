@@ -35,7 +35,9 @@ public abstract class InitializerJj implements Initializer {
 
 	private TaskGraph buildGraph() {
 		
-		TaskGraph graph;
+		TaskGraph graph = null;
+		
+		/*
 		
 		for(Service<?> service : services()) {
 			
@@ -79,11 +81,15 @@ public abstract class InitializerJj implements Initializer {
 			
 			graph.addSubTask(thisObjectTask);
 		}
+		
+		*/
 
 		return graph;
 	}
 	
 	private Task createServiceTask(ServiceId<?> serviceId) {
+		
+		/*
 
 		Task initializationTask = new TaskJj();
 		
@@ -99,6 +105,10 @@ public abstract class InitializerJj implements Initializer {
 		});
 		
 		return initializationTask;
+		
+		*/
+		
+		return null;
 	}
 
 	protected abstract Task provideInitializationTask(ObjectId<? extends Object> objectId);
@@ -108,7 +118,7 @@ public abstract class InitializerJj implements Initializer {
 		
 		// XXX: place all static imports inside the same package
 		//      as InitializerJj
-		T.registerTracer(objectMap.getSingleton(Tracer.serviceId()));
+		// T.registerTracer(objectMap.getSingleton(Tracer.serviceId()));
 	}
 
 	@Override

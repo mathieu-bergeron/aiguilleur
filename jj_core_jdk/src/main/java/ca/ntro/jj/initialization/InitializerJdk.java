@@ -19,11 +19,6 @@ public class InitializerJdk extends InitializerJj {
 	protected Task provideInitializationTask(ObjectId<? extends Object> objectId) {
 
 		Task task = null;
-
-		if(objectId.equals(FileOpener.serviceId())) {
-
-			task = FileOpenerJdk.initialisationTask();
-		}
 		
 		return task;
 	}

@@ -8,7 +8,7 @@ import ca.ntro.jj.services.FileOpener;
 import ca.ntro.jj.tasks.base.Task;
 import ca.ntro.jj.values.Path;
 
-public class FileOpenerJdk implements FileOpener {
+public class FileOpenerJdk extends FileOpener {
 
 	@Override
 	public LocalTextFile openLocalTextFile(Path path) {

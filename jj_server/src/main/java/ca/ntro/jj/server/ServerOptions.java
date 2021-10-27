@@ -11,6 +11,6 @@ public interface ServerOptions {
 
 
 	public static ClassId<ServerOptions> classId() {
-		return new ClassIdJj<>(ServerOptions.class);
+		return new ClassIdJj(ServerOptions.class);
 	}
 }
