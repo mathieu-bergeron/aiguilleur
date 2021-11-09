@@ -1,7 +1,16 @@
 package ca.ntro.jj.identifyers;
 
-public interface SimpleId {
+public abstract class SimpleId {
 
-	String id();
+	private String id;
+	
+	public SimpleId(String id) {
+		// TODO: validate ID
+		// cannot contain: 
+		//  /  (path separator)
+		//  ¤  (filename separator)
+
+		this.id = id;
+	}
 
 }
