@@ -14,4 +14,8 @@ public class DagWriterMock implements DagWriter<NodeMock, EdgeMock> {
 		
 	}
 
+	public boolean containsNode(NodeMock node) {
+		return false;
+	}
+
 }
