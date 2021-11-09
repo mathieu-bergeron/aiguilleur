@@ -1,7 +1,6 @@
 package ca.ntro.jj.identifyers;
 
-public interface SimpleId {
+public interface SimpleId extends Id<String> {
 
-	String id();
 
 }

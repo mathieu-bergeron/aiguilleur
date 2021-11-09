@@ -1,5 +1,5 @@
 package ca.ntro.jj.values;
 
-public class Path {
+public class Path<V extends Object> {
 
 }
