@@ -1,9 +1,9 @@
 package ca.ntro.jj.tasks.task_graph;
 
-import ca.ntro.jj.common.values.ObjectMap;
 import ca.ntro.jj.tasks.base.AtomicTask;
 import ca.ntro.jj.tasks.base.Task;
 import ca.ntro.jj.tasks.generic.GenericTaskGraph;
+import ca.ntro.jj.values.ObjectMap;
 import ca.ntro.jj.wrappers.future.Future;
 
 public interface TaskGraph<T extends Task<?,AtomicTask>>
@@ -11,19 +11,14 @@ public interface TaskGraph<T extends Task<?,AtomicTask>>
        extends    GenericTaskGraph<T, AtomicTask> {
 	
 	/* TODO:
-	 * execute tasks of the graph in a while-loop
-	 * stop when there is not more tasks ready to execute
-	 * (this is the current implementation)
-	 * 
-	 * (NOTE: the graph is re-executed upon a notifyTaskCompleted)
-	 * 
+	 * Execute one Task, then call sleep
 	 */
 	ObjectMap executeBlocking();
 
 	
 	/* TODO:
 	 * 
-	 * execute 1 task, then call
+	 * execute 1 task, then call executeLater
 	 * executerLater(execute)
 	 * 
 	 * in effect: executing 1 task, then add an event 

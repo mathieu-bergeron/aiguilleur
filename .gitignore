@@ -29,8 +29,7 @@ bin
 
 # JSweet
 .jsweet
-/jsweet
-jsweet
+_jsweet
 
 # Tests
 build_*

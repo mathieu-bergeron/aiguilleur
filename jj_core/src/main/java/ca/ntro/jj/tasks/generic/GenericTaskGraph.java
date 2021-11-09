@@ -1,6 +1,6 @@
 package ca.ntro.jj.tasks.generic;
 
-import ca.ntro.jj.common.identifyiers.TaskId;
+import ca.ntro.jj.identifyers.TaskId;
 
 public interface GenericTaskGraph<GT extends GenericTask<?,GAT>, GAT extends GenericAtomicTask> {
 

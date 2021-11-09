@@ -1,7 +1,7 @@
 package ca.ntro.jj.server;
 
-import ca.ntro.jj.common.identifyiers.ClassId;
-import ca.ntro.jj.common.identifyiers.ClassIdJj;
+import ca.ntro.jj.identifyers.ClassId;
+import ca.ntro.jj.identifyers.ClassIdJj;
 
 public interface ServerOptions {
 
@@ -11,6 +11,6 @@ public interface ServerOptions {
 
 
 	public static ClassId<ServerOptions> classId() {
-		return new ClassIdJj<>(ServerOptions.class);
+		return new ClassIdJj(ServerOptions.class);
 	}
 }
