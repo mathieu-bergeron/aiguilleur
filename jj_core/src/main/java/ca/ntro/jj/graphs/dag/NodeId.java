@@ -1,6 +1,6 @@
 package ca.ntro.jj.graphs.dag;
 
-import ca.ntro.jj.common.identifyiers.SimpleId;
+import ca.ntro.jj.identifyers.SimpleId;
 
 public interface NodeId extends SimpleId {
 
