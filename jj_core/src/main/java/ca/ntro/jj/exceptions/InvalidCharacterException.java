@@ -1,11 +1,11 @@
 package ca.ntro.jj.exceptions;
 
-public class InvalidCaracterException extends Exception {
+public class InvalidCharacterException extends Exception {
 	private static final long serialVersionUID = 719650085811038366L;
 
 	private String invalidCharacter;
 	
-	public InvalidCaracterException(String invalidCharacter) {
+	public InvalidCharacterException(String invalidCharacter) {
 		super();
 		this.invalidCharacter = invalidCharacter;
 	}

@@ -3,13 +3,13 @@ package ca.ntro.jj.identifyers;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.ntro.jj.exceptions.InvalidCaracterException;
+import ca.ntro.jj.exceptions.InvalidCharacterException;
 import ca.ntro.jj.util.Splitter;
 import ca.ntro.jj.validation.Validator;
 
 public class Path {
 
-	public static final String FILENAME_SEPARATOR = "¬";
+	public static final String FILENAME_SEPARATOR = "¤";
 	public static final String PATH_SEPARATOR = "/";
 	public static final String HTML_ID_SEPARATOR = "-";
 	public static final String CLASSNAME_SEPARATOR = ".";
@@ -79,7 +79,7 @@ public class Path {
 				try {
 					addName(name);
 				}
-				catch(InvalidCaracterException e) {
+				catch(InvalidCharacterException e) {
 
 					throw new RuntimeException("A path name must not contain " + e.invalidCharacter());
 				}
@@ -98,9 +98,9 @@ public class Path {
 
 			startsWith = false;
 
-		}else {
+		} else {
 
-			for(int i = 0; i < nameCount(); i++) {
+			for(int i = 0; i < path.nameCount(); i++) {
 				if(!name(i).equals(path.name(i))) {
 					startsWith = false;
 					break;
@@ -224,22 +224,7 @@ public class Path {
 
 
 	public boolean isPrefixOf(Path path) {
-		boolean isPrefixOf = true;
-		
-		if(nameCount() >= path.nameCount()) {
-
-			isPrefixOf = false;
-
-		}else {
-			for(int i = 0; i < nameCount(); i++) {
-				if(!name(i).equals(path.name(i))) {
-					isPrefixOf = false;
-					break;
-				}
-			}
-		}
-
-		return isPrefixOf;
+		return path.startsWith(this);
 	}
 
 	public Path parent() {
@@ -257,7 +242,7 @@ public class Path {
 		return parentPath;
 	}
 
-	public void addName(String name) throws InvalidCaracterException {
+	public void addName(String name) throws InvalidCharacterException {
 		Validator.mustNotContainCharacter(name, new String[] {FILENAME_SEPARATOR, PATH_SEPARATOR});
 
 		addValidName(name);
