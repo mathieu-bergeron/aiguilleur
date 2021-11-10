@@ -280,5 +280,4 @@ public class Path {
 	public boolean isRootPath() {
 		return nameCount() == 0;
 	}
-
 }
