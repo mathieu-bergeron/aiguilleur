@@ -8,7 +8,7 @@ public class ClassId<O extends Object> extends Id {
 		ClassId<O> classId = new ClassId<O>();
 		
 		classId.setCategoryPath(Path.fromRawPath(CATEGORY));
-		classId.setEntityPath(Path.fromClassName(_class.getName()));
+		classId.setEntityPath(Path.fromClassname(_class.getName()));
 
 		return classId;
 	}

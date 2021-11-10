@@ -64,6 +64,14 @@ public class Path {
 		return path;
 	}
 
+	public static Path fromClassname(String classname) {
+		Path path = new Path();
+		
+		path.parsePath(classname, CLASSNAME_SEPARATOR);
+
+		return path;
+	}
+
 	private void parsePath(String path, String separator) {
 		for(String name : Splitter.split(path, separator)){
 			if(name.length() > 0) {

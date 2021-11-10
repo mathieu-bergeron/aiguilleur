@@ -10,6 +10,6 @@ public interface ServerOptions {
 
 
 	public static ClassId<ServerOptions> classId() {
-		return new ClassId(ServerOptions.class);
+		return null;
 	}
 }
