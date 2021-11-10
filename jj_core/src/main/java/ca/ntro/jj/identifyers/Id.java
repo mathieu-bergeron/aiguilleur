@@ -1,4 +1,4 @@
-package ca.ntro.jj.values;
+package ca.ntro.jj.identifyers;
 
 public class Id {
 

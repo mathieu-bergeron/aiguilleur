@@ -1,4 +1,4 @@
-package ca.ntro.jj.values;
+package ca.ntro.jj.identifyers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +25,6 @@ public class Path {
 		this.names = names;
 	}
 	
-	
-
 	public Path() {
 	}
 
@@ -35,6 +33,10 @@ public class Path {
 	}
 
 	protected Path(Path otherPath) {
+		append(otherPath);
+	}
+
+	public void append(Path otherPath) {
 		for(String otherName : otherPath.getNames()) {
 			addValidName(otherName);
 		}
@@ -261,6 +263,7 @@ public class Path {
 
 		addValidName(name);
 	}
+
 
 	protected void addValidName(String name) {
 		getNames().add(name);

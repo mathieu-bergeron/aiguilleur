@@ -1,15 +1,15 @@
 package ca.ntro.jj.initialization;
 
-import ca.ntro.jj.identifyers.ObjectIdJj;
+import ca.ntro.jj.identifyers.ClassId;
+import ca.ntro.jj.identifyers.ObjectId;
 import ca.ntro.jj.initialization.InitializerJj;
 import ca.ntro.jj.tasks.base.Task;
-import ca.ntro.jj.values.ClassId;
 
 public class InitializerJdk extends InitializerJj {
 
 
 	@Override
-	protected Task provideInitializationTask(ObjectIdJj objectId) {
+	protected Task provideInitializationTask(ObjectId objectId) {
 
 		Task task = null;
 		

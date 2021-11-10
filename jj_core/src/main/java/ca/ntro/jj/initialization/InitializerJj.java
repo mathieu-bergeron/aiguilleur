@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ca.ntro.jj.identifyers.ObjectIdJj;
+import ca.ntro.jj.identifyers.ClassId;
+import ca.ntro.jj.identifyers.ObjectId;
 import ca.ntro.jj.identifyers.ServiceId;
 import ca.ntro.jj.services.TracerJj;
 import ca.ntro.jj.task_graph.TaskGraph;
 import ca.ntro.jj.tasks.base.Task;
-import ca.ntro.jj.values.ClassId;
 import ca.ntro.jj.values.ObjectMap;
 import ca.ntro.jj.wrappers.future.Future;
 
@@ -107,7 +107,7 @@ public abstract class InitializerJj implements Initializer {
 		return null;
 	}
 
-	protected abstract Task provideInitializationTask(ObjectIdJj objectId);
+	protected abstract Task provideInitializationTask(ObjectId objectId);
 	protected abstract Task provideInitializationTask(ClassId<? extends Object> classId);
 	
 	private void initializeStaticImports(ObjectMap objectMap) {

@@ -1,5 +1,5 @@
 package ca.ntro.jj.identifyers;
 
-public interface TaskId {
+public class TaskId {
 
 }

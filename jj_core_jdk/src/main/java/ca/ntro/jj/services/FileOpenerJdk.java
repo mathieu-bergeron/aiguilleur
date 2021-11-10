@@ -4,9 +4,9 @@ import java.io.File;
 
 import ca.ntro.jj.files.LocalTextFile;
 import ca.ntro.jj.files.LocalTextFileJdk;
+import ca.ntro.jj.identifyers.Path;
 import ca.ntro.jj.services.FileOpener;
 import ca.ntro.jj.tasks.base.Task;
-import ca.ntro.jj.values.Path;
 
 public class FileOpenerJdk extends FileOpener {
 
