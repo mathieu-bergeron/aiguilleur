@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ca.ntro.jj.identifyers.ClassId;
 import ca.ntro.jj.identifyers.ObjectId;
 import ca.ntro.jj.identifyers.ServiceId;
 import ca.ntro.jj.services.Logger;
@@ -15,6 +14,7 @@ import ca.ntro.jj.services.TracerJj;
 import ca.ntro.jj.task_graph.TaskGraph;
 import ca.ntro.jj.tasks.base.Task;
 import ca.ntro.jj.tasks.generic.GenericAtomicTask;
+import ca.ntro.jj.values.ClassId;
 import ca.ntro.jj.values.ObjectMap;
 import ca.ntro.jj.wrappers.future.Future;
 

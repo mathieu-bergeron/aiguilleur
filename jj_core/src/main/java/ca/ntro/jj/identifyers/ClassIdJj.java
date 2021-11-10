@@ -1,5 +1,7 @@
 package ca.ntro.jj.identifyers;
 
+import ca.ntro.jj.values.ClassId;
+
 public class ClassIdJj<O extends Object> implements ClassId<O> {
 	
 	private Class<O> _class;

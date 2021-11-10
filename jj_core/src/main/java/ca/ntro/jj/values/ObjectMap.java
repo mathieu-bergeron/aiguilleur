@@ -1,6 +1,5 @@
 package ca.ntro.jj.values;
 
-import ca.ntro.jj.identifyers.ClassId;
 import ca.ntro.jj.identifyers.ObjectId;
 
 public interface ObjectMap {

@@ -1,5 +1,6 @@
 package ca.ntro.jj.identifyers;
 
+import ca.ntro.jj.values.ClassId;
 
 public class ObjectIdJj extends SimpleIdJj implements ObjectId {
 	
