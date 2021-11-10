@@ -1,18 +1,21 @@
 package ca.ntro.jj.identifyers;
 
-public class LocalId extends Id {
+public class StorageId extends Id {
 	
 	private Path categoryPath = new Path();
 
 	protected void setCategoryPath(Path categoryPath) {
 		this.categoryPath = categoryPath;
 	}
+	
+	protected StorageId() {
+	}
 
-	public LocalId(Path categoryPath, Path entityPath) {
+	public StorageId(Path categoryPath, Path entityPath) {
 		super(entityPath);
 	}
 
-	public LocalId(String rawId) {
+	public StorageId(String rawId) {
 		super();
 		
 		Path filePath = Path.fromRawPath(rawId);
@@ -32,8 +35,8 @@ public class LocalId extends Id {
 	public boolean equals(Object o) {
 		if(o == null) return false;
 		if(o == this) return true;
-		if(o instanceof LocalId) {
-			LocalId i = (LocalId) o;
+		if(o instanceof StorageId) {
+			StorageId i = (StorageId) o;
 			
 			if(categoryPath != null ? !categoryPath.equals(i.categoryPath) : i.categoryPath != null) {
 				return false;

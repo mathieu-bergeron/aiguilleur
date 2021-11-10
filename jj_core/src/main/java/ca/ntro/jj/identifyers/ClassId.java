@@ -2,11 +2,11 @@ package ca.ntro.jj.identifyers;
 
 public class ClassId<O extends Object> extends Id {
 	
-	public static final String CATEGORY = "classes";
-	
 	private Class<O> _class;
 	
 	protected ClassId(Class<O> _class) {
+		super();
+
 		this._class = _class;
 	}
 
@@ -17,7 +17,6 @@ public class ClassId<O extends Object> extends Id {
 	public static <O extends Object> ClassId<O> fromClass(Class<O> _class){
 		ClassId<O> classId = new ClassId<O>(_class);
 		
-		classId.setCategoryPath(Path.fromRawPath(CATEGORY));
 		classId.setEntityPath(Path.fromClassname(_class.getName()));
 
 		return classId;

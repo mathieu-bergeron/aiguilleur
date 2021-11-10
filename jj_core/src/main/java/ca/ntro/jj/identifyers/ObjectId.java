@@ -1,12 +1,14 @@
 package ca.ntro.jj.identifyers;
 
-public class ObjectId<O extends Object> extends Id {
+public class ObjectId<O extends Object> extends StorageId {
 
 	public static final String CATEGORY = "objects";
 	
 	private Class<O> _class;
 	
 	protected ObjectId(Class<O> _class) {
+		super();
+
 		this._class = _class;
 	}
 
@@ -44,5 +46,4 @@ public class ObjectId<O extends Object> extends Id {
 
 		return false;
 	}
-
 }
