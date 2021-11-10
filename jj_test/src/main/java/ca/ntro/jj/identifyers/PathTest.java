@@ -92,7 +92,7 @@ public class PathTest {
 	@Test
 	public void testPathStartsWith(){
 		
-		Path full = Path.fromRawPath("/nom01/nom02/nom03/nom04");
+		Path full = Path.fromRawPath("nom01/nom02/nom03/nom04");
 		Path prefix = Path.fromRawPath("/nom01/nom02");
 
 		Assert.assertTrue(full.startsWith(prefix));
@@ -102,7 +102,7 @@ public class PathTest {
 	public void testIsPrefixOf(){
 		
 		Path full = Path.fromRawPath("/nom01/nom02/nom03/nom04");
-		Path prefix = Path.fromRawPath("/nom01/nom02");
+		Path prefix = Path.fromRawPath("nom01/nom02");
 
 		Assert.assertTrue(prefix.isPrefixOf(full));
 	}
