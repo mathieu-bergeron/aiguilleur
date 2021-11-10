@@ -17,6 +17,12 @@ public class Path {
 
 	public Path() {
 	}
+	
+	protected Path(Path otherPath) {
+		for(String otherName : otherPath.getNames()) {
+			names.add(otherName);
+		}
+	}
 
 	public static Path fromRawPath(String rawPath) {
 		Path path = new Path();
@@ -211,6 +217,10 @@ public class Path {
 	public void addName(String name) throws InvalidCaracterException {
 		Validator.mustNotContainCharacter(name, new String[] {FILENAME_SEPARATOR, KEY_SEPARATOR, PATH_SEPARATOR});
 
+		addValidName(name);
+	}
+
+	protected void addValidName(String name) {
 		getNames().add(name);
 	}
 
@@ -240,23 +250,9 @@ public class Path {
 		return false;
 
 	}
+
 	public boolean isRootPath() {
 		return nameCount() == 0;
 	}
 
-	protected void copyNamesOf(Path path) {
-		getNames().clear();
-
-		for(int i = 0; i < path.nameCount(); i++) {
-			try {
-
-				this.addName(path.name(i));
-
-			} catch (InvalidCaracterException e) {
-
-				throw new RuntimeException("Path.copyNamesOf called with invalid character " + e.invalidCharacter());
-
-			}
-		}
-	}
 }

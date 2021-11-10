@@ -1,8 +1,4 @@
-package ca.ntro.jj.identifyers;
-
-import ca.ntro.jj.exceptions.InvalidCaracterException;
-import ca.ntro.jj.validation.Validator;
-import ca.ntro.jj.values.Path;
+package ca.ntro.jj.values;
 
 public class Id {
 
@@ -14,17 +10,21 @@ public class Id {
 	private Id() {
 	}
 	
-	public Id(String entityId) {
-		entityPath = new Path();
-		
-		try {
-
-			Validator.mustNotContainCharacter(entityId, new String[] {CATEGORY_ENTITY_SEPARATOR});
-			entityPath.addName(entityId);
-
-		} catch (InvalidCaracterException e) {
+	public Id(String id) {
+		if(id.contains(CATEGORY_ENTITY_SEPARATOR)
+				&& id.contains(Path.PATH_SEPARATOR)) {
 			
-			throw new RuntimeException("Id must not contain character " + e.invalidCharacter());
+			throw new RuntimeException("Id must not contain both " + CATEGORY_ENTITY_SEPARATOR + " and " + Path.PATH_SEPARATOR);
+
+		}
+		
+		if(id.contains(CATEGORY_ENTITY_SEPARATOR)) {
+
+			parseKey(id);
+
+		}else if(id.contains(Path.PATH_SEPARATOR)) {
+
+			parseFilepath(id);
 		}
 	}
 	
@@ -42,11 +42,19 @@ public class Id {
 		
 		return id;
 	}
+	
+	private void parseKey(String key) {
+		
+	}
 
 	public static Id fromFilepath(String filepath) {
 		Id id = new Id();
 		
 		return id;
+	}
+
+	private void parseFilepath(String filepath) {
+		
 	}
 	
 	public String toKey() {
@@ -66,8 +74,8 @@ public class Id {
 		StringBuilder builder = new StringBuilder();
 		
 		Path filePath = new Path(categoryPath);
-		filePath.addName(entityPath.toFileName());
-		
+		filePath.addValidName(entityPath.toFileName());
+
 		return builder.toString();
 	}
 }
