@@ -1,8 +1,12 @@
 package ca.ntro.jj.identifyers;
 
+import ca.ntro.jj.exceptions.InvalidCaracterException;
+import ca.ntro.jj.validation.Validator;
 import ca.ntro.jj.values.Path;
 
 public class Id {
+
+	public static final String CATEGORY_ENTITY_SEPARATOR = "¤";
 	
 	private Path categoryPath = new Path();
 	private Path entityPath = new Path();
@@ -11,7 +15,17 @@ public class Id {
 	}
 	
 	public Id(String entityId) {
-		this.entityPath = Path.fromRawPath(entityId);
+		entityPath = new Path();
+		
+		try {
+
+			Validator.mustNotContainCharacter(entityId, new String[] {CATEGORY_ENTITY_SEPARATOR});
+			entityPath.addName(entityId);
+
+		} catch (InvalidCaracterException e) {
+			
+			throw new RuntimeException("Id must not contain character " + e.invalidCharacter());
+		}
 	}
 	
 	private void setCategoryPath(Path categoryPath) {
@@ -35,21 +49,24 @@ public class Id {
 		return id;
 	}
 	
-	/**
- 	 * e.g. models¬QueueModel¤alice¬2021   where categoryPath is models¬QueueModel and entityPath is alice¬2021
-	 */
 	public String toKey() {
 		StringBuilder builder = new StringBuilder();
 		
+		if(!categoryPath.isRootPath()) {
+			builder.append(categoryPath.toKey());
+			builder.append(CATEGORY_ENTITY_SEPARATOR);
+		}
+		
+		builder.append(entityPath.toKey());
+
 		return builder.toString();
 	}     
 
-	/**
-	 * e.g. /models/QueueModel/alice¬2021  where categoryPath is /models/QueueModel and entityPath is alice¬2021
-	 */
-	
 	public String toFilepath() {
 		StringBuilder builder = new StringBuilder();
+		
+		Path filePath = new Path(categoryPath);
+		filePath.addName(entityPath.toFileName());
 		
 		return builder.toString();
 	}

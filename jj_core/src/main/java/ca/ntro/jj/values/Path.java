@@ -3,11 +3,11 @@ package ca.ntro.jj.values;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.ntro.jj.constants.SpecialCharacters;
+import ca.ntro.jj.exceptions.InvalidCaracterException;
+import ca.ntro.jj.validation.Validator;
 
 public class Path {
 
-	public static final String CATEGORY_ENTITY_SEPARATOR = "¤";
 	public static final String FILENAME_SEPARATOR = "¬";
 	public static final String KEY_SEPARATOR = "¬";
 	public static final String PATH_SEPARATOR = "/";
@@ -208,7 +208,9 @@ public class Path {
 		return parentPath;
 	}
 
-	public void addName(String name) {
+	public void addName(String name) throws InvalidCaracterException {
+		Validator.mustNotContainCharacter(name, new String[] {FILENAME_SEPARATOR, KEY_SEPARATOR, PATH_SEPARATOR});
+
 		getNames().add(name);
 	}
 
@@ -246,7 +248,15 @@ public class Path {
 		getNames().clear();
 
 		for(int i = 0; i < path.nameCount(); i++) {
-			this.addName(path.name(i));
+			try {
+
+				this.addName(path.name(i));
+
+			} catch (InvalidCaracterException e) {
+
+				throw new RuntimeException("Path.copyNamesOf called with invalid character " + e.invalidCharacter());
+
+			}
 		}
 	}
 }
