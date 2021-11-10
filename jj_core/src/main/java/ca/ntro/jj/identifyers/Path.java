@@ -10,7 +10,6 @@ import ca.ntro.jj.validation.Validator;
 public class Path {
 
 	public static final String FILENAME_SEPARATOR = "¬";
-	public static final String KEY_SEPARATOR = "¬";
 	public static final String PATH_SEPARATOR = "/";
 	public static final String HTML_ID_SEPARATOR = "-";
 	public static final String CLASSNAME_SEPARATOR = ".";
@@ -167,7 +166,7 @@ public class Path {
 		return toString(PATH_SEPARATOR, true);
 	}
 
-	public String toFileName() {
+	public String toFilename() {
 		return toString(FILENAME_SEPARATOR, false);
 	}
 
@@ -182,7 +181,7 @@ public class Path {
 	}
 
 	public String toKey() {
-		return toString(KEY_SEPARATOR, false);
+		return toFilename();
 	}
 
 	public Path removePrefix(String rawPrefix) {
@@ -259,11 +258,10 @@ public class Path {
 	}
 
 	public void addName(String name) throws InvalidCaracterException {
-		Validator.mustNotContainCharacter(name, new String[] {FILENAME_SEPARATOR, KEY_SEPARATOR, PATH_SEPARATOR});
+		Validator.mustNotContainCharacter(name, new String[] {FILENAME_SEPARATOR, PATH_SEPARATOR});
 
 		addValidName(name);
 	}
-
 
 	protected void addValidName(String name) {
 		getNames().add(name);
