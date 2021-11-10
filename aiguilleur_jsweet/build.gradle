@@ -16,8 +16,6 @@ localJSweetPlugin {
             'ntro_web',
             'aiguilleur_core'
        ]
-
-    storeDir = rootProject.projectDir.toString() + "/_store"
 }
 
 task js {

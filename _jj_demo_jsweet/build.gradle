@@ -13,8 +13,6 @@ localJSweetPlugin {
             'jj_core_jsweet', 
             '_jj_demo_core'
        ]
-
-    storeDir = rootProject.projectDir.toString() + "/_store"
 }
 
 task js {
