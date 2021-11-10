@@ -41,6 +41,21 @@ public class Path {
 		}
 	}
 
+	public static Path fromSingleName(String name) {
+		Path path = new Path();
+
+		try {
+
+			path.addName(name);
+
+		}catch(InvalidCharacterException e) {
+
+			throw new RuntimeException("A path name must not contain " + e.invalidCharacter());
+		}
+
+		return path;
+	}
+
 	public static Path fromRawPath(String rawPath) {
 		Path path = new Path();
 		
@@ -77,9 +92,10 @@ public class Path {
 		for(String name : Splitter.split(path, separator)){
 			if(name.length() > 0) {
 				try {
+
 					addName(name);
-				}
-				catch(InvalidCharacterException e) {
+
+				}catch(InvalidCharacterException e) {
 
 					throw new RuntimeException("A path name must not contain " + e.invalidCharacter());
 				}

@@ -49,6 +49,27 @@ public class PathTest {
 	}
 
 	@Test
+	public void testPathCreation03(){
+		
+		Path path01 = Path.fromSingleName("nom01");
+		Path path02 = Path.fromSingleName("nom01");
+
+		Assert.assertEquals(path01, path02);
+		Assert.assertEquals(path01.toString(), "/nom01");
+	}
+
+	@Test
+	public void testSingleNameViolation(){
+		Assert.assertThrows(RuntimeException.class, () -> {
+			Path.fromSingleName("nom01/nom02");
+		});
+
+		Assert.assertThrows(RuntimeException.class, () -> {
+			Path.fromSingleName("nom01¤nom02");
+		});
+	}
+
+	@Test
 	public void testInvalidCharacters(){
 		
 		Path path01 = new Path();

@@ -13,8 +13,8 @@ public class Id {
 		setEntityPath(path);
 	}
 
-	public Id(String rawPath) {
-		setEntityPath(Path.fromRawPath(rawPath));
+	public Id(String id) {
+		setEntityPath(Path.fromSingleName(id));
 	}
 
 	protected void setEntityPath(Path entityPath) {
