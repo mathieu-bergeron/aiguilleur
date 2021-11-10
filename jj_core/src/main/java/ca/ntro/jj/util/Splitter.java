@@ -24,6 +24,10 @@ public class Splitter {
 				segments.add(buffer.toString());
 				input.delete(0, separator.length());
 				buffer.delete(0, buffer.length());
+				
+				if(input.length() == 0) {
+					segments.add("");
+				}
 
 			}else {
 				buffer.append(input.charAt(0));
@@ -34,7 +38,7 @@ public class Splitter {
 		if(buffer.length() > 0) {
 			segments.add(buffer.toString());
 		}
-		
+
 		return segments;
 	}
 
