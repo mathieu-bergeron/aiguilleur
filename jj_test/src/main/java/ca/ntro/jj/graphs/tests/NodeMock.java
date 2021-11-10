@@ -5,15 +5,15 @@ import ca.ntro.jj.graphs.dag.NodeId;
 
 public class NodeMock implements Node {
 	
-	private String id;
+	private NodeId id;
 
 	public NodeMock(String id) {
-		this.id = id;
+		this.id = new NodeId(id);
 	}
 
 	@Override
 	public NodeId id() {
-		return null;
+		return id;
 	}
 
 }

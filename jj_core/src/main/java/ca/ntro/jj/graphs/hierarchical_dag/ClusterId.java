@@ -4,4 +4,8 @@ import ca.ntro.jj.graphs.dag.NodeId;
 
 public class ClusterId extends NodeId {
 
+	public ClusterId(String rawId) {
+		super(rawId);
+	}
+
 }
