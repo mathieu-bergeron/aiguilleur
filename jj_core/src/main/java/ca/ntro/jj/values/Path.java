@@ -169,6 +169,10 @@ public class Path {
 		return toString(FILENAME_SEPARATOR, false);
 	}
 
+	public String toClassname() {
+		return toString(CLASSNAME_SEPARATOR, false);
+	}
+
 	public String toHtmlId() {
 		String htmlId = toString(HTML_ID_SEPARATOR, false);
 		htmlId = htmlId.replace(".", HTML_ID_SEPARATOR);
