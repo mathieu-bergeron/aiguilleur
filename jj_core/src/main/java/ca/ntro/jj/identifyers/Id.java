@@ -2,8 +2,6 @@ package ca.ntro.jj.identifyers;
 
 public class Id {
 
-	public static final String CATEGORY_ENTITY_SEPARATOR = "¤";
-	
 	private Path entityPath;
 
 	protected Id() {
