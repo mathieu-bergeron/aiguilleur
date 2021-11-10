@@ -1,9 +1,7 @@
 package ca.ntro.jj.graphs.dag;
 
+import ca.ntro.jj.identifyers.Id;
 
-public class NodeId {
-
-	public NodeId(String id) {
-	}
+public class NodeId extends Id {
 
 }
