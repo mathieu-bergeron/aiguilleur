@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import ca.ntro.core.files.LocalTextFile;
 import ca.ntro.core.wrappers.future.Future;
-import ca.ntro.core.wrappers.future.FutureJj;
+import ca.ntro.core.wrappers.future.FutureNtro;
 
 public class LocalTextFileJdk implements LocalTextFile {
 	
@@ -19,7 +19,7 @@ public class LocalTextFileJdk implements LocalTextFile {
 	@Override
 	public Future<Void> append(String value) {
 
-		FutureJj<Void> future = new FutureJj<Void>();
+		FutureNtro<Void> future = new FutureNtro<Void>();
 
 		try {
 

@@ -1,6 +1,6 @@
 package ca.ntro.core.initialization;
 
-public class InitializerOptionsJj implements InitializerOptions {
+public class InitializerOptionsNtro implements InitializerOptions {
 	
 	private boolean prod = false;
 

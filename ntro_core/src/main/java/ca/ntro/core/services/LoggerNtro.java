@@ -6,7 +6,7 @@ import ca.ntro.core.initialization.ServiceRequester;
 import ca.ntro.core.initialization.ServiceDependant;
 import ca.ntro.core.values.ServiceMap;
 
-public class LoggerJj extends Logger implements ServiceDependant {
+public class LoggerNtro extends Logger implements ServiceDependant {
 
 	private Path traceFilePath = new Path();                        // TODO: actual file path
 	private Path exceptionFilePath = new Path();                    // TODO: actual file path

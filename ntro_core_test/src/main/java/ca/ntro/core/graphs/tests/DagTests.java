@@ -3,8 +3,8 @@ package ca.ntro.core.graphs.tests;
 import org.junit.Test;
 
 import ca.ntro.core.graphs.dag.Dag;
-import ca.ntro.core.graphs.dag.DagJj;
-import ca.ntro.core.initialization.Jj;
+import ca.ntro.core.graphs.dag.DagNtro;
+import ca.ntro.core.initialization.Ntro;
 
 public class DagTests {
 	
@@ -17,13 +17,13 @@ public class DagTests {
 		
 		DagWriterMock dagWriter = new DagWriterMock();
 		
-		Dag dag = new DagJj();
+		Dag dag = new DagNtro();
 		
 		dag.addNode(node);
 		
 		dag.write(dagWriter);
 		
-		Jj.asserter().assertTrue("Should contain node", dagWriter.containsNode(node));
+		Ntro.asserter().assertTrue("Should contain node", dagWriter.containsNode(node));
 	}
 
 }

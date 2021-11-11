@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.ntro.core.exceptions.InvalidCharacterException;
-import ca.ntro.core.initialization.Jj;
+import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.util.Splitter;
 import ca.ntro.core.validation.Validator;
 
@@ -254,7 +254,7 @@ public class Path {
 			
 		} catch(InvalidCharacterException e) {
 
-			Jj.exceptionThrower().throwException(new RuntimeException("A path name must not contain " + e.invalidCharacter()));
+			Ntro.exceptionThrower().throwException(new RuntimeException("A path name must not contain " + e.invalidCharacter()));
 		}
 
 		addValidName(name);

@@ -9,7 +9,7 @@ import ca.ntro.core.graphs.dag.directions.Direction;
 import ca.ntro.core.graphs.dag.exceptions.CycleException;
 import ca.ntro.core.graphs.dag.exceptions.NodeNotFoundException;
 
-public class DagJj<N extends Node, E extends Edge> implements Dag<N,E> {
+public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 	
 	
 	private GraphId id;
@@ -17,11 +17,11 @@ public class DagJj<N extends Node, E extends Edge> implements Dag<N,E> {
 	private Map<String, Map<String, N>> edgesForward = new HashMap<>();
 	private Map<String, Map<String, N>> edgesBackward = new HashMap<>();
 
-	public DagJj() {
+	public DagNtro() {
 		this.id = GraphId.newGraphId();
 	}
 
-	public DagJj(String graphName) {
+	public DagNtro(String graphName) {
 		this.id = GraphId.fromGraphName(graphName);
 	}
 	

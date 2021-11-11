@@ -2,10 +2,10 @@ package ca.ntro.core.initialization;
 
 import ca.ntro.core.identifyers.ClassId;
 import ca.ntro.core.identifyers.ObjectId;
-import ca.ntro.core.initialization.InitializerJj;
+import ca.ntro.core.initialization.InitializerNtro;
 import ca.ntro.core.tasks.base.Task;
 
-public class InitializerJdk extends InitializerJj {
+public class InitializerJdk extends InitializerNtro {
 
 
 	@Override

@@ -2,14 +2,13 @@ package ca.ntro.server;
 
 import ca.ntro.core.initialization.ServiceRequester;
 import ca.ntro.core.initialization.ServiceDependant;
-import ca.ntro.core.values.ObjectMap;
 import ca.ntro.core.values.ServiceMap;
 
-public abstract class ServerJj implements Server, ServiceDependant {
+public abstract class ServerNtro implements Server, ServiceDependant {
 
 	//private Logger logger = new NullLogger();
-	//private Options options = new OptionsJj();
-	private ServerOptions serverOptions = new ServerOptionsJj();
+	//private Options options = new OptionsNtro();
+	private ServerOptions serverOptions = new ServerOptionsNtro();
 
 	@Override
 	public void requestServices(ServiceRequester registrar) {

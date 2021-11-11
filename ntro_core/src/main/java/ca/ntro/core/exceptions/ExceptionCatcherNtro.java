@@ -5,7 +5,7 @@ import java.util.List;
 
 import ca.ntro.core.wrappers.ExceptionHandler;
 
-public class ExceptionCatcherJj<R extends Object> implements ExceptionCatcher<R> {
+public class ExceptionCatcherNtro<R extends Object> implements ExceptionCatcher<R> {
 	
 	private List<Throwable> exceptions = new ArrayList<>();
 

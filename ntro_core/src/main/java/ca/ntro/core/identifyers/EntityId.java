@@ -1,6 +1,6 @@
 package ca.ntro.core.identifyers;
 
-import ca.ntro.core.initialization.Jj;
+import ca.ntro.core.initialization.Ntro;
 
 public class EntityId extends Id {
 	
@@ -16,7 +16,7 @@ public class EntityId extends Id {
 		if(rawId.contains(Path.FILENAME_SEPARATOR)
 				&& rawId.contains(Path.PATH_SEPARATOR)) {
 			
-			Jj.exceptionThrower().throwException(new RuntimeException("rawId cannot contain both " + Path.FILENAME_SEPARATOR + " and " + Path.PATH_SEPARATOR));
+			Ntro.exceptionThrower().throwException(new RuntimeException("rawId cannot contain both " + Path.FILENAME_SEPARATOR + " and " + Path.PATH_SEPARATOR));
 		}
 		
 		if(rawId.contains(Path.FILENAME_SEPARATOR)) {

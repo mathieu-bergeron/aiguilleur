@@ -1,7 +1,7 @@
 package ca.ntro.server;
 
 
-public class ServerOptionsJj implements ServerOptions {
+public class ServerOptionsNtro implements ServerOptions {
 	
 	//private Path privatePath;
 	//private Path publicPath;

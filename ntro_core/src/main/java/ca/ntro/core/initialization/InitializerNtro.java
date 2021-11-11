@@ -8,15 +8,15 @@ import java.util.Map;
 import ca.ntro.core.identifyers.ClassId;
 import ca.ntro.core.identifyers.ObjectId;
 import ca.ntro.core.identifyers.ServiceId;
-import ca.ntro.core.services.TracerJj;
+import ca.ntro.core.services.TracerNtro;
 import ca.ntro.core.task_graph.TaskGraph;
 import ca.ntro.core.tasks.base.Task;
 import ca.ntro.core.values.ObjectMap;
 import ca.ntro.core.wrappers.future.Future;
 
-public abstract class InitializerJj implements Initializer {
+public abstract class InitializerNtro implements Initializer {
 	
-	private InitializerOptions options = new InitializerOptionsJj();
+	private InitializerOptions options = new InitializerOptionsNtro();
 	
 	private Map<ServiceId<?>, Task> serviceTasks = new HashMap<>();
 	
@@ -24,7 +24,7 @@ public abstract class InitializerJj implements Initializer {
 
 		List<Service<?>> initializedObjects = new ArrayList<>();
 
-		initializedObjects.add(new TracerJj());
+		initializedObjects.add(new TracerNtro());
 		
 		return initializedObjects;
 	}

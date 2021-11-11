@@ -4,7 +4,7 @@ import ca.ntro.core.initialization.ServiceRequester;
 import ca.ntro.core.initialization.ServiceDependant;
 import ca.ntro.core.values.ServiceMap;
 
-public class TracerJj extends Tracer implements ServiceDependant {
+public class TracerNtro extends Tracer implements ServiceDependant {
 	
 	private Logger logger = new LoggerNull();
 	private StackAnalyzer stackAnalyzer = new StackAnalyzerNull();

@@ -1,5 +1,5 @@
 package ca.ntro.core.initialization;
 
-public class InitializerOptionsJdk extends InitializerOptionsJj {
+public class InitializerOptionsJdk extends InitializerOptionsNtro {
 
 }

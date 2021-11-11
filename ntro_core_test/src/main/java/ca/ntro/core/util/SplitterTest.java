@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import ca.ntro.core.initialization.Jj;
+import ca.ntro.core.initialization.Ntro;
 
 public class SplitterTest {
 	
@@ -15,7 +15,7 @@ public class SplitterTest {
 		
 		String[] segments = segmentList.toArray(new String[segmentList.size()]);
 		
-		Jj.asserter().assertArrayEquals(new String[] {"seg01","seg02","seg03"}, segments);
+		Ntro.asserter().assertArrayEquals(new String[] {"seg01","seg02","seg03"}, segments);
 	}
 
 	@Test
@@ -25,7 +25,7 @@ public class SplitterTest {
 		
 		String[] segments = segmentList.toArray(new String[segmentList.size()]);
 		
-		Jj.asserter().assertArrayEquals(new String[] {}, segments);
+		Ntro.asserter().assertArrayEquals(new String[] {}, segments);
 	}
 
 	@Test
@@ -35,7 +35,7 @@ public class SplitterTest {
 		
 		String[] segments = segmentList.toArray(new String[segmentList.size()]);
 		
-		Jj.asserter().assertArrayEquals(new String[] {"","asdf"}, segments);
+		Ntro.asserter().assertArrayEquals(new String[] {"","asdf"}, segments);
 	}
 
 	@Test
@@ -45,7 +45,7 @@ public class SplitterTest {
 		
 		String[] segments = segmentList.toArray(new String[segmentList.size()]);
 		
-		Jj.asserter().assertArrayEquals(new String[] {"3fd",""}, segments);
+		Ntro.asserter().assertArrayEquals(new String[] {"3fd",""}, segments);
 	}
 
 	@Test
@@ -55,7 +55,7 @@ public class SplitterTest {
 		
 		String[] segments = segmentList.toArray(new String[segmentList.size()]);
 		
-		Jj.asserter().assertArrayEquals(new String[] {"3fd","asdf","123",""}, segments);
+		Ntro.asserter().assertArrayEquals(new String[] {"3fd","asdf","123",""}, segments);
 	}
 
 }

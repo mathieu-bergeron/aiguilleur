@@ -5,7 +5,7 @@ import ca.ntro.core.services.ExceptionThrower;
 public class InitializerTest {
 	
 	public static void registerExceptionThrower(ExceptionThrower exceptionThrower) {
-		Jj.registerExceptionThrower(exceptionThrower);
+		Ntro.registerExceptionThrower(exceptionThrower);
 	}
 	
 

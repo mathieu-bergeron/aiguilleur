@@ -2,7 +2,7 @@ package ca.ntro.core.wrappers.future;
 
 import ca.ntro.core.wrappers.ExceptionHandler;
 
-public class FutureJj<O extends Object> implements Future<O> {
+public class FutureNtro<O extends Object> implements Future<O> {
 	
 	private enum State {
 		VALUE, NO_VALUE;
