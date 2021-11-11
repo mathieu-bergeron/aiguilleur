@@ -7,10 +7,6 @@ public class Id {
 	protected Id() {
 	}
 	
-	public Id(Path path) {
-		setEntityPath(path);
-	}
-
 	public Id(String id) {
 		setEntityPath(Path.fromSingleName(id));
 	}
@@ -46,6 +42,14 @@ public class Id {
 	}
 
 	public String toKey() {
-		return getEntityPath().toFilename();
+		return toFilePath().toRawPath();
+	}
+
+	public String toHtmlId() {
+		return toFilePath().toHtmlId();
+	}
+
+	public Path toFilePath() {
+		return getEntityPath();
 	}
 }

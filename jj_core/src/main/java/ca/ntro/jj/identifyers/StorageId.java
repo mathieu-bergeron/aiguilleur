@@ -1,18 +1,28 @@
 package ca.ntro.jj.identifyers;
 
-public class StorageId extends Id {
+public class StorageId extends EntityId {
 	
 	private Path categoryPath = new Path();
-
+	
 	protected void setCategoryPath(Path categoryPath) {
 		this.categoryPath = categoryPath;
 	}
-	
+
+	protected Path getCategoryPath() {
+		return categoryPath;
+	}
+
 	protected StorageId() {
+	}
+	
+	protected StorageId(Path entityPath) {
+		super(entityPath);
 	}
 
 	public StorageId(Path categoryPath, Path entityPath) {
 		super(entityPath);
+		
+		setCategoryPath(categoryPath);
 	}
 
 	public StorageId(String rawId) {
@@ -47,14 +57,25 @@ public class StorageId extends Id {
 		
 		return false;
 	}
-	
+
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
+		return toFilePath().toRawPath();
+	}
+
+	@Override
+	public String toHtmlId() {
+		Path htmlPath = new Path(getCategoryPath());
+		htmlPath.append(getEntityPath());
 		
-		Path filePath = new Path(categoryPath);
+		return htmlPath.toHtmlId();
+	}
+	
+	@Override
+	public Path toFilePath() {
+		Path filePath = new Path(getCategoryPath());
 		filePath.addValidName(getEntityPath().toFilename());
 
-		return builder.toString();
+		return filePath;
 	}
 }

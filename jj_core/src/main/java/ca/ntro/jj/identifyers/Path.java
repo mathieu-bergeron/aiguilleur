@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.ntro.jj.exceptions.InvalidCharacterException;
+import ca.ntro.jj.initialization.Jj;
 import ca.ntro.jj.util.Splitter;
 import ca.ntro.jj.validation.Validator;
 
 public class Path {
+	
 
 	public static final String FILENAME_SEPARATOR = "¤";
 	public static final String PATH_SEPARATOR = "/";
@@ -44,14 +46,7 @@ public class Path {
 	public static Path fromSingleName(String name) {
 		Path path = new Path();
 
-		try {
-
-			path.addName(name);
-
-		}catch(InvalidCharacterException e) {
-
-			throw new RuntimeException("A path name must not contain " + e.invalidCharacter());
-		}
+		path.addName(name);
 
 		return path;
 	}
@@ -91,14 +86,7 @@ public class Path {
 	private void parsePath(String path, String separator) {
 		for(String name : Splitter.split(path, separator)){
 			if(name.length() > 0) {
-				try {
-
-					addName(name);
-
-				}catch(InvalidCharacterException e) {
-
-					throw new RuntimeException("A path name must not contain " + e.invalidCharacter());
-				}
+				addName(name);
 			}
 		}
 	}
@@ -258,8 +246,16 @@ public class Path {
 		return parentPath;
 	}
 
-	public void addName(String name) throws InvalidCharacterException {
-		Validator.mustNotContainCharacter(name, new String[] {FILENAME_SEPARATOR, PATH_SEPARATOR});
+	public void addName(String name) {
+		
+		try {
+		
+			Validator.mustNotContainCharacter(name, new String[] {FILENAME_SEPARATOR, PATH_SEPARATOR});
+			
+		} catch(InvalidCharacterException e) {
+
+			Jj.exceptionThrower().throwException(new RuntimeException("A path name must not contain " + e.invalidCharacter()));
+		}
 
 		addValidName(name);
 	}

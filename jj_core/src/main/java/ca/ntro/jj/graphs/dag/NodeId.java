@@ -7,5 +7,4 @@ public class NodeId extends Id {
 	public NodeId(String id) {
 		super(id);
 	}
-
 }

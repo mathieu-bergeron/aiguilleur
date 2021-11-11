@@ -2,12 +2,21 @@ package ca.ntro.jj.identifyers;
 
 import org.junit.Test;
 
-import ca.ntro.jj.exceptions.InvalidCharacterException;
+import ca.ntro.jj.initialization.InitializerTest;
+import ca.ntro.jj.services.ExceptionThrowerMock;
 
 import org.junit.Assert;
+import org.junit.BeforeClass;
 
 
 public class PathTest {
+	
+	private static ExceptionThrowerMock exceptionThrower = new ExceptionThrowerMock();
+	
+	@BeforeClass
+	public static void initialize() {
+		InitializerTest.registerExceptionThrower(exceptionThrower);
+	}
 	
 	@Test
 	public void testPathCreation01(){
@@ -60,28 +69,32 @@ public class PathTest {
 
 	@Test
 	public void testSingleNameViolation(){
-		Assert.assertThrows(RuntimeException.class, () -> {
-			Path.fromSingleName("nom01/nom02");
-		});
 
-		Assert.assertThrows(RuntimeException.class, () -> {
-			Path.fromSingleName("nom01¤nom02");
-		});
+		Path.fromSingleName("nom01/nom02");
+		
+		Assert.assertTrue("Should throw", exceptionThrower.wasThrowned(RuntimeException.class));
+		
+		exceptionThrower.clear();
+
+		Path.fromSingleName("nom01¤nom02");
+
+		Assert.assertTrue("Should throw", exceptionThrower.wasThrowned(RuntimeException.class));
 	}
 
 	@Test
 	public void testInvalidCharacters(){
 		
 		Path path01 = new Path();
-		
-		Assert.assertThrows(InvalidCharacterException.class, () -> {
-			path01.addName("nom01/nom02");
-		});
 
-		Assert.assertThrows(InvalidCharacterException.class, () -> {
-			path01.addName("nom01¤nom02");
-		});
+		path01.addName("nom01/nom02");
+
+		Assert.assertTrue("Should throw", exceptionThrower.wasThrowned(RuntimeException.class));
+
+		exceptionThrower.clear();
 		
+		path01.addName("nom01¤nom02");
+
+		Assert.assertTrue("Should throw", exceptionThrower.wasThrowned(RuntimeException.class));
 	}
 
 	@Test
@@ -127,5 +140,4 @@ public class PathTest {
 
 		Assert.assertTrue(prefix.isPrefixOf(full));
 	}
-
 }

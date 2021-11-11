@@ -14,8 +14,9 @@ public class DagJj<N extends Node, E extends Edge> implements Dag<N,E> {
 	
 	private GraphId id;
 	private Map<String, N> nodes = new HashMap<>();
-	private Map<String, EdgeTriple<N>> edges = new HashMap<>();
-	
+	private Map<String, Map<String, N>> edgesForward = new HashMap<>();
+	private Map<String, Map<String, N>> edgesBackward = new HashMap<>();
+
 	public DagJj() {
 		this.id = GraphId.newGraphId();
 	}
@@ -36,6 +37,16 @@ public class DagJj<N extends Node, E extends Edge> implements Dag<N,E> {
 
 	@Override
 	public void addEdge(NodeId from, E edge, NodeId to) throws NodeNotFoundException, CycleException {
+		
+	}
+
+	@Override
+	public void addEdge(NodeMatcher from, E edge, NodeMatcher to) throws NodeNotFoundException, CycleException {
+		
+	}
+
+	@Override
+	public void addEdge(String from, E edge, String to) throws NodeNotFoundException, CycleException {
 		
 	}
 
@@ -66,5 +77,4 @@ public class DagJj<N extends Node, E extends Edge> implements Dag<N,E> {
 	public GraphId id() {
 		return this.id;
 	}
-
 }
