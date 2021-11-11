@@ -1,14 +1,14 @@
 package ca.aiguilleur;
 
 import ca.ntro.core.initialization.T;
-import ca.ntro.core.static_imports.JjJdk;
+import ca.ntro.core.static_imports.NtroJdk;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class AiguilleurMainFx extends Application {
 	
 	public static void main(String[] args) throws Throwable {
-		JjJdk.initializer().executeBlocking();
+		NtroJdk.initializer().executeBlocking();
 
 		launch(args);
 	}

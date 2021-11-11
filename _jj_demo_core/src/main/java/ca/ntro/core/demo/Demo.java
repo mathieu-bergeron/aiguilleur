@@ -1,4 +1,4 @@
-package ca.jj.demo.core;
+package ca.ntro.core.demo;
 
 import ca.ntro.core.initialization.Log;
 import ca.ntro.core.initialization.T;

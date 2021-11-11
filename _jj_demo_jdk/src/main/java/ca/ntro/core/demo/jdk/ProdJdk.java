@@ -1,9 +1,9 @@
 package ca.ntro.core.demo.jdk;
 
-import ca.jj.demo.core.Demo;
+import ca.ntro.core.demo.Demo;
 import ca.ntro.core.initialization.InitializerOptions;
 import ca.ntro.core.initialization.InitializerOptionsJdk;
-import ca.ntro.core.static_imports.JjJdk;
+import ca.ntro.core.static_imports.NtroJdk;
 
 public class ProdJdk {
 	
@@ -12,7 +12,7 @@ public class ProdJdk {
 		InitializerOptions options = new InitializerOptionsJdk();
 		options.setProd(true);
 		
-		JjJdk.initializer()
+		NtroJdk.initializer()
 		     .setOptions(options)
 		     .executeBlocking();
 		
