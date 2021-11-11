@@ -4,7 +4,6 @@ public class ExceptionThrowerJj implements ExceptionThrower {
 
 	@Override
 	public void throwException(Throwable t) {
-		t.printStackTrace();
-		System.exit(0);
+		throw new RuntimeException(t.getMessage());
 	}
 }
