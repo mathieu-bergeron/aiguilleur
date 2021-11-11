@@ -3,9 +3,9 @@ rootProject.name = 'aiguilleur'
 include '_drafting_one'
 include '_drafting_two'
 
-include '_jj_demo_core'
-include '_jj_demo_jsweet'
-include '_jj_demo_jdk'
+include '_demo_core'
+include '_demo_core_jsweet'
+include '_demo_core_jdk'
 
 include 'jj_core'
 include 'jj_core_jdk'
