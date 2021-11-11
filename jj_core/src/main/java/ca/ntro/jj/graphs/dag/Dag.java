@@ -15,6 +15,8 @@ public interface Dag<N extends Node, E extends Edge> {
 
 	void addEdge(N from, E edge, N to) throws CycleException;
 	void addEdge(NodeId from, E edge, NodeId to) throws NodeNotFoundException, CycleException;
+	void addEdge(NodeMatcher from, E edge, NodeMatcher to) throws NodeNotFoundException, CycleException;
+	void addEdge(String from, E edge, String to) throws NodeNotFoundException, CycleException;
 	
 	void forEachNode(NodeVisitor<N> visitor);
 	void forEachEdge(EdgeVisitor<N,E> visistor);

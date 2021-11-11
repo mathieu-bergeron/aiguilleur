@@ -44,4 +44,8 @@ public class Id {
 	public String toString() {
 		return getEntityPath().toFilename();
 	}
+
+	public String toKey() {
+		return getEntityPath().toFilename();
+	}
 }
