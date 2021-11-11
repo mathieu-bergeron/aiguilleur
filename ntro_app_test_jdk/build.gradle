@@ -9,13 +9,13 @@ project.version = '0.1'
 
 dependencies {
 
-    implementation project(':ntro_core')
-    implementation group: 'ca.ntro', name: 'ntro_core', version: '0.1'
+    implementation project(':ntro_app')
+    implementation group: 'ca.ntro', name: 'ntro_app', version: '0.1'
 
-    implementation project(':ntro_test')
-    implementation group: 'ca.ntro', name: 'ntro_test', version: '0.1'
+    implementation project(':ntro_app_test')
+    implementation group: 'ca.ntro', name: 'ntro_app_test', version: '0.1'
 
-    testImplementation project(':ntro_test')
+    testImplementation project(':ntro_app_test')
     implementation 'junit:junit:4.13'
 }
 

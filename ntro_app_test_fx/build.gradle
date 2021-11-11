@@ -8,15 +8,15 @@ project.version = '0.1'
 
 
 dependencies {
-    implementation project(':jj_core')
-    implementation project(':jj_core_jdk')
-
     implementation project(':ntro_core')
     implementation project(':ntro_core_jdk')
-    implementation project(':ntro_core_fx')
 
-    testImplementation project(':ntro_test')
-    testImplementation project(':ntro_test_jdk')
+    implementation project(':ntro_app')
+    implementation project(':ntro_app_jdk')
+    implementation project(':ntro_app_fx')
+
+    testImplementation project(':ntro_app_test')
+    testImplementation project(':ntro_app_test_jdk')
 
     implementation 'junit:junit:4.13'
 }

@@ -4,11 +4,14 @@ plugins {
     id 'maven'
 }
 
-project.group = 'ca.ntro.jj'
+project.group = 'ca.ntro'
 project.version = '0.1'
 
 dependencies {
-    implementation project(':jj_core')
+    implementation project(':ntro_core')
+    implementation project(':ntro_core_jdk')
+
+    implementation project(':ntro_app')
 
     // https://github.com/google/gson
     implementation ('com.google.code.gson:gson:2.8.6')
@@ -23,13 +26,15 @@ dependencies {
     implementation group: 'commons-codec', name: 'commons-codec', version: '1.15'
 
     implementation 'guru.nidi:graphviz-java-all-j2v8:0.18.0'
-    implementation group: 'org.dizitart', name: 'nitrite', version: '3.4.1'
 
+    testImplementation project(':ntro_app_test')
+    testImplementation 'junit:junit:4.13'
 }
 
 configurations{
     // XXX: not needed in runtime 
     //      and conflicts with selenium and gson
+    testRuntime.exclude group: 'org.jsweet'
     runtime.exclude group: 'org.jsweet' 
 }
 

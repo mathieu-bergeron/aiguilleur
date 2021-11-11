@@ -8,7 +8,7 @@ project.version = '0.1'
 
 localJSweetPlugin {
 
-    localJSweetDependencies = ['jj_core']
+    localJSweetDependencies = ['ntro_core']
 
 }
 
@@ -21,7 +21,7 @@ tasks.test{
 
 dependencies {
 
-    implementation project(':jj_core')
+    implementation project(':ntro_core')
 
     // not testImplementation 
     // tests need to be with main code

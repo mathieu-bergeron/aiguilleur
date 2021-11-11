@@ -5,13 +5,13 @@ plugins{
 
 localJSweetPlugin {
 
-    localJSweetDependencies = ['ntro_core']
+    localJSweetDependencies = ['ntro_app']
 
 }
 
 dependencies {
 
-    implementation project(':ntro_core_jdk')
+    implementation project(':ntro_app_jdk')
 
 }
 

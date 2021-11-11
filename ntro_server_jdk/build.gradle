@@ -3,8 +3,8 @@ plugins{
 }
 
 dependencies {
-    implementation project(':ntro_core')
-    implementation project(':ntro_core_jdk')
+    implementation project(':ntro_app')
+    implementation project(':ntro_app_jdk')
     implementation project(':ntro_server')
 
     // Vertx web server and SockJS server

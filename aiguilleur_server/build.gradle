@@ -7,8 +7,8 @@ plugins{
 
 dependencies {
     // Ntro
-    implementation project(':ntro_core')
-    implementation project(':ntro_core_jdk')
+    implementation project(':ntro_app')
+    implementation project(':ntro_app_jdk')
     implementation project(':ntro_web_jdk')
 
     // aquiletour

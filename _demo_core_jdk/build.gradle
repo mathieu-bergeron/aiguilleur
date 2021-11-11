@@ -7,9 +7,9 @@ project.version = '0.1'
 
 dependencies {
 
-    implementation project(':jj_core')
-    implementation project(':jj_core_jdk')
+    implementation project(':ntro_core')
+    implementation project(':ntro_core_jdk')
 
-    implementation project(':_jj_demo_core')
+    implementation project(':_demo_core')
 }
 

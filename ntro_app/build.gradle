@@ -3,7 +3,7 @@ plugins {
     id 'localJSweetPlugin'
 }
 
-project.group = 'ca.ntro.jj'
+project.group = 'ca.ntro'
 project.version = '0.1'
 
 tasks.test{
@@ -13,6 +13,8 @@ tasks.test{
 }
 
 dependencies {
+
+    implementation project(':ntro_core')
 
     testImplementation 'junit:junit:4.13'
 }

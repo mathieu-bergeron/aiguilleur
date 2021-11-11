@@ -8,14 +8,14 @@ project.group = 'ca.ntro'
 project.version = '0.1'
 
 dependencies {
-    implementation project(':jj_core')
-    implementation project(':jj_core_jdk')
+    implementation project(':ntro_core')
+    implementation project(':ntro_core_jdk')
 
     implementation project(':jj_web')
     implementation project(':jj_web_jdk')
 
-    implementation project(':ntro_core')
-    implementation project(':ntro_core_jdk')
+    implementation project(':ntro_app')
+    implementation project(':ntro_app_jdk')
 
     implementation project(':ntro_web')
 
@@ -31,7 +31,7 @@ dependencies {
     // https://mvnrepository.com/artifact/commons-codec/commons-codec
     implementation group: 'commons-codec', name: 'commons-codec', version: '1.15'
 
-    testImplementation project(':ntro_test')
+    testImplementation project(':ntro_app_test')
     testImplementation 'junit:junit:4.13'
 }
 

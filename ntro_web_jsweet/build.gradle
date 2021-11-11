@@ -10,8 +10,8 @@ localJSweetPlugin {
 
     localJSweetDependencies = [
 
-            'ntro_core', 
-            'ntro_core_jsweet',
+            'ntro_app', 
+            'ntro_app_jsweet',
             'ntro_web'
 
        ]

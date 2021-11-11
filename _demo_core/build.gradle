@@ -9,6 +9,6 @@ project.version = '0.1'
 localJSweetPlugin {
 
     localJSweetDependencies = [
-            'jj_core', 
+            'ntro_core', 
        ]
 }
