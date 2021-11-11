@@ -29,10 +29,3 @@ dependencies {
     implementation 'junit:junit:4.13'
 }
 
-sourceSets {
-    test {
-        java {
-            srcDirs = ["src/main/java"]
-        }
-    }
-}

@@ -1,10 +1,10 @@
 package ca.ntro.jj.graphs.tests;
 
 import org.junit.Test;
-import org.junit.Assert;
 
 import ca.ntro.jj.graphs.dag.Dag;
 import ca.ntro.jj.graphs.dag.DagJj;
+import ca.ntro.jj.initialization.Jj;
 
 public class DagTests {
 	
@@ -23,7 +23,7 @@ public class DagTests {
 		
 		dag.write(dagWriter);
 		
-		Assert.assertTrue(dagWriter.containsNode(node));
+		Jj.asserter().assertTrue("Should contain node", dagWriter.containsNode(node));
 	}
 
 }

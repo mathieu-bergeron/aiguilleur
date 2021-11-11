@@ -26,6 +26,14 @@ tasks.clean {
     }
 }
 
+sourceSets {
+    test {
+        java {
+            srcDirs = ["src/main/java"]
+        }
+    }
+}
+
 eclipse {
     classpath {
         file {
