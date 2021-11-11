@@ -12,14 +12,10 @@ include 'ntro_core_jdk'
 include 'ntro_core_fx'
 include 'ntro_core_jsweet'
 
-include 'jj_web'
-include 'jj_web_jdk'
-include 'jj_web_jsweet'
-
-include 'jj_test'
-include 'jj_test_jdk'
-include 'jj_test_fx'
-include 'jj_test_jsweet'
+include 'ntro_core_test'
+include 'ntro_core_test_jdk'
+include 'ntro_core_test_fx'
+include 'ntro_core_test_jsweet'
 
 include 'jj_server'
 include 'jj_server_jdk'

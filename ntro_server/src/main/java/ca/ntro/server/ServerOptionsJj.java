@@ -1,4 +1,4 @@
-package ca.ntro.core.server;
+package ca.ntro.server;
 
 
 public class ServerOptionsJj implements ServerOptions {

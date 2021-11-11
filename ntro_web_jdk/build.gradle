@@ -11,9 +11,6 @@ dependencies {
     implementation project(':ntro_core')
     implementation project(':ntro_core_jdk')
 
-    implementation project(':jj_web')
-    implementation project(':jj_web_jdk')
-
     implementation project(':ntro_app')
     implementation project(':ntro_app_jdk')
 

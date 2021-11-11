@@ -11,7 +11,7 @@ dependencies {
     implementation project(':ntro_core')
     implementation project(':ntro_core_jdk')
 
-    implementation project(':jj_test')
+    implementation project(':ntro_core_test')
 
     // not testImplementation 
     // tests need to be with main code

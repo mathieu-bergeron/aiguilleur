@@ -1,4 +1,4 @@
-package ca.ntro.core.server;
+package ca.ntro.server;
 
 import ca.ntro.core.initialization.ServiceRequester;
 import ca.ntro.core.initialization.ServiceDependant;
