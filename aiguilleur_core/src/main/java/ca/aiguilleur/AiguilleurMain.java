@@ -1,7 +1,7 @@
 package ca.aiguilleur;
 
-import ca.ntro.jj.initialization.Log;
-import ca.ntro.jj.initialization.T;
+import ca.ntro.core.initialization.Log;
+import ca.ntro.core.initialization.T;
 
 public class AiguilleurMain {
 	

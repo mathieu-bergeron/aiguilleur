@@ -1,7 +1,7 @@
 package ca.aiguilleur;
 
-import ca.ntro.jj.initialization.T;
-import ca.ntro.jj.static_imports.JjJdk;
+import ca.ntro.core.initialization.T;
+import ca.ntro.core.static_imports.JjJdk;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
