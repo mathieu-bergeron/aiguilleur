@@ -16,6 +16,7 @@ import ca.ntro.core.graphs.dag.directions.ForwardNtro;
 import ca.ntro.core.graphs.dag.exceptions.CycleException;
 import ca.ntro.core.graphs.dag.exceptions.NodeNotFoundException;
 import ca.ntro.core.wrappers.Result;
+import ca.ntro.core.wrappers.ResultMutator;
 import ca.ntro.core.wrappers.ResultNtro;
 
 public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
@@ -145,12 +146,12 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 	@Override
 	public <R> Result<R> foldEachNode(R initialValue, NodeFolder<N, R> folder) {
 		
-		Result<R> result = new ResultNtro<R>(initialValue);
+		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 		
 		for(N node : nodes.values()) {
 			try {
-
-				result = new ResultNtro<R>(folder.foldNode(result.get(), node));
+				
+				result.updateValue(folder.foldNode(result.get(), node));
 
 			} catch (Break e) { 
 
@@ -158,7 +159,7 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 
 			} catch (Throwable e) {
 				
-				result = ResultNtro.fromException(e);
+				result.setException(e);
 				break;
 			}
 		}

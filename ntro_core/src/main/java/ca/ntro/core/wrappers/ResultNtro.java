@@ -7,17 +7,17 @@ public class ResultNtro<R extends Object> implements Result<R> {
 	
 	private ResultNtro() {
 	}
-	
+
 	public ResultNtro(R value) {
 		this.value = value;
 	}
-	
-	public static <R extends Object> Result<R> fromException(Throwable exception){
-		ResultNtro<R> result = new ResultNtro<R>();
-		
-		result.exception = exception;
 
-		return result;
+	public void updateValue(R value) {
+		this.value = value;
+	}
+
+	public void setException(Throwable exception) {
+		this.exception = exception;
 	}
 
 	@Override
@@ -31,5 +31,6 @@ public class ResultNtro<R extends Object> implements Result<R> {
 			exceptionHandler.handle(exception);
 		}
 	}
+
 
 }
