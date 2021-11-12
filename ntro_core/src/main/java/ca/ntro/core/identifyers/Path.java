@@ -249,8 +249,8 @@ public class Path {
 	public void addName(String name) {
 		
 		try {
-		
-			Validator.mustNotContainCharacter(name, new String[] {FILENAME_SEPARATOR, PATH_SEPARATOR});
+
+			Validator.mustBeValidId(name);
 			
 		} catch(InvalidCharacterException e) {
 
