@@ -6,9 +6,10 @@ import ca.ntro.core.identifyers.Path;
 public class IdMatcherNtro implements IdMatcher {
 	
 	private PathMatcher pathMatcher;
+
 	
 	public IdMatcherNtro(String idPattern) {
-		this.pathMatcher = new PathMatcherNtro(Path.fromSingleName(idPattern));
+		this.pathMatcher = new PathMatcherNtro(PathPattern.fromSingleName(idPattern));
 	}
 
 	public IdMatcherNtro(PathMatcher pathMatcher) {

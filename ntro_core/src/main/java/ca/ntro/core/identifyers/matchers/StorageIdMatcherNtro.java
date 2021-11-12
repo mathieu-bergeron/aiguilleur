@@ -9,9 +9,9 @@ public class StorageIdMatcherNtro implements StorageIdMatcher {
 	private PathMatcher categoryPathMatcher;
 	
 	public StorageIdMatcherNtro(String idPattern) {
-		Path filePath = Path.fromRawPath(idPattern);
-		Path categoryPath = filePath.subPath(0, filePath.nameCount()-1);
-		Path entityPath = Path.fromFilename(filePath.lastName());
+		PathPattern filePath = PathPattern.fromRawPath(idPattern);
+		PathPattern categoryPath = filePath.subPath(0, filePath.nameCount()-1);
+		PathPattern entityPath = PathPattern.fromFilename(filePath.lastName());
 		
 		this.entityPathMatcher = new PathMatcherNtro(entityPath);
 		this.categoryPathMatcher = new PathMatcherNtro(categoryPath);
@@ -31,6 +31,4 @@ public class StorageIdMatcherNtro implements StorageIdMatcher {
 		return entityPathMatcher.matches(entityPath) 
 				&& categoryPathMatcher.matches(categoryPath);
 	}
-
-
 }

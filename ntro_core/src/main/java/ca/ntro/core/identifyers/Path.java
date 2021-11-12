@@ -30,7 +30,7 @@ public class Path {
 	public Path() {
 	}
 
-	private Path(List<String> names) {
+	protected Path(List<String> names) {
 		setNames(names);
 	}
 
@@ -84,7 +84,7 @@ public class Path {
 		return path;
 	}
 
-	private void parsePath(String path, String separator) {
+	protected void parsePath(String path, String separator) {
 		for(String name : Splitter.split(path, separator)){
 			if(name.length() > 0) {
 				addName(name);
@@ -141,7 +141,7 @@ public class Path {
 		
 	}
 	
-	private boolean ifValidIndices(int beginIndex, int endIndex) {
+	protected boolean ifValidIndices(int beginIndex, int endIndex) {
 		return endIndex < nameCount()
 				&& endIndex >= beginIndex
 				&& beginIndex >= 0;
@@ -255,14 +255,18 @@ public class Path {
 		
 		try {
 
-			Validator.mustBeValidId(name);
-			
+			Validator.mustContainOnlyValidCharacters(name, validNameCharacters());
+
 		} catch(InvalidCharacterException e) {
 
 			Ntro.exceptionThrower().throwException(new RuntimeException("A path name must not contain " + e.invalidCharacter()));
 		}
 
 		addValidName(name);
+	}
+	
+	protected String[] validNameCharacters() {
+		return Validator.validIdCharacters;
 	}
 
 	protected void addValidName(String name) {

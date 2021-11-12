@@ -18,4 +18,26 @@ public class ArrayUtils {
 		
 		return contains;
 	}
+	
+	public static <V extends Object> void copyInto(V[] source, V[] destination) {
+		int length = source.length;
+		if(destination.length < length) {
+			length = destination.length;
+		}
+
+		for(int i = 0; i < length; i++) {
+			destination[i] = source[i];
+		}
+	}
+
+
+	public static String[] addString(String[] array, String value) {
+		String[] newArray = new String[array.length + 1];
+		
+		copyInto(array, newArray);
+		
+		newArray[newArray.length-1] = value;
+		
+		return newArray;
+	}
 }
