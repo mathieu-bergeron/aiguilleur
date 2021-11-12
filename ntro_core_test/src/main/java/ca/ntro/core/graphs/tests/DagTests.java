@@ -101,7 +101,58 @@ public class DagTests {
 	}
 
 	@Test
-	public void testCycleDetection() throws CycleException {
+	public void simpleGraph02() throws CycleException {
+
+		NodeMock nodeA = new NodeMock("A");
+		NodeMock nodeB = new NodeMock("B");
+		NodeMock nodeC = new NodeMock("C");
+		NodeMock nodeD = new NodeMock("D");
+		
+		EdgeMock edgeAB = new EdgeMock("AB");
+		EdgeMock edgeAC = new EdgeMock("AC");
+		EdgeMock edgeBD = new EdgeMock("BD");
+		EdgeMock edgeCD = new EdgeMock("CD");
+		
+		Dag<NodeMock, EdgeMock> dag = new DagNtro<>();
+		
+		dag.addEdge(nodeA, edgeAB, nodeB);
+		dag.addEdge(nodeA, edgeAC, nodeC);
+		dag.addEdge(nodeB, edgeBD, nodeD);
+		dag.addEdge(nodeC, edgeCD, nodeD);
+
+		List<NodeMock> reachableFromA = new ArrayList<>();
+		dag.forEachReachableNode(nodeA, n -> {
+			reachableFromA.add(n);
+		});
+
+		Ntro.asserter().assertTrue("Should contain", reachableFromA.contains(nodeB));
+		Ntro.asserter().assertTrue("Should contain", reachableFromA.contains(nodeC));
+		Ntro.asserter().assertTrue("Should contain", reachableFromA.contains(nodeD));
+		Ntro.asserter().assertEquals(3, reachableFromA.size());
+	}
+
+	@Test
+	public void testCycleDetection01() throws CycleException {
+
+		NodeMock nodeA = new NodeMock("A");
+		EdgeMock edgeAA = new EdgeMock("AA");
+
+		try {
+
+			Dag<NodeMock, EdgeMock> dag = new DagNtro<>();
+
+			dag.addEdge(nodeA, edgeAA, nodeA);
+			
+			Ntro.asserter().assertTrue("Should have thrown", false);
+
+		}catch(CycleException e) {
+
+			Ntro.asserter().assertTrue("Should thrown", true);
+		}
+	}
+
+	@Test
+	public void testCycleDetection02() throws CycleException {
 
 		NodeMock nodeA = new NodeMock("A");
 		NodeMock nodeB = new NodeMock("B");
