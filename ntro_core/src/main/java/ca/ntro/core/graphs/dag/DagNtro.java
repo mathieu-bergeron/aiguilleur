@@ -16,7 +16,6 @@ import ca.ntro.core.graphs.dag.directions.ForwardNtro;
 import ca.ntro.core.graphs.dag.exceptions.CycleException;
 import ca.ntro.core.graphs.dag.exceptions.NodeNotFoundException;
 import ca.ntro.core.wrappers.Result;
-import ca.ntro.core.wrappers.ResultMutator;
 import ca.ntro.core.wrappers.ResultNtro;
 
 public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
