@@ -16,4 +16,9 @@ public class NodeMock implements Node {
 		return id;
 	}
 
+	@Override
+	public String label() {
+		return id.toString();
+	}
+
 }

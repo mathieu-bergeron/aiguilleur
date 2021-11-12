@@ -82,17 +82,40 @@ public class PathTest {
 	}
 
 	@Test
+	public void testValidCharacters(){
+		Path path = Path.fromSingleName("abcdefghijklmnopqrstuvwxyz");
+		path = Path.fromSingleName("_-.");
+		path = Path.fromSingleName("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+	}
+
+	@Test
 	public void testInvalidCharacters(){
 		
-		Path path01 = new Path();
-
-		path01.addName("nom01/nom02");
+		Path path = Path.fromSingleName("é");
 
 		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrowned(RuntimeException.class));
 
 		exceptionThrower.clear();
-		
-		path01.addName("nom01¤nom02");
+
+		path = Path.fromSingleName("¢");
+
+		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrowned(RuntimeException.class));
+
+		exceptionThrower.clear();
+
+		path = Path.fromSingleName("É");
+
+		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrowned(RuntimeException.class));
+
+		exceptionThrower.clear();
+
+		path = Path.fromSingleName("?");
+
+		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrowned(RuntimeException.class));
+
+		exceptionThrower.clear();
+
+		path = Path.fromSingleName("*");
 
 		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrowned(RuntimeException.class));
 	}

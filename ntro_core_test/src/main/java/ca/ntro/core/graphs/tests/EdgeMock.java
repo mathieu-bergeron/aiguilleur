@@ -16,4 +16,9 @@ public class EdgeMock implements Edge {
 		return id;
 	}
 
+	@Override
+	public String label() {
+		return id.toString();
+	}
+
 }
