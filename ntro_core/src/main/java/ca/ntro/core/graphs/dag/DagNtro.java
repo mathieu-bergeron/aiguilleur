@@ -343,25 +343,24 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 	@Override
 	public void write(DagWriter<N, E> writer) {
 
-		Set<String> remainingNodes = writeEdges(writer);
+		Set<String> unwrittenNodes = writeEdges(writer);
 
-		writeNodes(remainingNodes, writer);
+		writeNodes(unwrittenNodes, writer);
 	}
 
 	private Set<String> writeEdges(DagWriter<N, E> writer) {
 		
-		Set<String> nodesToWrite = nodes.keySet();
+		Set<String> unwrittenNodes = new HashSet<>(nodes.keySet());
 		
 		forEachEdge((from, edge, to) -> {
 
-			nodesToWrite.remove(from.id().toKey());
-			nodesToWrite.remove(to.id().toKey());
+			unwrittenNodes.remove(from.id().toKey());
+			unwrittenNodes.remove(to.id().toKey());
 
 			writer.writeEdge(from, edge, to);
-
 		});
 		
-		return nodesToWrite;
+		return unwrittenNodes;
 	}
 
 	private void writeNodes(Set<String> nodesToWrite, DagWriter<N, E> writer) {
