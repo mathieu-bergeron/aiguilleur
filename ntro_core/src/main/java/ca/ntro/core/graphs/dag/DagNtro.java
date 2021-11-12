@@ -280,6 +280,11 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 			                                              List<Direction> directions, 
 			                                              ResultNtro<R> accumulator,
 			                                              NodeFolder<N,R> folder) {
+		if(accumulator.hasException()) {
+			return;
+		}
+		
+		
 		for(Direction direction : directions) {
 			
 			if(direction instanceof Forward) {
@@ -299,6 +304,9 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 			                                                         ResultNtro<R> accumulator,
 			                                                         NodeFolder<N,R> folder,
 			                                                         Map<String, Map<String, N>> edgesMap) {
+		if(accumulator.hasException()) {
+			return;
+		}
 
 		if(visitedNodes.contains(from.id().toKey())) {
 			return;
