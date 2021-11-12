@@ -1,14 +1,25 @@
 package ca.ntro.core.identifyers.matchers;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import ca.ntro.core.identifyers.Path;
+import ca.ntro.core.initialization.InitializerTest;
 import ca.ntro.core.initialization.Ntro;
+import ca.ntro.core.services.ExceptionThrowerMock;
 
 public class PathMatcherTests {
 
+	private static ExceptionThrowerMock exceptionThrower = new ExceptionThrowerMock();
+	
+	@BeforeClass
+	public static void initialize() {
+		InitializerTest.registerExceptionThrower(exceptionThrower);
+	}
+
 	@Test
 	public void testPathMatcherMatches(){
+		exceptionThrower.clear();
 		
 		Path path01 = Path.fromRawPath("/nom01/nom02/nom03/nom04");
 		PathMatcher matcher01 = new PathMatcherNtro("nom04");
@@ -17,13 +28,21 @@ public class PathMatcherTests {
 		PathMatcher matcher04 = new PathMatcherNtro("nom03/*");
 		PathMatcher matcher05 = new PathMatcherNtro("**/nom04");
 		PathMatcher matcher06 = new PathMatcherNtro("nom01/**/nom04");
-		
+		PathMatcher matcher07 = new PathMatcherNtro("nom01/**/*");
+		PathMatcher matcher08 = new PathMatcherNtro("**/**/*");
+		PathMatcher matcher09 = new PathMatcherNtro("**");
+
+		Ntro.asserter().assertFalse("Should not throw", exceptionThrower.wasThrowned(RuntimeException.class));
+
 		Ntro.asserter().assertTrue("Should match", matcher01.matches(path01));
 		Ntro.asserter().assertTrue("Should match", matcher02.matches(path01));
 		Ntro.asserter().assertTrue("Should match", matcher03.matches(path01));
 		Ntro.asserter().assertTrue("Should match", matcher04.matches(path01));
 		Ntro.asserter().assertTrue("Should match", matcher05.matches(path01));
 		Ntro.asserter().assertTrue("Should match", matcher06.matches(path01));
+		Ntro.asserter().assertTrue("Should match", matcher07.matches(path01));
+		Ntro.asserter().assertTrue("Should match", matcher08.matches(path01));
+		Ntro.asserter().assertTrue("Should match", matcher09.matches(path01));
 	}
 
 	@Test

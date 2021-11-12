@@ -69,6 +69,7 @@ public class PathTests {
 
 	@Test
 	public void testSingleNameViolation(){
+		exceptionThrower.clear();
 
 		Path.fromSingleName("nom01/nom02");
 		
@@ -83,13 +84,18 @@ public class PathTests {
 
 	@Test
 	public void testValidCharacters(){
+		exceptionThrower.clear();
+		
 		Path path = Path.fromSingleName("abcdefghijklmnopqrstuvwxyz");
 		path = Path.fromSingleName("_-.");
 		path = Path.fromSingleName("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+
+		Ntro.asserter().assertFalse("Should not throw", exceptionThrower.wasThrowned(RuntimeException.class));
 	}
 
 	@Test
 	public void testInvalidCharacters(){
+		exceptionThrower.clear();
 		
 		Path path = Path.fromSingleName("é");
 
@@ -118,6 +124,13 @@ public class PathTests {
 		path = Path.fromSingleName("*");
 
 		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrowned(RuntimeException.class));
+
+		exceptionThrower.clear();
+
+		path = Path.fromRawPath("*/**/*");
+
+		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrowned(RuntimeException.class));
+
 	}
 
 	@Test
