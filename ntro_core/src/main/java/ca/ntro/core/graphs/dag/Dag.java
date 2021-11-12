@@ -20,9 +20,10 @@ public interface Dag<N extends Node, E extends Edge> {
 	void addEdge(String fromRawId, E edge, String toRawId) throws NodeNotFoundException, CycleException;
 	
 	void forEachNode(NodeVisitor<N> visitor);
-	void forEachEdge(EdgeVisitor<N,E> visistor);
+	void forEachEdge(EdgeVisitor<N,E> visitor);
 	
-	void forEachReachableNode(N from, List<Direction> directions);
+	void forEachReachableNode(N from, NodeVisitor<N> visitor);
+	void forEachReachableNode(N from, List<Direction> directions, NodeVisitor<N> visitor);
 	
 	void write(DagWriter<N,E> writer);
 

@@ -1,12 +1,17 @@
 package ca.ntro.core.graphs.dag;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import ca.ntro.core.graphs.GraphId;
+import ca.ntro.core.graphs.dag.directions.Backward;
 import ca.ntro.core.graphs.dag.directions.Direction;
+import ca.ntro.core.graphs.dag.directions.Forward;
+import ca.ntro.core.graphs.dag.directions.ForwardNtro;
 import ca.ntro.core.graphs.dag.exceptions.CycleException;
 import ca.ntro.core.graphs.dag.exceptions.NodeNotFoundException;
 
@@ -40,21 +45,36 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 	public void addEdge(N from, E edge, N to) throws CycleException {
 		addNode(from);
 		addNode(to);
-		
+
 		addEdge(edge);
-		addEdge(edgesForward, from, edge, to);
-		addEdge(edgesBackward, to, edge, from);
+
+		addToEdgesMap(edgesForward, from, edge, to);
+		addToEdgesMap(edgesBackward, to, edge, from);
+		
+		detectCycleFrom(from);
+	}
+
+	private void detectCycleFrom(N from) throws CycleException {
+
+		Set<String> reachableNodes = new HashSet<>();
+		forEachReachableNode(from, n -> {
+			reachableNodes.add(n.id().toKey());
+		});
+
+		if(reachableNodes.contains(from.id().toKey())) {
+			throw new CycleException();
+		}
 	}
 	
-	private void addEdge(Map<String, Map<String, N>> multimap, N from, E edge, N to) {
+	private void addToEdgesMap(Map<String, Map<String, N>> edgesMap, N from, E edge, N to) {
 		String fromKey = from.id().toKey();
 		String edgeKey = edge.id().toKey();
 
-		Map<String, N> edgesFrom = multimap.get(fromKey);
+		Map<String, N> edgesFrom = edgesMap.get(fromKey);
 
 		if(edgesFrom == null) {
 			edgesFrom = new HashMap<String, N>();
-			multimap.put(fromKey, edgesFrom);
+			edgesMap.put(fromKey, edgesFrom);
 		}
 		
 		edgesFrom.put(edgeKey, to);
@@ -114,17 +134,84 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 
 	@Override
 	public void forEachNode(NodeVisitor<N> visitor) {
-		
+		for(N node : nodes.values()) {
+			visitor.visitNode(node);
+		}
 	}
 
 	@Override
-	public void forEachEdge(EdgeVisitor<N, E> visistor) {
-		
+	public void forEachEdge(EdgeVisitor<N, E> visitor) {
+		for(Map.Entry<String, Map<String, N>> edgesForwardFrom : edgesForward.entrySet()) {
+
+			String fromKey = edgesForwardFrom.getKey();
+			N from = nodes.get(fromKey);
+			
+			Map<String, N> edgesTo = edgesForwardFrom.getValue();
+			
+			for(Map.Entry<String, N> edgeTo : edgesTo.entrySet()) {
+				
+				String edgeKey = edgeTo.getKey();
+				E edge = edges.get(edgeKey);
+
+				N to = edgeTo.getValue();
+				
+				if(from != null && edge != null && to != null) {
+					
+					visitor.visitEdge(from, edge, to);
+				}
+			}
+		}
 	}
 
 	@Override
-	public void forEachReachableNode(N from, List<Direction> directions) {
+	public void forEachReachableNode(N from, NodeVisitor<N> visitor) {
+		List<Direction> directions = new ArrayList<>();
+		directions.add(new ForwardNtro());
 
+		forEachReachableNode(from, directions, visitor);
+	}
+
+	@Override
+	public void forEachReachableNode(N from, List<Direction> directions, NodeVisitor<N> visitor) {
+		forEachReachableNode(new HashSet<String>(), from, directions, visitor);
+	}
+
+	private void forEachReachableNode(Set<String> visitedNodes, N from, List<Direction> directions, NodeVisitor<N> visitor) {
+		for(Direction direction : directions) {
+			
+			if(direction instanceof Forward) {
+
+				forEachReachableNodeInDirection(visitedNodes, from, directions, visitor, edgesForward);
+				
+			}else if(direction instanceof Backward) {
+
+				forEachReachableNodeInDirection(visitedNodes, from, directions, visitor, edgesBackward);
+			}
+		}
+	}
+
+	private void forEachReachableNodeInDirection(Set<String> visitedNodes, 
+			                                     N from, 
+			                                     List<Direction> directions,
+			                                     NodeVisitor<N> visitor,
+			                                     Map<String, Map<String, N>> edgesMap) {
+
+		if(visitedNodes.contains(from.id().toKey())) {
+			return;
+		}
+
+		Map<String, N> edgesFrom = edgesMap.get(from.id().toKey());
+		
+		if(edgesFrom != null) {
+
+			for(N to : edgesFrom.values()) {
+				
+				visitor.visitNode(to);
+				visitedNodes.add(to.id().toKey());
+				
+				forEachReachableNode(visitedNodes, to, directions, visitor);
+			}
+		}
 	}
 
 	@Override
@@ -138,27 +225,15 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 	private Set<String> writeEdges(DagWriter<N, E> writer) {
 		
 		Set<String> nodesToWrite = nodes.keySet();
+		
+		forEachEdge((from, edge, to) -> {
 
-		for(Map.Entry<String, Map<String, N>> edgesFrom : edgesForward.entrySet()) {
+			nodesToWrite.remove(from.id().toKey());
+			nodesToWrite.remove(to.id().toKey());
 
-			String fromKey = edgesFrom.getKey();
-			Map<String, N> reachableNodes = edgesFrom.getValue();
+			writer.writeEdge(from, edge, to);
 
-				N from = nodes.get(fromKey);
-				
-				for(Map.Entry<String, N> reachableNodeEntry : reachableNodes.entrySet()) {
-					
-					String edgeKey = reachableNodeEntry.getKey();
-					E edge = edges.get(edgeKey);
-					N to = reachableNodeEntry.getValue();
-
-					if(from != null && edge != null && to != null) {
-						nodesToWrite.remove(from.id().toKey());
-						nodesToWrite.remove(to.id().toKey());
-						writer.writeEdge(from, edge, to);
-					}
-				}
-		}
+		});
 		
 		return nodesToWrite;
 	}
@@ -181,4 +256,5 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 	public String label() {
 		return id().toString();
 	}
+
 }
