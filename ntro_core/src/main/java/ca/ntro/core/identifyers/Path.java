@@ -5,6 +5,7 @@ import java.util.List;
 
 import ca.ntro.core.exceptions.InvalidCharacterException;
 import ca.ntro.core.initialization.Ntro;
+import ca.ntro.core.util.ListUtils;
 import ca.ntro.core.util.Splitter;
 import ca.ntro.core.validation.Validator;
 
@@ -116,20 +117,24 @@ public class Path {
 	}
 	
 	public Path clone() {
-		return subPath(0, nameCount()-1);
+		return subPath(0, nameCount());
 	}
 
 	public Path subPath(int beginIndex) {
-		return subPath(beginIndex, nameCount()-1);
+		return subPath(beginIndex, nameCount());
 	}
 
-	public Path subPath(int beginIndex, int endIndex) {
+	public Path subPath(int beginIndex, int endIndexExclusive) {
 		Path path = null;
 		
-		if(ifValidIndices(beginIndex, endIndex)) {
-			path = new Path(getNames().subList(beginIndex, endIndex+1));
+		if(ifValidIndices(beginIndex, endIndexExclusive-1)) {
+
+			path = new Path(ListUtils.subList(getNames(), beginIndex, endIndexExclusive));
+
 		}else {
+
 			path = new Path();
+
 		}
 		
 		return path;

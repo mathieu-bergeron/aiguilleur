@@ -163,4 +163,29 @@ public class PathTests {
 
 		Ntro.asserter().assertTrue(null, prefix.isPrefixOf(full));
 	}
+
+	@Test
+	public void testSubPath(){
+
+		Path full = Path.fromRawPath("/nom01/nom02/nom03/nom04");
+		Path expectedSub01 = Path.fromRawPath("/nom01/nom02/nom03");
+		Path expectedSub02 = Path.fromRawPath("/nom02/nom03/nom04");
+		Path expectedSub03 = Path.fromRawPath("nom02/nom03");
+		Path expectedSub04 = Path.fromRawPath("nom02");
+		Path expectedRoot = Path.fromRawPath("");
+		
+		Path sub01 = full.subPath(0, full.nameCount()-1);
+		Path sub02 = full.subPath(1, full.nameCount());
+		Path sub02b = full.subPath(1);
+		Path sub03 = full.subPath(1, full.nameCount()-1);
+		Path sub04 = expectedSub03.subPath(0, expectedSub03.nameCount()-1);
+		Path root = expectedSub04.subPath(0, expectedSub04.nameCount()-1);
+		
+		Ntro.asserter().assertEquals(expectedSub01, sub01);
+		Ntro.asserter().assertEquals(expectedSub02, sub02);
+		Ntro.asserter().assertEquals(expectedSub02, sub02b);
+		Ntro.asserter().assertEquals(expectedSub03, sub03);
+		Ntro.asserter().assertEquals(expectedSub04, sub04);
+		Ntro.asserter().assertEquals(expectedRoot, root);
+	}
 }

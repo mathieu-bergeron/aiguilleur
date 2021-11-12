@@ -23,19 +23,19 @@ public class PathMatcherNtro implements PathMatcher {
 	}
 
 	private boolean matches(Path path, Path pattern) {
-		if(pattern.nameCount() == 0) {
+		if(pattern.isRootPath()) {
 			return true;
 		}
 		
-		if(path.nameCount() == 0) {
+		if(path.isRootPath()) {
 			return false;
 		}
 		
 		if(lastNameMatches(path, pattern)) {
 			Path nextPattern = pattern.subPath(0, pattern.nameCount()-1);
-			Path nextPath = pattern.subPath(0, path.nameCount()-1);
+			Path nextPath = path.subPath(0, path.nameCount()-1);
 			
-			return matches(nextPattern, nextPath);
+			return matches(nextPath, nextPattern);
 		}
 		
 		if(pattern.lastName().equals(SUBPATH_WILDCARD)) {
