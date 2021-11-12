@@ -55,6 +55,20 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 		
 		detectCycleFrom(from);
 	}
+
+	private void addToEdgesMap(Map<String, Map<String, N>> edgesMap, N from, E edge, N to) {
+		String fromKey = from.id().toKey();
+		String edgeKey = edge.id().toKey();
+
+		Map<String, N> edgesFrom = edgesMap.get(fromKey);
+
+		if(edgesFrom == null) {
+			edgesFrom = new HashMap<String, N>();
+			edgesMap.put(fromKey, edgesFrom);
+		}
+		
+		edgesFrom.put(edgeKey, to);
+	}
 	
 	private void detectCycleFrom(N from) throws CycleException {
 
@@ -74,20 +88,6 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 		if(cycleDetected.get()) {
 			throw new CycleException();
 		}
-	}
-	
-	private void addToEdgesMap(Map<String, Map<String, N>> edgesMap, N from, E edge, N to) {
-		String fromKey = from.id().toKey();
-		String edgeKey = edge.id().toKey();
-
-		Map<String, N> edgesFrom = edgesMap.get(fromKey);
-
-		if(edgesFrom == null) {
-			edgesFrom = new HashMap<String, N>();
-			edgesMap.put(fromKey, edgesFrom);
-		}
-		
-		edgesFrom.put(edgeKey, to);
 	}
 	
 	private N findNode(NodeId nodeId) throws NodeNotFoundException {
@@ -265,7 +265,7 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 		
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 
-		foldEachReachableNode(new HashSet<String>(), from, directions, new ResultNtro<R>(initialValue), folder);
+		foldEachReachableNode(new HashSet<String>(), from, directions, result, folder);
 		
 		return result;
 	}
@@ -299,6 +299,9 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 			return;
 		}
 
+		visitedNodes.add(from.id().toKey());
+		
+
 		Map<String, N> edgesFrom = edgesMap.get(from.id().toKey());
 		
 		if(edgesFrom != null) {
@@ -318,8 +321,6 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 					accumulator.registerException(t);
 					break;
 				}
-
-				visitedNodes.add(to.id().toKey());
 
 				foldEachReachableNode(visitedNodes, to, directions, accumulator, folder);
 			}
