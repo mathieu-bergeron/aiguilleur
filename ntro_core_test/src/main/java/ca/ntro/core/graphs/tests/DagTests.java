@@ -125,6 +125,7 @@ public class DagTests {
 			reachableFromA.add(n);
 		});
 
+		Ntro.asserter().assertFalse("Should not contain", reachableFromA.contains(nodeA));
 		Ntro.asserter().assertTrue("Should contain", reachableFromA.contains(nodeB));
 		Ntro.asserter().assertTrue("Should contain", reachableFromA.contains(nodeC));
 		Ntro.asserter().assertTrue("Should contain", reachableFromA.contains(nodeD));
