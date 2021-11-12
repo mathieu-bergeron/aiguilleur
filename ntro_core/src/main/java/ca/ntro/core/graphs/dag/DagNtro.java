@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import ca.ntro.core.exceptions.Break;
 import ca.ntro.core.graphs.GraphId;
 import ca.ntro.core.graphs.dag.directions.Backward;
 import ca.ntro.core.graphs.dag.directions.Direction;
@@ -14,9 +15,10 @@ import ca.ntro.core.graphs.dag.directions.Forward;
 import ca.ntro.core.graphs.dag.directions.ForwardNtro;
 import ca.ntro.core.graphs.dag.exceptions.CycleException;
 import ca.ntro.core.graphs.dag.exceptions.NodeNotFoundException;
+import ca.ntro.core.wrappers.Result;
+import ca.ntro.core.wrappers.ResultNtro;
 
 public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
-	
 	
 	private GraphId id;
 	private Map<String, N> nodes = new HashMap<>();
@@ -53,15 +55,23 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 		
 		detectCycleFrom(from);
 	}
-
+	
 	private void detectCycleFrom(N from) throws CycleException {
 
-		Set<String> reachableNodes = new HashSet<>();
-		forEachReachableNode(from, n -> {
-			reachableNodes.add(n.id().toKey());
+		Result<Boolean> cycleDetected = foldEachReachableNode(from, false, (accumulator, n) -> {
+			if(accumulator) {
+				throw new Break();
+			}
+
+			if(n == from) {
+				return true;
+			}
+
+			return accumulator;
+
 		});
 
-		if(reachableNodes.contains(from.id().toKey())) {
+		if(cycleDetected.get()) {
 			throw new CycleException();
 		}
 	}
@@ -133,10 +143,37 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 	}
 
 	@Override
-	public void forEachNode(NodeVisitor<N> visitor) {
+	public <R> Result<R> foldEachNode(R initialValue, NodeFolder<N, R> folder) {
+		
+		Result<R> result = new ResultNtro<R>(initialValue);
+		
 		for(N node : nodes.values()) {
-			visitor.visitNode(node);
+			try {
+
+				result = new ResultNtro<R>(folder.foldNode(result.get(), node));
+
+			} catch (Break e) { 
+
+				break; 
+
+			} catch (Throwable e) {
+				
+				result = ResultNtro.fromException(e);
+				break;
+			}
 		}
+
+		return result;
+	}
+
+	@Override
+	public void forEachNode(NodeVisitor<N> visitor) {
+		foldEachNode(null, (accumulator, n) -> {
+
+			visitor.visitNode(n);
+
+			return null;
+		});
 	}
 
 	@Override
@@ -157,7 +194,11 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 				
 				if(from != null && edge != null && to != null) {
 					
-					visitor.visitEdge(from, edge, to);
+					try {
+
+						visitor.visitEdge(from, edge, to);
+
+					} catch (Break e) { break; }
 				}
 			}
 		}
@@ -206,7 +247,12 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 
 			for(N to : edgesFrom.values()) {
 				
-				visitor.visitNode(to);
+				try {
+
+					visitor.visitNode(to);
+
+				} catch(Break e) { break; }
+
 				visitedNodes.add(to.id().toKey());
 				
 				forEachReachableNode(visitedNodes, to, directions, visitor);
@@ -255,6 +301,26 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 	@Override
 	public String label() {
 		return id().toString();
+	}
+
+
+	@Override
+	public <R> Result<R> foldEachEdge(R initialValue, EdgeFolder<N, E, R> visitor) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <R> Result<R> foldEachReachableNode(N from, R initialValue, NodeFolder<N, R> folder) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <R> Result<R> foldEachReachableNode(N from, List<Direction> directions, R initialValue,
+			NodeFolder<N, E> folder) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
