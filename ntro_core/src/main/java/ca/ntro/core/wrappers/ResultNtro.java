@@ -12,11 +12,11 @@ public class ResultNtro<R extends Object> implements Result<R> {
 		this.value = value;
 	}
 
-	public void updateValue(R value) {
+	public void registerValue(R value) {
 		this.value = value;
 	}
 
-	public void setException(Throwable exception) {
+	public void registerException(Throwable exception) {
 		this.exception = exception;
 	}
 

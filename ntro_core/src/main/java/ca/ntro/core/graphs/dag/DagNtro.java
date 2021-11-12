@@ -151,7 +151,7 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 		for(N node : nodes.values()) {
 			try {
 				
-				result.updateValue(folder.foldNode(result.get(), node));
+				result.registerValue(folder.foldNode(result.get(), node));
 
 			} catch (Break e) { 
 
@@ -159,7 +159,7 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 
 			} catch (Throwable e) {
 				
-				result.setException(e);
+				result.registerException(e);
 				break;
 			}
 		}
