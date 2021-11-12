@@ -14,13 +14,14 @@ public class DagWriterMock implements DagWriter<NodeMock, EdgeMock> {
 		nodes.add(node);
 	}
 
-	@Override
-	public void writeEdge(EdgeMock edge) {
-		
-	}
-
 	public boolean containsNode(NodeMock node) {
 		return nodes.contains(node);
+	}
+
+	@Override
+	public void writeEdge(NodeMock from, EdgeMock edge, NodeMock to) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
