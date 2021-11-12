@@ -143,6 +143,16 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 	}
 
 	@Override
+	public void forEachNode(NodeVisitor<N> visitor) {
+		foldEachNode(null, (accumulator, n) -> {
+
+			visitor.visitNode(n);
+
+			return null;
+		});
+	}
+
+	@Override
 	public <R> Result<R> foldEachNode(R initialValue, NodeFolder<N, R> folder) {
 		
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
@@ -166,15 +176,6 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 		return result;
 	}
 
-	@Override
-	public void forEachNode(NodeVisitor<N> visitor) {
-		foldEachNode(null, (accumulator, n) -> {
-
-			visitor.visitNode(n);
-
-			return null;
-		});
-	}
 
 	@Override
 	public void forEachEdge(EdgeVisitor<N, E> visitor) {
