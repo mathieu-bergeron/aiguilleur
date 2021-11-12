@@ -1,8 +1,7 @@
 package ca.ntro.core.graphs.dag;
 
-public interface NodeMatcher<N extends Node> {
-	
-	boolean matches(N node);
-	
+import ca.ntro.core.identifyers.matchers.Matcher;
+
+public interface NodeMatcher<N extends Node> extends Matcher<N> {
 
 }
