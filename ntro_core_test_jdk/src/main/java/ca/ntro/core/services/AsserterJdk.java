@@ -19,4 +19,9 @@ public class AsserterJdk implements Asserter {
 		Assert.assertArrayEquals(expecteds, actuals);
 	}
 
+	@Override
+	public void assertFalse(String string, boolean b) {
+		Assert.assertFalse(string, b);
+	}
+
 }

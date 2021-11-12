@@ -14,4 +14,8 @@ public class AsserterNull implements Asserter {
 	public void assertArrayEquals(Object[] strings, Object[] segments) {
 	}
 
+	@Override
+	public void assertFalse(String string, boolean b) {
+	}
+
 }

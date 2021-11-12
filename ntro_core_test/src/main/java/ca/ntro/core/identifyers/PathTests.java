@@ -9,7 +9,7 @@ import ca.ntro.core.services.ExceptionThrowerMock;
 import org.junit.BeforeClass;
 
 
-public class PathTest {
+public class PathTests {
 	
 	private static ExceptionThrowerMock exceptionThrower = new ExceptionThrowerMock();
 	
