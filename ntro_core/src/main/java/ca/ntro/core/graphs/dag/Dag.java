@@ -12,14 +12,15 @@ public interface Dag<N extends Node, E extends Edge> {
 	
 	GraphId id();
 	String label();
-	
+
 	void addNode(N n);
+	
+	N findNode(NodeId id) throws NodeNotFoundException;
+	N findNode(NodeMatcher<N> matcher) throws NodeNotFoundException;
+	N findNode(String rawNodeId) throws NodeNotFoundException;
 
 	void addEdge(N from, E edge, N to) throws CycleException;
-	void addEdge(NodeId fromId, E edge, NodeId toId) throws NodeNotFoundException, CycleException;
-	void addEdge(NodeMatcher<N> fromId, E edge, NodeMatcher<N> toId) throws NodeNotFoundException, CycleException;
-	void addEdge(String fromRawId, E edge, String toRawId) throws NodeNotFoundException, CycleException;
-	
+
 	void forEachNode(NodeVisitor<N> visitor);
 	void forEachEdge(EdgeVisitor<N,E> visitor);
 
@@ -31,7 +32,6 @@ public interface Dag<N extends Node, E extends Edge> {
 
 	<R extends Object> Result<R> foldEachReachableNode(N from, R initialValue, NodeFolder<N,R> folder);
 	<R extends Object> Result<R> foldEachReachableNode(N from, List<Direction> directions, R initialValue, NodeFolder<N,R> folder);
-
 	
 	void write(DagWriter<N,E> writer);
 }

@@ -4,9 +4,6 @@ import ca.ntro.core.identifyers.Path;
 
 public class PathMatcherNtro implements PathMatcher {
 	
-	private final String NAME_WILDCARD = "*";
-	private final String SUBPATH_WILDCARD = "**";
-	
 	private PathPattern pattern;
 
 	public PathMatcherNtro(String rawPattern) {
@@ -38,7 +35,7 @@ public class PathMatcherNtro implements PathMatcher {
 			return matches(nextPath, nextPattern);
 		}
 		
-		if(pattern.lastName().equals(SUBPATH_WILDCARD)) {
+		if(pattern.lastName().equals(PathPattern.SUBPATH_WILDCARD)) {
 			PathPattern nextPattern = pattern.subPath(0, pattern.nameCount()-1);
 			
 			if(matches(path, nextPattern)) {
@@ -61,7 +58,7 @@ public class PathMatcherNtro implements PathMatcher {
 			return true;
 		}
 		
-		if(pattern.lastName().equals(NAME_WILDCARD)
+		if(pattern.lastName().equals(PathPattern.NAME_WILDCARD)
 				&& path.nameCount() > 0) {
 			return true;
 		}

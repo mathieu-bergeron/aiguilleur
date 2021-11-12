@@ -15,6 +15,7 @@ import ca.ntro.core.graphs.dag.directions.Forward;
 import ca.ntro.core.graphs.dag.directions.ForwardNtro;
 import ca.ntro.core.graphs.dag.exceptions.CycleException;
 import ca.ntro.core.graphs.dag.exceptions.NodeNotFoundException;
+import ca.ntro.core.identifyers.matchers.PathPattern;
 import ca.ntro.core.wrappers.Result;
 import ca.ntro.core.wrappers.ResultNtro;
 
@@ -90,7 +91,8 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 		}
 	}
 	
-	private N findNode(NodeId nodeId) throws NodeNotFoundException {
+	@Override
+	public N findNode(NodeId nodeId) throws NodeNotFoundException {
 		N node = nodes.get(nodeId.toKey());
 		
 		if(node == null) {
@@ -101,7 +103,30 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 		return node;
 	}
 
-	private N findNode(NodeMatcher<N> nodeMatcher) throws NodeNotFoundException {
+	@Override
+	public N findNode(String rawNodeId) throws NodeNotFoundException {
+		N node = null;
+		
+		if(!rawNodeId.contains(PathPattern.NAME_WILDCARD)
+				&& !rawNodeId.contains(PathPattern.SUBPATH_WILDCARD)) {
+			
+			node = findNode(new NodeId(rawNodeId));
+		}
+		
+		if(node == null) {
+
+			node = findNode(new NodeMatcherNtro<N>(rawNodeId));
+		}
+
+		if(node == null) {
+			throw new NodeNotFoundException("Node not found for " + rawNodeId);
+		}
+
+		return node;
+	}
+
+	@Override
+	public N findNode(NodeMatcher<N> nodeMatcher) throws NodeNotFoundException {
 		N node = null;
 
 		for(N candidateNode : nodes.values()) {
@@ -116,30 +141,6 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 		}
 
 		return node;
-	}
-
-	@Override
-	public void addEdge(NodeId fromId, E edge, NodeId toId) throws NodeNotFoundException, CycleException {
-		N from = findNode(fromId);
-		N to = findNode(toId);
-		
-		addEdge(from, edge, to);
-	}
-
-	@Override
-	public void addEdge(NodeMatcher<N> fromMatcher, E edge, NodeMatcher<N> toMatcher) throws NodeNotFoundException, CycleException {
-		N from = findNode(fromMatcher);
-		N to = findNode(toMatcher);
-		
-		addEdge(from, edge, to);
-	}
-
-	@Override
-	public void addEdge(String fromPattern, E edge, String toPattern) throws NodeNotFoundException, CycleException {
-		N from = findNode(new NodeMatcherNtro<N>(fromPattern));
-		N to = findNode(new NodeMatcherNtro<N>(toPattern));
-		
-		addEdge(from, edge, to);
 	}
 
 	@Override

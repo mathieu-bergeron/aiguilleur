@@ -8,7 +8,9 @@ import ca.ntro.core.util.ListUtils;
 import ca.ntro.core.validation.Validator;
 
 public class PathPattern extends Path {
-
+	
+	public static final String NAME_WILDCARD = "*";
+	public static final String SUBPATH_WILDCARD = "**";
 
 	public PathPattern() {
 		super();
@@ -24,7 +26,10 @@ public class PathPattern extends Path {
 
 	@Override
 	protected String[] validNameCharacters() {
-		return ArrayUtils.addString(Validator.validIdCharacters, "*");
+		String[] validNameCharacters = ArrayUtils.addString(Validator.validIdCharacters, NAME_WILDCARD);
+		validNameCharacters = ArrayUtils.addString(validNameCharacters, SUBPATH_WILDCARD);
+
+		return validNameCharacters;
 	}
 
 	public static PathPattern fromSingleName(String name) {
