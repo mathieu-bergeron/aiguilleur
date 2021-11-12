@@ -69,14 +69,17 @@ public class PathPattern extends Path {
 		
 	}
 
+	@Override
 	public PathPattern clone() {
 		return subPath(0, nameCount());
 	}
 
+	@Override
 	public PathPattern subPath(int beginIndex) {
 		return subPath(beginIndex, nameCount());
 	}
 
+	@Override
 	public PathPattern subPath(int beginIndex, int endIndexExclusive) {
 		PathPattern path = null;
 		
