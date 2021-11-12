@@ -11,6 +11,7 @@ import ca.ntro.core.graphs.dag.DagNtro;
 import ca.ntro.core.graphs.dag.exceptions.CycleException;
 import ca.ntro.core.initialization.InitializerTest;
 import ca.ntro.core.initialization.Ntro;
+import ca.ntro.core.wrappers.Result;
 
 public class DagTests {
 
@@ -79,6 +80,24 @@ public class DagTests {
 		Ntro.asserter().assertTrue("Should contain", reachableFromA.contains(nodeB));
 		Ntro.asserter().assertTrue("Should contain", reachableFromA.contains(nodeC));
 		Ntro.asserter().assertEquals(2, reachableFromA.size());
+		
+		Result<Integer> nodeCount = dag.foldEachNode(0, (accumulator, n) -> {
+			return accumulator + 1;
+		});
+
+		Ntro.asserter().assertEquals(3, nodeCount.get());
+
+		Result<Integer> edgeCount = dag.foldEachEdge(0, (accumulator, from, e, to) -> {
+			return accumulator + 1;
+		});
+
+		Ntro.asserter().assertEquals(2, edgeCount.get());
+
+		Result<Integer> reachableCount = dag.foldEachReachableNode(nodeA, 0, (accumulator, n) -> {
+			return accumulator + 1;
+		});
+
+		Ntro.asserter().assertEquals(2, reachableCount.get());
 	}
 
 	@Test
@@ -108,5 +127,4 @@ public class DagTests {
 			Ntro.asserter().assertTrue("Should thrown", true);
 		}
 	}
-
 }
