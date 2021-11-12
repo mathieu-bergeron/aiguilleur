@@ -85,19 +85,19 @@ public class DagTests {
 			return accumulator + 1;
 		});
 
-		Ntro.asserter().assertEquals(3, nodeCount.get());
+		Ntro.asserter().assertEquals(3, nodeCount.value());
 
 		Result<Integer> edgeCount = dag.foldEachEdge(0, (accumulator, from, e, to) -> {
 			return accumulator + 1;
 		});
 
-		Ntro.asserter().assertEquals(2, edgeCount.get());
+		Ntro.asserter().assertEquals(2, edgeCount.value());
 
 		Result<Integer> reachableCount = dag.foldEachReachableNode(nodeA, 0, (accumulator, n) -> {
 			return accumulator + 1;
 		});
 
-		Ntro.asserter().assertEquals(2, reachableCount.get());
+		Ntro.asserter().assertEquals(2, reachableCount.value());
 	}
 
 	@Test

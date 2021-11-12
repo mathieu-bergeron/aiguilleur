@@ -2,7 +2,11 @@ package ca.ntro.core.wrappers;
 
 public interface Result<R extends Object> {
 
-	R get();
-
-	void handleException(ExceptionHandler  exceptionHandler);
+	R value();
+	
+	boolean hasValue();
+	
+	boolean hasException();
+	
+	Throwable exception();
 }

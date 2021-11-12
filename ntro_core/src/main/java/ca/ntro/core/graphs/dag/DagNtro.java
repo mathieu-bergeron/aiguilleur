@@ -16,6 +16,7 @@ import ca.ntro.core.graphs.dag.directions.ForwardNtro;
 import ca.ntro.core.graphs.dag.exceptions.CycleException;
 import ca.ntro.core.graphs.dag.exceptions.NodeNotFoundException;
 import ca.ntro.core.identifyers.matchers.PathPattern;
+import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.wrappers.Result;
 import ca.ntro.core.wrappers.ResultNtro;
 
@@ -73,24 +74,27 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 	
 	private void detectCycleFrom(N from) throws CycleException {
 
-		Result<Boolean> cycleDetected = foldEachReachableNode(from, false, (accumulator, n) -> {
-			if(accumulator) {
-				throw new Break();
+		Result<Void> result = foldEachReachableNode(from, null, (accumulator, n) -> {
+			if(from == n) {
+				throw new CycleException();
 			}
 
-			if(n == from) {
-				return true;
-			}
-
-			return accumulator;
-
+			return null;
 		});
-
-		if(cycleDetected.get()) {
-			throw new CycleException();
+		
+		if(result.hasException()) {
+			
+			if(result.exception() instanceof CycleException) {
+				
+				throw (CycleException) result.exception();
+				
+			}else {
+				
+				Ntro.exceptionThrower().throwException(result.exception());
+			}
 		}
 	}
-	
+
 	@Override
 	public N findNode(NodeId nodeId) throws NodeNotFoundException {
 		N node = nodes.get(nodeId.toKey());
@@ -161,7 +165,7 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 		for(N node : nodes.values()) {
 			try {
 				
-				result.registerValue(folder.foldNode(result.get(), node));
+				result.registerValue(folder.foldNode(result.value(), node));
 
 			} catch (Break e) { 
 
@@ -210,7 +214,7 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 					
 					try {
 						
-						result.registerValue(folder.foldEdge(result.get(), from, edge, to));
+						result.registerValue(folder.foldEdge(result.value(), from, edge, to));
 
 					} catch (Break e) { 
 
@@ -311,7 +315,7 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 				
 				try {
 
-					accumulator.registerValue(folder.foldNode(accumulator.get(), to));
+					accumulator.registerValue(folder.foldNode(accumulator.value(), to));
 
 				} catch(Break e) { 
 
