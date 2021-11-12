@@ -176,9 +176,21 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 		return result;
 	}
 
-
 	@Override
 	public void forEachEdge(EdgeVisitor<N, E> visitor) {
+		foldEachEdge(null, (accumulator, from, edge, to) -> {
+
+			visitor.visitEdge(from, edge, to);
+
+			return null;
+		});
+	}
+
+	@Override
+	public <R> Result<R> foldEachEdge(R initialValue, EdgeFolder<N, E, R> folder) {
+
+		ResultNtro<R> result = new ResultNtro<R>(initialValue);
+		
 		for(Map.Entry<String, Map<String, N>> edgesForwardFrom : edgesForward.entrySet()) {
 
 			String fromKey = edgesForwardFrom.getKey();
@@ -196,47 +208,92 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 				if(from != null && edge != null && to != null) {
 					
 					try {
+						
+						result.registerValue(folder.foldEdge(result.get(), from, edge, to));
 
-						visitor.visitEdge(from, edge, to);
+					} catch (Break e) { 
 
-					} catch (Break e) { break; }
+						break; 
+
+					} catch (Throwable e) {
+						
+						result.registerException(e);
+						break;
+
+					}
 				}
 			}
 		}
+
+		return result;
 	}
 
 	@Override
 	public void forEachReachableNode(N from, NodeVisitor<N> visitor) {
-		List<Direction> directions = new ArrayList<>();
-		directions.add(new ForwardNtro());
+		foldEachReachableNode(from, null, (accumulator, n) -> {
 
-		forEachReachableNode(from, directions, visitor);
+			visitor.visitNode(n);
+
+			return null;
+		});
 	}
 
 	@Override
 	public void forEachReachableNode(N from, List<Direction> directions, NodeVisitor<N> visitor) {
-		forEachReachableNode(new HashSet<String>(), from, directions, visitor);
+		foldEachReachableNode(from, directions, null, (accumulator, n) -> {
+
+			visitor.visitNode(n);
+
+			return null;
+		});
 	}
 
-	private void forEachReachableNode(Set<String> visitedNodes, N from, List<Direction> directions, NodeVisitor<N> visitor) {
+	@Override
+	public <R> Result<R> foldEachReachableNode(N from, R initialValue, NodeFolder<N, R> folder) {
+		List<Direction> directions = new ArrayList<>();
+		directions.add(new ForwardNtro());
+
+		return foldEachReachableNode(from, directions, initialValue, folder);
+	}
+
+
+	@Override
+	public <R extends Object> Result<R> foldEachReachableNode(N from, 
+			                                                  List<Direction> directions, 
+			                                                  R initialValue, 
+			                                                  NodeFolder<N, R> folder) {
+		
+		ResultNtro<R> result = new ResultNtro<R>(initialValue);
+
+		foldEachReachableNode(new HashSet<String>(), from, directions, new ResultNtro<R>(initialValue), folder);
+		
+		return result;
+	}
+
+	private <R extends Object> void foldEachReachableNode(Set<String> visitedNodes, 
+			                                              N from, 
+			                                              List<Direction> directions, 
+			                                              ResultNtro<R> accumulator,
+			                                              NodeFolder<N,R> folder) {
 		for(Direction direction : directions) {
 			
 			if(direction instanceof Forward) {
 
-				forEachReachableNodeInDirection(visitedNodes, from, directions, visitor, edgesForward);
+				foldEachReachableNodeInDirection(visitedNodes, from, directions, accumulator, folder, edgesForward);
 				
 			}else if(direction instanceof Backward) {
-
-				forEachReachableNodeInDirection(visitedNodes, from, directions, visitor, edgesBackward);
+				
+				foldEachReachableNodeInDirection(visitedNodes, from, directions, accumulator, folder, edgesBackward);
 			}
 		}
 	}
 
-	private void forEachReachableNodeInDirection(Set<String> visitedNodes, 
-			                                     N from, 
-			                                     List<Direction> directions,
-			                                     NodeVisitor<N> visitor,
-			                                     Map<String, Map<String, N>> edgesMap) {
+	private <R extends Object> void foldEachReachableNodeInDirection(Set<String> visitedNodes, 
+			                                                         N from, 
+			                                                         List<Direction> directions,
+			                                                         ResultNtro<R> accumulator,
+			                                                         NodeFolder<N,R> folder,
+			                                                         Map<String, Map<String, N>> edgesMap) {
 
 		if(visitedNodes.contains(from.id().toKey())) {
 			return;
@@ -250,13 +307,21 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 				
 				try {
 
-					visitor.visitNode(to);
+					accumulator.registerValue(folder.foldNode(accumulator.get(), to));
 
-				} catch(Break e) { break; }
+				} catch(Break e) { 
+
+					break; 
+
+				} catch(Throwable t) {
+					
+					accumulator.registerException(t);
+					break;
+				}
 
 				visitedNodes.add(to.id().toKey());
-				
-				forEachReachableNode(visitedNodes, to, directions, visitor);
+
+				foldEachReachableNode(visitedNodes, to, directions, accumulator, folder);
 			}
 		}
 	}
@@ -303,25 +368,4 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 	public String label() {
 		return id().toString();
 	}
-
-
-	@Override
-	public <R> Result<R> foldEachEdge(R initialValue, EdgeFolder<N, E, R> visitor) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public <R> Result<R> foldEachReachableNode(N from, R initialValue, NodeFolder<N, R> folder) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public <R> Result<R> foldEachReachableNode(N from, List<Direction> directions, R initialValue,
-			NodeFolder<N, E> folder) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

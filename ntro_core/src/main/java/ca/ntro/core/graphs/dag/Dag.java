@@ -30,7 +30,7 @@ public interface Dag<N extends Node, E extends Edge> {
 	void forEachReachableNode(N from, List<Direction> directions, NodeVisitor<N> visitor);
 
 	<R extends Object> Result<R> foldEachReachableNode(N from, R initialValue, NodeFolder<N,R> folder);
-	<R extends Object> Result<R> foldEachReachableNode(N from, List<Direction> directions, R initialValue, NodeFolder<N,E> folder);
+	<R extends Object> Result<R> foldEachReachableNode(N from, List<Direction> directions, R initialValue, NodeFolder<N,R> folder);
 
 	
 	void write(DagWriter<N,E> writer);
