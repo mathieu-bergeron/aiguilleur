@@ -357,7 +357,15 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 			                                                N from, 
 			                                                Map<String, Map<String, N>> edgesMap) {
 		
-		return null;
+		Set<N> nodesToVisit = new HashSet<>();
+
+		Map<String, N> edgesFrom = edgesMap.get(from.id().toKey());
+		
+		if(edgesFrom != null) {
+			nodesToVisit.addAll(edgesFrom.values());
+		}
+		
+		return nodesToVisit;
 	}
 
 	private <R extends Object> void reduceReachableNodesDepthFirst(Set<String> visitedNodes, 
