@@ -317,7 +317,7 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 			return;
 		}
 		
-		List<String> nodesToVisit = new ArrayList<>();
+		List<N> nodesToVisit = new ArrayList<>();
 
 		for(Direction direction : directions) {
 			
@@ -331,9 +331,7 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 			}
 		}
 		
-		for(String nodeKey : nodesToVisit) {
-			
-			N node = nodes.get(nodeKey);
+		for(N node : nodesToVisit) {
 			
 			if(node != null) {
 
@@ -358,11 +356,11 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 		}
 	}
 
-	private <R extends Object> List<String> reachableNodesOneStep(Set<String> visitedNodes, 
+	private <R extends Object> List<N> reachableNodesOneStep(Set<String> visitedNodes, 
 			                                                      N from, 
 			                                                      Map<String, Map<String, N>> edgesMap) {
 		
-		List<String> nodesToVisit = new ArrayList<>();
+		List<N> nodesToVisit = new ArrayList<>();
 
 		Map<String, N> edgesFrom = edgesMap.get(from.id().toKey());
 		
@@ -372,7 +370,7 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 				
 				if(!visitedNodes.contains(n.id().toKey())) {
 
-					nodesToVisit.add(n.id().toKey());
+					nodesToVisit.add(n);
 				}
 			}
 		}
