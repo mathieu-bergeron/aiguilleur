@@ -1,7 +1,9 @@
 package ca.ntro.core.graphs.dag;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -311,6 +313,51 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 			                                                         Direction[] directions, 
 			                                                         ResultNtro<R> accumulator,
 			                                                         NodeReducer<N,R> reducer) {
+		if(accumulator.hasException()) {
+			return;
+		}
+		
+		List<N> nodesToVisit = new ArrayList<>();
+
+		for(Direction direction : directions) {
+			
+			if(direction instanceof Forward) {
+
+				nodesToVisit.addAll(reachableNodesOneStep(visitedNodes, from, edgesForward));
+				
+			}else if(direction instanceof Backward) {
+
+				nodesToVisit.addAll(reachableNodesOneStep(visitedNodes, from, edgesBackward));
+			}
+		}
+		
+		for(N node : nodesToVisit) {
+			
+			try {
+			
+				accumulator.registerValue(reducer.reduce(accumulator.value(), node));
+				
+				reduceReachableNodesBreadthFirst(visitedNodes, from, directions, accumulator, reducer);
+
+			} catch(Break e) {
+				
+				break;
+
+			} catch(Throwable t) {
+				
+				accumulator.registerException(t);
+				break;
+			}
+
+			visitedNodes.add(node.id().toKey());
+		}
+	}
+
+	private <R extends Object> Set<N> reachableNodesOneStep(Set<String> visitedNodes, 
+			                                                N from, 
+			                                                Map<String, Map<String, N>> edgesMap) {
+		
+		return null;
 	}
 
 	private <R extends Object> void reduceReachableNodesDepthFirst(Set<String> visitedNodes, 
