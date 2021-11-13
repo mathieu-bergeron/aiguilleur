@@ -5,13 +5,21 @@ import java.util.List;
 
 import ca.ntro.core.exceptions.InvalidCharacterException;
 import ca.ntro.core.initialization.Ntro;
+import ca.ntro.core.json.JsonSerializator;
 import ca.ntro.core.util.ListUtils;
 import ca.ntro.core.util.Splitter;
 import ca.ntro.core.validation.Validator;
 
-public class PathNtro implements Path {
+public class PathNtro implements Path, JsonSerializator {
 	
-
+	public static PathNtro fromJsonString() {
+		return null;
+	}
+	
+	@Override
+	public String toJsonString() {
+		return null;
+	}
 		
 	private List<String> names = new ArrayList<>();
 

@@ -1,6 +1,8 @@
 package ca.ntro.core.identifyers;
 
-public interface Path {
+import ca.ntro.core.json.JsonSerializable;
+
+public interface Path extends JsonSerializable {
 
 	public static final String FILENAME_SEPARATOR = "¤";
 	public static final String PATH_SEPARATOR = "/";
