@@ -337,7 +337,7 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 			
 				accumulator.registerValue(reducer.reduce(accumulator.value(), node));
 				
-				reduceReachableNodesBreadthFirst(visitedNodes, from, directions, accumulator, reducer);
+				reduceReachableNodesBreadthFirst(visitedNodes, node, directions, accumulator, reducer);
 
 			} catch(Break e) {
 				
@@ -362,7 +362,14 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 		Map<String, N> edgesFrom = edgesMap.get(from.id().toKey());
 		
 		if(edgesFrom != null) {
-			nodesToVisit.addAll(edgesFrom.values());
+			
+			for(N n : edgesFrom.values()) {
+				
+				if(!visitedNodes.contains(n.id().toKey())) {
+
+					nodesToVisit.add(n);
+				}
+			}
 		}
 		
 		return nodesToVisit;
