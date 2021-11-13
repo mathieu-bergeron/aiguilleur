@@ -74,7 +74,7 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 	
 	private void detectCycleFrom(N from) throws CycleException {
 
-		Result<Void> result = foldEachReachableNode(from, null, (accumulator, n) -> {
+		Result<Void> result = reduceReachableNodes(from, null, (accumulator, n) -> {
 			if(from == n) {
 				throw new CycleException();
 			}
@@ -158,7 +158,7 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 	}
 
 	@Override
-	public <R> Result<R> foldEachNode(R initialValue, NodeFolder<N, R> folder) {
+	public <R> Result<R> foldEachNode(R initialValue, NodeReducer<N, R> folder) {
 		
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 		
@@ -235,7 +235,7 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 
 	@Override
 	public void forEachReachableNode(N from, NodeVisitor<N> visitor) {
-		foldEachReachableNode(from, null, (accumulator, n) -> {
+		reduceReachableNodes(from, null, (accumulator, n) -> {
 
 			visitor.visitNode(n);
 
@@ -244,8 +244,8 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 	}
 
 	@Override
-	public void forEachReachableNode(N from, List<Direction> directions, NodeVisitor<N> visitor) {
-		foldEachReachableNode(from, directions, null, (accumulator, n) -> {
+	public void forEachReachableNode(N from, Direction[] directions, NodeVisitor<N> visitor) {
+		reduceReachableNodes(from, directions, null, (accumulator, n) -> {
 
 			visitor.visitNode(n);
 
@@ -254,19 +254,38 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 	}
 
 	@Override
-	public <R> Result<R> foldEachReachableNode(N from, R initialValue, NodeFolder<N, R> folder) {
-		List<Direction> directions = new ArrayList<>();
-		directions.add(new ForwardNtro());
+	public <R> Result<R> reduceReachableNodes(N from, R initialValue, NodeReducer<N, R> folder) {
 
-		return foldEachReachableNode(from, directions, initialValue, folder);
+		return reduceReachableNodes(from, new Direction[] {new ForwardNtro()}, initialValue, folder);
 	}
 
-
 	@Override
-	public <R extends Object> Result<R> foldEachReachableNode(N from, 
-			                                                  List<Direction> directions, 
+	public <R extends Object> Result<R> reduceReachableNodes(N from, 
+			                                                  Direction[] directions, 
+			                                                  SearchStrategy searchStrategy,
 			                                                  R initialValue, 
-			                                                  NodeFolder<N, R> folder) {
+			                                                  NodeReducer<N, R> folder) {
+		
+		ResultNtro<R> result = new ResultNtro<R>(initialValue);
+
+		foldEachReachableNode(new HashSet<String>(), from, directions, result, folder);
+		
+		return result;
+	}
+
+	@Override
+	public void forEachReachableNode(N from, 
+			                         Direction[] directions, 
+			                         SearchStrategy searchStrategy, 
+			                         NodeVisitor<N> visitor) {
+		
+	}
+
+	@Override
+	public <R extends Object> Result<R> reduceReachableNodes(N from, 
+			                                                  Direction[] directions, 
+			                                                  R initialValue, 
+			                                                  NodeReducer<N, R> folder) {
 		
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 
@@ -277,9 +296,9 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 
 	private <R extends Object> void foldEachReachableNode(Set<String> visitedNodes, 
 			                                              N from, 
-			                                              List<Direction> directions, 
+			                                              Direction[] directions, 
 			                                              ResultNtro<R> accumulator,
-			                                              NodeFolder<N,R> folder) {
+			                                              NodeReducer<N,R> folder) {
 		if(accumulator.hasException()) {
 			return;
 		}
@@ -299,9 +318,9 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 
 	private <R extends Object> void foldEachReachableNodeInDirection(Set<String> visitedNodes, 
 			                                                         N from, 
-			                                                         List<Direction> directions,
+			                                                         Direction[] directions,
 			                                                         ResultNtro<R> accumulator,
-			                                                         NodeFolder<N,R> folder,
+			                                                         NodeReducer<N,R> folder,
 			                                                         Map<String, Map<String, N>> edgesMap) {
 		if(accumulator.hasException()) {
 			return;
@@ -378,4 +397,5 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 	public String label() {
 		return id().toString();
 	}
+
 }

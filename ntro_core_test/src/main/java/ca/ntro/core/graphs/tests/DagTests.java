@@ -93,7 +93,7 @@ public class DagTests {
 
 		Ntro.asserter().assertEquals(2, edgeCount.value());
 
-		Result<Integer> reachableCount = dag.foldEachReachableNode(nodeA, 0, (accumulator, n) -> {
+		Result<Integer> reachableCount = dag.reduceReachableNodes(nodeA, 0, (accumulator, n) -> {
 			return accumulator + 1;
 		});
 
