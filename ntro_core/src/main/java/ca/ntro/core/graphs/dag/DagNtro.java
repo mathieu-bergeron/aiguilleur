@@ -284,7 +284,6 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 			return;
 		}
 		
-		
 		for(Direction direction : directions) {
 			
 			if(direction instanceof Forward) {
@@ -308,34 +307,31 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 			return;
 		}
 
-		if(visitedNodes.contains(from.id().toKey())) {
-			return;
-		}
-
-		visitedNodes.add(from.id().toKey());
-		
-
 		Map<String, N> edgesFrom = edgesMap.get(from.id().toKey());
 		
 		if(edgesFrom != null) {
 
 			for(N to : edgesFrom.values()) {
 				
-				try {
+				if(!visitedNodes.contains(to.id().toKey())) {
 
-					accumulator.registerValue(folder.foldNode(accumulator.value(), to));
+					visitedNodes.add(to.id().toKey());
 
-				} catch(Break e) { 
+					try {
 
-					break; 
+						accumulator.registerValue(folder.foldNode(accumulator.value(), to));
+						foldEachReachableNode(visitedNodes, to, directions, accumulator, folder);
 
-				} catch(Throwable t) {
-					
-					accumulator.registerException(t);
-					break;
+					} catch(Break e) { 
+
+						break; 
+
+					} catch(Throwable t) {
+						
+						accumulator.registerException(t);
+						break;
+					}
 				}
-
-				foldEachReachableNode(visitedNodes, to, directions, accumulator, folder);
 			}
 		}
 	}
