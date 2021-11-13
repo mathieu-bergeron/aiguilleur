@@ -358,11 +358,11 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 		}
 	}
 
-	private <R extends Object> List<String> reachableNodesOneStep(Set<String> visitedNodes, 
+	private <R extends Object> Set<String> reachableNodesOneStep(Set<String> visitedNodes, 
 			                                                      N from, 
 			                                                      Map<String, Map<String, N>> edgesMap) {
 		
-		List<String> nodesToVisit = new ArrayList<>();
+		Set<String> nodesToVisit = new HashSet<>();
 
 		Map<String, N> edgesFrom = edgesMap.get(from.id().toKey());
 		
