@@ -266,7 +266,7 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 		
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 
-		reduceReachableNodes(new HashSet<String>(), from, directions, result, reducer);
+		reduceReachableNodesDepthFirst(new HashSet<String>(), from, directions, result, reducer);
 		
 		return result;
 	}
@@ -281,22 +281,22 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 
 	@Override
 	public <R extends Object> Result<R> reduceReachableNodes(N from, 
-			                                                  Direction[] directions, 
-			                                                  R initialValue, 
-			                                                  NodeReducer<N, R> reducer) {
+			                                                 Direction[] directions, 
+			                                                 R initialValue, 
+			                                                 NodeReducer<N, R> reducer) {
 		
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 
-		reduceReachableNodes(new HashSet<String>(), from, directions, result, reducer);
+		reduceReachableNodesDepthFirst(new HashSet<String>(), from, directions, result, reducer);
 		
 		return result;
 	}
 
-	private <R extends Object> void reduceReachableNodes(Set<String> visitedNodes, 
-			                                              N from, 
-			                                              Direction[] directions, 
-			                                              ResultNtro<R> accumulator,
-			                                              NodeReducer<N,R> reducer) {
+	private <R extends Object> void reduceReachableNodesDepthFirst(Set<String> visitedNodes, 
+			                                                       N from, 
+			                                                       Direction[] directions, 
+			                                                       ResultNtro<R> accumulator,
+			                                                       NodeReducer<N,R> reducer) {
 		if(accumulator.hasException()) {
 			return;
 		}
@@ -305,16 +305,16 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 			
 			if(direction instanceof Forward) {
 
-				reduceNodesInDirection(visitedNodes, from, directions, accumulator, reducer, edgesForward);
+				reduceNodesInDirectionDepthFirst(visitedNodes, from, directions, accumulator, reducer, edgesForward);
 				
 			}else if(direction instanceof Backward) {
 				
-				reduceNodesInDirection(visitedNodes, from, directions, accumulator, reducer, edgesBackward);
+				reduceNodesInDirectionDepthFirst(visitedNodes, from, directions, accumulator, reducer, edgesBackward);
 			}
 		}
 	}
 
-	private <R extends Object> void reduceNodesInDirection(Set<String> visitedNodes, 
+	private <R extends Object> void reduceNodesInDirectionDepthFirst(Set<String> visitedNodes, 
 			                                                         N from, 
 			                                                         Direction[] directions,
 			                                                         ResultNtro<R> accumulator,
@@ -338,7 +338,7 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 
 						accumulator.registerValue(reducer.reduce(accumulator.value(), to));
 
-						reduceReachableNodes(visitedNodes, to, directions, accumulator, reducer);
+						reduceReachableNodesDepthFirst(visitedNodes, to, directions, accumulator, reducer);
 
 					} catch(Break e) { 
 
