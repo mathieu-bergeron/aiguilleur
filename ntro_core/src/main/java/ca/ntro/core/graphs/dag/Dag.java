@@ -22,8 +22,8 @@ public interface Dag<N extends Node, E extends Edge> {
 	void forEachNode(NodeVisitor<N> visitor);
 	void forEachEdge(EdgeVisitor<N,E> visitor);
 
-	<R extends Object> Result<R> foldEachNode(R initialValue, NodeReducer<N,R> visitor);
-	<R extends Object> Result<R> foldEachEdge(R initialValue, EdgeFolder<N,E,R> visitor);
+	<R extends Object> Result<R> reduceNodes(R initialValue, NodeReducer<N,R> visitor);
+	<R extends Object> Result<R> recudeEdges(R initialValue, EdgeReducer<N,E,R> visitor);
 	
 	void forEachReachableNode(N from, NodeVisitor<N> visitor);
 	void forEachReachableNode(N from, Direction[] directions, NodeVisitor<N> visitor);

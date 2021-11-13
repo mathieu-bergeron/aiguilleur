@@ -81,13 +81,13 @@ public class DagTests {
 		Ntro.asserter().assertTrue("Should contain", reachableFromA.contains(nodeC));
 		Ntro.asserter().assertEquals(2, reachableFromA.size());
 		
-		Result<Integer> nodeCount = dag.foldEachNode(0, (accumulator, n) -> {
+		Result<Integer> nodeCount = dag.reduceNodes(0, (accumulator, n) -> {
 			return accumulator + 1;
 		});
 
 		Ntro.asserter().assertEquals(3, nodeCount.value());
 
-		Result<Integer> edgeCount = dag.foldEachEdge(0, (accumulator, from, e, to) -> {
+		Result<Integer> edgeCount = dag.recudeEdges(0, (accumulator, from, e, to) -> {
 			return accumulator + 1;
 		});
 
