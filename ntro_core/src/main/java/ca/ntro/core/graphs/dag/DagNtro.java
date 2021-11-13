@@ -317,7 +317,7 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 			return;
 		}
 		
-		List<N> nodesToVisit = new ArrayList<>();
+		List<String> nodesToVisit = new ArrayList<>();
 
 		for(Direction direction : directions) {
 			
@@ -331,33 +331,38 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 			}
 		}
 		
-		for(N node : nodesToVisit) {
+		for(String nodeKey : nodesToVisit) {
 			
-			try {
+			N node = nodes.get(nodeKey);
 			
-				accumulator.registerValue(reducer.reduce(accumulator.value(), node));
-				
-				reduceReachableNodesBreadthFirst(visitedNodes, node, directions, accumulator, reducer);
+			if(node != null) {
 
-			} catch(Break e) {
+				try {
 				
-				break;
+					accumulator.registerValue(reducer.reduce(accumulator.value(), node));
+					
+					reduceReachableNodesBreadthFirst(visitedNodes, node, directions, accumulator, reducer);
 
-			} catch(Throwable t) {
-				
-				accumulator.registerException(t);
-				break;
+				} catch(Break e) {
+					
+					break;
+
+				} catch(Throwable t) {
+					
+					accumulator.registerException(t);
+					break;
+				}
 			}
 
 			visitedNodes.add(node.id().toKey());
 		}
 	}
 
-	private <R extends Object> Set<N> reachableNodesOneStep(Set<String> visitedNodes, 
-			                                                N from, 
-			                                                Map<String, Map<String, N>> edgesMap) {
+	private <R extends Object> Set<String> reachableNodesOneStep(Set<String> visitedNodes, 
+			                                                     N from, 
+			                                                     Map<String, Map<String, N>> edgesMap) {
 		
-		Set<N> nodesToVisit = new HashSet<>();
+		Set<String> nodesToVisit = new HashSet<>();
 
 		Map<String, N> edgesFrom = edgesMap.get(from.id().toKey());
 		
@@ -367,7 +372,7 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 				
 				if(!visitedNodes.contains(n.id().toKey())) {
 
-					nodesToVisit.add(n);
+					nodesToVisit.add(n.id().toKey());
 				}
 			}
 		}
