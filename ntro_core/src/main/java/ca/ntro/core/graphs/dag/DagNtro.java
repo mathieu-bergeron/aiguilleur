@@ -233,29 +233,56 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 
 	@Override
 	public void forEachReachableNode(N from, NodeVisitor<N> visitor) {
-		reduceReachableNodes(from, null, (accumulator, n) -> {
-
-			visitor.visitNode(n);
-
-			return null;
-		});
+		forEachReachableNode(from, new Direction[] {new ForwardNtro()}, visitor);
 	}
 
 	@Override
 	public void forEachReachableNode(N from, Direction[] directions, NodeVisitor<N> visitor) {
-		reduceReachableNodes(from, directions, null, (accumulator, n) -> {
+		forEachReachableNode(from, directions, SearchStrategy.BREADTH_FIRST_SEARCH, visitor);
+	}
+
+	@Override
+	public void forEachReachableNode(N from, 
+			                         Direction[] directions, 
+			                         SearchStrategy searchStrategy, 
+			                         NodeVisitor<N> visitor) {
+
+		reduceReachableNodes(from, 
+				             directions, 
+				             searchStrategy,
+				             null, 
+				             (accumulator, n) -> {
 
 			visitor.visitNode(n);
 
 			return null;
 		});
+
 	}
 
 	@Override
 	public <R> Result<R> reduceReachableNodes(N from, R initialValue, NodeReducer<N, R> reducer) {
 
-		return reduceReachableNodes(from, new Direction[] {new ForwardNtro()}, initialValue, reducer);
+		return reduceReachableNodes(from, 
+				                    new Direction[] {new ForwardNtro()}, 
+				                    SearchStrategy.DEPTH_FIRST_SEARCH, 
+				                    initialValue, 
+				                    reducer);
 	}
+
+	@Override
+	public <R extends Object> Result<R> reduceReachableNodes(N from, 
+			                                                 Direction[] directions, 
+			                                                 R initialValue, 
+			                                                 NodeReducer<N, R> reducer) {
+
+		return reduceReachableNodes(from, 
+								    directions,
+				                    SearchStrategy.BREADTH_FIRST_SEARCH, 
+				                    initialValue, 
+				                    reducer);
+	}
+
 
 	@Override
 	public <R extends Object> Result<R> reduceReachableNodes(N from, 
@@ -265,31 +292,25 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 			                                                 NodeReducer<N, R> reducer) {
 		
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
+		
+		if(searchStrategy == SearchStrategy.BREADTH_FIRST_SEARCH) {
 
-		reduceReachableNodesDepthFirst(new HashSet<String>(), from, directions, result, reducer);
+			reduceReachableNodesBreadthFirst(new HashSet<String>(), from, directions, result, reducer);
+			
+		}else {
+
+			reduceReachableNodesDepthFirst(new HashSet<String>(), from, directions, result, reducer);
+		}
 		
 		return result;
 	}
 
-	@Override
-	public void forEachReachableNode(N from, 
-			                         Direction[] directions, 
-			                         SearchStrategy searchStrategy, 
-			                         NodeVisitor<N> visitor) {
-		
-	}
 
-	@Override
-	public <R extends Object> Result<R> reduceReachableNodes(N from, 
-			                                                 Direction[] directions, 
-			                                                 R initialValue, 
-			                                                 NodeReducer<N, R> reducer) {
-		
-		ResultNtro<R> result = new ResultNtro<R>(initialValue);
-
-		reduceReachableNodesDepthFirst(new HashSet<String>(), from, directions, result, reducer);
-		
-		return result;
+	private <R extends Object> void reduceReachableNodesBreadthFirst(Set<String> visitedNodes, 
+			                                                         N from, 
+			                                                         Direction[] directions, 
+			                                                         ResultNtro<R> accumulator,
+			                                                         NodeReducer<N,R> reducer) {
 	}
 
 	private <R extends Object> void reduceReachableNodesDepthFirst(Set<String> visitedNodes, 
