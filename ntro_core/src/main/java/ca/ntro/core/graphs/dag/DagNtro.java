@@ -320,6 +320,7 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 					try {
 
 						accumulator.registerValue(folder.foldNode(accumulator.value(), to));
+
 						foldEachReachableNode(visitedNodes, to, directions, accumulator, folder);
 
 					} catch(Break e) { 
