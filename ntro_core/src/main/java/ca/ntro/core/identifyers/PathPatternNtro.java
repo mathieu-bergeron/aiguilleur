@@ -6,7 +6,7 @@ import ca.ntro.core.util.ArrayUtils;
 import ca.ntro.core.util.ListUtils;
 import ca.ntro.core.validation.Validator;
 
-public class PathPatternNtro extends PathNtro implements PathPattern {
+public class PathPatternNtro extends PathGenericNtro implements PathPattern {
 	
 
 	public PathPatternNtro() {

@@ -73,7 +73,7 @@ public class StorageId extends EntityId {
 	
 	@Override
 	public Path toFilePath() {
-		PathNtro filePath = (PathNtro) getCategoryPath().clone();
+		PathGenericNtro filePath = (PathGenericNtro) getCategoryPath().clone();
 		filePath.addValidName(getEntityPath().toFilename());
 
 		return filePath;

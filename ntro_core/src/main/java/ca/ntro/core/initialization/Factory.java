@@ -11,7 +11,8 @@ public class Factory {
 
 		} catch (InstantiationException | IllegalAccessException e) {
 
-			e.printStackTrace();
+			Ntro.exceptionThrower().throwException(e);
+
 		}
 		
 		return null;
