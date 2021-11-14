@@ -6,6 +6,7 @@ import java.util.List;
 import ca.ntro.core.exceptions.InvalidCharacterException;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.json.JsonSerializer;
+import ca.ntro.core.json.JsonString;
 import ca.ntro.core.util.ListUtils;
 import ca.ntro.core.util.Splitter;
 import ca.ntro.core.validation.Validator;
@@ -14,18 +15,12 @@ public abstract class PathGenericNtro<I extends PathGeneric<I>, IMPL extends Pat
 
 	@Override
 	public void fromJsonString(String jsonString) {
-		String rawPath = jsonString.substring(1, jsonString.length());
-		parseValidPath(rawPath, Path.FILENAME_SEPARATOR);
+		parseValidPath(JsonString.toRawString(jsonString), Path.FILENAME_SEPARATOR);
 	}
 
 	@Override
 	public String toJsonString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("\"");
-		builder.append(toRawPath());
-		builder.append("\"");
-
-		return builder.toString();
+		return JsonString.toJsonString(toRawPath());
 	}
 
 	private List<String> names = new ArrayList<>();
