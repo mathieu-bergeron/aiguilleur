@@ -6,7 +6,11 @@ public interface Path extends PathGeneric<Path> {
     public static final String PATH_SEPARATOR = "/";
     public static final String HTML_ID_SEPARATOR = "-";
     public static final String CLASSNAME_SEPARATOR = ".";
-    
+
+	public static Path emptyPath() {
+    	return new PathNtro();
+	}
+
     public static Path fromRawPath(String rawPath) {
     	PathNtro path = new PathNtro();
     	
@@ -15,4 +19,27 @@ public interface Path extends PathGeneric<Path> {
     	return path;
     }
 
+	public static Path fromClassname(String rawClassname) {
+    	PathNtro path = new PathNtro();
+    	
+    	path.fromClassname(rawClassname);
+    	
+    	return path;
+	}
+
+	public static Path fromKey(String rawKey) {
+    	PathNtro path = new PathNtro();
+    	
+    	path.fromKey(rawKey);
+    	
+    	return path;
+	}
+
+	public static Path fromFilename(String rawFilename) {
+    	PathNtro path = new PathNtro();
+    	
+    	path.fromFilename(rawFilename);
+    	
+    	return path;
+	}
 }

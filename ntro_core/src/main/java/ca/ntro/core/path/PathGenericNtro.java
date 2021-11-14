@@ -212,6 +212,10 @@ public abstract class PathGenericNtro<I extends PathGeneric<I>, IMPL extends Pat
 		return toString(Path.FILENAME_SEPARATOR, false);
 	}
 
+	protected void fromFilename(String rawFilename) {
+		parsePath(rawFilename, Path.FILENAME_SEPARATOR);
+	}
+
 	@Override
 	public String toKey() {
 		return toFilename();
