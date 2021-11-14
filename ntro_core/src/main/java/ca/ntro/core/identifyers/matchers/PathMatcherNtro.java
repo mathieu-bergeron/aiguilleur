@@ -1,6 +1,7 @@
 package ca.ntro.core.identifyers.matchers;
 
 import ca.ntro.core.identifyers.Path;
+import ca.ntro.core.identifyers.PathPattern;
 
 public class PathMatcherNtro implements PathMatcher {
 	

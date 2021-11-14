@@ -2,6 +2,7 @@ package ca.ntro.core.identifyers.matchers;
 
 import ca.ntro.core.identifyers.Id;
 import ca.ntro.core.identifyers.Path;
+import ca.ntro.core.identifyers.PathPattern;
 
 public class IdMatcherNtro implements IdMatcher {
 	
