@@ -196,6 +196,10 @@ public abstract class PathGenericNtro<I extends PathGeneric<I>, IMPL extends Pat
 		return toString(Path.PATH_SEPARATOR, true);
 	}
 
+	protected void fromRawPath(String rawPath) {
+		parsePath(rawPath, Path.PATH_SEPARATOR);
+	}
+
 	@Override
 	public String toHtmlId() {
 		String htmlId = toString(Path.HTML_ID_SEPARATOR, false);
@@ -284,4 +288,5 @@ public abstract class PathGenericNtro<I extends PathGeneric<I>, IMPL extends Pat
 	public String toString() {
 		return toRawPath();
 	}
+
 }

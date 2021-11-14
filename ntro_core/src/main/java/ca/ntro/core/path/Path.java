@@ -10,7 +10,7 @@ public interface Path extends PathGeneric<Path> {
     public static Path fromRawPath(String rawPath) {
     	PathNtro path = new PathNtro();
     	
-    	path.parsePath(rawPath, Path.PATH_SEPARATOR);
+    	path.fromRawPath(rawPath);
     	
     	return path;
     }

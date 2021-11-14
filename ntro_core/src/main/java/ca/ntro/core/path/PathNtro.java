@@ -15,4 +15,5 @@ public class PathNtro extends PathGenericNtro<Path,PathNtro> implements Path {
 		return Validator.validIdCharacters;
 	}
 
+
 }
