@@ -1,6 +1,6 @@
 package ca.ntro.core.json;
 
-public interface JsonSerializator {
+public interface JsonSerializer {
 	
 	String toJsonString();
 
