@@ -14,11 +14,31 @@ public interface Path extends JsonSerializable {
 	int nameCount();
 	String name(int index);
 
+	void append(Path otherPath);
+	boolean isPrefixOf(Path otherPath);
+	boolean startsWith(Path path);
+	boolean startsWith(String rawPath);
+	boolean isRootPath();
+	String lastName();
+
+	Path clone();
+	Path subPath(int beginIndex);
+	Path subPath(int beginIndex, int endIndexExclusive);
+
+	String toRawPath();
+	String toHtmlId();
+	String toFilename();
+	String toKey();
+	Path removePrefix(String rawPrefix);
+	Path removePrefix(Path prefix);
+	String toClassname();
 	
-	
+	public static Path emptyPath() {
+		return new PathNtro();
+	}
 
 	public static Path fromSingleName(String name) {
-		Path path = new PathNtro();
+		PathNtro path = new PathNtro();
 
 		path.addName(name);
 
@@ -26,7 +46,7 @@ public interface Path extends JsonSerializable {
 	}
 
 	public static Path fromRawPath(String rawPath) {
-		Path path = new PathNtro();
+		PathNtro path = new PathNtro();
 		
 		path.parsePath(rawPath, PATH_SEPARATOR);
 
@@ -34,7 +54,7 @@ public interface Path extends JsonSerializable {
 	}
 
 	public static Path fromKey(String key) {
-		Path path = new PathNtro();
+		PathNtro path = new PathNtro();
 		
 		path.parsePath(key, FILENAME_SEPARATOR);
 
@@ -42,7 +62,7 @@ public interface Path extends JsonSerializable {
 	}
 
 	public static Path fromFilename(String filename) {
-		Path path = new PathNtro();
+		PathNtro path = new PathNtro();
 		
 		path.parsePath(filename, FILENAME_SEPARATOR);
 
@@ -50,11 +70,12 @@ public interface Path extends JsonSerializable {
 	}
 
 	public static Path fromClassname(String classname) {
-		Path path = new PathNtro();
+		PathNtro path = new PathNtro();
 		
 		path.parsePath(classname, CLASSNAME_SEPARATOR);
 
 		return path;
 	}
+
 
 }

@@ -3,11 +3,12 @@ package ca.ntro.core.identifyers.matchers;
 import java.util.List;
 
 import ca.ntro.core.identifyers.Path;
+import ca.ntro.core.identifyers.PathNtro;
 import ca.ntro.core.util.ArrayUtils;
 import ca.ntro.core.util.ListUtils;
 import ca.ntro.core.validation.Validator;
 
-public class PathPattern extends Path {
+public class PathPattern extends PathNtro {
 	
 	public static final String NAME_WILDCARD = "*";
 	public static final String SUBPATH_WILDCARD = "**";
@@ -43,7 +44,7 @@ public class PathPattern extends Path {
 	public static PathPattern fromRawPath(String rawPath) {
 		PathPattern path = new PathPattern();
 		
-		path.parsePath(rawPath, PATH_SEPARATOR);
+		path.parsePath(rawPath, Path.PATH_SEPARATOR);
 
 		return path;
 	}
@@ -51,7 +52,7 @@ public class PathPattern extends Path {
 	public static PathPattern fromKey(String key) {
 		PathPattern path = new PathPattern();
 		
-		path.parsePath(key, FILENAME_SEPARATOR);
+		path.parsePath(key, Path.FILENAME_SEPARATOR);
 
 		return path;
 	}
@@ -59,7 +60,7 @@ public class PathPattern extends Path {
 	public static PathPattern fromFilename(String filename) {
 		PathPattern path = new PathPattern();
 		
-		path.parsePath(filename, FILENAME_SEPARATOR);
+		path.parsePath(filename, Path.FILENAME_SEPARATOR);
 
 		return path;
 	}
@@ -67,7 +68,7 @@ public class PathPattern extends Path {
 	public static PathPattern fromClassname(String classname) {
 		PathPattern path = new PathPattern();
 		
-		path.parsePath(classname, CLASSNAME_SEPARATOR);
+		path.parsePath(classname, Path.CLASSNAME_SEPARATOR);
 
 		return path;
 		

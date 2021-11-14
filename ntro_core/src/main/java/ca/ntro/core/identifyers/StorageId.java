@@ -2,7 +2,7 @@ package ca.ntro.core.identifyers;
 
 public class StorageId extends EntityId {
 	
-	private Path categoryPath = new Path();
+	private Path categoryPath = Path.emptyPath();
 	
 	protected void setCategoryPath(Path categoryPath) {
 		this.categoryPath = categoryPath;
@@ -65,7 +65,7 @@ public class StorageId extends EntityId {
 
 	@Override
 	public String toHtmlId() {
-		Path htmlPath = new Path(getCategoryPath());
+		Path htmlPath = getCategoryPath().clone();
 		htmlPath.append(getEntityPath());
 		
 		return htmlPath.toHtmlId();
@@ -73,7 +73,7 @@ public class StorageId extends EntityId {
 	
 	@Override
 	public Path toFilePath() {
-		Path filePath = new Path(getCategoryPath());
+		PathNtro filePath = (PathNtro) getCategoryPath().clone();
 		filePath.addValidName(getEntityPath().toFilename());
 
 		return filePath;

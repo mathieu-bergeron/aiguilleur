@@ -13,7 +13,7 @@ public class HierarchicalNodeId extends NodeId {
 		
 		Path updatedPath = parentId.parentPath();
 		if(updatedPath == null) {
-			updatedPath = new Path();
+			updatedPath = Path.emptyPath();
 		}
 
 		updatedPath.append(leafId());

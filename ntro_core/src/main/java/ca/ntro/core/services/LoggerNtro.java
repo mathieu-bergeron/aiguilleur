@@ -8,8 +8,8 @@ import ca.ntro.core.values.ServiceMap;
 
 public class LoggerNtro extends Logger implements ServiceDependant {
 
-	private Path traceFilePath = new Path();                        // TODO: actual file path
-	private Path exceptionFilePath = new Path();                    // TODO: actual file path
+	private Path traceFilePath = Path.emptyPath();                        // TODO: actual file path
+	private Path exceptionFilePath = Path.emptyPath();                    // TODO: actual file path
 
 	private FileOpener fileOpener = new FileOpenerNull();
 

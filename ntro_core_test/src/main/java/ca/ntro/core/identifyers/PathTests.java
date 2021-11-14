@@ -21,7 +21,7 @@ public class PathTests {
 	@Test
 	public void testPathCreation01(){
 		
-		Path rootPath01 = new Path();
+		Path rootPath01 = Path.emptyPath();
 		Path rootPath02 = Path.fromRawPath("");
 		Path rootPath03 = Path.fromRawPath("/");
 		Path rootPath04 = Path.fromClassname("");
@@ -39,9 +39,9 @@ public class PathTests {
 	@Test
 	public void testPathCreation02(){
 		
-		Path path01 = new Path();
-		path01.addValidName("nom01");
-		path01.addValidName("nom02");
+		Path path01 = Path.emptyPath();
+		path01.addName("nom01");
+		path01.addName("nom02");
 
 		Path path02 = Path.fromRawPath("nom01/nom02");
 		Path path03 = Path.fromRawPath("/nom01/nom02");

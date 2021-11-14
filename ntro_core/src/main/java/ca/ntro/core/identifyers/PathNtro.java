@@ -31,7 +31,7 @@ public class PathNtro implements Path, JsonSerializator {
 		this.names = names;
 	}
 	
-	public PathNtro() {
+	protected PathNtro() {
 	}
 
 	protected PathNtro(List<String> names) {
@@ -42,6 +42,7 @@ public class PathNtro implements Path, JsonSerializator {
 		append(otherPath);
 	}
 
+	@Override
 	public void append(Path otherPath) {
 		for(int i = 0; i < otherPath.nameCount(); i++) {
 			addValidName(otherPath.name(i));
@@ -57,10 +58,12 @@ public class PathNtro implements Path, JsonSerializator {
 		}
 	}
 
+	@Override
 	public boolean startsWith(String rawPath) {
 		return startsWith(Path.fromRawPath(rawPath));
 	}
 	
+	@Override
 	public boolean startsWith(Path path) {
 		boolean startsWith = true;
 		
@@ -81,24 +84,27 @@ public class PathNtro implements Path, JsonSerializator {
 		return startsWith;
 	}
 	
+	@Override
 	public Path clone() {
 		return subPath(0, nameCount());
 	}
-
+	
+	@Override
 	public Path subPath(int beginIndex) {
 		return subPath(beginIndex, nameCount());
 	}
 
+	@Override
 	public Path subPath(int beginIndex, int endIndexExclusive) {
 		Path path = null;
 		
 		if(ifValidIndices(beginIndex, endIndexExclusive-1)) {
 
-			path = new Path(ListUtils.subList(getNames(), beginIndex, endIndexExclusive));
+			path = new PathNtro(ListUtils.subList(getNames(), beginIndex, endIndexExclusive));
 
 		}else {
 
-			path = new Path();
+			path = new PathNtro();
 
 		}
 		
@@ -136,32 +142,39 @@ public class PathNtro implements Path, JsonSerializator {
 		return toRawPath();
 	}
 
+	@Override
 	public String toRawPath() {
 		return toString(PATH_SEPARATOR, true);
 	}
 
+	@Override
 	public String toFilename() {
 		return toString(FILENAME_SEPARATOR, false);
 	}
 
+	@Override
 	public String toClassname() {
 		return toString(CLASSNAME_SEPARATOR, false);
 	}
 
+	@Override
 	public String toHtmlId() {
 		String htmlId = toString(HTML_ID_SEPARATOR, false);
 		htmlId = htmlId.replace(".", HTML_ID_SEPARATOR);
 		return htmlId;
 	}
 
+	@Override
 	public String toKey() {
 		return toFilename();
 	}
 
+	@Override
 	public Path removePrefix(String rawPrefix) {
 		return removePrefix(Path.fromRawPath(rawPrefix));
 	}
 
+	@Override
 	public Path removePrefix(Path prefix) {
 		Path remainder = null;
 		
@@ -198,6 +211,7 @@ public class PathNtro implements Path, JsonSerializator {
 		return names.size();
 	}
 
+	@Override
 	public boolean isPrefixOf(Path path) {
 		return path.startsWith(this);
 	}
@@ -211,7 +225,7 @@ public class PathNtro implements Path, JsonSerializator {
 
 		}else if(nameCount() == 1) {
 
-			parentPath = new Path();
+			parentPath = new PathNtro();
 		}
 		
 		return parentPath;
@@ -240,6 +254,7 @@ public class PathNtro implements Path, JsonSerializator {
 		getNames().add(name);
 	}
 
+	@Override
 	public String lastName() {
 		return name(nameCount()-1);
 	}
@@ -265,6 +280,7 @@ public class PathNtro implements Path, JsonSerializator {
 		return false;
 	}
 
+	@Override
 	public boolean isRootPath() {
 		return nameCount() == 0;
 	}
