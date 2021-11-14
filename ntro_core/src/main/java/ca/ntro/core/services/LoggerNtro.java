@@ -1,8 +1,8 @@
 package ca.ntro.core.services;
 
 import ca.ntro.core.files.LocalTextFile;
-import ca.ntro.core.identifyers.Path;
 import ca.ntro.core.initialization.ServiceRequester;
+import ca.ntro.core.path.Path;
 import ca.ntro.core.initialization.ServiceDependant;
 import ca.ntro.core.values.ServiceMap;
 

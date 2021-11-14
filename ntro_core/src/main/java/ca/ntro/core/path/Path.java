@@ -1,4 +1,4 @@
-package ca.ntro.core.identifyers;
+package ca.ntro.core.path;
 
 import ca.ntro.core.json.JsonSerializable;
 import ca.ntro.core.validation.Validator;

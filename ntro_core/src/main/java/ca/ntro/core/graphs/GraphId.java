@@ -1,7 +1,7 @@
 package ca.ntro.core.graphs;
 
-import ca.ntro.core.identifyers.Path;
 import ca.ntro.core.identifyers.StorageId;
+import ca.ntro.core.path.Path;
 
 public class GraphId extends StorageId {
 	

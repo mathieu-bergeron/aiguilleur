@@ -1,6 +1,7 @@
 package ca.ntro.core.identifyers;
 
 import ca.ntro.core.initialization.Service;
+import ca.ntro.core.path.Path;
 
 public class ServiceId<S extends Service<S>> extends ClassId<S> {
 

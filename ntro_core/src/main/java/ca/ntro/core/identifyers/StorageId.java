@@ -1,5 +1,8 @@
 package ca.ntro.core.identifyers;
 
+import ca.ntro.core.path.Path;
+import ca.ntro.core.path.PathGenericNtro;
+
 public class StorageId extends EntityId {
 	
 	private Path categoryPath = Path.emptyPath();

@@ -15,8 +15,8 @@ import ca.ntro.core.graphs.dag.directions.Forward;
 import ca.ntro.core.graphs.dag.directions.ForwardNtro;
 import ca.ntro.core.graphs.dag.exceptions.CycleException;
 import ca.ntro.core.graphs.dag.exceptions.NodeNotFoundException;
-import ca.ntro.core.identifyers.PathPattern;
 import ca.ntro.core.initialization.Ntro;
+import ca.ntro.core.path.PathPattern;
 import ca.ntro.core.wrappers.Result;
 import ca.ntro.core.wrappers.ResultNtro;
 

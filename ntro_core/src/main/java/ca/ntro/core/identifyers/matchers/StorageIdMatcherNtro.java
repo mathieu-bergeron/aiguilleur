@@ -1,8 +1,8 @@
 package ca.ntro.core.identifyers.matchers;
 
-import ca.ntro.core.identifyers.Path;
-import ca.ntro.core.identifyers.PathPattern;
 import ca.ntro.core.identifyers.StorageId;
+import ca.ntro.core.path.Path;
+import ca.ntro.core.path.PathPattern;
 
 public class StorageIdMatcherNtro implements StorageIdMatcher {
 

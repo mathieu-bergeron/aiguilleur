@@ -1,5 +1,7 @@
 package ca.ntro.core.identifyers;
 
+import ca.ntro.core.path.Path;
+
 public class Id {
 
 	private Path entityPath;

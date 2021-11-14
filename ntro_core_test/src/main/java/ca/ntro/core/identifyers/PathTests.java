@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import ca.ntro.core.initialization.InitializerTest;
 import ca.ntro.core.initialization.Ntro;
+import ca.ntro.core.path.Path;
 import ca.ntro.core.services.ExceptionThrowerMock;
 
 import org.junit.BeforeClass;

@@ -1,5 +1,7 @@
 package ca.ntro.core.identifyers;
 
+import ca.ntro.core.path.Path;
+
 public class ClassId<O extends Object> extends Id {
 	
 	private Class<O> _class;

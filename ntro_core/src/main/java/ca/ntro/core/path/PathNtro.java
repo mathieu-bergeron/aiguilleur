@@ -1,4 +1,4 @@
-package ca.ntro.core.identifyers;
+package ca.ntro.core.path;
 
 public class PathNtro extends PathGenericNtro<Path> implements Path {
 
