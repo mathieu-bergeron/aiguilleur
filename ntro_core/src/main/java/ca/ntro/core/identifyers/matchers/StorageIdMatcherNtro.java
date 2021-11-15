@@ -13,6 +13,7 @@ public class StorageIdMatcherNtro implements StorageIdMatcher {
 	
 	public StorageIdMatcherNtro(String idPattern) {
 		FilepathPattern filepathPattern = FilepathPattern.fromRawPattern(idPattern);
+		
 
 		PathPattern categoryPath = PathPattern.fromPathPattern(filepathPattern.directoryPattern());
 		PathPattern entityPath = PathPattern.fromFilenamePattern(filepathPattern.filenamePattern());
