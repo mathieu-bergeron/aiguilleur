@@ -1,4 +1,4 @@
-package ca.ntro.core.graphs.dag;
+package ca.ntro.core.graphs.graph;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,19 +30,18 @@ import ca.ntro.core.path.PathPattern;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
-public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
+public class GraphNtro<N extends Node, E extends Edge> implements Graph<N,E> {
 	
 	private GraphId id;
 	private Map<String, N> nodes = new HashMap<>();
 	private Map<String, E> edges = new HashMap<>();
 	private Map<String, Map<String, N>> edgesForward = new HashMap<>();
-	private Map<String, Map<String, N>> edgesBackward = new HashMap<>();
 
-	public DagNtro() {
+	public GraphNtro() {
 		this.id = GraphId.newGraphId();
 	}
 
-	public DagNtro(String graphName) {
+	public GraphNtro(String graphName) {
 		this.id = GraphId.fromGraphName(graphName);
 	}
 	
@@ -61,11 +60,29 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 		addNode(to);
 
 		addEdge(edge);
-
-		addToEdgesMap(edgesForward, from, edge, to);
-		addToEdgesMap(edgesBackward, to, edge, from);
+		
+		addToEdgesMaps(from, edge, to);
 		
 		detectCycleFrom(from);
+	}
+
+	protected Direction[] defaultDirections() {
+		return new Direction[] {new ForwardNtro()};
+	}
+
+	protected SearchStrategy defaultStrategy() {
+		return SearchStrategy.BREADTH_FIRST_SEARCH;
+	}
+
+	protected void addToEdgesMaps(N from, E edge, N to) {
+		if(from.id().toKey().compareTo(to.id().toKey()) < 0) {
+
+			addToEdgesMap(edgesForward, from, edge, to);
+			
+		}else {
+
+			addToEdgesMap(edgesForward, to, edge, from);
+		}
 	}
 
 	private void addToEdgesMap(Map<String, Map<String, N>> edgesMap, N from, E edge, N to) {
@@ -82,17 +99,7 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 		edgesFrom.put(edgeKey, to);
 	}
 	
-	private void detectCycleFrom(N from) {
-
-		Result<Void> result = reduceReachableNodes(from, null, (accumulator, n) -> {
-			if(from == n) {
-				throw new CycleException();
-			}
-
-			return null;
-		});
-		
-		result.throwException();
+	protected void detectCycleFrom(N from) {
 	}
 
 	@Override
@@ -237,16 +244,15 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 
 	@Override
 	public void forEachReachableNode(N from, NodeVisitor<N> visitor) {
-		forEachReachableNode(from, new Direction[] {new ForwardNtro()}, visitor);
+		forEachReachableNode(from, defaultDirections(), defaultStrategy(), visitor);
 	}
 
 	@Override
-	public void forEachReachableNode(N from, Direction[] directions, NodeVisitor<N> visitor) {
-		forEachReachableNode(from, directions, SearchStrategy.BREADTH_FIRST_SEARCH, visitor);
+	public void forEachReachableNode(N from, SearchStrategy searchStrategy, NodeVisitor<N> visitor) {
+		forEachReachableNode(from, defaultDirections(), defaultStrategy(), visitor);
 	}
 
-	@Override
-	public void forEachReachableNode(N from, 
+	protected void forEachReachableNode(N from, 
 			                         Direction[] directions, 
 			                         SearchStrategy searchStrategy, 
 			                         NodeVisitor<N> visitor) {
@@ -265,31 +271,42 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 	}
 
 	@Override
-	public <R> Result<R> reduceReachableNodes(N from, R initialValue, NodeReducer<N, R> reducer) {
+	public <R> Result<R> reduceReachableNodes(N from, 
+			                                  SearchStrategy searchStrategy, 
+			                                  R initialValue, 
+			                                  NodeReducer<N, R> reducer) {
 
 		return reduceReachableNodes(from, 
-				                    new Direction[] {new ForwardNtro()}, 
-				                    SearchStrategy.DEPTH_FIRST_SEARCH, 
+									defaultDirections(),
+				                    searchStrategy, 
 				                    initialValue, 
 				                    reducer);
 	}
 
 	@Override
-	public <R extends Object> Result<R> reduceReachableNodes(N from, 
+	public <R> Result<R> reduceReachableNodes(N from, R initialValue, NodeReducer<N, R> reducer) {
+
+		return reduceReachableNodes(from, 
+									defaultDirections(),
+				                    SearchStrategy.DEPTH_FIRST_SEARCH, 
+				                    initialValue, 
+				                    reducer);
+	}
+
+	protected <R extends Object> Result<R> reduceReachableNodes(N from, 
 			                                                 Direction[] directions, 
 			                                                 R initialValue, 
 			                                                 NodeReducer<N, R> reducer) {
 
 		return reduceReachableNodes(from, 
 								    directions,
-				                    SearchStrategy.BREADTH_FIRST_SEARCH, 
+								    defaultStrategy(),
 				                    initialValue, 
 				                    reducer);
 	}
 
 
-	@Override
-	public <R extends Object> Result<R> reduceReachableNodes(N from, 
+	protected <R extends Object> Result<R> reduceReachableNodes(N from, 
 			                                                 Direction[] directions, 
 			                                                 SearchStrategy searchStrategy,
 			                                                 R initialValue, 
@@ -322,15 +339,8 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 		List<String> nodesToVisit = new ArrayList<>();
 
 		for(Direction direction : directions) {
-			
-			if(direction instanceof Forward) {
 
-				nodesToVisit.addAll(reachableNodesOneStep(visitedNodes, from, edgesForward));
-				
-			}else if(direction instanceof Backward) {
-
-				nodesToVisit.addAll(reachableNodesOneStep(visitedNodes, from, edgesBackward));
-			}
+			nodesToVisit.addAll(reachableNodesOneStep(visitedNodes, from, direction));
 		}
 		
 		for(String nodeKey : nodesToVisit) {
@@ -362,7 +372,21 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 
 	private <R extends Object> Set<String> reachableNodesOneStep(Set<String> visitedNodes, 
 			                                                      N from, 
-			                                                      Map<String, Map<String, N>> edgesMap) {
+			                                                      Direction direction) {
+		
+			Set<String> result = new HashSet<>();
+
+			if(direction instanceof Forward) {
+
+				result = reachableNodesOneStep(visitedNodes, from, edgesForward);
+			}
+			
+			return result;
+	}
+
+	protected <R extends Object> Set<String> reachableNodesOneStep(Set<String> visitedNodes, 
+			                                                       N from, 
+			                                                       Map<String, Map<String, N>> edgesMap) {
 		
 		Set<String> nodesToVisit = new HashSet<>();
 
@@ -392,15 +416,20 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 		}
 		
 		for(Direction direction : directions) {
-			
-			if(direction instanceof Forward) {
+			reduceNodesInDirectionDepthFirst(visitedNodes, from, directions, accumulator, reducer, direction);
+		}
+	}
 
-				reduceNodesInDirectionDepthFirst(visitedNodes, from, directions, accumulator, reducer, edgesForward);
-				
-			}else if(direction instanceof Backward) {
-				
-				reduceNodesInDirectionDepthFirst(visitedNodes, from, directions, accumulator, reducer, edgesBackward);
-			}
+	protected <R extends Object> void reduceNodesInDirectionDepthFirst(Set<String> visitedNodes, 
+			                                                           N from, 
+			                                                           Direction[] directions,
+			                                                           ResultNtro<R> accumulator,
+			                                                           NodeReducer<N,R> reducer,
+			                                                           Direction direction) {
+		
+		if(direction instanceof Forward) {
+
+			reduceNodesInDirectionDepthFirst(visitedNodes, from, directions, accumulator, reducer, edgesForward);
 		}
 	}
 
@@ -454,5 +483,7 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 	public String label() {
 		return id().toString();
 	}
+
+
 
 }

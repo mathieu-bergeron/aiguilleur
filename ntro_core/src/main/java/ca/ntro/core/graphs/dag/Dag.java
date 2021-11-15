@@ -1,7 +1,7 @@
 package ca.ntro.core.graphs.dag;
 
 import ca.ntro.core.graphs.GraphId;
-import ca.ntro.core.graphs.dag.directions.Direction;
+import ca.ntro.core.graphs.directions.Direction;
 import ca.ntro.core.graphs.graph.Edge;
 import ca.ntro.core.graphs.graph.EdgeReducer;
 import ca.ntro.core.graphs.graph.EdgeVisitor;
