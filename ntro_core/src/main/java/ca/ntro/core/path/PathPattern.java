@@ -29,4 +29,8 @@ public interface PathPattern extends GenericPath<PathPattern> {
 		return pathPattern;
 	}
 
+	public static PathPattern newInstance() {
+		return new PathPatternNtro();
+	}
+
 }
