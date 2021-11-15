@@ -3,11 +3,11 @@ package ca.ntro.core.path;
 import ca.ntro.core.util.ArrayUtils;
 import ca.ntro.core.validation.Validator;
 
-public class FilepathPatternNtro extends PathGenericNtro<Filepath, FilepathNtro> {
+public class FilepathPatternNtro extends GenericPathNtro<FilepathPattern, FilepathPatternNtro> implements FilepathPattern {
 
 	@Override
-	protected FilepathNtro newInstance() {
-		return new FilepathNtro();
+	protected FilepathPatternNtro newInstance() {
+		return new FilepathPatternNtro();
 	}
 
 	@Override

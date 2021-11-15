@@ -8,7 +8,7 @@ public class PathMatcherNtro implements PathMatcher {
 	private PathPattern pattern;
 
 	public PathMatcherNtro(String rawPattern) {
-		this.pattern = PathPattern.fromRawPath(rawPattern);
+		this.pattern = PathPattern.fromRawPattern(rawPattern);
 	}
 	
 	public PathMatcherNtro(PathPattern pattern) {
@@ -45,7 +45,7 @@ public class PathMatcherNtro implements PathMatcher {
 
 			}else {
 
-				Path nextPath = pattern.subPath(0, path.nameCount()-1);
+				Path nextPath = path.subPath(0, path.nameCount()-1);
 
 				return matches(nextPath, pattern);
 			}

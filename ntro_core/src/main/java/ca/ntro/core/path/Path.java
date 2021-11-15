@@ -1,6 +1,6 @@
 package ca.ntro.core.path;
 
-public interface Path extends PathGeneric<Path> {
+public interface Path extends GenericPath<Path> {
 	
     public static final String FILENAME_SEPARATOR = "¤";
     public static final String PATH_SEPARATOR = "/";
@@ -50,4 +50,13 @@ public interface Path extends PathGeneric<Path> {
     	
     	return path;
 	}
+
+	public static Path fromPath(GenericPath<?> otherPath) {
+		PathNtro path = new PathNtro();
+		
+		path.fromGenericPath(otherPath);
+		
+		return path;
+	}
+
 }

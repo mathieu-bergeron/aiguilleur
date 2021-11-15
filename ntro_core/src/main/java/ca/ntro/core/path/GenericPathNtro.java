@@ -11,7 +11,7 @@ import ca.ntro.core.util.ListUtils;
 import ca.ntro.core.util.Splitter;
 import ca.ntro.core.validation.Validator;
 
-public abstract class PathGenericNtro<I extends PathGeneric<I>, IMPL extends PathGenericNtro<I,IMPL>> implements PathGeneric<I>, JsonSerializer {
+public abstract class GenericPathNtro<I extends GenericPath<I>, IMPL extends GenericPathNtro<I,IMPL>> implements GenericPath<I>, JsonSerializer {
 
 	@Override
 	public void fromJsonString(String jsonString) {
@@ -303,6 +303,12 @@ public abstract class PathGenericNtro<I extends PathGeneric<I>, IMPL extends Pat
 
 	protected void fromSingleName(String id) {
 		addName(id);
+	}
+
+	protected void fromGenericPath(GenericPath<?> path) {
+		for(int i = 0; i < path.nameCount(); i++) {
+			addName(path.name(i));
+		}
 	}
 	
 	

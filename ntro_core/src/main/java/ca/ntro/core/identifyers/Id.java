@@ -45,14 +45,14 @@ public class Id {
 	}
 
 	public String toKey() {
-		return toFilePath().toRawPath();
+		return toFilepath().toRawPath();
 	}
 
 	public String toHtmlId() {
-		return toFilePath().toHtmlId();
+		return toFilepath().toHtmlId();
 	}
 
-	public Filepath toFilePath() {
+	public Filepath toFilepath() {
 		return Filepath.fromPath(getEntityPath());
 	}
 }

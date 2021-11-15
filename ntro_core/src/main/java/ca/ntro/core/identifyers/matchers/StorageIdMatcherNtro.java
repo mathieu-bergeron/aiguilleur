@@ -1,6 +1,8 @@
 package ca.ntro.core.identifyers.matchers;
 
 import ca.ntro.core.identifyers.StorageId;
+import ca.ntro.core.path.Filepath;
+import ca.ntro.core.path.FilepathPattern;
 import ca.ntro.core.path.Path;
 import ca.ntro.core.path.PathPattern;
 
@@ -10,8 +12,9 @@ public class StorageIdMatcherNtro implements StorageIdMatcher {
 	private PathMatcher categoryPathMatcher;
 	
 	public StorageIdMatcherNtro(String idPattern) {
-		PathPattern filePath = PathPattern.fromRawPath(idPattern);
-		PathPattern categoryPath = filePath.subPath(0, filePath.nameCount()-1);
+		FilepathPattern filePath = FilepathPattern.fromRawPattern(idPattern);
+
+		PathPattern categoryPath = PathPattern.fromPath(filePath.subPath(0, filePath.nameCount()-1));
 		PathPattern entityPath = PathPattern.fromFilename(filePath.lastName());
 		
 		this.entityPathMatcher = new PathMatcherNtro(entityPath);
@@ -25,8 +28,9 @@ public class StorageIdMatcherNtro implements StorageIdMatcher {
 
 	@Override
 	public boolean matches(StorageId id) {
-		Path filePath = id.toFilePath();
-		Path categoryPath = filePath.subPath(0, filePath.nameCount()-1);
+
+		Filepath filePath = id.toFilepath();
+		Path categoryPath = Path.fromPath(filePath.subPath(0, filePath.nameCount()-1));
 		Path entityPath = Path.fromFilename(filePath.lastName());
 		
 		return entityPathMatcher.matches(entityPath) 

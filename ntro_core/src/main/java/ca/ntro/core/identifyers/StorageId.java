@@ -65,7 +65,7 @@ public class StorageId extends EntityId {
 
 	@Override
 	public String toString() {
-		return toFilePath().toRawPath();
+		return toFilepath().toRawPath();
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class StorageId extends EntityId {
 	}
 	
 	@Override
-	public Filepath toFilePath() {
+	public Filepath toFilepath() {
 		Filepath filePath = Filepath.fromPath(getCategoryPath());
 		
 		filePath.addName(getEntityPath().toFilename());

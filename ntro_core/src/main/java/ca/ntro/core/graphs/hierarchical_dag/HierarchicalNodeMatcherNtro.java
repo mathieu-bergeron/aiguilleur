@@ -1,22 +1,21 @@
 package ca.ntro.core.graphs.hierarchical_dag;
 
-import ca.ntro.core.identifyers.matchers.PathMatcher;
-import ca.ntro.core.identifyers.matchers.PathMatcherNtro;
+import ca.ntro.core.identifyers.FilepathMatcher;
 
 public class HierarchicalNodeMatcherNtro<HN extends HierarchicalNode> implements HierarchicalNodeMatcher<HN> {
 
-	private PathMatcher pathMatcher;
+	private FilepathMatcher pathMatcher;
 
-	public HierarchicalNodeMatcherNtro(String idPattern) {
-		this.pathMatcher = new PathMatcherNtro(idPattern);
+	public HierarchicalNodeMatcherNtro(String rawPattern) {
+		this.pathMatcher = FilepathMatcher.fromRawPattern(rawPattern);
 	}
 
-	public HierarchicalNodeMatcherNtro(PathMatcher pathMatcher) {
+	public HierarchicalNodeMatcherNtro(FilepathMatcher pathMatcher) {
 		this.pathMatcher = pathMatcher;
 	}
 
 	@Override
 	public boolean matches(HN node) {
-		return pathMatcher.matches(node.id().toFilePath());
+		return pathMatcher.matches(node.id().toFilepath());
 	}
 }

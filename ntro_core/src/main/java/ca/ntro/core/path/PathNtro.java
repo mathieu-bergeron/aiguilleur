@@ -3,7 +3,7 @@ package ca.ntro.core.path;
 
 import ca.ntro.core.validation.Validator;
 
-public class PathNtro extends PathGenericNtro<Path,PathNtro> implements Path {
+public class PathNtro extends GenericPathNtro<Path,PathNtro> implements Path {
 
 	@Override
 	protected PathNtro newInstance() {

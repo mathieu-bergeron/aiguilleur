@@ -3,7 +3,7 @@ package ca.ntro.core.path;
 import ca.ntro.core.util.ArrayUtils;
 import ca.ntro.core.validation.Validator;
 
-public class PathPatternNtro extends PathGenericNtro<PathPattern, PathPatternNtro> implements PathPattern {
+public class PathPatternNtro extends GenericPathNtro<PathPattern, PathPatternNtro> implements PathPattern {
 
 	@Override
 	protected PathPatternNtro newInstance() {

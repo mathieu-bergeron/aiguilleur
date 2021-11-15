@@ -2,7 +2,7 @@ package ca.ntro.core.path;
 
 import ca.ntro.core.json.JsonSerializable;
 
-public interface PathGeneric<I extends PathGeneric<I>> extends JsonSerializable {
+public interface GenericPath<I extends GenericPath<I>> extends JsonSerializable {
 
 	void addName(String name);
 	int nameCount();

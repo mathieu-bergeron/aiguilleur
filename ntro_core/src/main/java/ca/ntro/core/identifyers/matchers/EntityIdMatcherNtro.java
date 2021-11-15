@@ -1,22 +1,23 @@
 package ca.ntro.core.identifyers.matchers;
 
 import ca.ntro.core.identifyers.EntityId;
+import ca.ntro.core.identifyers.FilepathMatcher;
 
 public class EntityIdMatcherNtro implements EntityIdMatcher {
 
-	private PathMatcher pathMatcher;
+	private FilepathMatcher pathMatcher;
 
-	public EntityIdMatcherNtro(String idPattern) {
-		this.pathMatcher = new PathMatcherNtro(idPattern);
+	public EntityIdMatcherNtro(String rawPattern) {
+		this.pathMatcher = FilepathMatcher.fromRawPattern(rawPattern);
 	}
 
-	public EntityIdMatcherNtro(PathMatcher pathMatcher) {
+	public EntityIdMatcherNtro(FilepathMatcher pathMatcher) {
 		this.pathMatcher = pathMatcher;
 	}
 
 	@Override
 	public boolean matches(EntityId id) {
-		return pathMatcher.matches(id.toFilePath());
+		return pathMatcher.matches(id.toFilepath());
 	}
 
 
