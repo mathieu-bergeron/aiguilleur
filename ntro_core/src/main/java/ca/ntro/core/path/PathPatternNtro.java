@@ -11,7 +11,7 @@ public class PathPatternNtro extends PathGenericNtro<PathPattern, PathPatternNtr
 	}
 
 	@Override
-	protected String[] validCharacters() {
+	protected String[] validNameCharacters() {
 		return ArrayUtils.addString(Validator.validIdCharacters, PathPattern.NAME_WILDCARD);
 	}
 }

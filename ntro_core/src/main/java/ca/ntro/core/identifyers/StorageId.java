@@ -1,5 +1,7 @@
 package ca.ntro.core.identifyers;
 
+import ca.ntro.core.path.Filepath;
+import ca.ntro.core.path.FilepathNtro;
 import ca.ntro.core.path.Path;
 import ca.ntro.core.path.PathNtro;
 
@@ -75,9 +77,10 @@ public class StorageId extends EntityId {
 	}
 	
 	@Override
-	public Path toFilePath() {
-		PathNtro filePath = (PathNtro) getCategoryPath().clone();
-		filePath.addValidName(getEntityPath().toFilename());
+	public Filepath toFilePath() {
+		Filepath filePath = Filepath.fromPath(getCategoryPath());
+		
+		filePath.addName(getEntityPath().toFilename());
 
 		return filePath;
 	}

@@ -34,7 +34,7 @@ public abstract class PathGenericNtro<I extends PathGeneric<I>, IMPL extends Pat
 	}
 
 	protected abstract IMPL newInstance();
-	protected abstract String[] validCharacters();
+	protected abstract String[] validNameCharacters();
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -68,7 +68,7 @@ public abstract class PathGenericNtro<I extends PathGeneric<I>, IMPL extends Pat
 	public void addName(String name) {
 		try {
 
-			Validator.mustContainOnlyValidCharacters(name, validCharacters());
+			Validator.mustContainOnlyValidCharacters(name, validNameCharacters());
 
 		} catch(InvalidCharacterException e) {
 
@@ -138,8 +138,8 @@ public abstract class PathGenericNtro<I extends PathGeneric<I>, IMPL extends Pat
 		return startsWith((I) path);
 	}
 
-	protected void parsePath(String path, String separator) {
-		for(String name : Splitter.split(path, separator)){
+	protected void parsePath(String rawPath, String separator) {
+		for(String name : Splitter.split(rawPath, separator)){
 			if(name.length() > 0) {
 				addName(name);
 			}
@@ -221,6 +221,10 @@ public abstract class PathGenericNtro<I extends PathGeneric<I>, IMPL extends Pat
 		return toFilename();
 	}
 
+	protected void fromKey(String rawKey) {
+		fromFilename(rawKey);
+	}
+
 	@Override
 	public I removePrefix(String rawPrefix) {
 		// TODO Auto-generated method stub
@@ -246,6 +250,10 @@ public abstract class PathGenericNtro<I extends PathGeneric<I>, IMPL extends Pat
 	@Override
 	public String toClassname() {
 		return toString(Path.CLASSNAME_SEPARATOR, false);
+	}
+
+	protected void fromClassname(String rawClassname) {
+		parsePath(rawClassname, Path.CLASSNAME_SEPARATOR);
 	}
 
 	protected String toString(String separator, boolean startsWithSeparator) {
@@ -293,4 +301,9 @@ public abstract class PathGenericNtro<I extends PathGeneric<I>, IMPL extends Pat
 		return toRawPath();
 	}
 
+	protected void fromSingleName(String id) {
+		addName(id);
+	}
+	
+	
 }

@@ -42,4 +42,12 @@ public interface Path extends PathGeneric<Path> {
     	
     	return path;
 	}
+
+	public static Path fromSingleName(String id) {
+    	PathNtro path = new PathNtro();
+    	
+    	path.fromSingleName(id);
+    	
+    	return path;
+	}
 }

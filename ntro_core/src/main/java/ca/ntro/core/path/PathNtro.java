@@ -11,9 +11,10 @@ public class PathNtro extends PathGenericNtro<Path,PathNtro> implements Path {
 	}
 
 	@Override
-	protected String[] validCharacters() {
+	protected String[] validNameCharacters() {
 		return Validator.validIdCharacters;
 	}
+
 
 
 }

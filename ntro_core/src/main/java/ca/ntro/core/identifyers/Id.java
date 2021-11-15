@@ -1,5 +1,6 @@
 package ca.ntro.core.identifyers;
 
+import ca.ntro.core.path.Filepath;
 import ca.ntro.core.path.Path;
 
 public class Id {
@@ -51,7 +52,7 @@ public class Id {
 		return toFilePath().toHtmlId();
 	}
 
-	public Path toFilePath() {
-		return getEntityPath();
+	public Filepath toFilePath() {
+		return Filepath.fromPath(getEntityPath());
 	}
 }
