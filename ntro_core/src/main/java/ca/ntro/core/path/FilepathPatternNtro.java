@@ -19,4 +19,14 @@ public class FilepathPatternNtro extends GenericPathNtro<FilepathPattern, Filepa
 
 		return validNameCharacters;
 	}
+
+	@Override
+	public FilepathPattern directoryPattern() {
+		return parent();
+	}
+
+	@Override
+	public String filenamePattern() {
+		return lastName();
+	}
 }

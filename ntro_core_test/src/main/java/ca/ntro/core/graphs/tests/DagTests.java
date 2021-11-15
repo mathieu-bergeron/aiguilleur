@@ -29,7 +29,7 @@ public class DagTests {
 		
 		DagWriterMock dagWriter = new DagWriterMock();
 		
-		Dag dag = new DagNtro();
+		Dag<NodeMock,EdgeMock> dag = new DagNtro<>();
 		
 		dag.addNode(node);
 		

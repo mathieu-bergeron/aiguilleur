@@ -13,7 +13,7 @@ public interface PathPattern extends GenericPath<PathPattern> {
 		return pathPattern;
 	}
 
-	public static PathPattern fromFilename(String rawFilename) {
+	public static PathPattern fromFilenamePattern(String rawFilename) {
 		PathPatternNtro pathPattern = new PathPatternNtro();
 		
 		pathPattern.fromFilename(rawFilename);

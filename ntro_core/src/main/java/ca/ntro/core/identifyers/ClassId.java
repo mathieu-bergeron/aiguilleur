@@ -29,7 +29,7 @@ public class ClassId<O extends Object> extends Id {
 		if(o == null) return false;
 		if(o == this) return true;
 		if(o instanceof ClassId) {
-			ClassId c = (ClassId) o;
+			ClassId<?> c = (ClassId<?>) o;
 			
 			if(_class != null ? !_class.equals(c._class) : c._class != null) {
 				return false;

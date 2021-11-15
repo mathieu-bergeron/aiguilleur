@@ -12,10 +12,10 @@ public class StorageIdMatcherNtro implements StorageIdMatcher {
 	private PathMatcher categoryPathMatcher;
 	
 	public StorageIdMatcherNtro(String idPattern) {
-		FilepathPattern filePath = FilepathPattern.fromRawPattern(idPattern);
+		FilepathPattern filepathPattern = FilepathPattern.fromRawPattern(idPattern);
 
-		PathPattern categoryPath = PathPattern.fromPath(filePath.subPath(0, filePath.nameCount()-1));
-		PathPattern entityPath = PathPattern.fromFilename(filePath.lastName());
+		PathPattern categoryPath = PathPattern.fromPath(filepathPattern.directoryPattern());
+		PathPattern entityPath = PathPattern.fromFilenamePattern(filepathPattern.filenamePattern());
 		
 		this.entityPathMatcher = new PathMatcherNtro(entityPath);
 		this.categoryPathMatcher = new PathMatcherNtro(categoryPath);
@@ -29,9 +29,9 @@ public class StorageIdMatcherNtro implements StorageIdMatcher {
 	@Override
 	public boolean matches(StorageId id) {
 
-		Filepath filePath = id.toFilepath();
-		Path categoryPath = Path.fromPath(filePath.subPath(0, filePath.nameCount()-1));
-		Path entityPath = Path.fromFilename(filePath.lastName());
+		Filepath filepath = id.toFilepath();
+		Path categoryPath = Path.fromPath(filepath.directory());
+		Path entityPath = Path.fromFilename(filepath.filename());
 		
 		return entityPathMatcher.matches(entityPath) 
 				&& categoryPathMatcher.matches(categoryPath);

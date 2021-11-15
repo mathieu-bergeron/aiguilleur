@@ -1,6 +1,10 @@
 package ca.ntro.core.path;
 
 public interface Filepath extends GenericPath<Filepath> {
+	
+	Filepath directory();
+	String  filename();
+	
 
 	static Filepath fromPath(GenericPath<?> path) {
 		FilepathNtro result = new FilepathNtro();
