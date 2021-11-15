@@ -1,5 +1,7 @@
 package ca.ntro.core.wrappers.result;
 
+import ca.ntro.core.initialization.Ntro;
+
 public class ResultNtro<R extends Object> implements Result<R> {
 	
 	private R value = null;
@@ -37,5 +39,12 @@ public class ResultNtro<R extends Object> implements Result<R> {
 	@Override
 	public Throwable exception() {
 		return this.exception;
+	}
+
+	@Override
+	public void throwException() {
+		if(exception != null) {
+			Ntro.exceptionThrower().throwException(this.exception);
+		}
 	}
 }

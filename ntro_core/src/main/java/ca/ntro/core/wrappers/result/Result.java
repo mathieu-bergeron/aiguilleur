@@ -9,4 +9,6 @@ public interface Result<R extends Object> {
 	boolean hasException();
 	
 	Throwable exception();
+
+	void throwException();
 }

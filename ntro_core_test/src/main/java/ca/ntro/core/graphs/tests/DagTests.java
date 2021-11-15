@@ -11,33 +11,19 @@ import ca.ntro.core.graphs.dag.DagNtro;
 import ca.ntro.core.graphs.dag.exceptions.CycleException;
 import ca.ntro.core.initialization.InitializerTest;
 import ca.ntro.core.initialization.Ntro;
+import ca.ntro.core.services.ExceptionThrowerMock;
 import ca.ntro.core.wrappers.result.Result;
 
 public class DagTests {
 
+	private static ExceptionThrowerMock exceptionThrower = new ExceptionThrowerMock();
+
 	@BeforeClass
 	public static void initialize() {
 		InitializerTest.initialize();
+		InitializerTest.registerExceptionThrower(exceptionThrower);
 	}
 	
-	@Test
-	public void addNode() {
-		
-		String nodeId = "id";
-		
-		NodeMock node = new NodeMock(nodeId);
-		
-		DagWriterMock dagWriter = new DagWriterMock();
-		
-		Dag<NodeMock,EdgeMock> dag = new DagNtro<>();
-		
-		dag.addNode(node);
-		
-		dag.write(dagWriter);
-		
-		Ntro.asserter().assertTrue("Should contain node", dagWriter.containsNode(node));
-	}
-
 	@Test
 	public void simpleGraph01() throws CycleException {
 
@@ -138,18 +124,12 @@ public class DagTests {
 		NodeMock nodeA = new NodeMock("A");
 		EdgeMock edgeAA = new EdgeMock("AA");
 
-		try {
 
-			Dag<NodeMock, EdgeMock> dag = new DagNtro<>();
+		Dag<NodeMock, EdgeMock> dag = new DagNtro<>();
 
-			dag.addEdge(nodeA, edgeAA, nodeA);
-			
-			Ntro.asserter().assertTrue("Should have thrown", false);
-
-		}catch(CycleException e) {
-
-			Ntro.asserter().assertTrue("Should thrown", true);
-		}
+		dag.addEdge(nodeA, edgeAA, nodeA);
+		
+		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrowned(CycleException.class));
 	}
 
 	@Test
@@ -167,16 +147,8 @@ public class DagTests {
 		
 		dag.addEdge(nodeA, edgeAB, nodeB);
 		dag.addEdge(nodeB, edgeBC, nodeC);
+		dag.addEdge(nodeC, edgeCA, nodeA);
 
-		try {
-
-			dag.addEdge(nodeC, edgeCA, nodeA);
-			
-			Ntro.asserter().assertTrue("Should have thrown", false);
-
-		}catch(CycleException e) {
-
-			Ntro.asserter().assertTrue("Should thrown", true);
-		}
+		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrowned(CycleException.class));
 	}
 }

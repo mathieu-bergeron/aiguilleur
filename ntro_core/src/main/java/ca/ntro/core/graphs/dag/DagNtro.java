@@ -15,6 +15,7 @@ import ca.ntro.core.graphs.dag.directions.Forward;
 import ca.ntro.core.graphs.dag.directions.ForwardNtro;
 import ca.ntro.core.graphs.dag.exceptions.CycleException;
 import ca.ntro.core.graphs.dag.exceptions.NodeNotFoundException;
+import ca.ntro.core.graphs.writers.DagWriter;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.path.PathPattern;
 import ca.ntro.core.wrappers.result.Result;
@@ -46,7 +47,7 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 	}
 	
 	@Override
-	public void addEdge(N from, E edge, N to) throws CycleException {
+	public void addEdge(N from, E edge, N to) {
 		addNode(from);
 		addNode(to);
 
@@ -72,7 +73,7 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 		edgesFrom.put(edgeKey, to);
 	}
 	
-	private void detectCycleFrom(N from) throws CycleException {
+	private void detectCycleFrom(N from) {
 
 		Result<Void> result = reduceReachableNodes(from, null, (accumulator, n) -> {
 			if(from == n) {
@@ -82,33 +83,23 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 			return null;
 		});
 		
-		if(result.hasException()) {
-			
-			if(result.exception() instanceof CycleException) {
-				
-				throw (CycleException) result.exception();
-				
-			}else {
-				
-				Ntro.exceptionThrower().throwException(result.exception());
-			}
-		}
+		result.throwException();
 	}
 
 	@Override
-	public N findNode(NodeId nodeId) throws NodeNotFoundException {
+	public N findNode(NodeId nodeId) {
 		N node = nodes.get(nodeId.toKey());
 		
 		if(node == null) {
-			
-			throw new NodeNotFoundException("Node not found for " + nodeId);
+
+			Ntro.exceptionThrower().throwException(new NodeNotFoundException("Node not found for " + nodeId));
 		}
 
 		return node;
 	}
 
 	@Override
-	public N findNode(String rawNodeId) throws NodeNotFoundException {
+	public N findNode(String rawNodeId) {
 		N node = null;
 		
 		if(!rawNodeId.contains(PathPattern.NAME_WILDCARD)
@@ -123,14 +114,15 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 		}
 
 		if(node == null) {
-			throw new NodeNotFoundException("Node not found for " + rawNodeId);
+
+			Ntro.exceptionThrower().throwException(new NodeNotFoundException("Node not found for " + rawNodeId));
 		}
 
 		return node;
 	}
 
 	@Override
-	public N findNode(NodeMatcher<N> nodeMatcher) throws NodeNotFoundException {
+	public N findNode(NodeMatcher<N> nodeMatcher) {
 		N node = null;
 
 		for(N candidateNode : nodes.values()) {
@@ -141,7 +133,8 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 		}
 
 		if(node == null) {
-			throw new NodeNotFoundException("Node not found for " + nodeMatcher);
+
+			Ntro.exceptionThrower().throwException(new NodeNotFoundException("Node not found for " + nodeMatcher));
 		}
 
 		return node;
@@ -442,37 +435,6 @@ public class DagNtro<N extends Node, E extends Edge> implements Dag<N,E> {
 		}
 	}
 
-	@Override
-	public void write(DagWriter<N, E> writer) {
-
-		Set<String> unwrittenNodes = writeEdges(writer);
-
-		writeNodes(unwrittenNodes, writer);
-	}
-
-	private Set<String> writeEdges(DagWriter<N, E> writer) {
-		
-		Set<String> unwrittenNodes = new HashSet<>(nodes.keySet());
-		
-		forEachEdge((from, edge, to) -> {
-
-			unwrittenNodes.remove(from.id().toKey());
-			unwrittenNodes.remove(to.id().toKey());
-
-			writer.writeEdge(from, edge, to);
-		});
-		
-		return unwrittenNodes;
-	}
-
-	private void writeNodes(Set<String> nodesToWrite, DagWriter<N, E> writer) {
-		for(String nodeKey : nodesToWrite) {
-			N node = nodes.get(nodeKey);
-			if(node != null) {
-				writer.writeNode(node);
-			}
-		}
-	}
 
 	@Override
 	public GraphId id() {
