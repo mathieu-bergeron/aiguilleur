@@ -1,6 +1,6 @@
 package ca.ntro.core.graphs.hierarchical_dag;
 
-import ca.ntro.core.identifyers.FilepathMatcher;
+import ca.ntro.core.identifyers.matchers.FilepathMatcher;
 
 public class HierarchicalNodeMatcherNtro<HN extends HierarchicalNode> implements HierarchicalNodeMatcher<HN> {
 

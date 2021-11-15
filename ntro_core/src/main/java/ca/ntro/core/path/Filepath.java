@@ -6,4 +6,9 @@ public interface Filepath extends GenericPath<Filepath> {
 		return null;
 	}
 
+	static Filepath fromSingleName(String filename) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

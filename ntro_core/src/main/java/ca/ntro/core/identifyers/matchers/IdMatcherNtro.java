@@ -1,6 +1,5 @@
 package ca.ntro.core.identifyers.matchers;
 
-import ca.ntro.core.identifyers.FilepathMatcher;
 import ca.ntro.core.identifyers.Id;
 import ca.ntro.core.path.Path;
 import ca.ntro.core.path.PathPattern;

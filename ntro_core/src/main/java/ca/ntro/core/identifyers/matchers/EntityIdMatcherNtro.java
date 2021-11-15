@@ -1,7 +1,6 @@
 package ca.ntro.core.identifyers.matchers;
 
 import ca.ntro.core.identifyers.EntityId;
-import ca.ntro.core.identifyers.FilepathMatcher;
 
 public class EntityIdMatcherNtro implements EntityIdMatcher {
 

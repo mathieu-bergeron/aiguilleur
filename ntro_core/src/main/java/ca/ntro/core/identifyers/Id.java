@@ -53,6 +53,6 @@ public class Id {
 	}
 
 	public Filepath toFilepath() {
-		return Filepath.fromPath(getEntityPath());
+		return Filepath.fromSingleName(getEntityPath().toFilename());
 	}
 }

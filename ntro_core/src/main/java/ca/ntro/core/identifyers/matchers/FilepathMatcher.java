@@ -1,6 +1,5 @@
-package ca.ntro.core.identifyers;
+package ca.ntro.core.identifyers.matchers;
 
-import ca.ntro.core.identifyers.matchers.Matcher;
 import ca.ntro.core.path.Filepath;
 
 public interface FilepathMatcher extends Matcher<Filepath> {

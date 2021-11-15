@@ -1,6 +1,6 @@
 package ca.ntro.core.graphs.dag;
 
-import ca.ntro.core.identifyers.FilepathMatcher;
+import ca.ntro.core.identifyers.matchers.FilepathMatcher;
 
 public class NodeMatcherNtro<N extends Node> implements NodeMatcher<N> {
 
