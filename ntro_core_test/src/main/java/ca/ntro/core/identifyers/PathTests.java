@@ -74,13 +74,13 @@ public class PathTests {
 
 		Path.fromSingleName("nom01/nom02");
 		
-		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrowned(RuntimeException.class));
+		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrown(RuntimeException.class));
 		
 		exceptionThrower.clear();
 
 		Path.fromSingleName("nom01¤nom02");
 
-		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrowned(RuntimeException.class));
+		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrown(RuntimeException.class));
 	}
 
 	@Test
@@ -93,7 +93,7 @@ public class PathTests {
 		path = Path.fromSingleName("_-.");
 		path = Path.fromSingleName("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
-		Ntro.asserter().assertFalse("Should not throw", exceptionThrower.wasThrowned(RuntimeException.class));
+		Ntro.asserter().assertFalse("Should not throw", exceptionThrower.wasThrown(RuntimeException.class));
 	}
 
 	@Test
@@ -103,37 +103,37 @@ public class PathTests {
 		@SuppressWarnings("unused")
 		Path path = Path.fromSingleName("é");
 
-		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrowned(RuntimeException.class));
+		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrown(RuntimeException.class));
 
 		exceptionThrower.clear();
 
 		path = Path.fromSingleName("¢");
 
-		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrowned(RuntimeException.class));
+		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrown(RuntimeException.class));
 
 		exceptionThrower.clear();
 
 		path = Path.fromSingleName("É");
 
-		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrowned(RuntimeException.class));
+		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrown(RuntimeException.class));
 
 		exceptionThrower.clear();
 
 		path = Path.fromSingleName("?");
 
-		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrowned(RuntimeException.class));
+		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrown(RuntimeException.class));
 
 		exceptionThrower.clear();
 
 		path = Path.fromSingleName("*");
 
-		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrowned(RuntimeException.class));
+		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrown(RuntimeException.class));
 
 		exceptionThrower.clear();
 
 		path = Path.fromRawPath("*/**/*");
 
-		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrowned(RuntimeException.class));
+		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrown(RuntimeException.class));
 
 	}
 

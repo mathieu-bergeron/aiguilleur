@@ -7,5 +7,9 @@ public interface ExternalGraphWriter<N extends Node, E extends Edge> {
 	
 	void writeEdge(N from, E edge, N to);
 	void writeNode(N node);
+	
+	void writePng();
+	void writeSvg();
+	void writeDot();
 
 }

@@ -5,7 +5,9 @@ import org.junit.Test;
 
 import ca.ntro.core.graphs.dag.Dag;
 import ca.ntro.core.graphs.dag.DagNtro;
+import ca.ntro.core.graphs.writers.DagWriterNtro;
 import ca.ntro.core.initialization.InitializerTestJdk;
+import ca.ntro.core.initialization.Ntro;
 
 public class DagTestsJdk extends DagTests {
 
@@ -29,8 +31,10 @@ public class DagTestsJdk extends DagTests {
 		dag.addEdge(nodeA, edgeAB, nodeB);
 		dag.addEdge(nodeB, edgeBC, nodeC);
 		
+		DagWriterNtro<NodeMock, EdgeMock> dagWriter = new DagWriterMock();
+		dagWriter.write(dag);
 		
-		
+		Ntro.asserter().assertFalse("Should not throw", exceptionThrower().hasThrown());
 	}
 	
 

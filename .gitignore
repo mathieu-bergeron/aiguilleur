@@ -40,4 +40,6 @@ build_*
 # Vertx file uploads
 file-uploads
 
+# _storage
+_storage
 

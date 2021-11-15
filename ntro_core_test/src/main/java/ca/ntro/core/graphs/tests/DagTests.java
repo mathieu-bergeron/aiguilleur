@@ -17,6 +17,10 @@ import ca.ntro.core.wrappers.result.Result;
 public class DagTests {
 
 	private static ExceptionThrowerMock exceptionThrower = new ExceptionThrowerMock();
+	
+	protected ExceptionThrowerMock exceptionThrower() {
+		return exceptionThrower;
+	}
 
 	@BeforeClass
 	public static void initialize() {
@@ -129,7 +133,7 @@ public class DagTests {
 
 		dag.addEdge(nodeA, edgeAA, nodeA);
 		
-		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrowned(CycleException.class));
+		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrown(CycleException.class));
 	}
 
 	@Test
@@ -149,6 +153,6 @@ public class DagTests {
 		dag.addEdge(nodeB, edgeBC, nodeC);
 		dag.addEdge(nodeC, edgeCA, nodeA);
 
-		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrowned(CycleException.class));
+		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrown(CycleException.class));
 	}
 }

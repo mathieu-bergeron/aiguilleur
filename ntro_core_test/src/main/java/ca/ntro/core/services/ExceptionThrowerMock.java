@@ -14,8 +14,12 @@ public class ExceptionThrowerMock implements ExceptionThrower {
 		exception = t;
 	}
 	
-	public boolean wasThrowned(Class<? extends Throwable> _class) {
+	public boolean wasThrown(Class<? extends Throwable> _class) {
 		return thrown.contains(_class.getName());
+	}
+
+	public boolean hasThrown() {
+		return !thrown.isEmpty();
 	}
 
 	public void clear() {

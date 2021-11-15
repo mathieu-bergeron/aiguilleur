@@ -19,6 +19,8 @@ public abstract class DagWriterNtro<N extends Node, E extends Edge> implements D
 		Set<String> unwrittenNodes = writeEdges(writer, dag);
 
 		writeNodes(writer, unwrittenNodes, dag);
+		
+		writer.writePng();
 	}
 
 	private Set<String> writeEdges(ExternalGraphWriter<N,E> writer, Dag<N,E> dag) {
