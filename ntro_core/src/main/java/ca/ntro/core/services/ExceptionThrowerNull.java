@@ -6,4 +6,22 @@ public class ExceptionThrowerNull implements ExceptionThrower {
 	public void throwException(Throwable t) {
 	}
 
+	@Override
+	public void enterCatchingMode() {
+	}
+
+	@Override
+	public void exitCatchingMode() {
+	}
+
+	@Override
+	public boolean hasException() {
+		return false;
+	}
+
+	@Override
+	public Throwable exception() {
+		return null;
+	}
+
 }
