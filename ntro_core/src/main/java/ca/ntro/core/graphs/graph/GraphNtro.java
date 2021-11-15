@@ -9,7 +9,6 @@ import java.util.Set;
 
 import ca.ntro.core.exceptions.Break;
 import ca.ntro.core.graphs.GraphId;
-import ca.ntro.core.graphs.directions.Backward;
 import ca.ntro.core.graphs.directions.Direction;
 import ca.ntro.core.graphs.directions.Forward;
 import ca.ntro.core.graphs.directions.ForwardNtro;
@@ -24,7 +23,6 @@ import ca.ntro.core.graphs.graph.NodeNotFoundException;
 import ca.ntro.core.graphs.graph.NodeReducer;
 import ca.ntro.core.graphs.graph.NodeVisitor;
 import ca.ntro.core.graphs.graph.SearchStrategy;
-import ca.ntro.core.graphs.writers.DagWriter;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.path.PathPattern;
 import ca.ntro.core.wrappers.result.Result;
@@ -32,26 +30,59 @@ import ca.ntro.core.wrappers.result.ResultNtro;
 
 public class GraphNtro<N extends Node, E extends Edge> implements Graph<N,E> {
 	
+
 	private GraphId id;
 	private Map<String, N> nodes = new HashMap<>();
 	private Map<String, E> edges = new HashMap<>();
 	private Map<String, Map<String, N>> edgesForward = new HashMap<>();
 
+	protected GraphId getId() {
+		return id;
+	}
+
+	protected void setId(GraphId id) {
+		this.id = id;
+	}
+
+	protected Map<String, N> getNodes() {
+		return nodes;
+	}
+
+	protected void setNodes(Map<String, N> nodes) {
+		this.nodes = nodes;
+	}
+
+	protected Map<String, E> getEdges() {
+		return edges;
+	}
+
+	protected void setEdges(Map<String, E> edges) {
+		this.edges = edges;
+	}
+
+	protected Map<String, Map<String, N>> getEdgesForward() {
+		return edgesForward;
+	}
+
+	protected void setEdgesForward(Map<String, Map<String, N>> edgesForward) {
+		this.edgesForward = edgesForward;
+	}
+
 	public GraphNtro() {
-		this.id = GraphId.newGraphId();
+		setId(GraphId.newGraphId());
 	}
 
 	public GraphNtro(String graphName) {
-		this.id = GraphId.fromGraphName(graphName);
+		setId(GraphId.fromGraphName(graphName));
 	}
 	
 	@Override
 	public void addNode(N n) {
-		nodes.put(n.id().toKey(), n);
+		getNodes().put(n.id().toKey(), n);
 	}
 
 	private void addEdge(E e) {
-		edges.put(e.id().toKey(), e);
+		getEdges().put(e.id().toKey(), e);
 	}
 	
 	@Override
@@ -77,11 +108,11 @@ public class GraphNtro<N extends Node, E extends Edge> implements Graph<N,E> {
 	protected void addToEdgesMaps(N from, E edge, N to) {
 		if(from.id().toKey().compareTo(to.id().toKey()) < 0) {
 
-			addToEdgesMap(edgesForward, from, edge, to);
+			addToEdgesMap(getEdgesForward(), from, edge, to);
 			
 		}else {
 
-			addToEdgesMap(edgesForward, to, edge, from);
+			addToEdgesMap(getEdgesForward(), to, edge, from);
 		}
 	}
 
@@ -104,7 +135,7 @@ public class GraphNtro<N extends Node, E extends Edge> implements Graph<N,E> {
 
 	@Override
 	public N findNode(NodeId nodeId) {
-		N node = nodes.get(nodeId.toKey());
+		N node = getNodes().get(nodeId.toKey());
 		
 		if(node == null) {
 
@@ -141,7 +172,7 @@ public class GraphNtro<N extends Node, E extends Edge> implements Graph<N,E> {
 	public N findNode(NodeMatcher<N> nodeMatcher) {
 		N node = null;
 
-		for(N candidateNode : nodes.values()) {
+		for(N candidateNode : getNodes().values()) {
 			if(nodeMatcher.matches(node)) {
 				node = candidateNode;
 				break;
@@ -171,7 +202,7 @@ public class GraphNtro<N extends Node, E extends Edge> implements Graph<N,E> {
 		
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 		
-		for(N node : nodes.values()) {
+		for(N node : getNodes().values()) {
 			try {
 				
 				result.registerValue(reduces.reduce(result.value(), node));
@@ -205,17 +236,17 @@ public class GraphNtro<N extends Node, E extends Edge> implements Graph<N,E> {
 
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 		
-		for(Map.Entry<String, Map<String, N>> edgesForwardFrom : edgesForward.entrySet()) {
+		for(Map.Entry<String, Map<String, N>> edgesForwardFrom : getEdgesForward().entrySet()) {
 
 			String fromKey = edgesForwardFrom.getKey();
-			N from = nodes.get(fromKey);
+			N from = getNodes().get(fromKey);
 			
 			Map<String, N> edgesTo = edgesForwardFrom.getValue();
 			
 			for(Map.Entry<String, N> edgeTo : edgesTo.entrySet()) {
 				
 				String edgeKey = edgeTo.getKey();
-				E edge = edges.get(edgeKey);
+				E edge = getEdges().get(edgeKey);
 
 				N to = edgeTo.getValue();
 				
@@ -288,7 +319,7 @@ public class GraphNtro<N extends Node, E extends Edge> implements Graph<N,E> {
 
 		return reduceReachableNodes(from, 
 									defaultDirections(),
-				                    SearchStrategy.DEPTH_FIRST_SEARCH, 
+									defaultStrategy(),
 				                    initialValue, 
 				                    reducer);
 	}
@@ -345,7 +376,7 @@ public class GraphNtro<N extends Node, E extends Edge> implements Graph<N,E> {
 		
 		for(String nodeKey : nodesToVisit) {
 			
-			N node = nodes.get(nodeKey);
+			N node = getNodes().get(nodeKey);
 			
 			if(node != null) {
 
@@ -378,7 +409,7 @@ public class GraphNtro<N extends Node, E extends Edge> implements Graph<N,E> {
 
 			if(direction instanceof Forward) {
 
-				result = reachableNodesOneStep(visitedNodes, from, edgesForward);
+				result = reachableNodesOneStep(visitedNodes, from, getEdgesForward());
 			}
 			
 			return result;
@@ -429,7 +460,7 @@ public class GraphNtro<N extends Node, E extends Edge> implements Graph<N,E> {
 		
 		if(direction instanceof Forward) {
 
-			reduceNodesInDirectionDepthFirst(visitedNodes, from, directions, accumulator, reducer, edgesForward);
+			reduceNodesInDirectionDepthFirst(visitedNodes, from, directions, accumulator, reducer, getEdgesForward());
 		}
 	}
 
@@ -476,14 +507,11 @@ public class GraphNtro<N extends Node, E extends Edge> implements Graph<N,E> {
 
 	@Override
 	public GraphId id() {
-		return this.id;
+		return getId();
 	}
 
 	@Override
 	public String label() {
 		return id().toString();
 	}
-
-
-
 }
