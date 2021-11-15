@@ -225,10 +225,13 @@ public abstract class GenericPathNtro<I extends GenericPath<I>, IMPL extends Gen
 		fromFilename(rawKey);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public I removePrefix(String rawPrefix) {
-		// TODO Auto-generated method stub
-		return null;
+		IMPL prefix = newInstance();
+		prefix.fromRawPath(rawPrefix);
+
+		return removePrefix((I) prefix);
 	}
 
 	@Override
