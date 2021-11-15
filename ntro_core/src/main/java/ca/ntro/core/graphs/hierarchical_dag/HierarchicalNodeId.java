@@ -1,6 +1,6 @@
 package ca.ntro.core.graphs.hierarchical_dag;
 
-import ca.ntro.core.graphs.graph.NodeId;
+import ca.ntro.core.graphs.generic_graph.NodeId;
 import ca.ntro.core.path.Path;
 
 public class HierarchicalNodeId extends NodeId {

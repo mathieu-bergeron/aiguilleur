@@ -1,4 +1,4 @@
-package ca.ntro.core.graphs.graph;
+package ca.ntro.core.graphs.generic_graph;
 
 import ca.ntro.core.identifyers.matchers.FilepathMatcher;
 

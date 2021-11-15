@@ -1,7 +1,7 @@
 package ca.ntro.core.graphs.writers;
 
-import ca.ntro.core.graphs.graph.Edge;
-import ca.ntro.core.graphs.graph.Node;
+import ca.ntro.core.graphs.generic_graph.Edge;
+import ca.ntro.core.graphs.generic_graph.Node;
 
 public interface ExternalGraphWriter<N extends Node, E extends Edge> {
 	

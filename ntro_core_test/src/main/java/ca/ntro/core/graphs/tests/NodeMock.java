@@ -1,7 +1,7 @@
 package ca.ntro.core.graphs.tests;
 
-import ca.ntro.core.graphs.graph.Node;
-import ca.ntro.core.graphs.graph.NodeId;
+import ca.ntro.core.graphs.generic_graph.Node;
+import ca.ntro.core.graphs.generic_graph.NodeId;
 
 public class NodeMock implements Node {
 	

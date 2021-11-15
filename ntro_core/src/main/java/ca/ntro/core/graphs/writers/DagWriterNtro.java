@@ -4,8 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import ca.ntro.core.graphs.dag.Dag;
-import ca.ntro.core.graphs.graph.Edge;
-import ca.ntro.core.graphs.graph.Node;
+import ca.ntro.core.graphs.generic_graph.Edge;
+import ca.ntro.core.graphs.generic_graph.Node;
 import ca.ntro.core.identifyers.StorageId;
 
 public abstract class DagWriterNtro<N extends Node, E extends Edge> implements DagWriter<N,E> {

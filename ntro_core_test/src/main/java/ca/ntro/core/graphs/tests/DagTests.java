@@ -63,7 +63,7 @@ public class DagTests {
 		Ntro.asserter().assertEquals(2, edgeTriples.size());
 		
 		List<NodeMock> reachableFromA = new ArrayList<>();
-		dag.forEachReachableNode(nodeA, n -> {
+		dag.forEachReachableNode(nodeA, (distance, n) -> {
 			reachableFromA.add(n);
 		});
 
@@ -83,7 +83,7 @@ public class DagTests {
 
 		Ntro.asserter().assertEquals(2, edgeCount.value());
 
-		Result<Integer> reachableCount = dag.reduceReachableNodes(nodeA, 0, (accumulator, n) -> {
+		Result<Integer> reachableCount = dag.reduceReachableNodes(nodeA, 0, (accumulator, distance, n) -> {
 			return accumulator + 1;
 		});
 
@@ -111,7 +111,7 @@ public class DagTests {
 		dag.addEdge(nodeC, edgeCD, nodeD);
 
 		List<NodeMock> reachableFromA = new ArrayList<>();
-		dag.forEachReachableNode(nodeA, n -> {
+		dag.forEachReachableNode(nodeA, (distance, n) -> {
 			reachableFromA.add(n);
 		});
 
