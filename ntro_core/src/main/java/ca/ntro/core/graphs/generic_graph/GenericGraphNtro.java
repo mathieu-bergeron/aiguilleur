@@ -193,7 +193,7 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, N extends Node,
 		for(N node : getNodes().values()) {
 			try {
 				
-				result.registerValue(reduces.reduce(result.value(), node));
+				result.registerValue(reduces.reduceNode(result.value(), node));
 
 			} catch (Break e) { 
 
@@ -242,7 +242,7 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, N extends Node,
 					
 					try {
 						
-						result.registerValue(reducer.reduce(result.value(), from, edge, to));
+						result.registerValue(reducer.reduceEdge(result.value(), from, edge, to));
 
 					} catch (Break e) { 
 
@@ -335,7 +335,7 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, N extends Node,
 
 				try {
 				
-					accumulator.registerValue(reducer.reduce(accumulator.value(), distance+1, node));
+					accumulator.registerValue(reducer.reduceReachableNode(accumulator.value(), distance+1, node));
 					
 					reduceReachableNodesBreadthFirst(visitedNodes, node, searchOptions, accumulator, distance+1, reducer);
 
@@ -455,7 +455,7 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, N extends Node,
 
 					try {
 
-						accumulator.registerValue(reducer.reduce(accumulator.value(), distance+1, to));
+						accumulator.registerValue(reducer.reduceReachableNode(accumulator.value(), distance+1, to));
 
 						reduceReachableNodesDepthFirst(visitedNodes, to, searchOptions, accumulator, distance+1, reducer);
 
@@ -483,4 +483,38 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, N extends Node,
 	public String label() {
 		return id().toString();
 	}
+	
+	
+
+	@Override
+	public void forEachReachableEdge(N from, 
+			                         ReachableEdgeVisitor<N, E> visitor) {
+
+		
+	}
+
+	@Override
+	public void forEachReachableEdge(N from, 
+			                         SO searchOptions, 
+			                         ReachableEdgeVisitor<N, E> visitor) {
+		
+	}
+
+	@Override
+	public <R> Result<R> reduceReachableEdges(N from, 
+			                                  R initialValue, 
+			                                  ReachableEdgeReducer<N, E, R> reducer) {
+
+		return null;
+	}
+
+	@Override
+	public <R> Result<R> reduceReachableEdges(N from, 
+			                                  SO searchOptions, 
+			                                  R initialValue, 
+			                                  ReachableEdgeReducer<N, E, R> reducer) {
+
+		return null;
+	}
+	
 }
