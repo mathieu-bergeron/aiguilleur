@@ -6,20 +6,22 @@ import java.util.Set;
 import ca.ntro.core.graphs.dag.Dag;
 import ca.ntro.core.graphs.dag.Edge;
 import ca.ntro.core.graphs.dag.Node;
+import ca.ntro.core.identifyers.StorageId;
 
 public abstract class DagWriterNtro<N extends Node, E extends Edge> implements DagWriter<N,E> {
 
-	protected abstract void writeEdge(N from, E edge, N to);
-	protected abstract void writeNode(N node);
-
+	protected abstract ExternalGraphWriter<N, E> createExeternalGraphWriter(StorageId storageId);
+	
 	public void write(Dag<N, E> dag) {
+		
+		ExternalGraphWriter<N,E> writer = createExeternalGraphWriter(dag.id());
 
-		Set<String> unwrittenNodes = writeEdges(dag);
+		Set<String> unwrittenNodes = writeEdges(writer, dag);
 
-		writeNodes(unwrittenNodes, dag);
+		writeNodes(writer, unwrittenNodes, dag);
 	}
 
-	private Set<String> writeEdges(Dag<N,E> dag) {
+	private Set<String> writeEdges(ExternalGraphWriter<N,E> writer, Dag<N,E> dag) {
 		
 		Set<String> unwrittenNodes = dag.reduceNodes(new HashSet<String>(), (accumulator, n) -> {
 			
@@ -34,20 +36,20 @@ public abstract class DagWriterNtro<N extends Node, E extends Edge> implements D
 			unwrittenNodes.remove(from.id().toKey());
 			unwrittenNodes.remove(to.id().toKey());
 
-			writeEdge(from, edge, to);
+			writer.writeEdge(from, edge, to);
 		});
 		
 		return unwrittenNodes;
 	}
 
 
-	private void writeNodes(Set<String> nodesToWrite, Dag<N,E> dag) {
+	private void writeNodes(ExternalGraphWriter<N,E> writer, Set<String> nodesToWrite, Dag<N,E> dag) {
 		for(String nodeKey : nodesToWrite) {
 
 			N node = dag.findNode(nodeKey);
 
 			if(node != null) {
-				writeNode(node);
+				writer.writeNode(node);
 			}
 		}
 	}
