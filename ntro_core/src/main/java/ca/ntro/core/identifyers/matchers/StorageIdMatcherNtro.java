@@ -15,8 +15,8 @@ public class StorageIdMatcherNtro implements StorageIdMatcher {
 	private PathMatcher entityPathMatcher;
 	private PathMatcher categoryPathMatcher;
 	
-	public StorageIdMatcherNtro(String idPattern) {
-		FilepathPattern filepathPattern = FilepathPattern.fromRawPattern(idPattern);
+	public StorageIdMatcherNtro(String rawPattern) {
+		FilepathPattern filepathPattern = FilepathPattern.fromRawPattern(rawPattern);
 		
 		PathPattern categoryPathPattern = extractCategoryPathPattern(filepathPattern);
 
@@ -36,9 +36,9 @@ public class StorageIdMatcherNtro implements StorageIdMatcher {
 		if(categoryPathResult.hasException()) {
 			
 			if(categoryPathResult.exception() instanceof InvalidCharacterException) {
+
 				InvalidCharacterException e = (InvalidCharacterException) categoryPathResult.exception();
-				
-				Ntro.exceptionThrower().throwException(new RuntimeException("idPattern must not contain " + e.invalidCharacter()));
+				Ntro.exceptionThrower().throwException(new RuntimeException("rawPattern must not contain character " + e.invalidCharacter()));
 				
 			}else {
 
