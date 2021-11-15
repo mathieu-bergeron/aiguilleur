@@ -1,6 +1,6 @@
 package ca.ntro.core.graphs.hierarchical_dag;
 
-import ca.ntro.core.graphs.dag.NodeId;
+import ca.ntro.core.graphs.graph.NodeId;
 import ca.ntro.core.path.Path;
 
 public class HierarchicalNodeId extends NodeId {
@@ -22,7 +22,7 @@ public class HierarchicalNodeId extends NodeId {
 	}
 
 	public Path parentPath() {
-		return getEntityPath().subPath(0, getEntityPath().nameCount() - 1);
+		return getEntityPath().parent();
 	}
 
 	public Path leafId() {

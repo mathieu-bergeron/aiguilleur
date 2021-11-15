@@ -6,9 +6,9 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import ca.ntro.core.graphs.dag.CycleException;
 import ca.ntro.core.graphs.dag.Dag;
 import ca.ntro.core.graphs.dag.DagNtro;
-import ca.ntro.core.graphs.dag.exceptions.CycleException;
 import ca.ntro.core.initialization.InitializerTest;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.services.ExceptionThrowerMock;

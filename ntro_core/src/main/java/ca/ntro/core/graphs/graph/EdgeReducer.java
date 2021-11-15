@@ -1,4 +1,4 @@
-package ca.ntro.core.graphs.dag;
+package ca.ntro.core.graphs.graph;
 
 public interface EdgeReducer<N extends Node, E extends Edge, R extends Object> {
 	

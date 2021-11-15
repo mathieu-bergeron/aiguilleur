@@ -1,4 +1,4 @@
-package ca.ntro.core.graphs.dag;
+package ca.ntro.core.graphs.graph;
 
 public enum SearchStrategy {
 	

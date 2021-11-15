@@ -1,4 +1,4 @@
-package ca.ntro.core.graphs.dag.exceptions;
+package ca.ntro.core.graphs.graph;
 
 public class NodeNotFoundException extends Exception {
 

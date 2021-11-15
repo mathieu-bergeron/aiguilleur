@@ -2,6 +2,15 @@ package ca.ntro.core.graphs.dag;
 
 import ca.ntro.core.graphs.GraphId;
 import ca.ntro.core.graphs.dag.directions.Direction;
+import ca.ntro.core.graphs.graph.Edge;
+import ca.ntro.core.graphs.graph.EdgeReducer;
+import ca.ntro.core.graphs.graph.EdgeVisitor;
+import ca.ntro.core.graphs.graph.Node;
+import ca.ntro.core.graphs.graph.NodeId;
+import ca.ntro.core.graphs.graph.NodeMatcher;
+import ca.ntro.core.graphs.graph.NodeReducer;
+import ca.ntro.core.graphs.graph.NodeVisitor;
+import ca.ntro.core.graphs.graph.SearchStrategy;
 import ca.ntro.core.wrappers.result.Result;
 
 public interface Dag<N extends Node, E extends Edge> {

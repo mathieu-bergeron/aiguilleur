@@ -1,4 +1,4 @@
-package ca.ntro.core.graphs.dag;
+package ca.ntro.core.graphs.graph;
 
 import ca.ntro.core.identifyers.Id;
 

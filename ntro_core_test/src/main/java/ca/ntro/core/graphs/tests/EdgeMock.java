@@ -1,7 +1,7 @@
 package ca.ntro.core.graphs.tests;
 
-import ca.ntro.core.graphs.dag.Edge;
-import ca.ntro.core.graphs.dag.EdgeId;
+import ca.ntro.core.graphs.graph.Edge;
+import ca.ntro.core.graphs.graph.EdgeId;
 
 public class EdgeMock implements Edge {
 	
