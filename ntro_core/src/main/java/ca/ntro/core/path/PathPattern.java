@@ -5,7 +5,7 @@ public interface PathPattern extends GenericPath<PathPattern> {
 	public static final String NAME_WILDCARD = "*";
 	public static final String SUBPATH_WILDCARD = "**";
 
-	public static PathPattern fromPath(GenericPath<?> otherPath) {
+	public static PathPattern fromPathPattern(GenericPath<?> otherPath) {
 		PathPatternNtro pathPattern = new PathPatternNtro();
 
 		pathPattern.fromGenericPath(otherPath);

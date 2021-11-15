@@ -1,7 +1,5 @@
 package ca.ntro.core.wrappers.future;
 
-import ca.ntro.core.wrappers.ExceptionHandler;
-
 public class FutureNtro<O extends Object> implements Future<O> {
 	
 	private enum State {

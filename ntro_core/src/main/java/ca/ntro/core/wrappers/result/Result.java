@@ -1,4 +1,4 @@
-package ca.ntro.core.wrappers;
+package ca.ntro.core.wrappers.result;
 
 public interface Result<R extends Object> {
 

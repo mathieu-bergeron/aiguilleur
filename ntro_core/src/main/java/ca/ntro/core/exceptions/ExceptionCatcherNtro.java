@@ -3,7 +3,7 @@ package ca.ntro.core.exceptions;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.ntro.core.wrappers.ExceptionHandler;
+import ca.ntro.core.wrappers.future.ExceptionHandler;
 
 public class ExceptionCatcherNtro<R extends Object> implements ExceptionCatcher<R> {
 	

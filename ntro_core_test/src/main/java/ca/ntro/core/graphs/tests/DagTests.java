@@ -11,7 +11,7 @@ import ca.ntro.core.graphs.dag.DagNtro;
 import ca.ntro.core.graphs.dag.exceptions.CycleException;
 import ca.ntro.core.initialization.InitializerTest;
 import ca.ntro.core.initialization.Ntro;
-import ca.ntro.core.wrappers.Result;
+import ca.ntro.core.wrappers.result.Result;
 
 public class DagTests {
 

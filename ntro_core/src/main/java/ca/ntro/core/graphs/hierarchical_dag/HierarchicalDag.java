@@ -4,7 +4,7 @@ import ca.ntro.core.graphs.dag.Dag;
 import ca.ntro.core.graphs.dag.Edge;
 import ca.ntro.core.graphs.dag.NodeReducer;
 import ca.ntro.core.graphs.dag.NodeVisitor;
-import ca.ntro.core.wrappers.Result;
+import ca.ntro.core.wrappers.result.Result;
 
 public interface HierarchicalDag<HN extends HierarchicalNode, E extends Edge> extends Dag<HN,E> {
 

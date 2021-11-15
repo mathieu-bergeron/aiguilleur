@@ -4,7 +4,7 @@ import ca.ntro.core.graphs.GraphId;
 import ca.ntro.core.graphs.dag.directions.Direction;
 import ca.ntro.core.graphs.dag.exceptions.CycleException;
 import ca.ntro.core.graphs.dag.exceptions.NodeNotFoundException;
-import ca.ntro.core.wrappers.Result;
+import ca.ntro.core.wrappers.result.Result;
 
 public interface Dag<N extends Node, E extends Edge> {
 	

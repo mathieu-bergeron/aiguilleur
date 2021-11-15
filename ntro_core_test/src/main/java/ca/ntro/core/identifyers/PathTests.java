@@ -87,7 +87,9 @@ public class PathTests {
 	public void testValidCharacters(){
 		exceptionThrower.clear();
 		
+		@SuppressWarnings("unused")
 		Path path = Path.fromSingleName("abcdefghijklmnopqrstuvwxyz");
+
 		path = Path.fromSingleName("_-.");
 		path = Path.fromSingleName("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
@@ -98,6 +100,7 @@ public class PathTests {
 	public void testInvalidCharacters(){
 		exceptionThrower.clear();
 		
+		@SuppressWarnings("unused")
 		Path path = Path.fromSingleName("é");
 
 		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrowned(RuntimeException.class));

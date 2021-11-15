@@ -20,4 +20,7 @@ public class EdgeTriple<N extends Node, E extends Edge> {
 		return to;
 	}
 
+	public E edge() {
+		return edge;
+	}
 }
