@@ -25,7 +25,7 @@ import ca.ntro.core.path.PathPattern;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
-public abstract class GenericGraphNtro<SO extends SearchOptions, N extends Node, E extends Edge> implements GenericGraph<SO,N,E> {
+public abstract class GenericGraphNtro<SO extends SearchOptions, N extends Node, E extends Edge, G extends GenericGraph<SO,N,E>> implements GenericGraphBuilder<SO,N,E,G>, GenericGraph<SO,N,E> {
 
 	private GraphId id;
 	private Map<String, N> nodes = new HashMap<>();
@@ -515,6 +515,11 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, N extends Node,
 			                                  ReachableEdgeReducer<N, E, R> reducer) {
 
 		return null;
+	}
+	
+	
+	G toGraph() {
+		return (G) this;
 	}
 	
 }

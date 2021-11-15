@@ -8,13 +8,11 @@ public interface GenericGraph<SO extends SearchOptions, N extends Node, E extend
 	GraphId id();
 	String label();
 
-	void addNode(N n);
 	
 	N findNode(NodeId id);
 	N findNode(NodeMatcher<N> matcher);
 	N findNode(String rawNodeId);
 
-	void addEdge(N from, E edge, N to);
 
 	void forEachNode(NodeVisitor<N> visitor);
 	void forEachEdge(EdgeVisitor<N,E> visitor);
