@@ -20,6 +20,7 @@ public abstract class DagWriterNtro<N extends Node, E extends Edge> implements D
 
 		writeNodes(writer, unwrittenNodes, dag);
 		
+		writer.writeDot();
 		writer.writePng();
 	}
 
