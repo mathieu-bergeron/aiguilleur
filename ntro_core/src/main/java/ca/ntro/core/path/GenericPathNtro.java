@@ -15,7 +15,7 @@ public abstract class GenericPathNtro<I extends GenericPath<I>, IMPL extends Gen
 
 	@Override
 	public void fromJsonString(String jsonString) {
-		parseValidPath(JsonString.toRawString(jsonString), Path.FILENAME_SEPARATOR);
+		parsePath(JsonString.toRawString(jsonString), Path.FILENAME_SEPARATOR);
 	}
 
 	@Override
