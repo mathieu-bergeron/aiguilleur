@@ -13,7 +13,7 @@ public class FilepathNtro extends GenericPathNtro<Filepath, FilepathNtro> implem
 
 	@Override
 	protected String[] validNameCharacters() {
-		return ArrayUtils.addString(Validator.validIdCharacters, Path.FILENAME_SEPARATOR);
+		return ArrayUtils.addString(Validator.validKeyCharacters, Path.FILENAME_SEPARATOR);
 	}
 
 	@Override

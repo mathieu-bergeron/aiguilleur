@@ -12,7 +12,7 @@ public class FilepathPatternNtro extends GenericPathNtro<FilepathPattern, Filepa
 
 	@Override
 	protected String[] validNameCharacters() {
-		String[] validNameCharacters = Validator.validIdCharacters;
+		String[] validNameCharacters = Validator.validKeyCharacters;
 
 		validNameCharacters = ArrayUtils.addString(validNameCharacters, Path.FILENAME_SEPARATOR);
 		validNameCharacters = ArrayUtils.addString(validNameCharacters, PathPattern.NAME_WILDCARD);

@@ -1,4 +1,4 @@
-package ca.ntro.core.path;
+package ca.ntro.core.generic_path;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,11 +7,12 @@ import ca.ntro.core.exceptions.InvalidCharacterException;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.json.JsonSerializer;
 import ca.ntro.core.json.JsonString;
+import ca.ntro.core.path.Path;
 import ca.ntro.core.util.ListUtils;
 import ca.ntro.core.util.Splitter;
 import ca.ntro.core.validation.Validator;
 
-public abstract class GenericPathNtro<I extends GenericPath<I>, IMPL extends GenericPathNtro<I,IMPL>> implements GenericPath<I>, JsonSerializer {
+public abstract class GenericPathNtro<N extends KeySerializable, I extends GenericPath<N,I>, IMPL extends GenericPathNtro<N,I,IMPL>> implements GenericPath<N,I>, JsonSerializer {
 
 	@Override
 	public void fromJsonString(String jsonString) {
@@ -20,20 +21,21 @@ public abstract class GenericPathNtro<I extends GenericPath<I>, IMPL extends Gen
 
 	@Override
 	public String toJsonString() {
-		return JsonString.toJsonString(toRawPath());
+		return JsonString.toJsonString(toKey());
 	}
 
-	private List<String> names = new ArrayList<>();
+	private List<N> names = new ArrayList<>();
 	
-	protected List<String> getNames() {
+	protected List<N> getNames() {
 		return names;
 	}
 
-	protected void setNames(List<String> names) {
+	protected void setNames(List<N> names) {
 		this.names = names;
 	}
 
 	protected abstract IMPL newInstance();
+	protected abstract N newName();
 	protected abstract String[] validNameCharacters();
 
 	@SuppressWarnings("unchecked")
@@ -65,10 +67,10 @@ public abstract class GenericPathNtro<I extends GenericPath<I>, IMPL extends Gen
 	}
 
 	@Override
-	public void addName(String name) {
+	public void addName(N name) {
 		try {
 
-			Validator.mustContainOnlyValidCharacters(name, validNameCharacters());
+			Validator.mustContainOnlyValidCharacters(rawName, name.validCharacters());
 
 		} catch(InvalidCharacterException e) {
 
@@ -78,13 +80,33 @@ public abstract class GenericPathNtro<I extends GenericPath<I>, IMPL extends Gen
 		addValidName(name);
 	}
 
-	protected void addValidName(String name) {
+	@Override
+	public void addName(String rawName) {
+		N name = parseName(rawName);
+		
+		addName(name);
+	}
+	
+	protected N parseName(String rawName) {
+		N name = newName();
+		name.fromKey(rawName);
+		
+		return name;
+	}
+	
+	protected void addValidName(String rawName) {
+		N name = parseName(rawName);
+
+		addValidName(name);
+	}
+
+	protected void addValidName(N name) {
 		getNames().add(name);
 	}
 
 	@Override
-	public String name(int index) {
-		String name = null;
+	public N name(int index) {
+		N name = null;
 		
 		if(ifIndexValid(index)) {
 
@@ -139,17 +161,17 @@ public abstract class GenericPathNtro<I extends GenericPath<I>, IMPL extends Gen
 	}
 
 	protected void parsePath(String rawPath, String separator) {
-		for(String name : Splitter.split(rawPath, separator)){
-			if(name.length() > 0) {
-				addName(name);
+		for(String rawName : Splitter.split(rawPath, separator)){
+			if(rawName.length() > 0) {
+				addName(rawName);
 			}
 		}
 	}
 
 	protected void parseValidPath(String path, String separator) {
-		for(String name : Splitter.split(path, separator)){
-			if(name.length() > 0) {
-				addValidName(name);
+		for(String rawName : Splitter.split(path, separator)){
+			if(rawName.length() > 0) {
+				addValidName(rawName);
 			}
 		}
 	}

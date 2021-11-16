@@ -11,7 +11,7 @@ public class EdgeWalkNtro extends GenericPathNtro<EdgeWalk, EdgeWalkNtro> {
 
 	@Override
 	protected String[] validNameCharacters() {
-		return Validator.validIdCharacters;
+		return Validator.validKeyCharacters;
 	}
 
 }

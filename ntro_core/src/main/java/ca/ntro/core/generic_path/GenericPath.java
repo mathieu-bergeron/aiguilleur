@@ -4,6 +4,7 @@ import ca.ntro.core.json.JsonSerializable;
 
 public interface GenericPath<N extends KeySerializable, I extends GenericPath<N,I>> extends KeySerializable, JsonSerializable {
 
+	void addName(String rawName);
 	void addName(N name);
 	int nameCount();
 	N name(int index);
@@ -21,7 +22,5 @@ public interface GenericPath<N extends KeySerializable, I extends GenericPath<N,
 	I parent();
 	I removePrefix(String rawPrefix);
 	I removePrefix(I prefix);
-
-	String toRawPath();
 
 }
