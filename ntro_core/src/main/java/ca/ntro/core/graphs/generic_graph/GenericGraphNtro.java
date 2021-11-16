@@ -28,8 +28,16 @@ import ca.ntro.core.wrappers.result.ResultNtro;
 public abstract class GenericGraphNtro<SO extends SearchOptions, N extends Node, E extends Edge, G extends GenericGraph<SO,N,E>> implements GenericGraphBuilder<SO,N,E,G>, GenericGraph<SO,N,E> {
 
 	private GraphId id;
+	
+	// FIXME: nodeId not necessarily unique
+	//        but parentId/nodeId is unique
 	private Map<String, N> nodes = new HashMap<>();
+
+	// FIXME: edgeId cannot be unique
+	//        from/edgeId should be unique
+	//        but fromId can be a path
 	private Map<String, E> edges = new HashMap<>();
+
 	private Map<String, Map<String, N>> edgesForward = new HashMap<>();
 
 	protected GraphId getId() {
