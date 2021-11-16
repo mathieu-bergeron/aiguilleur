@@ -70,7 +70,7 @@ public abstract class GenericPathNtro<N extends KeySerializable, I extends Gener
 	public void addName(N name) {
 		try {
 
-			Validator.mustContainOnlyValidCharacters(rawName, name.validCharacters());
+			Validator.mustContainOnlyValidCharacters(name.toKey(), name.validCharacters());
 
 		} catch(InvalidCharacterException e) {
 
@@ -182,7 +182,7 @@ public abstract class GenericPathNtro<N extends KeySerializable, I extends Gener
 	}
 
 	@Override
-	public String lastName() {
+	public N lastName() {
 		return name(nameCount()-1);
 	}
 
