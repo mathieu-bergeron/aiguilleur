@@ -7,12 +7,14 @@ public interface GenericGraph<SO extends SearchOptions, N extends Node, E extend
 
 	GraphId id();
 	String label();
-
 	
 	N findNode(NodeId id);
 	N findNode(NodeMatcher<N> matcher);
 	N findNode(String rawNodeId);
 
+	N findNode(N from, String rawWalk);
+	N findNode(N from, String[] rawWalk);
+	N findNode(N from, EdgeId[] walk);
 
 	void forEachNode(NodeVisitor<N> visitor);
 	void forEachEdge(EdgeVisitor<N,E> visitor);
