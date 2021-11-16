@@ -1,6 +1,7 @@
 package ca.ntro.core.graphs.generic_graph;
 
 import ca.ntro.core.graphs.GraphId;
+import ca.ntro.core.path.EdgeWalk;
 import ca.ntro.core.wrappers.result.Result;
 
 public interface GenericGraph<SO extends SearchOptions, N extends Node, E extends Edge> {
@@ -12,9 +13,9 @@ public interface GenericGraph<SO extends SearchOptions, N extends Node, E extend
 	N findNode(NodeMatcher<N> matcher);
 	N findNode(String rawNodeId);
 
-	N findNode(N from, String rawWalk);
-	N findNode(N from, String[] rawWalk);
-	N findNode(N from, EdgeId[] walk);
+	N findNode(N from, String rawEdgeWalk);
+	N findNode(N from, EdgeId[] edgeWalk);
+	N findNode(N from, EdgeWalk edgeWalk);
 
 	void forEachNode(NodeVisitor<N> visitor);
 	void forEachEdge(EdgeVisitor<N,E> visitor);
