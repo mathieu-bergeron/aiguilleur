@@ -1,6 +1,7 @@
 package ca.ntro.core.graphs;
 
 import ca.ntro.core.identifyers.Id;
+import ca.ntro.core.path.EdgeWalk;
 import ca.ntro.core.path.Filepath;
 import ca.ntro.core.path.PathName;
 
@@ -33,7 +34,7 @@ public class EdgeId implements Id {
 	protected void setToId(NodeId toId) {
 		this.toId = toId;
 	}
-
+	
 	public EdgeId(NodeId fromId, PathName edgeName) {
 		setFromId(fromId);
 		setEdgeName(edgeName);
@@ -52,6 +53,11 @@ public class EdgeId implements Id {
 	public NodeId toId() {
 		return getToId();
 	}
+	
+	public boolean isPrefisOfEdgeWalk(EdgeWalk edgeWalk) {
+		return edgeWalk.startsWith(edgeName.name());
+	}
+
 	
 	@Override
 	public String toKey() {

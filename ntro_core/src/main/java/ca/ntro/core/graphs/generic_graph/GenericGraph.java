@@ -1,5 +1,6 @@
 package ca.ntro.core.graphs.generic_graph;
 
+import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.EdgeReducer;
 import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.EdgeVisitor;
@@ -50,6 +51,9 @@ public interface GenericGraph<SO extends SearchOptions, NV extends NodeValue, EV
 
 	
 	void visitEdgeWalk(Node<NV> from, EdgeWalk edgeWalk, EdgeWalkVisitor<NV,EV> visitor);
+	void visitEdgeWalk(Node<NV> from, Direction direction, EdgeWalk edgeWalk, EdgeWalkVisitor<NV,EV> visitor);
+
 	<R extends Object> Result<R> reduceEdgeWalk(Node<NV> from, EdgeWalk edgeWalk, R initialValue, EdgeWalkReducer<NV,EV,R> reducer);
+	<R extends Object> Result<R> reduceEdgeWalk(Node<NV> from, Direction direction, EdgeWalk edgeWalk, R initialValue, EdgeWalkReducer<NV,EV,R> reducer);
 
 }

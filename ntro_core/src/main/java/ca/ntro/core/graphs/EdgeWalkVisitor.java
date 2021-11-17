@@ -6,6 +6,6 @@ import ca.ntro.core.path.EdgeWalk;
 
 public interface EdgeWalkVisitor<NV extends NodeValue, EV extends EdgeValue> {
 
-	void visitEdgeWalk(List<Edge<EV>> walkedEdges, EdgeWalk remainingWalk, Node<NV> n) throws Throwable;
+	void visitEdgeWalk(List<Edge<EV>> walkedEdges, EdgeWalk remainingEdgeWalk, Node<NV> n) throws Throwable;
 
 }

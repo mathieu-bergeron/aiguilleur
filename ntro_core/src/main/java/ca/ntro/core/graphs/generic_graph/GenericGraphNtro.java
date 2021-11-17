@@ -658,16 +658,72 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 		}
 	}
 
-	@Override
-	public <R> Result<R> reduceEdgeWalk(Node<NV> from, EdgeWalk edgeWalk, R initialValue, EdgeWalkReducer<NV,EV,R> reducer) {
-
-		return null;
-	}
 
 	@Override
 	public void visitEdgeWalk(Node<NV> from, EdgeWalk edgeWalk, EdgeWalkVisitor<NV,EV> visitor) {
-
+		
+		visitEdgeWalk(from, Direction.FORWARD, edgeWalk, visitor);
 	}
+
+	@Override
+	public void visitEdgeWalk(Node<NV> from, Direction direction, EdgeWalk edgeWalk, EdgeWalkVisitor<NV, EV> visitor) {
+
+		reduceEdgeWalk(from, direction, edgeWalk, null, (accumulator, walkedEdges, remainingEdgeWalk, n) -> {
+			
+			visitor.visitEdgeWalk(walkedEdges, remainingEdgeWalk, n);
+			
+			return null;
+		});
+	}
+
+	@Override
+	public <R> Result<R> reduceEdgeWalk(Node<NV> fromNode, EdgeWalk edgeWalk, R initialValue, EdgeWalkReducer<NV,EV,R> reducer) {
+		return reduceEdgeWalk(fromNode, Direction.FORWARD, edgeWalk, initialValue, reducer);
+	}
+
+	@Override
+	public <R> Result<R> reduceEdgeWalk(Node<NV> fromNode, Direction direction, EdgeWalk edgeWalk, R initialValue, EdgeWalkReducer<NV,EV,R> reducer) {
+		
+		ResultNtro<R> result = new ResultNtro<R>(initialValue);
+		
+		Map<String, Map<String, Node<NV>>> edgesMap = edgesMapForDirection(direction);
+		
+		if(edgesMap != null) {
+			
+			reduceEdgeWalk(fromNode, new ArrayList<Edge<EV>>(), edgeWalk, result, reducer, edgesMap);
+		}
+
+		return result;
+	}
+
+	protected <R> void reduceEdgeWalk(Node<NV> fromNode, 
+			                          List<Edge<EV>> walkedEdges, 
+			                          EdgeWalk remainingEdgeWalk, 
+			                          ResultNtro<R> result,
+			                          EdgeWalkReducer<NV,EV,R> reducer,
+			                          Map<String, Map<String, Node<NV>>> edgesMap) {
+		
+		
+		reduceNextEdges(fromNode, result, (accumulator, distance, from, edge, to) -> {
+			
+			if(edge.id().isPrefisOfEdgeWalk(remainingEdgeWalk)) {
+				
+				List<Edge<EV>> newWalkedEdges = new ArrayList<>(walkedEdges);
+				newWalkedEdges.add(edge);
+				
+				EdgeWalk newRemainingEdgeWalk = remainingEdgeWalk.subPath(1);
+				
+				result.registerValue(reducer.reduceEdgeWalk(result.value(), walkedEdges, newRemainingEdgeWalk, from));
+				
+				reduceEdgeWalk(to, newWalkedEdges, newRemainingEdgeWalk, result, reducer, edgesMap);
+
+			}
+			
+			return result.value();
+			
+		}, edgesMap);
+	}
+
 	
 	
 	@SuppressWarnings("unchecked")

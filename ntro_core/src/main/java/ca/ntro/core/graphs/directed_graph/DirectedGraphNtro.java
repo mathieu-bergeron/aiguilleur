@@ -7,9 +7,11 @@ import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeId;
 import ca.ntro.core.graphs.EdgeValue;
+import ca.ntro.core.graphs.EdgeWalkVisitor;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeValue;
 import ca.ntro.core.graphs.generic_graph.GenericGraphNtro;
+import ca.ntro.core.path.EdgeWalk;
 
 public class      DirectedGraphNtro<NV extends NodeValue, EV extends EdgeValue> 
        extends    GenericGraphNtro<DirectedGraphSearchOptions,NV,EV,DirectedGraph<NV,EV>> 
@@ -62,5 +64,6 @@ public class      DirectedGraphNtro<NV extends NodeValue, EV extends EdgeValue>
 			
 		return edgesMap;
 	}
+
 
 }
