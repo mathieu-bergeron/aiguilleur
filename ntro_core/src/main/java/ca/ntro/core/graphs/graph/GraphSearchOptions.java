@@ -9,6 +9,7 @@ public class GraphSearchOptions implements SearchOptions {
 	
 	private SearchStrategy searchStrategy = SearchStrategy.BREADTH_FIRST_SEARCH;
 	private Optionnal<Integer> maxDistance = Optionnal.none(Integer.class);
+	private Direction[] directions = defaultDirections();
 	
 	protected SearchStrategy getSearchStrategy() {
 		return searchStrategy;
@@ -30,6 +31,14 @@ public class GraphSearchOptions implements SearchOptions {
 		this.maxDistance = Optionnal.fromValue(maxDistance);
 	}
 
+	protected Direction[] getDirections() {
+		return directions;
+	}
+
+	protected void setDirections(Direction[] directions) {
+		this.directions = directions;
+	}
+
 	public GraphSearchOptions() {
 	}
 
@@ -48,16 +57,20 @@ public class GraphSearchOptions implements SearchOptions {
 
 	@Override
 	public SearchStrategy searchStrategy() {
-		return searchStrategy;
+		return getSearchStrategy();
 	}
 
 	@Override
 	public Direction[] directions() {
-		return new Direction[] {Direction.FORWARD};
+		return getDirections();
 	}
 
 	@Override
 	public Optionnal<Integer> maxDistance() {
-		return maxDistance;
+		return getMaxDistance();
+	}
+	
+	protected Direction[] defaultDirections() {
+		return new Direction[] {Direction.FORWARD};
 	}
 }

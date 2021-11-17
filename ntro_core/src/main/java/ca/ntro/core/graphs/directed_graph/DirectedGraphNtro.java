@@ -1,9 +1,7 @@
 package ca.ntro.core.graphs.directed_graph;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
@@ -33,25 +31,6 @@ public class      DirectedGraphNtro<NV extends NodeValue, EV extends EdgeValue>
 	}
 
 	@Override
-	protected <R extends Object> Set<String> reachableNodesOneStep(Set<String> visitedNodes, 
-			                                                       Node<NV> from, 
-			                                                       Direction direction) {
-		
-			Set<String> result = new HashSet<>();
-
-			if(direction == Direction.FORWARD) {
-
-				result = reachableNodesOneStep(visitedNodes, from, getEdgesForward());
-
-			}else if(direction == Direction.BACKWARD) {
-
-				result = reachableNodesOneStep(visitedNodes, from, getEdgesBackward());
-			}
-			
-			return result;
-	}
-
-	@Override
 	protected void addToEdgesMaps(Node<NV> from, Edge<EV> edge, Node<NV> to) {
 
 		addToEdgesMap(getEdgesForward(), from, edge, to);
@@ -65,6 +44,23 @@ public class      DirectedGraphNtro<NV extends NodeValue, EV extends EdgeValue>
 
 	@Override
 	protected void detectCycleFrom(Node<NV> from) {
+	}
+
+	@Override
+	protected Map<String, Map<String, Node<NV>>> edgesMapForDirection(Direction direction) {
+		
+		Map<String, Map<String, Node<NV>>> edgesMap = null;
+		
+		if(direction == Direction.FORWARD) {
+
+			edgesMap = getEdgesForward();
+
+		}else if(direction == Direction.BACKWARD) {
+			
+			edgesMap = getEdgesBackward();
+		}
+			
+		return edgesMap;
 	}
 
 }

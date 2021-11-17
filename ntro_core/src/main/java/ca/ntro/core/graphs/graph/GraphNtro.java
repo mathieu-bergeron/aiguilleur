@@ -1,6 +1,8 @@
 package ca.ntro.core.graphs.graph;
 
+import java.io.ObjectInputStream.GetField;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import ca.ntro.core.graphs.Direction;
@@ -9,9 +11,11 @@ import ca.ntro.core.graphs.EdgeId;
 import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeValue;
+import ca.ntro.core.graphs.ReachableEdgeReducer;
+import ca.ntro.core.graphs.ReachableNodeReducer;
 import ca.ntro.core.graphs.generic_graph.GenericGraphNtro;
-import ca.ntro.core.path.EdgeWalk;
 import ca.ntro.core.wrappers.result.Result;
+import ca.ntro.core.wrappers.result.ResultNtro;
 
 public class   GraphNtro<NV extends NodeValue, EV extends EdgeValue> 
        extends GenericGraphNtro<GraphSearchOptions,NV,EV,Graph<NV,EV>> 
@@ -65,18 +69,18 @@ public class   GraphNtro<NV extends NodeValue, EV extends EdgeValue>
 	}
 
 	@Override
-	protected <R extends Object> Set<String> reachableNodesOneStep(Set<String> visitedNodes, 
-			                                                       Node<NV> from, 
-			                                                       Direction direction) {
+	protected Map<String, Map<String, Node<NV>>> edgesMapForDirection(Direction direction) {
 		
-			Set<String> result = new HashSet<>();
-
-			if(direction == Direction.FORWARD) {
-
-				result = reachableNodesOneStep(visitedNodes, from, getEdgesForward());
-			}
+		Map<String, Map<String, Node<NV>>> edgesMap = null;
+		
+		if(direction == Direction.FORWARD) {
+			edgesMap = getEdgesForward();
+		}
 			
-			return result;
+		return edgesMap;
 	}
+
+
+
 
 }

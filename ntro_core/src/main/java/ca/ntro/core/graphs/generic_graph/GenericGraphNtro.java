@@ -34,8 +34,6 @@ import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.graphs.SearchStrategy;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.path.EdgeWalk;
-import ca.ntro.core.path.Filepath;
-import ca.ntro.core.path.Path;
 import ca.ntro.core.path.PathPattern;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
@@ -141,11 +139,14 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 		return edge;
 	}
 
+
 	protected abstract EdgeId newEdgeId(Node<NV> from, EV edgeValue, Node<NV> to);
 
 	protected abstract void addToEdgesMaps(Node<NV> from, Edge<EV> edge, Node<NV> to);
 
 	protected abstract void detectCycleFrom(Node<NV> from);
+
+	protected abstract Map<String, Map<String, Node<NV>>> edgesMapForDirection(Direction direction);
 
 	protected void addToEdgesMap(Map<String, Map<String, Node<NV>>> edgesMap, Node<NV> from, Edge<EV> edge, Node<NV> to) {
 		String fromKey = from.id().toKey();
@@ -405,9 +406,22 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 		}
 	}
 
-	protected abstract <R extends Object> Set<String> reachableNodesOneStep(Set<String> visitedNodes, 
-			                                                                Node<NV> from, 
-			                                                                Direction direction);
+	protected <R extends Object> Set<String> reachableNodesOneStep(Set<String> visitedNodes, 
+			                                                       Node<NV> from, 
+			                                                       Direction direction) {
+
+			Set<String> result = new HashSet<>();
+
+			Map<String, Map<String, Node<NV>>> edgesMap = edgesMapForDirection(direction);
+				
+			if(edgesMap != null) {
+
+				result = reachableNodesOneStep(visitedNodes, from, edgesMap);
+
+			}
+			
+			return result;
+	}
 
 	protected <R extends Object> Set<String> reachableNodesOneStep(Set<String> visitedNodes, 
 			                                                       Node<NV> from, 
@@ -434,10 +448,10 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 	private <R extends Object> void reduceReachableNodesDepthFirst(Set<String> visitedNodes, 
 			                                                       Node<NV> from, 
 			                                                       SO searchOptions,
-			                                                       ResultNtro<R> accumulator,
+			                                                       ResultNtro<R> result,
 			                                                       int distance,
 			                                                       ReachableNodeReducer<NV,R> reducer) {
-		if(accumulator.hasException()) {
+		if(result.hasException()) {
 			return;
 		}
 
@@ -451,7 +465,7 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 			reduceNodesInDirectionDepthFirst(visitedNodes, 
 					                         from, 
 					                         searchOptions, 
-					                         accumulator, 
+					                         result, 
 					                         distance, 
 					                         reducer, 
 					                         direction);
@@ -461,31 +475,34 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 	protected <R extends Object> void reduceNodesInDirectionDepthFirst(Set<String> visitedNodes, 
 			                                                           Node<NV> from, 
 			                                                           SO searchOptions,
-			                                                           ResultNtro<R> accumulator,
+			                                                           ResultNtro<R> result,
 			                                                           int distance,
 			                                                           ReachableNodeReducer<NV,R> reducer,
 			                                                           Direction direction) {
 		
-		if(direction == Direction.FORWARD) {
+		Map<String, Map<String, Node<NV>>> edgesMap = edgesMapForDirection(direction);
+		
+		if(edgesMap != null) {
 
 			reduceNodesInDirectionDepthFirst(visitedNodes, 
 					                         from, 
 					                         searchOptions, 
-					                         accumulator, 
+					                         result, 
 					                         distance, 
 					                         reducer, 
-					                         getEdgesForward());
+					                         edgesMap);
+			
 		}
 	}
 
-	private <R extends Object> void reduceNodesInDirectionDepthFirst(Set<String> visitedNodes, 
+	protected <R extends Object> void reduceNodesInDirectionDepthFirst(Set<String> visitedNodes, 
 			                                                         Node<NV> from, 
 			                                                         SO searchOptions,
-			                                                         ResultNtro<R> accumulator,
+			                                                         ResultNtro<R> result,
 			                                                         int distance,
 			                                                         ReachableNodeReducer<NV,R> reducer,
 			                                                         Map<String, Map<String, Node<NV>>> edgesMap) {
-		if(accumulator.hasException()) {
+		if(result.hasException()) {
 			return;
 		}
 
@@ -506,9 +523,9 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 
 					try {
 
-						accumulator.registerValue(reducer.reduceReachableNode(accumulator.value(), distance+1, to));
+						result.registerValue(reducer.reduceReachableNode(result.value(), distance+1, to));
 
-						reduceReachableNodesDepthFirst(visitedNodes, to, searchOptions, accumulator, distance+1, reducer);
+						reduceReachableNodesDepthFirst(visitedNodes, to, searchOptions, result, distance+1, reducer);
 
 					} catch(Break e) { 
 
@@ -516,7 +533,7 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 
 					} catch(Throwable t) {
 						
-						accumulator.registerException(t);
+						result.registerException(t);
 						break;
 					}
 				}
@@ -538,34 +555,107 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 	
 
 	@Override
-	public void forEachReachableEdge(Node<NV> from, 
+	public void forEachReachableEdge(Node<NV> fromNode, 
 			                         ReachableEdgeVisitor<NV,EV> visitor) {
-
 		
+		forEachReachableEdge(fromNode, defaultSearchOptions(), visitor);
 	}
 
 	@Override
-	public void forEachReachableEdge(Node<NV> from, 
+	public void forEachReachableEdge(Node<NV> fromNode, 
 			                         SO searchOptions, 
 			                         ReachableEdgeVisitor<NV,EV> visitor) {
-		
+
+		reduceReachableEdges(fromNode, searchOptions, null, (accumulator, distance, from, edge, to) -> {
+
+			visitor.visitReachableEdge(distance, from, edge, to);
+
+			return null;
+		});
 	}
 
 	@Override
-	public <R> Result<R> reduceReachableEdges(Node<NV> from, 
+	public <R> Result<R> reduceReachableEdges(Node<NV> fromNode, 
 			                                  R initialValue, 
 			                                  ReachableEdgeReducer<NV,EV,R> reducer) {
 
-		return null;
+		return reduceReachableEdges(fromNode, defaultSearchOptions(), initialValue, reducer);
 	}
 
 	@Override
-	public <R> Result<R> reduceReachableEdges(Node<NV> from, 
+	public <R> Result<R> reduceReachableEdges(Node<NV> fromNode, 
 			                                  SO searchOptions, 
 			                                  R initialValue, 
 			                                  ReachableEdgeReducer<NV,EV,R> reducer) {
+		
+		return reduceReachableNodes(fromNode, searchOptions, initialValue, (accumulator, distance, n) ->{
+			
+			accumulator = reduceNextEdges(fromNode, searchOptions, accumulator, (innerAccumulator, innerDistance, from, edge, to) -> {
+				
+				return reducer.reduceReachableEdge(innerAccumulator,distance+1, from, edge, to);
+				
+			}).value();
 
-		return null;
+			return accumulator;
+		});
+	}
+	
+	
+	protected <R> Result<R> reduceNextEdges(Node<NV> fromNode, 
+			                                SO searchOptions, 
+			                                R initialValue,
+			                                ReachableEdgeReducer<NV, EV, R> reducer) {
+		
+		ResultNtro<R> result = new ResultNtro<R>(initialValue);
+
+		for(Direction direction : searchOptions.directions()) {
+			
+			Map<String, Map<String, Node<NV>>> edgesMap = edgesMapForDirection(direction);
+			
+			if(edgesMap != null) {
+
+					reduceNextEdges(fromNode, 
+									result,
+			                        reducer,
+			                        edgesMap);
+				
+			}
+		}
+		
+		return result;
+	}
+	
+	protected <R> void reduceNextEdges(Node<NV> fromNode, 
+									   ResultNtro<R> result,
+			                           ReachableEdgeReducer<NV,EV,R> reducer,
+								       Map<String, Map<String, Node<NV>>> edgesMap){
+
+		Map<String, Node<NV>> edgesFrom = edgesMap.get(fromNode.id().toKey());
+		
+		if(edgesFrom != null) {
+
+			for(Map.Entry<String, Node<NV>> entry : edgesFrom.entrySet()) {
+				
+				String edgeKey = entry.getKey();
+				Node<NV> to = entry.getValue();
+				
+				Edge<EV> edge = getEdges().get(edgeKey);
+				
+				try {
+
+					result.registerValue(reducer.reduceReachableEdge(result.value(), 1, fromNode, edge, to));
+
+				} catch(Break e) { 
+
+					break; 
+
+				} catch(Throwable t) {
+					
+					result.registerException(t);
+					break;
+				}
+			}
+		}
 	}
 
 	@Override

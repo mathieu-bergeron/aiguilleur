@@ -6,18 +6,12 @@ import ca.ntro.core.graphs.SearchStrategy;
 import ca.ntro.core.graphs.graph.GraphSearchOptions;
 
 public class DirectedGraphSearchOptions extends GraphSearchOptions implements SearchOptions {
-	
-	private Direction[] directions = new Direction[] {Direction.FORWARD};
 
-	protected Direction[] getDirections() {
-		return directions;
+	@Override
+	protected Direction[] defaultDirections() {
+		return new Direction[] {Direction.FORWARD};
 	}
 
-	protected void setDirections(Direction[] directions) {
-		this.directions = directions;
-	}
-	
-	
 	public DirectedGraphSearchOptions() {
 	}
 
@@ -48,12 +42,4 @@ public class DirectedGraphSearchOptions extends GraphSearchOptions implements Se
 		super(maxDistance);
 		setDirections(directions);
 	}
-	
-
-	@Override
-	public Direction[] directions() {
-		return this.directions;
-	}
-
-
 }

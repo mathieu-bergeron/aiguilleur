@@ -6,17 +6,17 @@ import ca.ntro.core.graphs.SearchStrategy;
 import ca.ntro.core.graphs.directed_graph.DirectedGraphSearchOptions;
 
 public class HierarchicalDagSearchOptions extends DirectedGraphSearchOptions implements SearchOptions {
-	
-	public HierarchicalDagSearchOptions() {
+
+	@Override
+	protected Direction[] defaultDirections() {
+		return new Direction[] {Direction.FORWARD, Direction.DOWN_TO_SUB_NODES};
 	}
 	
-	private Direction[] defaultDirections() {
-		return new Direction[] {Direction.FORWARD, Direction.DOWN_TO_SUB_NODES};
+	public HierarchicalDagSearchOptions() {
 	}
 
 	public HierarchicalDagSearchOptions(SearchStrategy searchStrategy) {
 		super(searchStrategy);
-		setDirections(defaultDirections());
 	}
 
 	public HierarchicalDagSearchOptions(SearchStrategy searchStrategy, Direction[] directions) {
@@ -25,7 +25,6 @@ public class HierarchicalDagSearchOptions extends DirectedGraphSearchOptions imp
 
 	public HierarchicalDagSearchOptions(SearchStrategy searchStrategy, int maxDistance) {
 		super(searchStrategy, maxDistance);
-		setDirections(defaultDirections());
 	}
 
 	public HierarchicalDagSearchOptions(SearchStrategy searchStrategy, Direction[] directions, int maxDistance) {
@@ -34,7 +33,6 @@ public class HierarchicalDagSearchOptions extends DirectedGraphSearchOptions imp
 
 	public HierarchicalDagSearchOptions(int maxDistance) {
 		super(maxDistance);
-		setDirections(defaultDirections());
 	}
 
 
