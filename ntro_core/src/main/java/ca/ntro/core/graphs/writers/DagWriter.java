@@ -1,11 +1,11 @@
 package ca.ntro.core.graphs.writers;
 
 import ca.ntro.core.graphs.dag.Dag;
-import ca.ntro.core.graphs.generic_graph.Edge;
-import ca.ntro.core.graphs.generic_graph.Node;
+import ca.ntro.core.graphs.generic_graph.EdgeValue;
+import ca.ntro.core.graphs.generic_graph.NodeValue;
 
-public interface DagWriter<N extends Node, E extends Edge> {
+public interface DagWriter<NV extends NodeValue, EV extends EdgeValue> {
 	
-	void write(Dag<N,E> dag);
+	void write(Dag<NV,EV> dag);
 
 }

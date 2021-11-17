@@ -1,11 +1,11 @@
 package ca.ntro.core.graphs.writers;
 
-import ca.ntro.core.graphs.generic_graph.Edge;
+import ca.ntro.core.graphs.generic_graph.EdgeValue;
+import ca.ntro.core.graphs.generic_graph.NodeValue;
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDag;
-import ca.ntro.core.graphs.hierarchical_dag.HierarchicalNode;
 
-public interface HierarchicalDagWriter<HN extends HierarchicalNode, E extends Edge> {
+public interface HierarchicalDagWriter<NV extends NodeValue, EV extends EdgeValue> {
 	
-	void write(HierarchicalDag<HN,E> hierarchicalDag);
+	void write(HierarchicalDag<NV,EV> hierarchicalDag);
 
 }

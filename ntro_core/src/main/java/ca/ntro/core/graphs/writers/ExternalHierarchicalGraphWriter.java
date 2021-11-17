@@ -1,8 +1,8 @@
 package ca.ntro.core.graphs.writers;
 
-import ca.ntro.core.graphs.generic_graph.Edge;
-import ca.ntro.core.graphs.hierarchical_dag.HierarchicalNode;
+import ca.ntro.core.graphs.generic_graph.EdgeValue;
+import ca.ntro.core.graphs.generic_graph.NodeValue;
 
-public interface ExternalHierarchicalGraphWriter<HN extends HierarchicalNode, E extends Edge> extends ExternalGraphWriter<HN,E> {
+public interface ExternalHierarchicalGraphWriter<NV extends NodeValue, EV extends EdgeValue> extends ExternalGraphWriter<NV,EV> {
 
 }

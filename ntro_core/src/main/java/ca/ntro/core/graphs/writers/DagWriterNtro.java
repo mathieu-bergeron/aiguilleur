@@ -4,22 +4,23 @@ import java.util.HashSet;
 import java.util.Set;
 
 import ca.ntro.core.graphs.dag.Dag;
-import ca.ntro.core.graphs.generic_graph.Edge;
+import ca.ntro.core.graphs.generic_graph.EdgeValue;
 import ca.ntro.core.graphs.generic_graph.Node;
+import ca.ntro.core.graphs.generic_graph.NodeValue;
 import ca.ntro.core.identifyers.StorageId;
 
-public abstract class DagWriterNtro<N extends Node, E extends Edge> implements DagWriter<N,E> {
+public abstract class DagWriterNtro<NV extends NodeValue, EV extends EdgeValue> implements DagWriter<NV,EV> {
 
-	protected abstract ExternalGraphWriter<N, E> createExeternalGraphWriter(StorageId storageId);
+	protected abstract ExternalGraphWriter<NV, EV> createExeternalGraphWriter(StorageId storageId);
 	
-	public void write(Dag<N, E> dag) {
+	public void write(Dag<NV, EV> dag) {
 		
-		ExternalGraphWriter<N,E> writer = createExeternalGraphWriter(dag.id());
+		ExternalGraphWriter<NV,EV> writer = createExeternalGraphWriter(dag.id());
 		
 		write(writer, dag);
 	}
 	
-	protected void write(ExternalGraphWriter<N,E> writer, Dag<N,E> dag) {
+	protected void write(ExternalGraphWriter<NV,EV> writer, Dag<NV,EV> dag) {
 
 		Set<String> unwrittenNodes = writeEdges(writer, dag);
 
@@ -29,7 +30,7 @@ public abstract class DagWriterNtro<N extends Node, E extends Edge> implements D
 		writer.writePng();
 	}
 
-	protected Set<String> writeEdges(ExternalGraphWriter<N,E> writer, Dag<N,E> dag) {
+	protected Set<String> writeEdges(ExternalGraphWriter<NV,EV> writer, Dag<NV,EV> dag) {
 		
 		Set<String> unwrittenNodes = dag.reduceNodes(new HashSet<String>(), (accumulator, n) -> {
 			
@@ -50,10 +51,10 @@ public abstract class DagWriterNtro<N extends Node, E extends Edge> implements D
 		return unwrittenNodes;
 	}
 
-	protected void writeNodes(ExternalGraphWriter<N,E> writer, Set<String> nodesToWrite, Dag<N,E> dag) {
+	protected void writeNodes(ExternalGraphWriter<NV,EV> writer, Set<String> nodesToWrite, Dag<NV,EV> dag) {
 		for(String nodeKey : nodesToWrite) {
 
-			N node = dag.findNode(nodeKey);
+			Node<NV> node = dag.findNode(nodeKey);
 
 			if(node != null) {
 				writer.writeNode(node);

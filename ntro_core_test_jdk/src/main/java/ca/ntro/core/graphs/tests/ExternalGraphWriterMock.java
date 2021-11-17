@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import ca.ntro.core.graphs.generic_graph.Edge;
+import ca.ntro.core.graphs.generic_graph.Node;
 import ca.ntro.core.graphs.writers.ExternalGraphWriter;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.path.Filepath;
@@ -21,7 +23,7 @@ import guru.nidi.graphviz.model.MutableNode;
 import static guru.nidi.graphviz.model.Factory.*;
 
 
-public class ExternalGraphWriterMock implements ExternalGraphWriter<NodeMock, EdgeMock> {
+public class ExternalGraphWriterMock implements ExternalGraphWriter<MockNodeValue, MockEdgeValue> {
 	
 	private Filepath basepath;
 
@@ -89,12 +91,12 @@ public class ExternalGraphWriterMock implements ExternalGraphWriter<NodeMock, Ed
 	}
 
 	@Override
-	public void writeEdge(NodeMock from, EdgeMock edge, NodeMock to) {
+	public void writeEdge(Node<MockNodeValue> from, Edge<MockEdgeValue> edge, Node<MockNodeValue> to) {
 		addEdge(from, to);
 	}
 
 	@Override
-	public void writeNode(NodeMock node) {
+	public void writeNode(Node<MockNodeValue> node) {
 		addRootNode(node);
 	}
 	
@@ -110,18 +112,18 @@ public class ExternalGraphWriterMock implements ExternalGraphWriter<NodeMock, Ed
 		Graphviz.fromGraph(graph).render(Format.DOT).toFile(file);
 	}
 
-	public void addRootCluster(NodeMock clusterSpec) {
+	public void addRootCluster(Node<MockNodeValue> clusterSpec) {
 		MutableGraph cluster = createCluster(clusterSpec);
 		graph.add(cluster);
 	}
 
-	private MutableGraph createCluster(NodeMock clusterSpec) {
+	private MutableGraph createCluster(Node<MockNodeValue> clusterSpec) {
 		if(clusters.containsKey(clusterSpec.id().toKey())) return clusters.get(clusterSpec.id().toKey());
 		
 		MutableGraph cluster = mutGraph(clusterSpec.id().toKey());
 		cluster.setCluster(true);
 		cluster.graphAttrs().add(Rank.dir(RankDir.LEFT_TO_RIGHT));
-		cluster.graphAttrs().add(Label.of(clusterSpec.label()));
+		cluster.graphAttrs().add(Label.of(clusterSpec.value().label()));
 		cluster.setDirected(true);
 
 		clusters.put(clusterSpec.id().toKey(), cluster);
@@ -142,31 +144,31 @@ public class ExternalGraphWriterMock implements ExternalGraphWriter<NodeMock, Ed
 		clusterInvisibleNodes.put(cluster.name().toString(), clusterInvisiableNode);
 	}
 
-	public void addRootNode(NodeMock nodeSpec) {
+	public void addRootNode(Node<MockNodeValue> nodeSpec) {
 		MutableNode node = createNode(nodeSpec);
 		graph.add(node);
 	}
 
-	private MutableNode createNode(NodeMock nodeSpec) {
+	private MutableNode createNode(Node<MockNodeValue> nodeSpec) {
 		if(nodes.containsKey(nodeSpec.id().toKey())) return nodes.get(nodeSpec.id().toKey());
 
 		MutableNode node = mutNode(nodeSpec.id().toKey());
-		node.attrs().add(Label.of(nodeSpec.label()));
+		node.attrs().add(Label.of(nodeSpec.value().label()));
 		nodes.put(nodeSpec.id().toKey(), node);
 		return node;
 	}
 
-	public void addSubCluster(NodeMock clusterSpec, NodeMock subClusterSpec) {
+	public void addSubCluster(Node<MockNodeValue> clusterSpec, Node<MockNodeValue> subClusterSpec) {
 		MutableGraph cluster = clusters.get(clusterSpec.id().toKey());
 		cluster.add(createCluster(subClusterSpec));
 	}
 
-	public void addSubNode(NodeMock clusterSpec, NodeMock subNodeSpec) {
+	public void addSubNode(Node<MockNodeValue> clusterSpec, Node<MockNodeValue> subNodeSpec) {
 		MutableGraph cluster = clusters.get(clusterSpec.id().toKey());
 		cluster.add(createNode(subNodeSpec));
 	}
 
-	public void addEdge(NodeMock fromSpec, NodeMock toSpec) {
+	public void addEdge(Node<MockNodeValue> fromSpec, Node<MockNodeValue> toSpec) {
 		MutableGraph fromCluster = clusters.get(fromSpec.id().toKey());
 		MutableGraph toCluster = clusters.get(toSpec.id().toKey());
 		

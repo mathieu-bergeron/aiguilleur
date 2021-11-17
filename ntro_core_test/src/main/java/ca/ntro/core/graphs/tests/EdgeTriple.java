@@ -2,11 +2,11 @@ package ca.ntro.core.graphs.tests;
 
 public class EdgeTriple {
 	
-	private NodeMock from;
-	private EdgeMock edge;
-	private NodeMock to;
+	private MockNodeValue from;
+	private MockEdgeValue edge;
+	private MockNodeValue to;
 	
-	public EdgeTriple(NodeMock from, EdgeMock edge, NodeMock to) {
+	public EdgeTriple(MockNodeValue from, MockEdgeValue edge, MockNodeValue to) {
 		this.from = from;
 		this.edge = edge;
 		this.to = to;

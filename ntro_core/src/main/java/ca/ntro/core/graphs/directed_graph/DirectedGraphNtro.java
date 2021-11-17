@@ -7,20 +7,22 @@ import java.util.Set;
 
 import ca.ntro.core.graphs.generic_graph.Direction;
 import ca.ntro.core.graphs.generic_graph.Edge;
+import ca.ntro.core.graphs.generic_graph.EdgeValue;
 import ca.ntro.core.graphs.generic_graph.GenericGraphNtro;
 import ca.ntro.core.graphs.generic_graph.Node;
+import ca.ntro.core.graphs.generic_graph.NodeValue;
 
-public class      DirectedGraphNtro<N extends Node, E extends Edge> 
-       extends    GenericGraphNtro<DirectedGraphSearchOptions,N,E> 
-       implements DirectedGraph<N,E> {
+public class      DirectedGraphNtro<NV extends NodeValue, EV extends EdgeValue> 
+       extends    GenericGraphNtro<DirectedGraphSearchOptions,NV,EV,DirectedGraph<NV,EV>> 
+       implements DirectedGraph<NV,EV> {
 
-	private Map<String, Map<String, N>> edgesBackward = new HashMap<>();
+	private Map<String, Map<String, Node<NV>>> edgesBackward = new HashMap<>();
 	
-	protected Map<String, Map<String, N>> getEdgesBackward() {
+	protected Map<String, Map<String, Node<NV>>> getEdgesBackward() {
 		return edgesBackward;
 	}
 
-	protected void setEdgesBackward(Map<String, Map<String, N>> edgesBackward) {
+	protected void setEdgesBackward(Map<String, Map<String, Node<NV>>> edgesBackward) {
 		this.edgesBackward = edgesBackward;
 	}
 
@@ -31,7 +33,7 @@ public class      DirectedGraphNtro<N extends Node, E extends Edge>
 
 	@Override
 	protected <R extends Object> Set<String> reachableNodesOneStep(Set<String> visitedNodes, 
-			                                                       N from, 
+			                                                       Node<NV> from, 
 			                                                       Direction direction) {
 		
 			Set<String> result = new HashSet<>();
@@ -49,13 +51,13 @@ public class      DirectedGraphNtro<N extends Node, E extends Edge>
 	}
 
 	@Override
-	protected void addToEdgesMaps(N from, E edge, N to) {
+	protected void addToEdgesMaps(Node<NV> from, Edge<EV> edge, Node<NV> to) {
 
 		addToEdgesMap(getEdgesForward(), from, edge, to);
 		addToEdgesMap(getEdgesBackward(), to, edge, from);
 	}
 
 	@Override
-	protected void detectCycleFrom(N from) {
+	protected void detectCycleFrom(Node<NV> from) {
 	}
 }

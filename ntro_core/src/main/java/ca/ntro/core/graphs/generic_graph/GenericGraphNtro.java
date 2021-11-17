@@ -20,6 +20,7 @@ import ca.ntro.core.graphs.generic_graph.NodeReducer;
 import ca.ntro.core.graphs.generic_graph.NodeVisitor;
 import ca.ntro.core.graphs.generic_graph.SearchStrategy;
 import ca.ntro.core.initialization.Ntro;
+import ca.ntro.core.path.EdgeWalk;
 import ca.ntro.core.path.PathPattern;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
@@ -527,4 +528,27 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 		return (G) this;
 	}
 
+	@Override
+	public Node<NV> findNode(NV nodeValue) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Node<NV> walkToNode(Node<NV> from, String rawEdgeWalk) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Node<NV> walkToNode(Node<NV> from, EdgeId[] edgeWalk) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Node<NV> walkToNode(Node<NV> from, EdgeWalk edgeWalk) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
