@@ -1,6 +1,6 @@
 package ca.ntro.core.reflection;
 
-public class TestObject {
+public class TestObject01 {
 	
 	private String attribute01 = "asdf";
 

@@ -27,7 +27,7 @@ public class ObjectGraphTests {
 	@Test
 	public void testObjectGraph01() {
 		
-		TestObject o = new TestObject();
+		TestObject01 o = new TestObject01();
 		
 		ObjectGraph graph = Ntro.reflectionService().objectGraph(o);
 		
@@ -38,10 +38,47 @@ public class ObjectGraphTests {
 			subValues.add(n.value().object());
 		});
 		
+		Ntro.asserter().assertEquals(2, subValues.size());
+		Ntro.asserter().assertTrue("Should contain", subValues.contains(o));
 		Ntro.asserter().assertTrue("Should contain", subValues.contains(o.getAttribute01()));
+	}
+
+	@Test
+	public void testObjectGraph02() {
 		
+		TestObject02 o = new TestObject02();
 		
+		ObjectGraph graph = Ntro.reflectionService().objectGraph(o);
 		
+		List<Object> subValues = new ArrayList<>();
+
+		graph.forEachNode(n -> {
+			
+			subValues.add(n.value().object());
+		});
+		
+		Ntro.asserter().assertEquals(3, subValues.size());
+		Ntro.asserter().assertTrue("Should contain", subValues.contains(o));
+		Ntro.asserter().assertTrue("Should contain", subValues.contains(o.getTestObject01()));
+		Ntro.asserter().assertTrue("Should contain", subValues.contains(o.getTestObject01().getAttribute01()));
+	}
+
+	@Test
+	public void testObjectCycle() {
+		
+		TestObjectCycle o = new TestObjectCycle();
+		
+		ObjectGraph graph = Ntro.reflectionService().objectGraph(o);
+		
+		List<Object> subValues = new ArrayList<>();
+
+		graph.forEachNode(n -> {
+			
+			subValues.add(n.value().object());
+		});
+		
+		Ntro.asserter().assertEquals(1, subValues.size());
+		Ntro.asserter().assertTrue("Should contain", subValues.contains(o));
 	}
 
 }

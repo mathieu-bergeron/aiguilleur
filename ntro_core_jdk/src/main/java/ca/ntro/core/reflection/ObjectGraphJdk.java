@@ -1,5 +1,10 @@
 package ca.ntro.core.reflection;
 
+import java.lang.reflect.Method;
+import java.util.HashSet;
+import java.util.Set;
+
+import ca.ntro.core.exceptions.Break;
 import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.EdgeReducer;
 import ca.ntro.core.graphs.EdgeVisitor;
@@ -16,8 +21,11 @@ import ca.ntro.core.graphs.ReachableEdgeVisitor;
 import ca.ntro.core.graphs.ReachableNodeReducer;
 import ca.ntro.core.graphs.ReachableNodeVisitor;
 import ca.ntro.core.graphs.directed_graph.DirectedGraphSearchOptions;
+import ca.ntro.core.graphs.generic_graph.NodeNtro;
 import ca.ntro.core.path.EdgeWalk;
+import ca.ntro.core.path.Path;
 import ca.ntro.core.wrappers.result.Result;
+import ca.ntro.core.wrappers.result.ResultNtro;
 
 public class ObjectGraphJdk implements ObjectGraph {
 	
@@ -66,8 +74,18 @@ public class ObjectGraphJdk implements ObjectGraph {
 
 	@Override
 	public void forEachNode(NodeVisitor<ObjectValue> visitor) {
-		// TODO Auto-generated method stub
 		
+		Node<ObjectValue> rootNode = createNode(Path.emptyPath(), object);
+		
+		try {
+
+			visitor.visitNode(rootNode);
+
+			forEachReachableNode(rootNode, (distance, n) -> {
+				visitor.visitNode(n);
+			});
+
+		} catch (Break e) {}
 	}
 
 	@Override
@@ -90,8 +108,13 @@ public class ObjectGraphJdk implements ObjectGraph {
 
 	@Override
 	public void forEachReachableNode(Node<ObjectValue> from, ReachableNodeVisitor<ObjectValue> visitor) {
-		// TODO Auto-generated method stub
 		
+		reduceReachableNodes(from, null, (accumulator, distance, n) -> {
+			
+			visitor.visitReachableNode(distance, n);
+
+			return accumulator;
+		});
 	}
 
 	@Override
@@ -102,10 +125,84 @@ public class ObjectGraphJdk implements ObjectGraph {
 	}
 
 	@Override
-	public <R> Result<R> reduceReachableNodes(Node<ObjectValue> from, R initialValue,
-			ReachableNodeReducer<ObjectValue, R> reducer) {
-		// TODO Auto-generated method stub
-		return null;
+	public <R> Result<R> reduceReachableNodes(Node<ObjectValue> fromNode, 
+			                                  R initialValue, 
+			                                  ReachableNodeReducer<ObjectValue, R> reducer) {
+		
+		ResultNtro<R> result = new ResultNtro<R>(initialValue);
+
+		Object rootObject = fromNode.value().object();
+		
+		Set<Object> visitedObject = new HashSet<>();
+		visitedObject.add(rootObject);
+		
+		reduceReachableNodes(visitedObject, rootObject, result, Path.emptyPath(), reducer);
+
+		return result;
+	}
+	
+	private NodeNtro<ObjectValue> createNode(Path attributePath, Object attributeValue){
+
+		ObjectValue objectValue = new ObjectValue(attributeValue);
+		NodeId nodeId = new NodeId(attributePath);
+		NodeNtro<ObjectValue> node = new NodeNtro<ObjectValue>(nodeId, objectValue);
+		
+		return node;
+	}
+
+	public <R> void reduceReachableNodes(Set<Object> visitedObjects,
+										 Object currentObject,
+			                             ResultNtro<R> result, 
+			                             Path previousAttributePath,
+			                             ReachableNodeReducer<ObjectValue, R> reducer) {
+		
+		if(result.hasException()) {
+			return;
+		}
+		
+		for(Method method: currentObject.getClass().getMethods()) {
+			
+			if(method.getName().startsWith("get")
+					&& method.getName().length() > 3
+					&& !method.getName().equals("getClass")) {
+				
+				String rawAttributeName = method.getName().substring(3);
+				String attributeName = rawAttributeName.substring(0,1).toLowerCase();
+				attributeName += rawAttributeName.substring(1);
+				
+				try {
+
+					Object attributeValue = method.invoke(currentObject);
+					
+					Path attributePath = Path.fromPath(previousAttributePath);
+					attributePath.addName(attributeName);
+					
+					NodeNtro<ObjectValue> node = createNode(attributePath, attributeValue);
+					
+					if(!visitedObjects.contains(attributeValue)) {
+
+						result.registerValue(reducer.reduceReachableNode(result.value(), attributePath.nameCount(), node));
+						visitedObjects.add(attributeValue);
+						
+						reduceReachableNodes(visitedObjects, attributeValue, result, attributePath, reducer);
+					}
+
+				} catch (Break e) {
+
+					break;
+
+				} catch (Throwable t) {
+					
+					result.registerException(t);
+					break;
+				}
+				
+				
+			}
+		}
+		
+		
+
 	}
 
 	@Override
@@ -137,9 +234,12 @@ public class ObjectGraphJdk implements ObjectGraph {
 	}
 
 	@Override
-	public <R> Result<R> reduceReachableEdges(Node<ObjectValue> from, DirectedGraphSearchOptions options,
-			R initialValue, ReachableEdgeReducer<ObjectValue, ReferenceValue, R> reducer) {
-		// TODO Auto-generated method stub
+	public <R> Result<R> reduceReachableEdges(Node<ObjectValue> from, 
+			                                  DirectedGraphSearchOptions options, 
+			                                  R initialValue, 
+			                                  ReachableEdgeReducer<ObjectValue, 
+			                                  ReferenceValue, R> reducer) {
+
 		return null;
 	}
 
