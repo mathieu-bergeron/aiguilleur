@@ -2,18 +2,15 @@
 
 ## StorageId (aussi ModelId)
 
-* `categoryPath`:    `/models/QueueModel`                  (comme un répertoire)
-* `entityPath`:      `alice¤2021¤strudon`                  (comme un nom de fichier)
-* `fileExtension`:  `.json`                 
+* `categoryPath`:    `/models/QueueModel`                     (comme un répertoire)
+* `entityPath`:      `alice¤2021¤strudon.json`                (comme un nom de fichier)
 
 ## ModelValueId
 
 * `categoryPath`:    `/models/QueueModel`                  (comme un répertoire)
 * `entityPath`:      `alice¤2021¤strudon`                  (comme un nom de fichier)
-* `fileExtension`:  `.json`                 
-* `valuePath`:       `appointmentsInOrder.1.studentId`          (comme un chemin dans le graphe d'objet)
-                 OU: `appointmentsInOrder/1/studentId`          (comme un chemin dans un fichier Json)
-                 OU: `appointmentsInOrder[1].studentId`         (comme un chemin dans un fichier Json)
+* `valuePath`:       `appointmentsInOrder.1.studentId`     (comme un chemin dans le graphe d'objet)
+                 OU: `appointmentsInOrder/1/studentId`     (comme un chemin dans un fichier Json)
 
 
 ## Chemin dans graphe
