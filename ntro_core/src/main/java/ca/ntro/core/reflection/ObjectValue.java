@@ -6,7 +6,7 @@ import ca.ntro.core.path.PathName;
 public class ObjectValue implements NodeValue {
 
 	@Override
-	public PathName id() {
+	public PathName name() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -19,7 +19,7 @@ public class MockEdgeValue implements EdgeValue {
 
 
 	@Override
-	public PathName id() {
+	public PathName name() {
 		return new PathName(id);
 	}
 

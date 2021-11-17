@@ -30,6 +30,7 @@ import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.graphs.SearchStrategy;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.path.EdgeWalk;
+import ca.ntro.core.path.Path;
 import ca.ntro.core.path.PathPattern;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
@@ -38,11 +39,18 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
        implements     GenericGraphBuilder<SO,NV,EV,G>, GenericGraph<SO,NV,EV> {
 
 	private GraphId id;
-	
-	private Map<String, Node<NV>> nodes = new HashMap<>();
-	private Map<String, Edge<EV>> edges = new HashMap<>();
 
+	// nodeValue.name() -> node.id().key() -> node
+	private Map<String, Map<String,Node<NV>>> nodes = new HashMap<>();
+
+	// edgeValue.name() -> edge.id().key() -> edge
+	private Map<String, Map<String, Edge<EV>>> edges = new HashMap<>();
+
+	// from.id().key() -> edge.id().key() -> to
 	private Map<String, Map<String, Node<NV>>> edgesForward = new HashMap<>();
+
+	private Map<String, Integer> nextNodeIdVersion = new HashMap<>();
+	private Map<String, Integer> nextEdgeIdVersion = new HashMap<>();
 
 	protected GraphId getId() {
 		return id;
@@ -52,19 +60,19 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 		this.id = id;
 	}
 
-	protected Map<String, Node<NV>> getNodes() {
+	protected Map<String, Map<String,Node<NV>>> getNodes() {
 		return nodes;
 	}
 
-	protected void setNodes(Map<String, Node<NV>> nodes) {
+	protected void setNodes(Map<String, Map<String,Node<NV>>> nodes) {
 		this.nodes = nodes;
 	}
 
-	protected Map<String, Edge<EV>> getEdges() {
+	protected Map<String, Map<String,Edge<EV>>> getEdges() {
 		return edges;
 	}
 
-	protected void setEdges(Map<String, Edge<EV>> edges) {
+	protected void setEdges(Map<String, Map<String,Edge<EV>>> edges) {
 		this.edges = edges;
 	}
 
@@ -86,9 +94,7 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 	
 	@Override
 	public Node<NV> addNode(NV nodeValue) {
-		// TODO: create a node with some unique NodeId
-		//       (if hiearchical, the NodeId reflects the id
-		
+
 		NodeId nodeId = newNodeId(nodeValue);
 		
 		Node<NV> node = new NodeNtro<>(nodeId, nodeValue);
@@ -100,28 +106,42 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 
 	private NodeId newNodeId(NV nodeValue) {
 		
-		// FIXME: should be a path, so it is matchable
-		//        by a pattern
+		Path idPath = Path.fromSingleName(nodeValue.name().toKey());
 		
-		NodeId newId = new NodeId(nodeValue.id().name());
+		NodeId newId = new NodeId(idPath);
+		
+		if(findNode(newId) != null) {
 
-		if(getNodes().containsKey(newId.toKey())) {
-
-			int version = 1;
+			Integer version = nextNodeIdVersion.get(newId.toKey());
+			if(version == null) {
+				version = 0;
+			}
 
 			do {
 				
-				version++;
-				newId = new NodeId(nodeValue.id().name() + version);
+				Path newIdPath = idPath.clone();
+				newIdPath.addName(String.valueOf(version));
+				newId = new NodeId(newIdPath);
 				
-			}while(getNodes().containsKey(newId.toKey()));
+				version++;
+				
+			}while(findNode(newId) != null);
+			
+			nextNodeIdVersion.put(newId.toKey(), version);
 		}
-		
+
 		return newId;
 	}
 
 	private void memorizeNode(Node<NV> node) {
-		getNodes().put(node.id().toKey(), node);
+		Map<String, Node<NV>> nodesForName = getNodes().get(node.value().name().toKey());
+		
+		if(nodesForName == null) {
+			nodesForName = new HashMap<>();
+			getNodes().put(node.value().name().toKey(), nodesForName);
+		}
+
+		nodesForName.put(node.id().toKey(), node);
 	}
 
 	private Edge<EV> addEdge(Node<NV> from, EV edgeValue) {
@@ -129,8 +149,6 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 		EdgeId edgeId = newEdgeId(from, edgeValue);
 		
 		Edge<EV> edge = new EdgeNtro<>(edgeId, edgeValue);
-		
-		
 
 		memorizeEdge(edge);
 
@@ -143,7 +161,14 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 	}
 
 	private void memorizeEdge(Edge<EV> edge) {
-		getEdges().put(edge.id().toKey(), edge);
+		Map<String, Edge<EV>> edgesForName = getEdges().get(edge.value().name().toKey());
+		
+		if(edgesForName == null) {
+			edgesForName = new HashMap<>();
+			getEdges().put(edge.value().name().toKey(), edgesForName);
+		}
+
+		edgesForName.put(edge.id().toKey(), edge);
 	}
 	
 	@Override
@@ -187,9 +212,42 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 	
 	protected abstract void detectCycleFrom(Node<NV> from);
 
+	protected Node<NV> findNode(String name, NodeId nodeId) {
+
+		Map<String, Node<NV>> nodesByKey = getNodes().get(name);
+		
+		Node<NV> node = nodesByKey.get(nodeId.toKey());
+		
+		return node;
+	}
+
+	protected Edge<EV> findEdge(String name, EdgeId edgeId) {
+
+		Map<String, Edge<EV>> edgesByKey = getEdges().get(name);
+		
+		Edge<EV> edge = edgesByKey.get(edgeId.toKey());
+		
+		return edge;
+	}
+
+	protected Edge<EV> findEdge(EdgeId edgeId) {
+		
+		String name = edgeId.toFilepath().name(0);
+		
+		return findEdge(name, edgeId);
+	}
+
+	protected Edge<EV> findEdge(String key) {
+
+		return findEdge(new EdgeId(key));
+	}
+
 	@Override
 	public Node<NV> findNode(NodeId nodeId) {
-		Node<NV> node = getNodes().get(nodeId.toKey());
+		
+		String name = nodeId.toFilepath().name(0);
+		
+		Node<NV> node = findNode(name, nodeId);
 		
 		if(node == null) {
 
@@ -219,21 +277,24 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 
 	@Override
 	public Node<NV> findNode(NodeMatcher<NV> nodeMatcher) {
-		Node<NV> node = null;
+		
+		Result<Node<NV>> result = reduceNodes(null, (accumulator, n) -> {
 
-		for(Node<NV> candidateNode : getNodes().values()) {
-			if(nodeMatcher.matches(candidateNode.value())) {
-				node = candidateNode;
-				break;
+			if(nodeMatcher.matches(n.value())) {
+				
+				accumulator = n;
 			}
-		}
-
-		if(node == null) {
+			
+			return accumulator;
+			
+		});
+		
+		if(!result.hasValue()) {
 
 			Ntro.exceptionThrower().throwException(new NodeNotFoundException("Node not found for " + nodeMatcher));
 		}
-
-		return node;
+		
+		return result.value();
 	}
 
 	@Override
@@ -257,19 +318,21 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 		
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 		
-		for(Node<NV> node : getNodes().values()) {
-			try {
-				
-				result.registerValue(reduces.reduceNode(result.value(), node));
+		for(Map<String, Node<NV>> nodesByKey : getNodes().values()) {
+			for(Node<NV> node : nodesByKey.values()) {
+				try {
+					
+					result.registerValue(reduces.reduceNode(result.value(), node));
 
-			} catch (Break e) { 
+				} catch (Break e) { 
 
-				break; 
+					break; 
 
-			} catch (Throwable e) {
-				
-				result.registerException(e);
-				break;
+				} catch (Throwable e) {
+					
+					result.registerException(e);
+					break;
+				}
 			}
 		}
 
@@ -294,14 +357,14 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 		for(Map.Entry<String, Map<String, Node<NV>>> edgesForwardFrom : getEdgesForward().entrySet()) {
 
 			String fromKey = edgesForwardFrom.getKey();
-			Node<NV> from = getNodes().get(fromKey);
+			Node<NV> from = findNode(fromKey);
 			
 			Map<String, Node<NV>> edgesTo = edgesForwardFrom.getValue();
 			
 			for(Map.Entry<String, Node<NV>> edgeTo : edgesTo.entrySet()) {
 				
 				String edgeKey = edgeTo.getKey();
-				Edge<EV> edge = getEdges().get(edgeKey);
+				Edge<EV> edge = findEdge(edgeKey);
 
 				Node<NV> to = edgeTo.getValue();
 				
@@ -401,8 +464,8 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 		
 		for(String nodeKey : nodesToVisit) {
 			
-			Node<NV> node = getNodes().get(nodeKey);
-			
+			Node<NV> node = findNode(nodeKey);
+
 			if(node != null) {
 
 				try {

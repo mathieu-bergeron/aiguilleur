@@ -19,7 +19,7 @@ public class MockNodeValue implements NodeValue {
 
 
 	@Override
-	public PathName id() {
+	public PathName name() {
 		return new PathName(id);
 	}
 

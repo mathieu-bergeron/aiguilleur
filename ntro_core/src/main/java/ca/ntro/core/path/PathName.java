@@ -24,4 +24,8 @@ public class PathName {
 	public String name() {
 		return name;
 	}
+
+	public String toKey() {
+		return name;
+	}
 }
