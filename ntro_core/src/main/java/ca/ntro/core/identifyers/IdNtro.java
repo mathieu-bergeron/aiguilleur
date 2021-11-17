@@ -44,14 +44,17 @@ public class IdNtro {
 		return getEntityPath().toFilename();
 	}
 
+	@Override
 	public String toKey() {
 		return toFilepath().toRawPath();
 	}
 
+	@Override
 	public String toHtmlId() {
 		return toFilepath().toHtmlId();
 	}
 
+	@Override
 	public Filepath toFilepath() {
 		return Filepath.fromSingleName(getEntityPath().toFilename());
 	}
