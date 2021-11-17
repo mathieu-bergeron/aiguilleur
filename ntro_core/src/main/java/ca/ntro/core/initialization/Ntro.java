@@ -4,6 +4,8 @@ import ca.ntro.core.services.Asserter;
 import ca.ntro.core.services.AsserterNull;
 import ca.ntro.core.services.ExceptionThrower;
 import ca.ntro.core.services.ExceptionThrowerNull;
+import ca.ntro.core.services.ReflectionService;
+import ca.ntro.core.services.ReflectionServiceNull;
 
 public class Ntro {
 	
@@ -38,7 +40,21 @@ public class Ntro {
 
 	/* </Asserter> */
 	
+
 	
 	
+	/* <ReflectionService> */
+	
+	private static ReflectionService reflectionService = new ReflectionServiceNull();
+	
+	static void registerReflectionService(ReflectionService reflectionService){
+		Ntro.reflectionService = reflectionService;
+	}
+
+	public static ReflectionService reflectionService(){
+		return Ntro.reflectionService;
+	}
+
+	/* </ReflectionService> */
 	
 }

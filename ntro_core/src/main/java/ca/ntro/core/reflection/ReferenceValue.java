@@ -4,17 +4,25 @@ import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.path.PathName;
 
 public class ReferenceValue implements EdgeValue {
+	
+	private String attributeName;
+	
+	public ReferenceValue(String attributeName) {
+		this.attributeName = attributeName;
+	}
+	
+	public String attributeName() {
+		return attributeName;
+	}
 
 	@Override
 	public PathName name() {
-		// TODO Auto-generated method stub
-		return null;
+		return new PathName(attributeName());
 	}
 
 	@Override
 	public String label() {
-		// TODO Auto-generated method stub
-		return null;
+		return attributeName();
 	}
 
 }
