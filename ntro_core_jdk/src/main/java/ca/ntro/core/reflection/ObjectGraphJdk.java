@@ -1,7 +1,9 @@
 package ca.ntro.core.reflection;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import ca.ntro.core.exceptions.Break;
@@ -133,7 +135,7 @@ public class ObjectGraphJdk implements ObjectGraph {
 
 		Object rootObject = fromNode.value().object();
 		
-		Set<Object> visitedObject = new HashSet<>();
+		List<Object> visitedObject = new ArrayList<>();
 		visitedObject.add(rootObject);
 		
 		reduceReachableNodes(visitedObject, rootObject, result, Path.emptyPath(), reducer);
@@ -149,8 +151,21 @@ public class ObjectGraphJdk implements ObjectGraph {
 		
 		return node;
 	}
+	
+	protected boolean isObjectAlreadyVisited(List<Object> visitedObjects, Object target) {
+		boolean visited = false;
+		
+		for(Object candidate : visitedObjects) {
+			if(candidate == target) {
+				visited = true;
+				break;
+			}
+		}
+		
+		return visited;
+	}
 
-	public <R> void reduceReachableNodes(Set<Object> visitedObjects,
+	public <R> void reduceReachableNodes(List<Object> visitedObjects,
 										 Object currentObject,
 			                             ResultNtro<R> result, 
 			                             Path previousAttributePath,
@@ -179,7 +194,7 @@ public class ObjectGraphJdk implements ObjectGraph {
 					
 					NodeNtro<ObjectValue> node = createNode(attributePath, attributeValue);
 					
-					if(!visitedObjects.contains(attributeValue)) {
+					if(isObjectAlreadyVisited(visitedObjects, attributeValue)) {
 
 						result.registerValue(reducer.reduceReachableNode(result.value(), attributePath.nameCount(), node));
 						visitedObjects.add(attributeValue);
