@@ -77,21 +77,70 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 	
 	@Override
 	public Node<NV> addNode(NV nodeValue) {
-		// TODO
-		return null;
+		// TODO: create a node with some unique NodeId
+		//       (if hiearchical, the NodeId reflects the id
+		
+		NodeId nodeId = newNodeId(nodeValue);
+		
+		Node<NV> node = new NodeNtro<>(nodeId, nodeValue);
+		
+		memorizeNode(node);
+
+		return node;
 	}
 
-	private void addNode(Node<NV> node) {
+	private NodeId newNodeId(NV nodeValue) {
+		
+		// FIXME: should be a path, so it is matchable
+		//        by a pattern
+		
+		NodeId newId = new NodeId(nodeValue.id().name());
+
+		if(getNodes().containsKey(newId.toKey())) {
+
+			int version = 1;
+
+			do {
+				
+				version++;
+				newId = new NodeId(nodeValue.id().name() + version);
+				
+			}while(getNodes().containsKey(newId.toKey()));
+		}
+		
+		return newId;
+	}
+
+	private void memorizeNode(Node<NV> node) {
+		getNodes().put(node.id().toKey(), node);
 	}
 
 	private Edge<EV> addEdge(Node<NV> from, EV edgeValue) {
+
+		EdgeId edgeId = newEdgeId(from, edgeValue);
+		
+		Edge<EV> edge = new EdgeNtro<>(edgeId, edgeValue);
+		
+		
+
+		memorizeEdge(edge);
+
+		return edge;
+	}
+
+	private EdgeId newEdgeId(Node<NV> from, EV edgeValue) {
+
 		return null;
+	}
+
+	private void memorizeEdge(Edge<EV> edge) {
+		getEdges().put(edge.id().toKey(), edge);
 	}
 	
 	@Override
 	public Edge<EV> addEdge(Node<NV> from, EV edgeValue, Node<NV> to) {
-		addNode(from);
-		addNode(to);
+		memorizeNode(from);
+		memorizeNode(to);
 
 		Edge<EV> edge = addEdge(from, edgeValue);
 		
