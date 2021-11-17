@@ -1,9 +1,10 @@
 package ca.ntro.core.graphs.generic_graph;
 
-import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeReducer;
 import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.EdgeVisitor;
+import ca.ntro.core.graphs.EdgeWalkReducer;
+import ca.ntro.core.graphs.EdgeWalkVisitor;
 import ca.ntro.core.graphs.GraphId;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeId;
@@ -48,6 +49,7 @@ public interface GenericGraph<SO extends SearchOptions, NV extends NodeValue, EV
 	<R extends Object> Result<R> reduceReachableEdges(Node<NV> from, SO options, R initialValue, ReachableEdgeReducer<NV,EV,R> reducer);
 
 	
-	<R extends Object> Result<R> reduceEdgeWalk(Node<NV> from, EdgeWalk edgeWalk, R initialValue);
+	void visitEdgeWalk(Node<NV> from, EdgeWalk edgeWalk, EdgeWalkVisitor<NV,EV> visitor);
+	<R extends Object> Result<R> reduceEdgeWalk(Node<NV> from, EdgeWalk edgeWalk, R initialValue, EdgeWalkReducer<NV,EV,R> reducer);
 
 }

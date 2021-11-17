@@ -15,6 +15,8 @@ import ca.ntro.core.graphs.EdgeId;
 import ca.ntro.core.graphs.EdgeReducer;
 import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.EdgeVisitor;
+import ca.ntro.core.graphs.EdgeWalkReducer;
+import ca.ntro.core.graphs.EdgeWalkVisitor;
 import ca.ntro.core.graphs.GraphId;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeAlreadyAddedException;
@@ -565,6 +567,18 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 
 		return null;
 	}
+
+	@Override
+	public <R> Result<R> reduceEdgeWalk(Node<NV> from, EdgeWalk edgeWalk, R initialValue, EdgeWalkReducer<NV,EV,R> reducer) {
+
+		return null;
+	}
+
+	@Override
+	public void visitEdgeWalk(Node<NV> from, EdgeWalk edgeWalk, EdgeWalkVisitor<NV,EV> visitor) {
+
+	}
+	
 	
 	@SuppressWarnings("unchecked")
 	@Override

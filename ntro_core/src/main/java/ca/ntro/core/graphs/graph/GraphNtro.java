@@ -10,6 +10,8 @@ import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeValue;
 import ca.ntro.core.graphs.generic_graph.GenericGraphNtro;
+import ca.ntro.core.path.EdgeWalk;
+import ca.ntro.core.wrappers.result.Result;
 
 public class   GraphNtro<NV extends NodeValue, EV extends EdgeValue> 
        extends GenericGraphNtro<GraphSearchOptions,NV,EV,Graph<NV,EV>> 
@@ -76,4 +78,5 @@ public class   GraphNtro<NV extends NodeValue, EV extends EdgeValue>
 			
 			return result;
 	}
+
 }

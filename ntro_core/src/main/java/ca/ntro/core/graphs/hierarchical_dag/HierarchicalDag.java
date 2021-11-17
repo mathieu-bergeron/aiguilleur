@@ -12,10 +12,10 @@ public interface HierarchicalDag<NV extends NodeValue, EV extends EdgeValue> ext
 
 	void addNodeToCluster(Node<NV> cluster, Node<NV> node);
 
-	void forEachNodeInCluster(Node<NV> cluster, NodeVisitor<Node<NV>> visitor);
-	<R extends Object> Result<R> foldEachNodeInCluster(Node<NV> cluster, R initialValue, NodeReducer<Node<NV>, R> folder);
+	void forEachNodeInCluster(Node<NV> cluster, NodeVisitor<NV> visitor);
+	<R extends Object> Result<R> foldEachNodeInCluster(Node<NV> cluster, R initialValue, NodeReducer<NV,R> folder);
 
-	void forEachNodeInClusterTransitive(Node<NV> cluster, NodeVisitor<Node<NV>> visitor);
-	<R extends Object> Result<R> foldEachNodeInClusterTransitive(Node<NV> cluster, R initialValue, NodeReducer<Node<NV>, R> folder);
+	void forEachNodeInClusterTransitive(Node<NV> cluster, NodeVisitor<NV> visitor);
+	<R extends Object> Result<R> foldEachNodeInClusterTransitive(Node<NV> cluster, R initialValue, NodeReducer<NV,R> folder);
 
 }
