@@ -60,7 +60,7 @@ public class      DirectedGraphNtro<NV extends NodeValue, EV extends EdgeValue>
 
 	@Override
 	protected EdgeId newEdgeId(Node<NV> from, EV edgeValue, Node<NV> to) {
-		return newEdgeId(from.id().toFilepath(), edgeValue, to.id().toFilepath());
+		return new EdgeId(from.id(), edgeValue.name(), to.id());
 	}
 
 	@Override

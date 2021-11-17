@@ -39,11 +39,11 @@ public class   GraphNtro<NV extends NodeValue, EV extends EdgeValue>
 
 		if(from.id().toKey().compareTo(to.id().toKey()) < 0) {
 			
-			edgeId = newEdgeId(from.id().toFilepath(), edgeValue, to.id().toFilepath());
+			edgeId = new EdgeId(from.id(), edgeValue.name(), to.id());
 
 		}else {
 
-			edgeId = newEdgeId(to.id().toFilepath(), edgeValue, from.id().toFilepath());
+			edgeId = new EdgeId(to.id(), edgeValue.name(), from.id());
 
 		}
 		

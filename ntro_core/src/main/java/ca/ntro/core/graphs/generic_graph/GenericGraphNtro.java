@@ -139,17 +139,6 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 		return edge;
 	}
 
-	protected EdgeId newEdgeId(Filepath fromPath, EV edgeValue, Filepath toPath) {
-
-		Path entityPath = Path.emptyPath();
-		entityPath.append(Path.fromPath(fromPath));
-		entityPath.append(Path.fromSingleName(edgeValue.name().toKey()));
-		entityPath.append(Path.fromPath(toPath));
-
-		return new EdgeId(entityPath);
-
-	}
-
 	protected abstract EdgeId newEdgeId(Node<NV> from, EV edgeValue, Node<NV> to);
 
 	protected abstract void addToEdgesMaps(Node<NV> from, Edge<EV> edge, Node<NV> to);

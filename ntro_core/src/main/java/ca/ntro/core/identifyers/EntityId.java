@@ -3,7 +3,7 @@ package ca.ntro.core.identifyers;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.path.Path;
 
-public class EntityId extends Id {
+public class EntityId extends IdNtro {
 	
 	protected EntityId() {
 		super();

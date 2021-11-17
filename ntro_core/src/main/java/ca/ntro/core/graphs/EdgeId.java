@@ -1,12 +1,71 @@
 package ca.ntro.core.graphs;
 
-import ca.ntro.core.identifyers.EntityId;
-import ca.ntro.core.path.Path;
+import ca.ntro.core.identifyers.Id;
+import ca.ntro.core.path.Filepath;
+import ca.ntro.core.path.PathName;
 
-public class EdgeId extends EntityId {
+public class EdgeId implements Id {
 	
-	public EdgeId(Path entityPath) {
-		super(entityPath);
+	private NodeId fromId;
+	private PathName edgeName;
+	private NodeId toId;
+
+	protected NodeId getFromId() {
+		return fromId;
 	}
 
+	protected void setFromId(NodeId fromId) {
+		this.fromId = fromId;
+	}
+
+	protected PathName getEdgeName() {
+		return edgeName;
+	}
+
+	protected void setEdgeName(PathName edgeName) {
+		this.edgeName = edgeName;
+	}
+
+	protected NodeId getToId() {
+		return toId;
+	}
+
+	protected void setToId(NodeId toId) {
+		this.toId = toId;
+	}
+
+	public EdgeId(NodeId fromId, PathName edgeName, NodeId toId) {
+		setFromId(fromId);
+		setEdgeName(edgeName);
+		setToId(toId);
+	}
+	
+	public NodeId fromId() {
+		return getFromId();
+	}
+
+	public NodeId toId() {
+		return getToId();
+	}
+	
+	@Override
+	public String toKey() {
+		return toFilepath().toKey();
+	}
+
+	@Override
+	public String toHtmlId() {
+		return toFilepath().toHtmlId();
+	}
+
+	@Override
+	public Filepath toFilepath() {
+
+		Filepath path = Filepath.emptyPath();
+		path.append(Filepath.fromPath(getFromId().toFilepath()));
+		path.append(Filepath.fromSingleName(edgeName.toKey()));
+		path.append(Filepath.fromPath(getToId().toFilepath()));
+		
+		return path;
+	}
 }

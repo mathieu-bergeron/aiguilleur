@@ -22,4 +22,9 @@ public interface Filepath extends GenericPath<Filepath> {
 		return path;
 	}
 
+	static Filepath emptyPath() {
+		FilepathNtro path = new FilepathNtro();
+		return path;
+	}
+
 }

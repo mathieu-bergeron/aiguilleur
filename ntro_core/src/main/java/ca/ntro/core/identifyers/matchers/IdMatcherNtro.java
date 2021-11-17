@@ -1,6 +1,6 @@
 package ca.ntro.core.identifyers.matchers;
 
-import ca.ntro.core.identifyers.Id;
+import ca.ntro.core.identifyers.IdNtro;
 
 public class IdMatcherNtro implements IdMatcher {
 	
@@ -15,7 +15,7 @@ public class IdMatcherNtro implements IdMatcher {
 	}
 
 	@Override
-	public boolean matches(Id id) {
+	public boolean matches(IdNtro id) {
 		return pathMatcher.matches(id.toFilepath());
 	}
 
