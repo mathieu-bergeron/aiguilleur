@@ -4,7 +4,7 @@ import ca.ntro.core.graphs.generic_graph.Edge;
 import ca.ntro.core.graphs.generic_graph.GenericGraph;
 import ca.ntro.core.graphs.generic_graph.Node;
 
-public interface Graph<N extends Node, E extends Edge> extends GenericGraph<GraphSearchOptions, N, E> {
+public interface Graph<N extends NodeValue, E extends EdgeValue> extends GenericGraph<GraphSearchOptions, N, E> {
 	
 
 }

@@ -1,10 +1,10 @@
 package ca.ntro.core.graphs.generic_graph;
 
-public interface GenericGraphBuilder<SO extends SearchOptions, N extends Node, E extends Edge, G extends GenericGraph<SO,N,E>> {
+public interface GenericGraphBuilder<SO extends SearchOptions, NV extends NodeValue, EV extends EdgeValue, G extends GenericGraph<SO,NV,EV>> {
 
-	void addNode(N n);
+	Node<NV> addNode(NV nodeValue);
 
-	void addEdge(N from, E edge, N to);
+	Edge<EV> addEdge(Node<NV> from, EV edgeValue, Node<NV> to);
 	
 	G toGraph();
 

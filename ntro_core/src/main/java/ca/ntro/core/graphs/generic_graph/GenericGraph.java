@@ -4,37 +4,38 @@ import ca.ntro.core.graphs.GraphId;
 import ca.ntro.core.path.EdgeWalk;
 import ca.ntro.core.wrappers.result.Result;
 
-public interface GenericGraph<SO extends SearchOptions, N extends Node, E extends Edge> {
+public interface GenericGraph<SO extends SearchOptions, NV extends NodeValue, EV extends EdgeValue> {
 
 	GraphId id();
 	String label();
 	
-	N findNode(NodeId id);
-	N findNode(NodeMatcher<N> matcher);
-	N findNode(String rawNodeId);
+	Node<NV> findNode(NodeId id);
+	Node<NV> findNode(NodeMatcher<NV> matcher);
+	Node<NV> findNode(NV nodeValue);
+	Node<NV> findNode(String rawNodeId);
 
-	N findNode(N from, String rawEdgeWalk);
-	N findNode(N from, EdgeId[] edgeWalk);
-	N findNode(N from, EdgeWalk edgeWalk);
+	Node<NV> walkToNode(Node<NV> from, String rawEdgeWalk);
+	Node<NV> walkToNode(Node<NV> from, EdgeId[] edgeWalk);
+	Node<NV> walkToNode(Node<NV> from, EdgeWalk edgeWalk);
 
-	void forEachNode(NodeVisitor<N> visitor);
-	void forEachEdge(EdgeVisitor<N,E> visitor);
+	void forEachNode(NodeVisitor<Node<NV>> visitor);
+	void forEachEdge(EdgeVisitor<Node<NV>,Edge<EV>> visitor);
 
-	<R extends Object> Result<R> reduceNodes(R initialValue, NodeReducer<N,R> reducer);
-	<R extends Object> Result<R> recudeEdges(R initialValue, EdgeReducer<N,E,R> reducer);
+	<R extends Object> Result<R> reduceNodes(R initialValue, NodeReducer<Node<NV>,R> reducer);
+	<R extends Object> Result<R> recudeEdges(R initialValue, EdgeReducer<Node<NV>,Edge<EV>,R> reducer);
 	
 	
-	void forEachReachableNode(N from, ReachableNodeVisitor<N> visitor);
-	void forEachReachableNode(N from, SO options, ReachableNodeVisitor<N> visitor);
+	void forEachReachableNode(Node<NV> from, ReachableNodeVisitor<Node<NV>> visitor);
+	void forEachReachableNode(Node<NV> from, SO options, ReachableNodeVisitor<Node<NV>> visitor);
 
-	<R extends Object> Result<R> reduceReachableNodes(N from, R initialValue, ReachableNodeReducer<N,R> reducer);
-	<R extends Object> Result<R> reduceReachableNodes(N from, SO options, R initialValue, ReachableNodeReducer<N,R> reducer);
+	<R extends Object> Result<R> reduceReachableNodes(Node<NV> from, R initialValue, ReachableNodeReducer<Node<NV>,R> reducer);
+	<R extends Object> Result<R> reduceReachableNodes(Node<NV> from, SO options, R initialValue, ReachableNodeReducer<Node<NV>,R> reducer);
 
 
-	void forEachReachableEdge(N from, ReachableEdgeVisitor<N,E> visitor);
-	void forEachReachableEdge(N from, SO options, ReachableEdgeVisitor<N,E> visitor);
+	void forEachReachableEdge(Node<NV> from, ReachableEdgeVisitor<Node<NV>,Edge<EV>> visitor);
+	void forEachReachableEdge(Node<NV> from, SO options, ReachableEdgeVisitor<Node<NV>,Edge<EV>> visitor);
 
-	<R extends Object> Result<R> reduceReachableEdges(N from, R initialValue, ReachableEdgeReducer<N,E,R> reducer);
-	<R extends Object> Result<R> reduceReachableEdges(N from, SO options, R initialValue, ReachableEdgeReducer<N,E,R> reducer);
+	<R extends Object> Result<R> reduceReachableEdges(Node<NV> from, R initialValue, ReachableEdgeReducer<Node<NV>,Edge<EV>,R> reducer);
+	<R extends Object> Result<R> reduceReachableEdges(Node<NV> from, SO options, R initialValue, ReachableEdgeReducer<Node<NV>,Edge<EV>,R> reducer);
 
 }

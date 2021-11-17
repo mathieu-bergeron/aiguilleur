@@ -1,8 +1,9 @@
 package ca.ntro.core.graphs.generic_graph;
 
-public interface Edge {
+public interface Edge<EV extends EdgeValue> {
 	
 	EdgeId id();
-	String label();
+
+	EV value();
 
 }

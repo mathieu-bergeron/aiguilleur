@@ -15,7 +15,6 @@ import ca.ntro.core.graphs.generic_graph.EdgeVisitor;
 import ca.ntro.core.graphs.generic_graph.Node;
 import ca.ntro.core.graphs.generic_graph.NodeId;
 import ca.ntro.core.graphs.generic_graph.NodeMatcher;
-import ca.ntro.core.graphs.generic_graph.NodeMatcherNtro;
 import ca.ntro.core.graphs.generic_graph.NodeNotFoundException;
 import ca.ntro.core.graphs.generic_graph.NodeReducer;
 import ca.ntro.core.graphs.generic_graph.NodeVisitor;
@@ -25,20 +24,15 @@ import ca.ntro.core.path.PathPattern;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
-public abstract class GenericGraphNtro<SO extends SearchOptions, N extends Node, E extends Edge, G extends GenericGraph<SO,N,E>> implements GenericGraphBuilder<SO,N,E,G>, GenericGraph<SO,N,E> {
+public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends NodeValue, EV extends EdgeValue, G extends GenericGraph<SO,NV,EV>> 
+       implements     GenericGraphBuilder<SO,NV,EV,G>, GenericGraph<SO,NV,EV> {
 
 	private GraphId id;
 	
-	// FIXME: nodeId not necessarily unique
-	//        but parentId/nodeId is unique
-	private Map<String, N> nodes = new HashMap<>();
+	private Map<String, Node<NV>> nodes = new HashMap<>();
+	private Map<String, Edge<EV>> edges = new HashMap<>();
 
-	// FIXME: edgeId cannot be unique
-	//        from/edgeId should be unique
-	//        but fromId can be a path
-	private Map<String, E> edges = new HashMap<>();
-
-	private Map<String, Map<String, N>> edgesForward = new HashMap<>();
+	private Map<String, Map<String, Node<NV>>> edgesForward = new HashMap<>();
 
 	protected GraphId getId() {
 		return id;
@@ -48,27 +42,27 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, N extends Node,
 		this.id = id;
 	}
 
-	protected Map<String, N> getNodes() {
+	protected Map<String, Node<NV>> getNodes() {
 		return nodes;
 	}
 
-	protected void setNodes(Map<String, N> nodes) {
+	protected void setNodes(Map<String, Node<NV>> nodes) {
 		this.nodes = nodes;
 	}
 
-	protected Map<String, E> getEdges() {
+	protected Map<String, Edge<EV>> getEdges() {
 		return edges;
 	}
 
-	protected void setEdges(Map<String, E> edges) {
+	protected void setEdges(Map<String, Edge<EV>> edges) {
 		this.edges = edges;
 	}
 
-	protected Map<String, Map<String, N>> getEdgesForward() {
+	protected Map<String, Map<String, Node<NV>>> getEdgesForward() {
 		return edgesForward;
 	}
 
-	protected void setEdgesForward(Map<String, Map<String, N>> edgesForward) {
+	protected void setEdgesForward(Map<String, Map<String, Node<NV>>> edgesForward) {
 		this.edgesForward = edgesForward;
 	}
 
@@ -81,27 +75,33 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, N extends Node,
 	}
 	
 	@Override
-	public void addNode(N n) {
-		getNodes().put(n.id().toKey(), n);
+	public Node<NV> addNode(NV nodeValue) {
+		// TODO
+		return null;
 	}
 
-	private void addEdge(E e) {
-		getEdges().put(e.id().toKey(), e);
+	private void addNode(Node<NV> node) {
+	}
+
+	private Edge<EV> addEdge(Node<NV> from, EV edgeValue) {
+		return null;
 	}
 	
 	@Override
-	public void addEdge(N from, E edge, N to) {
+	public Edge<EV> addEdge(Node<NV> from, EV edgeValue, Node<NV> to) {
 		addNode(from);
 		addNode(to);
 
-		addEdge(edge);
+		Edge<EV> edge = addEdge(from, edgeValue);
 		
 		addToEdgesMaps(from, edge, to);
 		
 		detectCycleFrom(from);
+		
+		return edge;
 	}
 
-	protected void addToEdgesMaps(N from, E edge, N to) {
+	protected void addToEdgesMaps(Node<NV> from, Edge<EV> edge, Node<NV> to) {
 		if(from.id().toKey().compareTo(to.id().toKey()) < 0) {
 
 			addToEdgesMap(getEdgesForward(), from, edge, to);
@@ -112,25 +112,25 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, N extends Node,
 		}
 	}
 
-	protected void addToEdgesMap(Map<String, Map<String, N>> edgesMap, N from, E edge, N to) {
+	protected void addToEdgesMap(Map<String, Map<String, Node<NV>>> edgesMap, Node<NV> from, Edge<EV> edge, Node<NV> to) {
 		String fromKey = from.id().toKey();
 		String edgeKey = edge.id().toKey();
 
-		Map<String, N> edgesFrom = edgesMap.get(fromKey);
+		Map<String, Node<NV>> edgesFrom = edgesMap.get(fromKey);
 
 		if(edgesFrom == null) {
-			edgesFrom = new HashMap<String, N>();
+			edgesFrom = new HashMap<String, Node<NV>>();
 			edgesMap.put(fromKey, edgesFrom);
 		}
 		
 		edgesFrom.put(edgeKey, to);
 	}
 	
-	protected abstract void detectCycleFrom(N from);
+	protected abstract void detectCycleFrom(Node<NV> from);
 
 	@Override
-	public N findNode(NodeId nodeId) {
-		N node = getNodes().get(nodeId.toKey());
+	public Node<NV> findNode(NodeId nodeId) {
+		Node<NV> node = getNodes().get(nodeId.toKey());
 		
 		if(node == null) {
 
@@ -141,8 +141,8 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, N extends Node,
 	}
 
 	@Override
-	public N findNode(String rawNodeId) {
-		N node = null;
+	public Node<NV> findNode(String rawNodeId) {
+		Node<NV> node = null;
 		
 		if(!rawNodeId.contains(PathPattern.NAME_WILDCARD)
 				&& !rawNodeId.contains(PathPattern.SUBPATH_WILDCARD)) {
@@ -152,11 +152,6 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, N extends Node,
 		
 		if(node == null) {
 
-			node = findNode(new NodeMatcherNtro<N>(rawNodeId));
-		}
-
-		if(node == null) {
-
 			Ntro.exceptionThrower().throwException(new NodeNotFoundException("Node not found for " + rawNodeId));
 		}
 
@@ -164,11 +159,11 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, N extends Node,
 	}
 
 	@Override
-	public N findNode(NodeMatcher<N> nodeMatcher) {
-		N node = null;
+	public Node<NV> findNode(NodeMatcher<NV> nodeMatcher) {
+		Node<NV> node = null;
 
-		for(N candidateNode : getNodes().values()) {
-			if(nodeMatcher.matches(node)) {
+		for(Node<NV> candidateNode : getNodes().values()) {
+			if(nodeMatcher.matches(candidateNode.value())) {
 				node = candidateNode;
 				break;
 			}
@@ -183,7 +178,7 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, N extends Node,
 	}
 
 	@Override
-	public void forEachNode(NodeVisitor<N> visitor) {
+	public void forEachNode(NodeVisitor<Node<NV>> visitor) {
 		reduceNodes(null, (accumulator, n) -> {
 
 			visitor.visitNode(n);
@@ -194,11 +189,11 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, N extends Node,
 
 
 	@Override
-	public <R> Result<R> reduceNodes(R initialValue, NodeReducer<N, R> reduces) {
+	public <R> Result<R> reduceNodes(R initialValue, NodeReducer<Node<NV>, R> reduces) {
 		
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 		
-		for(N node : getNodes().values()) {
+		for(Node<NV> node : getNodes().values()) {
 			try {
 				
 				result.registerValue(reduces.reduceNode(result.value(), node));
@@ -218,7 +213,7 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, N extends Node,
 	}
 
 	@Override
-	public void forEachEdge(EdgeVisitor<N, E> visitor) {
+	public void forEachEdge(EdgeVisitor<Node<NV>, Edge<EV>> visitor) {
 		recudeEdges(null, (accumulator, from, edge, to) -> {
 
 			visitor.visitEdge(from, edge, to);
@@ -228,23 +223,23 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, N extends Node,
 	}
 
 	@Override
-	public <R> Result<R> recudeEdges(R initialValue, EdgeReducer<N, E, R> reducer) {
+	public <R> Result<R> recudeEdges(R initialValue, EdgeReducer<Node<NV>, Edge<EV>, R> reducer) {
 
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 		
-		for(Map.Entry<String, Map<String, N>> edgesForwardFrom : getEdgesForward().entrySet()) {
+		for(Map.Entry<String, Map<String, Node<NV>>> edgesForwardFrom : getEdgesForward().entrySet()) {
 
 			String fromKey = edgesForwardFrom.getKey();
-			N from = getNodes().get(fromKey);
+			Node<NV> from = getNodes().get(fromKey);
 			
-			Map<String, N> edgesTo = edgesForwardFrom.getValue();
+			Map<String, Node<NV>> edgesTo = edgesForwardFrom.getValue();
 			
-			for(Map.Entry<String, N> edgeTo : edgesTo.entrySet()) {
+			for(Map.Entry<String, Node<NV>> edgeTo : edgesTo.entrySet()) {
 				
 				String edgeKey = edgeTo.getKey();
-				E edge = getEdges().get(edgeKey);
+				Edge<EV> edge = getEdges().get(edgeKey);
 
-				N to = edgeTo.getValue();
+				Node<NV> to = edgeTo.getValue();
 				
 				if(from != null && edge != null && to != null) {
 					
@@ -270,14 +265,14 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, N extends Node,
 	}
 
 	@Override
-	public void forEachReachableNode(N from, ReachableNodeVisitor<N> visitor) {
+	public void forEachReachableNode(Node<NV> from, ReachableNodeVisitor<Node<NV>> visitor) {
 		forEachReachableNode(from, defaultSearchOptions(), visitor);
 	}
 	
 	protected abstract SO defaultSearchOptions();
 
 	@Override
-	public void forEachReachableNode(N from, SO options, ReachableNodeVisitor<N> visitor) {
+	public void forEachReachableNode(Node<NV> from, SO options, ReachableNodeVisitor<Node<NV>> visitor) {
 		reduceReachableNodes(from, options, (accumulator, distance, n) -> {
 			visitor.visitReachableNode(distance, n);
 
@@ -286,9 +281,9 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, N extends Node,
 	}
 
 	@Override
-	public <R> Result<R> reduceReachableNodes(N from, 
+	public <R> Result<R> reduceReachableNodes(Node<NV> from, 
 			                                  R initialValue, 
-			                                  ReachableNodeReducer<N, R> reducer) {
+			                                  ReachableNodeReducer<Node<NV>, R> reducer) {
 
 		return reduceReachableNodes(from, 
 									defaultSearchOptions(),
@@ -297,10 +292,10 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, N extends Node,
 	}
 
 	@Override
-	public <R> Result<R> reduceReachableNodes(N from, 
+	public <R> Result<R> reduceReachableNodes(Node<NV> from, 
 			                                  SO options, 
 			                                  R initialValue, 
-			                                  ReachableNodeReducer<N, R> reducer) {
+			                                  ReachableNodeReducer<Node<NV>, R> reducer) {
 
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 
@@ -319,11 +314,11 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, N extends Node,
 
 
 	private <R extends Object> void reduceReachableNodesBreadthFirst(Set<String> visitedNodes, 
-			                                                         N from, 
+			                                                         Node<NV> from, 
 			                                                         SO searchOptions,
 			                                                         ResultNtro<R> accumulator,
 			                                                         int distance,
-			                                                         ReachableNodeReducer<N,R> reducer) {
+			                                                         ReachableNodeReducer<Node<NV>,R> reducer) {
 		if(accumulator.hasException()) {
 			return;
 		}
@@ -337,7 +332,7 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, N extends Node,
 		
 		for(String nodeKey : nodesToVisit) {
 			
-			N node = getNodes().get(nodeKey);
+			Node<NV> node = getNodes().get(nodeKey);
 			
 			if(node != null) {
 
@@ -363,7 +358,7 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, N extends Node,
 	}
 
 	protected <R extends Object> Set<String> reachableNodesOneStep(Set<String> visitedNodes, 
-			                                                      N from, 
+			                                                      Node<NV> from, 
 			                                                      Direction direction) {
 		
 			Set<String> result = new HashSet<>();
@@ -377,16 +372,16 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, N extends Node,
 	}
 
 	protected <R extends Object> Set<String> reachableNodesOneStep(Set<String> visitedNodes, 
-			                                                       N from, 
-			                                                       Map<String, Map<String, N>> edgesMap) {
+			                                                       Node<NV> from, 
+			                                                       Map<String, Map<String, Node<NV>>> edgesMap) {
 		
 		Set<String> nodesToVisit = new HashSet<>();
 
-		Map<String, N> edgesFrom = edgesMap.get(from.id().toKey());
+		Map<String, Node<NV>> edgesFrom = edgesMap.get(from.id().toKey());
 		
 		if(edgesFrom != null) {
 			
-			for(N n : edgesFrom.values()) {
+			for(Node<NV> n : edgesFrom.values()) {
 				
 				if(!visitedNodes.contains(n.id().toKey())) {
 
@@ -399,11 +394,11 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, N extends Node,
 	}
 
 	private <R extends Object> void reduceReachableNodesDepthFirst(Set<String> visitedNodes, 
-			                                                       N from, 
+			                                                       Node<NV> from, 
 			                                                       SO searchOptions,
 			                                                       ResultNtro<R> accumulator,
 			                                                       int distance,
-			                                                       ReachableNodeReducer<N,R> reducer) {
+			                                                       ReachableNodeReducer<Node<NV>,R> reducer) {
 		if(accumulator.hasException()) {
 			return;
 		}
@@ -421,11 +416,11 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, N extends Node,
 	}
 
 	protected <R extends Object> void reduceNodesInDirectionDepthFirst(Set<String> visitedNodes, 
-			                                                           N from, 
+			                                                           Node<NV> from, 
 			                                                           SO searchOptions,
 			                                                           ResultNtro<R> accumulator,
 			                                                           int distance,
-			                                                           ReachableNodeReducer<N,R> reducer,
+			                                                           ReachableNodeReducer<Node<NV>,R> reducer,
 			                                                           Direction direction) {
 		
 		if(direction == Direction.FORWARD) {
@@ -441,21 +436,21 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, N extends Node,
 	}
 
 	private <R extends Object> void reduceNodesInDirectionDepthFirst(Set<String> visitedNodes, 
-			                                                         N from, 
+			                                                         Node<NV> from, 
 			                                                         SO searchOptions,
 			                                                         ResultNtro<R> accumulator,
 			                                                         int distance,
-			                                                         ReachableNodeReducer<N,R> reducer,
-			                                                         Map<String, Map<String, N>> edgesMap) {
+			                                                         ReachableNodeReducer<Node<NV>,R> reducer,
+			                                                         Map<String, Map<String, Node<NV>>> edgesMap) {
 		if(accumulator.hasException()) {
 			return;
 		}
 
-		Map<String, N> edgesFrom = edgesMap.get(from.id().toKey());
+		Map<String, Node<NV>> edgesFrom = edgesMap.get(from.id().toKey());
 		
 		if(edgesFrom != null) {
 
-			for(N to : edgesFrom.values()) {
+			for(Node<NV> to : edgesFrom.values()) {
 				
 				if(!visitedNodes.contains(to.id().toKey())) {
 
@@ -495,39 +490,41 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, N extends Node,
 	
 
 	@Override
-	public void forEachReachableEdge(N from, 
-			                         ReachableEdgeVisitor<N, E> visitor) {
+	public void forEachReachableEdge(Node<NV> from, 
+			                         ReachableEdgeVisitor<Node<NV>, Edge<EV>> visitor) {
 
 		
 	}
 
 	@Override
-	public void forEachReachableEdge(N from, 
+	public void forEachReachableEdge(Node<NV> from, 
 			                         SO searchOptions, 
-			                         ReachableEdgeVisitor<N, E> visitor) {
+			                         ReachableEdgeVisitor<Node<NV>, Edge<EV>> visitor) {
 		
 	}
 
 	@Override
-	public <R> Result<R> reduceReachableEdges(N from, 
+	public <R> Result<R> reduceReachableEdges(Node<NV> from, 
 			                                  R initialValue, 
-			                                  ReachableEdgeReducer<N, E, R> reducer) {
+			                                  ReachableEdgeReducer<Node<NV>, Edge<EV>, R> reducer) {
 
 		return null;
 	}
 
 	@Override
-	public <R> Result<R> reduceReachableEdges(N from, 
+	public <R> Result<R> reduceReachableEdges(Node<NV> from, 
 			                                  SO searchOptions, 
 			                                  R initialValue, 
-			                                  ReachableEdgeReducer<N, E, R> reducer) {
+			                                  ReachableEdgeReducer<Node<NV>, Edge<EV>, R> reducer) {
 
 		return null;
 	}
 	
 	
-	G toGraph() {
+	@SuppressWarnings("unchecked")
+	@Override
+	public G toGraph() {
 		return (G) this;
 	}
-	
+
 }

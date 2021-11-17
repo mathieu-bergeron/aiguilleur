@@ -1,22 +1,16 @@
 package ca.ntro.core.graphs.generic_graph;
 
-import ca.ntro.core.identifyers.matchers.FilepathMatcher;
+public class NodeMatcherNtro<NV extends NodeValue> implements NodeMatcher<NV> {
 
-public class NodeMatcherNtro<N extends Node> implements NodeMatcher<N> {
+	private NV value;
 
-	private FilepathMatcher pathMatcher;
-
-	public NodeMatcherNtro(String idPattern) {
-		this.pathMatcher = FilepathMatcher.fromSingleName(idPattern);
-	}
-
-	public NodeMatcherNtro(FilepathMatcher pathMatcher) {
-		this.pathMatcher = pathMatcher;
+	public NodeMatcherNtro(NV value) {
+		this.value = value;
 	}
 
 	@Override
-	public boolean matches(N node) {
-		return pathMatcher.matches(node.id().toFilepath());
+	public boolean matches(NV value) {
+		return this.value.equals(value);
 	}
 
 }
