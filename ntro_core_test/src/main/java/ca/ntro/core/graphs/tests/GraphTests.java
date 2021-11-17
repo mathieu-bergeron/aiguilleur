@@ -7,7 +7,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import ca.ntro.core.graphs.Edge;
+import ca.ntro.core.graphs.EdgeAlreadyAddedException;
 import ca.ntro.core.graphs.Node;
+import ca.ntro.core.graphs.NodeAlreadyAddedException;
 import ca.ntro.core.graphs.graph.Graph;
 import ca.ntro.core.graphs.graph.GraphBuilder;
 import ca.ntro.core.initialization.InitializerTest;
@@ -67,6 +69,60 @@ public class GraphTests {
 		Ntro.asserter().assertTrue("Should contain", edges.contains(edgeAB));
 		Ntro.asserter().assertTrue("Should contain", edges.contains(edgeBC));
 		Ntro.asserter().assertEquals(2, edges.size());
+	}
+
+	@Test
+	public void nodeAlreadyAddedException() {
+
+		GraphBuilder<MockNodeValue, MockEdgeValue> builder = GraphBuilder.newBuilder();
+
+		MockNodeValue nodeValueA = new MockNodeValue("A");
+		
+		builder.addNode(nodeValueA);
+		builder.addNode(nodeValueA);
+		
+		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrown(NodeAlreadyAddedException.class));
+
+	}
+
+	@Test
+	public void edgeAlreadyAddedException() {
+
+		GraphBuilder<MockNodeValue, MockEdgeValue> builder = GraphBuilder.newBuilder();
+
+		MockNodeValue nodeValueA = new MockNodeValue("A");
+		MockNodeValue nodeValueB = new MockNodeValue("B");
+		
+		Node<MockNodeValue> nodeA = builder.addNode(nodeValueA);
+		Node<MockNodeValue> nodeB = builder.addNode(nodeValueB);
+
+		MockEdgeValue edgeValueAB = new MockEdgeValue("AB");
+
+		builder.addEdge(nodeA, edgeValueAB, nodeB);
+		builder.addEdge(nodeA, edgeValueAB, nodeB);
+		
+		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrown(EdgeAlreadyAddedException.class));
+
+	}
+
+	@Test
+	public void edgeAlreadyAddedExceptionUndirected() {
+
+		GraphBuilder<MockNodeValue, MockEdgeValue> builder = GraphBuilder.newBuilder();
+
+		MockNodeValue nodeValueA = new MockNodeValue("A");
+		MockNodeValue nodeValueB = new MockNodeValue("B");
+		
+		Node<MockNodeValue> nodeA = builder.addNode(nodeValueA);
+		Node<MockNodeValue> nodeB = builder.addNode(nodeValueB);
+
+		MockEdgeValue edgeValueAB = new MockEdgeValue("AB");
+
+		builder.addEdge(nodeA, edgeValueAB, nodeB);
+		builder.addEdge(nodeB, edgeValueAB, nodeA);
+		
+		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrown(EdgeAlreadyAddedException.class));
+
 	}
 
 }

@@ -7,6 +7,7 @@ import java.util.Set;
 
 import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
+import ca.ntro.core.graphs.EdgeId;
 import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeValue;
@@ -58,6 +59,12 @@ public class      DirectedGraphNtro<NV extends NodeValue, EV extends EdgeValue>
 	}
 
 	@Override
+	protected EdgeId newEdgeId(Node<NV> from, EV edgeValue, Node<NV> to) {
+		return newEdgeId(from.id().toFilepath(), edgeValue, to.id().toFilepath());
+	}
+
+	@Override
 	protected void detectCycleFrom(Node<NV> from) {
 	}
+
 }
