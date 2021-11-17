@@ -10,4 +10,8 @@ public interface GraphBuilder<NV extends NodeValue, EV extends EdgeValue> extend
 		return new GraphNtro<NV,EV>();
 	}
 
+	public static <NV extends NodeValue, EV extends EdgeValue> GraphBuilder<NV,EV> newBuilder(String graphName){
+		return new GraphNtro<NV,EV>(graphName);
+	}
+
 }

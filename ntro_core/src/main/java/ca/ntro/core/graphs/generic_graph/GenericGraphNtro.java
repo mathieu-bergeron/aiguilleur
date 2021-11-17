@@ -237,6 +237,11 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 	}
 
 	@Override
+	public Node<NV> findNode(NV nodeValue) {
+		return findNode(new NodeMatcherNtro<NV>(nodeValue));
+	}
+
+	@Override
 	public void forEachNode(NodeVisitor<Node<NV>> visitor) {
 		reduceNodes(null, (accumulator, n) -> {
 
@@ -381,6 +386,11 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 		if(accumulator.hasException()) {
 			return;
 		}
+
+		if(searchOptions.maxDistance().hasValue() 
+				&& distance > searchOptions.maxDistance().value()) {
+			return;
+		}
 		
 		List<String> nodesToVisit = new ArrayList<>();
 
@@ -461,7 +471,12 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 		if(accumulator.hasException()) {
 			return;
 		}
-		
+
+		if(searchOptions.maxDistance().hasValue() 
+				&& distance > searchOptions.maxDistance().value()) {
+			return;
+		}
+
 		for(Direction direction : searchOptions.directions()) {
 
 			reduceNodesInDirectionDepthFirst(visitedNodes, 
@@ -502,6 +517,11 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 			                                                         ReachableNodeReducer<Node<NV>,R> reducer,
 			                                                         Map<String, Map<String, Node<NV>>> edgesMap) {
 		if(accumulator.hasException()) {
+			return;
+		}
+
+		if(searchOptions.maxDistance().hasValue() 
+				&& distance > searchOptions.maxDistance().value()) {
 			return;
 		}
 
@@ -580,17 +600,7 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 	}
 	
 	
-	@SuppressWarnings("unchecked")
-	@Override
-	public G toGraph() {
-		return (G) this;
-	}
 
-	@Override
-	public Node<NV> findNode(NV nodeValue) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public Node<NV> walkToNode(Node<NV> from, String rawEdgeWalk) {
@@ -608,5 +618,13 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 	public Node<NV> walkToNode(Node<NV> from, EdgeWalk edgeWalk) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public G toGraph() {
+		return (G) this;
 	}
 }

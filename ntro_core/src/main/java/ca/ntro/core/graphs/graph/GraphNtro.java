@@ -9,6 +9,15 @@ public class   GraphNtro<NV extends NodeValue, EV extends EdgeValue>
        extends GenericGraphNtro<GraphSearchOptions,NV,EV,Graph<NV,EV>> 
        implements Graph<NV,EV>, GraphBuilder<NV,EV> {
 
+
+	public GraphNtro() {
+		super();
+	}
+
+	public GraphNtro(String graphName) {
+		super(graphName);
+	}
+
 	@Override
 	protected GraphSearchOptions defaultSearchOptions() {
 		return new GraphSearchOptions();
