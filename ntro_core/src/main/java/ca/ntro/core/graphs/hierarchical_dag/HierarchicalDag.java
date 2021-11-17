@@ -5,17 +5,19 @@ import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeReducer;
 import ca.ntro.core.graphs.NodeValue;
 import ca.ntro.core.graphs.NodeVisitor;
+import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.graphs.dag.Dag;
 import ca.ntro.core.wrappers.result.Result;
 
-public interface HierarchicalDag<NV extends NodeValue, EV extends EdgeValue> extends Dag<NV,EV> {
+public interface HierarchicalDag<SO extends SearchOptions, NV extends NodeValue, EV extends EdgeValue> extends Dag<NV,EV> {
 
-	void addNodeToCluster(Node<NV> cluster, Node<NV> node);
+	void addSubNode(Node<NV> parentNode, Node<NV> subNode);
 
-	void forEachNodeInCluster(Node<NV> cluster, NodeVisitor<NV> visitor);
-	<R extends Object> Result<R> foldEachNodeInCluster(Node<NV> cluster, R initialValue, NodeReducer<NV,R> folder);
+	void forEachSubNode(Node<NV> parentNode, NodeVisitor<NV> visitor);
+	void forEachSubNode(Node<NV> parentNode, SO options, NodeVisitor<NV> visitor);
+	
+	<R extends Object> Result<R> reduceSubNodes(Node<NV> parentNode, R initialValue, NodeReducer<NV,R> reducer);
+	<R extends Object> Result<R> reduceSubNodes(Node<NV> parentNode, SO options, R initialValue, NodeReducer<NV,R> reducer);
 
-	void forEachNodeInClusterTransitive(Node<NV> cluster, NodeVisitor<NV> visitor);
-	<R extends Object> Result<R> foldEachNodeInClusterTransitive(Node<NV> cluster, R initialValue, NodeReducer<NV,R> folder);
 
 }
