@@ -3,7 +3,7 @@ package ca.ntro.core.identifyers;
 import ca.ntro.core.path.Filepath;
 import ca.ntro.core.path.Path;
 
-public class IdNtro {
+public class IdNtro implements Id {
 
 	private Path entityPath;
 

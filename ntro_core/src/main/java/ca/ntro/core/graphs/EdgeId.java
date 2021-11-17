@@ -6,9 +6,9 @@ import ca.ntro.core.path.PathName;
 
 public class EdgeId implements Id {
 	
-	private NodeId fromId;
-	private PathName edgeName;
-	private NodeId toId;
+	private NodeId fromId = null;
+	private PathName edgeName = null;
+	private NodeId toId = null;
 
 	protected NodeId getFromId() {
 		return fromId;
@@ -32,6 +32,11 @@ public class EdgeId implements Id {
 
 	protected void setToId(NodeId toId) {
 		this.toId = toId;
+	}
+
+	public EdgeId(NodeId fromId, PathName edgeName) {
+		setFromId(fromId);
+		setEdgeName(edgeName);
 	}
 
 	public EdgeId(NodeId fromId, PathName edgeName, NodeId toId) {
@@ -64,7 +69,10 @@ public class EdgeId implements Id {
 		Filepath path = Filepath.emptyPath();
 		path.append(Filepath.fromPath(getFromId().toFilepath()));
 		path.append(Filepath.fromSingleName(edgeName.toKey()));
-		path.append(Filepath.fromPath(getToId().toFilepath()));
+		
+		if(getToId() != null) {
+			path.append(Filepath.fromPath(getToId().toFilepath()));
+		}
 		
 		return path;
 	}
