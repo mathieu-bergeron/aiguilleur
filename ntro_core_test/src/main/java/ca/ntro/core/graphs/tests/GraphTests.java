@@ -66,7 +66,7 @@ public class GraphTests {
 
 		Ntro.asserter().assertTrue("Should contain", edges.contains(edgeAB));
 		Ntro.asserter().assertTrue("Should contain", edges.contains(edgeBC));
-		Ntro.asserter().assertEquals(2, nodes.size());
+		Ntro.asserter().assertEquals(2, edges.size());
 	}
 
 }
