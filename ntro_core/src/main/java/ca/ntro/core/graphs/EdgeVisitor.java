@@ -2,8 +2,8 @@ package ca.ntro.core.graphs;
 
 import ca.ntro.core.exceptions.Break;
 
-public interface EdgeVisitor<N extends Node, E extends Edge> {
+public interface EdgeVisitor<NV extends NodeValue, EV extends EdgeValue> {
 	
-	void visitEdge(N from, E edge, N to) throws Break;
+	void visitEdge(Node<NV> from, Edge<EV> edge, Node<NV> to) throws Break;
 
 }

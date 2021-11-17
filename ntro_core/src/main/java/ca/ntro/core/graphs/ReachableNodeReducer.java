@@ -1,7 +1,7 @@
 package ca.ntro.core.graphs;
 
-public interface ReachableNodeReducer<N extends Node, R extends Object> {
+public interface ReachableNodeReducer<NV extends NodeValue, R extends Object> {
 	
-	R reduceReachableNode(R accumulator, int distance, N n) throws Throwable;
+	R reduceReachableNode(R accumulator, int distance, Node<NV> n) throws Throwable;
 
 }

@@ -1,7 +1,7 @@
 package ca.ntro.core.graphs;
 
-public interface EdgeReducer<N extends Node, E extends Edge, R extends Object> {
+public interface EdgeReducer<NV extends NodeValue, EV extends EdgeValue, R extends Object> {
 	
-	R reduceEdge(R accumulator, N from, E edge, N to) throws Throwable;
+	R reduceEdge(R accumulator, Node<NV> from, Edge<EV> edge, Node<NV> to) throws Throwable;
 
 }

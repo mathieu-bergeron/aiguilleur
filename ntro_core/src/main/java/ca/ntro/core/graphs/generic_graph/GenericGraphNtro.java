@@ -219,7 +219,7 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 	}
 
 	@Override
-	public void forEachNode(NodeVisitor<Node<NV>> visitor) {
+	public void forEachNode(NodeVisitor<NV> visitor) {
 		reduceNodes(null, (accumulator, n) -> {
 
 			visitor.visitNode(n);
@@ -230,7 +230,7 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 
 
 	@Override
-	public <R> Result<R> reduceNodes(R initialValue, NodeReducer<Node<NV>, R> reduces) {
+	public <R> Result<R> reduceNodes(R initialValue, NodeReducer<NV, R> reduces) {
 		
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 		
@@ -254,7 +254,7 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 	}
 
 	@Override
-	public void forEachEdge(EdgeVisitor<Node<NV>, Edge<EV>> visitor) {
+	public void forEachEdge(EdgeVisitor<NV,EV> visitor) {
 		recudeEdges(null, (accumulator, from, edge, to) -> {
 
 			visitor.visitEdge(from, edge, to);
@@ -264,7 +264,7 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 	}
 
 	@Override
-	public <R> Result<R> recudeEdges(R initialValue, EdgeReducer<Node<NV>, Edge<EV>, R> reducer) {
+	public <R> Result<R> recudeEdges(R initialValue, EdgeReducer<NV,EV,R> reducer) {
 
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 		
@@ -306,14 +306,14 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 	}
 
 	@Override
-	public void forEachReachableNode(Node<NV> from, ReachableNodeVisitor<Node<NV>> visitor) {
+	public void forEachReachableNode(Node<NV> from, ReachableNodeVisitor<NV> visitor) {
 		forEachReachableNode(from, defaultSearchOptions(), visitor);
 	}
 	
 	protected abstract SO defaultSearchOptions();
 
 	@Override
-	public void forEachReachableNode(Node<NV> from, SO options, ReachableNodeVisitor<Node<NV>> visitor) {
+	public void forEachReachableNode(Node<NV> from, SO options, ReachableNodeVisitor<NV> visitor) {
 		reduceReachableNodes(from, options, (accumulator, distance, n) -> {
 			visitor.visitReachableNode(distance, n);
 
@@ -324,7 +324,7 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 	@Override
 	public <R> Result<R> reduceReachableNodes(Node<NV> from, 
 			                                  R initialValue, 
-			                                  ReachableNodeReducer<Node<NV>, R> reducer) {
+			                                  ReachableNodeReducer<NV,R> reducer) {
 
 		return reduceReachableNodes(from, 
 									defaultSearchOptions(),
@@ -336,7 +336,7 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 	public <R> Result<R> reduceReachableNodes(Node<NV> from, 
 			                                  SO options, 
 			                                  R initialValue, 
-			                                  ReachableNodeReducer<Node<NV>, R> reducer) {
+			                                  ReachableNodeReducer<NV,R> reducer) {
 
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 
@@ -359,7 +359,7 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 			                                                         SO searchOptions,
 			                                                         ResultNtro<R> accumulator,
 			                                                         int distance,
-			                                                         ReachableNodeReducer<Node<NV>,R> reducer) {
+			                                                         ReachableNodeReducer<NV,R> reducer) {
 		if(accumulator.hasException()) {
 			return;
 		}
@@ -434,7 +434,7 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 			                                                       SO searchOptions,
 			                                                       ResultNtro<R> accumulator,
 			                                                       int distance,
-			                                                       ReachableNodeReducer<Node<NV>,R> reducer) {
+			                                                       ReachableNodeReducer<NV,R> reducer) {
 		if(accumulator.hasException()) {
 			return;
 		}
@@ -461,7 +461,7 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 			                                                           SO searchOptions,
 			                                                           ResultNtro<R> accumulator,
 			                                                           int distance,
-			                                                           ReachableNodeReducer<Node<NV>,R> reducer,
+			                                                           ReachableNodeReducer<NV,R> reducer,
 			                                                           Direction direction) {
 		
 		if(direction == Direction.FORWARD) {
@@ -481,7 +481,7 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 			                                                         SO searchOptions,
 			                                                         ResultNtro<R> accumulator,
 			                                                         int distance,
-			                                                         ReachableNodeReducer<Node<NV>,R> reducer,
+			                                                         ReachableNodeReducer<NV,R> reducer,
 			                                                         Map<String, Map<String, Node<NV>>> edgesMap) {
 		if(accumulator.hasException()) {
 			return;
@@ -537,7 +537,7 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 
 	@Override
 	public void forEachReachableEdge(Node<NV> from, 
-			                         ReachableEdgeVisitor<Node<NV>, Edge<EV>> visitor) {
+			                         ReachableEdgeVisitor<NV,EV> visitor) {
 
 		
 	}
@@ -545,14 +545,14 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 	@Override
 	public void forEachReachableEdge(Node<NV> from, 
 			                         SO searchOptions, 
-			                         ReachableEdgeVisitor<Node<NV>, Edge<EV>> visitor) {
+			                         ReachableEdgeVisitor<NV,EV> visitor) {
 		
 	}
 
 	@Override
 	public <R> Result<R> reduceReachableEdges(Node<NV> from, 
 			                                  R initialValue, 
-			                                  ReachableEdgeReducer<Node<NV>, Edge<EV>, R> reducer) {
+			                                  ReachableEdgeReducer<NV,EV,R> reducer) {
 
 		return null;
 	}
@@ -561,33 +561,10 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 	public <R> Result<R> reduceReachableEdges(Node<NV> from, 
 			                                  SO searchOptions, 
 			                                  R initialValue, 
-			                                  ReachableEdgeReducer<Node<NV>, Edge<EV>, R> reducer) {
+			                                  ReachableEdgeReducer<NV,EV,R> reducer) {
 
 		return null;
 	}
-	
-	
-
-
-	@Override
-	public Node<NV> walkToNode(Node<NV> from, String rawEdgeWalk) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Node<NV> walkToNode(Node<NV> from, EdgeId[] edgeWalk) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Node<NV> walkToNode(Node<NV> from, EdgeWalk edgeWalk) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
 	
 	@SuppressWarnings("unchecked")
 	@Override

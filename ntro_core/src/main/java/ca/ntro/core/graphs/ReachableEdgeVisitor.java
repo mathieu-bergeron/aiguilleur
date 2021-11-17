@@ -2,8 +2,8 @@ package ca.ntro.core.graphs;
 
 import ca.ntro.core.exceptions.Break;
 
-public interface ReachableEdgeVisitor<N extends Node, E extends Edge> {
+public interface ReachableEdgeVisitor<NV extends NodeValue, EV extends EdgeValue> {
 	
-	void visitReachableEdge(int distance, N from, E edge, N to) throws Break;
+	void visitReachableEdge(int distance, Node<NV> from, Edge<EV> edge, Node<NV> to) throws Break;
 
 }
