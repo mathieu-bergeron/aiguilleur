@@ -1,4 +1,4 @@
-package ca.ntro.core.graphs.generic_graph;
+package ca.ntro.core.graphs;
 
 import ca.ntro.core.exceptions.Break;
 

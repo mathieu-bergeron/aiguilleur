@@ -1,7 +1,7 @@
 package ca.ntro.core.graphs.hierarchical_dag;
 
-import ca.ntro.core.graphs.generic_graph.Node;
-import ca.ntro.core.graphs.generic_graph.NodeVisitor;
+import ca.ntro.core.graphs.Node;
+import ca.ntro.core.graphs.NodeVisitor;
 
 public interface HierarchicalNode extends Node {
 	

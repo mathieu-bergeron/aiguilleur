@@ -1,5 +1,9 @@
 package ca.ntro.core.graphs.generic_graph;
 
+import ca.ntro.core.graphs.Edge;
+import ca.ntro.core.graphs.EdgeId;
+import ca.ntro.core.graphs.EdgeValue;
+
 public class EdgeNtro<EV extends EdgeValue> implements Edge<EV> {
 	
 	private EdgeId id;

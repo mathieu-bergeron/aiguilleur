@@ -1,4 +1,4 @@
-package ca.ntro.core.graphs.generic_graph;
+package ca.ntro.core.graphs;
 
 public interface Edge<EV extends EdgeValue> {
 	

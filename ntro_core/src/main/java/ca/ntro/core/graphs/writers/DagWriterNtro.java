@@ -3,10 +3,10 @@ package ca.ntro.core.graphs.writers;
 import java.util.HashSet;
 import java.util.Set;
 
+import ca.ntro.core.graphs.EdgeValue;
+import ca.ntro.core.graphs.Node;
+import ca.ntro.core.graphs.NodeValue;
 import ca.ntro.core.graphs.dag.Dag;
-import ca.ntro.core.graphs.generic_graph.EdgeValue;
-import ca.ntro.core.graphs.generic_graph.Node;
-import ca.ntro.core.graphs.generic_graph.NodeValue;
 import ca.ntro.core.identifyers.StorageId;
 
 public abstract class DagWriterNtro<NV extends NodeValue, EV extends EdgeValue> implements DagWriter<NV,EV> {

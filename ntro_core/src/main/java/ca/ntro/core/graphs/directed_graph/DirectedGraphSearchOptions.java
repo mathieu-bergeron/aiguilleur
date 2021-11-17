@@ -1,8 +1,8 @@
 package ca.ntro.core.graphs.directed_graph;
 
-import ca.ntro.core.graphs.generic_graph.Direction;
-import ca.ntro.core.graphs.generic_graph.SearchOptions;
-import ca.ntro.core.graphs.generic_graph.SearchStrategy;
+import ca.ntro.core.graphs.Direction;
+import ca.ntro.core.graphs.SearchOptions;
+import ca.ntro.core.graphs.SearchStrategy;
 import ca.ntro.core.graphs.graph.GraphSearchOptions;
 
 public class DirectedGraphSearchOptions extends GraphSearchOptions implements SearchOptions {

@@ -1,5 +1,8 @@
 package ca.ntro.core.graphs.generic_graph;
 
+import ca.ntro.core.graphs.NodeMatcher;
+import ca.ntro.core.graphs.NodeValue;
+
 public class NodeMatcherNtro<NV extends NodeValue> implements NodeMatcher<NV> {
 
 	private NV value;

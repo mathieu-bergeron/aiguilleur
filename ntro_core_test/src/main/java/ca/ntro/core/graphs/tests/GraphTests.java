@@ -6,8 +6,8 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import ca.ntro.core.graphs.generic_graph.Edge;
-import ca.ntro.core.graphs.generic_graph.Node;
+import ca.ntro.core.graphs.Edge;
+import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.graph.Graph;
 import ca.ntro.core.graphs.graph.GraphBuilder;
 import ca.ntro.core.initialization.InitializerTest;

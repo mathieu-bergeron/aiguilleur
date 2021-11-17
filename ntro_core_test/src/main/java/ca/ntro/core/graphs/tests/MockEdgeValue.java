@@ -1,6 +1,6 @@
 package ca.ntro.core.graphs.tests;
 
-import ca.ntro.core.graphs.generic_graph.EdgeValue;
+import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.path.PathName;
 
 public class MockEdgeValue implements EdgeValue {

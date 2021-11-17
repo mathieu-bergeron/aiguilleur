@@ -1,4 +1,4 @@
-package ca.ntro.core.graphs.generic_graph;
+package ca.ntro.core.graphs;
 
 import ca.ntro.core.identifyers.EntityId;
 import ca.ntro.core.path.Path;

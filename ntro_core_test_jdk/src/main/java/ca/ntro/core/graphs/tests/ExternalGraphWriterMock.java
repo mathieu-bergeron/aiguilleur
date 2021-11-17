@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import ca.ntro.core.graphs.generic_graph.Edge;
-import ca.ntro.core.graphs.generic_graph.Node;
+import ca.ntro.core.graphs.Edge;
+import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.writers.ExternalGraphWriter;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.path.Filepath;

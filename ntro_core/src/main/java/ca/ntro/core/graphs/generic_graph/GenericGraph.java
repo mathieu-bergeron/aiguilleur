@@ -1,6 +1,22 @@
 package ca.ntro.core.graphs.generic_graph;
 
+import ca.ntro.core.graphs.Edge;
+import ca.ntro.core.graphs.EdgeId;
+import ca.ntro.core.graphs.EdgeReducer;
+import ca.ntro.core.graphs.EdgeValue;
+import ca.ntro.core.graphs.EdgeVisitor;
 import ca.ntro.core.graphs.GraphId;
+import ca.ntro.core.graphs.Node;
+import ca.ntro.core.graphs.NodeId;
+import ca.ntro.core.graphs.NodeMatcher;
+import ca.ntro.core.graphs.NodeReducer;
+import ca.ntro.core.graphs.NodeValue;
+import ca.ntro.core.graphs.NodeVisitor;
+import ca.ntro.core.graphs.ReachableEdgeReducer;
+import ca.ntro.core.graphs.ReachableEdgeVisitor;
+import ca.ntro.core.graphs.ReachableNodeReducer;
+import ca.ntro.core.graphs.ReachableNodeVisitor;
+import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.path.EdgeWalk;
 import ca.ntro.core.wrappers.result.Result;
 

@@ -1,11 +1,11 @@
 package ca.ntro.core.graphs.hierarchical_dag;
 
+import ca.ntro.core.graphs.EdgeValue;
+import ca.ntro.core.graphs.Node;
+import ca.ntro.core.graphs.NodeReducer;
+import ca.ntro.core.graphs.NodeValue;
+import ca.ntro.core.graphs.NodeVisitor;
 import ca.ntro.core.graphs.dag.Dag;
-import ca.ntro.core.graphs.generic_graph.EdgeValue;
-import ca.ntro.core.graphs.generic_graph.Node;
-import ca.ntro.core.graphs.generic_graph.NodeReducer;
-import ca.ntro.core.graphs.generic_graph.NodeValue;
-import ca.ntro.core.graphs.generic_graph.NodeVisitor;
 import ca.ntro.core.wrappers.result.Result;
 
 public interface HierarchicalDag<NV extends NodeValue, EV extends EdgeValue> extends Dag<NV,EV> {

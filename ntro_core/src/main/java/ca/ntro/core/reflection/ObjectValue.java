@@ -1,6 +1,6 @@
 package ca.ntro.core.reflection;
 
-import ca.ntro.core.graphs.generic_graph.NodeValue;
+import ca.ntro.core.graphs.NodeValue;
 import ca.ntro.core.path.PathName;
 
 public class ObjectValue implements NodeValue {

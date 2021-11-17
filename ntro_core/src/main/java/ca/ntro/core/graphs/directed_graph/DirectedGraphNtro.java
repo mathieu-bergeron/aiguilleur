@@ -5,12 +5,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import ca.ntro.core.graphs.generic_graph.Direction;
-import ca.ntro.core.graphs.generic_graph.Edge;
-import ca.ntro.core.graphs.generic_graph.EdgeValue;
+import ca.ntro.core.graphs.Direction;
+import ca.ntro.core.graphs.Edge;
+import ca.ntro.core.graphs.EdgeValue;
+import ca.ntro.core.graphs.Node;
+import ca.ntro.core.graphs.NodeValue;
 import ca.ntro.core.graphs.generic_graph.GenericGraphNtro;
-import ca.ntro.core.graphs.generic_graph.Node;
-import ca.ntro.core.graphs.generic_graph.NodeValue;
 
 public class      DirectedGraphNtro<NV extends NodeValue, EV extends EdgeValue> 
        extends    GenericGraphNtro<DirectedGraphSearchOptions,NV,EV,DirectedGraph<NV,EV>> 

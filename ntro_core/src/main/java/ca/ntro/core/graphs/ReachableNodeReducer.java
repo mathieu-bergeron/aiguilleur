@@ -1,4 +1,4 @@
-package ca.ntro.core.graphs.generic_graph;
+package ca.ntro.core.graphs;
 
 public interface ReachableNodeReducer<N extends Node, R extends Object> {
 	
