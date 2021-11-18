@@ -309,14 +309,14 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 	}
 
 	@Override
-	public void forEachReachableNode(Node<NV> from, ReachableNodeVisitor<NV> visitor) {
+	public void forEachReachableNode(Node<NV> from, ReachableNodeVisitor<NV,EV> visitor) {
 		forEachReachableNode(from, defaultSearchOptions(), visitor);
 	}
 	
 	protected abstract SO defaultSearchOptions();
 
 	@Override
-	public void forEachReachableNode(Node<NV> from, SO options, ReachableNodeVisitor<NV> visitor) {
+	public void forEachReachableNode(Node<NV> from, SO options, ReachableNodeVisitor<NV,EV> visitor) {
 		reduceReachableNodes(from, options, (accumulator, distance, n) -> {
 			visitor.visitReachableNode(distance, n);
 
@@ -327,7 +327,7 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 	@Override
 	public <R> Result<R> reduceReachableNodes(Node<NV> from, 
 			                                  R initialValue, 
-			                                  ReachableNodeReducer<NV,R> reducer) {
+			                                  ReachableNodeReducer<NV,EV,R> reducer) {
 
 		return reduceReachableNodes(from, 
 									defaultSearchOptions(),
@@ -339,7 +339,7 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 	public <R> Result<R> reduceReachableNodes(Node<NV> from, 
 			                                  SO options, 
 			                                  R initialValue, 
-			                                  ReachableNodeReducer<NV,R> reducer) {
+			                                  ReachableNodeReducer<NV,EV,R> reducer) {
 
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 
@@ -362,7 +362,7 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 			                                                         SO searchOptions,
 			                                                         ResultNtro<R> accumulator,
 			                                                         int distance,
-			                                                         ReachableNodeReducer<NV,R> reducer) {
+			                                                         ReachableNodeReducer<NV,EV,R> reducer) {
 		if(accumulator.hasException()) {
 			return;
 		}
@@ -450,7 +450,7 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 			                                                       SO searchOptions,
 			                                                       ResultNtro<R> result,
 			                                                       int distance,
-			                                                       ReachableNodeReducer<NV,R> reducer) {
+			                                                       ReachableNodeReducer<NV,EV,R> reducer) {
 		if(result.hasException()) {
 			return;
 		}
@@ -477,7 +477,7 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 			                                                           SO searchOptions,
 			                                                           ResultNtro<R> result,
 			                                                           int distance,
-			                                                           ReachableNodeReducer<NV,R> reducer,
+			                                                           ReachableNodeReducer<NV,EV,R> reducer,
 			                                                           Direction direction) {
 		
 		Map<String, Map<String, Node<NV>>> edgesMap = edgesMapForDirection(direction);
@@ -500,7 +500,7 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 			                                                         SO searchOptions,
 			                                                         ResultNtro<R> result,
 			                                                         int distance,
-			                                                         ReachableNodeReducer<NV,R> reducer,
+			                                                         ReachableNodeReducer<NV,EV,R> reducer,
 			                                                         Map<String, Map<String, Node<NV>>> edgesMap) {
 		if(result.hasException()) {
 			return;
@@ -566,9 +566,9 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 			                         SO searchOptions, 
 			                         ReachableEdgeVisitor<NV,EV> visitor) {
 
-		reduceReachableEdges(fromNode, searchOptions, null, (accumulator, distance, from, edge, to) -> {
+		reduceReachableEdges(fromNode, searchOptions, null, (accumulator, walkedEdges, from, edge, to) -> {
 
-			visitor.visitReachableEdge(distance, from, edge, to);
+			visitor.visitReachableEdge(walkedEdges, from, edge, to);
 
 			return null;
 		});
@@ -641,9 +641,12 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 				
 				Edge<EV> edge = getEdges().get(edgeKey);
 				
+				List<Edge<EV>> walkedEdges = new ArrayList<>();
+				walkedEdges.add(edge);
+				
 				try {
 
-					result.registerValue(reducer.reduceReachableEdge(result.value(), 1, fromNode, edge, to));
+					result.registerValue(reducer.reduceReachableEdge(result.value(), walkedEdges, fromNode, edge, to));
 
 				} catch(Break e) { 
 
@@ -704,16 +707,16 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 			                          Map<String, Map<String, Node<NV>>> edgesMap) {
 		
 		
-		reduceNextEdges(fromNode, result, (accumulator, distance, from, edge, to) -> {
+		reduceNextEdges(fromNode, result, (accumulator, innerWalkedEdges, from, edge, to) -> {
 			
 			if(edge.id().isPrefisOfEdgeWalk(remainingEdgeWalk)) {
 				
-				List<Edge<EV>> newWalkedEdges = new ArrayList<>(walkedEdges);
+				List<Edge<EV>> newWalkedEdges = new ArrayList<>(innerWalkedEdges);
 				newWalkedEdges.add(edge);
 				
 				EdgeWalk newRemainingEdgeWalk = remainingEdgeWalk.subPath(1);
 				
-				result.registerValue(reducer.reduceEdgeWalk(result.value(), walkedEdges, newRemainingEdgeWalk, from));
+				result.registerValue(reducer.reduceEdgeWalk(result.value(), innerWalkedEdges, newRemainingEdgeWalk, from));
 				
 				reduceEdgeWalk(to, newWalkedEdges, newRemainingEdgeWalk, result, reducer, edgesMap);
 

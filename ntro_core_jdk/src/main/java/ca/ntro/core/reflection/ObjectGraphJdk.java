@@ -83,7 +83,7 @@ public class ObjectGraphJdk implements ObjectGraph {
 
 			visitor.visitNode(rootNode);
 
-			forEachReachableNode(rootNode, (distance, n) -> {
+			forEachReachableNode(rootNode, (edgeWalked, n) -> {
 				visitor.visitNode(n);
 			});
 
@@ -109,7 +109,7 @@ public class ObjectGraphJdk implements ObjectGraph {
 	}
 
 	@Override
-	public void forEachReachableNode(Node<ObjectValue> from, ReachableNodeVisitor<ObjectValue> visitor) {
+	public void forEachReachableNode(Node<ObjectValue> from, ReachableNodeVisitor<ObjectValue, ReferenceValue> visitor) {
 		
 		reduceReachableNodes(from, null, (accumulator, distance, n) -> {
 			
@@ -121,7 +121,7 @@ public class ObjectGraphJdk implements ObjectGraph {
 
 	@Override
 	public void forEachReachableNode(Node<ObjectValue> from, DirectedGraphSearchOptions options,
-			ReachableNodeVisitor<ObjectValue> visitor) {
+			ReachableNodeVisitor<ObjectValue, ReferenceValue> visitor) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -129,7 +129,7 @@ public class ObjectGraphJdk implements ObjectGraph {
 	@Override
 	public <R> Result<R> reduceReachableNodes(Node<ObjectValue> fromNode, 
 			                                  R initialValue, 
-			                                  ReachableNodeReducer<ObjectValue, R> reducer) {
+			                                  ReachableNodeReducer<ObjectValue, ReferenceValue, R> reducer) {
 		
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 
@@ -169,7 +169,7 @@ public class ObjectGraphJdk implements ObjectGraph {
 										 Object currentObject,
 			                             ResultNtro<R> result, 
 			                             Path previousAttributePath,
-			                             ReachableNodeReducer<ObjectValue, R> reducer) {
+			                             ReachableNodeReducer<ObjectValue, ReferenceValue, R> reducer) {
 		
 		if(result.hasException()) {
 			return;
@@ -222,7 +222,7 @@ public class ObjectGraphJdk implements ObjectGraph {
 
 	@Override
 	public <R> Result<R> reduceReachableNodes(Node<ObjectValue> from, DirectedGraphSearchOptions options,
-			R initialValue, ReachableNodeReducer<ObjectValue, R> reducer) {
+			R initialValue, ReachableNodeReducer<ObjectValue, ReferenceValue, R> reducer) {
 		// TODO Auto-generated method stub
 		return null;
 	}
