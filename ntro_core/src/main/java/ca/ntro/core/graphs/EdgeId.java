@@ -84,4 +84,8 @@ public class EdgeId implements Id {
 		
 		return path;
 	}
+
+	public PathName edgeName() {
+		return edgeName;
+	}
 }

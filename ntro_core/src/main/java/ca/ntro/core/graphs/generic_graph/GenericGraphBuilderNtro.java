@@ -1,44 +1,28 @@
 package ca.ntro.core.graphs.generic_graph;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import ca.ntro.core.exceptions.Break;
 import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeAlreadyAddedException;
 import ca.ntro.core.graphs.EdgeId;
-import ca.ntro.core.graphs.EdgeReducer;
 import ca.ntro.core.graphs.EdgeValue;
-import ca.ntro.core.graphs.EdgeVisitor;
-import ca.ntro.core.graphs.EdgeWalkReducer;
-import ca.ntro.core.graphs.EdgeWalkVisitor;
 import ca.ntro.core.graphs.GraphId;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeAlreadyAddedException;
 import ca.ntro.core.graphs.NodeId;
-import ca.ntro.core.graphs.NodeMatcher;
-import ca.ntro.core.graphs.NodeNotFoundException;
 import ca.ntro.core.graphs.NodeReducer;
 import ca.ntro.core.graphs.NodeValue;
-import ca.ntro.core.graphs.NodeVisitor;
 import ca.ntro.core.graphs.ReachableEdgeReducer;
-import ca.ntro.core.graphs.ReachableEdgeVisitor;
-import ca.ntro.core.graphs.ReachableNodeReducer;
-import ca.ntro.core.graphs.ReachableNodeVisitor;
 import ca.ntro.core.graphs.SearchOptions;
-import ca.ntro.core.graphs.SearchStrategy;
 import ca.ntro.core.initialization.Ntro;
-import ca.ntro.core.path.EdgeWalk;
-import ca.ntro.core.path.PathPattern;
-import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class GenericGraphBuilderNtro<SO extends SearchOptions, NV extends NodeValue, EV extends EdgeValue, G extends GenericGraph<SO,NV,EV>> 
+       extends        GenericGraphNtro<SO, NV, EV>
        implements     GenericGraphBuilder<SO,NV,EV,G>, GenericGraph<SO,NV,EV> {
 
 	private GraphId id;
@@ -46,7 +30,9 @@ public abstract class GenericGraphBuilderNtro<SO extends SearchOptions, NV exten
 	private Set<String> rootNodes = new HashSet<>();
 	private Map<String, Node<NV>> nodes = new HashMap<>();
 	private Map<String, Edge<EV>> edges = new HashMap<>();
-	private Map<String, Map<String, Node<NV>>> edgesForward = new HashMap<>();
+
+	// nodeKey -> edgeName -> edgeKey -> Node
+	private Map<String, Map<String, Map<String, Node<NV>>>> edgesForward = new HashMap<>();
 
 	protected GraphId getId() {
 		return id;
@@ -62,6 +48,14 @@ public abstract class GenericGraphBuilderNtro<SO extends SearchOptions, NV exten
 
 	protected void setNodes(Map<String,Node<NV>> nodes) {
 		this.nodes = nodes;
+	}
+
+	protected Set<String> getRootNodes() {
+		return rootNodes;
+	}
+
+	protected void setRootNodes(Set<String> rootNodes) {
+		this.rootNodes = rootNodes;
 	}
 
 	protected Map<String,Edge<EV>> getEdges() {
@@ -87,7 +81,7 @@ public abstract class GenericGraphBuilderNtro<SO extends SearchOptions, NV exten
 	public GenericGraphBuilderNtro(String graphName) {
 		setId(GraphId.fromGraphName(graphName));
 	}
-	
+
 	@Override
 	public Node<NV> addNode(NV nodeValue) {
 
@@ -102,16 +96,28 @@ public abstract class GenericGraphBuilderNtro<SO extends SearchOptions, NV exten
 
 	private void addNode(Node<NV> node) {
 		if(getNodes().containsKey(node.id().toKey())) {
+
 			Ntro.exceptionThrower().throwException(new NodeAlreadyAddedException("NodeId already taken: " + node.id().toKey()));
+
+		}else {
+			
+			memorizeNode(node);
+			addRootNode(node);
 		}
-		
-		getNodes().put(node.id().toKey(), node);
 	}
 
 	private void memorizeNode(Node<NV> node) {
 		if(!getNodes().containsKey(node.id().toKey())) {
 			getNodes().put(node.id().toKey(), node);
 		}
+	}
+
+	private void addRootNode(Node<NV> node) {
+		getRootNodes().add(node.id().toKey());
+	}
+
+	private void removeRootNode(Node<NV> node) {
+		getRootNodes().remove(node.id().toKey());
 	}
 
 	private void addEdge(Edge<EV> edge) {
@@ -121,11 +127,14 @@ public abstract class GenericGraphBuilderNtro<SO extends SearchOptions, NV exten
 		
 		edges.put(edge.id().toKey(), edge);
 	}
-	
+
 	@Override
 	public Edge<EV> addEdge(Node<NV> from, EV edgeValue, Node<NV> to) {
 		memorizeNode(from);
 		memorizeNode(to);
+		
+		addRootNode(from);
+		removeRootNode(to);
 		
 		EdgeId edgeId = newEdgeId(from, edgeValue, to);
 		
@@ -139,7 +148,6 @@ public abstract class GenericGraphBuilderNtro<SO extends SearchOptions, NV exten
 		
 		return edge;
 	}
-
 
 	protected abstract EdgeId newEdgeId(Node<NV> from, EV edgeValue, Node<NV> to);
 
@@ -162,6 +170,80 @@ public abstract class GenericGraphBuilderNtro<SO extends SearchOptions, NV exten
 		
 		edgesFrom.put(edgeKey, to);
 	}
+
+	@Override
+	protected <R> void _reduceRootNodes(ResultNtro<R> result, NodeReducer<NV, R> reducer) {
+		if(result.hasException()) {
+			return;
+		}
+
+		for(String rootNodeKey : getRootNodes()) {
+			
+			Node<NV> node = getNodes().get(rootNodeKey);
+
+			try {
+
+				result.registerValue(reducer.reduceNode(result.value(), node));
+
+			} catch (Throwable e) {
+
+				result.registerException(e);
+				break;
+			}
+		}
+	}
+
+	@Override
+	protected <R> void _reduceNextEdgeNames(Node<NV> fromNode, 
+			                                Direction direction, 
+			                                ResultNtro<R> result, 
+			                                EdgeNameReducer<R> reducer) {
+
+		if(result.hasException()) {
+			return;
+		}
+		
+		Map<String, Map<String, Node<NV>>> edgesMap = edgesMapForDirection(direction);
+		
+		if(edgesMap != null) {
+			
+			Map<String, Node<NV>> edgesFromNode = edgesMap.get(fromNode.id().toKey());
+			
+			if(edgesFromNode != null) {
+				
+				for(String edgeName : edgesFromNode.keySet()) {
+					
+					try {
+
+						result.registerValue(reducer.reduceEdgeName(result.value(), edgeName));
+
+					} catch (Throwable e) {
+						
+						result.registerException(e);
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	@Override
+	protected <R> void _reduceNextEdgesByName(Node<NV> fromNode, 
+			                                  Direction direction, 
+			                                  String edgeName, 
+			                                  ResultNtro<R> result, 
+			                                  ReachableEdgeReducer<NV, EV, R> reducer) {
+
+		
+	}
+	
+	
+	
+	
+	/*
+
+	
+
 	
 
 	@Override
@@ -730,10 +812,12 @@ public abstract class GenericGraphBuilderNtro<SO extends SearchOptions, NV exten
 	}
 
 	
+	*/
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	public G toGraph() {
 		return (G) this;
 	}
+
 }

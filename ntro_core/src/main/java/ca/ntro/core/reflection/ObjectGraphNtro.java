@@ -46,6 +46,7 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<DirectedGraphSear
 	@Override
 	public String label() {
 		Path labelPath = Path.emptyPath();
+
 		for(Object rootObject : rootObjects) {
 			labelPath.addName(rootObject.getClass().getSimpleName());
 		}
@@ -64,20 +65,25 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<DirectedGraphSear
 			return;
 		}
 
-		if(rootObjects.length > 0) {
+		if(rootObjects.length == 0) {
 
 			_reduceRootNode(result, Path.emptyPath(), rootObjects[0], reducer);
-		}
 
-		for(int i = 1; i < rootObjects.length; i++) {
+		}else {
 
-			if(result.hasException()) {
-				return;
+			for(int i = 0; i < rootObjects.length; i++) {
+
+				if(result.hasException()) {
+					return;
+				}
+				
+				Object object = rootObjects[i];
+
+				Path objectPath = Path.fromSingleName(String.valueOf(i));
+				objectPath.addName(object.getClass().getSimpleName());
+				
+				_reduceRootNode(result, objectPath, object, reducer);
 			}
-
-			Path objectPath = Path.fromSingleName(String.valueOf(i));
-			
-			_reduceRootNode(result, objectPath, rootObjects[i], reducer);
 		}
 	}
 
