@@ -38,7 +38,7 @@ import ca.ntro.core.path.PathPattern;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
-public abstract class GenericGraphAndBuilderNtro<SO extends SearchOptions, NV extends NodeValue, EV extends EdgeValue, G extends GenericGraph<SO,NV,EV>> 
+public abstract class GenericGraphBuilderNtro<SO extends SearchOptions, NV extends NodeValue, EV extends EdgeValue, G extends GenericGraph<SO,NV,EV>> 
        implements     GenericGraphBuilder<SO,NV,EV,G>, GenericGraph<SO,NV,EV> {
 
 	private GraphId id;
@@ -79,11 +79,11 @@ public abstract class GenericGraphAndBuilderNtro<SO extends SearchOptions, NV ex
 		this.edgesForward = edgesForward;
 	}
 
-	public GenericGraphAndBuilderNtro() {
+	public GenericGraphBuilderNtro() {
 		setId(GraphId.newGraphId());
 	}
 
-	public GenericGraphAndBuilderNtro(String graphName) {
+	public GenericGraphBuilderNtro(String graphName) {
 		setId(GraphId.fromGraphName(graphName));
 	}
 	

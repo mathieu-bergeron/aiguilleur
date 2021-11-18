@@ -90,21 +90,9 @@ public class       GenericGraphNtro<SO extends SearchOptions, NV extends NodeVal
 		
 	}
 
-	@Override
-	public void forEachNextNode(Node<NV> from, SO options, ReachableNodeVisitor<NV, EV> visitor) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public <R> Result<R> reduceNextNodes(Node<NV> from, R initialValue, ReachableNodeReducer<NV, EV, R> reducer) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public <R> Result<R> reduceNextNodes(Node<NV> from, SO options, R initialValue,
-			ReachableNodeReducer<NV, EV, R> reducer) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -178,9 +166,11 @@ public class       GenericGraphNtro<SO extends SearchOptions, NV extends NodeVal
 	}
 
 	@Override
-	public <R> Result<R> reduceReachableEdges(Node<NV> from, SO options, R initialValue,
-			ReachableEdgeReducer<NV, EV, R> reducer) {
-		// TODO Auto-generated method stub
+	public <R> Result<R> reduceReachableEdges(Node<NV> from, 
+			                                  SO options, 
+			                                  R initialValue, 
+			                                  ReachableEdgeReducer<NV, EV, R> reducer) {
+
 		return null;
 	}
 
