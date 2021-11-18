@@ -3,7 +3,9 @@ package ca.ntro.core.reflection;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ca.ntro.core.exceptions.Break;
 import ca.ntro.core.graphs.Edge;
@@ -25,6 +27,10 @@ import ca.ntro.core.wrappers.result.ResultNtro;
 public class ObjectGraphJdk extends GenericGraphNtro<DirectedGraphSearchOptions, ObjectValue, ReferenceValue> implements ObjectGraph {
 	
 	private Object rootObject;
+	
+	// XXX: must make sure the same object gets the same id
+	private Map<String, Object> localHeap = new HashMap<>();
+	
 	
 	public ObjectGraphJdk(Object rootObject) {
 		this.rootObject = rootObject;
@@ -61,6 +67,7 @@ public class ObjectGraphJdk extends GenericGraphNtro<DirectedGraphSearchOptions,
 	public <R> Result<R> reduceNextEdges(Node<ObjectValue> fromNode, 
 			                             R initialValue, 
 			                             ReachableEdgeReducer<ObjectValue, ReferenceValue, R> reducer) {
+		
 
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 		
@@ -102,7 +109,8 @@ public class ObjectGraphJdk extends GenericGraphNtro<DirectedGraphSearchOptions,
 			}
 		}
 
-		return result;
+		throw new RuntimeException("[FIXME] must maintain a localHeap here. A second visit to an object must result in the same NodeId.");
+		//return result;
 	}
 
 	private EdgeNtro<ReferenceValue> createEdge(NodeId fromId, String attributeName, NodeId toId){
