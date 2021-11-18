@@ -103,7 +103,7 @@ public class ObjectGraphJdk implements ObjectGraph {
 	}
 
 	@Override
-	public <R> Result<R> recudeEdges(R initialValue, EdgeReducer<ObjectValue, ReferenceValue, R> reducer) {
+	public <R> Result<R> reduceEdges(R initialValue, EdgeReducer<ObjectValue, ReferenceValue, R> reducer) {
 		// TODO Auto-generated method stub
 		return null;
 	}

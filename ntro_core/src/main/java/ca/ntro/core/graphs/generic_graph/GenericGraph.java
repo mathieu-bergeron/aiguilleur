@@ -38,7 +38,7 @@ public interface GenericGraph<SO extends SearchOptions, NV extends NodeValue, EV
 	<R extends Object> Result<R> reduceNodes(R initialValue, NodeReducer<NV,R> reducer);
 
 	void forEachEdge(EdgeVisitor<NV,EV> visitor);
-	<R extends Object> Result<R> recudeEdges(R initialValue, EdgeReducer<NV,EV,R> reducer);
+	<R extends Object> Result<R> reduceEdges(R initialValue, EdgeReducer<NV,EV,R> reducer);
 
 	void forEachNextNode(Node<NV> from, ReachableNodeVisitor<NV,EV> visitor);
 	<R extends Object> Result<R> reduceNextNodes(Node<NV> from, R initialValue, ReachableNodeReducer<NV,EV,R> reducer);

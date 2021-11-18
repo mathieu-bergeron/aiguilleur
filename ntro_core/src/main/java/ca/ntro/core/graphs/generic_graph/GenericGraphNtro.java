@@ -1,5 +1,6 @@
 package ca.ntro.core.graphs.generic_graph;
 
+import ca.ntro.core.exceptions.Break;
 import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.EdgeReducer;
 import ca.ntro.core.graphs.EdgeValue;
@@ -30,32 +31,56 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 
 	@Override
 	public Node<NV> findNode(NodeId id) {
-		// TODO Auto-generated method stub
-		return null;
+		return findNode(new NodeMatcher<NV>() {
+			@Override
+			public boolean matches(Node<NV> node) {
+				return node.id().equals(id);
+			}
+		});
 	}
 
 	@Override
 	public Node<NV> findNode(NodeMatcher<NV> matcher) {
-		// TODO Auto-generated method stub
-		return null;
+		Result<Node<NV>> result = reduceNodes(null, (accumulator, n) -> {
+			if(accumulator != null) {
+				throw new Break();
+			}
+
+			if(matcher.matches(n)) {
+				return n;
+			}
+
+			return accumulator;
+		});
+
+		result.throwException();
+
+		return result.value();
 	}
 
 	@Override
 	public Node<NV> findNode(NV nodeValue) {
-		// TODO Auto-generated method stub
-		return null;
+		return findNode(new NodeMatcher<NV>() {
+			@Override
+			public boolean matches(Node<NV> node) {
+				return node.value().equals(nodeValue);
+			}
+		});
 	}
 
 	@Override
 	public Node<NV> findNode(String rawNodeId) {
-		// TODO Auto-generated method stub
-		return null;
+		return findNode(new NodeId(rawNodeId));
 	}
 
 	@Override
 	public void forEachRootNode(NodeVisitor<NV> visitor) {
-		// TODO Auto-generated method stub
-		
+		reduceRootNodes(null, (accumulator, n) -> {
+
+			visitor.visitNode(n);
+
+			return null;
+		});
 	}
 
 	@Override
@@ -63,24 +88,49 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 
 	@Override
 	public void forEachNode(NodeVisitor<NV> visitor) {
-		// TODO Auto-generated method stub
+		reduceNodes(null, (accumulator, n) -> {
+			
+			visitor.visitNode(n);
+			
+			return null;
+		});
 		
 	}
 
 	@Override
 	public <R> Result<R> reduceNodes(R initialValue, NodeReducer<NV, R> reducer) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return reduceRootNodes(initialValue, (accumulator, rootNode) -> {
+			
+			accumulator = reducer.reduceNode(accumulator, rootNode);
+			
+			Result<R> result = reduceReachableNodes(rootNode, accumulator, (innerAccumulator, walkedEdges, n) ->{
+				
+				innerAccumulator = reducer.reduceNode(innerAccumulator, n);
+
+				return innerAccumulator;
+			});
+			
+			result.throwException();
+			
+			accumulator = result.value();
+			
+			return accumulator;
+		});
 	}
 
 	@Override
 	public void forEachEdge(EdgeVisitor<NV, EV> visitor) {
-		// TODO Auto-generated method stub
-		
+		reduceEdges(null, (accumulator, from, edge, to) -> {
+			
+			visitor.visitEdge(from, edge, to);
+			
+			return null;
+		});
 	}
 
 	@Override
-	public <R> Result<R> recudeEdges(R initialValue, EdgeReducer<NV, EV, R> reducer) {
+	public <R> Result<R> reduceEdges(R initialValue, EdgeReducer<NV, EV, R> reducer) {
 		// TODO Auto-generated method stub
 		return null;
 	}

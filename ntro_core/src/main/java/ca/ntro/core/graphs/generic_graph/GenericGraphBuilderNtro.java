@@ -218,7 +218,7 @@ public abstract class GenericGraphBuilderNtro<SO extends SearchOptions, NV exten
 
 	@Override
 	public Node<NV> findNode(NV nodeValue) {
-		return findNode(new NodeMatcherNtro<NV>(nodeValue));
+		return findNode(new NodeMatcherByValue<NV>(nodeValue));
 	}
 
 	@Override
@@ -258,7 +258,7 @@ public abstract class GenericGraphBuilderNtro<SO extends SearchOptions, NV exten
 
 	@Override
 	public void forEachEdge(EdgeVisitor<NV,EV> visitor) {
-		recudeEdges(null, (accumulator, from, edge, to) -> {
+		reduceEdges(null, (accumulator, from, edge, to) -> {
 
 			visitor.visitEdge(from, edge, to);
 
@@ -267,7 +267,7 @@ public abstract class GenericGraphBuilderNtro<SO extends SearchOptions, NV exten
 	}
 
 	@Override
-	public <R> Result<R> recudeEdges(R initialValue, EdgeReducer<NV,EV,R> reducer) {
+	public <R> Result<R> reduceEdges(R initialValue, EdgeReducer<NV,EV,R> reducer) {
 
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 		
