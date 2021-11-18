@@ -32,12 +32,16 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 	@Override
 	public abstract String label();
 
-
 	protected abstract SO defaultSearchOptions();
-	
+
 	protected abstract <R> void _reduceRootNodes(ResultNtro<R> result, NodeReducer<NV, R> reducer);
 
-	protected abstract <R> void _reduceNextEdges(Node<NV> from, Direction direction, ResultNtro<R> result, ReachableEdgeReducer<NV, EV, R> reducer);
+	protected abstract <R> void _reduceNextEdgeNames(Node<NV> fromNode, Direction direction, ResultNtro<R> result, EdgeNameReducer<R> reducer);
+
+	protected abstract <R> void _reduceNextEdgesByName(Node<NV> fromNode, Direction direction, String edgeName, ResultNtro<R> result, ReachableEdgeReducer<NV, EV, R> reducer);
+	
+	
+
 	
 
 	@Override
@@ -165,40 +169,40 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 	}
 
 	@Override
-	public void forEachNextNode(Node<NV> from, ReachableNodeVisitor<NV, EV> visitor) {
+	public void forEachNextNode(Node<NV> fromNode, ReachableNodeVisitor<NV, EV> visitor) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public <R> Result<R> reduceNextNodes(Node<NV> from, R initialValue, ReachableNodeReducer<NV, EV, R> reducer) {
+	public <R> Result<R> reduceNextNodes(Node<NV> fromNode, R initialValue, ReachableNodeReducer<NV, EV, R> reducer) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void forEachReachableNode(Node<NV> from, ReachableNodeVisitor<NV, EV> visitor) {
+	public void forEachReachableNode(Node<NV> fromNode, ReachableNodeVisitor<NV, EV> visitor) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void forEachReachableNode(Node<NV> from, SO options, ReachableNodeVisitor<NV, EV> visitor) {
+	public void forEachReachableNode(Node<NV> fromNode, SO options, ReachableNodeVisitor<NV, EV> visitor) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public <R> Result<R> reduceReachableNodes(Node<NV> from, R initialValue, ReachableNodeReducer<NV, EV, R> reducer) {
+	public <R> Result<R> reduceReachableNodes(Node<NV> fromNode, R initialValue, ReachableNodeReducer<NV, EV, R> reducer) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	private <R> void _reduceReachableNodes(Node<NV> from, ResultNtro<R> result, ReachableNodeReducer<NV, EV, R> reducer) {
+	private <R> void _reduceReachableNodes(Node<NV> fromNode, ResultNtro<R> result, ReachableNodeReducer<NV, EV, R> reducer) {
 	}
 
 	@Override
-	public <R> Result<R> reduceReachableNodes(Node<NV> from, SO options, R initialValue,
+	public <R> Result<R> reduceReachableNodes(Node<NV> fromNode, SO options, R initialValue,
 			ReachableNodeReducer<NV, EV, R> reducer) {
 		// TODO Auto-generated method stub
 		return null;
@@ -206,73 +210,81 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 	
 
 	@Override
-	public void forEachNextEdge(Node<NV> from, ReachableEdgeVisitor<NV, EV> visitor) {
-		forEachNextEdge(from, defaultSearchOptions(), visitor);
+	public void forEachNextEdge(Node<NV> fromNode, ReachableEdgeVisitor<NV, EV> visitor) {
+		forEachNextEdge(fromNode, defaultSearchOptions(), visitor);
 	}
 
 	@Override
-	public void forEachNextEdge(Node<NV> from, SO options, ReachableEdgeVisitor<NV, EV> visitor) {
+	public void forEachNextEdge(Node<NV> fromNode, SO options, ReachableEdgeVisitor<NV, EV> visitor) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public <R> Result<R> reduceNextEdges(Node<NV> from, R initialValue, ReachableEdgeReducer<NV, EV, R> reducer){
+	public <R> Result<R> reduceNextEdges(Node<NV> fromNode, R initialValue, ReachableEdgeReducer<NV, EV, R> reducer){
 		return null;
 	}
 
 	@Override
-	public <R> Result<R> reduceNextEdges(Node<NV> from, SO options, R initialValue, ReachableEdgeReducer<NV, EV, R> reducer){
+	public <R> Result<R> reduceNextEdges(Node<NV> fromNode, SO options, R initialValue, ReachableEdgeReducer<NV, EV, R> reducer){
 		return null;
 	}
 
+	protected <R> void _reduceNextEdges(Node<NV> fromNode, Direction direction, ResultNtro<R> result, ReachableEdgeReducer<NV, EV, R> reducer) {
+		_reduceNextEdgeNames(fromNode, direction, result, (__, edgeName) -> {
+
+			_reduceNextEdgesByName(fromNode, direction, edgeName, result, reducer);
+			
+			return null;
+		});
+	}
 
 	@Override
-	public void forEachReachableEdge(Node<NV> from, ReachableEdgeVisitor<NV, EV> visitor) {
+	public void forEachReachableEdge(Node<NV> fromNode, ReachableEdgeVisitor<NV, EV> visitor) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void forEachReachableEdge(Node<NV> from, SO options, ReachableEdgeVisitor<NV, EV> visitor) {
+	public void forEachReachableEdge(Node<NV> fromNode, SO options, ReachableEdgeVisitor<NV, EV> visitor) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public <R> Result<R> reduceReachableEdges(Node<NV> from, R initialValue, ReachableEdgeReducer<NV, EV, R> reducer) {
+	public <R> Result<R> reduceReachableEdges(Node<NV> fromNode, R initialValue, ReachableEdgeReducer<NV, EV, R> reducer) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public <R> Result<R> reduceReachableEdges(Node<NV> from, SO options, R initialValue,
+	public <R> Result<R> reduceReachableEdges(Node<NV> fromNode, SO options, R initialValue,
 			ReachableEdgeReducer<NV, EV, R> reducer) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void visitEdgeWalk(Node<NV> from, EdgeWalk edgeWalk, EdgeWalkVisitor<NV, EV> visitor) {
+	public void visitEdgeWalk(Node<NV> fromNode, EdgeWalk edgeWalk, EdgeWalkVisitor<NV, EV> visitor) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void visitEdgeWalk(Node<NV> from, Direction direction, EdgeWalk edgeWalk, EdgeWalkVisitor<NV, EV> visitor) {
+	public void visitEdgeWalk(Node<NV> fromNode, Direction direction, EdgeWalk edgeWalk, EdgeWalkVisitor<NV, EV> visitor) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public <R> Result<R> reduceEdgeWalk(Node<NV> from, EdgeWalk edgeWalk, R initialValue,
+	public <R> Result<R> reduceEdgeWalk(Node<NV> fromNode, EdgeWalk edgeWalk, R initialValue,
 			EdgeWalkReducer<NV, EV, R> reducer) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public <R> Result<R> reduceEdgeWalk(Node<NV> from, Direction direction, EdgeWalk edgeWalk, R initialValue,
+	public <R> Result<R> reduceEdgeWalk(Node<NV> fromNode, Direction direction, EdgeWalk edgeWalk, R initialValue,
 			EdgeWalkReducer<NV, EV, R> reducer) {
 		// TODO Auto-generated method stub
 		return null;

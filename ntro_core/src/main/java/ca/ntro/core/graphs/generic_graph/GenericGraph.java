@@ -40,31 +40,31 @@ public interface GenericGraph<SO extends SearchOptions, NV extends NodeValue, EV
 	void forEachEdge(EdgeVisitor<NV,EV> visitor);
 	<R extends Object> Result<R> reduceEdges(R initialValue, EdgeReducer<NV,EV,R> reducer);
 
-	void forEachNextNode(Node<NV> from, ReachableNodeVisitor<NV,EV> visitor);
-	<R extends Object> Result<R> reduceNextNodes(Node<NV> from, R initialValue, ReachableNodeReducer<NV,EV,R> reducer);
+	void forEachNextNode(Node<NV> fromNode, ReachableNodeVisitor<NV,EV> visitor);
+	<R extends Object> Result<R> reduceNextNodes(Node<NV> fromNode, R initialValue, ReachableNodeReducer<NV,EV,R> reducer);
 
-	void forEachReachableNode(Node<NV> from, ReachableNodeVisitor<NV,EV> visitor);
-	void forEachReachableNode(Node<NV> from, SO options, ReachableNodeVisitor<NV,EV> visitor);
+	void forEachReachableNode(Node<NV> fromNode, ReachableNodeVisitor<NV,EV> visitor);
+	void forEachReachableNode(Node<NV> fromNode, SO options, ReachableNodeVisitor<NV,EV> visitor);
 
-	<R extends Object> Result<R> reduceReachableNodes(Node<NV> from, R initialValue, ReachableNodeReducer<NV,EV,R> reducer);
-	<R extends Object> Result<R> reduceReachableNodes(Node<NV> from, SO options, R initialValue, ReachableNodeReducer<NV,EV,R> reducer);
+	<R extends Object> Result<R> reduceReachableNodes(Node<NV> fromNode, R initialValue, ReachableNodeReducer<NV,EV,R> reducer);
+	<R extends Object> Result<R> reduceReachableNodes(Node<NV> fromNode, SO options, R initialValue, ReachableNodeReducer<NV,EV,R> reducer);
 	
-	void forEachNextEdge(Node<NV> from, ReachableEdgeVisitor<NV,EV> visitor);
-	void forEachNextEdge(Node<NV> from, SO options, ReachableEdgeVisitor<NV,EV> visitor);
+	void forEachNextEdge(Node<NV> fromNode, ReachableEdgeVisitor<NV,EV> visitor);
+	void forEachNextEdge(Node<NV> fromNode, SO options, ReachableEdgeVisitor<NV,EV> visitor);
 
-	<R extends Object> Result<R> reduceNextEdges(Node<NV> from, R initialValue, ReachableEdgeReducer<NV,EV,R> reducer);
-	<R extends Object> Result<R> reduceNextEdges(Node<NV> from, SO options, R initialValue, ReachableEdgeReducer<NV,EV,R> reducer);
+	<R extends Object> Result<R> reduceNextEdges(Node<NV> fromNode, R initialValue, ReachableEdgeReducer<NV,EV,R> reducer);
+	<R extends Object> Result<R> reduceNextEdges(Node<NV> fromNode, SO options, R initialValue, ReachableEdgeReducer<NV,EV,R> reducer);
 
-	void forEachReachableEdge(Node<NV> from, ReachableEdgeVisitor<NV,EV> visitor);
-	void forEachReachableEdge(Node<NV> from, SO options, ReachableEdgeVisitor<NV,EV> visitor);
+	void forEachReachableEdge(Node<NV> fromNode, ReachableEdgeVisitor<NV,EV> visitor);
+	void forEachReachableEdge(Node<NV> fromNode, SO options, ReachableEdgeVisitor<NV,EV> visitor);
 
-	<R extends Object> Result<R> reduceReachableEdges(Node<NV> from, R initialValue, ReachableEdgeReducer<NV,EV,R> reducer);
-	<R extends Object> Result<R> reduceReachableEdges(Node<NV> from, SO options, R initialValue, ReachableEdgeReducer<NV,EV,R> reducer);
+	<R extends Object> Result<R> reduceReachableEdges(Node<NV> fromNode, R initialValue, ReachableEdgeReducer<NV,EV,R> reducer);
+	<R extends Object> Result<R> reduceReachableEdges(Node<NV> fromNode, SO options, R initialValue, ReachableEdgeReducer<NV,EV,R> reducer);
 
-	void visitEdgeWalk(Node<NV> from, EdgeWalk edgeWalk, EdgeWalkVisitor<NV,EV> visitor);
-	void visitEdgeWalk(Node<NV> from, Direction direction, EdgeWalk edgeWalk, EdgeWalkVisitor<NV,EV> visitor);
+	void visitEdgeWalk(Node<NV> fromNode, EdgeWalk edgeWalk, EdgeWalkVisitor<NV,EV> visitor);
+	void visitEdgeWalk(Node<NV> fromNode, Direction direction, EdgeWalk edgeWalk, EdgeWalkVisitor<NV,EV> visitor);
 
-	<R extends Object> Result<R> reduceEdgeWalk(Node<NV> from, EdgeWalk edgeWalk, R initialValue, EdgeWalkReducer<NV,EV,R> reducer);
-	<R extends Object> Result<R> reduceEdgeWalk(Node<NV> from, Direction direction, EdgeWalk edgeWalk, R initialValue, EdgeWalkReducer<NV,EV,R> reducer);
+	<R extends Object> Result<R> reduceEdgeWalk(Node<NV> fromNode, EdgeWalk edgeWalk, R initialValue, EdgeWalkReducer<NV,EV,R> reducer);
+	<R extends Object> Result<R> reduceEdgeWalk(Node<NV> fromNode, Direction direction, EdgeWalk edgeWalk, R initialValue, EdgeWalkReducer<NV,EV,R> reducer);
 
 }
