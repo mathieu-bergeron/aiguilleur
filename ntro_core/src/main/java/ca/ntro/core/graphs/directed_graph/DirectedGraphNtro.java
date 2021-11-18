@@ -17,13 +17,14 @@ public class      DirectedGraphNtro<NV extends NodeValue, EV extends EdgeValue>
        extends    GenericGraphBuilderNtro<DirectedGraphSearchOptions,NV,EV,DirectedGraph<NV,EV>> 
        implements DirectedGraph<NV,EV> {
 
-	private Map<String, Map<String, Node<NV>>> edgesBackward = new HashMap<>();
-	
-	protected Map<String, Map<String, Node<NV>>> getEdgesBackward() {
+	// toKey -> edgeName -> edgeKey -> fromNode
+	private Map<String, Map<String,Map<String, Node<NV>>>> edgesBackward = new HashMap<>();
+
+	protected Map<String, Map<String,Map<String, Node<NV>>>> getEdgesBackward() {
 		return edgesBackward;
 	}
 
-	protected void setEdgesBackward(Map<String, Map<String, Node<NV>>> edgesBackward) {
+	protected void setEdgesBackward(Map<String, Map<String,Map<String, Node<NV>>>> edgesBackward) {
 		this.edgesBackward = edgesBackward;
 	}
 
@@ -49,9 +50,9 @@ public class      DirectedGraphNtro<NV extends NodeValue, EV extends EdgeValue>
 	}
 
 	@Override
-	protected Map<String, Map<String, Node<NV>>> edgesMapForDirection(Direction direction) {
+	protected Map<String, Map<String,Map<String, Node<NV>>>> edgesMapForDirection(Direction direction) {
 		
-		Map<String, Map<String, Node<NV>>> edgesMap = null;
+		Map<String, Map<String,Map<String, Node<NV>>>> edgesMap = null;
 		
 		if(direction == Direction.FORWARD) {
 
@@ -64,6 +65,4 @@ public class      DirectedGraphNtro<NV extends NodeValue, EV extends EdgeValue>
 			
 		return edgesMap;
 	}
-
-
 }

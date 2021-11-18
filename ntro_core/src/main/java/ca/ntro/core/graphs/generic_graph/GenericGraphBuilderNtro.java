@@ -1,7 +1,9 @@
 package ca.ntro.core.graphs.generic_graph;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -31,7 +33,7 @@ public abstract class GenericGraphBuilderNtro<SO extends SearchOptions, NV exten
 	private Map<String, Node<NV>> nodes = new HashMap<>();
 	private Map<String, Edge<EV>> edges = new HashMap<>();
 
-	// nodeKey -> edgeName -> edgeKey -> Node
+	// fromKey -> edgeName -> edgeKey -> toNode
 	private Map<String, Map<String, Map<String, Node<NV>>>> edgesForward = new HashMap<>();
 
 	protected GraphId getId() {
@@ -66,11 +68,11 @@ public abstract class GenericGraphBuilderNtro<SO extends SearchOptions, NV exten
 		this.edges = edges;
 	}
 
-	protected Map<String, Map<String, Node<NV>>> getEdgesForward() {
+	protected Map<String, Map<String, Map<String, Node<NV>>>> getEdgesForward() {
 		return edgesForward;
 	}
 
-	protected void setEdgesForward(Map<String,Map<String, Node<NV>>> edgesForward) {
+	protected void setEdgesForward(Map<String,Map<String,Map<String, Node<NV>>>> edgesForward) {
 		this.edgesForward = edgesForward;
 	}
 
@@ -155,20 +157,28 @@ public abstract class GenericGraphBuilderNtro<SO extends SearchOptions, NV exten
 
 	protected abstract void detectCycleFrom(Node<NV> from);
 
-	protected abstract Map<String, Map<String, Node<NV>>> edgesMapForDirection(Direction direction);
+	protected abstract Map<String, Map<String,Map<String, Node<NV>>>> edgesMapForDirection(Direction direction);
 
-	protected void addToEdgesMap(Map<String, Map<String, Node<NV>>> edgesMap, Node<NV> from, Edge<EV> edge, Node<NV> to) {
+	protected void addToEdgesMap(Map<String, Map<String, Map<String, Node<NV>>>> edgesMap, Node<NV> from, Edge<EV> edge, Node<NV> to) {
 		String fromKey = from.id().toKey();
+		String edgeName = edge.id().edgeName().name();
 		String edgeKey = edge.id().toKey();
 
-		Map<String, Node<NV>> edgesFrom = edgesMap.get(fromKey);
+		Map<String,Map<String, Node<NV>>> edgesByName = edgesMap.get(fromKey);
 
-		if(edgesFrom == null) {
-			edgesFrom = new HashMap<String, Node<NV>>();
-			edgesMap.put(fromKey, edgesFrom);
+		if(edgesByName == null) {
+			edgesByName = new HashMap<String, Map<String,Node<NV>>>();
+			edgesMap.put(fromKey, edgesByName);
 		}
 		
-		edgesFrom.put(edgeKey, to);
+		Map<String, Node<NV>> edgesByKey = edgesByName.get(edgeName);
+		
+		if(edgesByKey == null) {
+			edgesByKey = new HashMap<String, Node<NV>>();
+			edgesByName.put(edgeName, edgesByKey);
+		}
+
+		edgesByKey.put(edgeKey, to);
 	}
 
 	@Override
@@ -203,15 +213,15 @@ public abstract class GenericGraphBuilderNtro<SO extends SearchOptions, NV exten
 			return;
 		}
 		
-		Map<String, Map<String, Node<NV>>> edgesMap = edgesMapForDirection(direction);
+		Map<String, Map<String,Map<String, Node<NV>>>> edgesMap = edgesMapForDirection(direction);
 		
 		if(edgesMap != null) {
 			
-			Map<String, Node<NV>> edgesFromNode = edgesMap.get(fromNode.id().toKey());
+			Map<String,Map<String, Node<NV>>> edgesByName = edgesMap.get(fromNode.id().toKey());
 			
-			if(edgesFromNode != null) {
-				
-				for(String edgeName : edgesFromNode.keySet()) {
+			if(edgesByName != null) {
+
+				for(String edgeName : edgesByName.keySet()) {
 					
 					try {
 
@@ -233,18 +243,53 @@ public abstract class GenericGraphBuilderNtro<SO extends SearchOptions, NV exten
 			                                  String edgeName, 
 			                                  ResultNtro<R> result, 
 			                                  ReachableEdgeReducer<NV, EV, R> reducer) {
-
 		
+		if(result.hasException()) {
+			return;
+		}
+
+		Map<String, Map<String,Map<String, Node<NV>>>> edgesMap = edgesMapForDirection(direction);
+		
+		if(edgesMap != null) {
+			
+			Map<String,Map<String, Node<NV>>> edgesByName = edgesMap.get(fromNode.id().toKey());
+			
+			if(edgesByName != null) {
+
+				Map<String, Node<NV>> edgesByKey = edgesByName.get(edgeName);
+				
+				if(edgesByKey != null) {
+					
+					for(Map.Entry<String, Node<NV>> entry : edgesByKey.entrySet()) {
+						
+						String edgeKey = entry.getKey();
+						Node<NV> to = entry.getValue();
+						
+						Edge<EV> edge = getEdges().get(edgeKey);
+						
+						List<Edge<EV>> walkedEdges = new ArrayList<>();
+						walkedEdges.add(edge);
+						
+						if(edge != null) {
+
+							try {
+
+								result.registerValue(reducer.reduceReachableEdge(result.value(), walkedEdges, fromNode, edge, to));
+
+							} catch (Throwable e) {
+								
+								result.registerException(e);
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 	
 	
-	
-	
 	/*
-
-	
-
-	
 
 	@Override
 	public Node<NV> findNode(NodeId nodeId) {
