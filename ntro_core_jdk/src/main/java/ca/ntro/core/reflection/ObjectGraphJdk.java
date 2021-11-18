@@ -70,8 +70,10 @@ public class ObjectGraphJdk extends GenericGraphNtro<DirectedGraphSearchOptions,
 		for(Object rootObject : rootObjects) {
 
 			try {
+				
+				Path objectPath = Path.fromSingleName(rootObject.getClass().getSimpleName());
 
-				result.registerValue(reducer.reduceNode(result.value(), createNode(Path.rootPath(), rootObject)));
+				result.registerValue(reducer.reduceNode(result.value(), createNode(objectPath, rootObject)));
 
 			} catch (Break e) {
 				
@@ -83,6 +85,8 @@ public class ObjectGraphJdk extends GenericGraphNtro<DirectedGraphSearchOptions,
 				break;
 			}
 		}
+
+		throw new RuntimeException("[FIXME] must make each objectPath unique, e.g. with getClass().getSimpleName() + some number:  QueueModel/0");
 	}
 
 	@Override
