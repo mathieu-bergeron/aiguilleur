@@ -26,12 +26,19 @@ import ca.ntro.core.wrappers.result.ResultNtro;
 
 public class ObjectGraphJdk extends GenericGraphNtro<DirectedGraphSearchOptions, ObjectValue, ReferenceValue> implements ObjectGraph {
 	
-	private Object rootObject;
+	private Object[] rootObjects;
 
 	private Map<Object, Map<Node<ObjectValue>, Object>> localHeap = new HashMap<>();
 	
+	private ObjectGraphJdk() {
+	}
+	
 	public ObjectGraphJdk(Object rootObject) {
-		this.rootObject = rootObject;
+		this.rootObjects = new Object[] {rootObject};
+	}
+
+	public ObjectGraphJdk(Object[] rootObjects) {
+		this.rootObjects = rootObjects;
 	}
 
 	@Override
@@ -41,7 +48,12 @@ public class ObjectGraphJdk extends GenericGraphNtro<DirectedGraphSearchOptions,
 
 	@Override
 	public String label() {
-		return rootObject.getClass().getSimpleName();
+		Path labelPath = Path.emptyPath();
+		for(Object rootObject : rootObjects) {
+			labelPath.addName(rootObject.getClass().getSimpleName());
+		}
+
+		return labelPath.toHtmlId();
 	}
 
 	@Override
@@ -51,15 +63,26 @@ public class ObjectGraphJdk extends GenericGraphNtro<DirectedGraphSearchOptions,
 
 	@Override
 	protected <R> void _reduceRootNodes(ResultNtro<R> result, NodeReducer<ObjectValue, R> reducer) {
-		
+		if(result.hasException()) {
+			return;
+		}
+
+		for(Object rootObject : rootObjects) {
+
 			try {
 
 				result.registerValue(reducer.reduceNode(result.value(), createNode(Path.rootPath(), rootObject)));
 
+			} catch (Break e) {
+				
+				break;
+
 			} catch (Throwable t) {
 
 				result.registerException(t);
+				break;
 			}
+		}
 	}
 
 	@Override
