@@ -10,11 +10,11 @@ import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.EdgeWalkVisitor;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeValue;
-import ca.ntro.core.graphs.generic_graph.GenericGraphNtro;
+import ca.ntro.core.graphs.generic_graph.GenericGraphAndBuilderNtro;
 import ca.ntro.core.path.EdgeWalk;
 
 public class      DirectedGraphNtro<NV extends NodeValue, EV extends EdgeValue> 
-       extends    GenericGraphNtro<DirectedGraphSearchOptions,NV,EV,DirectedGraph<NV,EV>> 
+       extends    GenericGraphAndBuilderNtro<DirectedGraphSearchOptions,NV,EV,DirectedGraph<NV,EV>> 
        implements DirectedGraph<NV,EV> {
 
 	private Map<String, Map<String, Node<NV>>> edgesBackward = new HashMap<>();
