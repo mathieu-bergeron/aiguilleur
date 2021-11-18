@@ -50,7 +50,10 @@ public interface GenericGraph<SO extends SearchOptions, NV extends NodeValue, EV
 	<R extends Object> Result<R> reduceReachableNodes(Node<NV> from, SO options, R initialValue, ReachableNodeReducer<NV,EV,R> reducer);
 	
 	void forEachNextEdge(Node<NV> from, ReachableEdgeVisitor<NV,EV> visitor);
+	void forEachNextEdge(Node<NV> from, SO options, ReachableEdgeVisitor<NV,EV> visitor);
+
 	<R extends Object> Result<R> reduceNextEdges(Node<NV> from, R initialValue, ReachableEdgeReducer<NV,EV,R> reducer);
+	<R extends Object> Result<R> reduceNextEdges(Node<NV> from, SO options, R initialValue, ReachableEdgeReducer<NV,EV,R> reducer);
 
 	void forEachReachableEdge(Node<NV> from, ReachableEdgeVisitor<NV,EV> visitor);
 	void forEachReachableEdge(Node<NV> from, SO options, ReachableEdgeVisitor<NV,EV> visitor);

@@ -55,6 +55,10 @@ public class GraphSearchOptions implements SearchOptions {
 		setMaxDistance(maxDistance);
 	}
 
+	public GraphSearchOptions(Direction[] directions) {
+		setDirections(directions);
+	}
+
 	@Override
 	public SearchStrategy searchStrategy() {
 		return getSearchStrategy();

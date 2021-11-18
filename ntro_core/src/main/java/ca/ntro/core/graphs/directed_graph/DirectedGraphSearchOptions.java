@@ -37,6 +37,10 @@ public class DirectedGraphSearchOptions extends GraphSearchOptions implements Se
 		super(maxDistance);
 	}
 
+	public DirectedGraphSearchOptions(Direction[] directions) {
+		super(directions);
+	}
+
 
 	public DirectedGraphSearchOptions(Direction[] directions, int maxDistance) {
 		super(maxDistance);

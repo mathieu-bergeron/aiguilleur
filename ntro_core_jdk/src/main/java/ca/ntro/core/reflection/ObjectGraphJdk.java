@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import ca.ntro.core.exceptions.Break;
+import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeId;
 import ca.ntro.core.graphs.GraphId;
@@ -45,6 +46,11 @@ public class ObjectGraphJdk extends GenericGraphNtro<DirectedGraphSearchOptions,
 	}
 
 	@Override
+	protected DirectedGraphSearchOptions defaultSearchOptions() {
+		return new DirectedGraphSearchOptions(new Direction[] {Direction.FORWARD});
+	}
+
+	@Override
 	public <R> Result<R> reduceRootNodes(R initialValue, NodeReducer<ObjectValue, R> reducer) {
 		
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
@@ -63,12 +69,16 @@ public class ObjectGraphJdk extends GenericGraphNtro<DirectedGraphSearchOptions,
 
 	@Override
 	public <R> Result<R> reduceNextEdges(Node<ObjectValue> fromNode, 
+										 Direction direction,
 			                             R initialValue, 
 			                             ReachableEdgeReducer<ObjectValue, ReferenceValue, R> reducer) {
-		
 
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
-		
+
+		if(direction != Direction.FORWARD) {
+			return result;
+		}
+
 		Object currentObject = fromNode.value().object();
 
 		for(Method method: currentObject.getClass().getMethods()) {
@@ -168,4 +178,5 @@ public class ObjectGraphJdk extends GenericGraphNtro<DirectedGraphSearchOptions,
 		
 		return node;
 	}
+
 }

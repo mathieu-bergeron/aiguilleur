@@ -27,7 +27,17 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 
 	@Override
 	public abstract GraphId id();
+	
+	@Override
 	public abstract String label();
+
+
+	protected abstract SO defaultSearchOptions();
+
+	@Override
+	public abstract <R> Result<R> reduceRootNodes(R initialValue, NodeReducer<NV, R> reducer);
+	
+	protected abstract <R> Result<R> reduceNextEdges(Node<NV> from, Direction direction, R initialValue, ReachableEdgeReducer<NV, EV, R> reducer);
 
 	@Override
 	public Node<NV> findNode(NodeId id) {
@@ -83,8 +93,6 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 		});
 	}
 
-	@Override
-	public abstract <R> Result<R> reduceRootNodes(R initialValue, NodeReducer<NV, R> reducer);
 
 	@Override
 	public void forEachNode(NodeVisitor<NV> visitor) {
@@ -171,15 +179,29 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
 
 	@Override
 	public void forEachNextEdge(Node<NV> from, ReachableEdgeVisitor<NV, EV> visitor) {
+		forEachNextEdge(from, defaultSearchOptions(), visitor);
+	}
+
+	@Override
+	public void forEachNextEdge(Node<NV> from, SO options, ReachableEdgeVisitor<NV, EV> visitor) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public abstract <R> Result<R> reduceNextEdges(Node<NV> from, R initialValue, ReachableEdgeReducer<NV, EV, R> reducer);
+	public <R> Result<R> reduceNextEdges(Node<NV> from, R initialValue, ReachableEdgeReducer<NV, EV, R> reducer){
+		return null;
+	}
+
+	@Override
+	public <R> Result<R> reduceNextEdges(Node<NV> from, SO options, R initialValue, ReachableEdgeReducer<NV, EV, R> reducer){
+		return null;
+	}
+
 
 	@Override
 	public void forEachReachableEdge(Node<NV> from, ReachableEdgeVisitor<NV, EV> visitor) {

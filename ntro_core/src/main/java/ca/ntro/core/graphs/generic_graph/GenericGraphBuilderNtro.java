@@ -601,7 +601,8 @@ public abstract class GenericGraphBuilderNtro<SO extends SearchOptions, NV exten
 	}
 	
 	
-	protected <R> Result<R> reduceNextEdges(Node<NV> fromNode, 
+	@Override
+	public <R> Result<R> reduceNextEdges(Node<NV> fromNode, 
 			                                SO searchOptions, 
 			                                R initialValue,
 			                                ReachableEdgeReducer<NV, EV, R> reducer) {
