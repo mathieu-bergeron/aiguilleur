@@ -27,10 +27,8 @@ import ca.ntro.core.wrappers.result.ResultNtro;
 public class ObjectGraphJdk extends GenericGraphNtro<DirectedGraphSearchOptions, ObjectValue, ReferenceValue> implements ObjectGraph {
 	
 	private Object rootObject;
-	
-	// XXX: must make sure the same object gets the same id
-	private Map<String, Object> localHeap = new HashMap<>();
-	
+
+	private Map<Object, Map<Node<ObjectValue>, Object>> localHeap = new HashMap<>();
 	
 	public ObjectGraphJdk(Object rootObject) {
 		this.rootObject = rootObject;
@@ -89,8 +87,8 @@ public class ObjectGraphJdk extends GenericGraphNtro<DirectedGraphSearchOptions,
 					Path attributePath = Path.fromPath(fromNode.id().toFilepath());
 					attributePath.addName(attributeName);
 					
-					NodeNtro<ObjectValue> toNode = createNode(attributePath, attributeValue);
-					EdgeNtro<ReferenceValue> edge = createEdge(fromNode.id(), attributeName, toNode.id());
+					Node<ObjectValue> toNode = createNode(attributePath, attributeValue);
+					Edge<ReferenceValue> edge = createEdge(fromNode.id(), attributeName, toNode.id());
 					
 					List<Edge<ReferenceValue>> walkedEdges = new ArrayList<>();
 					walkedEdges.add(edge);
@@ -109,40 +107,65 @@ public class ObjectGraphJdk extends GenericGraphNtro<DirectedGraphSearchOptions,
 			}
 		}
 
-		throw new RuntimeException("[FIXME] must maintain a localHeap here. A second visit to an object must result in the same NodeId.");
-		//return result;
+		return result;
 	}
 
-	private EdgeNtro<ReferenceValue> createEdge(NodeId fromId, String attributeName, NodeId toId){
+	private Edge<ReferenceValue> createEdge(NodeId fromId, String attributeName, NodeId toId){
 
 		ReferenceValue referenceValue = new ReferenceValue(attributeName);
 
 		EdgeId edgeId = new EdgeId(fromId, new PathName(attributeName), toId);
 
-		EdgeNtro<ReferenceValue> edge = new EdgeNtro<ReferenceValue>(edgeId, referenceValue);
+		Edge<ReferenceValue> edge = new EdgeNtro<ReferenceValue>(edgeId, referenceValue);
 		
 		return edge;
 	}
-
-	private NodeNtro<ObjectValue> createNode(Path attributePath, Object attributeValue){
-
-		ObjectValue objectValue = new ObjectValue(attributeValue);
-		NodeId nodeId = new NodeId(attributePath);
-		NodeNtro<ObjectValue> node = new NodeNtro<ObjectValue>(nodeId, objectValue);
-		
-		return node;
-	}
 	
-	protected boolean isObjectAlreadyVisited(List<Object> visitedObjects, Object target) {
-		boolean visited = false;
+	private Node<ObjectValue> findNodeInLocalHeap(Object object) {
 		
-		for(Object candidate : visitedObjects) {
-			if(candidate == target) {
-				visited = true;
+		Node<ObjectValue> node = null;
+		
+		Map<Node<ObjectValue>, Object> objectByNode = localHeap.get(object);
+		
+		for(Map.Entry<Node<ObjectValue>, Object> entry : objectByNode.entrySet()) {
+
+			if(entry.getValue() == object) {
+				node = entry.getKey();
 				break;
 			}
 		}
 		
-		return visited;
+		return node;
+	}
+
+	private void addNodeInLocalHeap(Node<ObjectValue> node) {
+		
+		Object object = node.value().object();
+
+		Map<Node<ObjectValue>, Object> objectByNode = localHeap.get(object);
+
+		if(objectByNode == null) {
+			objectByNode = new HashMap<>();
+			localHeap.put(object, objectByNode);
+		}
+		
+		objectByNode.put(node, object);
+	}
+
+	private Node<ObjectValue> createNode(Path attributePath, Object object){
+		
+		Node<ObjectValue> node = findNodeInLocalHeap(object);
+		
+		if(node == null) {
+			
+			ObjectValue objectValue = new ObjectValue(object);
+			NodeId nodeId = new NodeId(attributePath);
+
+			node = new NodeNtro<ObjectValue>(nodeId, objectValue);
+			
+			addNodeInLocalHeap(node);
+		}
+		
+		return node;
 	}
 }
