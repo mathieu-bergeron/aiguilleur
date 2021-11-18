@@ -64,22 +64,36 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<DirectedGraphSear
 			return;
 		}
 
-		for(Object rootObject : rootObjects) {
+		if(rootObjects.length > 0) {
 
-			try {
-				
-				Path objectPath = Path.fromSingleName(rootObject.getClass().getSimpleName());
-
-				result.registerValue(reducer.reduceNode(result.value(), createNode(objectPath, rootObject)));
-
-			} catch (Throwable t) {
-
-				result.registerException(t);
-				break;
-			}
+			_reduceRootNode(result, Path.emptyPath(), rootObjects[0], reducer);
 		}
 
-		throw new RuntimeException("[FIXME] must make each objectPath unique, e.g. with getClass().getSimpleName() + some number:  QueueModel/0");
+		for(int i = 1; i < rootObjects.length; i++) {
+
+			if(result.hasException()) {
+				return;
+			}
+
+			Path objectPath = Path.fromSingleName(String.valueOf(i));
+			
+			_reduceRootNode(result, objectPath, rootObjects[i], reducer);
+		}
+	}
+
+	private <R> void _reduceRootNode(ResultNtro<R> result, Path objectPath, Object object, NodeReducer<ObjectValue, R> reducer) {
+		if(result.hasException()) {
+			return;
+		}
+
+		try {
+
+			result.registerValue(reducer.reduceNode(result.value(), createNode(objectPath, object)));
+
+		} catch (Throwable t) {
+
+			result.registerException(t);
+		}
 	}
 
 	@Override
