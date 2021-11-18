@@ -43,7 +43,8 @@ public abstract class GenericGraphBuilderNtro<SO extends SearchOptions, NV exten
 
 	private GraphId id;
 
-	private Map<String,Node<NV>> nodes = new HashMap<>();
+	private Set<String> rootNodes = new HashSet<>();
+	private Map<String, Node<NV>> nodes = new HashMap<>();
 	private Map<String, Edge<EV>> edges = new HashMap<>();
 	private Map<String, Map<String, Node<NV>>> edgesForward = new HashMap<>();
 
