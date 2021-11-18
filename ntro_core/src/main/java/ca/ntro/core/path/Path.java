@@ -11,6 +11,10 @@ public interface Path extends GenericPath<Path> {
     	return new PathNtro();
 	}
 
+	public static Path rootPath() {
+    	return new PathNtro();
+	}
+
     public static Path fromRawPath(String rawPath) {
     	PathNtro path = new PathNtro();
     	

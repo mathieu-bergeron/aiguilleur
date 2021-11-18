@@ -3,6 +3,7 @@ package ca.ntro.core.graphs;
 import ca.ntro.core.identifyers.Id;
 import ca.ntro.core.path.EdgeWalk;
 import ca.ntro.core.path.Filepath;
+import ca.ntro.core.path.Path;
 import ca.ntro.core.path.PathName;
 
 public class EdgeId implements Id {
@@ -46,6 +47,7 @@ public class EdgeId implements Id {
 		setToId(toId);
 	}
 	
+
 	public NodeId fromId() {
 		return getFromId();
 	}
