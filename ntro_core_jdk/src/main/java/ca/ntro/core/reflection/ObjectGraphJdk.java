@@ -67,6 +67,10 @@ public class ObjectGraphJdk extends GenericGraphNtro<DirectedGraphSearchOptions,
 							           Direction direction,
 							           ResultNtro<R> result,
 			                           ReachableEdgeReducer<ObjectValue, ReferenceValue, R> reducer) {
+		
+		if(result.hasException()) {
+			return;
+		}
 
 		if(direction != Direction.FORWARD) {
 			return;
