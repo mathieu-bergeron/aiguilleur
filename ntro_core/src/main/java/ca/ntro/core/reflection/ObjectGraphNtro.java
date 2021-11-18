@@ -1,7 +1,5 @@
 package ca.ntro.core.reflection;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +36,7 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<DirectedGraphSear
 	protected abstract void addNodeInLocalHeap(Node<ObjectValue> node);
 
 	protected abstract <R> void _reduceMethodNames(Object object, ResultNtro<R> result, MethodNameReducer<R> reducer);
-	protected abstract Object invokeGetter(Object object, String getterName) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException;
+	protected abstract Object invokeGetter(Object object, String getterName) throws Throwable;
 
 	@Override
 	public GraphId id() {

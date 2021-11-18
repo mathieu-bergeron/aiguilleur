@@ -75,7 +75,7 @@ public class ObjectGraphJdk extends ObjectGraphNtro  implements ObjectGraph {
 	}
 	
 	@Override
-	protected Object invokeGetter(Object object, String getterName) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+	protected Object invokeGetter(Object object, String getterName) throws Throwable {
 
 		Method method = object.getClass().getMethod(getterName);
 
