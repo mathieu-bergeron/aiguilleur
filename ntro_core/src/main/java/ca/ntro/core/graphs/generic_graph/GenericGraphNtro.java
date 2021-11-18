@@ -21,6 +21,7 @@ import ca.ntro.core.graphs.ReachableNodeVisitor;
 import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.path.EdgeWalk;
 import ca.ntro.core.wrappers.result.Result;
+import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends NodeValue, EV extends EdgeValue>
        implements     GenericGraph<SO,NV,EV> {
@@ -33,11 +34,11 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 
 
 	protected abstract SO defaultSearchOptions();
-
-	@Override
-	public abstract <R> Result<R> reduceRootNodes(R initialValue, NodeReducer<NV, R> reducer);
 	
-	protected abstract <R> Result<R> reduceNextEdges(Node<NV> from, Direction direction, R initialValue, ReachableEdgeReducer<NV, EV, R> reducer);
+	protected abstract <R> void _reduceRootNodes(ResultNtro<R> result, NodeReducer<NV, R> reducer);
+
+	protected abstract <R> void _reduceNextEdges(Node<NV> from, Direction direction, ResultNtro<R> result, ReachableEdgeReducer<NV, EV, R> reducer);
+	
 
 	@Override
 	public Node<NV> findNode(NodeId id) {
@@ -51,6 +52,9 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 
 	@Override
 	public Node<NV> findNode(NodeMatcher<NV> matcher) {
+		
+		
+		
 		Result<Node<NV>> result = reduceNodes(null, (accumulator, n) -> {
 			if(accumulator != null) {
 				throw new Break();
@@ -85,12 +89,23 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 
 	@Override
 	public void forEachRootNode(NodeVisitor<NV> visitor) {
-		reduceRootNodes(null, (accumulator, n) -> {
+		_reduceRootNodes(null, (accumulator, n) -> {
 
 			visitor.visitNode(n);
 
-			return null;
+			return accumulator;
 		});
+	}
+
+
+	@Override
+	public <R> Result<R> reduceRootNodes(R initialValue, NodeReducer<NV, R> reducer){
+
+		ResultNtro<R> result = new ResultNtro<R>(initialValue);
+		
+		_reduceRootNodes(result, reducer);
+		
+		return result;
 	}
 
 
@@ -107,24 +122,30 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 
 	@Override
 	public <R> Result<R> reduceNodes(R initialValue, NodeReducer<NV, R> reducer) {
+		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 		
-		return reduceRootNodes(initialValue, (accumulator, rootNode) -> {
-			
-			accumulator = reducer.reduceNode(accumulator, rootNode);
-			
-			Result<R> result = reduceReachableNodes(rootNode, accumulator, (innerAccumulator, walkedEdges, n) ->{
-				
-				innerAccumulator = reducer.reduceNode(innerAccumulator, n);
+		_reduceNodes(result, reducer);
+		
+		return result;
+	}
 
-				return innerAccumulator;
+	private <R> void _reduceNodes(ResultNtro<R> result, NodeReducer<NV, R> reducer) {
+
+		_reduceRootNodes(result, (__, rootNode) -> {
+			
+			result.registerValue(reducer.reduceNode(result.value(), rootNode));
+			
+			_reduceReachableNodes(rootNode, result, (___, walkedEdges, n) ->{
+				
+				result.registerValue(reducer.reduceNode(result.value(), n));
+
+				return null;
 			});
 			
-			result.throwException();
-			
-			accumulator = result.value();
-			
-			return accumulator;
+			return null;
 		});
+		
+		result.throwException();
 	}
 
 	@Override
@@ -171,6 +192,9 @@ public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends Node
 	public <R> Result<R> reduceReachableNodes(Node<NV> from, R initialValue, ReachableNodeReducer<NV, EV, R> reducer) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	private <R> void _reduceReachableNodes(Node<NV> from, ResultNtro<R> result, ReachableNodeReducer<NV, EV, R> reducer) {
 	}
 
 	@Override

@@ -22,7 +22,6 @@ import ca.ntro.core.graphs.generic_graph.GenericGraphNtro;
 import ca.ntro.core.graphs.generic_graph.NodeNtro;
 import ca.ntro.core.path.Path;
 import ca.ntro.core.path.PathName;
-import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public class ObjectGraphJdk extends GenericGraphNtro<DirectedGraphSearchOptions, ObjectValue, ReferenceValue> implements ObjectGraph {
@@ -51,9 +50,7 @@ public class ObjectGraphJdk extends GenericGraphNtro<DirectedGraphSearchOptions,
 	}
 
 	@Override
-	public <R> Result<R> reduceRootNodes(R initialValue, NodeReducer<ObjectValue, R> reducer) {
-		
-		ResultNtro<R> result = new ResultNtro<R>(initialValue);
+	protected <R> void _reduceRootNodes(ResultNtro<R> result, NodeReducer<ObjectValue, R> reducer) {
 		
 			try {
 
@@ -63,20 +60,16 @@ public class ObjectGraphJdk extends GenericGraphNtro<DirectedGraphSearchOptions,
 
 				result.registerException(t);
 			}
-		
-		return result;
 	}
 
 	@Override
-	public <R> Result<R> reduceNextEdges(Node<ObjectValue> fromNode, 
-										 Direction direction,
-			                             R initialValue, 
-			                             ReachableEdgeReducer<ObjectValue, ReferenceValue, R> reducer) {
-
-		ResultNtro<R> result = new ResultNtro<R>(initialValue);
+	protected <R> void _reduceNextEdges(Node<ObjectValue> fromNode, 
+							           Direction direction,
+							           ResultNtro<R> result,
+			                           ReachableEdgeReducer<ObjectValue, ReferenceValue, R> reducer) {
 
 		if(direction != Direction.FORWARD) {
-			return result;
+			return;
 		}
 
 		Object currentObject = fromNode.value().object();
@@ -116,8 +109,6 @@ public class ObjectGraphJdk extends GenericGraphNtro<DirectedGraphSearchOptions,
 				}
 			}
 		}
-
-		return result;
 	}
 
 	private Edge<ReferenceValue> createEdge(NodeId fromId, String attributeName, NodeId toId){
