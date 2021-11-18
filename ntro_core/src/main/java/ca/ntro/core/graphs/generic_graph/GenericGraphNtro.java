@@ -21,20 +21,12 @@ import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.path.EdgeWalk;
 import ca.ntro.core.wrappers.result.Result;
 
-public class       GenericGraphNtro<SO extends SearchOptions, NV extends NodeValue, EV extends EdgeValue>
-       implements  GenericGraph<SO,NV,EV> {
+public abstract class GenericGraphNtro<SO extends SearchOptions, NV extends NodeValue, EV extends EdgeValue>
+       implements     GenericGraph<SO,NV,EV> {
 
 	@Override
-	public GraphId id() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String label() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public abstract GraphId id();
+	public abstract String label();
 
 	@Override
 	public Node<NV> findNode(NodeId id) {
@@ -61,13 +53,16 @@ public class       GenericGraphNtro<SO extends SearchOptions, NV extends NodeVal
 	}
 
 	@Override
-	public void forEachNode(NodeVisitor<NV> visitor) {
+	public void forEachRootNode(NodeVisitor<NV> visitor) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void forEachEdge(EdgeVisitor<NV, EV> visitor) {
+	public abstract <R> Result<R> reduceRootNodes(R initialValue, NodeReducer<NV, R> reducer);
+
+	@Override
+	public void forEachNode(NodeVisitor<NV> visitor) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -76,6 +71,12 @@ public class       GenericGraphNtro<SO extends SearchOptions, NV extends NodeVal
 	public <R> Result<R> reduceNodes(R initialValue, NodeReducer<NV, R> reducer) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void forEachEdge(EdgeVisitor<NV, EV> visitor) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
@@ -89,7 +90,6 @@ public class       GenericGraphNtro<SO extends SearchOptions, NV extends NodeVal
 		// TODO Auto-generated method stub
 		
 	}
-
 
 	@Override
 	public <R> Result<R> reduceNextNodes(Node<NV> from, R initialValue, ReachableNodeReducer<NV, EV, R> reducer) {
@@ -129,23 +129,7 @@ public class       GenericGraphNtro<SO extends SearchOptions, NV extends NodeVal
 	}
 
 	@Override
-	public void forEachNextEdge(Node<NV> from, SO options, ReachableEdgeVisitor<NV, EV> visitor) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public <R> Result<R> reduceNextEdges(Node<NV> from, R initialValue, ReachableEdgeReducer<NV, EV, R> reducer) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public <R> Result<R> reduceNextEdges(Node<NV> from, SO options, R initialValue,
-			ReachableEdgeReducer<NV, EV, R> reducer) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public abstract <R> Result<R> reduceNextEdges(Node<NV> from, R initialValue, ReachableEdgeReducer<NV, EV, R> reducer);
 
 	@Override
 	public void forEachReachableEdge(Node<NV> from, ReachableEdgeVisitor<NV, EV> visitor) {
@@ -166,11 +150,9 @@ public class       GenericGraphNtro<SO extends SearchOptions, NV extends NodeVal
 	}
 
 	@Override
-	public <R> Result<R> reduceReachableEdges(Node<NV> from, 
-			                                  SO options, 
-			                                  R initialValue, 
-			                                  ReachableEdgeReducer<NV, EV, R> reducer) {
-
+	public <R> Result<R> reduceReachableEdges(Node<NV> from, SO options, R initialValue,
+			ReachableEdgeReducer<NV, EV, R> reducer) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

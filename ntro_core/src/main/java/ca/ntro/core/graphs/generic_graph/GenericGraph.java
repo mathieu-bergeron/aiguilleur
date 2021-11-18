@@ -30,11 +30,14 @@ public interface GenericGraph<SO extends SearchOptions, NV extends NodeValue, EV
 	Node<NV> findNode(NodeMatcher<NV> matcher);
 	Node<NV> findNode(NV nodeValue);
 	Node<NV> findNode(String rawNodeId);
-	
-	void forEachNode(NodeVisitor<NV> visitor);
-	void forEachEdge(EdgeVisitor<NV,EV> visitor);
 
+	void forEachRootNode(NodeVisitor<NV> visitor);
+	<R extends Object> Result<R> reduceRootNodes(R initialValue, NodeReducer<NV,R> reducer);
+
+	void forEachNode(NodeVisitor<NV> visitor);
 	<R extends Object> Result<R> reduceNodes(R initialValue, NodeReducer<NV,R> reducer);
+
+	void forEachEdge(EdgeVisitor<NV,EV> visitor);
 	<R extends Object> Result<R> recudeEdges(R initialValue, EdgeReducer<NV,EV,R> reducer);
 
 	void forEachNextNode(Node<NV> from, ReachableNodeVisitor<NV,EV> visitor);
