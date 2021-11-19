@@ -41,8 +41,8 @@ public class      DirectedGraphNtro<NV extends NodeValue, EV extends EdgeValue>
 	@Override
 	protected void addEdgeToGraphStructure(Node<NV> from, Edge<EV> edge, Node<NV> to) {
 		
-		getGraphStructure().addEdge(Direction.FORWARD, from, edge, to);
-		getGraphStructure().addEdge(Direction.BACKWARD, to, edge, from);
+		getGraphStructure().memorizeEdge(Direction.FORWARD, from, edge, to);
+		getGraphStructure().memorizeEdge(Direction.BACKWARD, to, edge, from);
 	}
 
 	@Override

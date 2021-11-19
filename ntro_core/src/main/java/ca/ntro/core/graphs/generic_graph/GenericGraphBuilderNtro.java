@@ -77,21 +77,15 @@ public abstract class GenericGraphBuilderNtro<NV extends NodeValue,
 
 	private void addNode(Node<NV> node) {
 		getGraphStructure().memorizeNode(node);
-		getGraphStructure().memorizeRootNode(node);
 	}
 
 	@Override
 	public Edge<EV> addEdge(Node<NV> from, EV edgeValue, Node<NV> to) {
 		getGraphStructure().memorizeNode(from);
-		getGraphStructure().memorizeRootNode(from);
-
-		getGraphStructure().forgetRootNode(to);
 		
 		EdgeId edgeId = newEdgeId(from, edgeValue, to);
 		
 		Edge<EV> edge = new EdgeNtro<EV>(edgeId, edgeValue);
-		
-		getGraphStructure().memorizeEdge(edge);
 		
 		addEdgeToGraphStructure(from, edge, to);
 		
