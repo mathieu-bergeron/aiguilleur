@@ -1,9 +1,7 @@
 package ca.ntro.core.graphs.generic_graph;
 
-
 import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
-import ca.ntro.core.graphs.EdgeId;
 import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.GraphId;
 import ca.ntro.core.graphs.Node;
