@@ -55,17 +55,4 @@ public class      GraphNtro<NV extends NodeValue, EV extends EdgeValue>
 		
 		return edgeId;
 	}
-
-	@Override
-	protected void addEdgeToGraphStructure(Node<NV> from, Edge<EV> edge, Node<NV> to) {
-		if(from.id().toKey().compareTo(to.id().toKey()) < 0) {
-			
-			getGraphStructure().memorizeEdge(Direction.FORWARD, from, edge, to);
-			
-		}else {
-
-			getGraphStructure().memorizeEdge(Direction.FORWARD, to, edge, from);
-		}
-	}
-
 }

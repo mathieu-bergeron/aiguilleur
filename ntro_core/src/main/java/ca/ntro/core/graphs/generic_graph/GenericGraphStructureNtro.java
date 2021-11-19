@@ -8,6 +8,7 @@ import java.util.Set;
 import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeAlreadyAddedException;
+import ca.ntro.core.graphs.EdgeId;
 import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeAlreadyAddedException;
@@ -53,18 +54,23 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue, EV extend
 	protected abstract EdgesForFromNode<NV,EV> edgesByDirection(Direction direction);
 
 	@Override
-	public void memorizeEdge(Direction direction, Node<NV> from, Edge<EV> edge, Node<NV> to) {
+	public void memorizeEdge(Node<NV> from, EV edgeValue, Node<NV> to) {
+		addToNode(to);
+		
+		EdgeId edgeId = newEdgeId(from, edgeValue, to);
+		
+		Edge<EV> edge = new EdgeNtro<EV>(edgeId, edgeValue);
+
 		addEdge(edge);
-		addSinkNode(to);
 
-		EdgesForFromNode<NV,EV> edges = edgesByDirection(direction);
-
-		if(edges != null) {
-			edges.addEdge(from, edge, to);
-		}
+		_memorizeEdge(from, edge, to);
 	}
 
-	private void addSinkNode(Node<NV> to) {
+	protected abstract EdgeId newEdgeId(Node<NV> from, EV edgeValue, Node<NV> to);
+	
+	protected abstract void _memorizeEdge(Node<NV> from, Edge<EV> edge, Node<NV> to);
+
+	private void addToNode(Node<NV> to) {
 		getToNodes().add(to.id().toKey());
 	}
 

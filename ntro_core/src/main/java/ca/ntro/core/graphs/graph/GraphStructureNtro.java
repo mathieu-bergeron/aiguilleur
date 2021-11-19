@@ -1,7 +1,9 @@
 package ca.ntro.core.graphs.graph;
 
 import ca.ntro.core.graphs.Direction;
+import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeValue;
+import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeValue;
 import ca.ntro.core.graphs.generic_graph.GenericGraphStructureNtro;
 import ca.ntro.core.graphs.generic_graph.generic_graph_structure.EdgesForFromNode;
@@ -21,6 +23,18 @@ public class        GraphStructureNtro<NV extends NodeValue, EV extends EdgeValu
 		}
 		
 		return edges;
+	}
+
+	@Override
+	protected void _memorizeEdge(Node<NV> from, Edge<EV> edge, Node<NV> to) {
+		if(from.id().toKey().compareTo(to.id().toKey()) < 0) {
+			
+			edgesForward.addEdge(from, edge, to);
+			
+		}else {
+
+			edgesForward.addEdge(to, edge, from);
+		}
 	}
 
 }

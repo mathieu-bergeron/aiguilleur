@@ -83,20 +83,13 @@ public abstract class GenericGraphBuilderNtro<NV extends NodeValue,
 	public Edge<EV> addEdge(Node<NV> from, EV edgeValue, Node<NV> to) {
 		getGraphStructure().memorizeNode(from);
 		
-		EdgeId edgeId = newEdgeId(from, edgeValue, to);
-		
-		Edge<EV> edge = new EdgeNtro<EV>(edgeId, edgeValue);
-		
-		addEdgeToGraphStructure(from, edge, to);
+		Edge<EV> edge = getGraphStructure().memorizeEdge(from, edgeValue, to);
 		
 		detectCycleFrom(from);
 		
 		return edge;
 	}
 
-	protected abstract EdgeId newEdgeId(Node<NV> from, EV edgeValue, Node<NV> to);
-
-	protected abstract void addEdgeToGraphStructure(Node<NV> from, Edge<EV> edge, Node<NV> to);
 
 	protected abstract void detectCycleFrom(Node<NV> from);
 
