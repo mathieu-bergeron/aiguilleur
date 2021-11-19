@@ -19,7 +19,7 @@ import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.NodeReducer;
 import ca.ntro.core.graphs.NodeValue;
 import ca.ntro.core.graphs.ReachableEdgeReducer;
-import ca.ntro.core.graphs.SearchOptions;
+import ca.ntro.core.graphs.generic_graph.generic_graph_structure.GenericGraphStructure;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
@@ -37,9 +37,6 @@ public abstract class GenericGraphBuilderNtro<NV extends NodeValue,
 	private Set<String> rootNodes = new HashSet<>();
 	private Map<String, Node<NV>> nodes = new HashMap<>();
 	private Map<String, Edge<EV>> edges = new HashMap<>();
-
-	// fromKey -> edgeName -> edgeKey -> toNode
-	private Map<String, Map<String, Map<String, Node<NV>>>> edgesForward = new HashMap<>();
 	
 	private GS graphStructure = createGraphStructure();
 	
@@ -86,13 +83,13 @@ public abstract class GenericGraphBuilderNtro<NV extends NodeValue,
 	protected void setEdges(Map<String,Edge<EV>> edges) {
 		this.edges = edges;
 	}
-
-	protected Map<String, Map<String, Map<String, Node<NV>>>> getEdgesForward() {
-		return edgesForward;
+	
+	protected GS getGraphStructure() {
+		return graphStructure;
 	}
 
-	protected void setEdgesForward(Map<String,Map<String,Map<String, Node<NV>>>> edgesForward) {
-		this.edgesForward = edgesForward;
+	protected void setGraphStructure(GS graphStructure) {
+		this.graphStructure = graphStructure;
 	}
 
 	public GenericGraphBuilderNtro() {
@@ -162,8 +159,8 @@ public abstract class GenericGraphBuilderNtro<NV extends NodeValue,
 		Edge<EV> edge = new EdgeNtro<EV>(edgeId, edgeValue);
 		
 		addEdge(edge);
-
-		addToEdgesMaps(from, edge, to);
+		
+		addEdgeToGraphStructure(from, edge, to);
 		
 		detectCycleFrom(from);
 		
@@ -172,33 +169,9 @@ public abstract class GenericGraphBuilderNtro<NV extends NodeValue,
 
 	protected abstract EdgeId newEdgeId(Node<NV> from, EV edgeValue, Node<NV> to);
 
-	protected abstract void addToEdgesMaps(Node<NV> from, Edge<EV> edge, Node<NV> to);
+	protected abstract void addEdgeToGraphStructure(Node<NV> from, Edge<EV> edge, Node<NV> to);
 
 	protected abstract void detectCycleFrom(Node<NV> from);
-
-	protected abstract Map<String, Map<String,Map<String, Node<NV>>>> edgesMapForDirection(Direction direction);
-
-	protected void addToEdgesMap(Map<String, Map<String, Map<String, Node<NV>>>> edgesMap, Node<NV> from, Edge<EV> edge, Node<NV> to) {
-		String fromKey = from.id().toKey();
-		String edgeName = edge.id().edgeName().name();
-		String edgeKey = edge.id().toKey();
-
-		Map<String,Map<String, Node<NV>>> edgesByName = edgesMap.get(fromKey);
-
-		if(edgesByName == null) {
-			edgesByName = new HashMap<String, Map<String,Node<NV>>>();
-			edgesMap.put(fromKey, edgesByName);
-		}
-		
-		Map<String, Node<NV>> edgesByKey = edgesByName.get(edgeName);
-		
-		if(edgesByKey == null) {
-			edgesByKey = new HashMap<String, Node<NV>>();
-			edgesByName.put(edgeName, edgesByKey);
-		}
-
-		edgesByKey.put(edgeKey, to);
-	}
 
 	@Override
 	protected <R> void _reduceRootNodes(ResultNtro<R> result, NodeReducer<NV, R> reducer) {
@@ -231,29 +204,8 @@ public abstract class GenericGraphBuilderNtro<NV extends NodeValue,
 		if(result.hasException()) {
 			return;
 		}
-		
-		Map<String, Map<String,Map<String, Node<NV>>>> edgesMap = edgesMapForDirection(direction);
-		
-		if(edgesMap != null) {
-			
-			Map<String,Map<String, Node<NV>>> edgesByName = edgesMap.get(fromNode.id().toKey());
-			
-			if(edgesByName != null) {
 
-				for(String edgeName : edgesByName.keySet()) {
-					
-					try {
-
-						result.registerValue(reducer.reduceEdgeName(result.value(), edgeName));
-
-					} catch (Throwable e) {
-						
-						result.registerException(e);
-						break;
-					}
-				}
-			}
-		}
+		getGraphStructure().reduceEdgeNames(fromNode, direction, result, reducer);
 	}
 
 	@Override
@@ -267,44 +219,7 @@ public abstract class GenericGraphBuilderNtro<NV extends NodeValue,
 			return;
 		}
 
-		Map<String, Map<String,Map<String, Node<NV>>>> edgesMap = edgesMapForDirection(direction);
-		
-		if(edgesMap != null) {
-			
-			Map<String,Map<String, Node<NV>>> edgesByName = edgesMap.get(fromNode.id().toKey());
-			
-			if(edgesByName != null) {
-
-				Map<String, Node<NV>> edgesByKey = edgesByName.get(edgeName);
-				
-				if(edgesByKey != null) {
-					
-					for(Map.Entry<String, Node<NV>> entry : edgesByKey.entrySet()) {
-						
-						String edgeKey = entry.getKey();
-						Node<NV> to = entry.getValue();
-						
-						Edge<EV> edge = getEdges().get(edgeKey);
-						
-						List<Edge<EV>> walkedEdges = new ArrayList<>();
-						walkedEdges.add(edge);
-						
-						if(edge != null) {
-
-							try {
-
-								result.registerValue(reducer.reduceReachableEdge(result.value(), walkedEdges, fromNode, edge, to));
-
-							} catch (Throwable e) {
-								
-								result.registerException(e);
-								break;
-							}
-						}
-					}
-				}
-			}
-		}
+		getGraphStructure().reduceEdgesByName(fromNode, direction, edgeName, result, reducer);
 	}
 	
 	

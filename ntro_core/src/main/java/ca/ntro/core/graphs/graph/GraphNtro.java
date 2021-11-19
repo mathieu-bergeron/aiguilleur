@@ -57,27 +57,14 @@ public class      GraphNtro<NV extends NodeValue, EV extends EdgeValue>
 	}
 
 	@Override
-	protected void addToEdgesMaps(Node<NV> from, Edge<EV> edge, Node<NV> to) {
+	protected void addEdgeToGraphStructure(Node<NV> from, Edge<EV> edge, Node<NV> to) {
 		if(from.id().toKey().compareTo(to.id().toKey()) < 0) {
-
-			addToEdgesMap(getEdgesForward(), from, edge, to);
+			
+			getGraphStructure().addEdge(Direction.FORWARD, from, edge, to);
 			
 		}else {
 
-			addToEdgesMap(getEdgesForward(), to, edge, from);
+			getGraphStructure().addEdge(Direction.FORWARD, to, edge, from);
 		}
 	}
-
-	@Override
-	protected Map<String, Map<String, Map<String, Node<NV>>>> edgesMapForDirection(Direction direction) {
-		
-		Map<String, Map<String,Map<String, Node<NV>>>> edgesMap = null;
-		
-		if(direction == Direction.FORWARD) {
-			edgesMap = getEdgesForward();
-		}
-			
-		return edgesMap;
-	}
-
 }

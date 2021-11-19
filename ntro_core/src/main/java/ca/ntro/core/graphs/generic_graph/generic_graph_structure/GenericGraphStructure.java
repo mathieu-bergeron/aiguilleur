@@ -1,4 +1,4 @@
-package ca.ntro.core.graphs.generic_graph;
+package ca.ntro.core.graphs.generic_graph.generic_graph_structure;
 
 import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
@@ -6,6 +6,7 @@ import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeValue;
 import ca.ntro.core.graphs.ReachableEdgeReducer;
+import ca.ntro.core.graphs.generic_graph.EdgeNameReducer;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public interface GenericGraphStructure<NV extends NodeValue, EV extends EdgeValue> {

@@ -39,10 +39,10 @@ public class      DirectedGraphNtro<NV extends NodeValue, EV extends EdgeValue>
 	}
 
 	@Override
-	protected void addToEdgesMaps(Node<NV> from, Edge<EV> edge, Node<NV> to) {
-
-		addToEdgesMap(getEdgesForward(), from, edge, to);
-		addToEdgesMap(getEdgesBackward(), to, edge, from);
+	protected void addEdgeToGraphStructure(Node<NV> from, Edge<EV> edge, Node<NV> to) {
+		
+		getGraphStructure().addEdge(Direction.FORWARD, from, edge, to);
+		getGraphStructure().addEdge(Direction.BACKWARD, to, edge, from);
 	}
 
 	@Override
@@ -53,22 +53,4 @@ public class      DirectedGraphNtro<NV extends NodeValue, EV extends EdgeValue>
 	@Override
 	protected void detectCycleFrom(Node<NV> from) {
 	}
-
-	@Override
-	protected Map<String, Map<String,Map<String, Node<NV>>>> edgesMapForDirection(Direction direction) {
-		
-		Map<String, Map<String,Map<String, Node<NV>>>> edgesMap = null;
-		
-		if(direction == Direction.FORWARD) {
-
-			edgesMap = getEdgesForward();
-
-		}else if(direction == Direction.BACKWARD) {
-			
-			edgesMap = getEdgesBackward();
-		}
-			
-		return edgesMap;
-	}
-
 }
