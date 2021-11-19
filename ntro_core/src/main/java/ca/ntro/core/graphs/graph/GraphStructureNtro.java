@@ -2,6 +2,7 @@ package ca.ntro.core.graphs.graph;
 
 import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
+import ca.ntro.core.graphs.EdgeId;
 import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeValue;
@@ -26,7 +27,7 @@ public class        GraphStructureNtro<NV extends NodeValue, EV extends EdgeValu
 	}
 
 	@Override
-	protected void _memorizeEdge(Node<NV> from, Edge<EV> edge, Node<NV> to) {
+	protected void memorizeEdge(Node<NV> from, Edge<EV> edge, Node<NV> to) {
 		if(from.id().toKey().compareTo(to.id().toKey()) < 0) {
 			
 			edgesForward.addEdge(from, edge, to);
@@ -35,6 +36,23 @@ public class        GraphStructureNtro<NV extends NodeValue, EV extends EdgeValu
 
 			edgesForward.addEdge(to, edge, from);
 		}
+	}
+
+	@Override
+	protected EdgeId newEdgeId(Node<NV> from, EV edgeValue, Node<NV> to) {
+		EdgeId edgeId = null;
+
+		if(from.id().toKey().compareTo(to.id().toKey()) < 0) {
+			
+			edgeId = new EdgeId(from.id(), edgeValue.name(), to.id());
+
+		}else {
+
+			edgeId = new EdgeId(to.id(), edgeValue.name(), from.id());
+
+		}
+		
+		return edgeId;
 	}
 
 }

@@ -54,7 +54,7 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue, EV extend
 	protected abstract EdgesForFromNode<NV,EV> edgesByDirection(Direction direction);
 
 	@Override
-	public void memorizeEdge(Node<NV> from, EV edgeValue, Node<NV> to) {
+	public Edge<EV> memorizeEdge(Node<NV> from, EV edgeValue, Node<NV> to) {
 		addToNode(to);
 		
 		EdgeId edgeId = newEdgeId(from, edgeValue, to);
@@ -63,12 +63,14 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue, EV extend
 
 		addEdge(edge);
 
-		_memorizeEdge(from, edge, to);
+		memorizeEdge(from, edge, to);
+		
+		return edge;
 	}
 
 	protected abstract EdgeId newEdgeId(Node<NV> from, EV edgeValue, Node<NV> to);
 	
-	protected abstract void _memorizeEdge(Node<NV> from, Edge<EV> edge, Node<NV> to);
+	protected abstract void memorizeEdge(Node<NV> from, Edge<EV> edge, Node<NV> to);
 
 	private void addToNode(Node<NV> to) {
 		getToNodes().add(to.id().toKey());

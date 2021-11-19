@@ -39,20 +39,4 @@ public class      GraphNtro<NV extends NodeValue, EV extends EdgeValue>
 	protected void detectCycleFrom(Node<NV> from) {
 	}
 
-	@Override
-	protected EdgeId newEdgeId(Node<NV> from, EV edgeValue, Node<NV> to) {
-		EdgeId edgeId = null;
-
-		if(from.id().toKey().compareTo(to.id().toKey()) < 0) {
-			
-			edgeId = new EdgeId(from.id(), edgeValue.name(), to.id());
-
-		}else {
-
-			edgeId = new EdgeId(to.id(), edgeValue.name(), from.id());
-
-		}
-		
-		return edgeId;
-	}
 }
