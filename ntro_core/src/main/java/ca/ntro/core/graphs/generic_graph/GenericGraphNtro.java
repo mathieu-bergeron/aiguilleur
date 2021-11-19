@@ -28,7 +28,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 
 	@Override
 	public abstract GraphId id();
-	
+
 	@Override
 	public abstract String label();
 
@@ -39,10 +39,6 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 	protected abstract <R> void _reduceNextEdgeNames(Node<NV> fromNode, Direction direction, ResultNtro<R> result, EdgeNameReducer<R> reducer);
 
 	protected abstract <R> void _reduceNextEdgesByName(Node<NV> fromNode, Direction direction, String edgeName, ResultNtro<R> result, ReachableEdgeReducer<NV, EV, R> reducer);
-	
-	
-
-	
 
 	@Override
 	public Node<NV> findNode(NodeId id) {

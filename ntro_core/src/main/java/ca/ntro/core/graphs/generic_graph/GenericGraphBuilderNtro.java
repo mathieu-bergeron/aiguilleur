@@ -1,26 +1,17 @@
 package ca.ntro.core.graphs.generic_graph;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
-import ca.ntro.core.graphs.EdgeAlreadyAddedException;
 import ca.ntro.core.graphs.EdgeId;
 import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.GraphId;
 import ca.ntro.core.graphs.Node;
-import ca.ntro.core.graphs.NodeAlreadyAddedException;
 import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.NodeReducer;
 import ca.ntro.core.graphs.NodeValue;
 import ca.ntro.core.graphs.ReachableEdgeReducer;
 import ca.ntro.core.graphs.generic_graph.generic_graph_structure.GenericGraphStructure;
-import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class GenericGraphBuilderNtro<NV extends NodeValue, 
@@ -34,10 +25,6 @@ public abstract class GenericGraphBuilderNtro<NV extends NodeValue,
 
 	private GraphId id;
 
-	private Set<String> rootNodes = new HashSet<>();
-	private Map<String, Node<NV>> nodes = new HashMap<>();
-	private Map<String, Edge<EV>> edges = new HashMap<>();
-	
 	private GS graphStructure = createGraphStructure();
 	
 	protected abstract GS createGraphStructure();
@@ -60,30 +47,6 @@ public abstract class GenericGraphBuilderNtro<NV extends NodeValue,
 		return id.toHtmlId();
 	}
 
-	protected Map<String,Node<NV>> getNodes() {
-		return nodes;
-	}
-
-	protected void setNodes(Map<String,Node<NV>> nodes) {
-		this.nodes = nodes;
-	}
-
-	protected Set<String> getRootNodes() {
-		return rootNodes;
-	}
-
-	protected void setRootNodes(Set<String> rootNodes) {
-		this.rootNodes = rootNodes;
-	}
-
-	protected Map<String,Edge<EV>> getEdges() {
-		return edges;
-	}
-
-	protected void setEdges(Map<String,Edge<EV>> edges) {
-		this.edges = edges;
-	}
-	
 	protected GS getGraphStructure() {
 		return graphStructure;
 	}
@@ -113,52 +76,22 @@ public abstract class GenericGraphBuilderNtro<NV extends NodeValue,
 	}
 
 	private void addNode(Node<NV> node) {
-		if(getNodes().containsKey(node.id().toKey())) {
-
-			Ntro.exceptionThrower().throwException(new NodeAlreadyAddedException("NodeId already taken: " + node.id().toKey()));
-
-		}else {
-			
-			memorizeNode(node);
-			addRootNode(node);
-		}
-	}
-
-	private void memorizeNode(Node<NV> node) {
-		if(!getNodes().containsKey(node.id().toKey())) {
-			getNodes().put(node.id().toKey(), node);
-		}
-	}
-
-	private void addRootNode(Node<NV> node) {
-		getRootNodes().add(node.id().toKey());
-	}
-
-	private void removeRootNode(Node<NV> node) {
-		getRootNodes().remove(node.id().toKey());
-	}
-
-	private void addEdge(Edge<EV> edge) {
-		if(edges.containsKey(edge.id().toKey())) {
-			Ntro.exceptionThrower().throwException(new EdgeAlreadyAddedException("EdgeId already taken: " + edge.id().toKey()));
-		}
-		
-		edges.put(edge.id().toKey(), edge);
+		getGraphStructure().memorizeNode(node);
+		getGraphStructure().memorizeRootNode(node);
 	}
 
 	@Override
 	public Edge<EV> addEdge(Node<NV> from, EV edgeValue, Node<NV> to) {
-		memorizeNode(from);
-		memorizeNode(to);
-		
-		addRootNode(from);
-		removeRootNode(to);
+		getGraphStructure().memorizeNode(from);
+		getGraphStructure().memorizeRootNode(from);
+
+		getGraphStructure().forgetRootNode(to);
 		
 		EdgeId edgeId = newEdgeId(from, edgeValue, to);
 		
 		Edge<EV> edge = new EdgeNtro<EV>(edgeId, edgeValue);
 		
-		addEdge(edge);
+		getGraphStructure().memorizeEdge(edge);
 		
 		addEdgeToGraphStructure(from, edge, to);
 		
@@ -175,24 +108,7 @@ public abstract class GenericGraphBuilderNtro<NV extends NodeValue,
 
 	@Override
 	protected <R> void _reduceRootNodes(ResultNtro<R> result, NodeReducer<NV, R> reducer) {
-		if(result.hasException()) {
-			return;
-		}
-
-		for(String rootNodeKey : getRootNodes()) {
-			
-			Node<NV> node = getNodes().get(rootNodeKey);
-
-			try {
-
-				result.registerValue(reducer.reduceNode(result.value(), node));
-
-			} catch (Throwable e) {
-
-				result.registerException(e);
-				break;
-			}
-		}
+		getGraphStructure().reduceRootNodes(result, reducer);
 	}
 
 	@Override
