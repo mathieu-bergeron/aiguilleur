@@ -69,7 +69,7 @@ public class   GraphNtro<NV extends NodeValue, EV extends EdgeValue>
 	}
 
 	@Override
-	protected Map<String, Map<String, Node<NV>>> edgesMapForDirection(Direction direction) {
+	protected Map<String, Map<String, Map<String, Node<NV>>>> edgesMapForDirection(Direction direction) {
 		
 		Map<String, Map<String, Node<NV>>> edgesMap = null;
 		
