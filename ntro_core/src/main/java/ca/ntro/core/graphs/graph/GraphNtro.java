@@ -1,19 +1,13 @@
 package ca.ntro.core.graphs.graph;
 
-import java.io.ObjectInputStream.GetField;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeId;
 import ca.ntro.core.graphs.EdgeValue;
-import ca.ntro.core.graphs.GraphId;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeValue;
-import ca.ntro.core.graphs.ReachableEdgeReducer;
-import ca.ntro.core.graphs.ReachableNodeReducer;
 import ca.ntro.core.graphs.generic_graph.GenericGraphBuilderNtro;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
@@ -85,11 +79,5 @@ public class      GraphNtro<NV extends NodeValue, EV extends EdgeValue>
 			
 		return edgesMap;
 	}
-
-
-
-
-
-
 
 }
