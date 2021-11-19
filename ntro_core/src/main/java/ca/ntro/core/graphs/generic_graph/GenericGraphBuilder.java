@@ -4,9 +4,11 @@ import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeValue;
-import ca.ntro.core.graphs.SearchOptions;
 
-public interface GenericGraphBuilder<SO extends SearchOptions, NV extends NodeValue, EV extends EdgeValue, G extends GenericGraph<SO,NV,EV>> {
+public interface GenericGraphBuilder<NV extends NodeValue, 
+                                     EV extends EdgeValue, 
+                                     GS extends GenericGraphStructure<NV,EV>,
+                                     G extends GenericGraph<NV,EV>> {
 
 	Node<NV> addNode(NV nodeValue);
 

@@ -4,10 +4,10 @@ import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeValue;
-import ca.ntro.core.graphs.generic_graph.GraphStructure;
+import ca.ntro.core.graphs.generic_graph.GenericGraphStructure;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
-public interface HierarchicalGraphStructure<NV extends NodeValue, EV extends EdgeValue> extends GraphStructure<NV,EV> {
+public interface HierarchicalGraphStructure<NV extends NodeValue, EV extends EdgeValue> extends GenericGraphStructure<NV,EV> {
 
 	void addSubNode(Direction direction, Node<NV> parentNode, Node<NV> subNode);
 

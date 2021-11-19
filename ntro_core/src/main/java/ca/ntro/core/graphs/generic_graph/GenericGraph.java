@@ -21,7 +21,7 @@ import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.path.EdgeWalk;
 import ca.ntro.core.wrappers.result.Result;
 
-public interface GenericGraph<SO extends SearchOptions, NV extends NodeValue, EV extends EdgeValue> {
+public interface GenericGraph<NV extends NodeValue, EV extends EdgeValue> {
 
 	GraphId id();
 	String label();
@@ -44,22 +44,22 @@ public interface GenericGraph<SO extends SearchOptions, NV extends NodeValue, EV
 	<R extends Object> Result<R> reduceNextNodes(Node<NV> fromNode, R initialValue, ReachableNodeReducer<NV,EV,R> reducer);
 
 	void forEachReachableNode(Node<NV> fromNode, ReachableNodeVisitor<NV,EV> visitor);
-	void forEachReachableNode(Node<NV> fromNode, SO options, ReachableNodeVisitor<NV,EV> visitor);
+	void forEachReachableNode(Node<NV> fromNode, SearchOptions options, ReachableNodeVisitor<NV,EV> visitor);
 
 	<R extends Object> Result<R> reduceReachableNodes(Node<NV> fromNode, R initialValue, ReachableNodeReducer<NV,EV,R> reducer);
-	<R extends Object> Result<R> reduceReachableNodes(Node<NV> fromNode, SO options, R initialValue, ReachableNodeReducer<NV,EV,R> reducer);
+	<R extends Object> Result<R> reduceReachableNodes(Node<NV> fromNode, SearchOptions options, R initialValue, ReachableNodeReducer<NV,EV,R> reducer);
 	
 	void forEachNextEdge(Node<NV> fromNode, ReachableEdgeVisitor<NV,EV> visitor);
-	void forEachNextEdge(Node<NV> fromNode, SO options, ReachableEdgeVisitor<NV,EV> visitor);
+	void forEachNextEdge(Node<NV> fromNode, SearchOptions options, ReachableEdgeVisitor<NV,EV> visitor);
 
 	<R extends Object> Result<R> reduceNextEdges(Node<NV> fromNode, R initialValue, ReachableEdgeReducer<NV,EV,R> reducer);
-	<R extends Object> Result<R> reduceNextEdges(Node<NV> fromNode, SO options, R initialValue, ReachableEdgeReducer<NV,EV,R> reducer);
+	<R extends Object> Result<R> reduceNextEdges(Node<NV> fromNode, SearchOptions options, R initialValue, ReachableEdgeReducer<NV,EV,R> reducer);
 
 	void forEachReachableEdge(Node<NV> fromNode, ReachableEdgeVisitor<NV,EV> visitor);
-	void forEachReachableEdge(Node<NV> fromNode, SO options, ReachableEdgeVisitor<NV,EV> visitor);
+	void forEachReachableEdge(Node<NV> fromNode, SearchOptions options, ReachableEdgeVisitor<NV,EV> visitor);
 
 	<R extends Object> Result<R> reduceReachableEdges(Node<NV> fromNode, R initialValue, ReachableEdgeReducer<NV,EV,R> reducer);
-	<R extends Object> Result<R> reduceReachableEdges(Node<NV> fromNode, SO options, R initialValue, ReachableEdgeReducer<NV,EV,R> reducer);
+	<R extends Object> Result<R> reduceReachableEdges(Node<NV> fromNode, SearchOptions options, R initialValue, ReachableEdgeReducer<NV,EV,R> reducer);
 
 	void visitEdgeWalk(Node<NV> fromNode, EdgeWalk edgeWalk, EdgeWalkVisitor<NV,EV> visitor);
 	void visitEdgeWalk(Node<NV> fromNode, Direction direction, EdgeWalk edgeWalk, EdgeWalkVisitor<NV,EV> visitor);

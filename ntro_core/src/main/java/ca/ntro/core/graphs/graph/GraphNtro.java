@@ -9,6 +9,7 @@ import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeId;
 import ca.ntro.core.graphs.EdgeValue;
+import ca.ntro.core.graphs.GraphId;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeValue;
 import ca.ntro.core.graphs.ReachableEdgeReducer;
@@ -17,8 +18,8 @@ import ca.ntro.core.graphs.generic_graph.GenericGraphBuilderNtro;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
-public class   GraphNtro<NV extends NodeValue, EV extends EdgeValue> 
-       extends GenericGraphBuilderNtro<GraphSearchOptions,NV,EV,Graph<NV,EV>> 
+public class      GraphNtro<NV extends NodeValue, EV extends EdgeValue> 
+       extends    GenericGraphBuilderNtro<NV,EV,GraphStructure<NV,EV>,Graph<NV,EV>> 
        implements Graph<NV,EV>, GraphBuilder<NV,EV> {
 
 
@@ -28,6 +29,11 @@ public class   GraphNtro<NV extends NodeValue, EV extends EdgeValue>
 
 	public GraphNtro(String graphName) {
 		super(graphName);
+	}
+
+	@Override
+	protected GraphStructure<NV, EV> createGraphStructure() {
+		return new GraphStructureNtro<NV,EV>();
 	}
 
 	@Override
@@ -71,7 +77,7 @@ public class   GraphNtro<NV extends NodeValue, EV extends EdgeValue>
 	@Override
 	protected Map<String, Map<String, Map<String, Node<NV>>>> edgesMapForDirection(Direction direction) {
 		
-		Map<String, Map<String, Node<NV>>> edgesMap = null;
+		Map<String, Map<String,Map<String, Node<NV>>>> edgesMap = null;
 		
 		if(direction == Direction.FORWARD) {
 			edgesMap = getEdgesForward();
@@ -79,6 +85,9 @@ public class   GraphNtro<NV extends NodeValue, EV extends EdgeValue>
 			
 		return edgesMap;
 	}
+
+
+
 
 
 

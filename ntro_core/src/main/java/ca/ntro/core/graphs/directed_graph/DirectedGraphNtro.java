@@ -14,7 +14,7 @@ import ca.ntro.core.graphs.generic_graph.GenericGraphBuilderNtro;
 import ca.ntro.core.path.EdgeWalk;
 
 public class      DirectedGraphNtro<NV extends NodeValue, EV extends EdgeValue> 
-       extends    GenericGraphBuilderNtro<DirectedGraphSearchOptions,NV,EV,DirectedGraph<NV,EV>> 
+       extends    GenericGraphBuilderNtro<NV,EV,DirectedGraphStructure<NV,EV>, DirectedGraph<NV,EV>> 
        implements DirectedGraph<NV,EV> {
 
 	// toKey -> edgeName -> edgeKey -> fromNode
@@ -31,6 +31,11 @@ public class      DirectedGraphNtro<NV extends NodeValue, EV extends EdgeValue>
 	@Override
 	protected DirectedGraphSearchOptions defaultSearchOptions() {
 		return new DirectedGraphSearchOptions();
+	}
+
+	@Override
+	protected DirectedGraphStructure<NV, EV> createGraphStructure() {
+		return new DirectedGraphStructureNtro<NV,EV>();
 	}
 
 	@Override
@@ -65,4 +70,5 @@ public class      DirectedGraphNtro<NV extends NodeValue, EV extends EdgeValue>
 			
 		return edgesMap;
 	}
+
 }

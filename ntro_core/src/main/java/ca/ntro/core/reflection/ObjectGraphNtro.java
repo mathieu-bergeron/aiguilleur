@@ -20,7 +20,7 @@ import ca.ntro.core.path.Path;
 import ca.ntro.core.path.PathName;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
-public abstract class ObjectGraphNtro extends GenericGraphNtro<DirectedGraphSearchOptions, ObjectValue, ReferenceValue> implements ObjectGraph {
+public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, ReferenceValue> implements ObjectGraph {
 
 	private Object[] rootObjects;
 

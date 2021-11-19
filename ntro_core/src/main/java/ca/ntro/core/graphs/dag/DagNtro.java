@@ -9,6 +9,7 @@ import ca.ntro.core.wrappers.result.Result;
 
 public class DagNtro<NV extends NodeValue, EV extends EdgeValue> extends DirectedGraphNtro<NV,EV> implements Dag<NV,EV> {
 
+	/*
 	@Override
 	protected void detectCycleFrom(Node<NV> from) {
 		Result<Void> result = reduceReachableNodes(from, null, (accumulator, distance, n) -> {
@@ -20,6 +21,6 @@ public class DagNtro<NV extends NodeValue, EV extends EdgeValue> extends Directe
 		});
 		
 		result.throwException();
-	}
+	}*/
 
 }

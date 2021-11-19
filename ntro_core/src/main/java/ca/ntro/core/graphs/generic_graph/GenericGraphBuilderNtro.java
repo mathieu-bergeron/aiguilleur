@@ -23,9 +23,14 @@ import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
-public abstract class GenericGraphBuilderNtro<SO extends SearchOptions, NV extends NodeValue, EV extends EdgeValue, G extends GenericGraph<SO,NV,EV>> 
-       extends        GenericGraphNtro<SO, NV, EV>
-       implements     GenericGraphBuilder<SO,NV,EV,G>, GenericGraph<SO,NV,EV> {
+public abstract class GenericGraphBuilderNtro<NV extends NodeValue, 
+                                              EV extends EdgeValue, 
+                                              GS extends GenericGraphStructure<NV,EV>,
+                                              G extends GenericGraph<NV,EV>> 
+
+       extends        GenericGraphNtro<NV, EV>
+       implements     GenericGraphBuilder<NV,EV,GS,G>, 
+                      GenericGraph<NV,EV> {
 
 	private GraphId id;
 
@@ -35,6 +40,10 @@ public abstract class GenericGraphBuilderNtro<SO extends SearchOptions, NV exten
 
 	// fromKey -> edgeName -> edgeKey -> toNode
 	private Map<String, Map<String, Map<String, Node<NV>>>> edgesForward = new HashMap<>();
+	
+	private GS graphStructure = createGraphStructure();
+	
+	protected abstract GS createGraphStructure();
 
 	protected GraphId getId() {
 		return id;
@@ -42,6 +51,16 @@ public abstract class GenericGraphBuilderNtro<SO extends SearchOptions, NV exten
 
 	protected void setId(GraphId id) {
 		this.id = id;
+	}
+
+	@Override
+	public GraphId id() {
+		return id;
+	}
+
+	@Override
+	public String label() {
+		return id.toHtmlId();
 	}
 
 	protected Map<String,Node<NV>> getNodes() {

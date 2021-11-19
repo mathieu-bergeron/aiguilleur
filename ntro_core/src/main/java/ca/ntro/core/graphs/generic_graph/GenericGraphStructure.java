@@ -8,7 +8,7 @@ import ca.ntro.core.graphs.NodeValue;
 import ca.ntro.core.graphs.ReachableEdgeReducer;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
-public interface GraphStructure<NV extends NodeValue, EV extends EdgeValue> {
+public interface GenericGraphStructure<NV extends NodeValue, EV extends EdgeValue> {
 	
 	void addEdge(Direction direction, Node<NV> from, Edge<EV> edge, Node<NV> to);
 
