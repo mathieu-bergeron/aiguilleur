@@ -1,7 +1,7 @@
 package ca.aiguilleur;
 
 import ca.aiguilleur.frontend.AiguilleurFrontend;
-import ca.ntro.app.ViewRegistrar;
+import ca.ntro.app.frontend.ViewRegistrar;
 
 public class AiguilleurFrontendFx extends AiguilleurFrontend {
 

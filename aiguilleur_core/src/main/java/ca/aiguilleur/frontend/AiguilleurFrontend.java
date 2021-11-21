@@ -1,6 +1,6 @@
 package ca.aiguilleur.frontend;
 
-import ca.ntro.app.Frontend;
+import ca.ntro.app.frontend.Frontend;
 import ca.ntro.tmp.ControllerRegistrar;
 import ca.ntro.tmp.MessageRegistrar;
 import ca.ntro.tmp.ModelRegistrar;

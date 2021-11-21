@@ -1,4 +1,4 @@
-package ca.ntro.app;
+package ca.ntro.app.frontend;
 
 public interface ViewRegistrar {
 

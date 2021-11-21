@@ -1,4 +1,4 @@
-package ca.ntro.app;
+package ca.ntro.app.frontend;
 
 import ca.ntro.tmp.ControllerRegistrar;
 import ca.ntro.tmp.MessageRegistrar;
