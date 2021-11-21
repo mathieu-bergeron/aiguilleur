@@ -1,14 +1,13 @@
 package ca.aiguilleur;
 
 import ca.aiguilleur.frontend.AiguilleurFrontend;
-import ca.ntro.app.frontend.ViewRegistrar;
+import ca.ntro.app.frontend.FrontendFx;
+import ca.ntro.app.frontend.ViewRegistrarFx;
 
-public class AiguilleurFrontendFx extends AiguilleurFrontend {
+public class AiguilleurFrontendFx extends AiguilleurFrontend<ViewRegistrarFx> implements FrontendFx {
 
 	@Override
-	public void registerViews(ViewRegistrar registrar) {
+	public void registerViews(ViewRegistrarFx registrar) {
 		
 	}
-
-
 }

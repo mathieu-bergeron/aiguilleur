@@ -1,5 +1,7 @@
 package ca.ntro.app.frontend;
 
-public interface ViewRegistrar {
+import ca.ntro.tmp.NtroView;
+
+public interface ViewRegistrar<V extends NtroView> {
 
 }
