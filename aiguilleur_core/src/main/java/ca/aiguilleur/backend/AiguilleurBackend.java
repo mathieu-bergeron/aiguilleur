@@ -1,4 +1,4 @@
-package ca.aiguilleur;
+package ca.aiguilleur.backend;
 
 import ca.ntro.app.NtroBackend;
 

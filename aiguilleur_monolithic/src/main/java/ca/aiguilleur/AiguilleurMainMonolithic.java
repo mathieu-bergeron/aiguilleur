@@ -1,14 +1,24 @@
 package ca.aiguilleur;
 
+import ca.aiguilleur.backend.AiguilleurBackend;
+import ca.ntro.app.AppRegistrar;
 import ca.ntro.core.static_imports.NtroJdk;
-import ntro_app_fx.NtroAppFx;
+import ca.ntro.tmp.NtroApp;
 
-public class AiguilleurMainMonolithic extends AiguilleurMainFx implements NtroAppFx {
-	
+public class AiguilleurMainMonolithic implements NtroApp {
+
 	public static void main(String[] args) throws Throwable {
 		NtroJdk.initializer().executeBlocking();
 		
-		// TODO: register BOTH frontend and backend, then launch
+		launch(args);
+	}
+
+	@Override
+	public void registerApp(AppRegistrar registrar) {
+
+		registrar.registerFrontend(new AiguilleurFrontendFx());
+
+		registrar.registerBackend(new AiguilleurBackend());
 	}
 
 }

@@ -1,29 +1,26 @@
-package ca.aiguilleur;
+package ca.aiguilleur.frontend;
 
-import ca.ntro.core.initialization.Log;
-import ca.ntro.core.initialization.T;
+import ca.ntro.app.NtroFrontend;
 import ca.ntro.tmp.ControllerRegistrar;
 import ca.ntro.tmp.MessageRegistrar;
 import ca.ntro.tmp.ModelRegistrar;
-import ca.ntro.tmp.NtroApp;
 
-public abstract class AiguilleurMain implements NtroApp  {
-	
-	public static void main() {
-		T.trace(AiguilleurMain.class);
-
-		Log.info("Bonjour!");
-	}
+public abstract class AiguilleurFrontend implements NtroFrontend {
 
 	@Override
 	public void registerModels(ModelRegistrar registrar) {
+		
 	}
+
 
 	@Override
 	public void registerMessages(MessageRegistrar registrar) {
+		
 	}
 
 	@Override
 	public void registerControllers(ControllerRegistrar registar) {
+		
 	}
+
 }
