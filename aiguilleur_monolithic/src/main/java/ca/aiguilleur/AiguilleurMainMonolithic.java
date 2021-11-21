@@ -9,8 +9,8 @@ public class AiguilleurMainMonolithic implements NtroApp {
 
 	public static void main(String[] args) throws Throwable {
 		NtroJdk.initializer().executeBlocking();
-		
-		launch(args);
+
+		NtroApp.launch(args);
 	}
 
 	@Override

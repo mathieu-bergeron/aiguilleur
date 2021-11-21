@@ -6,4 +6,8 @@ public interface NtroApp {
 	
 	void registerApp(AppRegistrar registrar);
 	
+	public static void launch(String[] args) {
+		
+	}
+	
 }
