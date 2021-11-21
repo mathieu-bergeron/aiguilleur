@@ -1,22 +1,17 @@
 package ca.aiguilleur;
 
-import ca.ntro.core.initialization.T;
 import ca.ntro.core.static_imports.NtroJdk;
-import javafx.application.Application;
-import javafx.stage.Stage;
+import ca.ntro.tmp.ControllerRegistrar;
+import ca.ntro.tmp.MessageRegistrar;
+import ca.ntro.tmp.ModelRegistrar;
+import ntro_app_fx.NtroAppFx;
 
-public class AiguilleurMainFx extends Application {
+public class AiguilleurMainFx extends AiguilleurMain implements NtroAppFx {
 	
 	public static void main(String[] args) throws Throwable {
 		NtroJdk.initializer().executeBlocking();
 
-		launch(args);
 	}
 
-	@Override
-	public void start(Stage primaryStage) throws Exception {
-		T.trace(this, primaryStage);
 
-		AiguilleurMain.main();
-	}
 }
