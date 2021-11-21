@@ -1,5 +1,7 @@
 package ca.aiguilleur;
 
-public class AiguilleurFrontend {
+import ca.ntro.app.NtroFrontend;
+
+public class AiguilleurFrontend implements NtroFrontend {
 
 }

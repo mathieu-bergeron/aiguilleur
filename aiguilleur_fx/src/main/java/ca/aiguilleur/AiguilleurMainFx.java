@@ -8,7 +8,9 @@ public class AiguilleurMainFx extends AiguilleurMain implements NtroAppFx {
 	
 	public static void main(String[] args) throws Throwable {
 		NtroJdk.initializer().executeBlocking();
-
+		
+		// TODO: register local Frontend
+		//       register remote Backend
 	}
 
 	@Override
