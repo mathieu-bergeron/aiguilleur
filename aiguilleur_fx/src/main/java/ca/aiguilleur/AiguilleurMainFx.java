@@ -1,9 +1,7 @@
 package ca.aiguilleur;
 
+import ca.ntro.app.ViewRegistrar;
 import ca.ntro.core.static_imports.NtroJdk;
-import ca.ntro.tmp.ControllerRegistrar;
-import ca.ntro.tmp.MessageRegistrar;
-import ca.ntro.tmp.ModelRegistrar;
 import ntro_app_fx.NtroAppFx;
 
 public class AiguilleurMainFx extends AiguilleurMain implements NtroAppFx {
@@ -13,5 +11,9 @@ public class AiguilleurMainFx extends AiguilleurMain implements NtroAppFx {
 
 	}
 
-
+	@Override
+	public void registerViews(ViewRegistrar registrar) {
+		// TODO Auto-generated method stub
+		
+	}
 }

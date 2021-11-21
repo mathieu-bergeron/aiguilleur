@@ -7,7 +7,7 @@ import ca.ntro.tmp.MessageRegistrar;
 import ca.ntro.tmp.ModelRegistrar;
 import ca.ntro.tmp.NtroApp;
 
-public class AiguilleurMain implements NtroApp  {
+public abstract class AiguilleurMain implements NtroApp  {
 	
 	public static void main() {
 		T.trace(AiguilleurMain.class);
