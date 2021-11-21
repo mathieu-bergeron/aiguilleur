@@ -7,6 +7,8 @@ public class AiguilleurMainMonolithic extends AiguilleurMainFx implements NtroAp
 	
 	public static void main(String[] args) throws Throwable {
 		NtroJdk.initializer().executeBlocking();
+		
+		// TODO: register BOTH frontend and backend, then launch
 	}
 
 }
