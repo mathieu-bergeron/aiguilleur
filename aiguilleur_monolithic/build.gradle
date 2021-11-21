@@ -1,0 +1,20 @@
+plugins {
+    id 'localJavaPlugin'
+    id 'localFxPlugin'
+}
+
+project.group = 'ca.aiguilleur'
+project.version = '0.1'
+
+dependencies {
+
+    implementation project(':ntro_core')
+    implementation project(':ntro_core_jdk')
+
+    implementation project(':ntro_app')
+    implementation project(':ntro_app_jdk')
+    implementation project(':ntro_app_fx')
+
+    implementation project(':aiguilleur_core')
+    implementation project(':aiguilleur_fx')
+}

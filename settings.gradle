@@ -41,6 +41,7 @@ include 'aiguilleur_core'
 include 'aiguilleur_jsweet'
 include 'aiguilleur_fx'
 include 'aiguilleur_server'
+include 'aiguilleur_monolithic'
 
 buildscript {
 	repositories {
