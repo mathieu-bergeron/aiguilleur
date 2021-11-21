@@ -1,11 +1,11 @@
 package ca.aiguilleur.frontend;
 
-import ca.ntro.app.NtroFrontend;
+import ca.ntro.app.Frontend;
 import ca.ntro.tmp.ControllerRegistrar;
 import ca.ntro.tmp.MessageRegistrar;
 import ca.ntro.tmp.ModelRegistrar;
 
-public abstract class AiguilleurFrontend implements NtroFrontend {
+public abstract class AiguilleurFrontend implements Frontend {
 
 	@Override
 	public void registerModels(ModelRegistrar registrar) {

@@ -4,7 +4,7 @@ import ca.ntro.tmp.ControllerRegistrar;
 import ca.ntro.tmp.MessageRegistrar;
 import ca.ntro.tmp.ModelRegistrar;
 
-public interface NtroFrontend {
+public interface Frontend {
 
 	void registerModels(ModelRegistrar registrar);
 	void registerViews(ViewRegistrar registrar);

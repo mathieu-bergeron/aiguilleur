@@ -1,7 +1,7 @@
 package ca.aiguilleur.backend;
 
-import ca.ntro.app.NtroBackend;
+import ca.ntro.app.Backend;
 
-public class AiguilleurBackend implements NtroBackend {
+public class AiguilleurBackend implements Backend {
 
 }

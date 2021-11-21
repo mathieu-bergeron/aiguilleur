@@ -2,7 +2,7 @@ package ca.ntro.app;
 
 public interface AppRegistrar {
 	
-	void registerFrontend(NtroFrontend frontend);
-	void registerBackend(NtroBackend backend);
+	void registerFrontend(Frontend frontend);
+	void registerBackend(Backend backend);
 
 }
