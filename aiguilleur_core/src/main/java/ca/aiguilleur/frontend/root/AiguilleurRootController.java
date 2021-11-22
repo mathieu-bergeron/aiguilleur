@@ -1,4 +1,4 @@
-package ca.aiguilleur.frontend.controllers;
+package ca.aiguilleur.frontend.root;
 
 import javax.annotation.meta.When;
 
@@ -9,23 +9,28 @@ import ca.ntro.core.tasks.base.Task;
 public class AiguilleurRootController implements RootController {
 
 	@Override
-	public void createTasks(TaskCreator newTask) {
+	public void createTasks(TaskCreator creator) {
 		
-		Task myTask = newTask.when().viewLoaded()
+		Task myTask = creator.when().mainViewLoaded()
 				             .and().subViewLoaded(subViewId)
 		                     .and().messageReceived(MyMessage.class)
 		                     .and().modelUpdated(modelId)
 		                     .execute(results -> {
 		                    	   
 		                    	   View mainView = results.getView(MainView.class);
+		                    	   View subView = results.getView(subViewId);
 		                    	   Message message = results.getMessage(MyMessage.class);
 		                    	   ModelUpdates modelUpdates = results.getModelUpdates(modelId);
 		                    	   
 		                    	   Object general = results.get(MyClass.class, objectId);
 		                    	   
+		                    	   for(ModelUpdate modelUpdate : modelUpdates) {
+
+		                    		   mainView.displayUpdates(modelUpdates);
+		                    	   }
 		                     });
 
-		newTask.when().finished(myTask)
+		creator.when().finished(myTask)
 		       .execute(results -> {
 		    	   
 		    	   System.out.println("asdf");

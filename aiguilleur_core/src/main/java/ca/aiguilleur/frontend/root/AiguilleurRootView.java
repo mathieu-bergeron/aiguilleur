@@ -1,4 +1,4 @@
-package ca.aiguilleur.frontend.views;
+package ca.aiguilleur.frontend.root;
 
 import ca.ntro.app.frontend.RootView;
 

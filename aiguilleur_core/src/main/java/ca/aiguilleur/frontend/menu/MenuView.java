@@ -1,4 +1,4 @@
-package ca.aiguilleur.frontend.views;
+package ca.aiguilleur.frontend.menu;
 
 import ca.ntro.app.frontend.View;
 
