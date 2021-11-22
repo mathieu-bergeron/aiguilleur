@@ -1,4 +1,4 @@
-package ca.aiguilleur;
+package ca.aiguilleur.frontend;
 
 import ca.aiguilleur.frontend.AiguilleurFrontend;
 import ca.ntro.app.frontend.FrontendFx;

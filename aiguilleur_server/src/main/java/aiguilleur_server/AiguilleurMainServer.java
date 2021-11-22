@@ -1,13 +1,15 @@
 package aiguilleur_server;
 
-import ca.aiguilleur.backend.AiguilleurBackend;
-import ca.ntro.app.messages.MessageRegistrar;
-import ca.ntro.app.models.ModelRegistrar;
+import ca.aiguilleur.AiguilleurApp;
+import ca.aiguilleur.backend.AiguilleurLocalBackend;
 import ca.ntro.app.App;
+import ca.ntro.app.ServerApp;
 import ca.ntro.app.backend.BackendRegistrar;
+import ca.ntro.app.frontend.FrontendRegistrar;
+import ca.ntro.app.frontend.ViewRegistrarNull;
 import ca.ntro.core.static_imports.NtroJdk;
 
-public class AiguilleurMainServer implements App {
+public class AiguilleurMainServer extends AiguilleurApp<ViewRegistrarNull> implements ServerApp {
 
 	public static void main(String[] args) throws Throwable {
 		NtroJdk.initializer().executeBlocking();
@@ -16,18 +18,12 @@ public class AiguilleurMainServer implements App {
 	}
 
 	@Override
-	public void registerModels(ModelRegistrar registrar) {
+	public void registerFrontend(FrontendRegistrar<ViewRegistrarNull> registrar) {
+		// no frontend
 	}
 
 	@Override
-	public void registerMessages(MessageRegistrar registrar) {
+	public void registerBackend(BackendRegistrar registrar) {
+		registrar.registerBackend(new AiguilleurLocalBackend());
 	}
-
-	@Override
-	public void registerApp(BackendRegistrar registrar) {
-		
-		registrar.registerBackend(new AiguilleurBackend());
-	}
-
-
 }

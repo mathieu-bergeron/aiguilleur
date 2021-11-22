@@ -1,5 +1,5 @@
 package ca.ntro.app.backend;
 
-public interface RemoteBackend {
+public interface RemoteBackend extends Backend {
 
 }

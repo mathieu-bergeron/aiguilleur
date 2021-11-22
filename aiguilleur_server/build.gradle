@@ -9,6 +9,11 @@ dependencies {
     // Ntro
     implementation project(':ntro_app')
     implementation project(':ntro_app_jdk')
+
+    implementation project(':ntro_server')
+    implementation project(':ntro_server_jdk')
+
+    implementation project(':ntro_web')
     implementation project(':ntro_web_jdk')
 
     // aquiletour

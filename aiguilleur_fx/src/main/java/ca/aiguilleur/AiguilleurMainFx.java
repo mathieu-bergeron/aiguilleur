@@ -1,6 +1,7 @@
 package ca.aiguilleur;
 
-import ca.aiguilleur.backend.AiguilleurLocalBackend;
+import ca.aiguilleur.AiguilleurApp;
+import ca.aiguilleur.backend.AiguilleurRemoteBackend;
 import ca.aiguilleur.frontend.AiguilleurFrontendFx;
 import ca.ntro.app.App;
 import ca.ntro.app.backend.BackendRegistrar;
@@ -9,11 +10,11 @@ import ca.ntro.app.frontend.ViewRegistrarFx;
 import ca.ntro.core.static_imports.NtroJdk;
 import ntro_app_fx.NtroAppFx;
 
-public class AiguilleurMainMonolithic extends AiguilleurApp<ViewRegistrarFx> implements NtroAppFx {
+public class AiguilleurMainFx extends AiguilleurApp<ViewRegistrarFx> implements NtroAppFx {
 
 	public static void main(String[] args) throws Throwable {
 		NtroJdk.initializer().executeBlocking();
-
+		
 		App.launch(args);
 	}
 
@@ -24,7 +25,7 @@ public class AiguilleurMainMonolithic extends AiguilleurApp<ViewRegistrarFx> imp
 
 	@Override
 	public void registerBackend(BackendRegistrar registrar) {
-		registrar.registerBackend(new AiguilleurLocalBackend());
-		
+		registrar.registerBackend(new AiguilleurRemoteBackend());
 	}
+
 }
