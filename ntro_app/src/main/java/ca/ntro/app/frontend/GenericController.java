@@ -4,7 +4,7 @@ import ca.ntro.app.frontend.controllers.TaskCreator;
 
 public interface GenericController {
 	
-	void createTasks(TaskCreator registrar);
+	void createTasks(TaskCreator creator);
 	
 
 }
