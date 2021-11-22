@@ -1,12 +1,12 @@
 package ca.aiguilleur.frontend.controllers;
 
 import ca.ntro.app.frontend.Controller;
-import ca.ntro.app.frontend.controllers.TaskRegistrar;
+import ca.ntro.app.frontend.controllers.TaskCreator;
 
 public class MenuController implements Controller {
 
 	@Override
-	public void registerTasks(TaskRegistrar registrar) {
+	public void createTasks(TaskCreator registrar) {
 		
 	}
 

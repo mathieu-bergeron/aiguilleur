@@ -1,10 +1,10 @@
 package ca.ntro.app.frontend;
 
-import ca.ntro.app.frontend.controllers.TaskRegistrar;
+import ca.ntro.app.frontend.controllers.TaskCreator;
 
 public interface GenericController {
 	
-	void registerTasks(TaskRegistrar registrar);
+	void createTasks(TaskCreator registrar);
 	
 
 }
