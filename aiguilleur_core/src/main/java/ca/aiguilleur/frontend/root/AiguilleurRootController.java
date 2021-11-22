@@ -11,6 +11,17 @@ public class AiguilleurRootController implements RootController {
 	@Override
 	public void createTasks(TaskCreator creator) {
 		
+		Task messageReceived = creator.when().messageReceived(MyMessage.class);
+
+		Task modelUpdated = creator.when().modelUpdated(MyMessage.class);
+		
+		creator.when().triggered(messageReceived)
+		       .or().triggered(modelUpdated)
+		       .execute(result -> {
+		    	   
+		    	   
+		       });
+		
 		Task myTask = creator.when().mainViewLoaded()
 				             .and().subViewLoaded(subViewId)
 		                     .and().messageReceived(MyMessage.class)
