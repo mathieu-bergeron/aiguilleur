@@ -34,4 +34,5 @@ public interface TaskCreator {
 	Task execute(TaskExecutor executor);
 
 	<M extends Model> void removeModelObservers(Class<M> modelClass);
+	void removeModelObserver(ModelId modelId);
 }
