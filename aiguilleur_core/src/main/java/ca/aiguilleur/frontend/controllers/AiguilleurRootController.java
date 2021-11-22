@@ -13,6 +13,8 @@ public class AiguilleurRootController implements RootController {
 		
 		Task newTask = new Task();
 		
+		newTask.addPreviousTask(rootViewTask);
+		
 		registrar.registerTask(newTask);
 
 	}
