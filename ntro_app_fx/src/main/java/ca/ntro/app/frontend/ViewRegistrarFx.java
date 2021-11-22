@@ -48,7 +48,7 @@ public class ViewRegistrarFx implements ViewRegistrar<FxView>, ViewRegistrarAcce
 
 		} catch (IOException e) {
 
-			throw new RuntimeException("Cannot load " + fxmlPath);
+			throw new RuntimeException(e);
 		}
 		
 		rootScene = new Scene(parent, width, height);
