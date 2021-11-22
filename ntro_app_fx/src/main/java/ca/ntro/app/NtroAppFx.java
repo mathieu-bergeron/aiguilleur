@@ -1,10 +1,11 @@
 package ca.ntro.app;
 
 import ca.ntro.app.App;
-import ca.ntro.app.frontend.ViewRegistrarFx;
+import ca.ntro.app.frontend.FxViewRegistrar;
 import ca.ntro.core.static_imports.NtroJdk;
+import javafx.application.Application;
 
-public interface NtroAppFx extends App<ViewRegistrarFx> {
+public interface NtroAppFx extends App<FxViewRegistrar> {
 	
 	public static void launch(String[] args) {
 
@@ -24,7 +25,7 @@ public interface NtroAppFx extends App<ViewRegistrarFx> {
 		// call the register methods
 		
 		// launch
-
+		Application.launch(AppFxWrapper.class, args);
 	}
 
 }

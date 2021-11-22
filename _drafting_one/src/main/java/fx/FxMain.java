@@ -31,8 +31,9 @@ public class FxMain extends Application {
 		
 		Scene scene = new Scene(parent, 400, 600);
 		
+		Object ctrl = loader.getController();
+		
 		primaryStage.setScene(scene);
-
 
 		primaryStage.show();
 
