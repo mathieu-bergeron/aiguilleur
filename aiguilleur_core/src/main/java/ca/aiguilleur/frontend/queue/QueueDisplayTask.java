@@ -11,7 +11,7 @@ public class QueueDisplayTask implements TaskExecutor {
 	@Override
 	public void execute(TaskResults results) {
 		
-		QueueView view = results.getView(QueueView.class);
+		QueueView view = results.getDisplayedView(QueueView.class);
 		ModelUpdates updates = results.getModelUpdates(QueueModel.id());
 		
 		for(ModelUpdate update : updates) {

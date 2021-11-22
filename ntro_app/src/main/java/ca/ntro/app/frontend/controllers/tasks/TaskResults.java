@@ -6,7 +6,8 @@ import ca.ntro.core.identifyers.ModelId;
 
 public interface TaskResults {
 
-	<V extends View> V getView(Class<V> viewClass);
+	<V extends View> V getDisplayedView(Class<V> viewClass);
+	<V extends View> ViewCreator<V> getViewLoader(Class<V> viewClass);
 
 	ModelUpdates getModelUpdates(ModelId id);
 
