@@ -11,7 +11,7 @@ import ca.aiguilleur.messages.DisplayPongMessage;
 
 public class PongController implements Controller {
 	
-	private ModelId currentModelId = null;
+	private ModelId lastModelId = null;
 
 	@Override
 	public void createTasks(TaskCreator creator) {
@@ -22,13 +22,13 @@ public class PongController implements Controller {
 				   DisplayPongMessage message = results.getMessage(DisplayPongMessage.class);
 				   ModelId modelId = message.getModelId();
 				   
-				   if(!modelId.equals(currentModelId)) {
+				   if(!modelId.equals(lastModelId)) {
 					   
-					   creator.removeModelObserver(currentModelId);
-					   currentModelId = modelId;
+					   creator.removeModelObserver(lastModelId);
+					   lastModelId = modelId;
 
 					   creator.when(viewDisplayed(PongView.class))
-							  .and(modelObserved(currentModelId))
+							  .and(modelObserved(modelId))
 							  .execute( __ -> {
 								  
 								  PongView view = results.getDisplayedView(PongView.class);
