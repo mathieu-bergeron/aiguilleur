@@ -1,7 +1,4 @@
-package ca.ntro.app;
-
-import ca.ntro.app.frontend.Frontend;
-import ca.ntro.app.frontend.ViewRegistrar;
+package ca.ntro.app.frontend;
 
 public interface FrontendRegistrar<VR extends ViewRegistrar<?>> {
 	

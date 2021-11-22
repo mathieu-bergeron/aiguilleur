@@ -1,4 +1,4 @@
-package ca.ntro.tmp;
+package ca.ntro.app.models;
 
 public interface ModelRegistrar {
 

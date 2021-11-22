@@ -1,6 +1,4 @@
-package ca.ntro.app;
-
-import ca.ntro.app.backend.Backend;
+package ca.ntro.app.backend;
 
 public interface BackendRegistrar {
 	

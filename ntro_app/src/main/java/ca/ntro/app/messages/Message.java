@@ -1,5 +1,5 @@
 package ca.ntro.app.messages;
 
-public class NtroMessage {
+public class Message {
 
 }

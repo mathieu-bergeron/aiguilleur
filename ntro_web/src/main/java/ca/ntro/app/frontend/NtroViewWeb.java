@@ -1,5 +1,5 @@
 package ca.ntro.app.frontend;
 
-public class NtroController<T> {
+public class NtroViewWeb {
 
 }
