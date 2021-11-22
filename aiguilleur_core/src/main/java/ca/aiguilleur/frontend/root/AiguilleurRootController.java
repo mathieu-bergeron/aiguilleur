@@ -1,7 +1,7 @@
 package ca.aiguilleur.frontend.root;
 
 import ca.ntro.app.frontend.RootController;
-import ca.ntro.app.frontend.controllers.TaskCreator;
+import ca.ntro.app.frontend.controllers.tasks.TaskCreator;
 
 public class AiguilleurRootController implements RootController {
 

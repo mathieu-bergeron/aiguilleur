@@ -1,6 +1,6 @@
 package ca.ntro.app.frontend;
 
-import ca.ntro.app.frontend.controllers.TaskCreator;
+import ca.ntro.app.frontend.controllers.tasks.TaskCreator;
 
 public interface GenericController {
 	

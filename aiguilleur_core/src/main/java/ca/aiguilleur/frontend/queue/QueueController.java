@@ -1,7 +1,9 @@
 package ca.aiguilleur.frontend.queue;
 
+import ca.aiguilleur.models.QueueModel;
 import ca.ntro.app.frontend.Controller;
-import ca.ntro.app.frontend.controllers.TaskCreator;
+import ca.ntro.app.frontend.controllers.tasks.TaskCreator;
+import ca.ntro.core.graphs.task_graph.Task;
 
 public class QueueController implements Controller {
 
@@ -9,7 +11,7 @@ public class QueueController implements Controller {
 	public void createTasks(TaskCreator creator) {
 		
 		Task display = creator.when().viewLoaded()
-		                      .and().modelUpdated(QueueModel.id())
+		                      .and().modelObserved(QueueModel.id())
 		                      .execute(new QueueDisplayTask());
 		
 	}
