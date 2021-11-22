@@ -15,8 +15,8 @@ public class AiguilleurRootController implements RootController {
 
 		Task modelUpdated = creator.when().modelUpdated(MyMessage.class);
 		
-		creator.when().triggered(messageReceived)
-		       .or().triggered(modelUpdated)
+		creator.when().finished(messageReceived)
+		       .or().finished(modelUpdated)
 		       .execute(result -> {
 		    	   
 		    	   
