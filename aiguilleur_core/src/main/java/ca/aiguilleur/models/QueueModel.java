@@ -3,9 +3,10 @@ package ca.aiguilleur.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.ntro.app.models.Model;
 import ca.ntro.core.identifyers.ModelId;
 
-public class QueueModel {
+public class QueueModel implements Model {
 
 	public static ModelId id() {
 		return null;
