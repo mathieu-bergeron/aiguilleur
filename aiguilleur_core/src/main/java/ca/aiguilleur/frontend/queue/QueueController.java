@@ -15,7 +15,7 @@ public class QueueController implements Controller {
 		Task display = creator.when(viewCreated(QueueView.class))
 		                      .and(modelObserved(QueueModel.id()))
 		                      .execute(new QueueDisplayTask());
-		
+
 	}
 
 }

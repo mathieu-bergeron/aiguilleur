@@ -11,8 +11,8 @@ public class MenuController implements Controller {
 
 	@Override
 	public void createTasks(TaskCreator creator) {
-		
-		creator.when(viewCreated(MenuView.class))
+
+		creator.when(viewDisplayed(MenuView.class))
 		       .execute(results -> {
 		    	   
 		    	   MenuView view = results.getDisplayedView(MenuView.class);
