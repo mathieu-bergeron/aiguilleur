@@ -1,7 +1,7 @@
 package ca.ntro.app.views;
 
-import ca.ntro.tmp.NtroView;
+import ca.ntro.app.frontend.View;
 
-public interface NtroViewFx extends NtroView {
+public interface NtroViewFx extends View {
 
 }
