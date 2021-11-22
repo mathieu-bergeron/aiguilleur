@@ -8,7 +8,6 @@ import ca.ntro.app.models.ModelUpdates;
 
 public class QueueDisplayTask implements TaskExecutor {
 	
-	
 	@Override
 	public void execute(TaskResults results) {
 		

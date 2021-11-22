@@ -1,5 +1,7 @@
 package ca.aiguilleur.frontend.root;
 
+import ca.aiguilleur.frontend.menu.MenuView;
+import ca.aiguilleur.frontend.pages.PagesView;
 import ca.ntro.app.frontend.RootController;
 import ca.ntro.app.frontend.controllers.tasks.TaskCreator;
 
@@ -7,45 +9,28 @@ public class AiguilleurRootController implements RootController {
 
 	@Override
 	public void createTasks(TaskCreator creator) {
-		
-		
-		/*
-		Task messageReceived = creator.when().messageReceived(MyMessage.class);
 
-		Task modelUpdated = creator.when().modelUpdated(MyMessage.class);
-		
-		creator.when().finished(messageReceived)
-		       .or().finished(modelUpdated)
-		       .execute(result -> {
-		    	   
-		    	   
-		       });
-		
-		Task myTask = creator.when().mainViewLoaded()
-				             .and().subViewLoaded(subViewId)
-		                     .and().messageReceived(MyMessage.class)
-		                     .and().modelUpdated(modelId)
-		                     .execute(results -> {
-		                    	   
-		                    	   View mainView = results.getView(MainView.class);
-		                    	   View subView = results.getView(subViewId);
-		                    	   Message message = results.getMessage(MyMessage.class);
-		                    	   ModelUpdates modelUpdates = results.getModelUpdates(modelId);
-		                    	   
-		                    	   Object general = results.get(MyClass.class, objectId);
-		                    	   
-		                    	   for(ModelUpdate modelUpdate : modelUpdates) {
-
-		                    		   mainView.displayUpdates(modelUpdates);
-		                    	   }
-		                     });
-
-		creator.when().finished(myTask)
+		creator.when().viewLoaded()
+			   .and().subViewLoaded(MenuView.class)
 		       .execute(results -> {
 		    	   
-		    	   System.out.println("asdf");
-			   });
-	   */
+		    	   AiguilleurRootView view = results.getView(AiguilleurRootView.class);
+		    	   MenuView menuView = results.getView(MenuView.class);
+
+		    	   view.displayMenuView(menuView);
+		       });
+
+		creator.when().viewLoaded()
+			   .and().subViewLoaded(PagesView.class)
+		       .execute(results -> {
+		    	   
+		    	   AiguilleurRootView view = results.getView(AiguilleurRootView.class);
+		    	   PagesView pagesView = results.getView(PagesView.class);
+
+		    	   view.displayPagesView(pagesView);
+		       });
+		
+		
 	}
 
 }

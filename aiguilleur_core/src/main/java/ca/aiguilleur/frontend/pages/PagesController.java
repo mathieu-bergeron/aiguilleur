@@ -2,8 +2,8 @@ package ca.aiguilleur.frontend.pages;
 
 import ca.aiguilleur.frontend.pong.PongView;
 import ca.aiguilleur.frontend.queue.QueueView;
-import ca.aiguilleur.messages.DisplayPongMessage;
-import ca.aiguilleur.messages.DisplayQueueMessage;
+import ca.aiguilleur.messages.DisplayPong;
+import ca.aiguilleur.messages.DisplayQueue;
 import ca.ntro.app.frontend.Controller;
 import ca.ntro.app.frontend.controllers.tasks.TaskCreator;
 
@@ -14,7 +14,7 @@ public class PagesController implements Controller {
 		
 		creator.when().viewLoaded()
 		       .and().subViewLoaded(QueueView.class)
-		       .and().messageReceived(DisplayQueueMessage.class)
+		       .and().messageReceived(DisplayQueue.class)
 		       .execute(results -> {
 		    	   
 		    	   PagesView view = results.getView(PagesView.class);
@@ -25,7 +25,7 @@ public class PagesController implements Controller {
 
 		creator.when().viewLoaded()
 		       .and().subViewLoaded(PongView.class)
-		       .and().messageReceived(DisplayPongMessage.class)
+		       .and().messageReceived(DisplayPong.class)
 		       .execute(results -> {
 		    	   
 		    	   PagesView view = results.getView(PagesView.class);

@@ -1,5 +1,5 @@
 package ca.ntro.app.frontend;
 
-public interface RootView {
+public interface RootView extends View {
 
 }

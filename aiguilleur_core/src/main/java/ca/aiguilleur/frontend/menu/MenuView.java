@@ -1,12 +1,12 @@
 package ca.aiguilleur.frontend.menu;
 
-import ca.aiguilleur.messages.DisplayPongMessage;
-import ca.aiguilleur.messages.DisplayQueueMessage;
+import ca.aiguilleur.messages.DisplayPong;
+import ca.aiguilleur.messages.DisplayQueue;
 import ca.ntro.app.frontend.View;
 
 public interface MenuView extends View {
 
-	void installDisplayQueueMessage(DisplayQueueMessage displayQueueMessage);
-	void installDisplayPongMessage(DisplayPongMessage displayPongMessage);
+	void installDisplayQueueMessage(DisplayQueue displayQueueMessage);
+	void installDisplayPongMessage(DisplayPong displayPongMessage);
 
 }

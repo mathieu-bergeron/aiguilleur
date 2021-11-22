@@ -1,7 +1,7 @@
 package ca.aiguilleur.frontend.menu;
 
-import ca.aiguilleur.messages.DisplayPongMessage;
-import ca.aiguilleur.messages.DisplayQueueMessage;
+import ca.aiguilleur.messages.DisplayPong;
+import ca.aiguilleur.messages.DisplayQueue;
 import ca.ntro.app.frontend.Controller;
 import ca.ntro.app.frontend.controllers.tasks.TaskCreator;
 
@@ -15,8 +15,8 @@ public class MenuController implements Controller {
 		    	   
 		    	   MenuView view = results.getView(MenuView.class);
 		    	   
-		    	   view.installDisplayQueueMessage(new DisplayQueueMessage());
-		    	   view.installDisplayPongMessage(new DisplayPongMessage());
+		    	   view.installDisplayQueueMessage(new DisplayQueue());
+		    	   view.installDisplayPongMessage(new DisplayPong());
 		       });
 	}
 
