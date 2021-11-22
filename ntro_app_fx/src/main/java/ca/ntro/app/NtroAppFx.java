@@ -17,6 +17,14 @@ public interface NtroAppFx extends App<ViewRegistrarFx> {
 			throw new RuntimeException(e);
 		}
 		
+		// Get class of caller
+		
+		// Instantiate
+		
+		// call the register methods
+		
+		// launch
+
 	}
 
 }
