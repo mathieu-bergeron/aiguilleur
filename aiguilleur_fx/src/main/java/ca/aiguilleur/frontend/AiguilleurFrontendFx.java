@@ -1,13 +1,13 @@
 package ca.aiguilleur.frontend;
 
 import ca.aiguilleur.frontend.AiguilleurFrontend;
-import ca.ntro.app.frontend.FxFrontend;
-import ca.ntro.app.frontend.FxViewRegistrar;
+import ca.ntro.app.frontend.FrontendFx;
+import ca.ntro.app.frontend.ViewRegistrarFx;
 
-public class AiguilleurFrontendFx extends AiguilleurFrontend<FxViewRegistrar> implements FxFrontend {
+public class AiguilleurFrontendFx extends AiguilleurFrontend<ViewRegistrarFx> implements FrontendFx {
 
 	@Override
-	public void registerViews(FxViewRegistrar registrar) {
+	public void registerViews(ViewRegistrarFx registrar) {
 		registrar.registerRootView("/root.xml", 600,400);
 	}
 }

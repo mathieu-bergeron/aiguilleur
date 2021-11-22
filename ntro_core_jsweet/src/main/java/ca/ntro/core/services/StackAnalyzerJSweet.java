@@ -50,4 +50,10 @@ public class StackAnalyzerJSweet extends StackAnalyzer implements ServiceDependa
 	public void analyzeCall(Object calledClassOrObject) {
 		
 	}
+
+	@Override
+	public Class<?> callerClass() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

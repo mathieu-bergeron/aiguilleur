@@ -6,6 +6,8 @@ import ca.ntro.core.services.ExceptionThrower;
 import ca.ntro.core.services.ExceptionThrowerNull;
 import ca.ntro.core.services.ReflectionService;
 import ca.ntro.core.services.ReflectionServiceNull;
+import ca.ntro.core.services.StackAnalyzer;
+import ca.ntro.core.services.StackAnalyzerNull;
 
 public class Ntro {
 	
@@ -57,4 +59,22 @@ public class Ntro {
 
 	/* </ReflectionService> */
 	
+	
+	
+	
+	
+	/* <StackAnalyzer> */
+	
+	private static StackAnalyzer stackAnalyzer = new StackAnalyzerNull();
+	
+	static void registerStackAnalyzer(StackAnalyzer stackAnalyzer){
+		Ntro.stackAnalyzer = stackAnalyzer;
+	}
+
+	public static StackAnalyzer stackAnalyzer(){
+		return Ntro.stackAnalyzer;
+	}
+
+	/* </StackAnalyzer> */
+
 }

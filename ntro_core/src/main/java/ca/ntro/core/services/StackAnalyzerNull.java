@@ -6,4 +6,9 @@ public class StackAnalyzerNull extends StackAnalyzer {
 	public void analyzeCall(Object calledClassOrObject) {
 	}
 
+	@Override
+	public Class<?> callerClass() {
+		return null;
+	}
+
 }

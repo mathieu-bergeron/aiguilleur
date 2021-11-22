@@ -12,6 +12,7 @@ import ca.ntro.core.services.TracerNtro;
 import ca.ntro.core.task_graph.TaskGraph;
 import ca.ntro.core.tasks.base.Task;
 import ca.ntro.core.values.ObjectMap;
+import ca.ntro.core.values.ObjectMapNtro;
 import ca.ntro.core.wrappers.future.Future;
 
 public abstract class InitializerNtro implements Initializer {
@@ -131,12 +132,16 @@ public abstract class InitializerNtro implements Initializer {
 
 	@Override
 	public ObjectMap executeBlocking() throws Throwable {
+		/*
 		
 		ObjectMap objectMap = buildGraph().executeBlocking();
 		
 		initializeStaticImports(objectMap);
 		
 		return objectMap;
+		*/
+		
+		return new ObjectMapNtro();
 	}
 
 	@Override

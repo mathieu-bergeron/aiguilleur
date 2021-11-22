@@ -11,7 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
-public class FxViewRegistrarImpl implements FxViewRegistrar, ViewRegistrarImpl<FxRootView, FxView> {
+public class ViewRegistrarFx implements ViewRegistrar<FxView>, ViewRegistrarAccessor<FxRootView, FxView> {
 
 	private FxRootView rootView;
 	private Scene rootScene;
@@ -19,20 +19,19 @@ public class FxViewRegistrarImpl implements FxViewRegistrar, ViewRegistrarImpl<F
 	private Map<Class<? extends NtroView>, Scene> scenes = new HashMap<>();
 	private Map<Class<? extends NtroView>, FxView> views = new HashMap<>();
 
-	public Scene getRootScene() {
+	public Scene rootScene() {
 		return rootScene;
 	}
 
-	public Scene getScene(Class<? extends NtroView> viewClass) {
+	public Scene scene(Class<? extends NtroView> viewClass) {
 		return scenes.get(viewClass);
 	}
 	
-	@Override
 	public void registerRootView(String fxmlPath, 
 			                     int width, 
 			                     int height) {
 
-		URL xmlFile = FxViewRegistrarImpl.class.getResource(fxmlPath);
+		URL xmlFile = ViewRegistrarFx.class.getResource(fxmlPath);
 		
 		if(xmlFile == null) {
 			throw new RuntimeException("Not found " + fxmlPath);
@@ -55,7 +54,6 @@ public class FxViewRegistrarImpl implements FxViewRegistrar, ViewRegistrarImpl<F
 		rootScene = new Scene(parent, width, height);
 	}
 
-	@Override
 	public void registerView(Class<? extends NtroView> viewClass, String fxmlPath) {
 		
 	}
