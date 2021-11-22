@@ -11,6 +11,8 @@ public class AiguilleurRootController implements RootController {
 	@Override
 	public void createTasks(TaskCreator creator) {
 		
+		
+		/*
 		Task messageReceived = creator.when().messageReceived(MyMessage.class);
 
 		Task modelUpdated = creator.when().modelUpdated(MyMessage.class);
@@ -46,6 +48,7 @@ public class AiguilleurRootController implements RootController {
 		    	   
 		    	   System.out.println("asdf");
 			   });
+	   */
 	}
 
 }
