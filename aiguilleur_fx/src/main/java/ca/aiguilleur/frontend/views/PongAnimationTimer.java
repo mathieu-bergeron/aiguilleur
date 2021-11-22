@@ -4,10 +4,10 @@ import javafx.animation.AnimationTimer;
 
 public class PongAnimationTimer extends AnimationTimer {
 	
-	private RealTimePongModel model;
+	private PongModelRealTime model;
 	private long previousNowNanoSeconds;
 	
-	public PongAnimationTimer(RealTimePongModel model) {
+	public PongAnimationTimer(PongModelRealTime model) {
 		super();
 		
 		this.model = model;

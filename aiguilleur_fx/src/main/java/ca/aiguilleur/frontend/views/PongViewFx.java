@@ -12,7 +12,7 @@ import javafx.scene.canvas.Canvas;
 
 public class PongViewFx implements PongView, Initializable {
 	
-	private RealTimePongModel realTimeModel;
+	private PongModelRealTime realTimeModel;
 	private AnimationTimer timer;
 	
 	@FXML
@@ -22,18 +22,16 @@ public class PongViewFx implements PongView, Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
-		realTimeModel = new RealTimePongModel(canvas.getGraphicsContext2D());
-		
-		
-		
+		realTimeModel = new PongModelRealTime(canvas.getGraphicsContext2D());
+		timer = new PongAnimationTimer(realTimeModel);
+
+		timer.start();
 	}
 
 	@Override
 	public void displayModelUpdates(ModelUpdates updates) {
 
 		realTimeModel.applyModelUpdates(updates);
-		
-		
 	}
 
 

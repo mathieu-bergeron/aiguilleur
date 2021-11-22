@@ -4,11 +4,11 @@ import ca.aiguilleur.frontend.pong.PongModel;
 import ca.ntro.app.models.ModelUpdates;
 import javafx.scene.canvas.GraphicsContext;
 
-public class RealTimePongModel extends PongModel {
+public class PongModelRealTime extends PongModel {
 
 	private GraphicsContext gc;
 
-	public RealTimePongModel(GraphicsContext gc) {
+	public PongModelRealTime(GraphicsContext gc) {
 		super();
 
 		this.gc = gc;
