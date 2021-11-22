@@ -1,6 +1,6 @@
 package ntro_app_fx;
 
-import ca.ntro.tmp.NtroApp;
+import ca.ntro.app.NtroApp;
 
 public interface NtroAppFx extends NtroApp {
 	

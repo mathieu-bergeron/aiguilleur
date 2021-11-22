@@ -1,5 +1,6 @@
 package ca.ntro.tmp;
 
+import ca.ntro.app.NtroApp;
 
 public interface NtroAppWeb extends NtroApp {
 	

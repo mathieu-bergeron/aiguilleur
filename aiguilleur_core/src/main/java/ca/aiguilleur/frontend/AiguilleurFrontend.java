@@ -9,17 +9,6 @@ import ca.ntro.tmp.ModelRegistrar;
 public abstract class AiguilleurFrontend<VR extends ViewRegistrar<?>> implements Frontend<VR> {
 
 	@Override
-	public void registerModels(ModelRegistrar registrar) {
-		
-	}
-
-
-	@Override
-	public void registerMessages(MessageRegistrar registrar) {
-		
-	}
-
-	@Override
 	public void registerControllers(ControllerRegistrar registar) {
 		
 	}
