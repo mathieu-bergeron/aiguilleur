@@ -1,5 +1,5 @@
 package ca.ntro.app.frontend;
 
-public interface ViewNull extends NtroView {
+public interface ViewNull extends View {
 
 }

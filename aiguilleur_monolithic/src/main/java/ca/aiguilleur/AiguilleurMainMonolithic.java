@@ -21,6 +21,5 @@ public class AiguilleurMainMonolithic extends AiguilleurApp<ViewRegistrarFx> imp
 	@Override
 	public void registerBackend(BackendRegistrar registrar) {
 		registrar.registerBackend(new AiguilleurLocalBackend());
-		
 	}
 }

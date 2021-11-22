@@ -16,14 +16,14 @@ public class ViewRegistrarFx implements ViewRegistrar<FxView>, ViewRegistrarAcce
 	private RootViewFx rootView;
 	private Scene rootScene;
 	
-	private Map<Class<? extends NtroView>, Scene> scenes = new HashMap<>();
-	private Map<Class<? extends NtroView>, FxView> views = new HashMap<>();
+	private Map<Class<? extends View>, Scene> scenes = new HashMap<>();
+	private Map<Class<? extends View>, FxView> views = new HashMap<>();
 
 	public Scene rootScene() {
 		return rootScene;
 	}
 
-	public Scene scene(Class<? extends NtroView> viewClass) {
+	public Scene scene(Class<? extends View> viewClass) {
 		return scenes.get(viewClass);
 	}
 	
@@ -54,7 +54,7 @@ public class ViewRegistrarFx implements ViewRegistrar<FxView>, ViewRegistrarAcce
 		rootScene = new Scene(parent, width, height);
 	}
 
-	public void registerView(Class<? extends NtroView> viewClass, String fxmlPath) {
+	public void registerView(Class<? extends View> viewClass, String fxmlPath) {
 		
 	}
 
@@ -64,7 +64,7 @@ public class ViewRegistrarFx implements ViewRegistrar<FxView>, ViewRegistrarAcce
 	}
 
 	@Override
-	public FxView view(Class<? extends NtroView> viewClass) {
+	public FxView view(Class<? extends View> viewClass) {
 		return views.get(viewClass);
 	}
 }
