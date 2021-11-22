@@ -1,15 +1,23 @@
 package ca.aiguilleur.frontend.queue;
 
+import ca.aiguilleur.models.QueueModel;
 import ca.ntro.app.frontend.controllers.tasks.TaskExecutor;
 import ca.ntro.app.frontend.controllers.tasks.TaskResults;
+import ca.ntro.app.models.ModelUpdate;
+import ca.ntro.app.models.ModelUpdates;
 
 public class QueueDisplayTask implements TaskExecutor {
 	
-	// Can keep state here, even e.g. update the Pong world
 	
 	@Override
 	public void execute(TaskResults results) {
 		
-	}
+		QueueView view = results.getView(QueueView.class);
+		ModelUpdates updates = results.getModelUpdates(QueueModel.id());
+		
+		for(ModelUpdate update : updates) {
 
+			view.displayModelUpdate(update);
+		}
+	}
 }
