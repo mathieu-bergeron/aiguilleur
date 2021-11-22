@@ -7,15 +7,15 @@ import ca.ntro.core.identifyers.ModelId;
 
 public interface TaskCreator {
 
-	public static ControllerEvent viewLoaded(Class<? extends View> viewClass) {
+	public static <V extends View> ControllerEvent viewLoaded(Class<V> viewClass) {
 		return null;
 	}
 	
-	public static ControllerEvent viewCreated(Class<? extends View> viewClass) {
+	public static <V extends View> ControllerEvent viewCreated(Class<V> viewClass) {
 		return null;
 	}
 
-	public static ControllerEvent viewDisplayed(Class<? extends View> viewClass) {
+	public static <V extends View> ControllerEvent viewDisplayed(Class<V> viewClass) {
 		return null;
 	}
 
