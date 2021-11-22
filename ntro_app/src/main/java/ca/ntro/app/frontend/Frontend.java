@@ -5,6 +5,6 @@ public interface Frontend<VR extends ViewRegistrar<?>> {
 
 	void registerViews(VR registrar);
 
-	void registerControllers(ControllerRegistrar registar);
+	void registerControllers(ControllerRegistrar registrar);
 
 }
