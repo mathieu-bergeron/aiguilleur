@@ -13,25 +13,39 @@ public class PagesController implements Controller {
 
 	@Override
 	public void createTasks(TaskCreator creator) {
-		
+
+		creator.when(viewLoaded(QueueView.class))
+		       .execute(results -> {
+
+		    	   QueueView queueView = results.getViewLoader(QueueView.class).createView();
+		    	   results.registerView(QueueView.class, queueView);
+		       });
+
+		creator.when(viewLoaded(PongView.class))
+		       .execute(results -> {
+
+		    	   PongView pongView = results.getViewLoader(PongView.class).createView();
+		    	   results.registerView(PongView.class, pongView);
+		       });
+
 		creator.when(viewDisplayed(PagesView.class))
-		       .and(viewLoaded(QueueView.class))
+		       .and(viewCreated(QueueView.class))
 		       .and(messageReceived(DisplayQueueMessage.class))
 		       .execute(results -> {
 		    	   
 		    	   PagesView view = results.getDisplayedView(PagesView.class);
-		    	   QueueView queueView = results.getViewLoader(QueueView.class).createView();
+		    	   QueueView queueView = results.getCreatedView(QueueView.class);
 		    	   
 		    	   view.displaySubView(queueView);
 		       });
 
 		creator.when(viewDisplayed(PagesView.class))
-		       .and(viewLoaded(PongView.class))
+		       .and(viewCreated(PongView.class))
 		       .and(messageReceived(DisplayPongMessage.class))
 		       .execute(results -> {
 		    	   
 		    	   PagesView view = results.getDisplayedView(PagesView.class);
-		    	   PongView pongView = results.getViewLoader(PongView.class).createView();
+		    	   PongView pongView = results.getCreatedView(PongView.class);
 		    	   
 		    	   view.displaySubView(pongView);
 		       });

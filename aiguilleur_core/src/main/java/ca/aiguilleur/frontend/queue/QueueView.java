@@ -1,10 +1,8 @@
 package ca.aiguilleur.frontend.queue;
 
-import ca.ntro.app.frontend.View;
-import ca.ntro.app.models.ModelUpdate;
+import ca.ntro.app.frontend.ViewModel;
 
-public interface QueueView extends View {
+public interface QueueView extends ViewModel {
 
-	void displayModelUpdate(ModelUpdate update);
 
 }

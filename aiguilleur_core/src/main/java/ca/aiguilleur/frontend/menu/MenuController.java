@@ -12,7 +12,7 @@ public class MenuController implements Controller {
 	@Override
 	public void createTasks(TaskCreator creator) {
 		
-		creator.when(viewDisplayed(MenuView.class))
+		creator.when(viewCreated(MenuView.class))
 		       .execute(results -> {
 		    	   
 		    	   MenuView view = results.getDisplayedView(MenuView.class);

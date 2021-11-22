@@ -12,7 +12,7 @@ public class AiguilleurRootController implements RootController {
 	@Override
 	public void createTasks(TaskCreator creator) {
 
-		creator.when(viewDisplayed(AiguilleurRootView.class))
+		creator.when(viewCreated(AiguilleurRootView.class))
 			   .and(viewLoaded(MenuView.class))
 		       .execute(results -> {
 		    	   
@@ -22,7 +22,7 @@ public class AiguilleurRootController implements RootController {
 		    	   view.displayMenuView(menuView);
 		       });
 
-		creator.when(viewDisplayed(AiguilleurRootView.class))
+		creator.when(viewCreated(AiguilleurRootView.class))
 			   .and(viewLoaded(PagesView.class))
 		       .execute(results -> {
 		    	   

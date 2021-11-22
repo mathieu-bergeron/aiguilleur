@@ -1,8 +1,8 @@
 package ca.ntro.app.models;
 
-import java.util.Iterator;
 
-public interface ModelUpdates extends Iterable<ModelUpdate> {
-	
+public interface ModelUpdates {
+
+	void forEachUpdate(Object object);
 
 }

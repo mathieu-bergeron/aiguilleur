@@ -12,7 +12,7 @@ public class QueueController implements Controller {
 	@Override
 	public void createTasks(TaskCreator creator) {
 		
-		Task display = creator.when(viewDisplayed(QueueView.class))
+		Task display = creator.when(viewCreated(QueueView.class))
 		                      .and(modelObserved(QueueModel.id()))
 		                      .execute(new QueueDisplayTask());
 		

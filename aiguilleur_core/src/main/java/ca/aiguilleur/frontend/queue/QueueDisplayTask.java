@@ -14,9 +14,6 @@ public class QueueDisplayTask implements TaskExecutor {
 		QueueView view = results.getDisplayedView(QueueView.class);
 		ModelUpdates updates = results.getModelUpdates(QueueModel.id());
 		
-		for(ModelUpdate update : updates) {
-
-			view.displayModelUpdate(update);
-		}
+		view.displayModelUpdates(updates);
 	}
 }
