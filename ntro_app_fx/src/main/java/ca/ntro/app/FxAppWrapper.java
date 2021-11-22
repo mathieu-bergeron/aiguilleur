@@ -1,17 +1,15 @@
 package ca.ntro.app;
 
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class AppFxWrapper extends Application {
+public class FxAppWrapper extends Application {
 	
-	static Scene rootScene;
-	
+	static Class<? extends NtroAppFx> appClass;
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		primaryStage.setScene(rootScene);
-		primaryStage.show();
+		NtroAppFx.start(primaryStage);
 	}
 
 }

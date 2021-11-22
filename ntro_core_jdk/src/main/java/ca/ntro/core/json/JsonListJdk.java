@@ -232,12 +232,13 @@ public class JsonListJdk extends JsonListNtro implements JsonList {
 		};
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<JsonValue<?>> subList(int fromIndex, int toIndex) {
 		List<JsonValue<?>> subList = new ArrayList<JsonValue<?>>();
 		
-		subList.addAll((Collection<? extends JsonValue<?>>) bsonList.subList(fromIndex, toIndex));
+		for(Object element : bsonList) {
+			subList.add((JsonValue<?>) element);
+		}
 		
 		return subList;
 	}

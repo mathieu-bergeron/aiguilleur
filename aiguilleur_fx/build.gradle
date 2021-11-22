@@ -1,6 +1,7 @@
 plugins {
     id 'localJavaPlugin'
     id 'localFxPlugin'
+    id 'localJSweetPlugin'
 }
 
 project.group = 'ca.aiguilleur'
@@ -17,4 +18,11 @@ dependencies {
 
     implementation project(':aiguilleur_core')
 }
+
+task(run, dependsOn: 'classes', type: JavaExec) {
+   main = 'ca.aiguilleur.AiguilleurMainFx'
+   classpath = sourceSets.main.runtimeClasspath
+   jvmArgs('-Dfile.encoding=UTF-8')
+}
+
 

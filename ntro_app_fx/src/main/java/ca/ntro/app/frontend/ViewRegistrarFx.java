@@ -5,15 +5,15 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import ca.ntro.app.views.FxRootView;
+import ca.ntro.app.views.RootViewFx;
 import ca.ntro.app.views.FxView;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
-public class ViewRegistrarFx implements ViewRegistrar<FxView>, ViewRegistrarAccessor<FxRootView, FxView> {
+public class ViewRegistrarFx implements ViewRegistrar<FxView>, ViewRegistrarAccessor<RootViewFx, FxView> {
 
-	private FxRootView rootView;
+	private RootViewFx rootView;
 	private Scene rootScene;
 	
 	private Map<Class<? extends NtroView>, Scene> scenes = new HashMap<>();
@@ -39,7 +39,7 @@ public class ViewRegistrarFx implements ViewRegistrar<FxView>, ViewRegistrarAcce
 		
 		FXMLLoader loader = new FXMLLoader(xmlFile);
 
-		rootView = (FxRootView) loader.getController();
+		rootView = (RootViewFx) loader.getController();
 		
 		Parent parent;
 		try {
@@ -59,7 +59,7 @@ public class ViewRegistrarFx implements ViewRegistrar<FxView>, ViewRegistrarAcce
 	}
 
 	@Override
-	public FxRootView rootView() {
+	public RootViewFx rootView() {
 		return rootView;
 	}
 
