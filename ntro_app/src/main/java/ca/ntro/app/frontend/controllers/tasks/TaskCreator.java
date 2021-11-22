@@ -2,6 +2,7 @@ package ca.ntro.app.frontend.controllers.tasks;
 
 import ca.ntro.app.frontend.View;
 import ca.ntro.app.messages.Message;
+import ca.ntro.app.models.Model;
 import ca.ntro.core.graphs.task_graph.Task;
 import ca.ntro.core.identifyers.ModelId;
 
@@ -31,4 +32,6 @@ public interface TaskCreator {
 	TaskCreator and(ControllerEvent task);
 
 	Task execute(TaskExecutor executor);
+
+	<M extends Model> void removeModelObservers(Class<M> modelClass);
 }

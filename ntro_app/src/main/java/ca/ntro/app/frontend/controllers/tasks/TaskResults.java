@@ -1,6 +1,7 @@
 package ca.ntro.app.frontend.controllers.tasks;
 
 import ca.ntro.app.frontend.View;
+import ca.ntro.app.messages.Message;
 import ca.ntro.app.models.ModelUpdates;
 import ca.ntro.core.identifyers.ModelId;
 
@@ -13,6 +14,8 @@ public interface TaskResults {
 
 	ModelUpdates getModelUpdates(ModelId id);
 
-	<V extends View> void registerView(Class<V> viewClass, V queueView);
+	<V extends View> void registerView(Class<V> viewClass, V view);
+
+	<MSG extends Message> MSG getMessage(Class<MSG> messageClass);
 
 }

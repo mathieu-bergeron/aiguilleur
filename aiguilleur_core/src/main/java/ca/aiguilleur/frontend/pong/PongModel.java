@@ -1,7 +1,7 @@
 package ca.aiguilleur.frontend.pong;
 
-public class PongModel {
+import ca.ntro.app.models.Model;
 
-	// Can keep state here, even e.g. update the Pong world
+public class PongModel implements Model  {
 
 }
