@@ -2,9 +2,9 @@ package ca.aiguilleur;
 
 import ca.ntro.app.messages.MessageRegistrar;
 import ca.ntro.app.models.ModelRegistrar;
-import ca.aiguilleur.frontend.pong.PongModel;
 import ca.aiguilleur.messages.DisplayPongMessage;
 import ca.aiguilleur.messages.DisplayQueueMessage;
+import ca.aiguilleur.models.PongModel;
 import ca.aiguilleur.models.QueueModel;
 import ca.ntro.app.App;
 import ca.ntro.app.frontend.ViewRegistrar;
