@@ -12,7 +12,6 @@ public class FxAppWrapper extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		
-		// Instantiate
 		NtroAppFx app = null;
 		try {
 
@@ -22,11 +21,10 @@ public class FxAppWrapper extends Application {
 			
 			Ntro.exceptionThrower().throwException(e);
 		}
-		
-		// call the register methods
+
 		FrontendRegistrarFx frontendRegistrar = new FrontendRegistrarFx();
 		app.registerFrontend(frontendRegistrar);
-		
+
 		primaryStage.setScene(frontendRegistrar.viewRegistrar().rootScene());
 		primaryStage.show();
 	}
