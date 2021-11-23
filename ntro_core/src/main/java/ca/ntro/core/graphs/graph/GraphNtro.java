@@ -1,16 +1,9 @@
 package ca.ntro.core.graphs.graph;
 
-import java.util.Map;
-
-import ca.ntro.core.graphs.Direction;
-import ca.ntro.core.graphs.Edge;
-import ca.ntro.core.graphs.EdgeId;
 import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeValue;
 import ca.ntro.core.graphs.generic_graph.GenericGraphBuilderNtro;
-import ca.ntro.core.wrappers.result.Result;
-import ca.ntro.core.wrappers.result.ResultNtro;
 
 public class      GraphNtro<NV extends NodeValue, EV extends EdgeValue> 
        extends    GenericGraphBuilderNtro<NV,EV,GraphStructure<NV,EV>,Graph<NV,EV>> 

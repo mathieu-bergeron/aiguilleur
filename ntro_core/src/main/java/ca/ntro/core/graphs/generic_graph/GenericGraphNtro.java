@@ -1,5 +1,8 @@
 package ca.ntro.core.graphs.generic_graph;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import ca.ntro.core.exceptions.Break;
 import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.EdgeReducer;
@@ -52,9 +55,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 
 	@Override
 	public Node<NV> findNode(NodeMatcher<NV> matcher) {
-		
-		
-		
+
 		Result<Node<NV>> result = reduceNodes(null, (accumulator, n) -> {
 			if(accumulator != null) {
 				throw new Break();
@@ -160,8 +161,36 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 
 	@Override
 	public <R> Result<R> reduceEdges(R initialValue, EdgeReducer<NV, EV, R> reducer) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		ResultNtro<R> result = new ResultNtro<R>(initialValue);
+
+		_reduceEdges(result, reducer);
+		
+		return result;
+	}
+
+	protected <R> void _reduceEdges(ResultNtro<R> result, EdgeReducer<NV, EV, R> reducer) {
+		if(result.hasException()) {
+			return;
+		}
+		
+		Set<String> visitedEdges = new HashSet<>();
+
+		_reduceRootNodes(result, (__, n) -> {
+
+			_reduceReachableEdges(result, n, (___, walkedEdges, from, edge, to) -> {
+				
+				if(!visitedEdges.contains(edge.id().toKey())) {
+
+					result.registerValue(reducer.reduceEdge(result.value(), from, edge, to));
+					visitedEdges.add(edge.id().toKey());
+				}
+				
+				return null;
+			});
+
+			return null;
+		});
 	}
 
 	@Override
@@ -194,7 +223,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 		return null;
 	}
 
-	private <R> void _reduceReachableNodes(Node<NV> fromNode, ResultNtro<R> result, ReachableNodeReducer<NV, EV, R> reducer) {
+	protected <R> void _reduceReachableNodes(Node<NV> fromNode, ResultNtro<R> result, ReachableNodeReducer<NV, EV, R> reducer) {
 	}
 
 	@Override
@@ -251,6 +280,10 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 	public <R> Result<R> reduceReachableEdges(Node<NV> fromNode, R initialValue, ReachableEdgeReducer<NV, EV, R> reducer) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	protected <R> void _reduceReachableEdges(Node<NV> fromNode, ResultNtro<R> value, ReachableEdgeReducer<NV, EV, R> reducer) {
+
 	}
 
 	@Override
