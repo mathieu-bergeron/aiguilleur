@@ -37,7 +37,7 @@ public class GraphTests {
 	@Test
 	public void reachableEdgesDepthFirst01() {
 
-		GraphBuilder<MockNodeValue, MockEdgeValue> builder = GraphBuilder.newBuilder();
+		GraphBuilder<MockNodeValue, MockEdgeValue> builder = GraphBuilder.newBuilder("reachableEdgesDepthFirst01");
 
 		MockNodeValue nodeValueA = new MockNodeValue("A");
 		MockNodeValue nodeValueB = new MockNodeValue("B");
@@ -67,7 +67,7 @@ public class GraphTests {
 	@Test
 	public void simpleGraph02() {
 		
-		GraphBuilder<MockNodeValue, MockEdgeValue> builder = GraphBuilder.newBuilder();
+		GraphBuilder<MockNodeValue, MockEdgeValue> builder = GraphBuilder.newBuilder("simpleGraph02");
 
 		MockNodeValue nodeValueA = new MockNodeValue("A");
 		MockNodeValue nodeValueB = new MockNodeValue("B");
