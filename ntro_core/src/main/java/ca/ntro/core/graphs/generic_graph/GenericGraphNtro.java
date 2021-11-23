@@ -26,6 +26,7 @@ import ca.ntro.core.graphs.ReachableNodeVisitor;
 import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.graphs.SearchOptionsNtro;
 import ca.ntro.core.graphs.SearchStrategy;
+import ca.ntro.core.graphs.writers.GraphWriter;
 import ca.ntro.core.path.EdgeWalk;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
@@ -95,12 +96,13 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 
 	@Override
 	public void forEachRootNode(NodeVisitor<NV> visitor) {
-		_reduceRootNodes(null, (accumulator, n) -> {
-
+		reduceRootNodes(null, (__, n) ->{
+			
 			visitor.visitNode(n);
+			
+			return null;
 
-			return accumulator;
-		});
+		}).throwException();;
 	}
 
 
@@ -122,8 +124,8 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 			visitor.visitNode(n);
 			
 			return null;
-		});
-		
+
+		}).throwException();;
 	}
 
 	@Override
@@ -136,7 +138,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 	}
 
 	private <R> void _reduceNodes(ResultNtro<R> result, NodeReducer<NV, R> reducer) {
-
+		
 		_reduceRootNodes(result, (__, rootNode) -> {
 			
 			try {
@@ -173,7 +175,8 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 			visitor.visitEdge(from, edge, to);
 			
 			return null;
-		});
+
+		}).throwException();;
 	}
 
 	@Override
@@ -230,7 +233,8 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 			visitor.visitReachableNode(walkedEdges, fromNode);
 
 			return null;
-		});
+
+		}).throwException();;
 	}
 
 	@Override
@@ -276,7 +280,8 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 			visitor.visitReachableNode(walkedEdges, n);
 			
 			return null;
-		});
+
+		}).throwException();
 	}
 
 	@Override
@@ -347,7 +352,8 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 			visitor.visitReachableEdge(walkedEdges, fromNode, edge, to);
 
 			return null;
-		});
+
+		}).throwException();
 	}
 
 	@Override
@@ -395,7 +401,8 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 			visitor.visitReachableEdge(walkedEdges, fromNode, edge, to);
 
 			return null;
-		});
+
+		}).throwException();
 	}
 
 	@Override
@@ -526,12 +533,14 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 
 	@Override
 	public void visitEdgeWalk(Node<NV> fromNode, Direction direction, EdgeWalk edgeWalk, EdgeWalkVisitor<NV, EV> visitor) {
+
 		reduceEdgeWalk(fromNode, direction, edgeWalk, null, (accumulator, walkedEdges, remainingEdgeWalk, n) -> {
 			
 			visitor.visitEdgeWalk(walkedEdges, remainingEdgeWalk, n);
 			
 			return null;
-		});
+
+		}).throwException();
 	}
 
 	@Override
@@ -595,4 +604,51 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 			return null;
 		});
 	}
+	
+	
+	@Override
+	public void write(GraphWriter writer) {
+
+		writer.initialize(id());
+		
+		Set<String> unwrittenNodes = writeEdges(writer);
+
+		writeNodes(writer, unwrittenNodes);
+		
+		writer.writeDot();
+		writer.writePng();
+	}
+	
+	protected Set<String> writeEdges(GraphWriter writer) {
+		
+		Set<String> unwrittenNodes = reduceNodes(new HashSet<String>(), (accumulator, n) -> {
+			
+			accumulator.add(n.id().toKey());
+
+			return accumulator;
+
+		}).value();
+		
+		forEachEdge((from, edge, to) -> {
+
+			unwrittenNodes.remove(from.id().toKey());
+			unwrittenNodes.remove(to.id().toKey());
+
+			writer.writeEdge(from, edge, to);
+		});
+		
+		return unwrittenNodes;
+	}
+
+	protected void writeNodes(GraphWriter writer, Set<String> nodesToWrite) {
+		for(String nodeKey : nodesToWrite) {
+
+			Node<NV> node = findNode(nodeKey);
+
+			if(node != null) {
+				writer.writeNode(node);
+			}
+		}
+	}
+	
 }

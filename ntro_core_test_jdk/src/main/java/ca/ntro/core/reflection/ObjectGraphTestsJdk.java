@@ -10,5 +10,4 @@ public class ObjectGraphTestsJdk extends ObjectGraphTests {
 	public static void initializeJdk() {
 		InitializerTestJdk.initialize();
 	}
-
 }

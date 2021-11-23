@@ -27,11 +27,14 @@ public class ObjectGraphJdk extends ObjectGraphNtro  implements ObjectGraph {
 		
 		Map<Node<ObjectValue>, Object> objectByNode = localHeap.get(object);
 		
-		for(Map.Entry<Node<ObjectValue>, Object> entry : objectByNode.entrySet()) {
+		if(objectByNode != null) {
 
-			if(entry.getValue() == object) {
-				node = entry.getKey();
-				break;
+			for(Map.Entry<Node<ObjectValue>, Object> entry : objectByNode.entrySet()) {
+
+				if(entry.getValue() == object) {
+					node = entry.getKey();
+					break;
+				}
 			}
 		}
 		

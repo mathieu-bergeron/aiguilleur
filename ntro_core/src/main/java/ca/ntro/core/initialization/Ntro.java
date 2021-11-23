@@ -1,5 +1,7 @@
 package ca.ntro.core.initialization;
 
+import ca.ntro.core.graphs.writers.GraphWriter;
+import ca.ntro.core.graphs.writers.GraphWriterNull;
 import ca.ntro.core.services.Asserter;
 import ca.ntro.core.services.AsserterNull;
 import ca.ntro.core.services.ExceptionThrower;
@@ -76,5 +78,22 @@ public class Ntro {
 	}
 
 	/* </StackAnalyzer> */
+	
+	
+	
+
+	/* <GraphWriter> */
+	
+	private static GraphWriter graphWriter = new GraphWriterNull();
+	
+	static void registerGraphWriter(GraphWriter graphWriter){
+		Ntro.graphWriter = graphWriter;
+	}
+
+	public static GraphWriter graphWriter(){
+		return Ntro.graphWriter;
+	}
+
+	/* </GraphWriter> */
 
 }

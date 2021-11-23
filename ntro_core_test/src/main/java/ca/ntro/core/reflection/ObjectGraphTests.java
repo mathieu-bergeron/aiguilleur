@@ -25,26 +25,38 @@ public class ObjectGraphTests {
 	}
 	
 	@Test
-	public void testObjectGraph01() {
+	public void testObjectGraph01() throws Throwable {
 		
 		TestObject01 o = new TestObject01();
 		
 		ObjectGraph graph = Ntro.reflectionService().objectGraph(o);
 		
+		List<Object> rootValues = new ArrayList<>();
+
+		graph.forEachRootNode(n -> {
+			rootValues.add(n.value().object());
+		});
+
+		exceptionThrower.throwException();
+		
+		Ntro.asserter().assertTrue("Should contain " + o, rootValues.contains(o));
+		Ntro.asserter().assertEquals(1, rootValues.size());
+		
 		List<Object> subValues = new ArrayList<>();
 
 		graph.forEachNode(n -> {
-			
 			subValues.add(n.value().object());
 		});
+
+		exceptionThrower.throwException();
 		
+		Ntro.asserter().assertTrue("Should contain " + o, subValues.contains(o));
+		Ntro.asserter().assertTrue("Should contain " + o.getAttribute01(), subValues.contains(o.getAttribute01()));
 		Ntro.asserter().assertEquals(2, subValues.size());
-		Ntro.asserter().assertTrue("Should contain", subValues.contains(o));
-		Ntro.asserter().assertTrue("Should contain", subValues.contains(o.getAttribute01()));
 	}
 
 	@Test
-	public void testObjectGraph02() {
+	public void testObjectGraph02() throws Throwable {
 		
 		TestObject02 o = new TestObject02();
 		
@@ -56,6 +68,8 @@ public class ObjectGraphTests {
 			
 			subValues.add(n.value().object());
 		});
+
+		exceptionThrower.throwException();
 		
 		Ntro.asserter().assertEquals(3, subValues.size());
 		Ntro.asserter().assertTrue("Should contain", subValues.contains(o));
@@ -64,7 +78,7 @@ public class ObjectGraphTests {
 	}
 
 	@Test
-	public void testObjectCycle() {
+	public void testObjectCycle() throws Throwable {
 		
 		TestObjectCycle o = new TestObjectCycle();
 		
@@ -77,6 +91,8 @@ public class ObjectGraphTests {
 			subValues.add(n.value().object());
 		});
 		
+		exceptionThrower.throwException();
+
 		Ntro.asserter().assertEquals(1, subValues.size());
 		Ntro.asserter().assertTrue("Should contain", subValues.contains(o));
 	}

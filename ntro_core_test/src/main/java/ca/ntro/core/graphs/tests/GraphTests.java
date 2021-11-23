@@ -60,8 +60,8 @@ public class GraphTests {
 
 		Ntro.asserter().assertTrue("Should contain", edges.contains(new EdgeTriple(nodeValueA, edgeValueAB, nodeValueB)));
 		Ntro.asserter().assertEquals(1, edges.size());
-
-
+		
+		graph.write(Ntro.graphWriter());
 	}
 
 	@Test
@@ -103,6 +103,8 @@ public class GraphTests {
 		Ntro.asserter().assertTrue("Should contain", edges.contains(edgeAB));
 		Ntro.asserter().assertTrue("Should contain", edges.contains(edgeBC));
 		Ntro.asserter().assertEquals(2, edges.size());
+
+		graph.write(Ntro.graphWriter());
 	}
 
 	@Test

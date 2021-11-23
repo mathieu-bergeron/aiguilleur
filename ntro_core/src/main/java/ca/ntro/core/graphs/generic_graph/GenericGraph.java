@@ -18,6 +18,7 @@ import ca.ntro.core.graphs.ReachableEdgeVisitor;
 import ca.ntro.core.graphs.ReachableNodeReducer;
 import ca.ntro.core.graphs.ReachableNodeVisitor;
 import ca.ntro.core.graphs.SearchOptions;
+import ca.ntro.core.graphs.writers.GraphWriter;
 import ca.ntro.core.path.EdgeWalk;
 import ca.ntro.core.wrappers.result.Result;
 
@@ -69,5 +70,7 @@ public interface GenericGraph<NV extends NodeValue, EV extends EdgeValue> {
 
 	<R extends Object> Result<R> reduceEdgeWalk(Node<NV> fromNode, EdgeWalk edgeWalk, R initialValue, EdgeWalkReducer<NV,EV,R> reducer);
 	<R extends Object> Result<R> reduceEdgeWalk(Node<NV> fromNode, Direction direction, EdgeWalk edgeWalk, R initialValue, EdgeWalkReducer<NV,EV,R> reducer);
+	
+	void write(GraphWriter writer);
 
 }

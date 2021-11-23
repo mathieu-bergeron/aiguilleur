@@ -44,4 +44,22 @@ public class ExceptionThrowerMock implements ExceptionThrower {
 	public Throwable exception() {
 		return exception;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+
+		if(hasException()) {
+			builder.append(exception().getMessage());
+		}
+		
+		return builder.toString();
+	}
+
+	public void throwException() throws Throwable {
+		if(hasException()) {
+			throw exception();
+		}
+		
+	}
 }

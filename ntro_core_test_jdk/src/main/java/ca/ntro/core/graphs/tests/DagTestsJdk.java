@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import ca.ntro.core.graphs.dag.Dag;
 import ca.ntro.core.graphs.dag.DagNtro;
-import ca.ntro.core.graphs.writers.DagWriterNtro;
 import ca.ntro.core.initialization.InitializerTestJdk;
 import ca.ntro.core.initialization.Ntro;
 

@@ -65,7 +65,7 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, Refe
 			return;
 		}
 
-		if(rootObjects.length == 0) {
+		if(rootObjects.length == 1) {
 
 			_reduceRootNode(result, Path.emptyPath(), rootObjects[0], reducer);
 
@@ -167,10 +167,10 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, Refe
 
 	@Override
 	protected <R> void _reduceNextEdgesByName(Node<ObjectValue> fromNode, 
-			                             Direction direction, 
-			                             String edgeName, 
-			                             ResultNtro<R> result, 
-			                             ReachableEdgeReducer<ObjectValue, ReferenceValue, R> reducer) {
+			                                  Direction direction, 
+			                                  String edgeName, 
+			                                  ResultNtro<R> result, 
+			                                  ReachableEdgeReducer<ObjectValue, ReferenceValue, R> reducer) {
 		if(result.hasException()) {
 			return;
 		}
