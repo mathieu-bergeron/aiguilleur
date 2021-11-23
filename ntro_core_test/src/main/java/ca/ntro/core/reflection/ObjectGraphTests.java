@@ -35,7 +35,7 @@ public class ObjectGraphTests {
 		
 		List<Object> rootValues = new ArrayList<>();
 
-		graph.forEachRootNode(n -> {
+		graph.forEachStartNode(n -> {
 			rootValues.add(n.value().object());
 		});
 

@@ -23,5 +23,28 @@ public class NodeNtro<NV extends NodeValue> implements Node<NV> {
 	public NV value() {
 		return value;
 	}
+	
+	@SuppressWarnings("rawtypes")
+	@Override
+	public boolean equals(Object o) {
+		if(o == this) return true;
+		if(o == null) return false;
+		if(o instanceof NodeNtro) {
+			NodeNtro n = (NodeNtro) o;
+			
+			if(!(n.id == null ? id == null : n.id.equals(id))) {
+				return false;
+			}
+
+			if(!(n.value == null ? value == null : n.value.equals(value))) {
+				return false;
+			}
+			
+			return true;
+		}
+		
+		
+		return false;
+	}
 
 }

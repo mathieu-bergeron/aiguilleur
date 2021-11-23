@@ -25,9 +25,19 @@ public class EdgeTriple<NV extends NodeValue, EV extends EdgeValue> {
 		if(o instanceof EdgeTriple) {
 			EdgeTriple<NV,EV> e = (EdgeTriple<NV,EV>) o;
 			
-			return from.equals(e.from)
-					&& edge.equals(e.edge)
-					&& to.equals(e.to);
+			if(!(e.from == null ? from == null : e.from.equals(from))) {
+				return false;
+			}
+
+			if(!(e.edge == null ? edge == null : e.edge.equals(edge))) {
+				return false;
+			}
+
+			if(!(e.to == null ? to == null : e.to.equals(to))) {
+				return false;
+			}
+			
+			return true;
 		}
 		
 		return false;

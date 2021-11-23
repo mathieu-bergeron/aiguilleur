@@ -22,14 +22,14 @@ import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, ReferenceValue> implements ObjectGraph {
 
-	private Object[] rootObjects;
+	private Object[] startObjects;
 
-	public ObjectGraphNtro(Object rootObject) {
-		this.rootObjects = new Object[] {rootObject};
+	public ObjectGraphNtro(Object startObject) {
+		this.startObjects = new Object[] {startObject};
 	}
 
-	public ObjectGraphNtro(Object[] rootObjects) {
-		this.rootObjects = rootObjects;
+	public ObjectGraphNtro(Object[] startObjects) {
+		this.startObjects = startObjects;
 	}
 
 	protected abstract Node<ObjectValue> findNodeInLocalHeap(Object object);
@@ -47,7 +47,7 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, Refe
 	public String label() {
 		Path labelPath = Path.emptyPath();
 
-		for(Object rootObject : rootObjects) {
+		for(Object rootObject : startObjects) {
 			labelPath.addName(rootObject.getClass().getSimpleName());
 		}
 
@@ -60,34 +60,34 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, Refe
 	}
 
 	@Override
-	protected <R> void _reduceRootNodes(ResultNtro<R> result, NodeReducer<ObjectValue, R> reducer) {
+	protected <R> void _reduceStartNodes(ResultNtro<R> result, NodeReducer<ObjectValue, R> reducer) {
 		if(result.hasException()) {
 			return;
 		}
 
-		if(rootObjects.length == 1) {
+		if(startObjects.length == 1) {
 
-			_reduceRootNode(result, Path.emptyPath(), rootObjects[0], reducer);
+			_reduceStartNode(result, Path.emptyPath(), startObjects[0], reducer);
 
 		}else {
 
-			for(int i = 0; i < rootObjects.length; i++) {
+			for(int i = 0; i < startObjects.length; i++) {
 
 				if(result.hasException()) {
 					return;
 				}
 				
-				Object object = rootObjects[i];
+				Object object = startObjects[i];
 
 				Path objectPath = Path.fromSingleName(String.valueOf(i));
 				objectPath.addName(object.getClass().getSimpleName());
 				
-				_reduceRootNode(result, objectPath, object, reducer);
+				_reduceStartNode(result, objectPath, object, reducer);
 			}
 		}
 	}
 
-	private <R> void _reduceRootNode(ResultNtro<R> result, Path objectPath, Object object, NodeReducer<ObjectValue, R> reducer) {
+	private <R> void _reduceStartNode(ResultNtro<R> result, Path objectPath, Object object, NodeReducer<ObjectValue, R> reducer) {
 		if(result.hasException()) {
 			return;
 		}

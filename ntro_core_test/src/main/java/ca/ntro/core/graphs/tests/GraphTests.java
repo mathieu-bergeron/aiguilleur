@@ -79,25 +79,25 @@ public class GraphTests {
 
 		GraphBuilder<MockNodeValue, MockEdgeValue> builder = GraphBuilder.newBuilder("simpleGraph02");
 
-		//MockNodeValue nodeValueRoot = new MockNodeValue("Root");
+		MockNodeValue nodeValue0 = new MockNodeValue("0");
 		MockNodeValue nodeValueA = new MockNodeValue("A");
 		MockNodeValue nodeValueB = new MockNodeValue("B");
 		MockNodeValue nodeValueC = new MockNodeValue("C");
 		
-		//MockEdgeValue edgeValueRootA = new MockEdgeValue("RootA");
+		MockEdgeValue edgeValue0A = new MockEdgeValue("0A");
 		MockEdgeValue edgeValueAB = new MockEdgeValue("AB");
 		MockEdgeValue edgeValueBC = new MockEdgeValue("BC");
-		//MockEdgeValue edgeValueCA = new MockEdgeValue("CA");
+		MockEdgeValue edgeValueCA = new MockEdgeValue("CA");
 		
-		//Node<MockNodeValue> nodeRoot = builder.addNode(nodeValueRoot);
+		Node<MockNodeValue> node0 = builder.addNode(nodeValue0);
 		Node<MockNodeValue> nodeA = builder.addNode(nodeValueA);
 		Node<MockNodeValue> nodeB = builder.addNode(nodeValueB);
 		Node<MockNodeValue> nodeC = builder.addNode(nodeValueC);
 		
-		//Edge<MockEdgeValue> edgeARoot = builder.addEdge(nodeRoot, edgeValueRootA, nodeA);
+		Edge<MockEdgeValue> edge0A = builder.addEdge(node0, edgeValue0A, nodeA);
 		Edge<MockEdgeValue> edgeAB = builder.addEdge(nodeA, edgeValueAB, nodeB);
 		Edge<MockEdgeValue> edgeBC = builder.addEdge(nodeB, edgeValueBC, nodeC);
-		//Edge<MockEdgeValue> edgeCA = builder.addEdge(nodeC, edgeValueCA, nodeA);
+		Edge<MockEdgeValue> edgeCA = builder.addEdge(nodeC, edgeValueCA, nodeA);
 		
 		Graph<MockNodeValue, MockEdgeValue> graph = builder.toGraph();
 		graph.write(Ntro.graphWriter());
@@ -107,24 +107,23 @@ public class GraphTests {
 			nodes.add(n);
 		});
 		
-		//Ntro.asserter().assertTrue("Should contain", nodes.contains(nodeRoot));
+		Ntro.asserter().assertTrue("Should contain", nodes.contains(node0));
 		Ntro.asserter().assertTrue("Should contain", nodes.contains(nodeA));
 		Ntro.asserter().assertTrue("Should contain", nodes.contains(nodeB));
 		Ntro.asserter().assertTrue("Should contain", nodes.contains(nodeC));
-		Ntro.asserter().assertEquals(3, nodes.size());
-		
+		Ntro.asserter().assertEquals(4, nodes.size());
 		
 		List<EdgeTriple<MockNodeValue, MockEdgeValue>> edges = new ArrayList<>();
 
-		graph.forEachReachableEdge(nodeA, (walkedEdges, from, edge, to) -> {
+		graph.forEachReachableEdge(node0, (walkedEdges, from, edge, to) -> {
 			edges.add(new EdgeTriple<>(from,edge,to));
 		});
 
-		//Ntro.asserter().assertTrue("Should contain", edges.contains(new EdgeTriple<>(nodeRoot, edgeARoot, nodeA)));
+		Ntro.asserter().assertTrue("Should contain", edges.contains(new EdgeTriple<>(node0, edge0A, nodeA)));
 		Ntro.asserter().assertTrue("Should contain", edges.contains(new EdgeTriple<>(nodeA, edgeAB, nodeB)));
 		Ntro.asserter().assertTrue("Should contain", edges.contains(new EdgeTriple<>(nodeB, edgeBC, nodeC)));
-		//Ntro.asserter().assertTrue("Should contain", edges.contains(new EdgeTriple<>(nodeC, edgeCA, nodeA)));
-		Ntro.asserter().assertEquals(2, edges.size());
+		Ntro.asserter().assertTrue("Should contain", edges.contains(new EdgeTriple<>(nodeC, edgeCA, nodeA)));
+		Ntro.asserter().assertEquals(4, edges.size());
 
 		exceptionThrower.throwLastException();
 	}

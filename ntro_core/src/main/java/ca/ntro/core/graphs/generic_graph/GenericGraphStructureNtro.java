@@ -1,9 +1,7 @@
 package ca.ntro.core.graphs.generic_graph;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
@@ -21,18 +19,9 @@ import ca.ntro.core.wrappers.result.ResultNtro;
 public abstract class  GenericGraphStructureNtro<NV extends NodeValue, EV extends EdgeValue> 
        implements      GenericGraphStructure<NV,EV> {
 	
-	private Set<String> toNodes = new HashSet<>();
 	private Map<String, Node<NV>> nodes = new HashMap<>();
 	private Map<String, Edge<EV>> edges = new HashMap<>();
 	
-	protected Set<String> getToNodes() {
-		return toNodes;
-	}
-
-	protected void setToNodes(Set<String> sinkNodes) {
-		this.toNodes = sinkNodes;
-	}
-
 	protected Map<String,Node<NV>> getNodes() {
 		return nodes;
 	}
@@ -53,8 +42,7 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue, EV extend
 
 	@Override
 	public Edge<EV> createEdge(Node<NV> from, EV edgeValue, Node<NV> to) {
-		addToNode(to);
-		
+
 		EdgeId edgeId = directedEdgeId(from, edgeValue, to);
 		
 		Edge<EV> edge = new EdgeNtro<EV>(edgeId, edgeValue);
@@ -72,10 +60,6 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue, EV extend
 	}
 
 	protected abstract void memorizeDirectedEdge(Node<NV> from, Edge<EV> edge, Node<NV> to);
-
-	private void addToNode(Node<NV> to) {
-		getToNodes().add(to.id().toKey());
-	}
 
 	@Override
 	public <R> void reduceEdgeNames(Node<NV> fromNode, 
@@ -124,26 +108,23 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue, EV extend
 	}
 
 	@Override
-	public <R> void reduceRootNodes(ResultNtro<R> result, NodeReducer<NV, R> reducer) {
+	public <R> void reduceStartNodes(ResultNtro<R> result, NodeReducer<NV, R> reducer) {
 		if(result.hasException()) {
 			return;
 		}
 
 		for(String nodeKey : nodes.keySet()) {
-			
-			if(!toNodes.contains(nodeKey)) {
-				
-				Node<NV> node = getNodes().get(nodeKey);
 
-				try {
+			Node<NV> node = getNodes().get(nodeKey);
 
-					result.registerValue(reducer.reduceNode(result.value(), node));
+			try {
 
-				} catch (Throwable e) {
+				result.registerValue(reducer.reduceNode(result.value(), node));
 
-					result.registerException(e);
-					return;
-				}
+			} catch (Throwable e) {
+
+				result.registerException(e);
+				return;
 			}
 		}
 	}

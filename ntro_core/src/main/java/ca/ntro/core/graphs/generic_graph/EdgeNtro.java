@@ -24,4 +24,27 @@ public class EdgeNtro<EV extends EdgeValue> implements Edge<EV> {
 		return value;
 	}
 
+	@SuppressWarnings("rawtypes")
+	@Override
+	public boolean equals(Object o) {
+		if(o == this) return true;
+		if(o == null) return false;
+		if(o instanceof NodeNtro) {
+			EdgeNtro e = (EdgeNtro) o;
+			
+			if(!(e.id == null ? id == null : e.id.equals(id))) {
+				return false;
+			}
+
+			if(!(e.value == null ? value == null : e.value.equals(value))) {
+				return false;
+			}
+			
+			return true;
+		}
+		
+		
+		return false;
+	}
+
 }

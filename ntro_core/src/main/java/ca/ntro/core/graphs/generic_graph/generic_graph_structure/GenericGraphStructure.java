@@ -21,7 +21,7 @@ public interface GenericGraphStructure<NV extends NodeValue, EV extends EdgeValu
 	void memorizeNode(Node<NV> node);
 	void memorizeEdge(Node<NV> from, Edge<EV> edge, Node<NV> to);
 
-	<R> void reduceRootNodes(ResultNtro<R> result, NodeReducer<NV, R> reducer);
+	<R> void reduceStartNodes(ResultNtro<R> result, NodeReducer<NV, R> reducer);
 
 	<R> void reduceEdgeNames(Node<NV> fromNode, Direction direction, ResultNtro<R> result, EdgeNameReducer<R> reducer);
 

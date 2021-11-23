@@ -107,12 +107,12 @@ public abstract class GenericGraphBuilderNtro<NV extends NodeValue,
 	protected abstract void detectCycleFrom(Node<NV> from);
 
 	@Override
-	protected <R> void _reduceRootNodes(ResultNtro<R> result, NodeReducer<NV, R> reducer) {
+	protected <R> void _reduceStartNodes(ResultNtro<R> result, NodeReducer<NV, R> reducer) {
 		if(result.hasException()) {
 			return;
 		}
 		
-		getGraphStructure().reduceRootNodes(result, reducer);
+		getGraphStructure().reduceStartNodes(result, reducer);
 	}
 
 	@Override

@@ -32,8 +32,8 @@ public interface GenericGraph<NV extends NodeValue, EV extends EdgeValue> {
 	Node<NV> findNode(NV nodeValue);
 	Node<NV> findNode(String rawNodeId);
 
-	void forEachRootNode(NodeVisitor<NV> visitor);
-	<R extends Object> Result<R> reduceRootNodes(R initialValue, NodeReducer<NV,R> reducer);
+	void forEachStartNode(NodeVisitor<NV> visitor);
+	<R extends Object> Result<R> reduceStartNodes(R initialValue, NodeReducer<NV,R> reducer);
 
 	void forEachNode(NodeVisitor<NV> visitor);
 	<R extends Object> Result<R> reduceNodes(R initialValue, NodeReducer<NV,R> reducer);
@@ -72,5 +72,4 @@ public interface GenericGraph<NV extends NodeValue, EV extends EdgeValue> {
 	<R extends Object> Result<R> reduceEdgeWalk(Node<NV> fromNode, Direction direction, EdgeWalk edgeWalk, R initialValue, EdgeWalkReducer<NV,EV,R> reducer);
 	
 	void write(GraphWriter writer);
-
 }

@@ -43,7 +43,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 
 	protected abstract SearchOptions defaultSearchOptions();
 
-	protected abstract <R> void _reduceRootNodes(ResultNtro<R> result, NodeReducer<NV, R> reducer);
+	protected abstract <R> void _reduceStartNodes(ResultNtro<R> result, NodeReducer<NV, R> reducer);
 
 	protected abstract <R> void _reduceNextEdgeNames(Node<NV> fromNode, Direction direction, ResultNtro<R> result, EdgeNameReducer<R> reducer);
 
@@ -95,8 +95,8 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 	}
 
 	@Override
-	public void forEachRootNode(NodeVisitor<NV> visitor) {
-		reduceRootNodes(null, (__, n) ->{
+	public void forEachStartNode(NodeVisitor<NV> visitor) {
+		reduceStartNodes(null, (__, n) ->{
 			
 			visitor.visitNode(n);
 			
@@ -107,11 +107,11 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 
 
 	@Override
-	public <R> Result<R> reduceRootNodes(R initialValue, NodeReducer<NV, R> reducer){
+	public <R> Result<R> reduceStartNodes(R initialValue, NodeReducer<NV, R> reducer){
 
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 		
-		_reduceRootNodes(result, reducer);
+		_reduceStartNodes(result, reducer);
 		
 		return result;
 	}
@@ -139,18 +139,30 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 
 	protected <R> void _reduceNodes(ResultNtro<R> result, NodeReducer<NV, R> reducer) {
 		
-		_reduceRootNodes(result, (__, rootNode) -> {
+		Set<String> visitedNodes = new HashSet<>();
+		
+		_reduceStartNodes(result, (__, startNode) -> {
+			if(visitedNodes.contains(startNode.id().toKey())) {
+				return result.value();
+			}
 			
+			visitedNodes.add(startNode.id().toKey());
+
 			try {
 			
-				result.registerValue(reducer.reduceNode(result.value(), rootNode));
+				result.registerValue(reducer.reduceNode(result.value(), startNode));
 
 			}catch(Throwable t) {
 				
 				result.registerException(t);
 			}
 
-			_reduceReachableNodes(rootNode, defaultSearchOptions(), result, (___, walkedEdges, n) ->{
+			_reduceReachableNodes(startNode, defaultSearchOptions(), result, (___, walkedEdges, n) ->{
+				if(visitedNodes.contains(n.id().toKey())) {
+					return result.value();
+				}
+				
+				visitedNodes.add(n.id().toKey());
 				
 				try {
 				
@@ -196,7 +208,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 		
 		Set<String> visitedEdges = new HashSet<>();
 
-		_reduceRootNodes(result, (__, n) -> {
+		_reduceStartNodes(result, (__, n) -> {
 
 			_reduceReachableEdges(n, defaultSearchOptions(), result, (___, walkedEdges, from, edge, to) -> {
 				
