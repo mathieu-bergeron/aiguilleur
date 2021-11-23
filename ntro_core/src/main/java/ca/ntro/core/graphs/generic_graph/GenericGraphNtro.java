@@ -125,7 +125,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 			
 			return null;
 
-		}).throwException();;
+		}).throwException();
 	}
 
 	@Override
@@ -161,10 +161,10 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 					result.registerException(t);
 				}
 
-				return null;
+				return result.value();
 			});
 			
-			return null;
+			return result.value();
 		});
 	}
 
@@ -176,7 +176,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 			
 			return null;
 
-		}).throwException();;
+		}).throwException();
 	}
 
 	@Override
@@ -214,10 +214,10 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 					visitedEdges.add(edge.id().toKey());
 				}
 				
-				return null;
+				return result.value();
 			});
 
-			return null;
+			return result.value();
 		});
 	}
 
@@ -234,7 +234,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 
 			return null;
 
-		}).throwException();;
+		}).throwException();
 	}
 
 	@Override
@@ -263,8 +263,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 				result.registerException(t);
 			}
 			
-			return null;
-
+			return result.value();
 		});
 	}
 
@@ -328,13 +327,13 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 				} catch(Throwable t) {
 					
 					result.registerException(t);
-					return null;
+					return result.value();
 				}
 
 				visitedNodes.add(to.id().toKey());
 			}
 			
-			return null;
+			return result.value();
 		});
 	}
 	
@@ -383,7 +382,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 
 				_reduceNextEdgesByName(fromNode, direction, edgeName, result, reducer);
 				
-				return null;
+				return result.value();
 			});
 		}
 	}
@@ -456,7 +455,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 				
 				_reduceNextEdgesByName(fromNode, direction, edgeName, result, (___, walkedEdges, from, edge, to) -> {
 					if(visitedEdges.contains(edge.id().toKey())) {
-						return null;
+						return result.value();
 					}
 
 					List<Edge<EV>> newWalkedEdges = new ArrayList<Edge<EV>>(walkedEdges);
@@ -464,7 +463,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 
 					if(options.maxDistance().hasValue() 
 							&& newWalkedEdges.size() > options.maxDistance().value()) {
-						return null;
+						return result.value();
 					}
 					
 					try {
@@ -474,17 +473,17 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 					}catch(Throwable t) {
 						
 						result.registerException(t);
-						return null;
+						return result.value();
 					}
 					
 					visitedEdges.add(edge.id().toKey());
 
 					_reduceReachableEdgesDepthFirst(to, options, visitedEdges, result, reducer);
 
-					return null;
+					return result.value();
 				});
 				
-				return null;
+				return result.value();
 			});
 		}
 	}
@@ -522,7 +521,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 
 			_reduceReachableEdgesBreadthFirst(to, options, oneStepOptions, visitedEdges, newWalkedEdges, result, reducer);
 			
-			return null;
+			return result.value();
 		});
 	}
 
@@ -601,7 +600,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 				
 			}
 			
-			return null;
+			return result.value();
 		});
 	}
 	
@@ -620,7 +619,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 	}
 	
 	protected Set<String> writeEdges(GraphWriter writer) {
-		
+
 		Set<String> unwrittenNodes = reduceNodes(new HashSet<String>(), (accumulator, n) -> {
 			
 			accumulator.add(n.id().toKey());

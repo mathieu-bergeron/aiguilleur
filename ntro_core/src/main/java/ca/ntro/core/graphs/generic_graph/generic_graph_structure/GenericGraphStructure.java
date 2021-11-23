@@ -12,8 +12,14 @@ import ca.ntro.core.wrappers.result.ResultNtro;
 
 public interface GenericGraphStructure<NV extends NodeValue, EV extends EdgeValue> {
 
+	boolean containsNode(Node<NV> node);
+	boolean containsEdge(Edge<EV> edge);
+
+	Node<NV> createNode(NV nodeValue);
+	Edge<EV> createEdge(Node<NV> from, EV edgeValue, Node<NV> to);
+
 	void memorizeNode(Node<NV> node);
-	Edge<EV> memorizeEdge(Node<NV> from, EV edgeValue, Node<NV> to);
+	void memorizeEdge(Node<NV> from, Edge<EV> edge, Node<NV> to);
 
 	<R> void reduceRootNodes(ResultNtro<R> result, NodeReducer<NV, R> reducer);
 

@@ -2,14 +2,17 @@ package ca.ntro.core.graphs.generic_graph;
 
 import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
+import ca.ntro.core.graphs.EdgeAlreadyAddedException;
 import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.GraphId;
 import ca.ntro.core.graphs.Node;
+import ca.ntro.core.graphs.NodeAlreadyAddedException;
 import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.NodeReducer;
 import ca.ntro.core.graphs.NodeValue;
 import ca.ntro.core.graphs.ReachableEdgeReducer;
 import ca.ntro.core.graphs.generic_graph.generic_graph_structure.GenericGraphStructure;
+import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class GenericGraphBuilderNtro<NV extends NodeValue, 
@@ -64,24 +67,37 @@ public abstract class GenericGraphBuilderNtro<NV extends NodeValue,
 	@Override
 	public Node<NV> addNode(NV nodeValue) {
 
-		NodeId nodeId = new NodeId(nodeValue.name().toKey());
-
-		Node<NV> node = new NodeNtro<>(nodeId, nodeValue);
+		Node<NV> node = getGraphStructure().createNode(nodeValue);
 		
-		addNode(node);
+		if(getGraphStructure().containsNode(node)) {
+
+			Ntro.exceptionThrower().throwException(new NodeAlreadyAddedException("NodeId already taken: " + node.id().toKey()));
+
+		}else {
+			
+			getGraphStructure().memorizeNode(node);
+
+		}
 
 		return node;
-	}
-
-	private void addNode(Node<NV> node) {
-		getGraphStructure().memorizeNode(node);
 	}
 
 	@Override
 	public Edge<EV> addEdge(Node<NV> from, EV edgeValue, Node<NV> to) {
 		getGraphStructure().memorizeNode(from);
+		getGraphStructure().memorizeNode(to);
 		
-		Edge<EV> edge = getGraphStructure().memorizeEdge(from, edgeValue, to);
+		Edge<EV> edge = getGraphStructure().createEdge(from, edgeValue, to);
+		
+		if(getGraphStructure().containsEdge(edge)) {
+
+			Ntro.exceptionThrower().throwException(new EdgeAlreadyAddedException("EdgeId already taken: " + edge.id().toKey()));
+			
+		}else {
+			
+			getGraphStructure().memorizeEdge(from, edge, to);
+			
+		}
 		
 		detectCycleFrom(from);
 		

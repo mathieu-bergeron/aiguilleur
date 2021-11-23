@@ -133,7 +133,7 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, Refe
 				}
 			}
 
-			return null;
+			return result.value();
 		});
 	}
 	

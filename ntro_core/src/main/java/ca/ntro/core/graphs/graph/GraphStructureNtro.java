@@ -27,7 +27,7 @@ public class        GraphStructureNtro<NV extends NodeValue, EV extends EdgeValu
 	}
 
 	@Override
-	protected void memorizeEdge(Node<NV> from, Edge<EV> edge, Node<NV> to) {
+	protected void memorizeDirectedEdge(Node<NV> from, Edge<EV> edge, Node<NV> to) {
 		if(from.id().toKey().compareTo(to.id().toKey()) < 0) {
 			
 			edgesForward.addEdge(from, edge, to);
@@ -39,7 +39,7 @@ public class        GraphStructureNtro<NV extends NodeValue, EV extends EdgeValu
 	}
 
 	@Override
-	protected EdgeId newEdgeId(Node<NV> from, EV edgeValue, Node<NV> to) {
+	protected EdgeId directedEdgeId(Node<NV> from, EV edgeValue, Node<NV> to) {
 		EdgeId edgeId = null;
 
 		if(from.id().toKey().compareTo(to.id().toKey()) < 0) {

@@ -21,7 +21,7 @@ import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.services.ExceptionThrowerMock;
 
 public class GraphTests {
-
+	
 	private static ExceptionThrowerMock exceptionThrower = new ExceptionThrowerMock();
 	
 	protected ExceptionThrowerMock exceptionThrower() {
@@ -35,7 +35,8 @@ public class GraphTests {
 	}
 
 	@Test
-	public void reachableEdgesDepthFirst01() {
+	public void reachableEdgesDepthFirst01() throws Throwable {
+		exceptionThrower.clear();
 
 		GraphBuilder<MockNodeValue, MockEdgeValue> builder = GraphBuilder.newBuilder("reachableEdgesDepthFirst01");
 
@@ -50,6 +51,7 @@ public class GraphTests {
 		Edge<MockEdgeValue> edgeAB = builder.addEdge(nodeA, edgeValueAB, nodeB);
 
 		Graph<MockNodeValue, MockEdgeValue> graph = builder.toGraph();
+		graph.write(Ntro.graphWriter());
 
 		SearchOptions oneStepOptions = new SearchOptionsNtro(SearchStrategy.DEPTH_FIRST_SEARCH, new Direction[] {Direction.FORWARD}, 1);
 		
@@ -61,11 +63,13 @@ public class GraphTests {
 		Ntro.asserter().assertTrue("Should contain", edges.contains(new EdgeTriple(nodeValueA, edgeValueAB, nodeValueB)));
 		Ntro.asserter().assertEquals(1, edges.size());
 		
-		graph.write(Ntro.graphWriter());
+		
+		exceptionThrower.throwLastException();
 	}
 
 	@Test
-	public void simpleGraph02() {
+	public void simpleGraph02() throws Throwable {
+		exceptionThrower.clear();
 		
 		GraphBuilder<MockNodeValue, MockEdgeValue> builder = GraphBuilder.newBuilder("simpleGraph02");
 
@@ -84,6 +88,7 @@ public class GraphTests {
 		Edge<MockEdgeValue> edgeBC = builder.addEdge(nodeB, edgeValueBC, nodeC);
 		
 		Graph<MockNodeValue, MockEdgeValue> graph = builder.toGraph();
+		graph.write(Ntro.graphWriter());
 
 		List<Node<MockNodeValue>> nodes = new ArrayList<>();
 		graph.forEachNode(n -> {
@@ -104,11 +109,13 @@ public class GraphTests {
 		Ntro.asserter().assertTrue("Should contain", edges.contains(edgeBC));
 		Ntro.asserter().assertEquals(2, edges.size());
 
-		graph.write(Ntro.graphWriter());
+
+		exceptionThrower.throwLastException();
 	}
 
 	@Test
 	public void nodeAlreadyAddedException() {
+		exceptionThrower.clear();
 
 		GraphBuilder<MockNodeValue, MockEdgeValue> builder = GraphBuilder.newBuilder();
 
@@ -123,6 +130,7 @@ public class GraphTests {
 
 	@Test
 	public void edgeAlreadyAddedException() {
+		exceptionThrower.clear();
 
 		GraphBuilder<MockNodeValue, MockEdgeValue> builder = GraphBuilder.newBuilder();
 
@@ -143,6 +151,7 @@ public class GraphTests {
 
 	@Test
 	public void edgeAlreadyAddedExceptionUndirected() {
+		exceptionThrower.clear();
 
 		GraphBuilder<MockNodeValue, MockEdgeValue> builder = GraphBuilder.newBuilder();
 

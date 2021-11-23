@@ -7,17 +7,15 @@ import java.util.Set;
 
 import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
-import ca.ntro.core.graphs.EdgeAlreadyAddedException;
 import ca.ntro.core.graphs.EdgeId;
 import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.Node;
-import ca.ntro.core.graphs.NodeAlreadyAddedException;
+import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.NodeReducer;
 import ca.ntro.core.graphs.NodeValue;
 import ca.ntro.core.graphs.ReachableEdgeReducer;
 import ca.ntro.core.graphs.generic_graph.generic_graph_structure.EdgesForFromNode;
 import ca.ntro.core.graphs.generic_graph.generic_graph_structure.GenericGraphStructure;
-import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class  GenericGraphStructureNtro<NV extends NodeValue, EV extends EdgeValue> 
@@ -54,23 +52,26 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue, EV extend
 	protected abstract EdgesForFromNode<NV,EV> edgesByDirection(Direction direction);
 
 	@Override
-	public Edge<EV> memorizeEdge(Node<NV> from, EV edgeValue, Node<NV> to) {
+	public Edge<EV> createEdge(Node<NV> from, EV edgeValue, Node<NV> to) {
 		addToNode(to);
 		
-		EdgeId edgeId = newEdgeId(from, edgeValue, to);
+		EdgeId edgeId = directedEdgeId(from, edgeValue, to);
 		
 		Edge<EV> edge = new EdgeNtro<EV>(edgeId, edgeValue);
 
-		addEdge(edge);
-
-		memorizeEdge(from, edge, to);
-		
 		return edge;
 	}
 
-	protected abstract EdgeId newEdgeId(Node<NV> from, EV edgeValue, Node<NV> to);
+	protected abstract EdgeId directedEdgeId(Node<NV> from, EV edgeValue, Node<NV> to);
 	
-	protected abstract void memorizeEdge(Node<NV> from, Edge<EV> edge, Node<NV> to);
+	@Override
+	public void memorizeEdge(Node<NV> from, Edge<EV> edge, Node<NV> to) {
+		getEdges().put(edge.id().toKey(), edge);
+
+		memorizeDirectedEdge(from, edge, to);
+	}
+
+	protected abstract void memorizeDirectedEdge(Node<NV> from, Edge<EV> edge, Node<NV> to);
 
 	private void addToNode(Node<NV> to) {
 		getToNodes().add(to.id().toKey());
@@ -113,22 +114,13 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue, EV extend
 
 	@Override
 	public void memorizeNode(Node<NV> node) {
+		getNodes().put(node.id().toKey(), node);
 		if(getNodes().containsKey(node.id().toKey())) {
 
-			Ntro.exceptionThrower().throwException(new NodeAlreadyAddedException("NodeId already taken: " + node.id().toKey()));
 
 		}else {
 			
-			getNodes().put(node.id().toKey(), node);
 		}
-	}
-
-	private void addEdge(Edge<EV> edge) {
-		if(getEdges().containsKey(edge.id().toKey())) {
-			Ntro.exceptionThrower().throwException(new EdgeAlreadyAddedException("EdgeId already taken: " + edge.id().toKey()));
-		}
-
-		getEdges().put(edge.id().toKey(), edge);
 	}
 
 	@Override
@@ -154,5 +146,25 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue, EV extend
 				}
 			}
 		}
+	}
+
+	@Override
+	public boolean containsNode(Node<NV> node) {
+		return getNodes().containsKey(node.id().toKey());
+	}
+
+	@Override
+	public boolean containsEdge(Edge<EV> edge) {
+		return getEdges().containsKey(edge.id().toKey());
+	}
+
+	@Override
+	public Node<NV> createNode(NV nodeValue) {
+
+		NodeId nodeId = new NodeId(nodeValue.name().toKey());
+
+		Node<NV> node = new NodeNtro<>(nodeId, nodeValue);
+		
+		return node;
 	}
 }

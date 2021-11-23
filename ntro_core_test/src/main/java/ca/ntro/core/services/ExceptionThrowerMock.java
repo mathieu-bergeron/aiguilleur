@@ -6,12 +6,12 @@ import java.util.Set;
 public class ExceptionThrowerMock implements ExceptionThrower {
 	
 	private Set<String> thrown = new HashSet<>();
-	private Throwable exception;
+	private Throwable lastException;
 
 	@Override
 	public void throwException(Throwable t) {
 		thrown.add(t.getClass().getName());
-		exception = t;
+		lastException = t;
 	}
 	
 	public boolean wasThrown(Class<? extends Throwable> _class) {
@@ -24,6 +24,7 @@ public class ExceptionThrowerMock implements ExceptionThrower {
 
 	public void clear() {
 		thrown.clear();
+		lastException = null;
 	}
 
 	@Override
@@ -32,17 +33,17 @@ public class ExceptionThrowerMock implements ExceptionThrower {
 
 	@Override
 	public void exitCatchingMode() {
-		thrown.clear();
+		clear();
 	}
 
 	@Override
 	public boolean hasException() {
-		return exception != null;
+		return lastException != null;
 	}
 
 	@Override
 	public Throwable exception() {
-		return exception;
+		return lastException;
 	}
 	
 	@Override
@@ -56,7 +57,7 @@ public class ExceptionThrowerMock implements ExceptionThrower {
 		return builder.toString();
 	}
 
-	public void throwException() throws Throwable {
+	public void throwLastException() throws Throwable {
 		if(hasException()) {
 			throw exception();
 		}

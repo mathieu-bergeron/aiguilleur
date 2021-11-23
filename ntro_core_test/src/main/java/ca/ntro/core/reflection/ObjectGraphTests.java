@@ -30,6 +30,7 @@ public class ObjectGraphTests {
 		TestObject01 o = new TestObject01();
 		
 		ObjectGraph graph = Ntro.reflectionService().objectGraph(o);
+		graph.write(Ntro.graphWriter());
 		
 		List<Object> rootValues = new ArrayList<>();
 
@@ -37,7 +38,7 @@ public class ObjectGraphTests {
 			rootValues.add(n.value().object());
 		});
 
-		exceptionThrower.throwException();
+		exceptionThrower.throwLastException();
 		
 		Ntro.asserter().assertTrue("Should contain " + o, rootValues.contains(o));
 		Ntro.asserter().assertEquals(1, rootValues.size());
@@ -48,11 +49,12 @@ public class ObjectGraphTests {
 			subValues.add(n.value().object());
 		});
 
-		exceptionThrower.throwException();
+		exceptionThrower.throwLastException();
 		
 		Ntro.asserter().assertTrue("Should contain " + o, subValues.contains(o));
 		Ntro.asserter().assertTrue("Should contain " + o.getAttribute01(), subValues.contains(o.getAttribute01()));
 		Ntro.asserter().assertEquals(2, subValues.size());
+		
 	}
 
 	@Test
@@ -61,6 +63,7 @@ public class ObjectGraphTests {
 		TestObject02 o = new TestObject02();
 		
 		ObjectGraph graph = Ntro.reflectionService().objectGraph(o);
+		graph.write(Ntro.graphWriter());
 		
 		List<Object> subValues = new ArrayList<>();
 
@@ -69,12 +72,13 @@ public class ObjectGraphTests {
 			subValues.add(n.value().object());
 		});
 
-		exceptionThrower.throwException();
+		exceptionThrower.throwLastException();
 		
 		Ntro.asserter().assertEquals(3, subValues.size());
 		Ntro.asserter().assertTrue("Should contain", subValues.contains(o));
 		Ntro.asserter().assertTrue("Should contain", subValues.contains(o.getTestObject01()));
 		Ntro.asserter().assertTrue("Should contain", subValues.contains(o.getTestObject01().getAttribute01()));
+
 	}
 
 	@Test
@@ -83,6 +87,7 @@ public class ObjectGraphTests {
 		TestObjectCycle o = new TestObjectCycle();
 		
 		ObjectGraph graph = Ntro.reflectionService().objectGraph(o);
+		graph.write(Ntro.graphWriter());
 		
 		List<Object> subValues = new ArrayList<>();
 
@@ -91,10 +96,11 @@ public class ObjectGraphTests {
 			subValues.add(n.value().object());
 		});
 		
-		exceptionThrower.throwException();
+		exceptionThrower.throwLastException();
 
 		Ntro.asserter().assertEquals(1, subValues.size());
 		Ntro.asserter().assertTrue("Should contain", subValues.contains(o));
+
 	}
 
 }
