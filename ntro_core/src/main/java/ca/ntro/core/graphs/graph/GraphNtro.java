@@ -3,6 +3,7 @@ package ca.ntro.core.graphs.graph;
 import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeValue;
+import ca.ntro.core.graphs.SearchOptionsNtro;
 import ca.ntro.core.graphs.generic_graph.GenericGraphBuilderNtro;
 
 public class      GraphNtro<NV extends NodeValue, EV extends EdgeValue> 
@@ -24,8 +25,8 @@ public class      GraphNtro<NV extends NodeValue, EV extends EdgeValue>
 	}
 
 	@Override
-	protected GraphSearchOptions defaultSearchOptions() {
-		return new GraphSearchOptions();
+	protected SearchOptionsNtro defaultSearchOptions() {
+		return new SearchOptionsNtro();
 	}
 
 	@Override

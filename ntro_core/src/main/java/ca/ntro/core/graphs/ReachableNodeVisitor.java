@@ -6,6 +6,6 @@ import ca.ntro.core.exceptions.Break;
 
 public interface ReachableNodeVisitor<NV extends NodeValue, EV extends EdgeValue> {
 
-	void visitReachableNode(List<Edge<EV>> edgeWalked, Node<NV> n) throws Break;
+	void visitReachableNode(List<Edge<EV>> walkedEdges, Node<NV> n) throws Break;
 
 }

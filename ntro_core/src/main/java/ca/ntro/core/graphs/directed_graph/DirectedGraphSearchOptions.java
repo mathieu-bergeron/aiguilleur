@@ -2,10 +2,10 @@ package ca.ntro.core.graphs.directed_graph;
 
 import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.SearchOptions;
+import ca.ntro.core.graphs.SearchOptionsNtro;
 import ca.ntro.core.graphs.SearchStrategy;
-import ca.ntro.core.graphs.graph.GraphSearchOptions;
 
-public class DirectedGraphSearchOptions extends GraphSearchOptions implements SearchOptions {
+public class DirectedGraphSearchOptions extends SearchOptionsNtro implements SearchOptions {
 
 	@Override
 	protected Direction[] defaultDirections() {

@@ -1,6 +1,8 @@
 package ca.ntro.core.graphs.generic_graph;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import ca.ntro.core.exceptions.Break;
@@ -22,9 +24,11 @@ import ca.ntro.core.graphs.ReachableEdgeVisitor;
 import ca.ntro.core.graphs.ReachableNodeReducer;
 import ca.ntro.core.graphs.ReachableNodeVisitor;
 import ca.ntro.core.graphs.SearchOptions;
+import ca.ntro.core.graphs.SearchOptionsNtro;
 import ca.ntro.core.path.EdgeWalk;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
+import ca.ntro.core.graphs.Edge;
 
 public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValue>
        implements     GenericGraph<NV,EV> {
@@ -136,7 +140,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 			
 			result.registerValue(reducer.reduceNode(result.value(), rootNode));
 			
-			_reduceReachableNodes(rootNode, result, (___, walkedEdges, n) ->{
+			_reduceReachableNodes(rootNode, defaultSearchOptions(), result, (___, walkedEdges, n) ->{
 				
 				result.registerValue(reducer.reduceNode(result.value(), n));
 
@@ -178,7 +182,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 
 		_reduceRootNodes(result, (__, n) -> {
 
-			_reduceReachableEdges(result, n, (___, walkedEdges, from, edge, to) -> {
+			_reduceReachableEdges(n, defaultSearchOptions(), result, (___, walkedEdges, from, edge, to) -> {
 				
 				if(!visitedEdges.contains(edge.id().toKey())) {
 
@@ -195,42 +199,100 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 
 	@Override
 	public void forEachNextNode(Node<NV> fromNode, ReachableNodeVisitor<NV, EV> visitor) {
-		// TODO Auto-generated method stub
-		
+		forEachNextNode(fromNode, defaultSearchOptions(), visitor);
+	}
+
+	@Override
+	public void forEachNextNode(Node<NV> fromNode, SearchOptions options, ReachableNodeVisitor<NV, EV> visitor) {
+		reduceNextNodes(fromNode, options, null, (accumulator, walkedEdges, n) -> {
+
+			visitor.visitReachableNode(walkedEdges, fromNode);
+
+			return null;
+		});
 	}
 
 	@Override
 	public <R> Result<R> reduceNextNodes(Node<NV> fromNode, R initialValue, ReachableNodeReducer<NV, EV, R> reducer) {
-		// TODO Auto-generated method stub
-		return null;
+		return reduceNextNodes(fromNode, defaultSearchOptions(), initialValue, reducer);
+	}
+
+	@Override
+	public <R> Result<R> reduceNextNodes(Node<NV> fromNode, SearchOptions options, R initialValue, ReachableNodeReducer<NV, EV, R> reducer) {
+		ResultNtro<R> result = new ResultNtro<R>(initialValue);
+		
+		_reduceNextNodes(fromNode, options, result, reducer);
+
+		return result;
+	}
+
+	protected <R> void _reduceNextNodes(Node<NV> fromNode, SearchOptions options, ResultNtro<R> result, ReachableNodeReducer<NV, EV, R> reducer) {
+		_reduceNextEdges(fromNode, options, result, (accumulator, walkedEdges, from, edge, to) -> {
+
+			result.registerValue(reducer.reduceReachableNode(result.value(), walkedEdges, to));
+			
+			return null;
+
+		});
 	}
 
 	@Override
 	public void forEachReachableNode(Node<NV> fromNode, ReachableNodeVisitor<NV, EV> visitor) {
-		// TODO Auto-generated method stub
-		
+		forEachReachableNode(fromNode, defaultSearchOptions(), visitor);
 	}
 
 	@Override
 	public void forEachReachableNode(Node<NV> fromNode, SearchOptions options, ReachableNodeVisitor<NV, EV> visitor) {
-		// TODO Auto-generated method stub
+		reduceReachableNodes(fromNode, options, null, (accumulator, walkedEdges, n) -> {
+
+			visitor.visitReachableNode(walkedEdges, n);
+			
+			return null;
+		});
+	}
+
+	@Override
+	public <R> Result<R> reduceReachableNodes(Node<NV> fromNode, 
+			                                  R initialValue, 
+			                                  ReachableNodeReducer<NV, EV, R> reducer) {
 		
+		return reduceReachableNodes(fromNode, defaultSearchOptions(), initialValue, reducer);
 	}
 
 	@Override
-	public <R> Result<R> reduceReachableNodes(Node<NV> fromNode, R initialValue, ReachableNodeReducer<NV, EV, R> reducer) {
-		// TODO Auto-generated method stub
-		return null;
+	public <R> Result<R> reduceReachableNodes(Node<NV> fromNode, 
+			                                  SearchOptions options, 
+			                                  R initialValue, 
+			                                  ReachableNodeReducer<NV, EV, R> reducer) {
+		
+		ResultNtro<R> result = new ResultNtro<R>(initialValue);
+		
+		_reduceReachableNodes(fromNode, options, result, reducer);
+		
+		
+		return result;
 	}
 
-	protected <R> void _reduceReachableNodes(Node<NV> fromNode, ResultNtro<R> result, ReachableNodeReducer<NV, EV, R> reducer) {
-	}
+	protected <R> void _reduceReachableNodes(Node<NV> fromNode, 
+			                                 SearchOptions options, 
+			                                 ResultNtro<R> result, 
+			                                 ReachableNodeReducer<NV, EV, R> reducer) {
 
-	@Override
-	public <R> Result<R> reduceReachableNodes(Node<NV> fromNode, SearchOptions options, R initialValue,
-			ReachableNodeReducer<NV, EV, R> reducer) {
-		// TODO Auto-generated method stub
-		return null;
+		if(result.hasException()) {
+			return;
+		}
+		
+		Set<String> visitedNodes = new HashSet<>();
+		
+		_reduceReachableEdges(fromNode, options, result, (accumulator, walkedEdges, from, edge, to) -> {
+			
+			if(!visitedNodes.contains(to.id().toKey())) {
+				reducer.reduceReachableNode(accumulator, walkedEdges, to);
+				visitedNodes.add(to.id().toKey());
+			}
+			
+			return null;
+		});
 	}
 	
 
@@ -241,81 +303,192 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 
 	@Override
 	public void forEachNextEdge(Node<NV> fromNode, SearchOptions options, ReachableEdgeVisitor<NV, EV> visitor) {
-		// TODO Auto-generated method stub
-		
+
+		reduceNextEdges(fromNode, options, null, (accumulator, walkedEdges, from, edge, to) -> {
+
+			visitor.visitReachableEdge(walkedEdges, fromNode, edge, to);
+
+			return null;
+		});
 	}
 
 	@Override
 	public <R> Result<R> reduceNextEdges(Node<NV> fromNode, R initialValue, ReachableEdgeReducer<NV, EV, R> reducer){
-		return null;
+		return reduceNextEdges(fromNode, defaultSearchOptions(), initialValue, reducer);
 	}
 
 	@Override
 	public <R> Result<R> reduceNextEdges(Node<NV> fromNode, SearchOptions options, R initialValue, ReachableEdgeReducer<NV, EV, R> reducer){
-		return null;
+		
+		ResultNtro<R> result = new ResultNtro<R>(initialValue);
+		
+		_reduceNextEdges(fromNode, options, result, reducer);
+		
+		return result;
 	}
 
-	protected <R> void _reduceNextEdges(Node<NV> fromNode, Direction direction, ResultNtro<R> result, ReachableEdgeReducer<NV, EV, R> reducer) {
-		_reduceNextEdgeNames(fromNode, direction, result, (__, edgeName) -> {
+	protected <R> void _reduceNextEdges(Node<NV> fromNode, SearchOptions options, ResultNtro<R> result, ReachableEdgeReducer<NV, EV, R> reducer) {
+		
+		for(Direction direction : options.searchDirections()) {
+			
+			if(result.hasException()) {
+				return;
+			}
 
-			_reduceNextEdgesByName(fromNode, direction, edgeName, result, reducer);
+			_reduceNextEdgeNames(fromNode, direction, result, (__, edgeName) -> {
+
+				_reduceNextEdgesByName(fromNode, direction, edgeName, result, reducer);
+				
+				return null;
+			});
+		}
+	}
+
+
+	@Override
+	public void forEachReachableEdge(Node<NV> fromNode, ReachableEdgeVisitor<NV, EV> visitor) {
+		forEachReachableEdge(fromNode, defaultSearchOptions(), visitor);
+	}
+
+	@Override
+	public void forEachReachableEdge(Node<NV> fromNode, SearchOptions options, ReachableEdgeVisitor<NV, EV> visitor) {
+		reduceReachableEdges(fromNode, options, null, (accumulator, walkedEdges, from, edge, to) -> {
+			
+			visitor.visitReachableEdge(walkedEdges, fromNode, edge, to);
+
+			return null;
+		});
+	}
+
+	@Override
+	public <R> Result<R> reduceReachableEdges(Node<NV> fromNode, R initialValue, ReachableEdgeReducer<NV, EV, R> reducer) {
+		
+		return reduceReachableEdges(fromNode, defaultSearchOptions(), initialValue, reducer);
+	}
+
+
+	@Override
+	public <R> Result<R> reduceReachableEdges(Node<NV> fromNode, 
+			                                  SearchOptions options, 
+			                                  R initialValue, 
+			                                  ReachableEdgeReducer<NV, EV, R> reducer) {
+
+		ResultNtro<R> result = new ResultNtro<R>(initialValue);
+
+		_reduceReachableEdges(fromNode, options, result, reducer);
+		
+		return result;
+	}
+
+	protected <R> void _reduceReachableEdges(Node<NV> fromNode, 
+			                                 SearchOptions options, 
+			                                 ResultNtro<R> result, 
+			                                 ReachableEdgeReducer<NV, EV, R> reducer) {
+		
+		Set<String> visitedEdges = new HashSet<>();
+		
+		for(Direction direction : options.searchDirections()) {
+			
+			if(result.hasException()) {
+				return;
+			}
+
+			_reduceNextEdgeNames(fromNode, direction, result, (__, edgeName) -> {
+				
+				_reduceNextEdgesByName(fromNode, direction, edgeName, result, (___, walkedEdges, from, edge, to) -> {
+					
+					if(visitedEdges.contains(edge.id().toKey())) {
+						
+						List<Edge<EV>> newWalkedEdges = new ArrayList<Edge<EV>>(walkedEdges);
+						newWalkedEdges.add(edge);
+						
+						result.registerValue(reducer.reduceReachableEdge(result.value(), newWalkedEdges, fromNode, edge, to));
+						
+						visitedEdges.add(edge.id().toKey());
+					}
+
+					return null;
+				});
+				
+				return null;
+			});
+		}
+	}
+
+	@Override
+	public void visitEdgeWalk(Node<NV> fromNode, EdgeWalk edgeWalk, EdgeWalkVisitor<NV, EV> visitor) {
+		visitEdgeWalk(fromNode, defaultSearchOptions().searchDirections()[0], edgeWalk, visitor);
+	}
+
+	@Override
+	public void visitEdgeWalk(Node<NV> fromNode, Direction direction, EdgeWalk edgeWalk, EdgeWalkVisitor<NV, EV> visitor) {
+		reduceEdgeWalk(fromNode, direction, edgeWalk, null, (accumulator, walkedEdges, remainingEdgeWalk, n) -> {
+			
+			visitor.visitEdgeWalk(walkedEdges, remainingEdgeWalk, n);
 			
 			return null;
 		});
 	}
 
 	@Override
-	public void forEachReachableEdge(Node<NV> fromNode, ReachableEdgeVisitor<NV, EV> visitor) {
-		// TODO Auto-generated method stub
+	public <R> Result<R> reduceEdgeWalk(Node<NV> fromNode, 
+			                            EdgeWalk edgeWalk, 
+			                            R initialValue, 
+			                            EdgeWalkReducer<NV, EV, R> reducer) {
 		
+		return reduceEdgeWalk(fromNode, 
+				              defaultSearchOptions().walkDirection(), 
+				              edgeWalk, 
+				              initialValue, 
+				              reducer);
 	}
 
 	@Override
-	public void forEachReachableEdge(Node<NV> fromNode, SearchOptions options, ReachableEdgeVisitor<NV, EV> visitor) {
-		// TODO Auto-generated method stub
+	public <R> Result<R> reduceEdgeWalk(Node<NV> fromNode, 
+			                            Direction direction, 
+			                            EdgeWalk edgeWalk, 
+			                            R initialValue, 
+			                            EdgeWalkReducer<NV, EV, R> reducer) {
 		
-	}
-
-	@Override
-	public <R> Result<R> reduceReachableEdges(Node<NV> fromNode, R initialValue, ReachableEdgeReducer<NV, EV, R> reducer) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	protected <R> void _reduceReachableEdges(Node<NV> fromNode, ResultNtro<R> value, ReachableEdgeReducer<NV, EV, R> reducer) {
-
-	}
-
-	@Override
-	public <R> Result<R> reduceReachableEdges(Node<NV> fromNode, SearchOptions options, R initialValue,
-			ReachableEdgeReducer<NV, EV, R> reducer) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void visitEdgeWalk(Node<NV> fromNode, EdgeWalk edgeWalk, EdgeWalkVisitor<NV, EV> visitor) {
-		// TODO Auto-generated method stub
+		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 		
+		_reduceEdgeWalk(fromNode, direction, edgeWalk, result, reducer);
+
+		return result;
 	}
 
-	@Override
-	public void visitEdgeWalk(Node<NV> fromNode, Direction direction, EdgeWalk edgeWalk, EdgeWalkVisitor<NV, EV> visitor) {
-		// TODO Auto-generated method stub
+	protected <R> void _reduceEdgeWalk(Node<NV> fromNode, 
+			                           Direction direction, 
+			                           EdgeWalk edgeWalk, 
+			                           ResultNtro<R> result, 
+			                           EdgeWalkReducer<NV, EV, R> reducer) {
 		
-	}
+		if(result.hasException()) {
+			return;
+		}
+		
+		if(edgeWalk.isRootPath()) {
+			return;
+		}
+		
+		String nextEdgeName = edgeWalk.name(0);
+		EdgeWalk remainingEdgeWalk = edgeWalk.subPath(0);
+		
+		_reduceNextEdgesByName(fromNode, direction, nextEdgeName, result, (__, walkedEdges, from, edge, to) -> {
 
-	@Override
-	public <R> Result<R> reduceEdgeWalk(Node<NV> fromNode, EdgeWalk edgeWalk, R initialValue,
-			EdgeWalkReducer<NV, EV, R> reducer) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+			try {
 
-	@Override
-	public <R> Result<R> reduceEdgeWalk(Node<NV> fromNode, Direction direction, EdgeWalk edgeWalk, R initialValue,
-			EdgeWalkReducer<NV, EV, R> reducer) {
-		// TODO Auto-generated method stub
-		return null;
+				result.registerValue(reducer.reduceEdgeWalk(result.value(), walkedEdges, remainingEdgeWalk, to));
+				
+				_reduceEdgeWalk(to, direction, remainingEdgeWalk, result, reducer);
+
+			}catch(Throwable t) {
+				
+				result.registerException(t);
+				
+			}
+			
+			return null;
+		});
 	}
 }
