@@ -46,6 +46,10 @@ public class EdgesForFromNode<NV extends NodeValue, EV extends EdgeValue> {
 			                          ResultNtro<R> result, 
 			                          ReachableEdgeReducer<NV, EV, R> reducer) {
 
+		EdgesForEdgeName<NV,EV> nextEdges = edges.get(fromNode.id().toKey());
+		
+		nextEdges.reduceEdgesByName(fromNode, edgeName, result, reducer);
+
 	}
 
 }

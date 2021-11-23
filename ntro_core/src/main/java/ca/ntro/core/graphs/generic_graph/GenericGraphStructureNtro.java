@@ -150,7 +150,7 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue, EV extend
 				} catch (Throwable e) {
 
 					result.registerException(e);
-					break;
+					return;
 				}
 			}
 		}

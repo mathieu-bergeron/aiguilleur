@@ -1,5 +1,8 @@
 package ca.ntro.core.graphs.tests;
 
+import ca.ntro.core.graphs.Edge;
+import ca.ntro.core.graphs.Node;
+
 public class EdgeTriple {
 	
 	private MockNodeValue from;

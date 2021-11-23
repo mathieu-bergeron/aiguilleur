@@ -25,6 +25,7 @@ import ca.ntro.core.graphs.ReachableNodeReducer;
 import ca.ntro.core.graphs.ReachableNodeVisitor;
 import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.graphs.SearchOptionsNtro;
+import ca.ntro.core.graphs.SearchStrategy;
 import ca.ntro.core.path.EdgeWalk;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
@@ -138,19 +139,31 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 
 		_reduceRootNodes(result, (__, rootNode) -> {
 			
-			result.registerValue(reducer.reduceNode(result.value(), rootNode));
+			try {
 			
+				result.registerValue(reducer.reduceNode(result.value(), rootNode));
+
+			}catch(Throwable t) {
+				
+				result.registerException(t);
+			}
+
 			_reduceReachableNodes(rootNode, defaultSearchOptions(), result, (___, walkedEdges, n) ->{
 				
-				result.registerValue(reducer.reduceNode(result.value(), n));
+				try {
+				
+					result.registerValue(reducer.reduceNode(result.value(), n));
+
+				}catch(Throwable t) {
+					
+					result.registerException(t);
+				}
 
 				return null;
 			});
 			
 			return null;
 		});
-		
-		result.throwException();
 	}
 
 	@Override
@@ -185,8 +198,16 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 			_reduceReachableEdges(n, defaultSearchOptions(), result, (___, walkedEdges, from, edge, to) -> {
 				
 				if(!visitedEdges.contains(edge.id().toKey())) {
+					
+					try {
 
-					result.registerValue(reducer.reduceEdge(result.value(), from, edge, to));
+						result.registerValue(reducer.reduceEdge(result.value(), from, edge, to));
+
+					}catch(Throwable t) {
+						
+						result.registerException(t);
+					}
+					
 					visitedEdges.add(edge.id().toKey());
 				}
 				
@@ -228,8 +249,15 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 
 	protected <R> void _reduceNextNodes(Node<NV> fromNode, SearchOptions options, ResultNtro<R> result, ReachableNodeReducer<NV, EV, R> reducer) {
 		_reduceNextEdges(fromNode, options, result, (accumulator, walkedEdges, from, edge, to) -> {
+			
+			try {
 
-			result.registerValue(reducer.reduceReachableNode(result.value(), walkedEdges, to));
+				result.registerValue(reducer.reduceReachableNode(result.value(), walkedEdges, to));
+
+			}catch(Throwable t) {
+				
+				result.registerException(t);
+			}
 			
 			return null;
 
@@ -284,10 +312,20 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 		
 		Set<String> visitedNodes = new HashSet<>();
 		
-		_reduceReachableEdges(fromNode, options, result, (accumulator, walkedEdges, from, edge, to) -> {
+		_reduceReachableEdges(fromNode, options, result, (__, walkedEdges, from, edge, to) -> {
 			
 			if(!visitedNodes.contains(to.id().toKey())) {
-				reducer.reduceReachableNode(accumulator, walkedEdges, to);
+				
+				try {
+					
+					result.registerValue(reducer.reduceReachableNode(result.value(), walkedEdges, to));
+
+				} catch(Throwable t) {
+					
+					result.registerException(t);
+					return null;
+				}
+
 				visitedNodes.add(to.id().toKey());
 			}
 			
@@ -385,7 +423,21 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 			                                 ResultNtro<R> result, 
 			                                 ReachableEdgeReducer<NV, EV, R> reducer) {
 		
-		Set<String> visitedEdges = new HashSet<>();
+		if(options.searchStrategy() == SearchStrategy.DEPTH_FIRST_SEARCH) {
+
+			_reduceReachableEdgesDepthFirst(fromNode, options, new HashSet<>(), result, reducer);
+
+		}else {
+
+			_reduceReachableEdgesBreadthFirst(fromNode, options, new HashSet<>(), result, reducer);
+		}
+	}
+
+	protected <R> void _reduceReachableEdgesDepthFirst(Node<NV> fromNode, 
+			                                           SearchOptions options, 
+			                                           Set<String> visitedEdges,
+			                                           ResultNtro<R> result, 
+			                                           ReachableEdgeReducer<NV, EV, R> reducer) {
 		
 		for(Direction direction : options.searchDirections()) {
 			
@@ -396,16 +448,31 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 			_reduceNextEdgeNames(fromNode, direction, result, (__, edgeName) -> {
 				
 				_reduceNextEdgesByName(fromNode, direction, edgeName, result, (___, walkedEdges, from, edge, to) -> {
-					
 					if(visitedEdges.contains(edge.id().toKey())) {
-						
-						List<Edge<EV>> newWalkedEdges = new ArrayList<Edge<EV>>(walkedEdges);
-						newWalkedEdges.add(edge);
-						
-						result.registerValue(reducer.reduceReachableEdge(result.value(), newWalkedEdges, fromNode, edge, to));
-						
-						visitedEdges.add(edge.id().toKey());
+						return null;
 					}
+
+					List<Edge<EV>> newWalkedEdges = new ArrayList<Edge<EV>>(walkedEdges);
+					newWalkedEdges.add(edge);
+
+					if(options.maxDistance().hasValue() 
+							&& newWalkedEdges.size() > options.maxDistance().value()) {
+						return null;
+					}
+					
+					try {
+					
+						result.registerValue(reducer.reduceReachableEdge(result.value(), newWalkedEdges, from, edge, to));
+
+					}catch(Throwable t) {
+						
+						result.registerException(t);
+						return null;
+					}
+					
+					visitedEdges.add(edge.id().toKey());
+
+					_reduceReachableEdgesDepthFirst(to, options, visitedEdges, result, reducer);
 
 					return null;
 				});
@@ -413,6 +480,43 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 				return null;
 			});
 		}
+	}
+
+	protected <R> void _reduceReachableEdgesBreadthFirst(Node<NV> fromNode, 
+			                                             SearchOptions options, 
+			                                             Set<String> visitedEdges,
+			                                             ResultNtro<R> result, 
+			                                             ReachableEdgeReducer<NV, EV, R> reducer) {
+		
+		SearchOptions oneStepOptions = new SearchOptionsNtro(options.searchDirections(), 1);
+		
+		_reduceReachableEdgesBreadthFirst(fromNode, options, oneStepOptions, visitedEdges, new ArrayList<>(), result, reducer);
+	}
+
+	protected <R> void _reduceReachableEdgesBreadthFirst(Node<NV> fromNode, 
+			                                             SearchOptions options, 
+			                                             SearchOptions oneStepOptions,
+			                                             Set<String> visitedEdges,
+			                                             List<Edge<EV>> walkedEdges,
+			                                             ResultNtro<R> result, 
+			                                             ReachableEdgeReducer<NV, EV, R> reducer) {
+
+		if(options.maxDistance().hasValue() 
+				&& walkedEdges.size() + 1 > options.maxDistance().value()) {
+			return;
+		}
+
+		_reduceReachableEdgesDepthFirst(fromNode, oneStepOptions, visitedEdges, result, reducer);
+
+		_reduceReachableEdgesDepthFirst(fromNode, oneStepOptions, visitedEdges, result, (__, ___, from, edge, to) -> {
+
+			List<Edge<EV>> newWalkedEdges = new ArrayList<Edge<EV>>(walkedEdges);
+			newWalkedEdges.add(edge);
+
+			_reduceReachableEdgesBreadthFirst(to, options, oneStepOptions, visitedEdges, newWalkedEdges, result, reducer);
+			
+			return null;
+		});
 	}
 
 	@Override

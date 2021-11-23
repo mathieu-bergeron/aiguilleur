@@ -6,10 +6,14 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeAlreadyAddedException;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeAlreadyAddedException;
+import ca.ntro.core.graphs.SearchOptions;
+import ca.ntro.core.graphs.SearchOptionsNtro;
+import ca.ntro.core.graphs.SearchStrategy;
 import ca.ntro.core.graphs.graph.Graph;
 import ca.ntro.core.graphs.graph.GraphBuilder;
 import ca.ntro.core.initialization.InitializerTest;
@@ -31,7 +35,37 @@ public class GraphTests {
 	}
 
 	@Test
-	public void simpleGraph01() {
+	public void reachableEdgesDepthFirst01() {
+
+		GraphBuilder<MockNodeValue, MockEdgeValue> builder = GraphBuilder.newBuilder();
+
+		MockNodeValue nodeValueA = new MockNodeValue("A");
+		MockNodeValue nodeValueB = new MockNodeValue("B");
+
+		MockEdgeValue edgeValueAB = new MockEdgeValue("AB");
+		
+		Node<MockNodeValue> nodeA = builder.addNode(nodeValueA);
+		Node<MockNodeValue> nodeB = builder.addNode(nodeValueB);
+		
+		Edge<MockEdgeValue> edgeAB = builder.addEdge(nodeA, edgeValueAB, nodeB);
+
+		Graph<MockNodeValue, MockEdgeValue> graph = builder.toGraph();
+
+		SearchOptions oneStepOptions = new SearchOptionsNtro(SearchStrategy.DEPTH_FIRST_SEARCH, new Direction[] {Direction.FORWARD}, 1);
+		
+		List<EdgeTriple> edges = new ArrayList<>();
+		graph.forEachReachableEdge(nodeA, oneStepOptions, (walkedEdges, from, edge, to) -> {
+			edges.add(new EdgeTriple(from.value(),edge.value(),to.value()));
+		});
+
+		Ntro.asserter().assertTrue("Should contain", edges.contains(new EdgeTriple(nodeValueA, edgeValueAB, nodeValueB)));
+		Ntro.asserter().assertEquals(1, edges.size());
+
+
+	}
+
+	@Test
+	public void simpleGraph02() {
 		
 		GraphBuilder<MockNodeValue, MockEdgeValue> builder = GraphBuilder.newBuilder();
 
@@ -50,7 +84,7 @@ public class GraphTests {
 		Edge<MockEdgeValue> edgeBC = builder.addEdge(nodeB, edgeValueBC, nodeC);
 		
 		Graph<MockNodeValue, MockEdgeValue> graph = builder.toGraph();
-		
+
 		List<Node<MockNodeValue>> nodes = new ArrayList<>();
 		graph.forEachNode(n -> {
 			nodes.add(n);
