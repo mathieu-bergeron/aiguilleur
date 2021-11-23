@@ -137,7 +137,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 		return result;
 	}
 
-	private <R> void _reduceNodes(ResultNtro<R> result, NodeReducer<NV, R> reducer) {
+	protected <R> void _reduceNodes(ResultNtro<R> result, NodeReducer<NV, R> reducer) {
 		
 		_reduceRootNodes(result, (__, rootNode) -> {
 			
