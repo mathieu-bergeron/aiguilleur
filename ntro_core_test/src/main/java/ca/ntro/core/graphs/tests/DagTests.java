@@ -1,9 +1,15 @@
 package ca.ntro.core.graphs.tests;
 
 
-import org.junit.BeforeClass;
+import java.util.List;
 
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import ca.ntro.core.graphs.dag.CycleException;
+import ca.ntro.core.graphs.dag.DagNtro;
 import ca.ntro.core.initialization.InitializerTest;
+import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.services.ExceptionThrowerMock;
 
 public class DagTests {
@@ -20,8 +26,6 @@ public class DagTests {
 		InitializerTest.registerExceptionThrower(exceptionThrower);
 	}
 	
-	/*
-	
 	@Test
 	public void simpleGraph01() throws CycleException {
 
@@ -33,6 +37,8 @@ public class DagTests {
 		MockEdgeValue edgeValueBC = new MockEdgeValue("BC");
 		
 		DagNtro<MockNodeValue, MockEdgeValue> dag = new DagNtro<>();
+		
+		/*
 		
 		Node<MockNodeValue> nodeA = builder.addNode(nodeValueA);
 		
@@ -48,6 +54,10 @@ public class DagTests {
 		Ntro.asserter().assertTrue("Should contain", nodes.contains(nodeValueB));
 		Ntro.asserter().assertTrue("Should contain", nodes.contains(nodeValueC));
 		Ntro.asserter().assertEquals(3, nodes.size());
+		
+		*/
+		
+		/*
 		
 		List<EdgeTriple> edgeTriples = new ArrayList<>();
 		dag.forEachEdge((from, edge, to) -> {
@@ -84,7 +94,11 @@ public class DagTests {
 		});
 
 		Ntro.asserter().assertEquals(2, reachableCount.value());
+		
+		*/
 	}
+	
+	/*
 
 	@Test
 	public void simpleGraph02() throws CycleException {
