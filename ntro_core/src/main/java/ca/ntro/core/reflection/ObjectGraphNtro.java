@@ -119,7 +119,7 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, Refe
 		
 		_reduceMethodNames(currentObject, result, (__, methodName) -> {
 
-			if(isGetterName(methodName) && !methodName.equals("getClass")) {
+			if(isGetterName(methodName) && isUserDefinedMethod(currentObject, methodName)) {
 				
 				String attributeName = attributeNameFromGetterName(methodName);
 
@@ -138,6 +138,24 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, Refe
 	}
 	
 
+
+	private boolean isUserDefinedMethod(Object object, String methodName) {
+		boolean isUserDefined = true;
+		
+		if(methodName.equals("getClass")) {
+
+			isUserDefined = false;
+			
+		} else if(object instanceof String && methodName.equals("getChars")) {
+			
+			isUserDefined = false;
+
+		}
+		
+		
+		
+		return isUserDefined;
+	}
 
 	private boolean isGetterName(String methodName) {
 		return methodName.startsWith("get")

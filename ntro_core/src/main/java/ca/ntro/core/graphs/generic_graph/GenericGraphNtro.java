@@ -437,6 +437,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 	}
 
 	protected <R> void _reduceReachableEdges(Node<NV> fromNode, 
+			
 			                                 SearchOptions options, 
 			                                 ResultNtro<R> result, 
 			                                 ReachableEdgeReducer<NV, EV, R> reducer) {
