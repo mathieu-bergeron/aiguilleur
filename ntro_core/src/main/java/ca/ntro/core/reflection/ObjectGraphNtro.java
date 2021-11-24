@@ -146,7 +146,9 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, Refe
 
 			isUserDefined = false;
 			
-		} else if(object instanceof String && methodName.equals("getChars")) {
+		} else if(object instanceof String && 
+				(methodName.equals("getChars")
+						|| methodName.equals("getBytes"))) {
 			
 			isUserDefined = false;
 
