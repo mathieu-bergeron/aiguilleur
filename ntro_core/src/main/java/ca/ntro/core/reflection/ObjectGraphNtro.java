@@ -13,6 +13,8 @@ import ca.ntro.core.graphs.NodeReducer;
 import ca.ntro.core.graphs.ReachableEdgeReducer;
 import ca.ntro.core.graphs.Step;
 import ca.ntro.core.graphs.StepNtro;
+import ca.ntro.core.graphs.WalkedStep;
+import ca.ntro.core.graphs.WalkedStepNtro;
 import ca.ntro.core.graphs.directed_graph.DirectedGraphSearchOptions;
 import ca.ntro.core.graphs.generic_graph.StepReducer;
 import ca.ntro.core.graphs.generic_graph.EdgeNtro;
@@ -212,10 +214,12 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, Refe
 			Node<ObjectValue> toNode = createNode(attributePath, attributeValue);
 			Edge<ReferenceValue> edge = createEdge(fromNode.id(), edgeName, toNode.id());
 			
-			List<Edge<ReferenceValue>> walkedEdges = new ArrayList<>();
-			walkedEdges.add(edge);
+			WalkedStep<ObjectValue, ReferenceValue> walkedStep = new WalkedStepNtro<ObjectValue, ReferenceValue>(Direction.FORWARD, fromNode, edge, toNode);
+			
+			List<WalkedStep<ObjectValue, ReferenceValue>> walkedSteps = new ArrayList<>();
+			walkedSteps.add(walkedStep);
 
-			result.registerValue(reducer.reduceReachableEdge(result.value(), walkedEdges, fromNode, edge, toNode));
+			result.registerValue(reducer.reduceWalkedStep(result.value(), walkedSteps, walkedStep));
 			
 		} catch (Throwable t) {
 			

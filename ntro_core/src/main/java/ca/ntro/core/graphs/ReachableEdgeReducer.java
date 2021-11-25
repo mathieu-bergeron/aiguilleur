@@ -4,6 +4,7 @@ import java.util.List;
 
 public interface ReachableEdgeReducer<NV extends NodeValue, EV extends EdgeValue, R extends Object> {
 	
-	R reduceReachableEdge(R accumulator, List<Edge<EV>> walkedEdges, Node<NV> from, Edge<EV> edge, Node<NV> to) throws Throwable;
+	
+	R reduceWalkedStep(R accumulator, List<WalkedStep<NV,EV>> previousSteps, WalkedStep<NV, EV> step) throws Throwable;
 
 }
