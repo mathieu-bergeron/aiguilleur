@@ -512,7 +512,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 			                                             SearchOptions options, 
 			                                             SearchOptions oneStepOptions,
 			                                             Set<String> visitedEdges,
-			                                             List<Edge<EV>> walkedSteps,
+			                                             List<WalkedStep<NV,EV>> walkedSteps,
 			                                             ResultNtro<R> result, 
 			                                             ReachableEdgeReducer<NV, EV, R> reducer) {
 

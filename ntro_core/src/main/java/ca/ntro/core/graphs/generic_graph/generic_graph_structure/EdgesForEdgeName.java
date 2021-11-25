@@ -59,7 +59,7 @@ public class EdgesForEdgeName<NV extends NodeValue, EV extends EdgeValue> {
 
 		EdgesForEdgeKey<NV,EV> nextEdges = edges.get(step.name().name());
 
-		nextEdges.reduceEdges(fromNode, result, reducer);
+		nextEdges.reduceEdges(fromNode, step, result, reducer);
 	}
 
 }

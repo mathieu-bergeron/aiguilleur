@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeValue;
 import ca.ntro.core.graphs.ReachableEdgeReducer;
+import ca.ntro.core.graphs.Step;
+import ca.ntro.core.graphs.WalkedStep;
+import ca.ntro.core.graphs.WalkedStepNtro;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public class EdgesForEdgeKey<NV extends NodeValue, EV extends EdgeValue> {
@@ -22,6 +26,7 @@ public class EdgesForEdgeKey<NV extends NodeValue, EV extends EdgeValue> {
 	}
 
 	public <R> void reduceEdges(Node<NV> fromNode, 
+								Step step,
 			                    ResultNtro<R> result, 
 			                    ReachableEdgeReducer<NV, EV, R> reducer) {
 		
@@ -29,10 +34,12 @@ public class EdgesForEdgeKey<NV extends NodeValue, EV extends EdgeValue> {
 			
 			Edge<EV> edge = edges.get(edgeKey);
 			Node<NV> toNode = toNodes.get(edgeKey);
-			
+
+			WalkedStep<NV,EV> walkedStep = new WalkedStepNtro<>(step.direction(), fromNode, edge, toNode);
+
 			try {
 				
-				result.registerValue(reducer.reduceReachableEdge(result.value(), new ArrayList<>(), fromNode, edge, toNode));
+				result.registerValue(reducer.reduceWalkedStep(result.value(), new ArrayList<>(), walkedStep));
 				
 			}catch(Throwable t) {
 
