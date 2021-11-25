@@ -11,8 +11,10 @@ import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.NodeReducer;
 import ca.ntro.core.graphs.ReachableEdgeReducer;
+import ca.ntro.core.graphs.Step;
+import ca.ntro.core.graphs.StepNtro;
 import ca.ntro.core.graphs.directed_graph.DirectedGraphSearchOptions;
-import ca.ntro.core.graphs.generic_graph.EdgeNameReducer;
+import ca.ntro.core.graphs.generic_graph.StepReducer;
 import ca.ntro.core.graphs.generic_graph.EdgeNtro;
 import ca.ntro.core.graphs.generic_graph.GenericGraphNtro;
 import ca.ntro.core.graphs.generic_graph.NodeNtro;
@@ -103,15 +105,10 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, Refe
 	}
 
 	@Override
-	protected <R> void _reduceNextEdgeNames(Node<ObjectValue> fromNode, 
-			                                Direction direction, 
-			                                ResultNtro<R> result, 
-			                                EdgeNameReducer<R> reducer) {
+	protected <R> void _reduceNextSteps(Node<ObjectValue> fromNode, 
+			                            ResultNtro<R> result, 
+			                            StepReducer<R> reducer) {
 		if(result.hasException()) {
-			return;
-		}
-
-		if(direction != Direction.FORWARD) {
 			return;
 		}
 
@@ -125,7 +122,7 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, Refe
 
 				try {
 
-					result.registerValue(reducer.reduceEdgeName(result.value(), attributeName));
+					result.registerValue(reducer.reduceStep(result.value(), new StepNtro(Direction.FORWARD, attributeName)));
 
 				} catch (Throwable t) {
 					
@@ -186,20 +183,22 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, Refe
 	
 
 	@Override
-	protected <R> void _reduceNextEdgesByName(Node<ObjectValue> fromNode, 
-			                                  Direction direction, 
-			                                  String edgeName, 
-			                                  ResultNtro<R> result, 
-			                                  ReachableEdgeReducer<ObjectValue, ReferenceValue, R> reducer) {
+	protected <R> void _walkStep(Node<ObjectValue> fromNode, 
+								 Step step,
+			                     ResultNtro<R> result, 
+			                     ReachableEdgeReducer<ObjectValue, ReferenceValue, R> reducer) {
+
 		if(result.hasException()) {
 			return;
 		}
 
-		if(direction != Direction.FORWARD) {
+		if(step.direction() != Direction.FORWARD) {
 			return;
 		}
 
 		Object currentObject = fromNode.value().object();
+		
+		String edgeName = step.name().name();
 		
 		String getterName = getterNameFromAttributeName(edgeName);
 		

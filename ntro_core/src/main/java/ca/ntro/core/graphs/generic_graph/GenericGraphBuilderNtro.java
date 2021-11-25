@@ -11,6 +11,7 @@ import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.NodeReducer;
 import ca.ntro.core.graphs.NodeValue;
 import ca.ntro.core.graphs.ReachableEdgeReducer;
+import ca.ntro.core.graphs.Step;
 import ca.ntro.core.graphs.generic_graph.generic_graph_structure.GenericGraphStructure;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.wrappers.result.ResultNtro;
@@ -116,30 +117,28 @@ public abstract class GenericGraphBuilderNtro<NV extends NodeValue,
 	}
 
 	@Override
-	protected <R> void _reduceNextEdgeNames(Node<NV> fromNode, 
-			                                Direction direction, 
-			                                ResultNtro<R> result, 
-			                                EdgeNameReducer<R> reducer) {
+	protected <R> void _reduceNextSteps(Node<NV> fromNode, 
+			                            ResultNtro<R> result, 
+			                            StepReducer<R> reducer) {
 
 		if(result.hasException()) {
 			return;
 		}
 
-		getGraphStructure().reduceEdgeNames(fromNode, direction, result, reducer);
+		getGraphStructure().reduceNextSteps(fromNode, result, reducer);
 	}
 
 	@Override
-	protected <R> void _reduceNextEdgesByName(Node<NV> fromNode, 
-			                                  Direction direction, 
-			                                  String edgeName, 
-			                                  ResultNtro<R> result, 
-			                                  ReachableEdgeReducer<NV, EV, R> reducer) {
+	protected <R> void _walkStep(Node<NV> fromNode, 
+								 Step step,
+			                     ResultNtro<R> result, 
+			                     ReachableEdgeReducer<NV, EV, R> reducer) {
 		
 		if(result.hasException()) {
 			return;
 		}
 
-		getGraphStructure().reduceEdgesByName(fromNode, direction, edgeName, result, reducer);
+		getGraphStructure().walkStep(fromNode, step, result, reducer);
 	}
 	
 	@SuppressWarnings("unchecked")

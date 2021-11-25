@@ -9,7 +9,7 @@ public class HierarchicalDagSearchOptions extends DirectedGraphSearchOptions imp
 
 	@Override
 	protected Direction[] defaultDirections() {
-		return new Direction[] {Direction.FORWARD, Direction.DOWN_TO_SUB_NODES};
+		return new Direction[] {Direction.FORWARD, Direction.DOWN};
 	}
 	
 	public HierarchicalDagSearchOptions() {

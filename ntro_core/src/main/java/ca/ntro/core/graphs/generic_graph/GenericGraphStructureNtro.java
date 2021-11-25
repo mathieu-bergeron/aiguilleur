@@ -12,6 +12,7 @@ import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.NodeReducer;
 import ca.ntro.core.graphs.NodeValue;
 import ca.ntro.core.graphs.ReachableEdgeReducer;
+import ca.ntro.core.graphs.Step;
 import ca.ntro.core.graphs.generic_graph.generic_graph_structure.EdgesForFromNode;
 import ca.ntro.core.graphs.generic_graph.generic_graph_structure.GenericGraphStructure;
 import ca.ntro.core.wrappers.result.ResultNtro;
@@ -62,47 +63,53 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue, EV extend
 	protected abstract void memorizeDirectedEdge(Node<NV> from, Edge<EV> edge, Node<NV> to);
 
 	@Override
-	public <R> void reduceEdgeNames(Node<NV> fromNode, 
-			                        Direction direction, 
+	public <R> void reduceNextSteps(Node<NV> fromNode, 
 			                        ResultNtro<R> result, 
-			                        EdgeNameReducer<R> reducer) {
+			                        StepReducer<R> reducer) {
 
 		if(result.hasException()) {
 			return;
 		}
 
-		EdgesForFromNode<NV,EV> edges = edgesByDirection(direction);
+		for(Direction direction : Direction.values()) {
 
-		if(edges != null) {
-			edges.reduceEdgeNames(fromNode, result, reducer);
+			EdgesForFromNode<NV,EV> edges = edgesByDirection(direction);
+
+			if(edges != null) {
+				edges.reduceNextSteps(fromNode, direction, result, reducer);
+			}
 		}
 	}
 
 	@Override
-	public <R> void reduceEdgesByName(Node<NV> fromNode, 
-			                          Direction direction, 
-			                          String edgeName, 
-			                          ResultNtro<R> result, 
-			                          ReachableEdgeReducer<NV, EV, R> reducer) {
+	public <R> void walkStep(Node<NV> fromNode, 
+						     Step step,
+							 ResultNtro<R> result, 
+							 ReachableEdgeReducer<NV, EV, R> reducer) {
 
 		if(result.hasException()) {
 			return;
 		}
 
-		EdgesForFromNode<NV,EV> edges = edgesByDirection(direction);
+		EdgesForFromNode<NV,EV> edges = edgesByDirection(step.direction());
 
 		if(edges != null) {
-			edges.reduceEdgesByName(fromNode, edgeName, result, reducer);
+			edges.walkStep(fromNode, step, result, reducer);
 		}
 	}
 
 	@Override
 	public void memorizeNode(Node<NV> node) {
 		getNodes().put(node.id().toKey(), node);
+
 		if(getNodes().containsKey(node.id().toKey())) {
+			
+			throw new RuntimeException("TODO");
 
 
 		}else {
+
+			throw new RuntimeException("TODO");
 			
 		}
 	}

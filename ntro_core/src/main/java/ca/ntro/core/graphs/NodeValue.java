@@ -1,5 +1,5 @@
 package ca.ntro.core.graphs;
 
-public interface NodeValue extends NamedValue {
+public interface NodeValue extends Value {
 
 }
