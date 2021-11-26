@@ -26,6 +26,8 @@ public interface GenericGraph<NV extends NodeValue, EV extends EdgeValue> {
 
 	GraphId id();
 	String label();
+
+	void write(GraphWriter writer);
 	
 	Node<NV> findNode(NodeId id);
 	Node<NV> findNode(NodeMatcher<NV> matcher);
@@ -70,6 +72,6 @@ public interface GenericGraph<NV extends NodeValue, EV extends EdgeValue> {
 
 	<R extends Object> Result<R> reduceEdgeWalk(Node<NV> fromNode, EdgeWalk edgeWalk, R initialValue, EdgeWalkReducer<NV,EV,R> reducer);
 	<R extends Object> Result<R> reduceEdgeWalk(Node<NV> fromNode, Direction direction, EdgeWalk edgeWalk, R initialValue, EdgeWalkReducer<NV,EV,R> reducer);
+
 	
-	void write(GraphWriter writer);
 }

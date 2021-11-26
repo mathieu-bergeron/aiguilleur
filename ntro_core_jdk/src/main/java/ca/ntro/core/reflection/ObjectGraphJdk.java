@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ca.ntro.core.graphs.Node;
+import ca.ntro.core.graphs.generic_graph.InternalGraphWriter;
+import ca.ntro.core.graphs.generic_graph.InternalGraphWriterNtro;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 
@@ -84,5 +86,10 @@ public class ObjectGraphJdk extends ObjectGraphNtro  implements ObjectGraph {
 		Object returnValue = method.invoke(object);
 
 		return returnValue;
+	}
+
+	@Override
+	protected InternalGraphWriter<ObjectValue, ReferenceValue> internalGraphWriter() {
+		return new InternalGraphWriterNtro<>();
 	}
 }

@@ -44,6 +44,13 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 	@Override
 	public abstract String label();
 
+	@Override
+	public void write(GraphWriter writer) {
+		internalGraphWriter().write(this, writer);
+	}
+
+	protected abstract InternalGraphWriter<NV,EV> internalGraphWriter();
+
 	protected abstract SearchOptions defaultSearchOptions();
 
 	protected abstract <R> void _reduceStartNodes(ResultNtro<R> result, NodeReducer<NV, R> reducer);
@@ -51,6 +58,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 	protected abstract <R> void _reduceNextSteps(Node<NV> fromNode, ResultNtro<R> result, StepReducer<R> reducer);
 
 	protected abstract <R> void _walkStep(Node<NV> fromNode, Step step, ResultNtro<R> result, WalkedStepReducer<NV, EV, R> reducer);
+	
 
 	@Override
 	public Node<NV> findNode(NodeId id) {
@@ -623,49 +631,5 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 	}
 	
 	
-	@Override
-	public void write(GraphWriter writer) {
 
-		writer.initialize(id());
-		
-		Set<String> unwrittenNodes = writeEdges(writer);
-
-		writeNodes(writer, unwrittenNodes);
-		
-		writer.writeDot();
-		writer.writePng();
-	}
-	
-	protected Set<String> writeEdges(GraphWriter writer) {
-
-		Set<String> unwrittenNodes = reduceNodes(new HashSet<String>(), (accumulator, n) -> {
-			
-			accumulator.add(n.id().toKey());
-
-			return accumulator;
-
-		}).value();
-		
-		forEachEdge((from, edge, to) -> {
-
-			unwrittenNodes.remove(from.id().toKey());
-			unwrittenNodes.remove(to.id().toKey());
-
-			writer.writeEdge(from, edge, to);
-		});
-		
-		return unwrittenNodes;
-	}
-
-	protected void writeNodes(GraphWriter writer, Set<String> nodesToWrite) {
-		for(String nodeKey : nodesToWrite) {
-
-			Node<NV> node = findNode(nodeKey);
-
-			if(node != null) {
-				writer.writeNode(node);
-			}
-		}
-	}
-	
 }

@@ -5,6 +5,8 @@ import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeValue;
 import ca.ntro.core.graphs.SearchOptionsNtro;
 import ca.ntro.core.graphs.generic_graph.GenericGraphBuilderNtro;
+import ca.ntro.core.graphs.generic_graph.InternalGraphWriter;
+import ca.ntro.core.graphs.generic_graph.InternalGraphWriterNtro;
 
 public class      GraphNtro<NV extends NodeValue, EV extends EdgeValue> 
        extends    GenericGraphBuilderNtro<NV,EV,GraphStructure<NV,EV>,Graph<NV,EV>> 
@@ -31,6 +33,11 @@ public class      GraphNtro<NV extends NodeValue, EV extends EdgeValue>
 
 	@Override
 	protected void detectCycleFrom(Node<NV> from) {
+	}
+
+	@Override
+	protected InternalGraphWriter<NV, EV> internalGraphWriter() {
+		return new InternalGraphWriterNtro<>();
 	}
 
 }
