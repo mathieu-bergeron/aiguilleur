@@ -32,8 +32,9 @@ public class      InternalHierarchicalGraphWriterNtro<NV extends NodeValue,
 
 	@Override
 	protected void writeEdge(GraphWriter writer, Node<NV> from, Edge<EV> edge, Node<NV> to) {
-		
 
+		// FIXME
+		super.writeEdge(writer, from, edge, to);
 	}
 
 }
