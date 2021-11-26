@@ -8,7 +8,7 @@ import ca.ntro.core.graphs.generic_graph.GenericGraphBuilder;
 
 public interface HierarchicalGraphBuilder<NV extends NodeValue, 
                                           EV extends EdgeValue,
-                                          N extends Node<NV>,
+                                          N extends HierarchicalNode<NV>,
                                           E extends Edge<EV>> 
 
        extends   GenericGraphBuilder<NV,EV,N,E,HierarchicalGraphStructure<NV,EV,N,E>, HierarchicalGraph<NV,EV,N,E>> {
