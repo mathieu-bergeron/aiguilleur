@@ -98,7 +98,47 @@ public class GraphWriterJdk implements GraphWriter {
 
 	@Override
 	public void writeEdge(Node<? extends NodeValue> from, Edge<? extends EdgeValue> edge, Node<? extends NodeValue> to) {
-		addEdge(from, to);
+		MutableGraph fromCluster = clusters.get(from.id().toKey());
+		MutableGraph toCluster = clusters.get(to.id().toKey());
+		
+		Link link = null;
+		
+		if(toCluster != null) {
+			createClusterInvisibleNode(toCluster);
+			MutableNode toInvisibleNode = clusterInvisibleNodes.get(to.id().toKey());
+			link = Link.to(toInvisibleNode);
+			link.attrs().add("lhead","cluster_" + toCluster.name());
+
+		}else {
+			
+			MutableNode toNode = mutNode(to.id().toKey());
+			toNode.attrs().add("label", to.value().label());
+			graph.add(toNode);
+			link = Link.to(toNode);
+		}
+
+		link.attrs().add("label",edge.value().label());
+
+		if(fromCluster != null) {
+			createClusterInvisibleNode(fromCluster);
+			MutableNode fromInvisibleNode = clusterInvisibleNodes.get(from.id().toKey());
+
+			MutableNode fromNode = mutNode(fromInvisibleNode.name());
+			link.attrs().add("ltail","cluster_" + fromCluster.name());
+
+			fromNode.links().add(link);
+			fromNode.attrs().add("label", from.value().label());
+
+			graph.add(fromNode);
+			
+		} else {
+
+			MutableNode fromNode = mutNode(from.id().toKey());
+			fromNode.links().add(link);
+			fromNode.attrs().add("label", from.value().label());
+
+			graph.add(fromNode);
+		}
 	}
 
 	@Override
@@ -175,39 +215,6 @@ public class GraphWriterJdk implements GraphWriter {
 	}
 
 	public void addEdge(Node<? extends NodeValue> fromSpec, Node<? extends NodeValue> toSpec) {
-		MutableGraph fromCluster = clusters.get(fromSpec.id().toKey());
-		MutableGraph toCluster = clusters.get(toSpec.id().toKey());
-		
-		Link link = null;
-		
-		if(toCluster != null) {
-			createClusterInvisibleNode(toCluster);
-			MutableNode toInvisibleNode = clusterInvisibleNodes.get(toSpec.id().toKey());
-			link = Link.to(toInvisibleNode);
-			link.attrs().add("lhead","cluster_" + toCluster.name());
-
-		}else {
-			
-			MutableNode toNode = mutNode(toSpec.id().toKey());
-			graph.add(toNode);
-			link = Link.to(toNode);
-		}
-
-		if(fromCluster != null) {
-			createClusterInvisibleNode(fromCluster);
-			MutableNode fromInvisibleNode = clusterInvisibleNodes.get(fromSpec.id().toKey());
-
-			MutableNode fromNode = mutNode(fromInvisibleNode.name());
-			link.attrs().add("ltail","cluster_" + fromCluster.name());
-			fromNode.links().add(link);
-			graph.add(fromNode);
-			
-		} else {
-
-			MutableNode fromNode = mutNode(fromSpec.id().toKey());
-			fromNode.links().add(link);
-			graph.add(fromNode);
-		}
 	}
 
 	
