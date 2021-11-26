@@ -1,22 +1,22 @@
 package ca.ntro.core.graphs.writers;
 
-import ca.ntro.core.graphs.Edge;
-import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.GraphId;
-import ca.ntro.core.graphs.Node;
-import ca.ntro.core.graphs.NodeValue;
+import ca.ntro.core.graphs.NodeNotFoundException;
 
 public interface GraphWriter {
 	
 	void initialize(GraphId id, GraphWriterOptions options);
 
-	void addCluster(Node<? extends NodeValue> cluster);
-	void addSubCluster(Node<? extends NodeValue> cluster, Node<? extends NodeValue> subCluster);
-	void addSubNode(Node<? extends NodeValue> cluster, Node<? extends NodeValue> subNode);
+	void addNode(NodeSpec nodeSpec);
+	void addCluster(ClusterSpec clusterSpec);
 
-	void addRootNode(Node<? extends NodeValue> node);
+	void addSubCluster(ClusterSpec clusterSpec, ClusterSpec subClusterSpec) throws ClusterNotFoundException;
+	void addSubNode(ClusterSpec clusterSpec, NodeSpec subNodeSpec) throws ClusterNotFoundException;
 
-	void addEdge(Node<? extends NodeValue> from, Edge<? extends EdgeValue> edge, Node<? extends NodeValue> to);
+	void addEdge(NodeSpec fromSpec, EdgeSpec edgeSpec, NodeSpec toSpec) throws NodeNotFoundException;
+	void addEdge(ClusterSpec fromSpec, EdgeSpec edgeSpec, NodeSpec toSpec) throws NodeNotFoundException, ClusterNotFoundException;
+	void addEdge(NodeSpec fromSpec, EdgeSpec edgeSpec, ClusterSpec toSpec) throws NodeNotFoundException, ClusterNotFoundException;
+	void addEdge(ClusterSpec fromSpec, EdgeSpec edgeSpec, ClusterSpec toSpec) throws ClusterNotFoundException;
 	
 	void writePng();
 	void writeSvg();

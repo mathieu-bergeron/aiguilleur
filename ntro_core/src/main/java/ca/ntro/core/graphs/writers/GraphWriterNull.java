@@ -1,10 +1,6 @@
 package ca.ntro.core.graphs.writers;
 
-import ca.ntro.core.graphs.Edge;
-import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.GraphId;
-import ca.ntro.core.graphs.Node;
-import ca.ntro.core.graphs.NodeValue;
 
 public class GraphWriterNull implements GraphWriter {
 
@@ -13,13 +9,35 @@ public class GraphWriterNull implements GraphWriter {
 	}
 
 	@Override
-	public void addEdge(Node<? extends NodeValue> from, 
-			              Edge<? extends EdgeValue> edge, 
-			              Node<? extends NodeValue> to) {
+	public void addNode(NodeSpec nodeSpec) {
 	}
 
 	@Override
-	public void addRootNode(Node<? extends NodeValue> node) {
+	public void addCluster(ClusterSpec clusterSpec) {
+	}
+
+	@Override
+	public void addSubCluster(ClusterSpec clusterSpec, ClusterSpec subClusterSpec) {
+	}
+
+	@Override
+	public void addSubNode(ClusterSpec clusterSpec, NodeSpec subNodeSpec) {
+	}
+
+	@Override
+	public void addEdge(NodeSpec fromSpec, EdgeSpec edgeSpec, NodeSpec toSpec) {
+	}
+
+	@Override
+	public void addEdge(ClusterSpec fromSpec, EdgeSpec edgeSpec, NodeSpec toSpec) {
+	}
+
+	@Override
+	public void addEdge(NodeSpec fromSpec, EdgeSpec edgeSpec, ClusterSpec toSpec) {
+	}
+
+	@Override
+	public void addEdge(ClusterSpec fromSpec, EdgeSpec edgeSpec, ClusterSpec toSpec) {
 	}
 
 	@Override
@@ -34,15 +52,4 @@ public class GraphWriterNull implements GraphWriter {
 	public void writeDot() {
 	}
 
-	@Override
-	public void addCluster(Node<? extends NodeValue> cluster) {
-	}
-
-	@Override
-	public void addSubCluster(Node<? extends NodeValue> cluster, Node<? extends NodeValue> subCluster) {
-	}
-
-	@Override
-	public void addSubNode(Node<? extends NodeValue> cluster, Node<? extends NodeValue> subNode) {
-	}
 }

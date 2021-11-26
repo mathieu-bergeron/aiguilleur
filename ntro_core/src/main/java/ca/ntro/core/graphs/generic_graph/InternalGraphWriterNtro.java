@@ -1,14 +1,13 @@
 package ca.ntro.core.graphs.generic_graph;
 
-import java.util.HashSet;
-import java.util.Set;
-
-
 import ca.ntro.core.graphs.EdgeValue;
-import ca.ntro.core.graphs.Node;
+import ca.ntro.core.graphs.NodeNotFoundException;
 import ca.ntro.core.graphs.NodeValue;
+import ca.ntro.core.graphs.writers.EdgeSpecNtro;
 import ca.ntro.core.graphs.writers.GraphWriter;
 import ca.ntro.core.graphs.writers.GraphWriterOptions;
+import ca.ntro.core.graphs.writers.NodeSpecNtro;
+import ca.ntro.core.initialization.Ntro;
 
 public class InternalGraphWriterNtro<NV extends NodeValue, EV extends EdgeValue, G extends GenericGraph<NV,EV>> implements InternalGraphWriter<NV,EV> {
 
@@ -16,10 +15,11 @@ public class InternalGraphWriterNtro<NV extends NodeValue, EV extends EdgeValue,
 	public void write(GenericGraph<NV, EV> graph, GraphWriter writer) {
 
 		writer.initialize(graph.id(), defaultOptions());
-		
-		Set<String> unwrittenNodes = writeEdges(graph, writer);
 
-		writeNodes(graph, writer, unwrittenNodes);
+		writeNodes(graph, writer);
+		
+		writeEdges(graph, writer);
+
 		
 		writer.writeDot();
 		writer.writePng();
@@ -29,35 +29,22 @@ public class InternalGraphWriterNtro<NV extends NodeValue, EV extends EdgeValue,
 		return GraphWriterOptions.directed(false);
 	}
 
-	protected Set<String> writeEdges(GenericGraph<NV,EV> graph, GraphWriter writer) {
-
-		Set<String> unwrittenNodes = graph.reduceNodes(new HashSet<String>(), (accumulator, n) -> {
-			
-			accumulator.add(n.id().toKey());
-
-			return accumulator;
-
-		}).value();
-		
-		graph.forEachEdge((from, edge, to) -> {
-
-			unwrittenNodes.remove(from.id().toKey());
-			unwrittenNodes.remove(to.id().toKey());
-
-			writer.addEdge(from, edge, to);
+	protected void writeNodes(GenericGraph<NV,EV> graph, GraphWriter writer) {
+		graph.forEachNode(n -> {
+			writer.addNode(new NodeSpecNtro(n));
 		});
-		
-		return unwrittenNodes;
 	}
 
-	protected void writeNodes(GenericGraph<NV,EV> graph, GraphWriter writer, Set<String> nodesToWrite) {
-		for(String nodeKey : nodesToWrite) {
+	protected void writeEdges(GenericGraph<NV,EV> graph, GraphWriter writer) {
+		graph.forEachEdge((from, edge, to) -> {
+			try {
 
-			Node<NV> node = graph.findNode(nodeKey);
+				writer.addEdge(new NodeSpecNtro(from), new EdgeSpecNtro(edge), new NodeSpecNtro(to));
 
-			if(node != null) {
-				writer.addRootNode(node);
+			} catch (NodeNotFoundException e) {
+				
+				Ntro.exceptionThrower().throwException(e);
 			}
-		}
+		});
 	}
 }
