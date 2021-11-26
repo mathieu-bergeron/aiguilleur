@@ -11,7 +11,7 @@ public class FutureNtro<O extends Object> implements Future<O> {
 	private O value = null;
 	private Throwable exception = null;
 	
-	private ResultHandler<O> resultHandler = null;
+	private ValueHandler<O> resultHandler = null;
 	private ExceptionHandler exceptionHandler = null;
 	
 	public void registerValue(O value) {
@@ -32,7 +32,7 @@ public class FutureNtro<O extends Object> implements Future<O> {
 	}
 
 	@Override
-	public Future<O> handleResult(ResultHandler<O> resultHandler) {
+	public Future<O> handleValue(ValueHandler<O> resultHandler) {
 		this.resultHandler = resultHandler;
 
 		if(state == State.VALUE && resultHandler != null) {

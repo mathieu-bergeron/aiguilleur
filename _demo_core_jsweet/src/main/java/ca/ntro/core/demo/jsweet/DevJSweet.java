@@ -10,7 +10,7 @@ public class DevJSweet {
 
 		NtroJSweet.initializer()
 		          .execute()
-		          .handleResult(r -> {
+		          .handleValue(r -> {
 		        	  T.trace(DevJSweet.class);
 
 					  Demo.main();

@@ -123,7 +123,7 @@ public abstract class InitializerNtro implements Initializer {
 		
 		Future<ObjectMap> future = buildGraph().execute();
 		
-		future.handleResult(objectMap -> {
+		future.handleValue(objectMap -> {
 			initializeStaticImports(objectMap);
 		});
 		

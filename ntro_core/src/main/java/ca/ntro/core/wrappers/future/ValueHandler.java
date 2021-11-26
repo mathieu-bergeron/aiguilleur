@@ -1,6 +1,6 @@
 package ca.ntro.core.wrappers.future;
 
-public interface ResultHandler<R extends Object> {
+public interface ValueHandler<R extends Object> {
 	
 	void handle(R result);
 

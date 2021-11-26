@@ -23,6 +23,7 @@ public class ResultNtro<R extends Object> implements Result<R> {
 
 	@Override
 	public R value() {
+		throwException();
 		return value;
 	}
 
