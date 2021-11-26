@@ -4,3 +4,7 @@
 1. ReachableEdge => ReachableStep
 1. Implanter HierarchicalGraph (clarifier GraphStructure)
 
+1. JsonObjectGraph
+
+1. JsonObject <===> Object
+
