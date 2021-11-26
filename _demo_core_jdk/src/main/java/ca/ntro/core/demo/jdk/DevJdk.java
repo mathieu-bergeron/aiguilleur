@@ -7,7 +7,7 @@ public class DevJdk {
 
 	public static void main(String[] args) throws Throwable {
 
-		NtroJdk.initializer().executeBlocking();
+		NtroJdk.initializer().execute();
 
 		Demo.main();
 	}

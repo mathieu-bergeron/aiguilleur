@@ -119,9 +119,9 @@ public abstract class InitializerNtro implements Initializer {
 	}
 
 	@Override
-	public Future<ObjectMap> execute() {
+	public Future<ObjectMap> executeAsync() {
 		
-		Future<ObjectMap> future = buildGraph().execute();
+		Future<ObjectMap> future = buildGraph().executeAsync();
 		
 		future.handleResult(objectMap -> {
 			initializeStaticImports(objectMap);
@@ -131,7 +131,7 @@ public abstract class InitializerNtro implements Initializer {
 	}
 
 	@Override
-	public ObjectMap executeBlocking() throws Throwable {
+	public ObjectMap execute() throws Throwable {
 		/*
 		
 		ObjectMap objectMap = buildGraph().executeBlocking();

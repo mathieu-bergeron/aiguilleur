@@ -10,13 +10,13 @@ import ca.ntro.core.values.ObjectMap;
 public class InitializerJdk extends InitializerNtro {
 
 	@Override
-	public ObjectMap executeBlocking() throws Throwable {
+	public ObjectMap execute() throws Throwable {
 		
 		// FIXME!!!
 		Ntro.registerStackAnalyzer(new StackAnalyzerJdk());
 		
 		
-		return super.executeBlocking();
+		return super.execute();
 	}
 
 

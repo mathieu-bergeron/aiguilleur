@@ -1,5 +1,7 @@
 package ca.ntro.core.graphs.task_graph;
 
-public interface Task {
+import ca.ntro.core.graphs.NodeValue;
+
+public interface Task extends NodeValue {
 
 }

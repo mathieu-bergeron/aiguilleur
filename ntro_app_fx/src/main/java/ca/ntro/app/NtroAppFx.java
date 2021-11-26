@@ -12,7 +12,7 @@ public interface NtroAppFx extends App<ViewRegistrarFx> {
 
 		try {
 
-			NtroJdk.initializer().executeBlocking();
+			NtroJdk.initializer().execute();
 
 		} catch (Throwable e) {
 
