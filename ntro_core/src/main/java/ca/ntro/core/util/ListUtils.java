@@ -15,4 +15,8 @@ public class ListUtils {
 		return result;
 	}
 
+	public static <V extends Object> List<V> subList(List<V> list, int beginIndex){
+		return subList(list, beginIndex, list.size());
+	}
+
 }

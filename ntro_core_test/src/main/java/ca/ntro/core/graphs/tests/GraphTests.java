@@ -61,9 +61,9 @@ public class GraphTests {
 		
 		List<DirectedEdgeTriple<MockNodeValue, MockEdgeValue>> edges = new ArrayList<>();
 
-		graph.forEachReachableEdge(nodeA, oneStepOptions, (walkedEdges, from, edge, to) -> {
+		graph.forEachReachableStep(nodeA, oneStepOptions, (walkedEdges, step) -> {
 
-			edges.add(new DirectedEdgeTriple<>(from,edge,to));
+			edges.add(new DirectedEdgeTriple<>(step.from(),step.edge(),step.to()));
 		});
 
 		Ntro.asserter().assertTrue("Should contain", edges.contains(new DirectedEdgeTriple<>(nodeA, edgeAB, nodeB)));
@@ -116,9 +116,9 @@ public class GraphTests {
 		List<UndirectedEdgeTriple<MockNodeValue, MockEdgeValue>> edges = new ArrayList<>();
 		GraphBuilder<MockNodeValue, MockEdgeValue> builderTested = GraphBuilder.newBuilder("simpleGraph02_tested");
 
-		graph.forEachReachableEdge(node0, (walkedEdges, from, edge, to) -> {
-			builderTested.addEdge(from, edge.value(), to);
-			edges.add(new UndirectedEdgeTriple<>(from,edge,to));
+		graph.forEachReachableStep(node0, (walkedEdges, step) -> {
+			builderTested.addEdge(step.from(), step.edge().value(), step.to());
+			edges.add(new UndirectedEdgeTriple<>(step.from(),step.edge(),step.to()));
 		});
 		
 		builderTested.toGraph().write(Ntro.graphWriter());

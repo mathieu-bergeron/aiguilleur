@@ -10,8 +10,8 @@ import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.EdgeReducer;
 import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.EdgeVisitor;
-import ca.ntro.core.graphs.EdgeWalkReducer;
-import ca.ntro.core.graphs.EdgeWalkVisitor;
+import ca.ntro.core.graphs.StepsReducer;
+import ca.ntro.core.graphs.StepsVisitor;
 import ca.ntro.core.graphs.GraphId;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeId;
@@ -19,8 +19,8 @@ import ca.ntro.core.graphs.NodeMatcher;
 import ca.ntro.core.graphs.NodeReducer;
 import ca.ntro.core.graphs.NodeValue;
 import ca.ntro.core.graphs.NodeVisitor;
-import ca.ntro.core.graphs.ReachableEdgeReducer;
-import ca.ntro.core.graphs.ReachableEdgeVisitor;
+import ca.ntro.core.graphs.ReachableStepReducer;
+import ca.ntro.core.graphs.ReachableStepVisitor;
 import ca.ntro.core.graphs.ReachableNodeReducer;
 import ca.ntro.core.graphs.ReachableNodeVisitor;
 import ca.ntro.core.graphs.SearchOptions;
@@ -32,6 +32,7 @@ import ca.ntro.core.graphs.WalkedStep;
 import ca.ntro.core.graphs.WalkedStepReducer;
 import ca.ntro.core.graphs.writers.GraphWriter;
 import ca.ntro.core.path.EdgeWalk;
+import ca.ntro.core.util.ListUtils;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
@@ -245,52 +246,6 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 	}
 
 	@Override
-	public void forEachNextNode(Node<NV> fromNode, ReachableNodeVisitor<NV, EV> visitor) {
-		forEachNextNode(fromNode, defaultSearchOptions(), visitor);
-	}
-
-	@Override
-	public void forEachNextNode(Node<NV> fromNode, SearchOptions options, ReachableNodeVisitor<NV, EV> visitor) {
-		reduceNextNodes(fromNode, options, null, (accumulator, walkedEdges, n) -> {
-
-			visitor.visitReachableNode(walkedEdges, fromNode);
-
-			return null;
-
-		}).throwException();
-	}
-
-	@Override
-	public <R> Result<R> reduceNextNodes(Node<NV> fromNode, R initialValue, ReachableNodeReducer<NV, EV, R> reducer) {
-		return reduceNextNodes(fromNode, defaultSearchOptions(), initialValue, reducer);
-	}
-
-	@Override
-	public <R> Result<R> reduceNextNodes(Node<NV> fromNode, SearchOptions options, R initialValue, ReachableNodeReducer<NV, EV, R> reducer) {
-		ResultNtro<R> result = new ResultNtro<R>(initialValue);
-		
-		_reduceNextNodes(fromNode, options, result, reducer);
-
-		return result;
-	}
-
-	protected <R> void _reduceNextNodes(Node<NV> fromNode, SearchOptions options, ResultNtro<R> result, ReachableNodeReducer<NV, EV, R> reducer) {
-		_reduceNextEdges(fromNode, options, result, (accumulator, previousSteps, walkedStep) -> {
-			
-			try {
-
-				result.registerValue(reducer.reduceReachableNode(result.value(), previousSteps, walkedStep.to()));
-
-			}catch(Throwable t) {
-				
-				result.registerException(t);
-			}
-			
-			return result.value();
-		});
-	}
-
-	@Override
 	public void forEachReachableNode(Node<NV> fromNode, ReachableNodeVisitor<NV, EV> visitor) {
 		forEachReachableNode(fromNode, defaultSearchOptions(), visitor);
 	}
@@ -360,40 +315,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 		});
 	}
 	
-
-	@Override
-	public void forEachNextEdge(Node<NV> fromNode, ReachableEdgeVisitor<NV, EV> visitor) {
-		forEachNextEdge(fromNode, defaultSearchOptions(), visitor);
-	}
-
-	@Override
-	public void forEachNextEdge(Node<NV> fromNode, SearchOptions options, ReachableEdgeVisitor<NV, EV> visitor) {
-
-		reduceNextEdges(fromNode, options, null, (accumulator, walkedEdges, step) -> {
-
-			visitor.visitReachableEdge(walkedEdges, fromNode, step.edge(), step.to());
-
-			return null;
-
-		}).throwException();
-	}
-
-	@Override
-	public <R> Result<R> reduceNextEdges(Node<NV> fromNode, R initialValue, ReachableEdgeReducer<NV, EV, R> reducer){
-		return reduceNextEdges(fromNode, defaultSearchOptions(), initialValue, reducer);
-	}
-
-	@Override
-	public <R> Result<R> reduceNextEdges(Node<NV> fromNode, SearchOptions options, R initialValue, ReachableEdgeReducer<NV, EV, R> reducer){
-		
-		ResultNtro<R> result = new ResultNtro<R>(initialValue);
-		
-		_reduceNextEdges(fromNode, options, result, reducer);
-		
-		return result;
-	}
-
-	protected <R> void _reduceNextEdges(Node<NV> fromNode, SearchOptions options, ResultNtro<R> result, ReachableEdgeReducer<NV, EV, R> reducer) {
+	protected <R> void _reduceNextEdges(Node<NV> fromNode, SearchOptions options, ResultNtro<R> result, ReachableStepReducer<NV, EV, R> reducer) {
 		if(result.hasException()) {
 			return;
 		}
@@ -413,15 +335,15 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 
 
 	@Override
-	public void forEachReachableEdge(Node<NV> fromNode, ReachableEdgeVisitor<NV, EV> visitor) {
-		forEachReachableEdge(fromNode, defaultSearchOptions(), visitor);
+	public void forEachReachableStep(Node<NV> fromNode, ReachableStepVisitor<NV, EV> visitor) {
+		forEachReachableStep(fromNode, defaultSearchOptions(), visitor);
 	}
 
 	@Override
-	public void forEachReachableEdge(Node<NV> fromNode, SearchOptions options, ReachableEdgeVisitor<NV, EV> visitor) {
-		reduceReachableEdges(fromNode, options, null, (accumulator, walkedEdges, step) -> {
-			
-			visitor.visitReachableEdge(walkedEdges, step.from(), step.edge(), step.to());
+	public void forEachReachableStep(Node<NV> fromNode, SearchOptions options, ReachableStepVisitor<NV, EV> visitor) {
+		reduceReachableSteps(fromNode, options, null, (accumulator, previousSteps, currentStep) -> {
+
+			visitor.visitReachableStep(previousSteps, currentStep);
 
 			return null;
 
@@ -429,17 +351,17 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 	}
 
 	@Override
-	public <R> Result<R> reduceReachableEdges(Node<NV> fromNode, R initialValue, ReachableEdgeReducer<NV, EV, R> reducer) {
+	public <R> Result<R> reduceReachableSteps(Node<NV> fromNode, R initialValue, ReachableStepReducer<NV, EV, R> reducer) {
 		
-		return reduceReachableEdges(fromNode, defaultSearchOptions(), initialValue, reducer);
+		return reduceReachableSteps(fromNode, defaultSearchOptions(), initialValue, reducer);
 	}
 
 
 	@Override
-	public <R> Result<R> reduceReachableEdges(Node<NV> fromNode, 
+	public <R> Result<R> reduceReachableSteps(Node<NV> fromNode, 
 			                                  SearchOptions options, 
 			                                  R initialValue, 
-			                                  ReachableEdgeReducer<NV, EV, R> reducer) {
+			                                  ReachableStepReducer<NV, EV, R> reducer) {
 
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 
@@ -452,7 +374,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 			
 			                                 SearchOptions options, 
 			                                 ResultNtro<R> result, 
-			                                 ReachableEdgeReducer<NV, EV, R> reducer) {
+			                                 ReachableStepReducer<NV, EV, R> reducer) {
 		
 		if(options.searchStrategy() == SearchStrategy.DEPTH_FIRST_SEARCH) {
 
@@ -468,7 +390,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 			                                           SearchOptions options, 
 			                                           Set<String> visitedEdges,
 			                                           ResultNtro<R> result, 
-			                                           ReachableEdgeReducer<NV, EV, R> reducer) {
+			                                           ReachableStepReducer<NV, EV, R> reducer) {
 
 		if(result.hasException()) {
 			return;
@@ -514,7 +436,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 			                                             SearchOptions options, 
 			                                             Set<String> visitedEdges,
 			                                             ResultNtro<R> result, 
-			                                             ReachableEdgeReducer<NV, EV, R> reducer) {
+			                                             ReachableStepReducer<NV, EV, R> reducer) {
 		
 		SearchOptions oneStepOptions = new SearchOptionsNtro(options.searchDirections(), 1);
 		
@@ -527,7 +449,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 			                                             Set<String> visitedEdges,
 			                                             List<WalkedStep<NV,EV>> walkedSteps,
 			                                             ResultNtro<R> result, 
-			                                             ReachableEdgeReducer<NV, EV, R> reducer) {
+			                                             ReachableStepReducer<NV, EV, R> reducer) {
 
 		if(options.maxDistance().hasValue() 
 				&& walkedSteps.size() + 1 > options.maxDistance().value()) {
@@ -548,16 +470,10 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 	}
 
 	@Override
-	public void visitEdgeWalk(Node<NV> fromNode, EdgeWalk edgeWalk, EdgeWalkVisitor<NV, EV> visitor) {
-		visitEdgeWalk(fromNode, defaultSearchOptions().searchDirections()[0], edgeWalk, visitor);
-	}
-
-	@Override
-	public void visitEdgeWalk(Node<NV> fromNode, Direction direction, EdgeWalk edgeWalk, EdgeWalkVisitor<NV, EV> visitor) {
-
-		reduceEdgeWalk(fromNode, direction, edgeWalk, null, (accumulator, walkedEdges, remainingEdgeWalk, n) -> {
+	public void visitSteps(Node<NV> fromNode, List<Step> steps, StepsVisitor<NV, EV> visitor) {
+		reduceSteps(fromNode, steps, null, (accumulator, walkedEdges, remainingSteps, n) -> {
 			
-			visitor.visitEdgeWalk(walkedEdges, remainingEdgeWalk, n);
+			visitor.visitStep(walkedEdges, remainingSteps, n);
 			
 			return null;
 
@@ -565,60 +481,45 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 	}
 
 	@Override
-	public <R> Result<R> reduceEdgeWalk(Node<NV> fromNode, 
-			                            EdgeWalk edgeWalk, 
-			                            R initialValue, 
-			                            EdgeWalkReducer<NV, EV, R> reducer) {
-		
-		return reduceEdgeWalk(fromNode, 
-				              defaultSearchOptions().walkDirection(), 
-				              edgeWalk, 
-				              initialValue, 
-				              reducer);
-	}
-
-	@Override
-	public <R> Result<R> reduceEdgeWalk(Node<NV> fromNode, 
-			                            Direction direction, 
-			                            EdgeWalk edgeWalk, 
-			                            R initialValue, 
-			                            EdgeWalkReducer<NV, EV, R> reducer) {
+	public <R> Result<R> reduceSteps(Node<NV> fromNode, 
+			                         List<Step> steps, 
+			                         R initialValue, 
+			                         StepsReducer<NV, EV, R> reducer) {
 		
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 		
-		_reduceEdgeWalk(fromNode, direction, edgeWalk, new ArrayList<>(), result, reducer);
+		_reduceEdgeWalk(fromNode, steps, new ArrayList<>(), result, reducer);
 
 		return result;
 	}
 
 	protected <R> void _reduceEdgeWalk(Node<NV> fromNode, 
-			                           Direction direction, 
-			                           EdgeWalk edgeWalk, 
+									   List<Step> steps,
 			                           List<WalkedStep<NV,EV>> walkedSteps,
 			                           ResultNtro<R> result, 
-			                           EdgeWalkReducer<NV, EV, R> reducer) {
+			                           StepsReducer<NV, EV, R> reducer) {
 		
 		if(result.hasException()) {
 			return;
 		}
 		
-		if(edgeWalk.isRootPath()) {
+		if(steps.isEmpty()) {
 			return;
 		}
 		
-		String nextEdgeName = edgeWalk.name(0);
-		EdgeWalk remainingEdgeWalk = edgeWalk.subPath(0);
+		Step nextStep = steps.get(0);
+		List<Step> remainingSteps = ListUtils.subList(steps, 1);
 		
-		_walkStep(fromNode, new StepNtro(direction, nextEdgeName), result, (__, walkedStep) -> {
+		_walkStep(fromNode, nextStep, result, (__, walkedStep) -> {
 
 			try {
 				
 				List<WalkedStep<NV,EV>> newWalkedSteps = new ArrayList<>(walkedSteps);
 				walkedSteps.add(walkedStep);
 
-				result.registerValue(reducer.reduceEdgeWalk(result.value(), newWalkedSteps, remainingEdgeWalk, walkedStep.to()));
+				result.registerValue(reducer.reduceStep(result.value(), newWalkedSteps, remainingSteps, walkedStep.to()));
 				
-				_reduceEdgeWalk(walkedStep.to(), direction, remainingEdgeWalk, newWalkedSteps, result, reducer);
+				_reduceEdgeWalk(walkedStep.to(), steps, newWalkedSteps, result, reducer);
 
 			}catch(Throwable t) {
 				
