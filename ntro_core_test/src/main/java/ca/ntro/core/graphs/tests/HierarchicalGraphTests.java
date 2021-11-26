@@ -8,13 +8,10 @@ import org.junit.Test;
 
 import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.Node;
-import ca.ntro.core.graphs.generic_graph.EdgeNtro;
-import ca.ntro.core.graphs.generic_graph.NodeNtro;
 import ca.ntro.core.graphs.graph.GraphBuilder;
 import ca.ntro.core.graphs.hierarchical_graph.HierarchicalGraph;
 import ca.ntro.core.graphs.hierarchical_graph.HierarchicalGraphBuilder;
 import ca.ntro.core.graphs.hierarchical_graph.HierarchicalNode;
-import ca.ntro.core.graphs.hierarchical_graph.HierarchicalNodeNtro;
 import ca.ntro.core.initialization.InitializerTest;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.services.ExceptionThrowerMock;
