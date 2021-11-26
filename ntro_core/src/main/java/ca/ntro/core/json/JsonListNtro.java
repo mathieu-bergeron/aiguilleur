@@ -6,7 +6,7 @@ public abstract class JsonListNtro implements JsonList {
 
 	@Override
 	public List<JsonValue<?>> javaValue() {
-		return this;
+		return (List<JsonValue<?>>) this;
 	}
 
 }
