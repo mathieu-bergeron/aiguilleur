@@ -84,14 +84,14 @@ public class Ntro {
 
 	/* <GraphWriter> */
 	
-	private static GraphWriter graphWriter = new GraphWriterNull();
-	
-	static void registerGraphWriter(GraphWriter graphWriter){
-		Ntro.graphWriter = graphWriter;
+	private static Class<? extends GraphWriter> graphWriterClass = GraphWriterNull.class;
+
+	static void registerGraphWriter(Class<? extends GraphWriter> graphWriterClass){
+		Ntro.graphWriterClass = graphWriterClass;
 	}
 
 	public static GraphWriter graphWriter(){
-		return Ntro.graphWriter;
+		return Factory.newInstance(graphWriterClass);
 	}
 
 	/* </GraphWriter> */

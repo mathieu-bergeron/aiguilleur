@@ -138,6 +138,7 @@ public class GraphWriterJdk implements GraphWriter {
 		}
 
 		Link link = Link.to(toNode);
+		link.attrs().add("label", edgeSpec.label());
 
 		fromNode.links().add(link);
 		fromNode.attrs().add("label", fromSpec.label());

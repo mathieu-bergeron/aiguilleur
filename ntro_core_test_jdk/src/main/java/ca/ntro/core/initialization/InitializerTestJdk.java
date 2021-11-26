@@ -9,7 +9,7 @@ public class InitializerTestJdk {
 	public static void initialize() {
 		Ntro.registerAsserter(new AsserterJdk());
 		Ntro.registerReflectionService(new ReflectionServiceJdk());
-		Ntro.registerGraphWriter(new GraphWriterJdk());
+		Ntro.registerGraphWriter(GraphWriterJdk.class);
 	}
 
 }
