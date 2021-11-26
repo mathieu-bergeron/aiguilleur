@@ -33,7 +33,6 @@ import ca.ntro.core.graphs.writers.GraphWriter;
 import ca.ntro.core.path.EdgeWalk;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
-import ca.ntro.core.graphs.Edge;
 
 public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValue>
        implements     GenericGraph<NV,EV> {
@@ -408,7 +407,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 	public void forEachReachableEdge(Node<NV> fromNode, SearchOptions options, ReachableEdgeVisitor<NV, EV> visitor) {
 		reduceReachableEdges(fromNode, options, null, (accumulator, walkedEdges, step) -> {
 			
-			visitor.visitReachableEdge(walkedEdges, fromNode, step.edge(), step.to());
+			visitor.visitReachableEdge(walkedEdges, step.from(), step.edge(), step.to());
 
 			return null;
 

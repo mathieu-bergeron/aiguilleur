@@ -32,17 +32,24 @@ public class NodeNtro<NV extends NodeValue> implements Node<NV> {
 		if(o instanceof NodeNtro) {
 			NodeNtro n = (NodeNtro) o;
 			
-			if(!(n.id == null ? id == null : n.id.equals(id))) {
+			if(n.id == null && id != null) {
 				return false;
 			}
 
-			if(!(n.value == null ? value == null : n.value.equals(value))) {
+			if(n.id != null && !n.id.equals(id)) {
+				return false;
+			}
+
+			if(n.value == null && value != null) {
+				return false;
+			}
+
+			if(n.value != null && !n.value.equals(value)) {
 				return false;
 			}
 			
 			return true;
 		}
-		
 		
 		return false;
 	}

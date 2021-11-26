@@ -32,13 +32,24 @@ public class EdgeNtro<EV extends EdgeValue> implements Edge<EV> {
 		if(o instanceof NodeNtro) {
 			EdgeNtro e = (EdgeNtro) o;
 			
-			if(!(e.id == null ? id == null : e.id.equals(id))) {
+			if(e.id == null && id != null) {
 				return false;
 			}
-
-			if(!(e.value == null ? value == null : e.value.equals(value))) {
+			
+			if(e.id != null && !e.id.equals(id)) {
 				return false;
 			}
+			
+			
+			
+			if(e.value == null && value != null) {
+				return false;
+			}
+			
+			if(e.value != null && !e.value.equals(value)) {
+				return false;
+			}
+			
 			
 			return true;
 		}

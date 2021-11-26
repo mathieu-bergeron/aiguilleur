@@ -208,7 +208,7 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, Refe
 
 			Object attributeValue = invokeGetter(currentObject, getterName);
 			
-			Path attributePath = Path.fromPath(fromNode.id().toFilepath());
+			Path attributePath = Path.fromRawPath(fromNode.id().toString());
 			attributePath.addName(edgeName);
 			
 			Node<ObjectValue> toNode = createNode(attributePath, attributeValue);

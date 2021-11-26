@@ -1,5 +1,8 @@
 package ca.ntro.core.graphs;
 
+import ca.ntro.core.path.Filepath;
+import ca.ntro.core.path.Path;
+
 public class WalkedStepNtro<NV extends NodeValue, EV extends EdgeValue> implements WalkedStep<NV,EV> {
 	
 	private Direction direction;
@@ -54,26 +57,37 @@ public class WalkedStepNtro<NV extends NodeValue, EV extends EdgeValue> implemen
 
 	@Override
 	public Direction direction() {
-		// TODO Auto-generated method stub
-		return null;
+		return getDirection();
 	}
 
 	@Override
 	public Node<NV> from() {
-		// TODO Auto-generated method stub
-		return null;
+		return getFrom();
 	}
 
 	@Override
 	public Edge<EV> edge() {
-		// TODO Auto-generated method stub
-		return null;
+		return getEdge();
 	}
 
 	@Override
 	public Node<NV> to() {
-		// TODO Auto-generated method stub
-		return null;
+		return getTo();
+	}
+
+	@Override
+	public WalkedStepId id() {
+		Path path = Path.fromSingleName(getDirection().name());
+
+		path.append(Path.fromRawPath(getFrom().id().toKey()));
+
+		if(getEdge() != null) {
+			path.append(Path.fromRawPath(getEdge().id().toKey()));
+		}
+
+		path.append(Path.fromRawPath(getTo().id().toKey()));
+		
+		return new WalkedStepId(path);
 	}
 
 }

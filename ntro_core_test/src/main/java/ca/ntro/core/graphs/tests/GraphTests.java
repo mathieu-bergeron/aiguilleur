@@ -59,15 +59,15 @@ public class GraphTests {
 
 		SearchOptions oneStepOptions = new SearchOptionsNtro(SearchStrategy.DEPTH_FIRST_SEARCH, new Direction[] {Direction.FORWARD}, 1);
 		
-		List<EdgeTriple<MockNodeValue, MockEdgeValue>> edges = new ArrayList<>();
+		List<DirectedEdgeTriple<MockNodeValue, MockEdgeValue>> edges = new ArrayList<>();
 
 		graph.forEachReachableEdge(nodeA, oneStepOptions, (walkedEdges, from, edge, to) -> {
 
-			edges.add(new EdgeTriple<>(from,edge,to));
+			edges.add(new DirectedEdgeTriple<>(from,edge,to));
 		});
 
-		Ntro.asserter().assertTrue("Should contain", edges.contains(new EdgeTriple<>(nodeA, edgeAB, nodeB)));
-		Ntro.asserter().assertTrue("Should contain", edges.contains(new EdgeTriple<>(nodeA, edgeAA, nodeA)));
+		Ntro.asserter().assertTrue("Should contain", edges.contains(new DirectedEdgeTriple<>(nodeA, edgeAB, nodeB)));
+		Ntro.asserter().assertTrue("Should contain", edges.contains(new DirectedEdgeTriple<>(nodeA, edgeAA, nodeA)));
 		Ntro.asserter().assertEquals(2, edges.size());
 		
 		exceptionThrower.throwLastException();
@@ -113,17 +113,21 @@ public class GraphTests {
 		Ntro.asserter().assertTrue("Should contain", nodes.contains(nodeC));
 		Ntro.asserter().assertEquals(4, nodes.size());
 		
-		List<EdgeTriple<MockNodeValue, MockEdgeValue>> edges = new ArrayList<>();
+		List<UndirectedEdgeTriple<MockNodeValue, MockEdgeValue>> edges = new ArrayList<>();
+		GraphBuilder<MockNodeValue, MockEdgeValue> builderTested = GraphBuilder.newBuilder("simpleGraph02_tested");
 
 		graph.forEachReachableEdge(node0, (walkedEdges, from, edge, to) -> {
-			edges.add(new EdgeTriple<>(from,edge,to));
+			builderTested.addEdge(from, edge.value(), to);
+			edges.add(new UndirectedEdgeTriple<>(from,edge,to));
 		});
+		
+		builderTested.toGraph().write(Ntro.graphWriter());
 
-		Ntro.asserter().assertTrue("Should contain", edges.contains(new EdgeTriple<>(node0, edge0A, nodeA)));
-		Ntro.asserter().assertTrue("Should contain", edges.contains(new EdgeTriple<>(nodeA, edgeAB, nodeB)));
-		Ntro.asserter().assertTrue("Should contain", edges.contains(new EdgeTriple<>(nodeB, edgeBC, nodeC)));
-		Ntro.asserter().assertTrue("Should contain", edges.contains(new EdgeTriple<>(nodeC, edgeCA, nodeA)));
 		Ntro.asserter().assertEquals(4, edges.size());
+		Ntro.asserter().assertTrue("Should contain", edges.contains(new UndirectedEdgeTriple<>(node0, edge0A, nodeA)));
+		Ntro.asserter().assertTrue("Should contain", edges.contains(new UndirectedEdgeTriple<>(nodeA, edgeAB, nodeB)));
+		Ntro.asserter().assertTrue("Should contain", edges.contains(new UndirectedEdgeTriple<>(nodeB, edgeBC, nodeC)));
+		Ntro.asserter().assertTrue("Should contain", edges.contains(new UndirectedEdgeTriple<>(nodeC, edgeCA, nodeA)));
 
 		exceptionThrower.throwLastException();
 	}

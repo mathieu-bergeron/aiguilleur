@@ -14,6 +14,10 @@ public class IdNtro implements Id {
 		setEntityPath(Path.fromSingleName(id));
 	}
 
+	public IdNtro(Path path) {
+		setEntityPath(path);
+	}
+
 	protected void setEntityPath(Path entityPath) {
 		this.entityPath = entityPath;
 	}
@@ -46,7 +50,7 @@ public class IdNtro implements Id {
 
 	@Override
 	public String toKey() {
-		return toFilepath().toRawPath();
+		return getEntityPath().toRawPath();
 	}
 
 	@Override

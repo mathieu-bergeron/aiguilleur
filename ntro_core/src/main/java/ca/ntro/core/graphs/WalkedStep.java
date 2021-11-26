@@ -7,5 +7,8 @@ public interface WalkedStep<NV extends NodeValue, EV extends EdgeValue> {
 	Node<NV> from();
 	Edge<EV> edge();
 	Node<NV> to();
+	
+	WalkedStepId id();
+	
 
 }

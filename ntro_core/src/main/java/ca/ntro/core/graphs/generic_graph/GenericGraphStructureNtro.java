@@ -101,17 +101,6 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue, EV extend
 	@Override
 	public void memorizeNode(Node<NV> node) {
 		getNodes().put(node.id().toKey(), node);
-
-		if(getNodes().containsKey(node.id().toKey())) {
-			
-			throw new RuntimeException("TODO");
-
-
-		}else {
-
-			throw new RuntimeException("TODO");
-			
-		}
 	}
 
 	@Override

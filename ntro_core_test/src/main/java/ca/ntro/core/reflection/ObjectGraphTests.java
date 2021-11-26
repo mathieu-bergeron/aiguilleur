@@ -6,7 +6,7 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import ca.ntro.core.graphs.tests.EdgeTriple;
+import ca.ntro.core.graphs.tests.DirectedEdgeTriple;
 import ca.ntro.core.initialization.InitializerTest;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.services.ExceptionThrowerMock;
@@ -101,10 +101,10 @@ public class ObjectGraphTests {
 		Ntro.asserter().assertEquals(1, subValues.size());
 		Ntro.asserter().assertTrue("Should contain", subValues.contains(o));
 
-		List<EdgeTriple<ObjectValue, ReferenceValue>> edges = new ArrayList<>();
+		List<DirectedEdgeTriple<ObjectValue, ReferenceValue>> edges = new ArrayList<>();
 
 		graph.forEachEdge((from,edge,to) -> {
-			edges.add(new EdgeTriple<ObjectValue, ReferenceValue>(from,edge,to));
+			edges.add(new DirectedEdgeTriple<ObjectValue, ReferenceValue>(from,edge,to));
 		});
 		
 		exceptionThrower.throwLastException();
