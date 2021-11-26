@@ -11,6 +11,7 @@ import ca.ntro.core.graphs.GraphId;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeValue;
 import ca.ntro.core.graphs.writers.GraphWriter;
+import ca.ntro.core.graphs.writers.GraphWriterOptions;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.path.Filepath;
 
@@ -38,22 +39,26 @@ public class GraphWriterJdk implements GraphWriter {
 	}
 
 	@Override
-	public void initialize(GraphId id, boolean directed) {
+	public void initialize(GraphId id, GraphWriterOptions options) {
 		this.basepath = id.toFilepath();
 
-		graph = mutGraph(basepath.filename()).setDirected(directed)
+		graph = mutGraph(basepath.filename()).setDirected(options.isDirected())
 				.graphAttrs().add(Rank.dir(RankDir.LEFT_TO_RIGHT))
 				.graphAttrs().add("compound", "true");
+	}
+	
+	private File createFile(String extension) {
+		File file = new File("_storage/" + basepath.toRawPath() + extension);
+		file.mkdirs();
+		
+		return file;
 	}
 
 	@Override
 	public void writePng() {
-		File file = new File("_storage/" + basepath.toRawPath() + ".png");
-		file.mkdirs();
-
 		try {
 
-			toPng(file);
+			Graphviz.fromGraph(graph).render(Format.PNG).toFile(createFile(".png"));
 
 		} catch (IOException e) {
 
@@ -65,11 +70,9 @@ public class GraphWriterJdk implements GraphWriter {
 
 	@Override
 	public void writeSvg() {
-		File file = new File("_storage/" + basepath.toRawPath() + ".svg");
-
 		try {
 
-			toSvg(file);
+			Graphviz.fromGraph(graph).render(Format.SVG).toFile(createFile(".svg"));
 
 		} catch (IOException e) {
 
@@ -82,11 +85,9 @@ public class GraphWriterJdk implements GraphWriter {
 
 	@Override
 	public void writeDot() {
-		File file = new File("_storage/" + basepath.toRawPath() + ".dot");
-
 		try {
 
-			toDot(file);
+			Graphviz.fromGraph(graph).render(Format.DOT).toFile(createFile(".dot"));
 
 		} catch (IOException e) {
 
@@ -97,7 +98,31 @@ public class GraphWriterJdk implements GraphWriter {
 	}
 
 	@Override
-	public void writeEdge(Node<? extends NodeValue> from, Edge<? extends EdgeValue> edge, Node<? extends NodeValue> to) {
+	public void addCluster(Node<? extends NodeValue> cluster) {
+		MutableGraph dotCluster = createCluster(cluster);
+		graph.add(dotCluster);
+	}
+
+	@Override
+	public void addSubCluster(Node<? extends NodeValue> cluster, Node<? extends NodeValue> subCluster) {
+		MutableGraph dotCluster = clusters.get(cluster.id().toKey());
+		dotCluster.add(createCluster(subCluster));
+	}
+
+	@Override
+	public void addSubNode(Node<? extends NodeValue> cluster, Node<? extends NodeValue> subNode) {
+		MutableGraph dotCluster = clusters.get(cluster.id().toKey());
+		dotCluster.add(createNode(subNode));
+	}
+
+	@Override
+	public void addRootNode(Node<? extends NodeValue> node) {
+		MutableNode dotNode = createNode(node);
+		graph.add(dotNode);
+	}
+
+	@Override
+	public void addEdge(Node<? extends NodeValue> from, Edge<? extends EdgeValue> edge, Node<? extends NodeValue> to) {
 		MutableGraph fromCluster = clusters.get(from.id().toKey());
 		MutableGraph toCluster = clusters.get(to.id().toKey());
 		
@@ -141,27 +166,7 @@ public class GraphWriterJdk implements GraphWriter {
 		}
 	}
 
-	@Override
-	public void writeNode(Node<? extends NodeValue> node) {
-		addRootNode(node);
-	}
 	
-	public void toPng(File file) throws IOException {
-		Graphviz.fromGraph(graph).render(Format.PNG).toFile(file);
-	}
-
-	public void toSvg(File file) throws IOException {
-		Graphviz.fromGraph(graph).render(Format.SVG).toFile(file);
-	}
-
-	public void toDot(File file) throws IOException {
-		Graphviz.fromGraph(graph).render(Format.DOT).toFile(file);
-	}
-
-	public void addRootCluster(Node<? extends NodeValue> clusterSpec) {
-		MutableGraph cluster = createCluster(clusterSpec);
-		graph.add(cluster);
-	}
 
 	private MutableGraph createCluster(Node<? extends NodeValue> clusterSpec) {
 		if(clusters.containsKey(clusterSpec.id().toKey())) return clusters.get(clusterSpec.id().toKey());
@@ -190,11 +195,6 @@ public class GraphWriterJdk implements GraphWriter {
 		clusterInvisibleNodes.put(cluster.name().toString(), clusterInvisiableNode);
 	}
 
-	public void addRootNode(Node<? extends NodeValue> nodeSpec) {
-		MutableNode node = createNode(nodeSpec);
-		graph.add(node);
-	}
-
 	private MutableNode createNode(Node<? extends NodeValue> nodeSpec) {
 		if(nodes.containsKey(nodeSpec.id().toKey())) return nodes.get(nodeSpec.id().toKey());
 
@@ -203,19 +203,4 @@ public class GraphWriterJdk implements GraphWriter {
 		nodes.put(nodeSpec.id().toKey(), node);
 		return node;
 	}
-
-	public void addSubCluster(Node<? extends NodeValue> clusterSpec, Node<? extends NodeValue> subClusterSpec) {
-		MutableGraph cluster = clusters.get(clusterSpec.id().toKey());
-		cluster.add(createCluster(subClusterSpec));
-	}
-
-	public void addSubNode(Node<? extends NodeValue> clusterSpec, Node<? extends NodeValue> subNodeSpec) {
-		MutableGraph cluster = clusters.get(clusterSpec.id().toKey());
-		cluster.add(createNode(subNodeSpec));
-	}
-
-	public void addEdge(Node<? extends NodeValue> fromSpec, Node<? extends NodeValue> toSpec) {
-	}
-
-	
 }

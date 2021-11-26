@@ -9,17 +9,17 @@ import ca.ntro.core.graphs.NodeValue;
 public class GraphWriterNull implements GraphWriter {
 
 	@Override
-	public void initialize(GraphId id, boolean directed) {
+	public void initialize(GraphId id, GraphWriterOptions options) {
 	}
 
 	@Override
-	public void writeEdge(Node<? extends NodeValue> from, 
+	public void addEdge(Node<? extends NodeValue> from, 
 			              Edge<? extends EdgeValue> edge, 
 			              Node<? extends NodeValue> to) {
 	}
 
 	@Override
-	public void writeNode(Node<? extends NodeValue> node) {
+	public void addRootNode(Node<? extends NodeValue> node) {
 	}
 
 	@Override
@@ -34,4 +34,15 @@ public class GraphWriterNull implements GraphWriter {
 	public void writeDot() {
 	}
 
+	@Override
+	public void addCluster(Node<? extends NodeValue> cluster) {
+	}
+
+	@Override
+	public void addSubCluster(Node<? extends NodeValue> cluster, Node<? extends NodeValue> subCluster) {
+	}
+
+	@Override
+	public void addSubNode(Node<? extends NodeValue> cluster, Node<? extends NodeValue> subNode) {
+	}
 }

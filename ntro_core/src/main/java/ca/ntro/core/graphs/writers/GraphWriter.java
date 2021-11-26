@@ -8,10 +8,15 @@ import ca.ntro.core.graphs.NodeValue;
 
 public interface GraphWriter {
 	
-	void initialize(GraphId id, boolean directed);
+	void initialize(GraphId id, GraphWriterOptions options);
 
-	void writeEdge(Node<? extends NodeValue> from, Edge<? extends EdgeValue> edge, Node<? extends NodeValue> to);
-	void writeNode(Node<? extends NodeValue> node);
+	void addCluster(Node<? extends NodeValue> cluster);
+	void addSubCluster(Node<? extends NodeValue> cluster, Node<? extends NodeValue> subCluster);
+	void addSubNode(Node<? extends NodeValue> cluster, Node<? extends NodeValue> subNode);
+
+	void addRootNode(Node<? extends NodeValue> node);
+
+	void addEdge(Node<? extends NodeValue> from, Edge<? extends EdgeValue> edge, Node<? extends NodeValue> to);
 	
 	void writePng();
 	void writeSvg();

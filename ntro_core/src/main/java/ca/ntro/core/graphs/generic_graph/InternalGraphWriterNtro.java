@@ -8,13 +8,14 @@ import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeValue;
 import ca.ntro.core.graphs.writers.GraphWriter;
+import ca.ntro.core.graphs.writers.GraphWriterOptions;
 
 public class InternalGraphWriterNtro<NV extends NodeValue, EV extends EdgeValue, G extends GenericGraph<NV,EV>> implements InternalGraphWriter<NV,EV> {
 
 	@Override
 	public void write(GenericGraph<NV, EV> graph, GraphWriter writer) {
 
-		writer.initialize(graph.id(), isDirected());
+		writer.initialize(graph.id(), defaultOptions());
 		
 		Set<String> unwrittenNodes = writeEdges(graph, writer);
 
@@ -24,8 +25,8 @@ public class InternalGraphWriterNtro<NV extends NodeValue, EV extends EdgeValue,
 		writer.writePng();
 	}
 
-	protected boolean isDirected() {
-		return false;
+	protected GraphWriterOptions defaultOptions() {
+		return GraphWriterOptions.directed(false);
 	}
 
 	protected Set<String> writeEdges(GenericGraph<NV,EV> graph, GraphWriter writer) {
@@ -43,7 +44,7 @@ public class InternalGraphWriterNtro<NV extends NodeValue, EV extends EdgeValue,
 			unwrittenNodes.remove(from.id().toKey());
 			unwrittenNodes.remove(to.id().toKey());
 
-			writer.writeEdge(from, edge, to);
+			writer.addEdge(from, edge, to);
 		});
 		
 		return unwrittenNodes;
@@ -55,7 +56,7 @@ public class InternalGraphWriterNtro<NV extends NodeValue, EV extends EdgeValue,
 			Node<NV> node = graph.findNode(nodeKey);
 
 			if(node != null) {
-				writer.writeNode(node);
+				writer.addRootNode(node);
 			}
 		}
 	}
