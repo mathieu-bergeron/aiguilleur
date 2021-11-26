@@ -12,7 +12,9 @@ public class      InternalHierarchicalGraphWriterNtro<NV extends NodeValue,
                                                       EV extends EdgeValue,
                                                       N extends Node<NV>,
                                                       E extends Edge<EV>>
-       extends    InternalGraphWriterNtro<NV,EV,HierarchicalGraph<NV,EV,N,E>>
+
+       extends    InternalGraphWriterNtro<NV,EV,N,E,HierarchicalGraph<NV,EV,N,E>>
+
        implements InternalHierarchicalGraphWriter<NV,EV,N,E> {
 
 	@Override

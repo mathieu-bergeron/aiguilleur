@@ -40,7 +40,7 @@ public class GraphTests {
 	public void reachableEdgesDepthFirst01() throws Throwable {
 		exceptionThrower.clear();
 
-		GraphBuilder<MockNodeValue, MockEdgeValue> builder = GraphBuilder.newBuilder("reachableEdgesDepthFirst01");
+		GraphBuilder<MockNodeValue, MockEdgeValue, NodeNtro<MockNodeValue>, EdgeNtro<MockEdgeValue>> builder = GraphBuilder.newBuilder("reachableEdgesDepthFirst01");
 
 		MockNodeValue nodeValueA = new MockNodeValue("A");
 		MockNodeValue nodeValueB = new MockNodeValue("B");
@@ -79,7 +79,7 @@ public class GraphTests {
 	public void simpleGraph02() throws Throwable {
 		exceptionThrower.clear();
 
-		GraphBuilder<MockNodeValue, MockEdgeValue> builder = GraphBuilder.newBuilder("simpleGraph02");
+		GraphBuilder<MockNodeValue, MockEdgeValue, NodeNtro<MockNodeValue>, EdgeNtro<MockEdgeValue>> builder = GraphBuilder.newBuilder("simpleGraph02");
 
 		MockNodeValue nodeValue0 = new MockNodeValue("0");
 		MockNodeValue nodeValueA = new MockNodeValue("A");
@@ -101,7 +101,7 @@ public class GraphTests {
 		Edge<MockEdgeValue> edgeBC = builder.addEdge(nodeB, edgeValueBC, nodeC);
 		Edge<MockEdgeValue> edgeCA = builder.addEdge(nodeC, edgeValueCA, nodeA);
 		
-		Graph<MockNodeValue, MockEdgeValue> graph = builder.toGraph();
+		Graph<MockNodeValue, MockEdgeValue, NodeNtro<MockNodeValue>, EdgeNtro<MockEdgeValue>> graph = builder.toGraph();
 		graph.write(Ntro.graphWriter());
 
 		List<Node<MockNodeValue>> nodes = new ArrayList<>();
@@ -116,7 +116,7 @@ public class GraphTests {
 		Ntro.asserter().assertEquals(4, nodes.size());
 		
 		List<UndirectedEdgeTriple<MockNodeValue, MockEdgeValue>> edges = new ArrayList<>();
-		GraphBuilder<MockNodeValue, MockEdgeValue> builderTested = GraphBuilder.newBuilder("simpleGraph02_tested");
+		GraphBuilder<MockNodeValue, MockEdgeValue, NodeNtro<MockNodeValue>, EdgeNtro<MockEdgeValue>> builderTested = GraphBuilder.newBuilder("simpleGraph02_tested");
 
 		graph.forEachReachableStep(node0, (walkedEdges, step) -> {
 			builderTested.addEdge(step.from(), step.edge().value(), step.to());
@@ -138,7 +138,7 @@ public class GraphTests {
 	public void nodeAlreadyAddedException() {
 		exceptionThrower.clear();
 
-		GraphBuilder<MockNodeValue, MockEdgeValue> builder = GraphBuilder.newBuilder();
+		GraphBuilder<MockNodeValue, MockEdgeValue, NodeNtro<MockNodeValue>, EdgeNtro<MockEdgeValue>> builder = GraphBuilder.newBuilder();
 
 		MockNodeValue nodeValueA = new MockNodeValue("A");
 		
@@ -153,7 +153,7 @@ public class GraphTests {
 	public void edgeAlreadyAddedException() {
 		exceptionThrower.clear();
 
-		GraphBuilder<MockNodeValue, MockEdgeValue> builder = GraphBuilder.newBuilder();
+		GraphBuilder<MockNodeValue, MockEdgeValue, NodeNtro<MockNodeValue>, EdgeNtro<MockEdgeValue>> builder = GraphBuilder.newBuilder();
 
 		MockNodeValue nodeValueA = new MockNodeValue("A");
 		MockNodeValue nodeValueB = new MockNodeValue("B");
@@ -174,7 +174,7 @@ public class GraphTests {
 	public void edgeAlreadyAddedExceptionUndirected() {
 		exceptionThrower.clear();
 
-		GraphBuilder<MockNodeValue, MockEdgeValue> builder = GraphBuilder.newBuilder();
+		GraphBuilder<MockNodeValue, MockEdgeValue, NodeNtro<MockNodeValue>, EdgeNtro<MockEdgeValue>> builder = GraphBuilder.newBuilder();
 
 		MockNodeValue nodeValueA = new MockNodeValue("A");
 		MockNodeValue nodeValueB = new MockNodeValue("B");
