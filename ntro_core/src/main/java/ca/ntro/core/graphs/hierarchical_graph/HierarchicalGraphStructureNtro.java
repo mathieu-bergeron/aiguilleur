@@ -14,7 +14,9 @@ public class       HierarchicalGraphStructureNtro<NV extends NodeValue,
                                                   EV extends EdgeValue,
                                                   N extends Node<NV>,
                                                   E extends Edge<EV>> 
+
        extends     GenericGraphStructureNtro<NV,EV,N,E>
+
        implements  HierarchicalGraphStructure<NV,EV,N,E> {
 
 	@Override
