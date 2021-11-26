@@ -9,8 +9,10 @@ import ca.ntro.core.identifyers.ClassId;
 import ca.ntro.core.identifyers.ObjectId;
 import ca.ntro.core.identifyers.ServiceId;
 import ca.ntro.core.services.TracerNtro;
-import ca.ntro.core.task_graph.TaskGraph;
-import ca.ntro.core.tasks.base.Task;
+import ca.ntro.core.task_graphs.executable_task_graph.ExecutableTask;
+import ca.ntro.core.task_graphs.executable_task_graph.ExecutableTaskGraph;
+import ca.ntro.core.task_graphs.task_graph.AtomicTask;
+import ca.ntro.core.task_graphs.task_graph.AtomicTaskId;
 import ca.ntro.core.values.ObjectMap;
 import ca.ntro.core.values.ObjectMapNtro;
 import ca.ntro.core.wrappers.future.Future;
@@ -19,7 +21,7 @@ public abstract class InitializerNtro implements Initializer {
 	
 	private InitializerOptions options = new InitializerOptionsNtro();
 	
-	private Map<ServiceId<?>, Task> serviceTasks = new HashMap<>();
+	private Map<ServiceId<?>, ExecutableTask> serviceTasks = new HashMap<>();
 	
 	private List<Service<?>> services(){
 
@@ -30,9 +32,9 @@ public abstract class InitializerNtro implements Initializer {
 		return initializedObjects;
 	}
 
-	private TaskGraph buildGraph() {
+	private ExecutableTaskGraph buildGraph() {
 		
-		TaskGraph graph = null;
+		ExecutableTaskGraph graph = null;
 		
 		/*
 		
@@ -84,7 +86,7 @@ public abstract class InitializerNtro implements Initializer {
 		return graph;
 	}
 	
-	private Task createServiceTask(ServiceId<?> serviceId) {
+	private ExecutableTask createServiceTask(ServiceId<?> serviceId) {
 		
 		/*
 
@@ -108,8 +110,8 @@ public abstract class InitializerNtro implements Initializer {
 		return null;
 	}
 
-	protected abstract Task provideInitializationTask(ObjectId objectId);
-	protected abstract Task provideInitializationTask(ClassId<? extends Object> classId);
+	protected abstract ExecutableTask provideInitializationTask(ObjectId objectId);
+	protected abstract ExecutableTask provideInitializationTask(ClassId<? extends Object> classId);
 	
 	private void initializeStaticImports(ObjectMap objectMap) {
 		
@@ -149,5 +151,25 @@ public abstract class InitializerNtro implements Initializer {
 		this.options = options;
 
 		return this;
+	}
+
+	@Override
+	public AtomicTask findAtomicTask(AtomicTaskId id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void notifyAtomicTaskCompleted(AtomicTask atomicTask, ObjectMap results) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public boolean isAtomicTaskCompleted(AtomicTask atomicTask) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

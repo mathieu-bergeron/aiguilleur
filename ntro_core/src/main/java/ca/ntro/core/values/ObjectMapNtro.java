@@ -12,7 +12,7 @@ public class ObjectMapNtro implements ObjectMap {
 	}
 
 	@Override
-	public <O> O getObject(ObjectId objectId) {
+	public <O> O getObject(ObjectId<O> objectId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

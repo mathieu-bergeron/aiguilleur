@@ -3,8 +3,8 @@ package ca.ntro.app.frontend.controllers.tasks;
 import ca.ntro.app.frontend.View;
 import ca.ntro.app.messages.Message;
 import ca.ntro.app.models.Model;
-import ca.ntro.core.graphs.task_graph.Task;
 import ca.ntro.core.identifyers.ModelId;
+import ca.ntro.core.task_graphs.task_graph.Task;
 
 public interface TaskCreator {
 

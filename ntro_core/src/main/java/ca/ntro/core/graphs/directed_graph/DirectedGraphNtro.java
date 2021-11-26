@@ -8,7 +8,15 @@ import ca.ntro.core.graphs.generic_graph.GenericGraphBuilderNtro;
 
 public class      DirectedGraphNtro<NV extends NodeValue, EV extends EdgeValue> 
        extends    GenericGraphBuilderNtro<NV,EV,DirectedGraphStructure<NV,EV>, DirectedGraph<NV,EV>> 
-       implements DirectedGraph<NV,EV> {
+       implements DirectedGraph<NV,EV>, DirectedGraphBuilder<NV,EV> {
+
+	public DirectedGraphNtro() {
+		super();
+	}
+
+	public DirectedGraphNtro(String graphName) {
+		super(graphName);
+	}
 
 	@Override
 	protected DirectedGraphSearchOptions defaultSearchOptions() {

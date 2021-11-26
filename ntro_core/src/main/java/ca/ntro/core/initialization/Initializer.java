@@ -1,10 +1,11 @@
 package ca.ntro.core.initialization;
 
-import ca.ntro.core.task_graph.TaskGraph;
+import ca.ntro.core.task_graphs.executable_task_graph.ExecutableTaskGraph;
 
-public interface Initializer extends TaskGraph {
+public interface Initializer extends ExecutableTaskGraph {
 	
 	Initializer setOptions(InitializerOptions options);
+
 
 
 }
