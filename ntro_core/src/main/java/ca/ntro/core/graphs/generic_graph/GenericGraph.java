@@ -2,6 +2,7 @@ package ca.ntro.core.graphs.generic_graph;
 
 import java.util.List;
 
+import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeReducer;
 import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.EdgeVisitor;
@@ -23,7 +24,10 @@ import ca.ntro.core.graphs.StepsReducer;
 import ca.ntro.core.graphs.writers.GraphWriter;
 import ca.ntro.core.wrappers.result.Result;
 
-public interface GenericGraph<NV extends NodeValue, EV extends EdgeValue> {
+public interface GenericGraph<NV extends NodeValue, 
+                              EV extends EdgeValue,
+                              N extends Node<NV>,
+                              E extends Edge<EV>> {
 
 	GraphId id();
 	String label();

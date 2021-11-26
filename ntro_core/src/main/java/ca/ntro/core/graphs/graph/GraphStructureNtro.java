@@ -9,9 +9,13 @@ import ca.ntro.core.graphs.NodeValue;
 import ca.ntro.core.graphs.generic_graph.GenericGraphStructureNtro;
 import ca.ntro.core.graphs.generic_graph.generic_graph_structure.EdgesForFromNode;
 
-public class        GraphStructureNtro<NV extends NodeValue, EV extends EdgeValue> 
-       extends      GenericGraphStructureNtro<NV,EV>
-       implements   GraphStructure<NV,EV> {
+public class        GraphStructureNtro<NV extends NodeValue, 
+                                       EV extends EdgeValue,
+                                       N extends Node<NV>,
+                                       E extends Edge<EV>> 
+
+       extends      GenericGraphStructureNtro<NV,EV,N,E>
+       implements   GraphStructure<NV,EV,N,E> {
 
 	private EdgesForFromNode<NV,EV> edgesForward = new EdgesForFromNode<NV,EV>();
 

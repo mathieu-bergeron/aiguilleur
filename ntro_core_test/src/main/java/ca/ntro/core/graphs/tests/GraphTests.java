@@ -14,6 +14,8 @@ import ca.ntro.core.graphs.NodeAlreadyAddedException;
 import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.graphs.SearchOptionsNtro;
 import ca.ntro.core.graphs.SearchStrategy;
+import ca.ntro.core.graphs.generic_graph.EdgeNtro;
+import ca.ntro.core.graphs.generic_graph.NodeNtro;
 import ca.ntro.core.graphs.graph.Graph;
 import ca.ntro.core.graphs.graph.GraphBuilder;
 import ca.ntro.core.initialization.InitializerTest;
@@ -52,7 +54,7 @@ public class GraphTests {
 		Edge<MockEdgeValue> edgeAB = builder.addEdge(nodeA, edgeValueAB, nodeB);
 		Edge<MockEdgeValue> edgeAA = builder.addEdge(nodeA, edgeValueAA, nodeA);
 
-		Graph<MockNodeValue, MockEdgeValue> graph = builder.toGraph();
+		Graph<MockNodeValue, MockEdgeValue, NodeNtro<MockNodeValue>, EdgeNtro<MockEdgeValue>> graph = builder.toGraph();
 		graph.write(Ntro.graphWriter());
 
 		exceptionThrower.throwLastException();

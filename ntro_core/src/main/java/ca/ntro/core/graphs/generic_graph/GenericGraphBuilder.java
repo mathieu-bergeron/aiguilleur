@@ -8,8 +8,10 @@ import ca.ntro.core.graphs.generic_graph.generic_graph_structure.GenericGraphStr
 
 public interface GenericGraphBuilder<NV extends NodeValue, 
                                      EV extends EdgeValue, 
-                                     GS extends GenericGraphStructure<NV,EV>,
-                                     G extends GenericGraph<NV,EV>> {
+                                     N extends Node<NV>,
+                                     E extends Edge<EV>,
+                                     GS extends GenericGraphStructure<NV,EV,N,E>,
+                                     G extends GenericGraph<NV,EV,N,E>> {
 
 	Node<NV> addNode(NV nodeValue);
 

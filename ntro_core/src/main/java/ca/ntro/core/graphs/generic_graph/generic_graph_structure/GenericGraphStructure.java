@@ -10,7 +10,10 @@ import ca.ntro.core.graphs.WalkedStepReducer;
 import ca.ntro.core.graphs.generic_graph.StepReducer;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
-public interface GenericGraphStructure<NV extends NodeValue, EV extends EdgeValue> {
+public interface GenericGraphStructure<NV extends NodeValue, 
+                                       EV extends EdgeValue,
+                                       N extends Node<NV>,
+                                       E extends Edge<EV>> {
 
 	boolean containsNode(Node<NV> node);
 	boolean containsEdge(Edge<EV> edge);

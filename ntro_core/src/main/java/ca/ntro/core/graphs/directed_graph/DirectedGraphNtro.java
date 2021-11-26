@@ -1,6 +1,7 @@
 package ca.ntro.core.graphs.directed_graph;
 
 
+import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeValue;
@@ -8,9 +9,16 @@ import ca.ntro.core.graphs.generic_graph.GenericGraphBuilderNtro;
 import ca.ntro.core.graphs.generic_graph.InternalGraphWriter;
 import ca.ntro.core.graphs.generic_graph.InternalGraphWriterNtro;
 
-public class      DirectedGraphNtro<NV extends NodeValue, EV extends EdgeValue> 
-       extends    GenericGraphBuilderNtro<NV,EV,DirectedGraphStructure<NV,EV>, DirectedGraph<NV,EV>> 
-       implements DirectedGraph<NV,EV>, DirectedGraphBuilder<NV,EV> {
+public class      DirectedGraphNtro<NV extends NodeValue, 
+                                    EV extends EdgeValue,
+                                    N extends Node<NV>,
+                                    E extends Edge<EV>> 
+
+       extends    GenericGraphBuilderNtro<NV,EV,N,E,DirectedGraphStructure<NV,EV,N,E>,
+                  DirectedGraph<NV,EV,N,E>> 
+
+       implements DirectedGraph<NV,EV,N,E>, 
+                  DirectedGraphBuilder<NV,EV,N,E> {
 
 	public DirectedGraphNtro() {
 		super();
@@ -26,8 +34,8 @@ public class      DirectedGraphNtro<NV extends NodeValue, EV extends EdgeValue>
 	}
 
 	@Override
-	protected DirectedGraphStructure<NV, EV> createGraphStructure() {
-		return new DirectedGraphStructureNtro<NV,EV>();
+	protected DirectedGraphStructure<NV,EV,N,E> createGraphStructure() {
+		return new DirectedGraphStructureNtro<>();
 	}
 
 	@Override
@@ -35,7 +43,7 @@ public class      DirectedGraphNtro<NV extends NodeValue, EV extends EdgeValue>
 	}
 
 	@Override
-	protected InternalGraphWriter<NV, EV> internalGraphWriter() {
+	protected InternalGraphWriter<NV,EV,N,E> internalGraphWriter() {
 		return new InternalGraphWriterNtro<>();
 	}
 }

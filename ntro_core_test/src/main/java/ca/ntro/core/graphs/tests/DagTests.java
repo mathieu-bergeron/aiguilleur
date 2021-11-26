@@ -8,6 +8,8 @@ import org.junit.Test;
 
 import ca.ntro.core.graphs.dag.CycleException;
 import ca.ntro.core.graphs.dag.DagNtro;
+import ca.ntro.core.graphs.generic_graph.EdgeNtro;
+import ca.ntro.core.graphs.generic_graph.NodeNtro;
 import ca.ntro.core.initialization.InitializerTest;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.services.ExceptionThrowerMock;
@@ -36,7 +38,7 @@ public class DagTests {
 		MockEdgeValue edgeValueAB = new MockEdgeValue("AB");
 		MockEdgeValue edgeValueBC = new MockEdgeValue("BC");
 		
-		DagNtro<MockNodeValue, MockEdgeValue> dag = new DagNtro<>();
+		DagNtro<MockNodeValue, MockEdgeValue, NodeNtro<MockNodeValue>, EdgeNtro<MockEdgeValue>> dag = new DagNtro<>();
 		
 		/*
 		

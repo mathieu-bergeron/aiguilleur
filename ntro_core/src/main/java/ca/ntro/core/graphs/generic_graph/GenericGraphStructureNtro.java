@@ -17,8 +17,12 @@ import ca.ntro.core.graphs.generic_graph.generic_graph_structure.EdgesForFromNod
 import ca.ntro.core.graphs.generic_graph.generic_graph_structure.GenericGraphStructure;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
-public abstract class  GenericGraphStructureNtro<NV extends NodeValue, EV extends EdgeValue> 
-       implements      GenericGraphStructure<NV,EV> {
+public abstract class  GenericGraphStructureNtro<NV extends NodeValue, 
+                                                 EV extends EdgeValue,
+                                                 N extends Node<NV>,
+                                                 E extends Edge<EV>> 
+
+       implements      GenericGraphStructure<NV,EV,N,E> {
 	
 	private Map<String, Node<NV>> nodes = new HashMap<>();
 	private Map<String, Edge<EV>> edges = new HashMap<>();

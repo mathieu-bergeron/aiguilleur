@@ -7,7 +7,14 @@ import ca.ntro.core.graphs.NodeValue;
 import ca.ntro.core.graphs.directed_graph.DirectedGraphNtro;
 import ca.ntro.core.wrappers.result.Result;
 
-public class DagNtro<NV extends NodeValue, EV extends EdgeValue> extends DirectedGraphNtro<NV,EV> implements Dag<NV,EV> {
+public class      DagNtro<NV extends NodeValue, 
+                          EV extends EdgeValue,
+                          N extends Node<NV>,
+                          E extends Edge<EV>> 
+
+       extends    DirectedGraphNtro<NV,EV,N,E> 
+
+       implements Dag<NV,EV,N,E> {
 
 	/*
 	@Override

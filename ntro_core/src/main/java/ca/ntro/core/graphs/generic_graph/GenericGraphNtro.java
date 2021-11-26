@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import ca.ntro.core.exceptions.Break;
-import ca.ntro.core.graphs.Direction;
+import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeReducer;
 import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.EdgeVisitor;
@@ -27,17 +27,19 @@ import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.graphs.SearchOptionsNtro;
 import ca.ntro.core.graphs.SearchStrategy;
 import ca.ntro.core.graphs.Step;
-import ca.ntro.core.graphs.StepNtro;
 import ca.ntro.core.graphs.WalkedStep;
 import ca.ntro.core.graphs.WalkedStepReducer;
 import ca.ntro.core.graphs.writers.GraphWriter;
-import ca.ntro.core.path.EdgeWalk;
 import ca.ntro.core.util.ListUtils;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
-public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValue>
-       implements     GenericGraph<NV,EV> {
+public abstract class GenericGraphNtro<NV extends NodeValue, 
+                                       EV extends EdgeValue,
+                                       N extends Node<NV>,
+                                       E extends Edge<EV>>
+
+       implements     GenericGraph<NV,EV,N,E> {
 
 	@Override
 	public abstract GraphId id();
@@ -50,7 +52,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 		internalGraphWriter().write(this, writer);
 	}
 
-	protected abstract InternalGraphWriter<NV,EV> internalGraphWriter();
+	protected abstract InternalGraphWriter<NV,EV,N,E> internalGraphWriter();
 
 	protected abstract SearchOptions defaultSearchOptions();
 

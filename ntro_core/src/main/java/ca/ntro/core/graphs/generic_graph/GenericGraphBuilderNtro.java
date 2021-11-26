@@ -16,12 +16,14 @@ import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class GenericGraphBuilderNtro<NV extends NodeValue, 
                                               EV extends EdgeValue, 
-                                              GS extends GenericGraphStructure<NV,EV>,
-                                              G extends GenericGraph<NV,EV>> 
+                                              N extends Node<NV>,
+                                              E extends Edge<EV>,
+                                              GS extends GenericGraphStructure<NV,EV,N,E>,
+                                              G extends GenericGraph<NV,EV,N,E>> 
 
-       extends        GenericGraphNtro<NV, EV>
-       implements     GenericGraphBuilder<NV,EV,GS,G>, 
-                      GenericGraph<NV,EV> {
+       extends        GenericGraphNtro<NV,EV,N,E>
+       implements     GenericGraphBuilder<NV,EV,N,E,GS,G>, 
+                      GenericGraph<NV,EV,N,E> {
 
 	private GraphId id;
 

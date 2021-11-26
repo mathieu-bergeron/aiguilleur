@@ -1,5 +1,6 @@
 package ca.ntro.core.graphs.graph;
 
+import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeValue;
@@ -8,9 +9,14 @@ import ca.ntro.core.graphs.generic_graph.GenericGraphBuilderNtro;
 import ca.ntro.core.graphs.generic_graph.InternalGraphWriter;
 import ca.ntro.core.graphs.generic_graph.InternalGraphWriterNtro;
 
-public class      GraphNtro<NV extends NodeValue, EV extends EdgeValue> 
-       extends    GenericGraphBuilderNtro<NV,EV,GraphStructure<NV,EV>,Graph<NV,EV>> 
-       implements Graph<NV,EV>, GraphBuilder<NV,EV> {
+public class      GraphNtro<NV extends NodeValue, 
+                            EV extends EdgeValue,
+                            N extends Node<NV>,
+                            E extends Edge<EV>> 
+
+       extends    GenericGraphBuilderNtro<NV,EV,N,E,GraphStructure<NV,EV,N,E>,Graph<NV,EV,N,E>> 
+
+       implements Graph<NV,EV,N,E>, GraphBuilder<NV,EV,N,E> {
 
 
 	public GraphNtro() {
@@ -22,8 +28,8 @@ public class      GraphNtro<NV extends NodeValue, EV extends EdgeValue>
 	}
 
 	@Override
-	protected GraphStructure<NV, EV> createGraphStructure() {
-		return new GraphStructureNtro<NV,EV>();
+	protected GraphStructure<NV,EV,N,E> createGraphStructure() {
+		return new GraphStructureNtro<NV,EV,N,E>();
 	}
 
 	@Override
@@ -36,7 +42,7 @@ public class      GraphNtro<NV extends NodeValue, EV extends EdgeValue>
 	}
 
 	@Override
-	protected InternalGraphWriter<NV, EV> internalGraphWriter() {
+	protected InternalGraphWriter<NV,EV,N,E> internalGraphWriter() {
 		return new InternalGraphWriterNtro<>();
 	}
 
