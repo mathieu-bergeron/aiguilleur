@@ -13,7 +13,8 @@ public class InternalGraphWriterNtro<NV extends NodeValue, EV extends EdgeValue,
 
 	@Override
 	public void write(GenericGraph<NV, EV> graph, GraphWriter writer) {
-		writer.initialize(graph.id());
+
+		writer.initialize(graph.id(), isDirected());
 		
 		Set<String> unwrittenNodes = writeEdges(graph, writer);
 
@@ -21,6 +22,10 @@ public class InternalGraphWriterNtro<NV extends NodeValue, EV extends EdgeValue,
 		
 		writer.writeDot();
 		writer.writePng();
+	}
+
+	protected boolean isDirected() {
+		return false;
 	}
 
 	protected Set<String> writeEdges(GenericGraph<NV,EV> graph, GraphWriter writer) {

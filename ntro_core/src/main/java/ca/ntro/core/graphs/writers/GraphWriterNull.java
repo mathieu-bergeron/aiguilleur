@@ -9,7 +9,7 @@ import ca.ntro.core.graphs.NodeValue;
 public class GraphWriterNull implements GraphWriter {
 
 	@Override
-	public void initialize(GraphId id) {
+	public void initialize(GraphId id, boolean directed) {
 	}
 
 	@Override

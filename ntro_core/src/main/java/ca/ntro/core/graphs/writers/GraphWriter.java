@@ -8,7 +8,7 @@ import ca.ntro.core.graphs.NodeValue;
 
 public interface GraphWriter {
 	
-	void initialize(GraphId id);
+	void initialize(GraphId id, boolean directed);
 
 	void writeEdge(Node<? extends NodeValue> from, Edge<? extends EdgeValue> edge, Node<? extends NodeValue> to);
 	void writeNode(Node<? extends NodeValue> node);

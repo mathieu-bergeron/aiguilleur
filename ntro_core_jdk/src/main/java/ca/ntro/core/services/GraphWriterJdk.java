@@ -38,10 +38,10 @@ public class GraphWriterJdk implements GraphWriter {
 	}
 
 	@Override
-	public void initialize(GraphId id) {
+	public void initialize(GraphId id, boolean directed) {
 		this.basepath = id.toFilepath();
 
-		graph = mutGraph(basepath.filename()).setDirected(true)
+		graph = mutGraph(basepath.filename()).setDirected(directed)
 				.graphAttrs().add(Rank.dir(RankDir.LEFT_TO_RIGHT))
 				.graphAttrs().add("compound", "true");
 	}
