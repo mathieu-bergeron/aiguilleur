@@ -1,14 +1,18 @@
 package ca.ntro.core.graphs;
 
-import ca.ntro.core.path.Filepath;
 import ca.ntro.core.path.Path;
+import ca.ntro.core.reflection.ObjectValue;
+import ca.ntro.core.reflection.ReferenceValue;
 
-public class WalkedStepNtro<NV extends NodeValue, EV extends EdgeValue> implements WalkedStep<NV,EV> {
+public class WalkedStepNtro<NV extends NodeValue, 
+                            EV extends EdgeValue,
+                            N extends Node<NV>,
+                            E extends Edge<EV>> implements WalkedStep<NV,EV,N,E> {
 	
 	private Direction direction;
-	private Node<NV> from;
-	private Edge<EV> edge;
-	private Node<NV> to;
+	private N from;
+	private E edge;
+	private N to;
 	
 	public Direction getDirection() {
 		return direction;
@@ -18,37 +22,37 @@ public class WalkedStepNtro<NV extends NodeValue, EV extends EdgeValue> implemen
 		this.direction = direction;
 	}
 
-	public Node<NV> getFrom() {
+	public N getFrom() {
 		return from;
 	}
 
-	public void setFrom(Node<NV> from) {
+	public void setFrom(N from) {
 		this.from = from;
 	}
 
-	public Edge<EV> getEdge() {
+	public E getEdge() {
 		return edge;
 	}
 
-	public void setEdge(Edge<EV> edge) {
+	public void setEdge(E edge) {
 		this.edge = edge;
 	}
 
-	public Node<NV> getTo() {
+	public N getTo() {
 		return to;
 	}
 
-	public void setTo(Node<NV> to) {
+	public void setTo(N to) {
 		this.to = to;
 	}
 
-	public WalkedStepNtro(Direction direction, Node<NV> from, Node<NV> to) {
+	public WalkedStepNtro(Direction direction, N from, N to) {
 		setDirection(direction);
 		setFrom(from);
 		setTo(to);
 	}
 
-	public WalkedStepNtro(Direction direction, Node<NV> from, Edge<EV> edge, Node<NV> to) {
+	public WalkedStepNtro(Direction direction, N from, E edge, N to) {
 		setDirection(direction);
 		setFrom(from);
 		setEdge(edge);
@@ -61,17 +65,17 @@ public class WalkedStepNtro<NV extends NodeValue, EV extends EdgeValue> implemen
 	}
 
 	@Override
-	public Node<NV> from() {
+	public N from() {
 		return getFrom();
 	}
 
 	@Override
-	public Edge<EV> edge() {
+	public E edge() {
 		return getEdge();
 	}
 
 	@Override
-	public Node<NV> to() {
+	public N to() {
 		return getTo();
 	}
 

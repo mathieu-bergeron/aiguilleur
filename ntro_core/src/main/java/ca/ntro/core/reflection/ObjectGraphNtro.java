@@ -21,7 +21,7 @@ import ca.ntro.core.path.Path;
 import ca.ntro.core.path.PathName;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
-public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, ReferenceValue, NodeNtro<ObjectValue>, EdgeNtro<ReferenceValue>> implements ObjectGraph {
+public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, ReferenceValue, Node<ObjectValue>, Edge<ReferenceValue>> implements ObjectGraph {
 
 	private Object[] startObjects;
 
@@ -61,7 +61,7 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, Refe
 	}
 
 	@Override
-	protected <R> void _reduceStartNodes(ResultNtro<R> result, NodeReducer<ObjectValue, R> reducer) {
+	protected <R> void _reduceStartNodes(ResultNtro<R> result, NodeReducer<ObjectValue, Node<ObjectValue>, R> reducer) {
 		if(result.hasException()) {
 			return;
 		}
@@ -88,7 +88,7 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, Refe
 		}
 	}
 
-	private <R> void _reduceStartNode(ResultNtro<R> result, Path objectPath, Object object, NodeReducer<ObjectValue, R> reducer) {
+	private <R> void _reduceStartNode(ResultNtro<R> result, Path objectPath, Object object, NodeReducer<ObjectValue,Node<ObjectValue>, R> reducer) {
 		if(result.hasException()) {
 			return;
 		}
@@ -185,7 +185,7 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, Refe
 	protected <R> void _walkStep(Node<ObjectValue> fromNode, 
 								 Step step,
 			                     ResultNtro<R> result, 
-			                     WalkedStepReducer<ObjectValue, ReferenceValue, R> reducer) {
+			                     WalkedStepReducer<ObjectValue, ReferenceValue, Node<ObjectValue>, Edge<ReferenceValue>, R> reducer) {
 
 		if(result.hasException()) {
 			return;
@@ -211,7 +211,7 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, Refe
 			Node<ObjectValue> toNode = createNode(attributePath, attributeValue);
 			Edge<ReferenceValue> edge = createEdge(fromNode.id(), edgeName, toNode.id());
 
-			WalkedStep<ObjectValue, ReferenceValue> walkedStep = new WalkedStepNtro<ObjectValue, ReferenceValue>(Direction.FORWARD, fromNode, edge, toNode);
+			WalkedStep<ObjectValue, ReferenceValue, Node<ObjectValue>, Edge<ReferenceValue>> walkedStep = new WalkedStepNtro<>(Direction.FORWARD, fromNode, edge, toNode);
 
 			result.registerValue(reducer.reduceWalkedStep(result.value(), walkedStep));
 			

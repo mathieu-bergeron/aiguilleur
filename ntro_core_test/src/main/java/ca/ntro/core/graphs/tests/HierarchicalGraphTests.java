@@ -13,6 +13,7 @@ import ca.ntro.core.graphs.generic_graph.NodeNtro;
 import ca.ntro.core.graphs.graph.GraphBuilder;
 import ca.ntro.core.graphs.hierarchical_graph.HierarchicalGraph;
 import ca.ntro.core.graphs.hierarchical_graph.HierarchicalGraphBuilder;
+import ca.ntro.core.graphs.hierarchical_graph.HierarchicalNode;
 import ca.ntro.core.graphs.hierarchical_graph.HierarchicalNodeNtro;
 import ca.ntro.core.initialization.InitializerTest;
 import ca.ntro.core.initialization.Ntro;
@@ -39,8 +40,8 @@ public class HierarchicalGraphTests {
 
 		HierarchicalGraphBuilder<MockNodeValue, 
 		                         MockEdgeValue, 
-		                         HierarchicalNodeNtro<MockNodeValue>, 
-		                         EdgeNtro<MockEdgeValue>> builder = HierarchicalGraphBuilder.newBuilder("hierarchicalGraph01");
+		                         HierarchicalNode<MockNodeValue>, 
+		                         Edge<MockEdgeValue>> builder = HierarchicalGraphBuilder.newBuilder("hierarchicalGraph01");
 
 		MockNodeValue nodeValue0 = new MockNodeValue("0");
 		MockNodeValue nodeValueA = new MockNodeValue("A");
@@ -80,8 +81,8 @@ public class HierarchicalGraphTests {
 		
 		HierarchicalGraph<MockNodeValue, 
 		                  MockEdgeValue, 
-		                  HierarchicalNodeNtro<MockNodeValue>, 
-		                  EdgeNtro<MockEdgeValue>> graph = builder.toGraph();
+		                  HierarchicalNode<MockNodeValue>, 
+		                  Edge<MockEdgeValue>> graph = builder.toGraph();
 
 		graph.write(Ntro.graphWriter());
 
@@ -101,7 +102,7 @@ public class HierarchicalGraphTests {
 		Ntro.asserter().assertEquals(8, nodes.size());
 		
 		List<UndirectedEdgeTriple<MockNodeValue, MockEdgeValue>> edges = new ArrayList<>();
-		GraphBuilder<MockNodeValue, MockEdgeValue, NodeNtro<MockNodeValue>, EdgeNtro<MockEdgeValue>> builderTested = GraphBuilder.newBuilder("hierarchicalGraph01_tested");
+		GraphBuilder<MockNodeValue, MockEdgeValue, Node<MockNodeValue>, Edge<MockEdgeValue>> builderTested = GraphBuilder.newBuilder("hierarchicalGraph01_tested");
 
 		graph.forEachReachableStep(node0, (walkedEdges, step) -> {
 			builderTested.addEdge(step.from(), step.edge().value(), step.to());

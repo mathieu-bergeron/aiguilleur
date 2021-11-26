@@ -44,7 +44,7 @@ public class      HierarchicalGraphBuilderNtro<NV extends NodeValue,
 	}
 
 	@Override
-	protected void detectCycleFrom(Node<NV> from) {
+	protected void detectCycleFrom(N from) {
 
 	}
 
@@ -53,15 +53,15 @@ public class      HierarchicalGraphBuilderNtro<NV extends NodeValue,
 	}
 
 	@Override
-	public void forEachSubNode(Node<NV> parentNode, ReachableNodeVisitor<NV, EV> visitor) {
+	public void forEachSubNode(Node<NV> parentNode, ReachableNodeVisitor<NV,EV,N,E> visitor) {
 	}
 
 	@Override
-	public void forEachSubNode(Node<NV> parentNode, SearchOptions options, ReachableNodeVisitor<NV, EV> visitor) {
+	public void forEachSubNode(Node<NV> parentNode, SearchOptions options, ReachableNodeVisitor<NV,EV,N,E> visitor) {
 	}
 
 	@Override
-	public <R> Result<R> reduceSubNodes(Node<NV> parentNode, R initialValue, ReachableNodeReducer<NV, EV, R> reducer) {
+	public <R> Result<R> reduceSubNodes(Node<NV> parentNode, R initialValue, ReachableNodeReducer<NV,EV,N,E,R> reducer) {
 		return null;
 	}
 
@@ -69,25 +69,25 @@ public class      HierarchicalGraphBuilderNtro<NV extends NodeValue,
 	public <R> Result<R> reduceSubNodes(Node<NV> parentNode, 
 			                            SearchOptions options, 
 			                            R initialValue, 
-			                            ReachableNodeReducer<NV, EV, R> reducer) {
+			                            ReachableNodeReducer<NV,EV,N,E,R> reducer) {
 
 		return null;
 	}
 
 	@Override
-	public void forEachParentNode(Node<NV> parentNode, ReachableNodeVisitor<NV, EV> visitor) {
+	public void forEachParentNode(Node<NV> parentNode, ReachableNodeVisitor<NV,EV,N,E> visitor) {
 		
 	}
 
 	@Override
-	public void forEachParentNode(Node<NV> parentNode, SearchOptions options, ReachableNodeVisitor<NV, EV> visitor) {
+	public void forEachParentNode(Node<NV> parentNode, SearchOptions options, ReachableNodeVisitor<NV,EV,N,E> visitor) {
 		
 	}
 
 	@Override
 	public <R> Result<R> reduceParentNodes(Node<NV> parentNode, 
 			                               R initialValue, 
-			                               ReachableNodeReducer<NV, EV, R> reducer) {
+			                               ReachableNodeReducer<NV,EV,N,E,R> reducer) {
 
 		return null;
 	}
@@ -96,7 +96,7 @@ public class      HierarchicalGraphBuilderNtro<NV extends NodeValue,
 	public <R> Result<R> reduceParentNodes(Node<NV> parentNode, 
 			                               SearchOptions options, 
 			                               R initialValue, 
-			                               ReachableNodeReducer<NV, EV, R> reducer) {
+			                               ReachableNodeReducer<NV,EV,N,E,R> reducer) {
 
 		return null;
 	}

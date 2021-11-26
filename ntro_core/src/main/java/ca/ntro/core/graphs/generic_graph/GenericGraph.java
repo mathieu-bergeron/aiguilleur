@@ -34,33 +34,33 @@ public interface GenericGraph<NV extends NodeValue,
 
 	void write(GraphWriter writer);
 	
-	Node<NV> findNode(NodeId id);
-	Node<NV> findNode(NodeMatcher<NV> matcher);
-	Node<NV> findNode(NV nodeValue);
-	Node<NV> findNode(String rawNodeId);
+	N findNode(NodeId id);
+	N findNode(NodeMatcher<NV,N> matcher);
+	N findNode(NV nodeValue);
+	N findNode(String rawNodeId);
 
-	void forEachStartNode(NodeVisitor<NV> visitor);
-	<R extends Object> Result<R> reduceStartNodes(R initialValue, NodeReducer<NV,R> reducer);
+	void forEachStartNode(NodeVisitor<NV,N> visitor);
+	<R extends Object> Result<R> reduceStartNodes(R initialValue, NodeReducer<NV,N,R> reducer);
 
-	void forEachNode(NodeVisitor<NV> visitor);
-	<R extends Object> Result<R> reduceNodes(R initialValue, NodeReducer<NV,R> reducer);
+	void forEachNode(NodeVisitor<NV,N> visitor);
+	<R extends Object> Result<R> reduceNodes(R initialValue, NodeReducer<NV,N,R> reducer);
 
-	void forEachEdge(EdgeVisitor<NV,EV> visitor);
-	<R extends Object> Result<R> reduceEdges(R initialValue, EdgeReducer<NV,EV,R> reducer);
+	void forEachEdge(EdgeVisitor<NV,EV,N,E> visitor);
+	<R extends Object> Result<R> reduceEdges(R initialValue, EdgeReducer<NV,EV,N,E,R> reducer);
 
-	void forEachReachableNode(Node<NV> fromNode, ReachableNodeVisitor<NV,EV> visitor);
-	void forEachReachableNode(Node<NV> fromNode, SearchOptions options, ReachableNodeVisitor<NV,EV> visitor);
+	void forEachReachableNode(N fromNode, ReachableNodeVisitor<NV,EV,N,E> visitor);
+	void forEachReachableNode(N fromNode, SearchOptions options, ReachableNodeVisitor<NV,EV,N,E> visitor);
 
-	<R extends Object> Result<R> reduceReachableNodes(Node<NV> fromNode, R initialValue, ReachableNodeReducer<NV,EV,R> reducer);
-	<R extends Object> Result<R> reduceReachableNodes(Node<NV> fromNode, SearchOptions options, R initialValue, ReachableNodeReducer<NV,EV,R> reducer);
+	<R extends Object> Result<R> reduceReachableNodes(N fromNode, R initialValue, ReachableNodeReducer<NV,EV,N,E,R> reducer);
+	<R extends Object> Result<R> reduceReachableNodes(N fromNode, SearchOptions options, R initialValue, ReachableNodeReducer<NV,EV,N,E,R> reducer);
 
-	void forEachReachableStep(Node<NV> fromNode, ReachableStepVisitor<NV,EV> visitor);
-	void forEachReachableStep(Node<NV> fromNode, SearchOptions options, ReachableStepVisitor<NV,EV> visitor);
+	void forEachReachableStep(N fromNode, ReachableStepVisitor<NV,EV,N,E> visitor);
+	void forEachReachableStep(N fromNode, SearchOptions options, ReachableStepVisitor<NV,EV,N,E> visitor);
 
-	<R extends Object> Result<R> reduceReachableSteps(Node<NV> fromNode, R initialValue, ReachableStepReducer<NV,EV,R> reducer);
-	<R extends Object> Result<R> reduceReachableSteps(Node<NV> fromNode, SearchOptions options, R initialValue, ReachableStepReducer<NV,EV,R> reducer);
+	<R extends Object> Result<R> reduceReachableSteps(N fromNode, R initialValue, ReachableStepReducer<NV,EV,N,E,R> reducer);
+	<R extends Object> Result<R> reduceReachableSteps(N fromNode, SearchOptions options, R initialValue, ReachableStepReducer<NV,EV,N,E,R> reducer);
 
-	void visitSteps(Node<NV> fromNode, List<Step> steps, StepsVisitor<NV,EV> visitor);
-	<R extends Object> Result<R> reduceSteps(Node<NV> fromNode, List<Step> steps, R initialValue, StepsReducer<NV,EV,R> reducer);
+	void visitSteps(N fromNode, List<Step> steps, StepsVisitor<NV,EV,N,E> visitor);
+	<R extends Object> Result<R> reduceSteps(N fromNode, List<Step> steps, R initialValue, StepsReducer<NV,EV,N,E,R> reducer);
 	
 }

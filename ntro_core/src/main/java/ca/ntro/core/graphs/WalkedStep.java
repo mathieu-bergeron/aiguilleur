@@ -1,12 +1,15 @@
 package ca.ntro.core.graphs;
 
-public interface WalkedStep<NV extends NodeValue, EV extends EdgeValue> {
+public interface WalkedStep<NV extends NodeValue, 
+                            EV extends EdgeValue,
+                            N extends Node<NV>,
+                            E extends Edge<EV>> {
 
 	Direction direction();
 	
-	Node<NV> from();
-	Edge<EV> edge();
-	Node<NV> to();
+	N from();
+	E edge();
+	N to();
 	
 	WalkedStepId id();
 	

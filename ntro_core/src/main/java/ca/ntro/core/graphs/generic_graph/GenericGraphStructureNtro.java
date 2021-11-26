@@ -24,50 +24,51 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue,
 
        implements      GenericGraphStructure<NV,EV,N,E> {
 	
-	private Map<String, Node<NV>> nodes = new HashMap<>();
-	private Map<String, Edge<EV>> edges = new HashMap<>();
+	private Map<String, N> nodes = new HashMap<>();
+	private Map<String, E> edges = new HashMap<>();
 	
-	protected Map<String,Node<NV>> getNodes() {
+	protected Map<String,N> getNodes() {
 		return nodes;
 	}
 
-	protected void setNodes(Map<String,Node<NV>> nodes) {
+	protected void setNodes(Map<String,N> nodes) {
 		this.nodes = nodes;
 	}
 
-	protected Map<String,Edge<EV>> getEdges() {
+	protected Map<String,E> getEdges() {
 		return edges;
 	}
 
-	protected void setEdges(Map<String,Edge<EV>> edges) {
+	protected void setEdges(Map<String,E> edges) {
 		this.edges = edges;
 	}
 
-	protected abstract EdgesForFromNode<NV,EV> edgesByDirection(Direction direction);
+	protected abstract EdgesForFromNode<NV,EV,N,E> edgesByDirection(Direction direction);
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public Edge<EV> createEdge(Node<NV> from, EV edgeValue, Node<NV> to) {
+	public E createEdge(N from, EV edgeValue, N to) {
 
 		EdgeId edgeId = directedEdgeId(from, edgeValue, to);
 		
-		Edge<EV> edge = new EdgeNtro<EV>(edgeId, edgeValue);
+		E edge = (E) new EdgeNtro<EV>(edgeId, edgeValue);
 
 		return edge;
 	}
 
-	protected abstract EdgeId directedEdgeId(Node<NV> from, EV edgeValue, Node<NV> to);
+	protected abstract EdgeId directedEdgeId(N from, EV edgeValue, N to);
 	
 	@Override
-	public void memorizeEdge(Node<NV> from, Edge<EV> edge, Node<NV> to) {
+	public void memorizeEdge(N from, E edge, N to) {
 		getEdges().put(edge.id().toKey(), edge);
 
 		memorizeDirectedEdge(from, edge, to);
 	}
 
-	protected abstract void memorizeDirectedEdge(Node<NV> from, Edge<EV> edge, Node<NV> to);
+	protected abstract void memorizeDirectedEdge(N from, E edge, N to);
 
 	@Override
-	public <R> void reduceNextSteps(Node<NV> fromNode, 
+	public <R> void reduceNextSteps(N fromNode, 
 			                        ResultNtro<R> result, 
 			                        StepReducer<R> reducer) {
 
@@ -77,7 +78,7 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue,
 
 		for(Direction direction : Direction.values()) {
 
-			EdgesForFromNode<NV,EV> edges = edgesByDirection(direction);
+			EdgesForFromNode<NV,EV,N,E> edges = edgesByDirection(direction);
 
 			if(edges != null) {
 				edges.reduceNextSteps(fromNode, direction, result, reducer);
@@ -86,16 +87,16 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue,
 	}
 
 	@Override
-	public <R> void walkStep(Node<NV> fromNode, 
+	public <R> void walkStep(N fromNode, 
 						     Step step,
 							 ResultNtro<R> result, 
-							 WalkedStepReducer<NV, EV, R> reducer) {
+							 WalkedStepReducer<NV,EV,N,E,R> reducer) {
 
 		if(result.hasException()) {
 			return;
 		}
 
-		EdgesForFromNode<NV,EV> edges = edgesByDirection(step.direction());
+		EdgesForFromNode<NV,EV,N,E> edges = edgesByDirection(step.direction());
 
 		if(edges != null) {
 			edges.walkStep(fromNode, step, result, reducer);
@@ -103,19 +104,19 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue,
 	}
 
 	@Override
-	public void memorizeNode(Node<NV> node) {
+	public void memorizeNode(N node) {
 		getNodes().put(node.id().toKey(), node);
 	}
 
 	@Override
-	public <R> void reduceStartNodes(ResultNtro<R> result, NodeReducer<NV, R> reducer) {
+	public <R> void reduceStartNodes(ResultNtro<R> result, NodeReducer<NV,N,R> reducer) {
 		if(result.hasException()) {
 			return;
 		}
 
 		for(String nodeKey : nodes.keySet()) {
 
-			Node<NV> node = getNodes().get(nodeKey);
+			N node = getNodes().get(nodeKey);
 
 			try {
 
@@ -130,21 +131,22 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue,
 	}
 
 	@Override
-	public boolean containsNode(Node<NV> node) {
+	public boolean containsNode(N node) {
 		return getNodes().containsKey(node.id().toKey());
 	}
 
 	@Override
-	public boolean containsEdge(Edge<EV> edge) {
+	public boolean containsEdge(E edge) {
 		return getEdges().containsKey(edge.id().toKey());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public Node<NV> createNode(NV nodeValue) {
+	public N createNode(NV nodeValue) {
 
 		NodeId nodeId = new NodeId(nodeValue.name().toKey());
 
-		Node<NV> node = new NodeNtro<>(nodeId, nodeValue);
+		N node = (N) new NodeNtro<NV>(nodeId, nodeValue);
 		
 		return node;
 	}

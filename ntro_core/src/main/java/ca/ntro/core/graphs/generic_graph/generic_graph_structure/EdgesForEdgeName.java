@@ -15,16 +15,19 @@ import ca.ntro.core.graphs.WalkedStepReducer;
 import ca.ntro.core.graphs.generic_graph.StepReducer;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
-public class EdgesForEdgeName<NV extends NodeValue, EV extends EdgeValue> {
+public class EdgesForEdgeName<NV extends NodeValue, 
+                              EV extends EdgeValue,
+                              N extends Node<NV>,
+                              E extends Edge<EV>> {
 	
-	private Map<String, EdgesForEdgeKey<NV,EV>> edges = new HashMap<>();
+	private Map<String, EdgesForEdgeKey<NV,EV,N,E>> edges = new HashMap<>();
 
-	public void addEdge(Edge<EV> edge, Node<NV> to) {
+	public void addEdge(E edge, N to) {
 
-		EdgesForEdgeKey<NV,EV> nextEdges = edges.get(edge.id().edgeName().name());
+		EdgesForEdgeKey<NV,EV,N,E> nextEdges = edges.get(edge.id().edgeName().name());
 		
 		if(nextEdges == null) {
-			nextEdges = new EdgesForEdgeKey<NV,EV>();
+			nextEdges = new EdgesForEdgeKey<NV,EV,N,E>();
 			edges.put(edge.id().edgeName().name(), nextEdges);
 		}
 
@@ -53,12 +56,12 @@ public class EdgesForEdgeName<NV extends NodeValue, EV extends EdgeValue> {
 		}
 	}
 
-	public <R> void walkStep(Node<NV> fromNode, 
+	public <R> void walkStep(N fromNode, 
 						     Step step,
 			                 ResultNtro<R> result, 
-			                 WalkedStepReducer<NV, EV, R> reducer) {
+			                 WalkedStepReducer<NV,EV,N,E,R> reducer) {
 
-		EdgesForEdgeKey<NV,EV> nextEdges = edges.get(step.name().name());
+		EdgesForEdgeKey<NV,EV,N,E> nextEdges = edges.get(step.name().name());
 
 		nextEdges.reduceEdges(fromNode, step, result, reducer);
 	}

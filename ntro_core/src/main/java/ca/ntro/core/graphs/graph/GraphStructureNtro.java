@@ -17,11 +17,11 @@ public class        GraphStructureNtro<NV extends NodeValue,
        extends      GenericGraphStructureNtro<NV,EV,N,E>
        implements   GraphStructure<NV,EV,N,E> {
 
-	private EdgesForFromNode<NV,EV> edgesForward = new EdgesForFromNode<NV,EV>();
+	private EdgesForFromNode<NV,EV,N,E> edgesForward = new EdgesForFromNode<NV,EV,N,E>();
 
 	@Override
-	protected EdgesForFromNode<NV,EV> edgesByDirection(Direction direction) {
-		EdgesForFromNode<NV,EV> edges = null;
+	protected EdgesForFromNode<NV,EV,N,E> edgesByDirection(Direction direction) {
+		EdgesForFromNode<NV,EV,N,E> edges = null;
 		
 		if(direction == Direction.FORWARD) {
 			edges = edgesForward;
@@ -31,7 +31,7 @@ public class        GraphStructureNtro<NV extends NodeValue,
 	}
 
 	@Override
-	protected void memorizeDirectedEdge(Node<NV> from, Edge<EV> edge, Node<NV> to) {
+	protected void memorizeDirectedEdge(N from, E edge, N to) {
 		if(from.id().toKey().compareTo(to.id().toKey()) < 0) {
 			
 			edgesForward.addEdge(from, edge, to);
@@ -43,7 +43,7 @@ public class        GraphStructureNtro<NV extends NodeValue,
 	}
 
 	@Override
-	protected EdgeId directedEdgeId(Node<NV> from, EV edgeValue, Node<NV> to) {
+	protected EdgeId directedEdgeId(N from, EV edgeValue, N to) {
 		EdgeId edgeId = null;
 
 		if(from.id().toKey().compareTo(to.id().toKey()) < 0) {

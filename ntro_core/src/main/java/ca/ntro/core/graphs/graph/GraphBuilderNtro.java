@@ -38,7 +38,7 @@ public class      GraphBuilderNtro<NV extends NodeValue,
 	}
 
 	@Override
-	protected void detectCycleFrom(Node<NV> from) {
+	protected void detectCycleFrom(N from) {
 	}
 
 	@Override

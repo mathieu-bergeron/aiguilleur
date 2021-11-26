@@ -13,9 +13,9 @@ public interface GenericGraphBuilder<NV extends NodeValue,
                                      GS extends GenericGraphStructure<NV,EV,N,E>,
                                      G extends GenericGraph<NV,EV,N,E>> {
 
-	Node<NV> addNode(NV nodeValue);
+	N addNode(NV nodeValue);
 
-	Edge<EV> addEdge(Node<NV> from, EV edgeValue, Node<NV> to);
+	E addEdge(N from, EV edgeValue, N to);
 	
 	G toGraph();
 

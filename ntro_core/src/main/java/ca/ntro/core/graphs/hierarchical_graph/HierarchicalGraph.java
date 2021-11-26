@@ -15,16 +15,16 @@ public interface HierarchicalGraph<NV extends NodeValue,
                                    N extends HierarchicalNode<NV>,
                                    E extends Edge<EV>> extends GenericGraph<NV,EV,N,E> {
 
-	void forEachSubNode(Node<NV> parentNode, ReachableNodeVisitor<NV,EV> visitor);
-	void forEachSubNode(Node<NV> parentNode, SearchOptions options, ReachableNodeVisitor<NV,EV> visitor);
+	void forEachSubNode(Node<NV> parentNode, ReachableNodeVisitor<NV,EV,N,E> visitor);
+	void forEachSubNode(Node<NV> parentNode, SearchOptions options, ReachableNodeVisitor<NV,EV,N,E> visitor);
 	
-	<R extends Object> Result<R> reduceSubNodes(Node<NV> parentNode, R initialValue, ReachableNodeReducer<NV,EV,R> reducer);
-	<R extends Object> Result<R> reduceSubNodes(Node<NV> parentNode, SearchOptions options, R initialValue, ReachableNodeReducer<NV,EV,R> reducer);
+	<R extends Object> Result<R> reduceSubNodes(Node<NV> parentNode, R initialValue, ReachableNodeReducer<NV,EV,N,E,R> reducer);
+	<R extends Object> Result<R> reduceSubNodes(Node<NV> parentNode, SearchOptions options, R initialValue, ReachableNodeReducer<NV,EV,N,E,R> reducer);
 
-	void forEachParentNode(Node<NV> parentNode, ReachableNodeVisitor<NV,EV> visitor);
-	void forEachParentNode(Node<NV> parentNode, SearchOptions options, ReachableNodeVisitor<NV,EV> visitor);
+	void forEachParentNode(Node<NV> parentNode, ReachableNodeVisitor<NV,EV,N,E> visitor);
+	void forEachParentNode(Node<NV> parentNode, SearchOptions options, ReachableNodeVisitor<NV,EV,N,E> visitor);
 
-	<R extends Object> Result<R> reduceParentNodes(Node<NV> parentNode, R initialValue, ReachableNodeReducer<NV,EV,R> reducer);
-	<R extends Object> Result<R> reduceParentNodes(Node<NV> parentNode, SearchOptions options, R initialValue, ReachableNodeReducer<NV,EV,R> reducer);
+	<R extends Object> Result<R> reduceParentNodes(Node<NV> parentNode, R initialValue, ReachableNodeReducer<NV,EV,N,E,R> reducer);
+	<R extends Object> Result<R> reduceParentNodes(Node<NV> parentNode, SearchOptions options, R initialValue, ReachableNodeReducer<NV,EV,N,E,R> reducer);
 
 }

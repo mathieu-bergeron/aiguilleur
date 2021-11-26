@@ -66,9 +66,9 @@ public abstract class GenericGraphBuilderNtro<NV extends NodeValue,
 	}
 
 	@Override
-	public Node<NV> addNode(NV nodeValue) {
+	public N addNode(NV nodeValue) {
 
-		Node<NV> node = getGraphStructure().createNode(nodeValue);
+		N node = getGraphStructure().createNode(nodeValue);
 		
 		if(getGraphStructure().containsNode(node)) {
 
@@ -84,11 +84,11 @@ public abstract class GenericGraphBuilderNtro<NV extends NodeValue,
 	}
 
 	@Override
-	public Edge<EV> addEdge(Node<NV> from, EV edgeValue, Node<NV> to) {
+	public E addEdge(N from, EV edgeValue, N to) {
 		getGraphStructure().memorizeNode(from);
 		getGraphStructure().memorizeNode(to);
 		
-		Edge<EV> edge = getGraphStructure().createEdge(from, edgeValue, to);
+		E edge = getGraphStructure().createEdge(from, edgeValue, to);
 		
 		if(getGraphStructure().containsEdge(edge)) {
 
@@ -105,10 +105,10 @@ public abstract class GenericGraphBuilderNtro<NV extends NodeValue,
 		return edge;
 	}
 
-	protected abstract void detectCycleFrom(Node<NV> from);
+	protected abstract void detectCycleFrom(N from);
 
 	@Override
-	protected <R> void _reduceStartNodes(ResultNtro<R> result, NodeReducer<NV, R> reducer) {
+	protected <R> void _reduceStartNodes(ResultNtro<R> result, NodeReducer<NV,N,R> reducer) {
 		if(result.hasException()) {
 			return;
 		}
@@ -117,7 +117,7 @@ public abstract class GenericGraphBuilderNtro<NV extends NodeValue,
 	}
 
 	@Override
-	protected <R> void _reduceNextSteps(Node<NV> fromNode, 
+	protected <R> void _reduceNextSteps(N fromNode, 
 			                            ResultNtro<R> result, 
 			                            StepReducer<R> reducer) {
 
@@ -129,10 +129,10 @@ public abstract class GenericGraphBuilderNtro<NV extends NodeValue,
 	}
 
 	@Override
-	protected <R> void _walkStep(Node<NV> fromNode, 
+	protected <R> void _walkStep(N fromNode, 
 								 Step step,
 			                     ResultNtro<R> result, 
-			                     WalkedStepReducer<NV, EV, R> reducer) {
+			                     WalkedStepReducer<NV,EV,N,E,R> reducer) {
 		
 		if(result.hasException()) {
 			return;

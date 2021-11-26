@@ -15,19 +15,19 @@ public interface GenericGraphStructure<NV extends NodeValue,
                                        N extends Node<NV>,
                                        E extends Edge<EV>> {
 
-	boolean containsNode(Node<NV> node);
-	boolean containsEdge(Edge<EV> edge);
+	boolean containsNode(N node);
+	boolean containsEdge(E edge);
 
-	Node<NV> createNode(NV nodeValue);
-	Edge<EV> createEdge(Node<NV> from, EV edgeValue, Node<NV> to);
+	N createNode(NV nodeValue);
+	E createEdge(N from, EV edgeValue, N to);
 
-	void memorizeNode(Node<NV> node);
-	void memorizeEdge(Node<NV> from, Edge<EV> edge, Node<NV> to);
+	void memorizeNode(N node);
+	void memorizeEdge(N from, E edge, N to);
 
-	<R> void reduceStartNodes(ResultNtro<R> result, NodeReducer<NV, R> reducer);
+	<R> void reduceStartNodes(ResultNtro<R> result, NodeReducer<NV,N,R> reducer);
 
-	<R> void reduceNextSteps(Node<NV> fromNode, ResultNtro<R> result, StepReducer<R> reducer);
+	<R> void reduceNextSteps(N fromNode, ResultNtro<R> result, StepReducer<R> reducer);
 
-	<R> void walkStep(Node<NV> fromNode, Step step, ResultNtro<R> result, WalkedStepReducer<NV, EV, R> reducer);
+	<R> void walkStep(N fromNode, Step step, ResultNtro<R> result, WalkedStepReducer<NV,EV,N,E,R> reducer);
 
 }
