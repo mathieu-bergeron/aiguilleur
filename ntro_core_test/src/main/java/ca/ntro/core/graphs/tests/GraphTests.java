@@ -115,7 +115,7 @@ public class GraphTests {
 		Ntro.asserter().assertTrue("Should contain", nodes.contains(nodeC));
 		Ntro.asserter().assertEquals(4, nodes.size());
 		
-		List<UndirectedEdgeTriple<MockNodeValue, MockEdgeValue>> edges = new ArrayList<>();
+		List<UndirectedEdgeTriple<MockNodeValue, MockEdgeValue, Node<MockNodeValue>, Edge<MockEdgeValue>>> edges = new ArrayList<>();
 		GraphBuilder<MockNodeValue, MockEdgeValue, Node<MockNodeValue>, Edge<MockEdgeValue>> builderTested = GraphBuilder.newBuilder("simpleGraph02_tested");
 
 		graph.forEachReachableStep(node0, (walkedEdges, step) -> {

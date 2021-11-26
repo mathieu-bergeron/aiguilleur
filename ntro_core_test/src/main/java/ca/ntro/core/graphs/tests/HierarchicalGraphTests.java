@@ -61,15 +61,15 @@ public class HierarchicalGraphTests {
 		MockEdgeValue edgeValueAABBB = new MockEdgeValue("AABBB");
 		MockEdgeValue edgeValueAAABB = new MockEdgeValue("AAABB");
 		
-		Node<MockNodeValue> node0 = builder.addNode(nodeValue0);
-		Node<MockNodeValue> nodeA = builder.addNode(nodeValueA);
-		Node<MockNodeValue> nodeB = builder.addNode(nodeValueB);
-		Node<MockNodeValue> nodeC = builder.addNode(nodeValueC);
+		HierarchicalNode<MockNodeValue> node0 = builder.addNode(nodeValue0);
+		HierarchicalNode<MockNodeValue> nodeA = builder.addNode(nodeValueA);
+		HierarchicalNode<MockNodeValue> nodeB = builder.addNode(nodeValueB);
+		HierarchicalNode<MockNodeValue> nodeC = builder.addNode(nodeValueC);
 
-		Node<MockNodeValue> nodeAA = builder.addNode(nodeValueAA);
-		Node<MockNodeValue> nodeAAA = builder.addNode(nodeValueAAA);
-		Node<MockNodeValue> nodeBB = builder.addNode(nodeValueBB);
-		Node<MockNodeValue> nodeBBB = builder.addNode(nodeValueBBB);
+		HierarchicalNode<MockNodeValue> nodeAA = builder.addNode(nodeValueAA);
+		HierarchicalNode<MockNodeValue> nodeAAA = builder.addNode(nodeValueAAA);
+		HierarchicalNode<MockNodeValue> nodeBB = builder.addNode(nodeValueBB);
+		HierarchicalNode<MockNodeValue> nodeBBB = builder.addNode(nodeValueBBB);
 		
 		Edge<MockEdgeValue> edge0A = builder.addEdge(node0, edgeValue0A, nodeA);
 		Edge<MockEdgeValue> edgeAB = builder.addEdge(nodeA, edgeValueAB, nodeB);
@@ -101,12 +101,12 @@ public class HierarchicalGraphTests {
 		Ntro.asserter().assertTrue("Should contain", nodes.contains(nodeBBB));
 		Ntro.asserter().assertEquals(8, nodes.size());
 		
-		List<UndirectedEdgeTriple<MockNodeValue, MockEdgeValue>> edges = new ArrayList<>();
+		List<UndirectedEdgeTriple<MockNodeValue, MockEdgeValue, Node<MockNodeValue>, Edge<MockEdgeValue>>> edges = new ArrayList<>();
 		GraphBuilder<MockNodeValue, MockEdgeValue, Node<MockNodeValue>, Edge<MockEdgeValue>> builderTested = GraphBuilder.newBuilder("hierarchicalGraph01_tested");
 
 		graph.forEachReachableStep(node0, (walkedEdges, step) -> {
 			builderTested.addEdge(step.from(), step.edge().value(), step.to());
-			edges.add(new UndirectedEdgeTriple<>(step.from(),step.edge(),step.to()));
+			edges.add(new UndirectedEdgeTriple<MockNodeValue, MockEdgeValue, Node<MockNodeValue>, Edge<MockEdgeValue>>(step.from(),step.edge(),step.to()));
 		});
 		
 		builderTested.toGraph().write(Ntro.graphWriter());
