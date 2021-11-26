@@ -23,6 +23,7 @@
 
 ## Identification
 
-
-
-
+1. Pour les modèles, on veut:
+    * `"_C"`: Class
+    * `"_I"`: Id (UUID du modèle)
+    * `"_V"`: Version, pour les ModelUpdate (pour savoir quand appliquer un Update Vs demander tout le modèle)
