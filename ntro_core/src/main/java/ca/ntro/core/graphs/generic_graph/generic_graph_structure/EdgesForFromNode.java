@@ -10,6 +10,7 @@ import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeValue;
 import ca.ntro.core.graphs.ReachableEdgeReducer;
 import ca.ntro.core.graphs.Step;
+import ca.ntro.core.graphs.WalkedStepReducer;
 import ca.ntro.core.graphs.generic_graph.StepReducer;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
@@ -47,7 +48,7 @@ public class EdgesForFromNode<NV extends NodeValue, EV extends EdgeValue> {
 	public <R> void walkStep(Node<NV> fromNode, 
 						     Step step,
 			                 ResultNtro<R> result, 
-			                 ReachableEdgeReducer<NV, EV, R> reducer) {
+			                 WalkedStepReducer<NV, EV, R> reducer) {
 
 		EdgesForEdgeName<NV,EV> nextEdges = edges.get(fromNode.id().toKey());
 		

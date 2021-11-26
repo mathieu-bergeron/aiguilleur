@@ -1,8 +1,5 @@
 package ca.ntro.core.reflection;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeId;
@@ -10,11 +7,11 @@ import ca.ntro.core.graphs.GraphId;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.NodeReducer;
-import ca.ntro.core.graphs.ReachableEdgeReducer;
 import ca.ntro.core.graphs.Step;
 import ca.ntro.core.graphs.StepNtro;
 import ca.ntro.core.graphs.WalkedStep;
 import ca.ntro.core.graphs.WalkedStepNtro;
+import ca.ntro.core.graphs.WalkedStepReducer;
 import ca.ntro.core.graphs.directed_graph.DirectedGraphSearchOptions;
 import ca.ntro.core.graphs.generic_graph.StepReducer;
 import ca.ntro.core.graphs.generic_graph.EdgeNtro;
@@ -188,7 +185,7 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, Refe
 	protected <R> void _walkStep(Node<ObjectValue> fromNode, 
 								 Step step,
 			                     ResultNtro<R> result, 
-			                     ReachableEdgeReducer<ObjectValue, ReferenceValue, R> reducer) {
+			                     WalkedStepReducer<ObjectValue, ReferenceValue, R> reducer) {
 
 		if(result.hasException()) {
 			return;
@@ -215,9 +212,8 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, Refe
 			Edge<ReferenceValue> edge = createEdge(fromNode.id(), edgeName, toNode.id());
 
 			WalkedStep<ObjectValue, ReferenceValue> walkedStep = new WalkedStepNtro<ObjectValue, ReferenceValue>(Direction.FORWARD, fromNode, edge, toNode);
-			List<WalkedStep<ObjectValue, ReferenceValue>> walkedSteps = new ArrayList<>();
 
-			result.registerValue(reducer.reduceWalkedStep(result.value(), walkedSteps, walkedStep));
+			result.registerValue(reducer.reduceWalkedStep(result.value(), walkedStep));
 			
 		} catch (Throwable t) {
 			

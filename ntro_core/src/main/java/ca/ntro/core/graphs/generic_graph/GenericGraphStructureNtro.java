@@ -11,8 +11,8 @@ import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.NodeReducer;
 import ca.ntro.core.graphs.NodeValue;
-import ca.ntro.core.graphs.ReachableEdgeReducer;
 import ca.ntro.core.graphs.Step;
+import ca.ntro.core.graphs.WalkedStepReducer;
 import ca.ntro.core.graphs.generic_graph.generic_graph_structure.EdgesForFromNode;
 import ca.ntro.core.graphs.generic_graph.generic_graph_structure.GenericGraphStructure;
 import ca.ntro.core.wrappers.result.ResultNtro;
@@ -85,7 +85,7 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue, EV extend
 	public <R> void walkStep(Node<NV> fromNode, 
 						     Step step,
 							 ResultNtro<R> result, 
-							 ReachableEdgeReducer<NV, EV, R> reducer) {
+							 WalkedStepReducer<NV, EV, R> reducer) {
 
 		if(result.hasException()) {
 			return;

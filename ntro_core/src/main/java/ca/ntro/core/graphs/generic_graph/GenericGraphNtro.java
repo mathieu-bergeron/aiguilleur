@@ -29,6 +29,7 @@ import ca.ntro.core.graphs.SearchStrategy;
 import ca.ntro.core.graphs.Step;
 import ca.ntro.core.graphs.StepNtro;
 import ca.ntro.core.graphs.WalkedStep;
+import ca.ntro.core.graphs.WalkedStepReducer;
 import ca.ntro.core.graphs.writers.GraphWriter;
 import ca.ntro.core.path.EdgeWalk;
 import ca.ntro.core.wrappers.result.Result;
@@ -49,7 +50,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 
 	protected abstract <R> void _reduceNextSteps(Node<NV> fromNode, ResultNtro<R> result, StepReducer<R> reducer);
 
-	protected abstract <R> void _walkStep(Node<NV> fromNode, Step step, ResultNtro<R> result, ReachableEdgeReducer<NV, EV, R> reducer);
+	protected abstract <R> void _walkStep(Node<NV> fromNode, Step step, ResultNtro<R> result, WalkedStepReducer<NV, EV, R> reducer);
 
 	@Override
 	public Node<NV> findNode(NodeId id) {
@@ -391,7 +392,12 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 		
 		_reduceNextSteps(fromNode, result, (__, step) -> {
 
-			_walkStep(fromNode, step, result, reducer);
+			_walkStep(fromNode, step, result, (___, walkedStep) -> {
+
+				reducer.reduceWalkedStep(result.value(), new ArrayList<>(), walkedStep);
+				
+				return result.value();
+			});
 			
 			return result.value();
 		});
@@ -462,12 +468,12 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 
 		_reduceNextSteps(fromNode, result, (__, step) -> {
 			
-			_walkStep(fromNode, step, result, (___, previousSteps, walkedStep) -> {
+			_walkStep(fromNode, step, result, (___, walkedStep) -> {
 				if(visitedEdges.contains(walkedStep.edge().id().toKey())) {
 					return result.value();
 				}
 				
-				List<WalkedStep<NV,EV>> walkedSteps = new ArrayList<>(previousSteps);
+				List<WalkedStep<NV,EV>> walkedSteps = new ArrayList<>();
 				walkedSteps.add(walkedStep);
 
 				if(options.maxDistance().hasValue() 
@@ -572,7 +578,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 		
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 		
-		_reduceEdgeWalk(fromNode, direction, edgeWalk, result, reducer);
+		_reduceEdgeWalk(fromNode, direction, edgeWalk, new ArrayList<>(), result, reducer);
 
 		return result;
 	}
@@ -580,6 +586,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 	protected <R> void _reduceEdgeWalk(Node<NV> fromNode, 
 			                           Direction direction, 
 			                           EdgeWalk edgeWalk, 
+			                           List<WalkedStep<NV,EV>> walkedSteps,
 			                           ResultNtro<R> result, 
 			                           EdgeWalkReducer<NV, EV, R> reducer) {
 		
@@ -594,13 +601,16 @@ public abstract class GenericGraphNtro<NV extends NodeValue, EV extends EdgeValu
 		String nextEdgeName = edgeWalk.name(0);
 		EdgeWalk remainingEdgeWalk = edgeWalk.subPath(0);
 		
-		_walkStep(fromNode, new StepNtro(direction, nextEdgeName), result, (__, walkedEdges, step) -> {
+		_walkStep(fromNode, new StepNtro(direction, nextEdgeName), result, (__, walkedStep) -> {
 
 			try {
-
-				result.registerValue(reducer.reduceEdgeWalk(result.value(), walkedEdges, remainingEdgeWalk, step.to()));
 				
-				_reduceEdgeWalk(step.to(), direction, remainingEdgeWalk, result, reducer);
+				List<WalkedStep<NV,EV>> newWalkedSteps = new ArrayList<>(walkedSteps);
+				walkedSteps.add(walkedStep);
+
+				result.registerValue(reducer.reduceEdgeWalk(result.value(), newWalkedSteps, remainingEdgeWalk, walkedStep.to()));
+				
+				_reduceEdgeWalk(walkedStep.to(), direction, remainingEdgeWalk, newWalkedSteps, result, reducer);
 
 			}catch(Throwable t) {
 				
