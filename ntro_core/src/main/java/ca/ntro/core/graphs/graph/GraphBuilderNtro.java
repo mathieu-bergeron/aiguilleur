@@ -9,21 +9,21 @@ import ca.ntro.core.graphs.generic_graph.GenericGraphBuilderNtro;
 import ca.ntro.core.graphs.generic_graph.InternalGraphWriter;
 import ca.ntro.core.graphs.generic_graph.InternalGraphWriterNtro;
 
-public class      GraphNtro<NV extends NodeValue, 
-                            EV extends EdgeValue,
-                            N extends Node<NV>,
-                            E extends Edge<EV>> 
+public class      GraphBuilderNtro<NV extends NodeValue, 
+                                   EV extends EdgeValue,
+                                   N extends Node<NV>,
+                                   E extends Edge<EV>> 
 
        extends    GenericGraphBuilderNtro<NV,EV,N,E,GraphStructure<NV,EV,N,E>,Graph<NV,EV,N,E>> 
 
        implements Graph<NV,EV,N,E>, GraphBuilder<NV,EV,N,E> {
 
 
-	public GraphNtro() {
+	public GraphBuilderNtro() {
 		super();
 	}
 
-	public GraphNtro(String graphName) {
+	public GraphBuilderNtro(String graphName) {
 		super(graphName);
 	}
 

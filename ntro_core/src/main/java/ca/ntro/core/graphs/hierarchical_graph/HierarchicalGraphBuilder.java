@@ -15,4 +15,20 @@ public interface HierarchicalGraphBuilder<NV extends NodeValue,
 
 	void addSubNode(Node<NV> parentNode, Node<NV> subNode);
 
+	public static <NV extends NodeValue, 
+	               EV extends EdgeValue,
+	               N extends HierarchicalNode<NV>,
+	               E extends Edge<EV>> HierarchicalGraphBuilder<NV,EV,N,E> newBuilder(){
+
+		return new HierarchicalGraphBuilderNtro<NV,EV,N,E>();
+	}
+
+	public static <NV extends NodeValue, 
+	               EV extends EdgeValue,
+	               N extends HierarchicalNode<NV>,
+	               E extends Edge<EV>> HierarchicalGraphBuilder<NV,EV,N,E> newBuilder(String graphName){
+
+		return new HierarchicalGraphBuilderNtro<NV,EV,N,E>(graphName);
+	}
+
 }

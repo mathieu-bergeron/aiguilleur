@@ -16,7 +16,7 @@ public interface GraphBuilder<NV extends NodeValue,
 	               N extends Node<NV>,
 	               E extends Edge<EV>> GraphBuilder<NV,EV,N,E> newBuilder(){
 
-		return new GraphNtro<NV,EV,N,E>();
+		return new GraphBuilderNtro<NV,EV,N,E>();
 	}
 
 	public static <NV extends NodeValue, 
@@ -24,7 +24,7 @@ public interface GraphBuilder<NV extends NodeValue,
 	               N extends Node<NV>,
 	               E extends Edge<EV>> GraphBuilder<NV,EV,N,E> newBuilder(String graphName){
 
-		return new GraphNtro<NV,EV,N,E>(graphName);
+		return new GraphBuilderNtro<NV,EV,N,E>(graphName);
 	}
 
 }
