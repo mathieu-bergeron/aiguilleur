@@ -11,8 +11,6 @@ import ca.ntro.core.identifyers.ServiceId;
 import ca.ntro.core.services.TracerNtro;
 import ca.ntro.core.task_graphs.executable_task_graph.ExecutableTask;
 import ca.ntro.core.task_graphs.executable_task_graph.ExecutableTaskGraph;
-import ca.ntro.core.task_graphs.task_graph.AtomicTask;
-import ca.ntro.core.task_graphs.task_graph.AtomicTaskId;
 import ca.ntro.core.values.ObjectMap;
 import ca.ntro.core.values.ObjectMapNtro;
 import ca.ntro.core.wrappers.future.Future;
@@ -151,25 +149,5 @@ public abstract class InitializerNtro implements Initializer {
 		this.options = options;
 
 		return this;
-	}
-
-	@Override
-	public AtomicTask findAtomicTask(AtomicTaskId id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public void notifyAtomicTaskCompleted(AtomicTask atomicTask, ObjectMap results) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public boolean isAtomicTaskCompleted(AtomicTask atomicTask) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 }
