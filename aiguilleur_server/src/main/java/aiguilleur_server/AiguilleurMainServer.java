@@ -12,7 +12,7 @@ import ca.ntro.core.static_imports.NtroJdk;
 public class AiguilleurMainServer extends AiguilleurApp<ViewRegistrarNull> implements NtroAppServer {
 
 	public static void main(String[] args) throws Throwable {
-		NtroJdk.initializer().execute();
+		NtroJdk.initializer().executeBlocking();
 		
 		App.launch(args);
 	}

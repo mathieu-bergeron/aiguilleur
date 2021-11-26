@@ -9,7 +9,7 @@ public class DevJSweet {
 	public static void main(String[] args) {
 
 		NtroJSweet.initializer()
-		          .executeAsync()
+		          .execute()
 		          .handleResult(r -> {
 		        	  T.trace(DevJSweet.class);
 

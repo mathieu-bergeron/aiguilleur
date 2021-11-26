@@ -14,7 +14,7 @@ public class ProdJdk {
 		
 		NtroJdk.initializer()
 		     .setOptions(options)
-		     .execute();
+		     .executeBlocking();
 		
 		Demo.main();
 	}
