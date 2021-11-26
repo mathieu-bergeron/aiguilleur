@@ -213,11 +213,9 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, Refe
 			
 			Node<ObjectValue> toNode = createNode(attributePath, attributeValue);
 			Edge<ReferenceValue> edge = createEdge(fromNode.id(), edgeName, toNode.id());
-			
+
 			WalkedStep<ObjectValue, ReferenceValue> walkedStep = new WalkedStepNtro<ObjectValue, ReferenceValue>(Direction.FORWARD, fromNode, edge, toNode);
-			
 			List<WalkedStep<ObjectValue, ReferenceValue>> walkedSteps = new ArrayList<>();
-			walkedSteps.add(walkedStep);
 
 			result.registerValue(reducer.reduceWalkedStep(result.value(), walkedSteps, walkedStep));
 			

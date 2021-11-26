@@ -4,7 +4,7 @@ import ca.ntro.core.wrappers.optionnal.Optionnal;
 
 public class SearchOptionsNtro implements SearchOptions {
 	
-	private SearchStrategy searchStrategy = SearchStrategy.DEPTH_FIRST_SEARCH;
+	private SearchStrategy searchStrategy = SearchStrategy.BREADTH_FIRST_SEARCH;
 	private Optionnal<Integer> maxDistance = Optionnal.none(Integer.class);
 	private Direction[] directions = defaultDirections();
 	private Direction walkDirection = directions[0];

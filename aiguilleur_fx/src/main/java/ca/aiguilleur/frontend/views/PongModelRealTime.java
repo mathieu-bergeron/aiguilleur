@@ -3,6 +3,7 @@ package ca.aiguilleur.frontend.views;
 import ca.aiguilleur.models.PongModel;
 import ca.aiguilleur.models.pong.Side;
 import ca.ntro.app.models.ModelUpdates;
+import ca.ntro.core.path.ValuePath;
 import javafx.scene.canvas.GraphicsContext;
 
 public class PongModelRealTime extends PongModel {
@@ -16,7 +17,9 @@ public class PongModelRealTime extends PongModel {
 	}
 
 	public synchronized void applyModelUpdates(ModelUpdates updates) {
-		updates.forEachUpdate((updateType, valuePath, newValue) -> {
+		updates.forEachUpdate((updateType, valueId, newValue) -> {
+			
+			ValuePath valuePath = valueId.getPath();
 
 			if(valuePath.startsWith("ball")) {
 

@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import ca.aiguilleur.frontend.queue.QueueView;
 import ca.aiguilleur.frontend.widgets.AppointmentListWidget;
 import ca.ntro.app.models.ModelUpdates;
+import ca.ntro.core.path.ValuePath;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
@@ -22,7 +23,9 @@ public class QueueViewFx implements QueueView, Initializable {
 	@Override
 	public void displayModelUpdates(ModelUpdates updates) {
 
-		updates.forEachUpdate((updateType, valuePath, newValue) -> {
+		updates.forEachUpdate((updateType, valueId, newValue) -> {
+			
+			ValuePath valuePath = valueId.getPath();
 
 			if(valuePath.startsWith("appointements")) {
 				
