@@ -113,7 +113,7 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue,
 	
 	@Override
 	public void memorizeWalkedStep(WalkedStep<NV,EV,N,E> step) {
-		steps.memorizeStep(step);
+		steps.memorize(step);
 	}
 
 	protected abstract void memorizeDirectedEdge(N from, E edge, N to);
@@ -189,6 +189,11 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue,
 	@Override
 	public boolean containsEdge(E edge) {
 		return getEdges().containsKey(edge.id().toKey());
+	}
+
+	@Override
+	public boolean containsWalkedStep(WalkedStep<NV, EV, N, E> walkedStep) {
+		return steps.contains(walkedStep);
 	}
 
 	@SuppressWarnings("unchecked")

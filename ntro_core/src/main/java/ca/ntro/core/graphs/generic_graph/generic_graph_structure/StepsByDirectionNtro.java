@@ -7,6 +7,7 @@ import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeValue;
+import ca.ntro.core.graphs.WalkedStep;
 
 public class        StepsByDirectionNtro <NV extends NodeValue, 
                                           EV extends EdgeValue,
@@ -23,6 +24,18 @@ public class        StepsByDirectionNtro <NV extends NodeValue,
 
 	public void setSteps(Map<String, StepsInDirection<NV, EV, N, E>> steps) {
 		this.steps = steps;
+	}
+
+	@Override
+	public void memorize(WalkedStep<NV, EV, N, E> walkedStep) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean contains(WalkedStep<NV, EV, N, E> walkedStep) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	

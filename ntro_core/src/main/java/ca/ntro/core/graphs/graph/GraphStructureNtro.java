@@ -6,6 +6,7 @@ import ca.ntro.core.graphs.EdgeId;
 import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeValue;
+import ca.ntro.core.graphs.WalkedStep;
 import ca.ntro.core.graphs.generic_graph.GenericGraphStructureNtro;
 import ca.ntro.core.graphs.generic_graph.generic_graph_structure.EdgesForFromNode;
 import ca.ntro.core.path.PathName;
@@ -59,5 +60,6 @@ public class        GraphStructureNtro<NV extends NodeValue,
 		
 		return edgeId;
 	}
+
 
 }

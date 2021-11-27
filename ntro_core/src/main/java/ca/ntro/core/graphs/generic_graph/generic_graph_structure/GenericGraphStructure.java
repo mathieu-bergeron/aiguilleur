@@ -19,6 +19,7 @@ public interface GenericGraphStructure<NV extends NodeValue,
 
 	boolean containsNode(N node);
 	boolean containsEdge(E edge);
+	boolean containsWalkedStep(WalkedStep<NV,EV,N,E> walkedStep);
 
 	N createNode(NV nodeValue);
 

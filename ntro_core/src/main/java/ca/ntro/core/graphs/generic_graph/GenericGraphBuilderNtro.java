@@ -1,5 +1,6 @@
 package ca.ntro.core.graphs.generic_graph;
 
+import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeAlreadyAddedException;
 import ca.ntro.core.graphs.EdgeValue;
@@ -9,6 +10,7 @@ import ca.ntro.core.graphs.NodeAlreadyAddedException;
 import ca.ntro.core.graphs.NodeReducer;
 import ca.ntro.core.graphs.NodeValue;
 import ca.ntro.core.graphs.Step;
+import ca.ntro.core.graphs.WalkedStep;
 import ca.ntro.core.graphs.WalkedStepReducer;
 import ca.ntro.core.graphs.generic_graph.generic_graph_structure.GenericGraphStructure;
 import ca.ntro.core.initialization.Ntro;
@@ -88,21 +90,21 @@ public abstract class GenericGraphBuilderNtro<NV extends NodeValue,
 		getGraphStructure().memorizeNode(from);
 		getGraphStructure().memorizeNode(to);
 		
-		E edge = getGraphStructure().createEdge(from, edgeValue, to);
-		
-		if(getGraphStructure().containsEdge(edge)) {
+		WalkedStep<NV,EV,N,E> walkedStep = getGraphStructure().createWalkedStep(Direction.FORWARD, from, edgeValue, to);
 
-			Ntro.exceptionThrower().throwException(new EdgeAlreadyAddedException("EdgeId already taken: " + edge.id().toKey()));
+		if(getGraphStructure().containsWalkedStep(walkedStep)) {
+
+			Ntro.exceptionThrower().throwException(new EdgeAlreadyAddedException("WalkedStep already exists: " + walkedStep));
 			
 		}else {
 			
-			getGraphStructure().memorizeEdge(from, edge, to);
+			getGraphStructure().memorizeWalkedStep(walkedStep);
 			
 		}
 		
 		detectCycleFrom(from);
 		
-		return edge;
+		return walkedStep.edge();
 	}
 
 	protected abstract void detectCycleFrom(N from);
