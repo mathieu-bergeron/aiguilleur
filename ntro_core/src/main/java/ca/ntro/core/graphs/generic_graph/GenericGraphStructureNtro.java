@@ -31,6 +31,14 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue,
 	
 	private StepsByDirection<NV,EV,N,E> steps = new StepsByDirectionNtro<NV,EV,N,E>();
 	
+	public StepsByDirection<NV, EV, N, E> getSteps() {
+		return steps;
+	}
+
+	public void setSteps(StepsByDirection<NV, EV, N, E> steps) {
+		this.steps = steps;
+	}
+
 	protected Map<String,N> getNodes() {
 		return nodes;
 	}
