@@ -12,6 +12,7 @@ import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.NodeReducer;
 import ca.ntro.core.graphs.NodeValue;
 import ca.ntro.core.graphs.Step;
+import ca.ntro.core.graphs.WalkedStep;
 import ca.ntro.core.graphs.WalkedStepReducer;
 import ca.ntro.core.graphs.generic_graph.generic_graph_structure.EdgesForFromNode;
 import ca.ntro.core.graphs.generic_graph.generic_graph_structure.GenericGraphStructure;
@@ -59,11 +60,22 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue,
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public E createEdge(N from, EV edgeValue, N to) {
+	public WalkedStep<NV,EV,N,E> createWalkedStep(Direction direction, N from, EV edgeValue, N to) {
 
-		EdgeId edgeId = directedEdgeId(from, edgeValue, to);
+		WalkedStep<NV,EV,N,E> walkedStep = null;
 		
-		E edge = (E) new EdgeNtro<EV>(edgeId, edgeValue);
+		if(step.direction() == Direction.FORWARD
+				|| step.direction() == Direction.BACKWARD) {
+
+			EdgeId edgeId = directedEdgeId(from, step.name(), to);
+			
+			E edge = (E) new EdgeNtro<EV>(edgeId, edgeValue);
+
+			walkedStep = new WalkedStepNtro<NV,EV,N,E>();
+		}
+		
+		
+
 
 		return edge;
 	}
@@ -71,10 +83,8 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue,
 	protected abstract EdgeId directedEdgeId(N from, EV edgeValue, N to);
 	
 	@Override
-	public void memorizeEdge(N from, E edge, N to) {
-		getEdges().put(edge.id().toKey(), edge);
-
-		memorizeDirectedEdge(from, edge, to);
+	public void memorizeWalkedStep(WalkedStep<NV,EV,N,E> step) {
+		steps.memorizeStep(step);
 	}
 
 	protected abstract void memorizeDirectedEdge(N from, E edge, N to);
