@@ -15,6 +15,8 @@ import ca.ntro.core.graphs.Step;
 import ca.ntro.core.graphs.WalkedStepReducer;
 import ca.ntro.core.graphs.generic_graph.generic_graph_structure.EdgesForFromNode;
 import ca.ntro.core.graphs.generic_graph.generic_graph_structure.GenericGraphStructure;
+import ca.ntro.core.graphs.generic_graph.generic_graph_structure.StepsByDirection;
+import ca.ntro.core.graphs.generic_graph.generic_graph_structure.StepsByDirectionNtro;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class  GenericGraphStructureNtro<NV extends NodeValue, 
@@ -27,8 +29,7 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue,
 	private Map<String, N> nodes = new HashMap<>();
 	private Map<String, E> edges = new HashMap<>();
 	
-	private StepsByDirection steps = new StepsByDirection();
-	
+	private StepsByDirection<NV,EV,N,E> steps = new StepsByDirectionNtro<NV,EV,N,E>();
 	
 	protected Map<String,N> getNodes() {
 		return nodes;
