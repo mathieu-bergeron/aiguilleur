@@ -15,6 +15,15 @@ public class        StepsByDirectionNtro <NV extends NodeValue,
 
        implements   StepsByDirection<NV,EV,N,E> {
 	
-	private Map<String, StepsInDirection> steps = new HashMap<>();
+	private Map<String, StepsInDirection<NV,EV,N,E>> steps = new HashMap<>();
+
+	public Map<String, StepsInDirection<NV, EV, N, E>> getSteps() {
+		return steps;
+	}
+
+	public void setSteps(Map<String, StepsInDirection<NV, EV, N, E>> steps) {
+		this.steps = steps;
+	}
+	
 	
 }
