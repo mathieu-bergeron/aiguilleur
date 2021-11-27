@@ -8,6 +8,7 @@ import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeValue;
 import ca.ntro.core.graphs.generic_graph.GenericGraphStructureNtro;
 import ca.ntro.core.graphs.generic_graph.generic_graph_structure.EdgesForFromNode;
+import ca.ntro.core.path.PathName;
 
 public class      DirectedGraphStructureNtro<NV extends NodeValue, 
                                              EV extends EdgeValue,
@@ -43,8 +44,8 @@ public class      DirectedGraphStructureNtro<NV extends NodeValue,
 	}
 
 	@Override
-	protected EdgeId directedEdgeId(N from, EV edgeValue, N to) {
-		return new EdgeId(from.id(), edgeValue.name(), to.id());
+	protected EdgeId directedEdgeId(N from, PathName edgeName, N to) {
+		return new EdgeId(from.id(), edgeName, to.id());
 	}
 
 }

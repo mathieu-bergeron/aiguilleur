@@ -13,11 +13,13 @@ import ca.ntro.core.graphs.NodeReducer;
 import ca.ntro.core.graphs.NodeValue;
 import ca.ntro.core.graphs.Step;
 import ca.ntro.core.graphs.WalkedStep;
+import ca.ntro.core.graphs.WalkedStepNtro;
 import ca.ntro.core.graphs.WalkedStepReducer;
 import ca.ntro.core.graphs.generic_graph.generic_graph_structure.EdgesForFromNode;
 import ca.ntro.core.graphs.generic_graph.generic_graph_structure.GenericGraphStructure;
 import ca.ntro.core.graphs.generic_graph.generic_graph_structure.StepsByDirection;
 import ca.ntro.core.graphs.generic_graph.generic_graph_structure.StepsByDirectionNtro;
+import ca.ntro.core.path.PathName;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class  GenericGraphStructureNtro<NV extends NodeValue, 
@@ -64,23 +66,50 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue,
 
 		WalkedStep<NV,EV,N,E> walkedStep = null;
 		
-		if(step.direction() == Direction.FORWARD
-				|| step.direction() == Direction.BACKWARD) {
+		if(direction == Direction.FORWARD
+				|| direction == Direction.BACKWARD) {
 
-			EdgeId edgeId = directedEdgeId(from, step.name(), to);
+			EdgeId edgeId = directedEdgeId(from, edgeValue.name(), to);
 			
 			E edge = (E) new EdgeNtro<EV>(edgeId, edgeValue);
 
-			walkedStep = new WalkedStepNtro<NV,EV,N,E>();
+			walkedStep = new WalkedStepNtro<NV,EV,N,E>(direction, from, edge, to);
+
+		}else if(direction == Direction.UP
+				|| direction == Direction.DOWN) {
+
+			walkedStep = createWalkedStep(direction, from, to);
 		}
-		
-		
 
-
-		return edge;
+		return walkedStep;
 	}
 
-	protected abstract EdgeId directedEdgeId(N from, EV edgeValue, N to);
+	@Override
+	public WalkedStep<NV,EV,N,E> createWalkedStep(Direction direction, N from, N to) {
+
+		WalkedStep<NV,EV,N,E> walkedStep = null;
+		
+		if(direction == Direction.FORWARD
+				|| direction == Direction.BACKWARD) {
+
+			EdgeId edgeId = directedEdgeId(from, new PathName(""), to);
+			
+			E edge = (E) new EdgeNtro<EV>(edgeId, null);
+
+			walkedStep = new WalkedStepNtro<NV,EV,N,E>(direction, from, edge, to);
+
+			walkedStep = createWalkedStep(direction, from, null, to);
+
+		}else if(direction == Direction.UP
+				|| direction == Direction.DOWN) {
+
+			walkedStep = new WalkedStepNtro<NV,EV,N,E>(direction, from, null, to);
+		}
+
+		return walkedStep;
+	}
+
+	protected abstract EdgeId directedEdgeId(N from, PathName edgeName, N to);
 	
 	@Override
 	public void memorizeWalkedStep(WalkedStep<NV,EV,N,E> step) {
