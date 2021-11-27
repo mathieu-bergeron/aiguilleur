@@ -15,14 +15,13 @@ public class       StepsUpDownNtro<NV extends NodeValue,
 
 	@Override
 	public boolean contains(WalkedStep<NV, EV, N, E> walkedStep) {
-		// TODO Auto-generated method stub
+
 		return false;
 	}
 
 	@Override
 	public void memorize(WalkedStep<NV, EV, N, E> walkedStep) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 }

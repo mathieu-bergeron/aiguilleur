@@ -44,21 +44,16 @@ public class        StepsByDirectionNtro <NV extends NodeValue,
 
 		StepsInDirection<NV,EV,N,E> stepsInDirection = null;
 		
-		if(direction == Direction.FORWARD) {
+		if(direction == Direction.FORWARD
+				|| direction == Direction.BACKWARD) {
 			
-			stepsInDirection = new StepsForwardNtro<>();
+			stepsInDirection = new StepsForwardBackwardNtro<>();
 			
-		}else if(direction == Direction.BACKWARD) {
+		}else if(direction == Direction.UP
+				|| direction == Direction.DOWN) {
 
-			stepsInDirection = new StepsBackwardNtro<>();
-			
-		}else if(direction == Direction.UP) {
+			stepsInDirection = new StepsUpDownNtro<>();
 
-			stepsInDirection = new StepsUpNtro<>();
-
-		}else if(direction == Direction.DOWN) {
-
-			stepsInDirection = new StepsDownNtro<>();
 		}
 		
 		return stepsInDirection;
