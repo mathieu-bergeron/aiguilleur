@@ -27,6 +27,9 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue,
 	private Map<String, N> nodes = new HashMap<>();
 	private Map<String, E> edges = new HashMap<>();
 	
+	private StepsByDirection steps = new StepsByDirection();
+	
+	
 	protected Map<String,N> getNodes() {
 		return nodes;
 	}
