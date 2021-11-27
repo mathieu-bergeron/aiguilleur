@@ -12,10 +12,15 @@ public abstract class StepsForwardBackwardNtro<NV extends NodeValue,
                                                E extends Edge<EV>>
 
        implements     StepsForwardBackward<NV,EV,N,E> {
-	
+
+	@Override
+	public void memorize(WalkedStep<NV, EV, N, E> walkedStep) {
+
+	}
+
 	@Override
 	public boolean contains(WalkedStep<NV, EV, N, E> walkedStep) {
-		// TODO Auto-generated method stub
+
 		return false;
 	}
 

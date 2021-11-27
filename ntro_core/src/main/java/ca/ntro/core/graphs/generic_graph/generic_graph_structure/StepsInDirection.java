@@ -13,4 +13,6 @@ public interface StepsInDirection<NV extends NodeValue,
 
 	boolean contains(WalkedStep<NV, EV, N, E> walkedStep);
 
+	void memorize(WalkedStep<NV, EV, N, E> walkedStep);
+
 }
