@@ -34,8 +34,15 @@ public class        StepsByDirectionNtro <NV extends NodeValue,
 
 	@Override
 	public boolean contains(WalkedStep<NV, EV, N, E> walkedStep) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean contains = false;
+		
+		StepsInDirection<NV,EV,N,E> stepsInDirection = steps.get(walkedStep.direction());
+		
+		if(stepsInDirection != null) {
+			contains = stepsInDirection.contains(walkedStep);
+		}
+		
+		return contains;
 	}
 	
 	
