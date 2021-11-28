@@ -1,12 +1,10 @@
 package ca.ntro.core.graphs;
 
-import java.util.List;
+import ca.ntro.core.graphs.generic_graph.Walk;
 
-public interface ReachableNodeVisitor<NV extends NodeValue, 
-                                      EV extends EdgeValue,
-                                      N extends Node<NV>,
-                                      E extends Edge<EV>> {
+public interface ReachableNodeVisitor<N extends Node,
+                                      E extends Edge<N>> {
 
-	void visitReachableNode(List<Step<NV,EV,N,E>> walkedSteps, N n) throws Throwable;
+	void visitReachableNode(Walk<N,E> walked, N n) throws Throwable;
 
 }

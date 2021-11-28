@@ -1,19 +1,9 @@
 package ca.ntro.core.graphs;
 
-import ca.ntro.core.identifyers.EntityId;
-import ca.ntro.core.path.Path;
+import ca.ntro.core.identifyers.Id;
+import ca.ntro.core.identifyers.Label;
 
-public class NodeId extends EntityId {
+public interface NodeId extends Id, Label {
 	
-	public NodeId(String rawPath) {
-		super(rawPath);
-	}
 
-	public NodeId(Path nodePath) {
-		super(nodePath);
-	}
-
-	public static NodeId fromKey(String key) {
-		return new NodeId(key);
-	}
 }

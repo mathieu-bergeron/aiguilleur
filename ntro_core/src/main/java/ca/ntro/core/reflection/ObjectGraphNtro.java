@@ -2,7 +2,7 @@ package ca.ntro.core.reflection;
 
 import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
-import ca.ntro.core.graphs.EdgeId;
+import ca.ntro.core.graphs.EdgeName;
 import ca.ntro.core.graphs.GraphId;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeId;
@@ -13,7 +13,7 @@ import ca.ntro.core.graphs.Step;
 import ca.ntro.core.graphs.StepNtro;
 import ca.ntro.core.graphs.StepReducer;
 import ca.ntro.core.graphs.directed_graph.DirectedGraphSearchOptions;
-import ca.ntro.core.graphs.generic_graph.StepIdReducer;
+import ca.ntro.core.graphs.generic_graph.EdgeNameReducer;
 import ca.ntro.core.identifyers.Key;
 import ca.ntro.core.graphs.generic_graph.EdgeNtro;
 import ca.ntro.core.graphs.generic_graph.GenericGraphNtro;
@@ -106,7 +106,7 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, Refe
 	@Override
 	protected <R> void _reduceNextStepIds(Node<ObjectValue> fromNode, 
 			                              ResultNtro<R> result, 
-			                              StepIdReducer<R> reducer) {
+			                              EdgeNameReducer<R> reducer) {
 		if(result.hasException()) {
 			return;
 		}
@@ -226,7 +226,7 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, Refe
 
 		ReferenceValue referenceValue = new ReferenceValue(attributeName);
 
-		EdgeId edgeId = new EdgeId(fromId, new Key(attributeName), toId);
+		EdgeName edgeId = new EdgeName(fromId, new Key(attributeName), toId);
 
 		Edge<ReferenceValue> edge = new EdgeNtro<ReferenceValue>(edgeId, referenceValue);
 		

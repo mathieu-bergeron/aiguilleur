@@ -5,7 +5,7 @@ import java.util.Map;
 
 import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
-import ca.ntro.core.graphs.EdgeId;
+import ca.ntro.core.graphs.EdgeName;
 import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeId;
@@ -68,7 +68,7 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue,
 		if(direction == Direction.FORWARD
 				|| direction == Direction.BACKWARD) {
 
-			EdgeId edgeId = directedEdgeId(from, edgeValue.name(), to);
+			EdgeName edgeId = directedEdgeId(from, edgeValue.name(), to);
 			
 			E edge = (E) new EdgeNtro<EV>(edgeId, edgeValue);
 
@@ -91,7 +91,7 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue,
 		if(direction == Direction.FORWARD
 				|| direction == Direction.BACKWARD) {
 
-			EdgeId edgeId = directedEdgeId(from, new Key(""), to);
+			EdgeName edgeId = directedEdgeId(from, new Key(""), to);
 			
 			E edge = (E) new EdgeNtro<EV>(edgeId, null);
 
@@ -108,19 +108,19 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue,
 		return walkedStep;
 	}
 
-	protected abstract EdgeId directedEdgeId(N from, Key edgeName, N to);
+	protected abstract EdgeName directedEdgeId(N from, Key edgeName, N to);
 	
 	@Override
-	public void memorizeWalkedStep(Step<NV,EV,N,E> step) {
+	public void memorizeStep(Step<NV,EV,N,E> step) {
 		steps.memorize(step);
 	}
 
 	protected abstract void memorizeDirectedEdge(N from, E edge, N to);
 
 	@Override
-	public <R> void reduceNextSteps(N fromNode, 
+	public <R> void reduceNextEdgeIds(N fromNode, 
 			                        ResultNtro<R> result, 
-			                        StepIdReducer<R> reducer) {
+			                        EdgeNameReducer<R> reducer) {
 
 		if(result.hasException()) {
 			return;
@@ -137,7 +137,7 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue,
 	}
 
 	@Override
-	public <R> void walkStep(N fromNode, 
+	public <R> void reduceNextEdgesById(N fromNode, 
 						     StepId step,
 							 ResultNtro<R> result, 
 							 StepReducer<NV,EV,N,E,R> reducer) {
@@ -149,13 +149,13 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue,
 		EdgesForFromNode<NV,EV,N,E> edges = edgesByDirection(step.direction());
 
 		if(edges != null) {
-			edges.walkStep(fromNode, step, result, reducer);
+			edges.reduceNextEdgesById(fromNode, step, result, reducer);
 		}
 	}
 
 	@Override
 	public void memorizeNode(N node) {
-		getNodes().put(node.id().toKey(), node);
+		getNodes().put(node.id().toKey().toString(), node);
 	}
 
 	@Override
@@ -191,7 +191,7 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue,
 	}
 
 	@Override
-	public boolean containsWalkedStep(Step<NV, EV, N, E> walkedStep) {
+	public boolean containsStep(Step<NV, EV, N, E> walkedStep) {
 		return steps.contains(walkedStep);
 	}
 

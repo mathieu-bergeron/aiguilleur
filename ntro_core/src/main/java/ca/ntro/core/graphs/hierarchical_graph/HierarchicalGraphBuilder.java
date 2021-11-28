@@ -8,7 +8,7 @@ import ca.ntro.core.graphs.generic_graph.GenericGraphBuilder;
 
 public interface HierarchicalGraphBuilder<NV extends NodeValue, 
                                           EV extends EdgeValue,
-                                          N extends HierarchicalNode<NV>,
+                                          N extends HierarchicalNode<NV,EV,N,E>,
                                           E extends Edge<EV>> 
 
        extends   GenericGraphBuilder<NV,EV,N,E,HierarchicalGraphStructure<NV,EV,N,E>, HierarchicalGraph<NV,EV,N,E>> {
@@ -17,7 +17,7 @@ public interface HierarchicalGraphBuilder<NV extends NodeValue,
 
 	public static <NV extends NodeValue, 
 	               EV extends EdgeValue,
-	               N extends HierarchicalNode<NV>,
+	               N extends HierarchicalNode<NV,EV,N,E>,
 	               E extends Edge<EV>> HierarchicalGraphBuilder<NV,EV,N,E> newBuilder(){
 
 		return new HierarchicalGraphBuilderNtro<NV,EV,N,E>();
@@ -25,7 +25,7 @@ public interface HierarchicalGraphBuilder<NV extends NodeValue,
 
 	public static <NV extends NodeValue, 
 	               EV extends EdgeValue,
-	               N extends HierarchicalNode<NV>,
+	               N extends HierarchicalNode<NV,EV,N,E>,
 	               E extends Edge<EV>> HierarchicalGraphBuilder<NV,EV,N,E> newBuilder(String graphName){
 
 		return new HierarchicalGraphBuilderNtro<NV,EV,N,E>(graphName);

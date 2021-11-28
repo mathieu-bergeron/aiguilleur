@@ -18,11 +18,10 @@ public class NodeSpecNtro implements NodeSpec {
 	public NodeSpecNtro(Node<? extends NodeValue> node) {
 		setNode(node);
 	}
-	
 
 	@Override
 	public String id() {
-		return node.id().toKey();
+		return node.id().toKey().toString();
 	}
 
 	@Override

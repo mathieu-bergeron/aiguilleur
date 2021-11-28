@@ -2,6 +2,7 @@ package ca.ntro.core.validation;
 
 
 import ca.ntro.core.exceptions.InvalidCharacterException;
+import ca.ntro.core.identifyers.Key;
 import ca.ntro.core.util.ArrayUtils;
 
 public class Validator {
@@ -30,7 +31,4 @@ public class Validator {
 		}
 	}
 
-	public static void mustBeValidKey(String id) throws InvalidCharacterException {
-		mustContainOnlyValidCharacters(id, validKeyCharacters);
-	}
 }

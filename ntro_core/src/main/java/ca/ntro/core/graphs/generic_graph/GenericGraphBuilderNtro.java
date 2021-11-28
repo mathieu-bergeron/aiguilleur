@@ -1,36 +1,20 @@
 package ca.ntro.core.graphs.generic_graph;
 
-import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
-import ca.ntro.core.graphs.EdgeAlreadyAddedException;
-import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.GraphId;
 import ca.ntro.core.graphs.Node;
-import ca.ntro.core.graphs.NodeAlreadyAddedException;
-import ca.ntro.core.graphs.NodeReducer;
-import ca.ntro.core.graphs.NodeValue;
-import ca.ntro.core.graphs.StepId;
-import ca.ntro.core.graphs.Step;
-import ca.ntro.core.graphs.StepReducer;
-import ca.ntro.core.initialization.Ntro;
-import ca.ntro.core.wrappers.result.ResultNtro;
+import ca.ntro.core.graphs.SearchOptions;
 
-public abstract class GenericGraphBuilderNtro<NV extends NodeValue, 
-                                              EV extends EdgeValue, 
-                                              N extends Node<NV>,
-                                              E extends Edge<EV>,
-                                              GS extends GenericGraphStructure<NV,EV,N,E>,
-                                              G extends GenericGraph<NV,EV,N,E>> 
+public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
+                                              E extends Edge<N,E,SO>,
+                                              SO extends SearchOptions,
+                                              G extends GenericGraph<N,E,SO>> 
 
-       extends        GenericGraphNtro<NV,EV,N,E>
-       implements     GenericGraphBuilder<NV,EV,N,E,GS,G>, 
-                      GenericGraph<NV,EV,N,E> {
+       extends        GenericGraphNtro<N,E,SO>
+       implements     GenericGraphBuilder<N,E,SO,G>, 
+                      GenericGraph<N,E,SO> {
 
 	private GraphId id;
-
-	private GS graphStructure = createGraphStructure();
-	
-	protected abstract GS createGraphStructure();
 
 	protected GraphId getId() {
 		return id;
@@ -50,14 +34,6 @@ public abstract class GenericGraphBuilderNtro<NV extends NodeValue,
 		return id.toHtmlId();
 	}
 
-	protected GS getGraphStructure() {
-		return graphStructure;
-	}
-
-	protected void setGraphStructure(GS graphStructure) {
-		this.graphStructure = graphStructure;
-	}
-
 	public GenericGraphBuilderNtro() {
 		setId(GraphId.newGraphId());
 	}
@@ -65,6 +41,8 @@ public abstract class GenericGraphBuilderNtro<NV extends NodeValue,
 	public GenericGraphBuilderNtro(String graphName) {
 		setId(GraphId.fromGraphName(graphName));
 	}
+	
+	/*
 
 	@Override
 	public N addNode(NV nodeValue) {
@@ -91,13 +69,13 @@ public abstract class GenericGraphBuilderNtro<NV extends NodeValue,
 		
 		Step<NV,EV,N,E> walkedStep = getGraphStructure().createWalkedStep(Direction.FORWARD, from, edgeValue, to);
 
-		if(getGraphStructure().containsWalkedStep(walkedStep)) {
+		if(getGraphStructure().containsStep(walkedStep)) {
 
 			Ntro.exceptionThrower().throwException(new EdgeAlreadyAddedException("WalkedStep already exists: " + walkedStep));
 			
 		}else {
 			
-			getGraphStructure().memorizeWalkedStep(walkedStep);
+			getGraphStructure().memorizeStep(walkedStep);
 			
 		}
 		
@@ -120,13 +98,13 @@ public abstract class GenericGraphBuilderNtro<NV extends NodeValue,
 	@Override
 	protected <R> void _reduceNextStepIds(N fromNode, 
 			                            ResultNtro<R> result, 
-			                            StepIdReducer<R> reducer) {
+			                            EdgeNameReducer<R> reducer) {
 
 		if(result.hasException()) {
 			return;
 		}
 
-		getGraphStructure().reduceNextSteps(fromNode, result, reducer);
+		getGraphStructure().reduceNextEdgeIds(fromNode, result, reducer);
 	}
 
 	@Override
@@ -139,13 +117,42 @@ public abstract class GenericGraphBuilderNtro<NV extends NodeValue,
 			return;
 		}
 
-		getGraphStructure().walkStep(fromNode, stepId, result, reducer);
+		getGraphStructure().reduceNextEdgesById(fromNode, stepId, result, reducer);
 	}
+	*/
+	
+	
+	@Override
+	public void addNode(N node) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addEdge(E edge) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected InternalGraphWriter<N, E, SO> internalGraphWriter() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected SearchOptions defaultSearchOptions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	public G toGraph() {
 		return (G) this;
 	}
+
 
 }

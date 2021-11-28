@@ -1,27 +1,48 @@
 package ca.ntro.core.graphs.generic_graph;
 
 import ca.ntro.core.graphs.Edge;
-import ca.ntro.core.graphs.EdgeId;
-import ca.ntro.core.graphs.EdgeValue;
+import ca.ntro.core.graphs.EdgeName;
+import ca.ntro.core.graphs.Node;
+import ca.ntro.core.graphs.SearchOptions;
 
-public class EdgeNtro<EV extends EdgeValue> implements Edge<EV> {
-	
-	private EdgeId id;
-	private EV value;
+public class     EdgeNtro<N extends Node<N,E,SO>, 
+                          E extends Edge<N,E,SO>,
+                          SO extends SearchOptions> 
 
-	public EdgeNtro(EdgeId id, EV value) {
-		this.id = id;
-		this.value = value;
+      implements Edge<N,E,SO> {
+
+	private N from;
+	private EdgeName edgeId;
+	private N to;
+
+	public N getFrom() {
+		return from;
 	}
 
-	@Override
-	public EdgeId id() {
-		return id;
+	public void setFrom(N from) {
+		this.from = from;
 	}
 
-	@Override
-	public EV value() {
-		return value;
+	public EdgeName getEdgeId() {
+		return edgeId;
+	}
+
+	public void setEdgeId(EdgeName edgeId) {
+		this.edgeId = edgeId;
+	}
+
+	public N getTo() {
+		return to;
+	}
+
+	public void setTo(N to) {
+		this.to = to;
+	}
+
+	public EdgeNtro(N from, EdgeName edgeId, N to) {
+		setFrom(from);
+		setEdgeId(edgeId);
+		setTo(to);
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -31,31 +52,49 @@ public class EdgeNtro<EV extends EdgeValue> implements Edge<EV> {
 		if(o == null) return false;
 		if(o instanceof NodeNtro) {
 			EdgeNtro e = (EdgeNtro) o;
-			
-			if(e.id == null && id != null) {
+
+			if(e.from == null && from != null) {
 				return false;
 			}
 			
-			if(e.id != null && !e.id.equals(id)) {
+			if(e.from != null && !e.from.equals(from)) {
 				return false;
 			}
 			
-			
-			
-			if(e.value == null && value != null) {
+			if(e.edgeId == null && edgeId != null) {
 				return false;
 			}
 			
-			if(e.value != null && !e.value.equals(value)) {
+			if(e.edgeId != null && !e.edgeId.equals(edgeId)) {
+				return false;
+			}
+
+			if(e.to == null && to != null) {
 				return false;
 			}
 			
-			
+			if(e.to != null && !e.to.equals(to)) {
+				return false;
+			}
+
 			return true;
 		}
-		
 		
 		return false;
 	}
 
+	@Override
+	public EdgeName id() {
+		return getEdgeId();
+	}
+
+	@Override
+	public N from() {
+		return getFrom();
+	}
+
+	@Override
+	public N to() {
+		return getTo();
+	}
 }

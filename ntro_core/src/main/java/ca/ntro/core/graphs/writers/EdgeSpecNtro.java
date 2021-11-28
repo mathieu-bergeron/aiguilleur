@@ -22,7 +22,7 @@ public class EdgeSpecNtro implements EdgeSpec {
 
 	@Override
 	public String id() {
-		return edge.id().toKey();
+		return edge.id().toKey().toString();
 	}
 
 	@Override

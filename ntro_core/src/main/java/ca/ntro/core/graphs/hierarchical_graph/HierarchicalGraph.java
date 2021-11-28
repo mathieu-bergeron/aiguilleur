@@ -12,7 +12,7 @@ import ca.ntro.core.wrappers.result.Result;
 
 public interface HierarchicalGraph<NV extends NodeValue, 
                                    EV extends EdgeValue,
-                                   N extends HierarchicalNode<NV>,
+                                   N extends HierarchicalNode<NV,EV,N,E>,
                                    E extends Edge<EV>> extends GenericGraph<NV,EV,N,E> {
 
 

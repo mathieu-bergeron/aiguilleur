@@ -1,13 +1,11 @@
 package ca.ntro.core.graphs;
 
-import java.util.List;
+import ca.ntro.core.graphs.generic_graph.Walk;
 
-public interface ReachableNodeReducer<NV extends NodeValue, 
-                                      EV extends EdgeValue, 
-                                      N extends Node<NV>,
-                                      E extends Edge<EV>,
+public interface ReachableNodeReducer<N extends Node,
+                                      E extends Edge<N>,
                                       R extends Object> {
-	
-	R reduceReachableNode(R accumulator, List<Step<NV,EV,N,E>> walkedSteps, N n) throws Throwable;
+
+	R reduceReachableNode(R accumulator, Walk<N,E> walked, N n) throws Throwable;
 
 }

@@ -8,7 +8,7 @@ import ca.ntro.core.graphs.hierarchical_graph.HierarchicalNode;
 
 public interface HierarchicalDag<NV extends NodeValue, 
                                  EV extends EdgeValue,
-                                 N extends HierarchicalNode<NV>,
+                                 N extends HierarchicalNode<NV,EV,N,E>,
                                  E extends Edge<EV>> extends HierarchicalGraph<NV,EV,N,E> {
 
 

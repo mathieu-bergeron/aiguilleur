@@ -7,6 +7,6 @@ import ca.ntro.core.graphs.hierarchical_graph.HierarchicalNodeNtro;
 
 public class TaskGraphNtro<T extends Task<AT>, AT extends AtomicTask> {
 
-	private HierarchicalDag<T, EdgeValueNull, HierarchicalNodeNtro<T>, EdgeNtro<EdgeValueNull>> hdag;
+	//private HierarchicalDag<T, EdgeValueNull, HierarchicalNodeNtro<T>, EdgeNtro<EdgeValueNull>> hdag;
 
 }

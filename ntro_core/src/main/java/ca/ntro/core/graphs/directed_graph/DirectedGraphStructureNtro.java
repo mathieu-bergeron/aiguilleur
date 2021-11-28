@@ -2,7 +2,7 @@ package ca.ntro.core.graphs.directed_graph;
 
 import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
-import ca.ntro.core.graphs.EdgeId;
+import ca.ntro.core.graphs.EdgeName;
 import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeValue;
@@ -44,8 +44,8 @@ public class      DirectedGraphStructureNtro<NV extends NodeValue,
 	}
 
 	@Override
-	protected EdgeId directedEdgeId(N from, Key edgeName, N to) {
-		return new EdgeId(from.id(), edgeName, to.id());
+	protected EdgeName directedEdgeId(N from, Key edgeName, N to) {
+		return new EdgeName(from.id(), edgeName, to.id());
 	}
 
 }

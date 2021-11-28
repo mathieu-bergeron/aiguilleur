@@ -118,7 +118,7 @@ public class GraphTests {
 		List<UndirectedEdgeTriple<MockNodeValue, MockEdgeValue, Node<MockNodeValue>, Edge<MockEdgeValue>>> edges = new ArrayList<>();
 		GraphBuilder<MockNodeValue, MockEdgeValue, Node<MockNodeValue>, Edge<MockEdgeValue>> builderTested = GraphBuilder.newBuilder("simpleGraph02_tested");
 
-		graph.forEachReachableStep(node0, (walkedEdges, step) -> {
+		graph.forEachReachableEdge(node0, (walkedEdges, step) -> {
 			builderTested.addEdge(step.from(), step.edge().value(), step.to());
 			edges.add(new UndirectedEdgeTriple<>(step.from(),step.edge(),step.to()));
 		});

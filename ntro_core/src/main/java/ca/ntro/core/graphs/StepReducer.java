@@ -1,11 +1,9 @@
 package ca.ntro.core.graphs;
 
-public interface StepReducer<NV extends NodeValue, 
-                                   EV extends EdgeValue, 
-                                   N extends Node<NV>,
-                                   E extends Edge<EV>,
-                                   R extends Object> {
+public interface StepReducer<N extends Node<N,E>,
+                             E extends Edge<N>,
+                             R extends Object> {
 	
-	R reduceWalkedStep(R accumulator, Step<NV,EV,N,E> step) throws Throwable;
+	R reduceWalkedStep(R accumulator, E edge) throws Throwable;
 
 }

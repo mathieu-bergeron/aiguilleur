@@ -48,17 +48,14 @@ public class IdNtro implements Id {
 		return getEntityPath().toFilename();
 	}
 
-	@Override
-	public String toKey() {
-		return getEntityPath().toRawPath();
+	public Key toKey() {
+		return new Key(getEntityPath().toRawPath());
 	}
 
-	@Override
 	public String toHtmlId() {
 		return toFilepath().toHtmlId();
 	}
 
-	@Override
 	public Filepath toFilepath() {
 		return Filepath.fromSingleName(getEntityPath().toFilename());
 	}

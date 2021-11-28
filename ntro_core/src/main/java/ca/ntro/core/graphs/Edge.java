@@ -1,10 +1,15 @@
 package ca.ntro.core.graphs;
 
+import ca.ntro.core.graphs.generic_graph.GenericEdge;
 
-public interface Edge<EV extends EdgeValue> {
-	
-	EdgeId id();
+public interface Edge<N extends Node<N,E,SO>, 
+                      E extends Edge<N,E,SO>,
+                      SO extends SearchOptions> extends GenericEdge {
 
-	EV value();
+	N from();
+
+	EdgeName id();
+
+	N to();
 
 }

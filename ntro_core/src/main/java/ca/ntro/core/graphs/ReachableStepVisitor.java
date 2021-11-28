@@ -1,14 +1,11 @@
 package ca.ntro.core.graphs;
 
-import java.util.List;
-
 import ca.ntro.core.exceptions.Break;
+import ca.ntro.core.graphs.generic_graph.Walk;
 
-public interface ReachableStepVisitor<NV extends NodeValue, 
-                                      EV extends EdgeValue,
-                                      N extends Node<NV>,
-                                      E extends Edge<EV>> {
+public interface ReachableStepVisitor<N extends Node<N,E>,
+                                      E extends Edge<N>> {
 	
-	void visitReachableStep(List<Step<NV,EV,N,E>> previousSteps, Step<NV,EV,N,E> currentStep) throws Break;
+	void visitReachableStep(Walk<N,E> walked, E edge) throws Break;
 
 }
