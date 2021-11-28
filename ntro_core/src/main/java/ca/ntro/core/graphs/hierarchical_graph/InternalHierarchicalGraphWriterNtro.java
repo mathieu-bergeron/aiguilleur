@@ -10,7 +10,7 @@ import ca.ntro.core.graphs.writers.GraphWriter;
 
 public class      InternalHierarchicalGraphWriterNtro<NV extends NodeValue, 
                                                       EV extends EdgeValue,
-                                                      N extends HierarchicalNode<NV>,
+                                                      N extends HierarchicalNode<NV,EV,N,E>,
                                                       E extends Edge<EV>>
 
        extends    InternalGraphWriterNtro<NV,EV,N,E,HierarchicalGraph<NV,EV,N,E>>

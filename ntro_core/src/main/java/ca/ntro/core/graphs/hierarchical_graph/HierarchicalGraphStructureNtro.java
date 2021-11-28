@@ -11,7 +11,7 @@ import ca.ntro.core.wrappers.result.ResultNtro;
 
 public class       HierarchicalGraphStructureNtro<NV extends NodeValue, 
                                                   EV extends EdgeValue,
-                                                  N extends HierarchicalNode<NV>,
+                                                  N extends HierarchicalNode<NV,EV,N,E>,
                                                   E extends Edge<EV>> 
 
        extends     GraphStructureNtro<NV,EV,N,E>
@@ -24,7 +24,7 @@ public class       HierarchicalGraphStructureNtro<NV extends NodeValue,
 
 		NodeId nodeId = new NodeId(nodeValue.name().toString());
 
-		N node = (N) new HierarchicalNodeNtro<NV>(nodeId, nodeValue);
+		N node = (N) new HierarchicalNodeNtro<NV,EV,N,E>(nodeId, nodeValue);
 		
 		return node;
 	}
