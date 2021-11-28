@@ -1,5 +1,6 @@
 package ca.ntro.core.wrappers.result;
 
+import ca.ntro.core.exceptions.Break;
 import ca.ntro.core.initialization.Ntro;
 
 public class ResultNtro<R extends Object> implements Result<R> {
@@ -44,7 +45,7 @@ public class ResultNtro<R extends Object> implements Result<R> {
 
 	@Override
 	public void throwException() {
-		if(exception != null) {
+		if(exception != null && !(exception instanceof Break)) {
 			Ntro.exceptionThrower().throwException(this.exception);
 		}
 	}
