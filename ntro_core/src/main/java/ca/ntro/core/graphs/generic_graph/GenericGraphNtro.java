@@ -26,9 +26,9 @@ import ca.ntro.core.graphs.ReachableNodeVisitor;
 import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.graphs.SearchOptionsNtro;
 import ca.ntro.core.graphs.SearchStrategy;
+import ca.ntro.core.graphs.StepId;
 import ca.ntro.core.graphs.Step;
-import ca.ntro.core.graphs.WalkedStep;
-import ca.ntro.core.graphs.WalkedStepReducer;
+import ca.ntro.core.graphs.StepReducer;
 import ca.ntro.core.graphs.writers.GraphWriter;
 import ca.ntro.core.util.ListUtils;
 import ca.ntro.core.wrappers.result.Result;
@@ -58,10 +58,9 @@ public abstract class GenericGraphNtro<NV extends NodeValue,
 
 	protected abstract <R> void _reduceStartNodes(ResultNtro<R> result, NodeReducer<NV,N,R> reducer);
 
-	protected abstract <R> void _reduceNextSteps(N fromNode, ResultNtro<R> result, StepReducer<R> reducer);
+	protected abstract <R> void _reduceNextStepIds(N fromNode, ResultNtro<R> result, StepIdReducer<R> reducer);
 
-	protected abstract <R> void _walkStep(N fromNode, Step step, ResultNtro<R> result, WalkedStepReducer<NV,EV,N,E,R> reducer);
-	
+	protected abstract <R> void _reduceNextStepsById(N fromNode, StepId stepId, ResultNtro<R> result, StepReducer<NV,EV,N,E,R> reducer);
 
 	@Override
 	public N findNode(NodeId id) {
@@ -322,9 +321,9 @@ public abstract class GenericGraphNtro<NV extends NodeValue,
 			return;
 		}
 		
-		_reduceNextSteps(fromNode, result, (__, step) -> {
+		_reduceNextStepIds(fromNode, result, (__, step) -> {
 
-			_walkStep(fromNode, step, result, (___, walkedStep) -> {
+			_reduceNextStepsById(fromNode, step, result, (___, walkedStep) -> {
 
 				reducer.reduceWalkedStep(result.value(), new ArrayList<>(), walkedStep);
 				
@@ -397,14 +396,14 @@ public abstract class GenericGraphNtro<NV extends NodeValue,
 			return;
 		}
 
-		_reduceNextSteps(fromNode, result, (__, step) -> {
+		_reduceNextStepIds(fromNode, result, (__, step) -> {
 			
-			_walkStep(fromNode, step, result, (___, walkedStep) -> {
+			_reduceNextStepsById(fromNode, step, result, (___, walkedStep) -> {
 				if(visitedEdges.contains(walkedStep.edge().id().toKey())) {
 					return result.value();
 				}
 				
-				List<WalkedStep<NV,EV,N,E>> walkedSteps = new ArrayList<>();
+				List<Step<NV,EV,N,E>> walkedSteps = new ArrayList<>();
 				walkedSteps.add(walkedStep);
 
 				if(options.maxDistance().hasValue() 
@@ -448,7 +447,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue,
 			                                             SearchOptions options, 
 			                                             SearchOptions oneStepOptions,
 			                                             Set<String> visitedEdges,
-			                                             List<WalkedStep<NV,EV,N,E>> walkedSteps,
+			                                             List<Step<NV,EV,N,E>> walkedSteps,
 			                                             ResultNtro<R> result, 
 			                                             ReachableStepReducer<NV,EV,N,E,R> reducer) {
 
@@ -461,7 +460,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue,
 
 		_reduceReachableEdgesDepthFirst(fromNode, oneStepOptions, visitedEdges, result, (__, ___, walkedStep) -> {
 			
-			List<WalkedStep<NV,EV,N,E>> newWalkedEdges = new ArrayList<>(walkedSteps);
+			List<Step<NV,EV,N,E>> newWalkedEdges = new ArrayList<>(walkedSteps);
 			newWalkedEdges.add(walkedStep);
 
 			_reduceReachableEdgesBreadthFirst(walkedStep.to(), options, oneStepOptions, visitedEdges, newWalkedEdges, result, reducer);
@@ -471,7 +470,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue,
 	}
 
 	@Override
-	public void visitSteps(N fromNode, List<Step> steps, StepsVisitor<NV,EV,N,E> visitor) {
+	public void visitSteps(N fromNode, List<StepId> steps, StepsVisitor<NV,EV,N,E> visitor) {
 		reduceSteps(fromNode, steps, null, (accumulator, walkedEdges, remainingSteps, n) -> {
 			
 			visitor.visitStep(walkedEdges, remainingSteps, n);
@@ -483,7 +482,7 @@ public abstract class GenericGraphNtro<NV extends NodeValue,
 
 	@Override
 	public <R> Result<R> reduceSteps(N fromNode, 
-			                         List<Step> steps, 
+			                         List<StepId> steps, 
 			                         R initialValue, 
 			                         StepsReducer<NV,EV,N,E,R> reducer) {
 		
@@ -495,8 +494,8 @@ public abstract class GenericGraphNtro<NV extends NodeValue,
 	}
 
 	protected <R> void _reduceEdgeWalk(N fromNode, 
-									   List<Step> steps,
-			                           List<WalkedStep<NV,EV,N,E>> walkedSteps,
+									   List<StepId> steps,
+			                           List<Step<NV,EV,N,E>> walkedSteps,
 			                           ResultNtro<R> result, 
 			                           StepsReducer<NV,EV,N,E,R> reducer) {
 		
@@ -508,14 +507,14 @@ public abstract class GenericGraphNtro<NV extends NodeValue,
 			return;
 		}
 		
-		Step nextStep = steps.get(0);
-		List<Step> remainingSteps = ListUtils.subList(steps, 1);
+		StepId nextStep = steps.get(0);
+		List<StepId> remainingSteps = ListUtils.subList(steps, 1);
 		
-		_walkStep(fromNode, nextStep, result, (__, walkedStep) -> {
+		_reduceNextStepsById(fromNode, nextStep, result, (__, walkedStep) -> {
 
 			try {
 				
-				List<WalkedStep<NV,EV,N,E>> newWalkedSteps = new ArrayList<>(walkedSteps);
+				List<Step<NV,EV,N,E>> newWalkedSteps = new ArrayList<>(walkedSteps);
 				walkedSteps.add(walkedStep);
 
 				result.registerValue(reducer.reduceStep(result.value(), newWalkedSteps, remainingSteps, walkedStep.to()));

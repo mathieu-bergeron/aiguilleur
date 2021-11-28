@@ -22,7 +22,7 @@ public class       HierarchicalGraphStructureNtro<NV extends NodeValue,
 	@Override
 	public N createNode(NV nodeValue) {
 
-		NodeId nodeId = new NodeId(nodeValue.name().toKey());
+		NodeId nodeId = new NodeId(nodeValue.name().toString());
 
 		N node = (N) new HierarchicalNodeNtro<NV>(nodeId, nodeValue);
 		

@@ -1,7 +1,7 @@
 package ca.ntro.core.graphs.tests;
 
 import ca.ntro.core.graphs.EdgeValue;
-import ca.ntro.core.path.PathName;
+import ca.ntro.core.identifyers.Key;
 
 public class MockEdgeValue implements EdgeValue {
 	
@@ -19,8 +19,8 @@ public class MockEdgeValue implements EdgeValue {
 
 
 	@Override
-	public PathName name() {
-		return new PathName(id);
+	public Key name() {
+		return new Key(id);
 	}
 
 }

@@ -1,7 +1,7 @@
 package ca.ntro.core.reflection;
 
 import ca.ntro.core.graphs.NodeValue;
-import ca.ntro.core.path.PathName;
+import ca.ntro.core.identifyers.Key;
 
 public class ObjectValue implements NodeValue {
 	
@@ -20,8 +20,8 @@ public class ObjectValue implements NodeValue {
 	}
 
 	@Override
-	public PathName name() {
-		return new PathName(className());
+	public Key name() {
+		return new Key(className());
 	}
 
 	@Override

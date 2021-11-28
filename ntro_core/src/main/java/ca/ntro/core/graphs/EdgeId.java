@@ -1,15 +1,15 @@
 package ca.ntro.core.graphs;
 
 import ca.ntro.core.identifyers.Id;
+import ca.ntro.core.identifyers.Key;
 import ca.ntro.core.path.EdgeWalk;
 import ca.ntro.core.path.Filepath;
 import ca.ntro.core.path.Path;
-import ca.ntro.core.path.PathName;
 
 public class EdgeId implements Id {
 	
 	private NodeId fromId = null;
-	private PathName edgeName = null;
+	private Key edgeName = null;
 	private NodeId toId = null;
 
 	protected NodeId getFromId() {
@@ -20,11 +20,11 @@ public class EdgeId implements Id {
 		this.fromId = fromId;
 	}
 
-	protected PathName getEdgeName() {
+	protected Key getEdgeName() {
 		return edgeName;
 	}
 
-	protected void setEdgeName(PathName edgeName) {
+	protected void setEdgeName(Key edgeName) {
 		this.edgeName = edgeName;
 	}
 
@@ -36,12 +36,12 @@ public class EdgeId implements Id {
 		this.toId = toId;
 	}
 	
-	public EdgeId(NodeId fromId, PathName edgeName) {
+	public EdgeId(NodeId fromId, Key edgeName) {
 		setFromId(fromId);
 		setEdgeName(edgeName);
 	}
 
-	public EdgeId(NodeId fromId, PathName edgeName, NodeId toId) {
+	public EdgeId(NodeId fromId, Key edgeName, NodeId toId) {
 		setFromId(fromId);
 		setEdgeName(edgeName);
 		setToId(toId);
@@ -57,7 +57,7 @@ public class EdgeId implements Id {
 	}
 	
 	public boolean isPrefisOfEdgeWalk(EdgeWalk edgeWalk) {
-		return edgeWalk.startsWith(edgeName.name());
+		return edgeWalk.startsWith(edgeName.toString());
 	}
 
 	
@@ -76,7 +76,7 @@ public class EdgeId implements Id {
 
 		Filepath path = Filepath.emptyPath();
 		path.append(Filepath.fromPath(getFromId().toFilepath()));
-		path.append(Filepath.fromSingleName(edgeName.toKey()));
+		path.append(Filepath.fromSingleName(edgeName.toString()));
 		
 		if(getToId() != null) {
 			path.append(Filepath.fromPath(getToId().toFilepath()));
@@ -85,7 +85,7 @@ public class EdgeId implements Id {
 		return path;
 	}
 
-	public PathName edgeName() {
+	public Key edgeName() {
 		return edgeName;
 	}
 }

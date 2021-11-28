@@ -4,7 +4,7 @@ import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeValue;
-import ca.ntro.core.graphs.WalkedStep;
+import ca.ntro.core.graphs.Step;
 
 public class       StepsUpDownNtro<NV extends NodeValue,
                                    EV extends EdgeValue,
@@ -14,13 +14,13 @@ public class       StepsUpDownNtro<NV extends NodeValue,
        implements  StepsUpDown<NV,EV,N,E> {
 
 	@Override
-	public boolean contains(WalkedStep<NV, EV, N, E> walkedStep) {
+	public boolean contains(Step<NV, EV, N, E> walkedStep) {
 
 		return false;
 	}
 
 	@Override
-	public void memorize(WalkedStep<NV, EV, N, E> walkedStep) {
+	public void memorize(Step<NV, EV, N, E> walkedStep) {
 
 	}
 

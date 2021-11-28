@@ -7,10 +7,10 @@ import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeValue;
+import ca.ntro.core.graphs.StepId;
 import ca.ntro.core.graphs.Step;
-import ca.ntro.core.graphs.WalkedStep;
-import ca.ntro.core.graphs.WalkedStepNtro;
-import ca.ntro.core.graphs.WalkedStepReducer;
+import ca.ntro.core.graphs.StepNtro;
+import ca.ntro.core.graphs.StepReducer;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public class EdgesForEdgeKey<NV extends NodeValue, 
@@ -27,16 +27,16 @@ public class EdgesForEdgeKey<NV extends NodeValue,
 	}
 
 	public <R> void reduceEdges(N fromNode, 
-								Step step,
+								StepId step,
 			                    ResultNtro<R> result, 
-			                    WalkedStepReducer<NV,EV,N,E,R> reducer) {
+			                    StepReducer<NV,EV,N,E,R> reducer) {
 		
 		for(String edgeKey : edges.keySet()) {
 			
 			E edge = edges.get(edgeKey);
 			N toNode = toNodes.get(edgeKey);
 
-			WalkedStep<NV,EV,N,E> walkedStep = new WalkedStepNtro<>(step.direction(), fromNode, edge, toNode);
+			Step<NV,EV,N,E> walkedStep = new StepNtro<>(step.direction(), fromNode, edge, toNode);
 
 			try {
 				

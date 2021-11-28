@@ -4,15 +4,15 @@ import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeValue;
-import ca.ntro.core.graphs.WalkedStep;
+import ca.ntro.core.graphs.Step;
 
 public interface StepsInDirection<NV extends NodeValue,
                                   EV extends EdgeValue,
                                   N extends Node<NV>,
                                   E extends Edge<EV>> {
 
-	boolean contains(WalkedStep<NV, EV, N, E> walkedStep);
+	boolean contains(Step<NV, EV, N, E> walkedStep);
 
-	void memorize(WalkedStep<NV, EV, N, E> walkedStep);
+	void memorize(Step<NV, EV, N, E> walkedStep);
 
 }

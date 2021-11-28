@@ -7,18 +7,18 @@ import ca.ntro.core.graphs.GraphId;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.NodeReducer;
+import ca.ntro.core.graphs.StepId;
+import ca.ntro.core.graphs.StepIdNtro;
 import ca.ntro.core.graphs.Step;
 import ca.ntro.core.graphs.StepNtro;
-import ca.ntro.core.graphs.WalkedStep;
-import ca.ntro.core.graphs.WalkedStepNtro;
-import ca.ntro.core.graphs.WalkedStepReducer;
+import ca.ntro.core.graphs.StepReducer;
 import ca.ntro.core.graphs.directed_graph.DirectedGraphSearchOptions;
-import ca.ntro.core.graphs.generic_graph.StepReducer;
+import ca.ntro.core.graphs.generic_graph.StepIdReducer;
+import ca.ntro.core.identifyers.Key;
 import ca.ntro.core.graphs.generic_graph.EdgeNtro;
 import ca.ntro.core.graphs.generic_graph.GenericGraphNtro;
 import ca.ntro.core.graphs.generic_graph.NodeNtro;
 import ca.ntro.core.path.Path;
-import ca.ntro.core.path.PathName;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, ReferenceValue, Node<ObjectValue>, Edge<ReferenceValue>> implements ObjectGraph {
@@ -104,9 +104,9 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, Refe
 	}
 
 	@Override
-	protected <R> void _reduceNextSteps(Node<ObjectValue> fromNode, 
-			                            ResultNtro<R> result, 
-			                            StepReducer<R> reducer) {
+	protected <R> void _reduceNextStepIds(Node<ObjectValue> fromNode, 
+			                              ResultNtro<R> result, 
+			                              StepIdReducer<R> reducer) {
 		if(result.hasException()) {
 			return;
 		}
@@ -121,7 +121,7 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, Refe
 
 				try {
 
-					result.registerValue(reducer.reduceStep(result.value(), new StepNtro(Direction.FORWARD, attributeName)));
+					result.registerValue(reducer.reduceStep(result.value(), new StepIdNtro(Direction.FORWARD, attributeName)));
 
 				} catch (Throwable t) {
 					
@@ -182,22 +182,22 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, Refe
 	
 
 	@Override
-	protected <R> void _walkStep(Node<ObjectValue> fromNode, 
-								 Step step,
-			                     ResultNtro<R> result, 
-			                     WalkedStepReducer<ObjectValue, ReferenceValue, Node<ObjectValue>, Edge<ReferenceValue>, R> reducer) {
+	protected <R> void _reduceNextStepsById(Node<ObjectValue> fromNode, 
+								            StepId stepId,
+			                                ResultNtro<R> result, 
+			                                StepReducer<ObjectValue, ReferenceValue, Node<ObjectValue>, Edge<ReferenceValue>, R> reducer) {
 
 		if(result.hasException()) {
 			return;
 		}
 
-		if(step.direction() != Direction.FORWARD) {
+		if(stepId.direction() != Direction.FORWARD) {
 			return;
 		}
 
 		Object currentObject = fromNode.value().object();
 		
-		String edgeName = step.name().name();
+		String edgeName = stepId.name().toString();
 		
 		String getterName = getterNameFromAttributeName(edgeName);
 		
@@ -211,7 +211,7 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, Refe
 			Node<ObjectValue> toNode = createNode(attributePath, attributeValue);
 			Edge<ReferenceValue> edge = createEdge(fromNode.id(), edgeName, toNode.id());
 
-			WalkedStep<ObjectValue, ReferenceValue, Node<ObjectValue>, Edge<ReferenceValue>> walkedStep = new WalkedStepNtro<>(Direction.FORWARD, fromNode, edge, toNode);
+			Step<ObjectValue, ReferenceValue, Node<ObjectValue>, Edge<ReferenceValue>> walkedStep = new StepNtro<>(Direction.FORWARD, fromNode, edge, toNode);
 
 			result.registerValue(reducer.reduceWalkedStep(result.value(), walkedStep));
 			
@@ -226,7 +226,7 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, Refe
 
 		ReferenceValue referenceValue = new ReferenceValue(attributeName);
 
-		EdgeId edgeId = new EdgeId(fromId, new PathName(attributeName), toId);
+		EdgeId edgeId = new EdgeId(fromId, new Key(attributeName), toId);
 
 		Edge<ReferenceValue> edge = new EdgeNtro<ReferenceValue>(edgeId, referenceValue);
 		

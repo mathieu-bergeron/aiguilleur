@@ -8,6 +8,6 @@ public interface StepsReducer<NV extends NodeValue,
                               E extends Edge<EV>,
                               R extends Object> {
 
-	R reduceStep(R accumulator, List<WalkedStep<NV,EV,N,E>> walkedSteps, List<Step> remainingSteps, Node<NV> currentNode) throws Throwable;
+	R reduceStep(R accumulator, List<Step<NV,EV,N,E>> walkedSteps, List<StepId> remainingSteps, Node<NV> currentNode) throws Throwable;
 
 }

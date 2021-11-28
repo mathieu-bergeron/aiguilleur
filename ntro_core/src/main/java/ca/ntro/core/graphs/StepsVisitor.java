@@ -7,6 +7,6 @@ public interface StepsVisitor<NV extends NodeValue,
                               N extends Node<NV>,
                               E extends Edge<EV>> {
 
-	void visitStep(List<WalkedStep<NV,EV,N,E>> walkedSteps, List<Step> remainingSteps, Node<NV> currentNode) throws Throwable;
+	void visitStep(List<Step<NV,EV,N,E>> walkedSteps, List<StepId> remainingSteps, Node<NV> currentNode) throws Throwable;
 
 }

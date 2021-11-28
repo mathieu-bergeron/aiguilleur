@@ -1,10 +1,10 @@
 package ca.ntro.core.graphs;
 
-import ca.ntro.core.path.PathName;
+import ca.ntro.core.identifyers.Key;
 
 public interface Value {
 	
-	PathName name();
+	Key name();
 	String label();
 
 }

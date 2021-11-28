@@ -9,6 +9,6 @@ public interface ReachableStepVisitor<NV extends NodeValue,
                                       N extends Node<NV>,
                                       E extends Edge<EV>> {
 	
-	void visitReachableStep(List<WalkedStep<NV,EV,N,E>> previousSteps, WalkedStep<NV,EV,N,E> currentStep) throws Break;
+	void visitReachableStep(List<Step<NV,EV,N,E>> previousSteps, Step<NV,EV,N,E> currentStep) throws Break;
 
 }

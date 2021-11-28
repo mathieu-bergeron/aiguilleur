@@ -1,12 +1,12 @@
 package ca.ntro.core.graphs;
 
-import ca.ntro.core.path.PathName;
+import ca.ntro.core.identifyers.Key;
 
 public class EdgeValueNull implements EdgeValue {
 
 	@Override
-	public PathName name() {
-		return new PathName("");
+	public Key name() {
+		return new Key("");
 	}
 
 	@Override

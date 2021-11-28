@@ -1,7 +1,7 @@
 package ca.ntro.core.reflection;
 
 import ca.ntro.core.graphs.EdgeValue;
-import ca.ntro.core.path.PathName;
+import ca.ntro.core.identifyers.Key;
 
 public class ReferenceValue implements EdgeValue {
 	
@@ -16,8 +16,8 @@ public class ReferenceValue implements EdgeValue {
 	}
 
 	@Override
-	public PathName name() {
-		return new PathName(attributeName());
+	public Key name() {
+		return new Key(attributeName());
 	}
 
 	@Override

@@ -9,10 +9,9 @@ import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeAlreadyAddedException;
 import ca.ntro.core.graphs.NodeReducer;
 import ca.ntro.core.graphs.NodeValue;
+import ca.ntro.core.graphs.StepId;
 import ca.ntro.core.graphs.Step;
-import ca.ntro.core.graphs.WalkedStep;
-import ca.ntro.core.graphs.WalkedStepReducer;
-import ca.ntro.core.graphs.generic_graph.generic_graph_structure.GenericGraphStructure;
+import ca.ntro.core.graphs.StepReducer;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
@@ -90,7 +89,7 @@ public abstract class GenericGraphBuilderNtro<NV extends NodeValue,
 		getGraphStructure().memorizeNode(from);
 		getGraphStructure().memorizeNode(to);
 		
-		WalkedStep<NV,EV,N,E> walkedStep = getGraphStructure().createWalkedStep(Direction.FORWARD, from, edgeValue, to);
+		Step<NV,EV,N,E> walkedStep = getGraphStructure().createWalkedStep(Direction.FORWARD, from, edgeValue, to);
 
 		if(getGraphStructure().containsWalkedStep(walkedStep)) {
 
@@ -119,9 +118,9 @@ public abstract class GenericGraphBuilderNtro<NV extends NodeValue,
 	}
 
 	@Override
-	protected <R> void _reduceNextSteps(N fromNode, 
+	protected <R> void _reduceNextStepIds(N fromNode, 
 			                            ResultNtro<R> result, 
-			                            StepReducer<R> reducer) {
+			                            StepIdReducer<R> reducer) {
 
 		if(result.hasException()) {
 			return;
@@ -131,16 +130,16 @@ public abstract class GenericGraphBuilderNtro<NV extends NodeValue,
 	}
 
 	@Override
-	protected <R> void _walkStep(N fromNode, 
-								 Step step,
+	protected <R> void _reduceNextStepsById(N fromNode, 
+								 StepId stepId,
 			                     ResultNtro<R> result, 
-			                     WalkedStepReducer<NV,EV,N,E,R> reducer) {
+			                     StepReducer<NV,EV,N,E,R> reducer) {
 		
 		if(result.hasException()) {
 			return;
 		}
 
-		getGraphStructure().walkStep(fromNode, step, result, reducer);
+		getGraphStructure().walkStep(fromNode, stepId, result, reducer);
 	}
 	
 	@SuppressWarnings("unchecked")

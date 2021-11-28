@@ -8,9 +8,9 @@ import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeValue;
-import ca.ntro.core.graphs.Step;
-import ca.ntro.core.graphs.WalkedStepReducer;
-import ca.ntro.core.graphs.generic_graph.StepReducer;
+import ca.ntro.core.graphs.StepId;
+import ca.ntro.core.graphs.StepReducer;
+import ca.ntro.core.graphs.generic_graph.StepIdReducer;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public class EdgesForFromNode<NV extends NodeValue, 
@@ -34,7 +34,7 @@ public class EdgesForFromNode<NV extends NodeValue,
 	public <R> void reduceNextSteps(N fromNode, 
 									Direction direction,
 			                        ResultNtro<R> result, 
-			                        StepReducer<R> reducer) {
+			                        StepIdReducer<R> reducer) {
 
 		if(result.hasException()) {
 			return;
@@ -48,9 +48,9 @@ public class EdgesForFromNode<NV extends NodeValue,
 	}
 
 	public <R> void walkStep(N fromNode, 
-						     Step step,
+						     StepId step,
 			                 ResultNtro<R> result, 
-			                 WalkedStepReducer<NV,EV,N,E,R> reducer) {
+			                 StepReducer<NV,EV,N,E,R> reducer) {
 
 		EdgesForEdgeName<NV,EV,N,E> nextEdges = edges.get(fromNode.id().toKey());
 		

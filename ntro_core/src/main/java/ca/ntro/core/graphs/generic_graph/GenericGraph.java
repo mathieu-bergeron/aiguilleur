@@ -19,7 +19,7 @@ import ca.ntro.core.graphs.ReachableStepVisitor;
 import ca.ntro.core.graphs.ReachableNodeReducer;
 import ca.ntro.core.graphs.ReachableNodeVisitor;
 import ca.ntro.core.graphs.SearchOptions;
-import ca.ntro.core.graphs.Step;
+import ca.ntro.core.graphs.StepId;
 import ca.ntro.core.graphs.StepsReducer;
 import ca.ntro.core.graphs.writers.GraphWriter;
 import ca.ntro.core.wrappers.result.Result;
@@ -60,7 +60,7 @@ public interface GenericGraph<NV extends NodeValue,
 	<R extends Object> Result<R> reduceReachableSteps(N fromNode, R initialValue, ReachableStepReducer<NV,EV,N,E,R> reducer);
 	<R extends Object> Result<R> reduceReachableSteps(N fromNode, SearchOptions options, R initialValue, ReachableStepReducer<NV,EV,N,E,R> reducer);
 
-	void visitSteps(N fromNode, List<Step> steps, StepsVisitor<NV,EV,N,E> visitor);
-	<R extends Object> Result<R> reduceSteps(N fromNode, List<Step> steps, R initialValue, StepsReducer<NV,EV,N,E,R> reducer);
+	void visitSteps(N fromNode, List<StepId> steps, StepsVisitor<NV,EV,N,E> visitor);
+	<R extends Object> Result<R> reduceSteps(N fromNode, List<StepId> steps, R initialValue, StepsReducer<NV,EV,N,E,R> reducer);
 	
 }

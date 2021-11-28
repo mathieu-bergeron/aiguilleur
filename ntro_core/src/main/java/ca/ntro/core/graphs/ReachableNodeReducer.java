@@ -8,6 +8,6 @@ public interface ReachableNodeReducer<NV extends NodeValue,
                                       E extends Edge<EV>,
                                       R extends Object> {
 	
-	R reduceReachableNode(R accumulator, List<WalkedStep<NV,EV,N,E>> walkedSteps, N n) throws Throwable;
+	R reduceReachableNode(R accumulator, List<Step<NV,EV,N,E>> walkedSteps, N n) throws Throwable;
 
 }

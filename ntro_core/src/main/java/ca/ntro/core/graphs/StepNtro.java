@@ -1,11 +1,18 @@
 package ca.ntro.core.graphs;
 
-import ca.ntro.core.path.PathName;
+import ca.ntro.core.path.Path;
+import ca.ntro.core.reflection.ObjectValue;
+import ca.ntro.core.reflection.ReferenceValue;
 
-public class StepNtro implements Step {
+public class StepNtro<NV extends NodeValue, 
+                            EV extends EdgeValue,
+                            N extends Node<NV>,
+                            E extends Edge<EV>> implements Step<NV,EV,N,E> {
 	
 	private Direction direction;
-	private PathName name;
+	private N from;
+	private E edge;
+	private N to;
 	
 	public Direction getDirection() {
 		return direction;
@@ -15,22 +22,41 @@ public class StepNtro implements Step {
 		this.direction = direction;
 	}
 
-	public PathName getName() {
-		return name;
+	public N getFrom() {
+		return from;
 	}
 
-	public void setName(PathName name) {
-		this.name = name;
+	public void setFrom(N from) {
+		this.from = from;
 	}
 
-	public StepNtro(Direction direction, PathName name) {
+	public E getEdge() {
+		return edge;
+	}
+
+	public void setEdge(E edge) {
+		this.edge = edge;
+	}
+
+	public N getTo() {
+		return to;
+	}
+
+	public void setTo(N to) {
+		this.to = to;
+	}
+
+	public StepNtro(Direction direction, N from, N to) {
 		setDirection(direction);
-		setName(name);
+		setFrom(from);
+		setTo(to);
 	}
 
-	public StepNtro(Direction direction, String name) {
+	public StepNtro(Direction direction, N from, E edge, N to) {
 		setDirection(direction);
-		setName(new PathName(name));
+		setFrom(from);
+		setEdge(edge);
+		setTo(to);
 	}
 
 	@Override
@@ -39,7 +65,17 @@ public class StepNtro implements Step {
 	}
 
 	@Override
-	public PathName name() {
-		return getName();
+	public N from() {
+		return getFrom();
+	}
+
+	@Override
+	public E edge() {
+		return getEdge();
+	}
+
+	@Override
+	public N to() {
+		return getTo();
 	}
 }

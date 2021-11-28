@@ -4,7 +4,7 @@ import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeValue;
-import ca.ntro.core.graphs.generic_graph.generic_graph_structure.GenericGraphStructure;
+import ca.ntro.core.graphs.generic_graph.GenericGraphStructure;
 
 public interface GraphStructure<NV extends NodeValue, 
                                 EV extends EdgeValue,

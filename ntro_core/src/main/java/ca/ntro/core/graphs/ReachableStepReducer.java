@@ -9,6 +9,6 @@ public interface ReachableStepReducer<NV extends NodeValue,
                                       R extends Object> {
 	
 	
-	R reduceWalkedStep(R accumulator, List<WalkedStep<NV,EV,N,E>> previousSteps, WalkedStep<NV,EV,N,E> currentStep) throws Throwable;
+	R reduceWalkedStep(R accumulator, List<Step<NV,EV,N,E>> previousSteps, Step<NV,EV,N,E> currentStep) throws Throwable;
 
 }

@@ -11,15 +11,14 @@ import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.NodeReducer;
 import ca.ntro.core.graphs.NodeValue;
+import ca.ntro.core.graphs.StepId;
 import ca.ntro.core.graphs.Step;
-import ca.ntro.core.graphs.WalkedStep;
-import ca.ntro.core.graphs.WalkedStepNtro;
-import ca.ntro.core.graphs.WalkedStepReducer;
+import ca.ntro.core.graphs.StepNtro;
+import ca.ntro.core.graphs.StepReducer;
 import ca.ntro.core.graphs.generic_graph.generic_graph_structure.EdgesForFromNode;
-import ca.ntro.core.graphs.generic_graph.generic_graph_structure.GenericGraphStructure;
 import ca.ntro.core.graphs.generic_graph.generic_graph_structure.StepsByDirection;
 import ca.ntro.core.graphs.generic_graph.generic_graph_structure.StepsByDirectionNtro;
-import ca.ntro.core.path.PathName;
+import ca.ntro.core.identifyers.Key;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class  GenericGraphStructureNtro<NV extends NodeValue, 
@@ -62,9 +61,9 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue,
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public WalkedStep<NV,EV,N,E> createWalkedStep(Direction direction, N from, EV edgeValue, N to) {
+	public Step<NV,EV,N,E> createWalkedStep(Direction direction, N from, EV edgeValue, N to) {
 
-		WalkedStep<NV,EV,N,E> walkedStep = null;
+		Step<NV,EV,N,E> walkedStep = null;
 		
 		if(direction == Direction.FORWARD
 				|| direction == Direction.BACKWARD) {
@@ -73,7 +72,7 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue,
 			
 			E edge = (E) new EdgeNtro<EV>(edgeId, edgeValue);
 
-			walkedStep = new WalkedStepNtro<NV,EV,N,E>(direction, from, edge, to);
+			walkedStep = new StepNtro<NV,EV,N,E>(direction, from, edge, to);
 
 		}else if(direction == Direction.UP
 				|| direction == Direction.DOWN) {
@@ -85,34 +84,34 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue,
 	}
 
 	@Override
-	public WalkedStep<NV,EV,N,E> createWalkedStep(Direction direction, N from, N to) {
+	public Step<NV,EV,N,E> createWalkedStep(Direction direction, N from, N to) {
 
-		WalkedStep<NV,EV,N,E> walkedStep = null;
+		Step<NV,EV,N,E> walkedStep = null;
 		
 		if(direction == Direction.FORWARD
 				|| direction == Direction.BACKWARD) {
 
-			EdgeId edgeId = directedEdgeId(from, new PathName(""), to);
+			EdgeId edgeId = directedEdgeId(from, new Key(""), to);
 			
 			E edge = (E) new EdgeNtro<EV>(edgeId, null);
 
-			walkedStep = new WalkedStepNtro<NV,EV,N,E>(direction, from, edge, to);
+			walkedStep = new StepNtro<NV,EV,N,E>(direction, from, edge, to);
 
 			walkedStep = createWalkedStep(direction, from, null, to);
 
 		}else if(direction == Direction.UP
 				|| direction == Direction.DOWN) {
 
-			walkedStep = new WalkedStepNtro<NV,EV,N,E>(direction, from, null, to);
+			walkedStep = new StepNtro<NV,EV,N,E>(direction, from, null, to);
 		}
 
 		return walkedStep;
 	}
 
-	protected abstract EdgeId directedEdgeId(N from, PathName edgeName, N to);
+	protected abstract EdgeId directedEdgeId(N from, Key edgeName, N to);
 	
 	@Override
-	public void memorizeWalkedStep(WalkedStep<NV,EV,N,E> step) {
+	public void memorizeWalkedStep(Step<NV,EV,N,E> step) {
 		steps.memorize(step);
 	}
 
@@ -121,7 +120,7 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue,
 	@Override
 	public <R> void reduceNextSteps(N fromNode, 
 			                        ResultNtro<R> result, 
-			                        StepReducer<R> reducer) {
+			                        StepIdReducer<R> reducer) {
 
 		if(result.hasException()) {
 			return;
@@ -139,9 +138,9 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue,
 
 	@Override
 	public <R> void walkStep(N fromNode, 
-						     Step step,
+						     StepId step,
 							 ResultNtro<R> result, 
-							 WalkedStepReducer<NV,EV,N,E,R> reducer) {
+							 StepReducer<NV,EV,N,E,R> reducer) {
 
 		if(result.hasException()) {
 			return;
@@ -192,7 +191,7 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue,
 	}
 
 	@Override
-	public boolean containsWalkedStep(WalkedStep<NV, EV, N, E> walkedStep) {
+	public boolean containsWalkedStep(Step<NV, EV, N, E> walkedStep) {
 		return steps.contains(walkedStep);
 	}
 
@@ -200,7 +199,7 @@ public abstract class  GenericGraphStructureNtro<NV extends NodeValue,
 	@Override
 	public N createNode(NV nodeValue) {
 
-		NodeId nodeId = new NodeId(nodeValue.name().toKey());
+		NodeId nodeId = new NodeId(nodeValue.name().toString());
 
 		N node = (N) new NodeNtro<NV>(nodeId, nodeValue);
 		

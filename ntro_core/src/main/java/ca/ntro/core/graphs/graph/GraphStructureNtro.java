@@ -6,10 +6,10 @@ import ca.ntro.core.graphs.EdgeId;
 import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeValue;
-import ca.ntro.core.graphs.WalkedStep;
+import ca.ntro.core.graphs.Step;
 import ca.ntro.core.graphs.generic_graph.GenericGraphStructureNtro;
 import ca.ntro.core.graphs.generic_graph.generic_graph_structure.EdgesForFromNode;
-import ca.ntro.core.path.PathName;
+import ca.ntro.core.identifyers.Key;
 
 public class        GraphStructureNtro<NV extends NodeValue, 
                                        EV extends EdgeValue,
@@ -45,7 +45,7 @@ public class        GraphStructureNtro<NV extends NodeValue,
 	}
 
 	@Override
-	protected EdgeId directedEdgeId(N from, PathName edgeName, N to) {
+	protected EdgeId directedEdgeId(N from, Key edgeName, N to) {
 		EdgeId edgeId = null;
 
 		if(from.id().toKey().compareTo(to.id().toKey()) < 0) {
