@@ -213,7 +213,7 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, Refe
 
 			Step<ObjectValue, ReferenceValue, Node<ObjectValue>, Edge<ReferenceValue>> walkedStep = new StepNtro<>(Direction.FORWARD, fromNode, edge, toNode);
 
-			result.registerValue(reducer.reduceWalkedStep(result.value(), walkedStep));
+			result.registerValue(reducer.reduceEdge(result.value(), walkedStep));
 			
 		} catch (Throwable t) {
 			

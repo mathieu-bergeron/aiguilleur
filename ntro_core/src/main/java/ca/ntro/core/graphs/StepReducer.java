@@ -4,6 +4,6 @@ public interface StepReducer<N extends Node<N,E>,
                              E extends Edge<N>,
                              R extends Object> {
 	
-	R reduceWalkedStep(R accumulator, E edge) throws Throwable;
+	R reduceEdge(R accumulator, E edge) throws Throwable;
 
 }
