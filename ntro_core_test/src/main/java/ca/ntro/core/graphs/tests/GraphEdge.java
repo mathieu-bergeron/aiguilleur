@@ -10,4 +10,8 @@ public class GraphEdge extends EdgeNtro<GraphNode, GraphEdge, SearchOptions> {
 		super(from, edgeId, to);
 	}
 
+	public GraphEdge(GraphNode from, String edgeName, GraphNode to) {
+		super(from, new EdgeIdNtro(edgeName), to);
+	}
+
 }

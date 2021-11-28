@@ -42,8 +42,18 @@ public class GraphTests {
 		
 		GraphBuilder<GraphNode, GraphEdge, SearchOptions> builder = GraphBuilder.newBuilder("reachableEdgesDepthFirst01");
 		
-		builder.addNode(new GraphNode("asdf"));
+		GraphNode nodeA = new GraphNode("A");
+		GraphNode nodeB = new GraphNode("A");
 
+		builder.addNode(nodeA);
+		builder.addNode(nodeB);
+
+		GraphEdge edgeNodeAB = new GraphEdge(nodeA, "AB", nodeB);
+		
+		builder.addEdge(edgeNodeAB);
+		
+		Graph<GraphNode, GraphEdge, SearchOptions> graph = builder.toGraph();
+		graph.write(Ntro.graphWriter());
 		
 		
 		/*
