@@ -30,6 +30,7 @@ public class DagTests {
 	
 	@Test
 	public void simpleGraph01() throws CycleException {
+		/*
 
 		MockNodeValue nodeValueA = new MockNodeValue("A");
 		MockNodeValue nodeValueB = new MockNodeValue("B");
@@ -39,6 +40,8 @@ public class DagTests {
 		MockEdgeValue edgeValueBC = new MockEdgeValue("BC");
 		
 		DagNtro<MockNodeValue, MockEdgeValue, NodeNtro<MockNodeValue>, EdgeNtro<MockEdgeValue>> dag = new DagNtro<>();
+		
+		*/
 		
 		/*
 		

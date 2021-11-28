@@ -1,30 +1,32 @@
 package ca.ntro.core.graphs.graph;
 
 import ca.ntro.core.graphs.Edge;
-import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.Node;
-import ca.ntro.core.graphs.NodeValue;
+import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.graphs.generic_graph.GenericGraphBuilder;
 
-public interface GraphBuilder<NV extends NodeValue, 
-                              EV extends EdgeValue,
-                              N extends Node<NV>,
-                              E extends Edge<EV>> extends GenericGraphBuilder<NV,EV,N,E,GraphStructure<NV,EV,N,E>, Graph<NV,EV,N,E>> {
-	
-	public static <NV extends NodeValue, 
-	               EV extends EdgeValue,
-	               N extends Node<NV>,
-	               E extends Edge<EV>> GraphBuilder<NV,EV,N,E> newBuilder(){
+public interface GraphBuilder<N extends Node<N,E,SO>,
+							  E extends Edge<N,E,SO>,
+							  SO extends SearchOptions>
 
-		return new GraphBuilderNtro<NV,EV,N,E>();
+       extends GenericGraphBuilder<N,E,SO, Graph<N,E,SO>> {
+	
+	public static <N extends Node<N,E,SO>,
+				   E extends Edge<N,E,SO>,
+				   SO extends SearchOptions> 
+	
+		GraphBuilder<N,E,SO> newBuilder(){
+
+		return new GraphBuilderNtro<>();
 	}
 
-	public static <NV extends NodeValue, 
-	               EV extends EdgeValue,
-	               N extends Node<NV>,
-	               E extends Edge<EV>> GraphBuilder<NV,EV,N,E> newBuilder(String graphName){
+	public static <N extends Node<N,E,SO>,
+				   E extends Edge<N,E,SO>,
+				   SO extends SearchOptions> 
+	
+		GraphBuilder<N,E,SO> newBuilder(String graphName){
 
-		return new GraphBuilderNtro<NV,EV,N,E>(graphName);
+		return new GraphBuilderNtro<>(graphName);
 	}
 
 }

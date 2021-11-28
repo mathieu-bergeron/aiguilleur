@@ -1,23 +1,17 @@
 package ca.ntro.core.graphs.tests;
 
 import ca.ntro.core.graphs.Edge;
-import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.Node;
-import ca.ntro.core.graphs.NodeValue;
+import ca.ntro.core.graphs.SearchOptions;
 
-public class UndirectedEdgeTriple<NV extends NodeValue, 
-                                  EV extends EdgeValue,
-                                  N extends Node<NV>,
-                                  E extends Edge<EV>> {
+public class  UndirectedEdgeTriple<N extends Node<N,E,SO>,
+								   E extends Edge<N,E,SO>,
+								   SO extends SearchOptions> 
 	
-	private N from;
-	private E edge;
-	private N to;
+	extends   DirectedEdgeTriple<N,E,SO>  {
 	
 	public UndirectedEdgeTriple(N from, E edge, N to) {
-		this.from = from;
-		this.edge = edge;
-		this.to = to;
+		super(from, edge, to);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -26,7 +20,7 @@ public class UndirectedEdgeTriple<NV extends NodeValue,
 		if(o == null) return false;
 		if(o == this) return true;
 		if(o instanceof UndirectedEdgeTriple) {
-			UndirectedEdgeTriple<NV,EV,N,E> e = (UndirectedEdgeTriple<NV,EV,N,E>) o;
+			UndirectedEdgeTriple<N,E,SO> e = (UndirectedEdgeTriple<N,E,SO>) o;
 
 			if(e.edge == null && edge != null) {
 				return false;
@@ -48,11 +42,11 @@ public class UndirectedEdgeTriple<NV extends NodeValue,
 		return false;
 	}
 
-	private boolean equalsForward(UndirectedEdgeTriple<NV,EV,N,E> e) {
+	private boolean equalsForward(UndirectedEdgeTriple<N,E,SO> e) {
 		return equalsForward(e.from, e.to);
 	}
 
-	private boolean equalsBackward(UndirectedEdgeTriple<NV,EV,N,E> e) {
+	private boolean equalsBackward(UndirectedEdgeTriple<N,E,SO> e) {
 		return equalsForward(e.to, e.from);
 	}
 

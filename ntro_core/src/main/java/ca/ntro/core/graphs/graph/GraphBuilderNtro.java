@@ -9,14 +9,13 @@ import ca.ntro.core.graphs.generic_graph.GenericGraphBuilderNtro;
 import ca.ntro.core.graphs.generic_graph.InternalGraphWriter;
 import ca.ntro.core.graphs.generic_graph.InternalGraphWriterNtro;
 
-public class      GraphBuilderNtro<NV extends NodeValue, 
-                                   EV extends EdgeValue,
-                                   N extends Node<NV>,
-                                   E extends Edge<EV>> 
+public class      GraphBuilderNtro<N extends Node<N,E,SO>,
+								   E extends Edge<N,E,SO>,
+								   SO extends SearchOptions>
 
-       extends    GenericGraphBuilderNtro<NV,EV,N,E,GraphStructure<NV,EV,N,E>,Graph<NV,EV,N,E>> 
+       extends    GenericGraphBuilderNtro<N,E,SO, Graph<N,E,SO>> 
 
-       implements Graph<NV,EV,N,E>, GraphBuilder<NV,EV,N,E> {
+       implements Graph<N,E,SO>, GraphBuilder<N,E,SO> {
 
 
 	public GraphBuilderNtro() {

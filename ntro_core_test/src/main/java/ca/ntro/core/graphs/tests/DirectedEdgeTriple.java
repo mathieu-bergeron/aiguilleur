@@ -1,17 +1,18 @@
 package ca.ntro.core.graphs.tests;
 
 import ca.ntro.core.graphs.Edge;
-import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.Node;
-import ca.ntro.core.graphs.NodeValue;
+import ca.ntro.core.graphs.SearchOptions;
 
-public class DirectedEdgeTriple<NV extends NodeValue, EV extends EdgeValue> {
+public class DirectedEdgeTriple<N extends Node<N,E,SO>,
+                                E extends Edge<N,E,SO>,
+                                SO extends SearchOptions> {
 	
-	private Node<NV> from;
-	private Edge<EV> edge;
-	private Node<NV> to;
+	protected N from;
+	protected E edge;
+	protected N to;
 	
-	public DirectedEdgeTriple(Node<NV> from, Edge<EV> edge, Node<NV> to) {
+	public DirectedEdgeTriple(N from, E edge, N to) {
 		this.from = from;
 		this.edge = edge;
 		this.to = to;
@@ -23,7 +24,7 @@ public class DirectedEdgeTriple<NV extends NodeValue, EV extends EdgeValue> {
 		if(o == null) return false;
 		if(o == this) return true;
 		if(o instanceof DirectedEdgeTriple) {
-			DirectedEdgeTriple<NV,EV> e = (DirectedEdgeTriple<NV,EV>) o;
+			DirectedEdgeTriple<N,E,SO> e = (DirectedEdgeTriple<N,E,SO>) o;
 			
 			if(e.from == null && from != null) {
 				return false;

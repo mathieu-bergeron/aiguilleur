@@ -1,39 +1,34 @@
 package ca.ntro.core.graphs.directed_graph;
 
 import ca.ntro.core.graphs.Edge;
-import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.Node;
-import ca.ntro.core.graphs.NodeValue;
+import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.graphs.generic_graph.GenericGraphBuilder;
 
-public interface DirectedGraphBuilder<NV extends NodeValue, 
-                                      EV extends EdgeValue,
-                                      N extends Node<NV>,
-                                      E extends Edge<EV>> 
+public interface DirectedGraphBuilder<N extends Node<N,E,SO>,
+                                      E extends Edge<N,E,SO>,
+                                      SO extends SearchOptions>
 
-       extends   GenericGraphBuilder<NV,EV,N,E,DirectedGraphStructure<NV,EV,N,E>, 
-                 DirectedGraph<NV,EV,N,E>> {
+       extends   GenericGraphBuilder<N,E,SO,DirectedGraph<N,E,SO>> {
 
-	public static <NV extends NodeValue, 
-	               EV extends EdgeValue,
-	               N extends Node<NV>,
-	               E extends Edge<EV>> 
+	public static <N extends Node<N,E,SO>,
+				   E extends Edge<N,E,SO>,
+				   SO extends SearchOptions>
 	
-	       DirectedGraphBuilder<NV,EV,N,E> 
+	       DirectedGraphBuilder<N,E,SO> 
 
 		   newBuilder(){
 
-		return new DirectedGraphNtro<NV,EV,N,E>();
+		return new DirectedGraphNtro<>();
 	}
 
-	public static <NV extends NodeValue, 
-	               EV extends EdgeValue,
-	               N extends Node<NV>,
-	               E extends Edge<EV>> 
+	public static <N extends Node<N,E,SO>,
+				   E extends Edge<N,E,SO>,
+				   SO extends SearchOptions>
 	
-      	    DirectedGraphBuilder<NV,EV,N,E> newBuilder(String graphName){
+      	    DirectedGraphBuilder<N,E,SO> newBuilder(String graphName){
 
-		return new DirectedGraphNtro<NV,EV,N,E>(graphName);
+		return new DirectedGraphNtro<>(graphName);
 	}
 
 }
