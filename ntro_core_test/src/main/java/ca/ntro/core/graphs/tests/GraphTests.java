@@ -40,6 +40,12 @@ public class GraphTests {
 	public void reachableEdgesDepthFirst01() throws Throwable {
 		exceptionThrower.clear();
 		
+		GraphBuilder<GraphNode, GraphEdge, SearchOptions> builder = GraphBuilder.newBuilder("reachableEdgesDepthFirst01");
+		
+		builder.addNode(new GraphNode("asdf"));
+
+		
+		
 		/*
 
 		GraphBuilder<MockNodeValue, MockEdgeValue, Node<MockNodeValue>, Edge<MockEdgeValue>> builder = GraphBuilder.newBuilder("reachableEdgesDepthFirst01");
