@@ -1,6 +1,7 @@
 package ca.ntro.core.graphs.tests;
 
 import ca.ntro.core.graphs.Edge;
+import ca.ntro.core.graphs.EdgeType;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.SearchOptions;
 
@@ -9,12 +10,12 @@ public class DirectedEdgeTriple<N extends Node<N,E,SO>,
                                 SO extends SearchOptions> {
 	
 	protected N from;
-	protected E edge;
+	protected EdgeType edgeType;
 	protected N to;
 	
-	public DirectedEdgeTriple(N from, E edge, N to) {
+	public DirectedEdgeTriple(N from, EdgeType edgeType, N to) {
 		this.from = from;
-		this.edge = edge;
+		this.edgeType = edgeType;
 		this.to = to;
 	}
 	
@@ -36,11 +37,11 @@ public class DirectedEdgeTriple<N extends Node<N,E,SO>,
 			
 			
 			
-			if(e.edge == null && edge != null) {
+			if(e.edgeType == null && edgeType != null) {
 				return false;
 			}
 
-			if(e.edge != null && !e.edge.equals(edge)) {
+			if(e.edgeType != null && !e.edgeType.equals(edgeType)) {
 				return false;
 			}
 			

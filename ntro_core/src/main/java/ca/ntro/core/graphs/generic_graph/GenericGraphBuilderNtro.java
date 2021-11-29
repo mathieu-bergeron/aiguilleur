@@ -6,6 +6,7 @@ import java.util.Map;
 import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.GraphId;
 import ca.ntro.core.graphs.Node;
+import ca.ntro.core.graphs.NodeAlreadyAddedException;
 import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.NodeNotFoundException;
 import ca.ntro.core.graphs.NodeReducer;
@@ -64,7 +65,14 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 
 	@Override
 	public void addNode(N node) {
-		getNodes().put(node.id().toKey().toString(), node);
+		if(getNodes().containsKey(node.id().toKey().toString())) {
+
+			Ntro.exceptionThrower().throwException(new NodeAlreadyAddedException("Node already added: " + node.id().toKey()));
+
+		}else {
+			
+			getNodes().put(node.id().toKey().toString(), node);
+		}
 	}
 
 	@Override

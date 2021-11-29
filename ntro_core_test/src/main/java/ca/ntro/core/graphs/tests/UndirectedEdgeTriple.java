@@ -1,6 +1,7 @@
 package ca.ntro.core.graphs.tests;
 
 import ca.ntro.core.graphs.Edge;
+import ca.ntro.core.graphs.EdgeType;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.SearchOptions;
 
@@ -10,8 +11,8 @@ public class  UndirectedEdgeTriple<N extends Node<N,E,SO>,
 	
 	extends   DirectedEdgeTriple<N,E,SO>  {
 	
-	public UndirectedEdgeTriple(N from, E edge, N to) {
-		super(from, edge, to);
+	public UndirectedEdgeTriple(N from, EdgeType edgeType, N to) {
+		super(from, edgeType, to);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -22,11 +23,11 @@ public class  UndirectedEdgeTriple<N extends Node<N,E,SO>,
 		if(o instanceof UndirectedEdgeTriple) {
 			UndirectedEdgeTriple<N,E,SO> e = (UndirectedEdgeTriple<N,E,SO>) o;
 
-			if(e.edge == null && edge != null) {
+			if(e.edgeType == null && edgeType != null) {
 				return false;
 			}
 
-			if(e.edge != null && !e.edge.equals(edge)) {
+			if(e.edgeType != null && !e.edgeType.equals(edgeType)) {
 				return false;
 			}
 			

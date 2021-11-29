@@ -1,11 +1,18 @@
 package ca.ntro.core.graphs.tests;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import ca.ntro.core.graphs.Direction;
+import ca.ntro.core.graphs.EdgeTypeNtro;
 import ca.ntro.core.graphs.NodeAlreadyAddedException;
 import ca.ntro.core.graphs.SearchOptions;
+import ca.ntro.core.graphs.SearchOptionsNtro;
+import ca.ntro.core.graphs.SearchStrategy;
 import ca.ntro.core.graphs.graph.Graph;
 import ca.ntro.core.graphs.graph.GraphBuilder;
 import ca.ntro.core.initialization.InitializerTest;
@@ -35,10 +42,11 @@ public class GraphTests {
 		GraphNode nodeA = new GraphNode("A");
 		GraphNode nodeB = new GraphNode("B");
 
-		nodeA.addEdge("AB", nodeB);
-
 		builder.addNode(nodeA);
 		builder.addNode(nodeB);
+
+		nodeA.addEdge("AB", nodeB);
+
 		
 		Graph<GraphNode, GraphEdge, SearchOptions> graph = builder.toGraph();
 		graph.write(Ntro.graphWriter());
@@ -47,44 +55,40 @@ public class GraphTests {
 	@Test
 	public void reachableEdgesDepthFirst01() throws Throwable {
 		exceptionThrower.clear();
-		
-		/*
 
-		GraphBuilder<MockNodeValue, MockEdgeValue, Node<MockNodeValue>, Edge<MockEdgeValue>> builder = GraphBuilder.newBuilder("reachableEdgesDepthFirst01");
+		GraphBuilder<GraphNode, GraphEdge, SearchOptions> builder = GraphBuilder.newBuilder("reachableEdgesDepthFirst01");
 
-		MockNodeValue nodeValueA = new MockNodeValue("A");
-		MockNodeValue nodeValueB = new MockNodeValue("B");
+		GraphNode nodeA = new GraphNode("A");
+		GraphNode nodeB = new GraphNode("B");
+		GraphNode nodeC = new GraphNode("C");
 
-		MockEdgeValue edgeValueAB = new MockEdgeValue("AB");
-		MockEdgeValue edgeValueAA = new MockEdgeValue("AA");
-		
-		Node<MockNodeValue> nodeA = builder.addNode(nodeValueA);
-		Node<MockNodeValue> nodeB = builder.addNode(nodeValueB);
-		
-		Edge<MockEdgeValue> edgeAB = builder.addEdge(nodeA, edgeValueAB, nodeB);
-		Edge<MockEdgeValue> edgeAA = builder.addEdge(nodeA, edgeValueAA, nodeA);
+		builder.addNode(nodeA);
+		builder.addNode(nodeB);
+		builder.addNode(nodeC);
 
-		Graph<MockNodeValue, MockEdgeValue, Node<MockNodeValue>, Edge<MockEdgeValue>> graph = builder.toGraph();
+		nodeA.addEdge("AA", nodeA);
+		nodeA.addEdge("AB", nodeB);
+		nodeB.addEdge("BC", nodeC);
+
+		Graph<GraphNode, GraphEdge, SearchOptions> graph = builder.toGraph();
 		graph.write(Ntro.graphWriter());
 
 		exceptionThrower.throwLastException();
 
 		SearchOptions oneStepOptions = new SearchOptionsNtro(SearchStrategy.DEPTH_FIRST_SEARCH, new Direction[] {Direction.FORWARD}, 1);
 		
-		List<DirectedEdgeTriple<MockNodeValue, MockEdgeValue>> edges = new ArrayList<>();
+		List<DirectedEdgeTriple<GraphNode, GraphEdge, SearchOptions>> edges = new ArrayList<>();
 
-		graph.forEachReachableStep(nodeA, oneStepOptions, (walkedEdges, step) -> {
+		nodeA.forEachReachableEdge(oneStepOptions, (walkedEdges, edge) -> {
 
-			edges.add(new DirectedEdgeTriple<>(step.from(),step.edge(),step.to()));
+			edges.add(new DirectedEdgeTriple<>(edge.from(), edge.type(), edge.to()));
 		});
 
-		Ntro.asserter().assertTrue("Should contain", edges.contains(new DirectedEdgeTriple<>(nodeA, edgeAB, nodeB)));
-		Ntro.asserter().assertTrue("Should contain", edges.contains(new DirectedEdgeTriple<>(nodeA, edgeAA, nodeA)));
+		Ntro.asserter().assertTrue("Should contain", edges.contains(new DirectedEdgeTriple<>(nodeA, new EdgeTypeNtro(Direction.FORWARD, "AA"), nodeB)));
+		Ntro.asserter().assertTrue("Should contain", edges.contains(new DirectedEdgeTriple<>(nodeA, new EdgeTypeNtro(Direction.FORWARD, "BB"), nodeA)));
 		Ntro.asserter().assertEquals(2, edges.size());
 		
 		exceptionThrower.throwLastException();
-		
-		*/
 	}
 
 	@Test
@@ -155,18 +159,15 @@ public class GraphTests {
 	public void nodeAlreadyAddedException() {
 		exceptionThrower.clear();
 
-		/*
-		GraphBuilder<MockNodeValue, MockEdgeValue, NodeNtro<MockNodeValue>, EdgeNtro<MockEdgeValue>> builder = GraphBuilder.newBuilder();
+		GraphBuilder<GraphNode, GraphEdge, SearchOptions> builder = GraphBuilder.newBuilder();
+		
+		GraphNode nodeA = new GraphNode("A");
+		GraphNode nodeB = new GraphNode("A");
 
-		MockNodeValue nodeValueA = new MockNodeValue("A");
-		
-		builder.addNode(nodeValueA);
-		builder.addNode(nodeValueA);
-		
-		*/
+		builder.addNode(nodeA);
+		builder.addNode(nodeB);
 		
 		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrown(NodeAlreadyAddedException.class));
-
 	}
 
 	@Test
