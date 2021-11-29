@@ -10,6 +10,6 @@ public interface HierarchicalNodeBuilder<N extends HierarchicalNode<N,E,SO>,
 
        extends   NodeBuilder<N,E,SO> {
 
-	void addSubNode(HierarchicalNode<N,E,SO> subNode);
+	void addSubNode(N subNode);
 
 }

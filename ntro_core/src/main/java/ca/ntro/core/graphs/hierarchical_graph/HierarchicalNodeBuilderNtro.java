@@ -22,19 +22,18 @@ public class HierarchicalNodeBuilderNtro<N extends HierarchicalNode<N,E,SO>,
 	}
 
 	@Override
-	public void addEdge(E edge) {
-		// TODO Auto-generated method stub
+	public void addEdge(String edgeName, N to) {
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public N toNode() {
-		// TODO Auto-generated method stub
-		return null;
+		return (N) this;
 	}
 
 	@Override
-	public void addSubNode(HierarchicalNode<N, E, SO> subNode) {
+	public void addSubNode(N subNode) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -50,5 +49,7 @@ public class HierarchicalNodeBuilderNtro<N extends HierarchicalNode<N,E,SO>,
 		// TODO Auto-generated method stub
 		
 	}
+
+
 
 }

@@ -10,7 +10,6 @@ public interface GenericGraphBuilder<N extends Node<N,E,SO>,
                                      G extends GenericGraph<N,E,SO>> {
 
 	void addNode(N node);
-	void addEdge(E edge);
 	
 	G toGraph();
 }

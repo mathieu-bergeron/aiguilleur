@@ -12,7 +12,7 @@ public class     EdgeNtro<N extends Node<N,E,SO>,
       implements Edge<N,E,SO> {
 
 	private N from;
-	private EdgeType edgeName;
+	private EdgeType edgeType;
 	private N to;
 
 	public N getFrom() {
@@ -23,12 +23,12 @@ public class     EdgeNtro<N extends Node<N,E,SO>,
 		this.from = from;
 	}
 
-	public EdgeType getEdgeName() {
-		return edgeName;
+	public EdgeType getEdgeType() {
+		return edgeType;
 	}
 
-	public void setEdgeName(EdgeType edgeName) {
-		this.edgeName = edgeName;
+	public void setEdgeType(EdgeType edgeType) {
+		this.edgeType = edgeType;
 	}
 
 	public N getTo() {
@@ -39,9 +39,9 @@ public class     EdgeNtro<N extends Node<N,E,SO>,
 		this.to = to;
 	}
 
-	public EdgeNtro(N from, EdgeType edgeName, N to) {
+	public EdgeNtro(N from, EdgeType edgeType, N to) {
 		setFrom(from);
-		setEdgeName(edgeName);
+		setEdgeType(edgeType);
 		setTo(to);
 	}
 
@@ -61,11 +61,11 @@ public class     EdgeNtro<N extends Node<N,E,SO>,
 				return false;
 			}
 			
-			if(e.edgeName == null && edgeName != null) {
+			if(e.edgeType == null && edgeType != null) {
 				return false;
 			}
 			
-			if(e.edgeName != null && !e.edgeName.equals(edgeName)) {
+			if(e.edgeType != null && !e.edgeType.equals(edgeType)) {
 				return false;
 			}
 
@@ -85,7 +85,7 @@ public class     EdgeNtro<N extends Node<N,E,SO>,
 
 	@Override
 	public EdgeType type() {
-		return getEdgeName();
+		return getEdgeType();
 	}
 
 	@Override

@@ -1,12 +1,17 @@
 package ca.ntro.core.graphs.generic_graph;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import ca.ntro.core.graphs.Edge;
-import ca.ntro.core.graphs.EdgeReducer;
-import ca.ntro.core.graphs.EdgeType;
 import ca.ntro.core.graphs.GraphId;
 import ca.ntro.core.graphs.Node;
+import ca.ntro.core.graphs.NodeId;
+import ca.ntro.core.graphs.NodeNotFoundException;
 import ca.ntro.core.graphs.NodeReducer;
 import ca.ntro.core.graphs.SearchOptions;
+import ca.ntro.core.initialization.Ntro;
+import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
@@ -19,13 +24,22 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
                       GenericGraph<N,E,SO> {
 
 	private GraphId id;
+	private Map<String, N> nodes = new HashMap<>();
 
-	protected GraphId getId() {
+	public GraphId getId() {
 		return id;
 	}
 
-	protected void setId(GraphId id) {
+	public void setId(GraphId id) {
 		this.id = id;
+	}
+
+	public Map<String, N> getNodes() {
+		return nodes;
+	}
+
+	public void setNodes(Map<String, N> nodes) {
+		this.nodes = nodes;
 	}
 
 	@Override
@@ -46,22 +60,10 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 		setId(GraphId.fromGraphName(graphName));
 	}
 
-	@Override
-	protected <R> void _reduceStartNodes(ResultNtro<R> result, NodeReducer<N, E, SO, R> reducer) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void addNode(N node) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void addEdge(E edge) {
-		// TODO Auto-generated method stub
-		
+		getNodes().put(node.id().toKey().toString(), node);
 	}
 
 	@Override
@@ -75,7 +77,50 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
+	@Override
+	public N findNode(NodeId id) {
+		N node = getNodes().get(id.toKey().toString());
+		
+		if(node == null) {
+			Ntro.exceptionThrower().throwException(new NodeNotFoundException("Node not found for key: " + id.toKey()));
+		}
+		
+		return node;
+	}
+
+	@Override
+	protected <R> void _reduceStartNodes(ResultNtro<R> result, NodeReducer<N, E, SO, R> reducer) {
+		_reduceNodes(result, reducer);
+	}
+
+	protected <R> void _reduceNodes(ResultNtro<R> result, NodeReducer<N, E, SO, R> reducer) {
+		if(result.hasException()) {
+			return;
+		}
+		
+		for(N node : nodes.values()) {
+			
+			try {
+				
+				result.registerValue(reducer.reduceNode(result.value(), node));
+
+			}catch(Throwable t) {
+				
+				result.registerException(t);
+				return;
+			}
+		}
+	}
+
+	@Override
+	public <R> Result<R> reduceNodes(R initialValue, NodeReducer<N, E, SO, R> reducer) {
+		ResultNtro<R> result = new ResultNtro<>(initialValue);
+
+		_reduceNodes(result, reducer);
+		
+		return result;
+	}
 
 	
 	/*

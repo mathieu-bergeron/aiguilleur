@@ -1,6 +1,7 @@
 package ca.ntro.core.graphs.generic_graph;
 
 
+import ca.ntro.core.exceptions.Break;
 import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeType;
 import ca.ntro.core.graphs.EdgeReducer;
@@ -46,8 +47,21 @@ public abstract class GenericGraphNtro<N extends Node<N,E,SO>,
 
 	@Override
 	public N findNode(NodeId id) {
-		// TODO Auto-generated method stub
-		return null;
+		Result<N> result = reduceNodes(null, (accumulator, n) -> {
+			if(accumulator != null) {
+				throw new Break();
+			}
+
+			if(n.id().equals(id)) {
+				accumulator = n;
+			}
+
+			return accumulator;
+		});
+
+		result.throwException();
+
+		return result.value();
 	}
 
 	@Override

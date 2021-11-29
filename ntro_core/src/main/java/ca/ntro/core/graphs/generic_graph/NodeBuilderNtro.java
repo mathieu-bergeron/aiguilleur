@@ -1,7 +1,9 @@
 package ca.ntro.core.graphs.generic_graph;
 
+import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeType;
+import ca.ntro.core.graphs.EdgeTypeNtro;
 import ca.ntro.core.graphs.EdgeReducer;
 import ca.ntro.core.graphs.EdgeVisitor;
 import ca.ntro.core.graphs.Node;
@@ -11,8 +13,6 @@ import ca.ntro.core.graphs.ReachableNodeVisitor;
 import ca.ntro.core.graphs.ReachableStepReducer;
 import ca.ntro.core.graphs.ReachableStepVisitor;
 import ca.ntro.core.graphs.SearchOptions;
-import ca.ntro.core.graphs.WalkReducer;
-import ca.ntro.core.graphs.WalkVisitor;
 import ca.ntro.core.graphs.generic_graph.graph_strcuture.EdgesByDirection;
 import ca.ntro.core.graphs.generic_graph.graph_strcuture.EdgesByDirectionNtro;
 import ca.ntro.core.wrappers.result.Result;
@@ -63,8 +63,13 @@ public class      NodeBuilderNtro<N extends Node<N,E,SO>,
 		return false;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public void addEdge(E edge) {
+	public void addEdge(String edgeName, N to) {
+		EdgeTypeNtro edgeType = new EdgeTypeNtro(Direction.FORWARD, edgeName);
+
+		E edge = (E) new EdgeNtro<N,E,SO>(this.toNode(), edgeType, to);
+
 		getEdgesByDirection().addEdge(edge);
 	}
 
@@ -140,4 +145,5 @@ public class      NodeBuilderNtro<N extends Node<N,E,SO>,
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 }

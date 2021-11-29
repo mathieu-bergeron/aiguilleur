@@ -48,9 +48,7 @@ public class GraphTests {
 		builder.addNode(nodeA);
 		builder.addNode(nodeB);
 
-		GraphEdge edgeNodeAB = new GraphEdge(nodeA, "AB", nodeB);
-		
-		builder.addEdge(edgeNodeAB);
+		nodeA.addEdge("AB", nodeB);
 		
 		Graph<GraphNode, GraphEdge, SearchOptions> graph = builder.toGraph();
 		graph.write(Ntro.graphWriter());
