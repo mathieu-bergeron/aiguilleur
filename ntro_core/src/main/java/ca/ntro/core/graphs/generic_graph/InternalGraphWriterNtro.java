@@ -21,10 +21,13 @@ public class      InternalGraphWriterNtro<N extends Node<N,E,SO>,
 
 		writer.initialize(graph.id(), defaultOptions());
 
+		writeAfterInitialization(graph, writer);
+	}
+
+	protected void writeAfterInitialization(GenericGraph<N, E, SO> graph, GraphWriter writer) {
 		writeNodes(graph, writer);
 		
 		writeEdges(graph, writer);
-
 		
 		writer.writeDot();
 		writer.writePng();

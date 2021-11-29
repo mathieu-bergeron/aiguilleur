@@ -6,7 +6,6 @@ import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.ReachableNodeReducer;
 import ca.ntro.core.graphs.ReachableNodeVisitor;
-import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.graphs.generic_graph.NodeNtro;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
@@ -26,17 +25,14 @@ public abstract class      HierarchicalNodeNtro<N extends HierarchicalNode<N,E,S
 
 	@Override
 	public boolean hasSubNodes() {
-		Result<Boolean> result = reduceSubNodes(false, (accumulator, walked, n) -> {
+		return reduceSubNodes(false, (accumulator, walked, n) -> {
 			if(accumulator) {
 				throw new Break();
 			}
 
 			return true;
-		});
-		
-		result.throwException();
-		
-		return result.value();
+
+		}).value();
 	}
 
 	@Override
@@ -122,7 +118,7 @@ public abstract class      HierarchicalNodeNtro<N extends HierarchicalNode<N,E,S
 
 	@Override
 	public <R> Result<R> reduceParentNodes(R initialValue, ReachableNodeReducer<N, E, SO, R> reducer) {
-		return reduceParentNodes(initialValue, reducer);
+		return reduceParentNodes(defaultSearchOptions(), initialValue, reducer);
 	}
 
 	@Override

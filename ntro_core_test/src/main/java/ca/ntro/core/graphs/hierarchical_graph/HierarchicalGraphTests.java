@@ -11,6 +11,8 @@ import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.graphs.graph.GraphEdge;
 import ca.ntro.core.graphs.graph.GraphNode;
 import ca.ntro.core.graphs.hierarchical_graph.HierarchicalGraphBuilder;
+import ca.ntro.core.graphs.writers.ClusterSpecNtro;
+import ca.ntro.core.graphs.writers.GraphWriter;
 import ca.ntro.core.initialization.InitializerTest;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.services.ExceptionThrowerMock;
@@ -81,6 +83,7 @@ public class HierarchicalGraphTests {
 		List<HierarchicalGraphNode> allNodes = new ArrayList<>();
 		
 		graph.forEachNode(n -> {
+
 			allNodes.add(n);
 		});
 		
@@ -89,15 +92,24 @@ public class HierarchicalGraphTests {
 		List<HierarchicalGraphNode> clusters = new ArrayList<>();
 		
 		graph.forEachNode(n -> {
-			if(n.hasSubNodes()) {
+			if(n.hasSubNodes() && !n.hasParent()) {
+				clusters.add(n);
+			}
+
+			else if(n.hasSubNodes() && n.hasParent()) {
+				clusters.add(n);
+			}
+
+			else if(!n.hasSubNodes() && n.hasParent()) {
 				clusters.add(n);
 			}
 		});
+
+		exceptionThrower.throwLastException();
 		
 		Ntro.asserter().assertEquals(2, clusters.size());
 
 		graph.write(Ntro.graphWriter());
-
 		exceptionThrower.throwLastException();
 	}
 }

@@ -106,20 +106,34 @@ public class GraphWriterJdk implements GraphWriter {
 	@Override
 	public void addCluster(ClusterSpec clusterSpec) {
 		MutableGraph cluster = createCluster(clusterSpec);
-		clusters.put(clusterSpec.id(), cluster);
+
 		graph.add(cluster);
+
+		clusters.put(clusterSpec.id(), cluster);
 	}
 
 	@Override
-	public void addSubCluster(ClusterSpec cluster, ClusterSpec subCluster) {
-		MutableGraph dotCluster = clusters.get(cluster.id());
-		dotCluster.add(createCluster(subCluster));
+	public void addSubCluster(ClusterSpec clusterSpec, ClusterSpec subClusterSpec) {
+		MutableGraph cluster = createCluster(clusterSpec);
+		MutableGraph subCluster = createCluster(subClusterSpec);
+
+		graph.add(cluster);
+		cluster.add(subCluster);
+
+		clusters.put(clusterSpec.id(), cluster);
+		clusters.put(subClusterSpec.id(), subCluster);
 	}
 
 	@Override
-	public void addSubNode(ClusterSpec cluster, NodeSpec subNode) {
-		MutableGraph dotCluster = clusters.get(cluster.id());
-		dotCluster.add(createNode(subNode));
+	public void addSubNode(ClusterSpec clusterSpec, NodeSpec nodeSpec) {
+		MutableGraph cluster = createCluster(clusterSpec);
+		MutableNode subNode = createNode(nodeSpec);
+
+		graph.add(cluster);
+		cluster.add(subNode);
+		
+		clusters.put(clusterSpec.id(), cluster);
+		nodes.put(nodeSpec.id(), subNode);
 	}
 
 	@Override

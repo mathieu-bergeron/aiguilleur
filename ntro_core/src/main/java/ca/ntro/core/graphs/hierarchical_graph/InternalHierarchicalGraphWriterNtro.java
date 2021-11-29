@@ -22,16 +22,26 @@ public class      InternalHierarchicalGraphWriterNtro<N extends HierarchicalNode
        implements InternalHierarchicalGraphWriter<N,E,SO> {
 
 	@Override
-	public void write(GenericGraph<N,E,SO> graph, GraphWriter writer) {
+	protected void writeAfterInitialization(GenericGraph<N,E,SO> graph, GraphWriter writer) {
+
 		writeClusters(graph, writer);
 
-		super.write(graph, writer);
+		super.writeAfterInitialization(graph, writer);
 	}
 
 	private void writeClusters(GenericGraph<N,E,SO> graph, GraphWriter writer) {
 		graph.forEachNode(n -> {
-			if(n.hasSubNodes()) {
+
+			if(n.hasSubNodes() && !n.hasParent()) {
 				writer.addCluster(new ClusterSpecNtro(n));
+			}
+
+			else if(n.hasSubNodes() && n.hasParent()) {
+				writer.addSubCluster(new ClusterSpecNtro(n.parent()), new ClusterSpecNtro(n));
+			}
+
+			else if(!n.hasSubNodes() && n.hasParent()) {
+				writer.addSubNode(new ClusterSpecNtro(n.parent()), new NodeSpecNtro(n));
 			}
 		});
 	}

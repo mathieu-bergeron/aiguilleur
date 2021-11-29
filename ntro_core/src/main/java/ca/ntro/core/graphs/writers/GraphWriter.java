@@ -8,10 +8,10 @@ public interface GraphWriter {
 	void initialize(GraphId id, GraphWriterOptions options);
 
 	void addNode(NodeSpec nodeSpec);
-	void addCluster(ClusterSpec clusterSpec);
 
-	void addSubCluster(ClusterSpec clusterSpec, ClusterSpec subClusterSpec) throws ClusterNotFoundException;
-	void addSubNode(ClusterSpec clusterSpec, NodeSpec subNodeSpec) throws ClusterNotFoundException;
+	void addCluster(ClusterSpec clusterSpec);
+	void addSubCluster(ClusterSpec clusterSpec, ClusterSpec subClusterSpec);
+	void addSubNode(ClusterSpec clusterSpec, NodeSpec subNodeSpec);
 
 	void addEdge(NodeSpec fromSpec, EdgeSpec edgeSpec, NodeSpec toSpec) throws NodeNotFoundException;
 	void addEdge(ClusterSpec fromSpec, EdgeSpec edgeSpec, NodeSpec toSpec) throws NodeNotFoundException, ClusterNotFoundException;
