@@ -13,7 +13,7 @@ import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.ReachableNodeReducer;
 import ca.ntro.core.graphs.ReachableNodeVisitor;
 import ca.ntro.core.graphs.ReachableStepReducer;
-import ca.ntro.core.graphs.ReachableStepVisitor;
+import ca.ntro.core.graphs.ReachableEdgeVisitor;
 import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.graphs.SearchOptionsNtro;
 import ca.ntro.core.graphs.SearchStrategy;
@@ -130,7 +130,7 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 		return result;
 	}
 
-	protected <R> void _reduceReachableNodes(SearchOptions options, 
+	protected <R> void _reduceReachableNodes(SO options, 
 			                                 ResultNtro<R> result, 
 			                                 ReachableNodeReducer<N,E,SO,R> reducer) {
 
@@ -140,7 +140,7 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 		
 		Set<String> visitedNodes = new HashSet<>();
 		
-		forEachReachableEdge((walked, edge) -> {
+		forEachReachableEdge(options, (walked, edge) -> {
 			if(visitedNodes.contains(edge.to().id().toKey().toString())) {
 				return;
 			}
@@ -160,12 +160,12 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 	}
 
 	@Override
-	public void forEachReachableEdge(ReachableStepVisitor<N,E,SO> visitor) {
+	public void forEachReachableEdge(ReachableEdgeVisitor<N,E,SO> visitor) {
 		forEachReachableEdge(defaultSearchOptions(), visitor);
 	}
 
 	@Override
-	public void forEachReachableEdge(SO options, ReachableStepVisitor<N,E,SO> visitor) {
+	public void forEachReachableEdge(SO options, ReachableEdgeVisitor<N,E,SO> visitor) {
 		reduceReachableEdges(options, null, (accumulator, walked, edge) -> {
 
 			visitor.visitReachableEdge(walked, edge);
@@ -214,7 +214,10 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 		}
 
 		_reduceEdgeTypes(result, (__, edgeType) -> {
-			
+			if(!options.containsDirection(edgeType.direction())) {
+				return result.value();
+			}
+
 			_reduceEdgesByType(edgeType, result, (___, edge) -> {
 				if(visitedEdges.contains(edge.id().toKey().toString())) {
 					return result.value();
@@ -254,7 +257,7 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 			                                             ResultNtro<R> result, 
 			                                             ReachableStepReducer<N,E,SO,R> reducer) {
 		
-		SearchOptions oneStepOptions = new SearchOptionsNtro(options.searchDirections(), 1);
+		SearchOptions oneStepOptions = new SearchOptionsNtro(options.directions(), 1);
 		
 		_reduceReachableEdgesBreadthFirst(options, oneStepOptions, visitedEdges, new WalkNtro<N,E,SO>(), result, reducer);
 	}

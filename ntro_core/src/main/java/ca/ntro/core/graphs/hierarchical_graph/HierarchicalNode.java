@@ -19,16 +19,16 @@ public interface HierarchicalNode<N extends HierarchicalNode<N,E,SO>,
 	N parent();
 
 	void forEachSubNode(ReachableNodeVisitor<N,E,SO> visitor);
-	void forEachSubNode(SearchOptions options, ReachableNodeVisitor<N,E,SO> visitor);
+	void forEachSubNode(SO options, ReachableNodeVisitor<N,E,SO> visitor);
 
 	<R extends Object> Result<R> reduceSubNodes(R initialValue, ReachableNodeReducer<N,E,SO,R> reducer);
-	<R extends Object> Result<R> reduceSubNodes(SearchOptions options, R initialValue, ReachableNodeReducer<N,E,SO,R> reducer);
+	<R extends Object> Result<R> reduceSubNodes(SO options, R initialValue, ReachableNodeReducer<N,E,SO,R> reducer);
 
 	void forEachParentNode(ReachableNodeVisitor<N,E,SO> visitor);
-	void forEachParentNode(SearchOptions options, ReachableNodeVisitor<N,E,SO> visitor);
+	void forEachParentNode(SO options, ReachableNodeVisitor<N,E,SO> visitor);
 
 	<R extends Object> Result<R> reduceParentNodes(R initialValue, ReachableNodeReducer<N,E,SO,R> reducer);
-	<R extends Object> Result<R> reduceParentNodes(SearchOptions options, R initialValue, ReachableNodeReducer<N,E,SO,R> reducer);
+	<R extends Object> Result<R> reduceParentNodes(SO options, R initialValue, ReachableNodeReducer<N,E,SO,R> reducer);
 
 
 }

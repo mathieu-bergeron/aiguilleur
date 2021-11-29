@@ -1,6 +1,9 @@
 package ca.ntro.core.graphs.hierarchical_graph;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -31,7 +34,7 @@ public class HierarchicalGraphTests {
 	public void hierarchicalGraph01() throws Throwable {
 		exceptionThrower.clear();
 
-		HierarchicalGraphBuilder<HierarchicalGraphNode, HierarchicalGraphEdge, SearchOptions> builder = HierarchicalGraphBuilder.newBuilder("hierarchicalGraph01");
+		HierarchicalGraphBuilder<HierarchicalGraphNode, HierarchicalGraphEdge, HierarchicalGraphSearchOptions> builder = HierarchicalGraphBuilder.newBuilder("hierarchicalGraph01");
 
 		HierarchicalGraphNode nodeA = new HierarchicalGraphNode("A");
 		HierarchicalGraphNode nodeB = new HierarchicalGraphNode("B");
@@ -59,53 +62,41 @@ public class HierarchicalGraphTests {
 		subNodeAA.addEdge("AA_AB", subNodeAB);
 
 		subNodeAA.addSubNode(subNodeAAA);
+
 		subNodeAAA.addEdge("AAA_C", nodeC);
 
-		HierarchicalGraph<HierarchicalGraphNode, HierarchicalGraphEdge, SearchOptions> graph = builder.toGraph();
-		graph.write(Ntro.graphWriter());
-		
-		/*
+		HierarchicalGraph<HierarchicalGraphNode, HierarchicalGraphEdge, HierarchicalGraphSearchOptions> graph = builder.toGraph();
 
-		List<Node<MockNodeValue>> nodes = new ArrayList<>();
+		Ntro.asserter().assertTrue("nodeA has subNodes", nodeA.hasSubNodes());
+		Ntro.asserter().assertFalse("nodeB does not have subNodes", nodeB.hasSubNodes());
+		
+		List<HierarchicalGraphNode> subNodes = new ArrayList<>();
+		
+		nodeA.forEachSubNode((walked, subNode) -> {
+			subNodes.add(subNode);
+		});
+		
+		Ntro.asserter().assertEquals(3, subNodes.size());
+
+		List<HierarchicalGraphNode> allNodes = new ArrayList<>();
+		
 		graph.forEachNode(n -> {
-			nodes.add(n);
+			allNodes.add(n);
 		});
 		
-		Ntro.asserter().assertTrue("Should contain", nodes.contains(node0));
-		Ntro.asserter().assertTrue("Should contain", nodes.contains(nodeA));
-		Ntro.asserter().assertTrue("Should contain", nodes.contains(nodeB));
-		Ntro.asserter().assertTrue("Should contain", nodes.contains(nodeC));
-		Ntro.asserter().assertTrue("Should contain", nodes.contains(nodeAA));
-		Ntro.asserter().assertTrue("Should contain", nodes.contains(nodeAAA));
-		Ntro.asserter().assertTrue("Should contain", nodes.contains(nodeBB));
-		Ntro.asserter().assertTrue("Should contain", nodes.contains(nodeBBB));
-		Ntro.asserter().assertEquals(8, nodes.size());
-		
-		List<UndirectedEdgeTriple<MockNodeValue, MockEdgeValue, Node<MockNodeValue>, Edge<MockEdgeValue>>> edges = new ArrayList<>();
-		GraphBuilder<MockNodeValue, MockEdgeValue, Node<MockNodeValue>, Edge<MockEdgeValue>> builderTested = GraphBuilder.newBuilder("hierarchicalGraph01_tested");
-		*/
-		
-		/*
+		Ntro.asserter().assertEquals(6, allNodes.size());
 
-		graph.forEachReachableStep(node0, (walkedEdges, step) -> {
-			builderTested.addEdge(step.from(), step.edge().value(), step.to());
-			edges.add(new UndirectedEdgeTriple<MockNodeValue, MockEdgeValue, Node<MockNodeValue>, Edge<MockEdgeValue>>(step.from(),step.edge(),step.to()));
+		List<HierarchicalGraphNode> clusters = new ArrayList<>();
+		
+		graph.forEachNode(n -> {
+			if(n.hasSubNodes()) {
+				clusters.add(n);
+			}
 		});
-
-		builderTested.toGraph().write(Ntro.graphWriter());
-
-		*/
 		
+		Ntro.asserter().assertEquals(2, clusters.size());
 
-		/*
-		Ntro.asserter().assertEquals(8, edges.size());
-		Ntro.asserter().assertTrue("Should contain", edges.contains(new UndirectedEdgeTriple<>(node0, edge0A, nodeA)));
-		Ntro.asserter().assertTrue("Should contain", edges.contains(new UndirectedEdgeTriple<>(nodeA, edgeAB, nodeB)));
-		Ntro.asserter().assertTrue("Should contain", edges.contains(new UndirectedEdgeTriple<>(nodeB, edgeBC, nodeC)));
-		Ntro.asserter().assertTrue("Should contain", edges.contains(new UndirectedEdgeTriple<>(nodeC, edgeCA, nodeA)));
-		Ntro.asserter().assertTrue("Should contain", edges.contains(new UndirectedEdgeTriple<>(nodeAA, edgeAABBB, nodeBBB)));
-		Ntro.asserter().assertTrue("Should contain", edges.contains(new UndirectedEdgeTriple<>(nodeAAA, edgeAAABB, nodeBB)));
-		*/
+		graph.write(Ntro.graphWriter());
 
 		exceptionThrower.throwLastException();
 	}

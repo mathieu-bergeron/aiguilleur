@@ -18,8 +18,8 @@ public interface Node<N extends Node<N,E,SO>,
 	<R extends Object> Result<R> reduceReachableNodes(R initialValue, ReachableNodeReducer<N,E,SO,R> reducer);
 	<R extends Object> Result<R> reduceReachableNodes(SO options, R initialValue, ReachableNodeReducer<N,E,SO,R> reducer);
 
-	void forEachReachableEdge(ReachableStepVisitor<N,E,SO> visitor);
-	void forEachReachableEdge(SO options, ReachableStepVisitor<N,E,SO> visitor);
+	void forEachReachableEdge(ReachableEdgeVisitor<N,E,SO> visitor);
+	void forEachReachableEdge(SO options, ReachableEdgeVisitor<N,E,SO> visitor);
 
 	<R extends Object> Result<R> reduceReachableEdges(R initialValue, ReachableStepReducer<N,E,SO,R> reducer);
 	<R extends Object> Result<R> reduceReachableEdges(SO options, R initialValue, ReachableStepReducer<N,E,SO,R> reducer);

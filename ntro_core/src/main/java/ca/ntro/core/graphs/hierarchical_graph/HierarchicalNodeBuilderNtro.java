@@ -6,7 +6,6 @@ import ca.ntro.core.graphs.EdgeReducer;
 import ca.ntro.core.graphs.EdgeType;
 import ca.ntro.core.graphs.EdgeTypeNtro;
 import ca.ntro.core.graphs.NodeId;
-import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.graphs.generic_graph.EdgeNtro;
 import ca.ntro.core.graphs.generic_graph.EdgeTypeReducer;
 import ca.ntro.core.graphs.generic_graph.graph_strcuture.EdgesByDirection;
@@ -15,7 +14,7 @@ import ca.ntro.core.wrappers.result.ResultNtro;
 
 public class HierarchicalNodeBuilderNtro<N extends HierarchicalNode<N,E,SO>,
  									     E extends Edge<N,E,SO>,
- 									     SO extends SearchOptions>
+ 									     SO extends HierarchicalGraphSearchOptions>
 
        extends     HierarchicalNodeNtro<N,E,SO> 
 

@@ -7,7 +7,6 @@ public class SearchOptionsNtro implements SearchOptions {
 	private SearchStrategy searchStrategy = SearchStrategy.BREADTH_FIRST_SEARCH;
 	private Optionnal<Integer> maxDistance = Optionnal.none(Integer.class);
 	private Direction[] directions = defaultDirections();
-	private Direction walkDirection = directions[0];
 	
 	protected SearchStrategy getSearchStrategy() {
 		return searchStrategy;
@@ -80,7 +79,7 @@ public class SearchOptionsNtro implements SearchOptions {
 	}
 
 	@Override
-	public Direction[] searchDirections() {
+	public Direction[] directions() {
 		return getDirections();
 	}
 
@@ -94,7 +93,15 @@ public class SearchOptionsNtro implements SearchOptions {
 	}
 
 	@Override
-	public Direction walkDirection() {
-		return walkDirection;
+	public boolean containsDirection(Direction direction) {
+		boolean contains = false;
+		for(Direction candidate : directions()) {
+			if(candidate == direction) {
+				contains = true;
+				break;
+			}
+		}
+		
+		return contains;
 	}
 }

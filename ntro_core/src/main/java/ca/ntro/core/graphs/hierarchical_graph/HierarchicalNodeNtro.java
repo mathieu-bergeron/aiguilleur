@@ -3,12 +3,9 @@ package ca.ntro.core.graphs.hierarchical_graph;
 import ca.ntro.core.exceptions.Break;
 import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
-import ca.ntro.core.graphs.EdgeVisitor;
 import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.ReachableNodeReducer;
 import ca.ntro.core.graphs.ReachableNodeVisitor;
-import ca.ntro.core.graphs.ReachableStepReducer;
-import ca.ntro.core.graphs.ReachableStepVisitor;
 import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.graphs.generic_graph.NodeNtro;
 import ca.ntro.core.wrappers.result.Result;
@@ -16,7 +13,7 @@ import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class      HierarchicalNodeNtro<N extends HierarchicalNode<N,E,SO>,
  									            E extends Edge<N,E,SO>,
- 									            SO extends SearchOptions>
+ 									            SO extends HierarchicalGraphSearchOptions>
 
        extends    NodeNtro<N,E,SO> 
 
@@ -35,7 +32,6 @@ public abstract class      HierarchicalNodeNtro<N extends HierarchicalNode<N,E,S
 			}
 
 			return true;
-
 		});
 		
 		result.throwException();
@@ -79,7 +75,7 @@ public abstract class      HierarchicalNodeNtro<N extends HierarchicalNode<N,E,S
 	}
 
 	@Override
-	public void forEachSubNode(SearchOptions options, ReachableNodeVisitor<N, E, SO> visitor) {
+	public void forEachSubNode(SO options, ReachableNodeVisitor<N, E, SO> visitor) {
 		reduceSubNodes(options, null, (__, walked, n) -> {
 
 			visitor.visitReachableNode(walked, n);
@@ -95,7 +91,7 @@ public abstract class      HierarchicalNodeNtro<N extends HierarchicalNode<N,E,S
 	}
 
 	@Override
-	public <R> Result<R> reduceSubNodes(SearchOptions options, 
+	public <R> Result<R> reduceSubNodes(SO options, 
 			                            R initialValue, 
 			                            ReachableNodeReducer<N, E, SO, R> reducer) {
 
@@ -103,7 +99,7 @@ public abstract class      HierarchicalNodeNtro<N extends HierarchicalNode<N,E,S
 		
 		HierarchicalGraphSearchOptions subNodeOptions = new HierarchicalGraphSearchOptions(options.searchStrategy(), new Direction[] {Direction.DOWN}, options.maxDistance());
 		
-		_reduceReachableNodes(subNodeOptions, result, reducer);
+		_reduceReachableNodes((SO) subNodeOptions, result, reducer);
 		
 		return result;
 	}
@@ -114,7 +110,7 @@ public abstract class      HierarchicalNodeNtro<N extends HierarchicalNode<N,E,S
 	}
 
 	@Override
-	public void forEachParentNode(SearchOptions options, ReachableNodeVisitor<N, E, SO> visitor) {
+	public void forEachParentNode(SO options, ReachableNodeVisitor<N, E, SO> visitor) {
 		reduceParentNodes(options, null, (__, walked, n) -> {
 
 			visitor.visitReachableNode(walked, n);
@@ -130,7 +126,7 @@ public abstract class      HierarchicalNodeNtro<N extends HierarchicalNode<N,E,S
 	}
 
 	@Override
-	public <R> Result<R> reduceParentNodes(SearchOptions options, 
+	public <R> Result<R> reduceParentNodes(SO options, 
 			                               R initialValue, 
 			                               ReachableNodeReducer<N, E, SO, R> reducer) {
 
@@ -138,7 +134,7 @@ public abstract class      HierarchicalNodeNtro<N extends HierarchicalNode<N,E,S
 		
 		HierarchicalGraphSearchOptions parentNodeOptions = new HierarchicalGraphSearchOptions(options.searchStrategy(), new Direction[] {Direction.UP}, options.maxDistance());
 		
-		_reduceReachableNodes(parentNodeOptions, result, reducer);
+		_reduceReachableNodes((SO) parentNodeOptions, result, reducer);
 		
 		return result;
 	}
