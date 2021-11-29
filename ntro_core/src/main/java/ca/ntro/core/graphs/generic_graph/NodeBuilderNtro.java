@@ -5,17 +5,11 @@ import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeType;
 import ca.ntro.core.graphs.EdgeTypeNtro;
 import ca.ntro.core.graphs.EdgeReducer;
-import ca.ntro.core.graphs.EdgeVisitor;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeId;
-import ca.ntro.core.graphs.ReachableNodeReducer;
-import ca.ntro.core.graphs.ReachableNodeVisitor;
-import ca.ntro.core.graphs.ReachableStepReducer;
-import ca.ntro.core.graphs.ReachableStepVisitor;
 import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.graphs.generic_graph.graph_strcuture.EdgesByDirection;
 import ca.ntro.core.graphs.generic_graph.graph_strcuture.EdgesByDirectionNtro;
-import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public class      NodeBuilderNtro<N extends Node<N,E,SO>, 
@@ -81,69 +75,14 @@ public class      NodeBuilderNtro<N extends Node<N,E,SO>,
 
 	@Override
 	protected <R> void _reduceEdgeTypes(ResultNtro<R> result, EdgeTypeReducer<R> reducer) {
-		// TODO Auto-generated method stub
-		
+		getEdgesByDirection()._reduceEdgeTypes(result, reducer);
 	}
 
 	@Override
 	protected <R> void _reduceEdgesByType(EdgeType edgeType, 
 			                              ResultNtro<R> result,
 			                              EdgeReducer<N,E,SO,R> reducer) {
-		
-	}
 
-	@Override
-	public void forEachEdge(EdgeVisitor<N, E, SO> visitor) {
-		// TODO Auto-generated method stub
-		
+		getEdgesByDirection()._reduceEdgesByType(edgeType, result, reducer);
 	}
-
-	@Override
-	public void forEachReachableNode(ReachableNodeVisitor<N, E, SO> visitor) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void forEachReachableNode(SO options, ReachableNodeVisitor<N, E, SO> visitor) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public <R> Result<R> reduceReachableNodes(R initialValue, ReachableNodeReducer<N, E, SO, R> reducer) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public <R> Result<R> reduceReachableNodes(SO options, R initialValue, ReachableNodeReducer<N, E, SO, R> reducer) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void forEachReachableEdge(ReachableStepVisitor<N, E, SO> visitor) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void forEachReachableEdge(SO options, ReachableStepVisitor<N, E, SO> visitor) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public <R> Result<R> reduceReachableEdges(R initialValue, ReachableStepReducer<N, E, SO, R> reducer) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public <R> Result<R> reduceReachableEdges(SO options, R initialValue, ReachableStepReducer<N, E, SO, R> reducer) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

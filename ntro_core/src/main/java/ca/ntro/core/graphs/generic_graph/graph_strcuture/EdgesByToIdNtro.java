@@ -34,7 +34,7 @@ public class EdgesByToIdNtro<N extends Node<N,E,SO>,
 	}
 
 	@Override
-	public <R> void _reduceEdgeNames(ResultNtro<R> result, EdgeTypeReducer<R> reducer) {
+	public <R> void _reduceEdgeTypes(ResultNtro<R> result, EdgeTypeReducer<R> reducer) {
 		if(result.hasException()) {
 			return;
 		}
@@ -55,7 +55,7 @@ public class EdgesByToIdNtro<N extends Node<N,E,SO>,
 	}
 
 	@Override
-	public <R> void _reduceEdgesByName(EdgeType edgeName, ResultNtro<R> result, EdgeReducer<N,E,SO,R> reducer) {
+	public <R> void _reduceEdgesByType(EdgeType edgeName, ResultNtro<R> result, EdgeReducer<N,E,SO,R> reducer) {
 		if(result.hasException()) {
 			return;
 		}

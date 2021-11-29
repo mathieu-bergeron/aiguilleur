@@ -10,5 +10,6 @@ public interface Edge<N extends Node<N,E,SO>,
 	N to();
 
 	EdgeType type();
+	EdgeId id();
 
 }

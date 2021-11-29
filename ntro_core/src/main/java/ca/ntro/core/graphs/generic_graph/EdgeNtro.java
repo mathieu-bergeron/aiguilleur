@@ -1,9 +1,12 @@
 package ca.ntro.core.graphs.generic_graph;
 
 import ca.ntro.core.graphs.Edge;
+import ca.ntro.core.graphs.EdgeId;
+import ca.ntro.core.graphs.EdgeIdNtro;
 import ca.ntro.core.graphs.EdgeType;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.SearchOptions;
+import ca.ntro.core.path.Path;
 
 public class     EdgeNtro<N extends Node<N,E,SO>, 
                           E extends Edge<N,E,SO>,
@@ -96,5 +99,15 @@ public class     EdgeNtro<N extends Node<N,E,SO>,
 	@Override
 	public N to() {
 		return getTo();
+	}
+
+	@Override
+	public EdgeId id() {
+		Path path = Path.fromSingleName(from().id().toKey().toString());
+		path.addName(type().direction().name());
+		path.addName(type().name().toString());
+		path.addName(to().id().toKey().toString());
+		
+		return new EdgeIdNtro(path.toKey());
 	}
 }

@@ -10,6 +10,7 @@ import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.NodeNotFoundException;
 import ca.ntro.core.graphs.NodeReducer;
 import ca.ntro.core.graphs.SearchOptions;
+import ca.ntro.core.graphs.SearchOptionsNtro;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
@@ -72,10 +73,10 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	protected SearchOptions defaultSearchOptions() {
-		// TODO Auto-generated method stub
-		return null;
+	protected SO defaultSearchOptions() {
+		return (SO) new SearchOptionsNtro();
 	}
 
 	@Override
@@ -94,6 +95,7 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 		_reduceNodes(result, reducer);
 	}
 
+	@Override
 	protected <R> void _reduceNodes(ResultNtro<R> result, NodeReducer<N, E, SO, R> reducer) {
 		if(result.hasException()) {
 			return;
@@ -121,7 +123,6 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 		
 		return result;
 	}
-
 	
 	/*
 

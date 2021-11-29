@@ -31,8 +31,8 @@ public class      GraphBuilderNtro<N extends Node<N,E,SO>,
 	}
 
 	@Override
-	protected SearchOptionsNtro defaultSearchOptions() {
-		return new SearchOptionsNtro();
+	protected SO defaultSearchOptions() {
+		return (SO) new SearchOptionsNtro();
 	}
 
 	@Override

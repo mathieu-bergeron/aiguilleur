@@ -1,9 +1,11 @@
 package ca.ntro.core.graphs.generic_graph;
 
 
+import java.util.HashSet;
+import java.util.Set;
+
 import ca.ntro.core.exceptions.Break;
 import ca.ntro.core.graphs.Edge;
-import ca.ntro.core.graphs.EdgeType;
 import ca.ntro.core.graphs.EdgeReducer;
 import ca.ntro.core.graphs.EdgeVisitor;
 import ca.ntro.core.graphs.GraphId;
@@ -41,7 +43,7 @@ public abstract class GenericGraphNtro<N extends Node<N,E,SO>,
 
 	protected abstract InternalGraphWriter<N,E,SO> internalGraphWriter();
 
-	protected abstract SearchOptions defaultSearchOptions();
+	protected abstract SO defaultSearchOptions();
 
 	protected abstract <R> void _reduceStartNodes(ResultNtro<R> result, NodeReducer<N, E, SO, R> reducer);
 
@@ -75,116 +77,17 @@ public abstract class GenericGraphNtro<N extends Node<N,E,SO>,
 
 	@Override
 	public void forEachStartNode(NodeVisitor<N, E, SO> visitor) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void forEachNode(NodeVisitor<N, E, SO> visitor) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public <R> Result<R> reduceNodes(R initialValue, NodeReducer<N, E, SO, R> reducer) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void forEachEdge(EdgeVisitor<N, E, SO> visitor) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public <R> Result<R> reduceEdges(R initialValue, EdgeReducer<N, E, SO, R> reducer) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-	/*
-	protected abstract <R> void _reduceStartNodes(ResultNtro<R> result, NodeReducer<N,E,SO,R> reducer);
-
-	protected abstract <R> void _reduceNextStepIds(N fromNode, ResultNtro<R> result, EdgeNameReducer<R> reducer);
-
-	protected abstract <R> void _reduceNextStepsById(N fromNode, StepId stepId, ResultNtro<R> result, StepReducer<NV,EV,N,E,R> reducer);
-	*/
-	
-	/*
-
-	@Override
-	public N findNode(NodeId id) {
-		return findNode(new NodeMatcher<NV,N>() {
-			@Override
-			public boolean matches(N node) {
-				return node.id().equals(id);
-			}
-		});
-	}
-
-	@Override
-	public N findNode(NodeMatcher<NV,N> matcher) {
-
-		Result<N> result = reduceNodes(null, (accumulator, n) -> {
-			if(accumulator != null) {
-				throw new Break();
-			}
-
-			if(matcher.matches(n)) {
-				return n;
-			}
-
-			return accumulator;
-		});
-
-		result.throwException();
-
-		return result.value();
-	}
-
-	@Override
-	public N findNode(NV nodeValue) {
-		return findNode(new NodeMatcher<NV,N>() {
-			@Override
-			public boolean matches(N node) {
-				return node.value().equals(nodeValue);
-			}
-		});
-	}
-
-	@Override
-	public N findNode(String rawNodeId) {
-		return findNode(new NodeId(rawNodeId));
-	}
-
-	@Override
-	public void forEachStartNode(NodeVisitor<NV,N> visitor) {
 		reduceStartNodes(null, (__, n) ->{
 			
 			visitor.visitNode(n);
 			
 			return null;
 
-		}).throwException();;
+		}).throwException();
 	}
 
-
 	@Override
-	public <R> Result<R> reduceStartNodes(R initialValue, NodeReducer<NV,N,R> reducer){
-
-		ResultNtro<R> result = new ResultNtro<R>(initialValue);
-		
-		_reduceStartNodes(result, reducer);
-		
-		return result;
-	}
-
-
-	@Override
-	public void forEachNode(NodeVisitor<NV,N> visitor) {
+	public void forEachNode(NodeVisitor<N, E, SO> visitor) {
 		reduceNodes(null, (accumulator, n) -> {
 			
 			visitor.visitNode(n);
@@ -195,7 +98,7 @@ public abstract class GenericGraphNtro<N extends Node<N,E,SO>,
 	}
 
 	@Override
-	public <R> Result<R> reduceNodes(R initialValue, NodeReducer<NV,N,R> reducer) {
+	public <R> Result<R> reduceNodes(R initialValue, NodeReducer<N, E, SO, R> reducer) {
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 		
 		_reduceNodes(result, reducer);
@@ -203,15 +106,15 @@ public abstract class GenericGraphNtro<N extends Node<N,E,SO>,
 		return result;
 	}
 
-	protected <R> void _reduceNodes(ResultNtro<R> result, NodeReducer<NV,N,R> reducer) {
-		
+	protected <R> void _reduceNodes(ResultNtro<R> result, NodeReducer<N,E,SO,R> reducer) {
+
 		Set<String> visitedNodes = new HashSet<>();
 		
-		_reduceStartNodes(result, (__, startNode) -> {
-			if(visitedNodes.contains(startNode.id().toKey())) {
-				return result.value();
+		forEachStartNode(startNode -> {
+			if(visitedNodes.contains(startNode.id().toKey().toString())) {
+				throw new Break();
 			}
-			
+
 			visitedNodes.add(startNode.id().toKey().toString());
 
 			try {
@@ -219,32 +122,83 @@ public abstract class GenericGraphNtro<N extends Node<N,E,SO>,
 				result.registerValue(reducer.reduceNode(result.value(), startNode));
 
 			}catch(Throwable t) {
-				
+
 				result.registerException(t);
+				throw new Break();
 			}
 
-			_reduceReachableNodes(startNode, defaultSearchOptions(), result, (___, walkedEdges, n) ->{
-				if(visitedNodes.contains(n.id().toKey())) {
-					return result.value();
+			startNode.forEachReachableNode(defaultSearchOptions(), (walked, n) -> {
+				if(visitedNodes.contains(n.id().toKey().toString())) {
+					throw new Break();
 				}
-				
+
 				visitedNodes.add(n.id().toKey().toString());
-				
+
 				try {
 				
 					result.registerValue(reducer.reduceNode(result.value(), n));
 
 				}catch(Throwable t) {
-					
-					result.registerException(t);
-				}
 
-				return result.value();
+					result.registerException(t);
+					throw new Break();
+				}
 			});
-			
-			return result.value();
 		});
 	}
+
+	@Override
+	public void forEachEdge(EdgeVisitor<N, E, SO> visitor) {
+		reduceEdges(null, (accumulator, edge) -> {
+			
+			visitor.visitEdge(edge);
+			
+			return null;
+
+		}).throwException();
+	}
+
+	@Override
+	public <R> Result<R> reduceEdges(R initialValue, EdgeReducer<N, E, SO, R> reducer) {
+		ResultNtro<R> result = new ResultNtro<R>(initialValue);
+
+		_reduceEdges(result, reducer);
+		
+		return result;
+	}
+
+	protected <R> void _reduceEdges(ResultNtro<R> result, EdgeReducer<N,E,SO,R> reducer) {
+		if(result.hasException()) {
+			return;
+		}
+		
+		Set<String> visitedEdges = new HashSet<>();
+		
+		forEachNode(n -> {
+			
+			n.forEachEdge(e -> {
+				if(visitedEdges.contains(e.id().toKey().toString())) {
+					throw new Break();
+				}
+				
+				visitedEdges.add(e.id().toKey().toString());
+
+				try {
+				
+					result.registerValue(reducer.reduceEdge(result.value(), e));
+
+				}catch(Throwable t) {
+
+					result.registerException(t);
+					throw new Break();
+				}
+			});
+		});
+	}
+	
+	/*
+	
+
 
 	@Override
 	public void forEachEdge(EdgeVisitor<NV,EV,N,E> visitor) {

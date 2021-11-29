@@ -14,7 +14,7 @@ public interface EdgesByDirection<N extends Node<N,E,SO>,
 
 	void addEdge(E edge);
 
-	<R> void _reduceEdgeNames(ResultNtro<R> result, EdgeTypeReducer<R> reducer);
-	<R> void _reduceEdgesByName(EdgeType edgeName, ResultNtro<R> result, EdgeReducer<N,E,SO,R> reducer);
+	<R> void _reduceEdgeTypes(ResultNtro<R> result, EdgeTypeReducer<R> reducer);
+	<R> void _reduceEdgesByType(EdgeType edgeName, ResultNtro<R> result, EdgeReducer<N,E,SO,R> reducer);
 
 }

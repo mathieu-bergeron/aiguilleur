@@ -1,21 +1,11 @@
 package ca.ntro.core.graphs.tests;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import ca.ntro.core.graphs.Direction;
-import ca.ntro.core.graphs.Edge;
-import ca.ntro.core.graphs.EdgeAlreadyAddedException;
-import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeAlreadyAddedException;
 import ca.ntro.core.graphs.SearchOptions;
-import ca.ntro.core.graphs.SearchOptionsNtro;
-import ca.ntro.core.graphs.SearchStrategy;
-import ca.ntro.core.graphs.generic_graph.EdgeNtro;
-import ca.ntro.core.graphs.generic_graph.NodeNtro;
 import ca.ntro.core.graphs.graph.Graph;
 import ca.ntro.core.graphs.graph.GraphBuilder;
 import ca.ntro.core.initialization.InitializerTest;
@@ -37,22 +27,26 @@ public class GraphTests {
 	}
 
 	@Test
-	public void reachableEdgesDepthFirst01() throws Throwable {
+	public void simpleGraph00() throws Throwable {
 		exceptionThrower.clear();
-		
-		GraphBuilder<GraphNode, GraphEdge, SearchOptions> builder = GraphBuilder.newBuilder("reachableEdgesDepthFirst01");
+
+		GraphBuilder<GraphNode, GraphEdge, SearchOptions> builder = GraphBuilder.newBuilder("simpleGraph00");
 		
 		GraphNode nodeA = new GraphNode("A");
-		GraphNode nodeB = new GraphNode("A");
+		GraphNode nodeB = new GraphNode("B");
+
+		nodeA.addEdge("AB", nodeB);
 
 		builder.addNode(nodeA);
 		builder.addNode(nodeB);
-
-		nodeA.addEdge("AB", nodeB);
 		
 		Graph<GraphNode, GraphEdge, SearchOptions> graph = builder.toGraph();
 		graph.write(Ntro.graphWriter());
-		
+	}
+
+	@Test
+	public void reachableEdgesDepthFirst01() throws Throwable {
+		exceptionThrower.clear();
 		
 		/*
 

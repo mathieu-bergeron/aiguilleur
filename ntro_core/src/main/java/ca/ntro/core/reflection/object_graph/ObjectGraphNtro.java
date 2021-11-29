@@ -60,8 +60,8 @@ public abstract class ObjectGraphNtro
 	}
 
 	@Override
-	protected DirectedGraphSearchOptions defaultSearchOptions() {
-		return new DirectedGraphSearchOptions(new Direction[] {Direction.FORWARD});
+	protected ObjectGraphSearchOptions defaultSearchOptions() {
+		return new ObjectGraphSearchOptionsNtro(new Direction[] {Direction.FORWARD});
 	}
 
 	@Override
