@@ -1,4 +1,4 @@
-package ca.ntro.core.graphs.tests;
+package ca.ntro.core.graphs;
 
 import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeType;

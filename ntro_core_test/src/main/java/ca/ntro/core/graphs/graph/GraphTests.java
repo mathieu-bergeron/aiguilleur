@@ -1,4 +1,4 @@
-package ca.ntro.core.graphs.tests;
+package ca.ntro.core.graphs.graph;
 
 
 import java.util.ArrayList;
@@ -7,6 +7,7 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import ca.ntro.core.graphs.DirectedEdgeTriple;
 import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.EdgeTypeNtro;
 import ca.ntro.core.graphs.NodeAlreadyAddedException;
@@ -84,11 +85,11 @@ public class GraphTests {
 			edges.add(new DirectedEdgeTriple<>(edge.from(), edge.type(), edge.to()));
 		});
 
+		exceptionThrower.throwLastException();
+
+		Ntro.asserter().assertEquals(2, edges.size());
 		Ntro.asserter().assertTrue("Should contain", edges.contains(new DirectedEdgeTriple<>(nodeA, new EdgeTypeNtro(Direction.FORWARD, "AA"), nodeB)));
 		Ntro.asserter().assertTrue("Should contain", edges.contains(new DirectedEdgeTriple<>(nodeA, new EdgeTypeNtro(Direction.FORWARD, "BB"), nodeA)));
-		Ntro.asserter().assertEquals(2, edges.size());
-		
-		exceptionThrower.throwLastException();
 	}
 
 	@Test

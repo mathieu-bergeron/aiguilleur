@@ -7,6 +7,6 @@ public interface ReachableStepVisitor<N extends Node<N,E,SO>,
                                       E extends Edge<N,E,SO>,
                                       SO extends SearchOptions> {
 	
-	void visitReachableStep(Walk<N,E,SO> walked, E edge) throws Break;
+	void visitReachableEdge(Walk<N,E,SO> walked, E edge) throws Break;
 
 }

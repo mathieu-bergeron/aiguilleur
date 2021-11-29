@@ -22,6 +22,38 @@ public class EdgeTypeNtro implements EdgeType {
 	protected void setName(Name name) {
 		this.name = name;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if(o == this) return true;
+		if(o == null) return false;
+		if(o instanceof EdgeType) {
+			EdgeType e = (EdgeType) o;
+
+			if(e.direction() == null && direction != null) {
+				return false;
+			}
+			
+			if(e.direction() != null && !e.direction().equals(direction)) {
+				return false;
+			}
+			
+			if(e.name() == null && name != null) {
+				return false;
+			}
+			
+			if(e.name() != null && !e.name().equals(name)) {
+				return false;
+			}
+
+			return true;
+		}
+		
+		return false;
+	}
+	
+	
+	
 	
 	public EdgeTypeNtro(Direction direction, Name name) {
 		setDirection(direction);

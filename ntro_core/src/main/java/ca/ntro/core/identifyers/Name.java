@@ -19,6 +19,28 @@ public final class Name {
 	
 	private String name;
 	
+	@Override
+	public boolean equals(Object o) {
+		if(o == this) return true;
+		if(o == null) return false;
+		if(o instanceof Name) {
+			Name e = (Name) o;
+
+			if(e.name == null && name != null) {
+				return false;
+			}
+			
+			if(e.name != null && !e.name.equals(name)) {
+				return false;
+			}
+
+			return true;
+		}
+		
+		return false;
+	}
+	
+	
 	public Name(String name) {
 		try {
 
@@ -26,7 +48,7 @@ public final class Name {
 
 		} catch (InvalidCharacterException e) {
 			
-			Ntro.exceptionThrower().throwException(new RuntimeException("Name cannot contain character " + e));
+			Ntro.exceptionThrower().throwException(new RuntimeException("Name cannot contain character " + e.invalidCharacter()));
 		}
 		
 		this.name = name;

@@ -1,5 +1,7 @@
 package ca.ntro.core.graphs.hierarchical_graph;
 
+import ca.ntro.core.exceptions.Break;
+import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeVisitor;
 import ca.ntro.core.graphs.NodeId;
@@ -10,6 +12,7 @@ import ca.ntro.core.graphs.ReachableStepVisitor;
 import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.graphs.generic_graph.NodeNtro;
 import ca.ntro.core.wrappers.result.Result;
+import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class      HierarchicalNodeNtro<N extends HierarchicalNode<N,E,SO>,
  									            E extends Edge<N,E,SO>,
@@ -26,123 +29,117 @@ public abstract class      HierarchicalNodeNtro<N extends HierarchicalNode<N,E,S
 
 	@Override
 	public boolean hasSubNodes() {
-		// TODO Auto-generated method stub
-		return false;
+		Result<Boolean> result = reduceSubNodes(false, (accumulator, walked, n) -> {
+			if(accumulator) {
+				throw new Break();
+			}
+
+			return true;
+
+		});
+		
+		result.throwException();
+		
+		return result.value();
 	}
 
 	@Override
 	public boolean hasParent() {
-		// TODO Auto-generated method stub
-		return false;
+		return reduceParentNodes(false, (accumulator, walked, n) -> {
+			if(accumulator) {
+				throw new Break();
+			}
+
+			return true;
+
+		}).value();
 	}
 
 	@Override
-	public HierarchicalNode<N, E, SO> parent() {
-		// TODO Auto-generated method stub
-		return null;
+	public N parent() {
+		Result<N> result = reduceParentNodes(null, (accumulator, walked, n) -> {
+			if(accumulator != null) {
+				throw new Break();
+			}
+			
+			if(walked.size() == 1) {
+				accumulator = n;
+			}
+
+			return accumulator;
+
+		});
+		
+		return result.value();
 	}
 
 	@Override
 	public void forEachSubNode(ReachableNodeVisitor<N, E, SO> visitor) {
-		// TODO Auto-generated method stub
-		
+		forEachSubNode(defaultSearchOptions(), visitor);
 	}
 
 	@Override
 	public void forEachSubNode(SearchOptions options, ReachableNodeVisitor<N, E, SO> visitor) {
-		// TODO Auto-generated method stub
-		
+		reduceSubNodes(options, null, (__, walked, n) -> {
+
+			visitor.visitReachableNode(walked, n);
+			
+			return null;
+
+		}).throwException();
 	}
 
 	@Override
 	public <R> Result<R> reduceSubNodes(R initialValue, ReachableNodeReducer<N, E, SO, R> reducer) {
-		// TODO Auto-generated method stub
-		return null;
+		return reduceSubNodes(defaultSearchOptions(), initialValue, reducer);
 	}
 
 	@Override
-	public <R> Result<R> reduceSubNodes(SearchOptions options, R initialValue,
-			ReachableNodeReducer<N, E, SO, R> reducer) {
-		// TODO Auto-generated method stub
-		return null;
+	public <R> Result<R> reduceSubNodes(SearchOptions options, 
+			                            R initialValue, 
+			                            ReachableNodeReducer<N, E, SO, R> reducer) {
+
+		ResultNtro<R> result = new ResultNtro<R>(initialValue);
+		
+		HierarchicalGraphSearchOptions subNodeOptions = new HierarchicalGraphSearchOptions(options.searchStrategy(), new Direction[] {Direction.DOWN}, options.maxDistance());
+		
+		_reduceReachableNodes(subNodeOptions, result, reducer);
+		
+		return result;
 	}
 
 	@Override
 	public void forEachParentNode(ReachableNodeVisitor<N, E, SO> visitor) {
-		// TODO Auto-generated method stub
-		
+		forEachParentNode(defaultSearchOptions(), visitor);
 	}
 
 	@Override
 	public void forEachParentNode(SearchOptions options, ReachableNodeVisitor<N, E, SO> visitor) {
-		// TODO Auto-generated method stub
-		
+		reduceParentNodes(options, null, (__, walked, n) -> {
+
+			visitor.visitReachableNode(walked, n);
+			
+			return null;
+
+		}).throwException();
 	}
 
 	@Override
 	public <R> Result<R> reduceParentNodes(R initialValue, ReachableNodeReducer<N, E, SO, R> reducer) {
-		// TODO Auto-generated method stub
-		return null;
+		return reduceParentNodes(initialValue, reducer);
 	}
 
 	@Override
-	public <R> Result<R> reduceParentNodes(SearchOptions options, R initialValue,
-			ReachableNodeReducer<N, E, SO, R> reducer) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public <R> Result<R> reduceParentNodes(SearchOptions options, 
+			                               R initialValue, 
+			                               ReachableNodeReducer<N, E, SO, R> reducer) {
 
-	@Override
-	public void forEachEdge(EdgeVisitor<N, E, SO> visitor) {
-		// TODO Auto-generated method stub
+		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 		
-	}
-
-	@Override
-	public void forEachReachableNode(ReachableNodeVisitor<N, E, SO> visitor) {
-		// TODO Auto-generated method stub
+		HierarchicalGraphSearchOptions parentNodeOptions = new HierarchicalGraphSearchOptions(options.searchStrategy(), new Direction[] {Direction.UP}, options.maxDistance());
 		
-	}
-
-	@Override
-	public void forEachReachableNode(SO options, ReachableNodeVisitor<N, E, SO> visitor) {
-		// TODO Auto-generated method stub
+		_reduceReachableNodes(parentNodeOptions, result, reducer);
 		
-	}
-
-	@Override
-	public <R> Result<R> reduceReachableNodes(R initialValue, ReachableNodeReducer<N, E, SO, R> reducer) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public <R> Result<R> reduceReachableNodes(SO options, R initialValue, ReachableNodeReducer<N, E, SO, R> reducer) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void forEachReachableEdge(ReachableStepVisitor<N, E, SO> visitor) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void forEachReachableEdge(SO options, ReachableStepVisitor<N, E, SO> visitor) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public <R> Result<R> reduceReachableEdges(R initialValue, ReachableStepReducer<N, E, SO, R> reducer) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public <R> Result<R> reduceReachableEdges(SO options, R initialValue, ReachableStepReducer<N, E, SO, R> reducer) {
-		// TODO Auto-generated method stub
-		return null;
+		return result;
 	}
 }

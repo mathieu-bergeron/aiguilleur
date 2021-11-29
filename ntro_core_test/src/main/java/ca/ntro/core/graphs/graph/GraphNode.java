@@ -1,4 +1,4 @@
-package ca.ntro.core.graphs.tests;
+package ca.ntro.core.graphs.graph;
 
 
 import ca.ntro.core.graphs.NodeId;

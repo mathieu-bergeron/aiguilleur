@@ -50,7 +50,12 @@ public class GraphWriterJdk implements GraphWriter {
 	
 	private File createFile(String extension) {
 		File file = new File("_storage/" + basepath.toRawPath() + extension);
-		file.mkdirs();
+		
+		File parentFile = file.getParentFile();
+
+		if(parentFile != null) {
+			parentFile.mkdirs();
+		}
 		
 		return file;
 	}

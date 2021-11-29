@@ -1,10 +1,16 @@
 package ca.ntro.core.graphs.hierarchical_graph;
 
 import ca.ntro.core.graphs.Edge;
+import ca.ntro.core.graphs.NodeNotFoundException;
 import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.graphs.generic_graph.GenericGraph;
 import ca.ntro.core.graphs.generic_graph.InternalGraphWriterNtro;
+import ca.ntro.core.graphs.writers.ClusterNotFoundException;
+import ca.ntro.core.graphs.writers.ClusterSpecNtro;
+import ca.ntro.core.graphs.writers.EdgeSpecNtro;
 import ca.ntro.core.graphs.writers.GraphWriter;
+import ca.ntro.core.graphs.writers.NodeSpecNtro;
+import ca.ntro.core.initialization.Ntro;
 
 public class      InternalHierarchicalGraphWriterNtro<N extends HierarchicalNode<N,E,SO>,
                                                       E extends Edge<N,E,SO>,
@@ -22,15 +28,40 @@ public class      InternalHierarchicalGraphWriterNtro<N extends HierarchicalNode
 	}
 
 	private void writeClusters(GenericGraph<N,E,SO> graph, GraphWriter writer) {
-		// TODO Auto-generated method stub
-		
+		graph.forEachNode(n -> {
+			if(n.hasSubNodes()) {
+				writer.addCluster(new ClusterSpecNtro(n));
+			}
+		});
 	}
 
 	@Override
 	protected void writeEdge(GraphWriter writer, E edge) {
+		try {
 
-		// FIXME
-		super.writeEdge(writer, edge);
+			if(edge.from().hasSubNodes()
+					&& edge.to().hasSubNodes()) {
+				
+				writer.addEdge(new ClusterSpecNtro(edge.from()), new EdgeSpecNtro(edge), new ClusterSpecNtro(edge.to()));
+				
+			}else if(edge.from().hasSubNodes()) {
+
+				writer.addEdge(new ClusterSpecNtro(edge.from()), new EdgeSpecNtro(edge), new NodeSpecNtro(edge.to()));
+				
+			}else if(edge.to().hasSubNodes()) {
+
+				writer.addEdge(new NodeSpecNtro(edge.from()), new EdgeSpecNtro(edge), new ClusterSpecNtro(edge.to()));
+				
+			}else {
+
+				writer.addEdge(new NodeSpecNtro(edge.from()), new EdgeSpecNtro(edge), new NodeSpecNtro(edge.to()));
+
+			}
+
+		} catch (NodeNotFoundException | ClusterNotFoundException e) {
+
+			Ntro.exceptionThrower().throwException(e);
+		}
 	}
 
 }

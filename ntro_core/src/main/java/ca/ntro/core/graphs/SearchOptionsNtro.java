@@ -68,6 +68,12 @@ public class SearchOptionsNtro implements SearchOptions {
 		setMaxDistance(maxDistance);
 	}
 
+	public SearchOptionsNtro(SearchStrategy searchStrategy, Direction[] directions, Optionnal<Integer> maxDistance) {
+		setSearchStrategy(searchStrategy);
+		setDirections(directions);
+		setMaxDistance(maxDistance);
+	}
+
 	@Override
 	public SearchStrategy searchStrategy() {
 		return getSearchStrategy();

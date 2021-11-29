@@ -168,7 +168,7 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 	public void forEachReachableEdge(SO options, ReachableStepVisitor<N,E,SO> visitor) {
 		reduceReachableEdges(options, null, (accumulator, walked, edge) -> {
 
-			visitor.visitReachableStep(walked, edge);
+			visitor.visitReachableEdge(walked, edge);
 
 			return null;
 

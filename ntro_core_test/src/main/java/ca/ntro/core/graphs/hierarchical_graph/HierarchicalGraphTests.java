@@ -1,17 +1,13 @@
-package ca.ntro.core.graphs.tests;
+package ca.ntro.core.graphs.hierarchical_graph;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import ca.ntro.core.graphs.Edge;
-import ca.ntro.core.graphs.Node;
-import ca.ntro.core.graphs.graph.GraphBuilder;
-import ca.ntro.core.graphs.hierarchical_graph.HierarchicalGraph;
+import ca.ntro.core.graphs.SearchOptions;
+import ca.ntro.core.graphs.graph.GraphEdge;
+import ca.ntro.core.graphs.graph.GraphNode;
 import ca.ntro.core.graphs.hierarchical_graph.HierarchicalGraphBuilder;
-import ca.ntro.core.graphs.hierarchical_graph.HierarchicalNode;
 import ca.ntro.core.initialization.InitializerTest;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.services.ExceptionThrowerMock;
@@ -34,56 +30,41 @@ public class HierarchicalGraphTests {
 	@Test
 	public void hierarchicalGraph01() throws Throwable {
 		exceptionThrower.clear();
-		
-		/*a
 
-		HierarchicalGraphBuilder<MockNodeValue, 
-		                         MockEdgeValue, 
-		                         HierarchicalNode<MockNodeValue, MockEdgeValue, ?,?>, 
-		                         Edge<MockEdgeValue>> builder = HierarchicalGraphBuilder.newBuilder("hierarchicalGraph01");
+		HierarchicalGraphBuilder<HierarchicalGraphNode, HierarchicalGraphEdge, SearchOptions> builder = HierarchicalGraphBuilder.newBuilder("hierarchicalGraph01");
 
-		MockNodeValue nodeValue0 = new MockNodeValue("0");
-		MockNodeValue nodeValueA = new MockNodeValue("A");
-		MockNodeValue nodeValueB = new MockNodeValue("B");
-		MockNodeValue nodeValueC = new MockNodeValue("C");
-		
-		MockNodeValue nodeValueAA = new MockNodeValue("AA");
-		MockNodeValue nodeValueAAA = new MockNodeValue("AAA");
-		MockNodeValue nodeValueBB = new MockNodeValue("BB");
-		MockNodeValue nodeValueBBB = new MockNodeValue("BBB");
-		
-		MockEdgeValue edgeValue0A = new MockEdgeValue("0A");
-		MockEdgeValue edgeValueAB = new MockEdgeValue("AB");
-		MockEdgeValue edgeValueBC = new MockEdgeValue("BC");
-		MockEdgeValue edgeValueCA = new MockEdgeValue("CA");
+		HierarchicalGraphNode nodeA = new HierarchicalGraphNode("A");
+		HierarchicalGraphNode nodeB = new HierarchicalGraphNode("B");
+		HierarchicalGraphNode nodeC = new HierarchicalGraphNode("C");
 
-		MockEdgeValue edgeValueAABBB = new MockEdgeValue("AABBB");
-		MockEdgeValue edgeValueAAABB = new MockEdgeValue("AAABB");
-		
-		HierarchicalNode<?,?,?,?> node0 = builder.addNode(nodeValue0);
-		HierarchicalNode<?,?,?,?> nodeA = builder.addNode(nodeValueA);
-		HierarchicalNode<?,?,?,?> nodeB = builder.addNode(nodeValueB);
-		HierarchicalNode<?,?,?,?> nodeC = builder.addNode(nodeValueC);
+		HierarchicalGraphNode subNodeAA = new HierarchicalGraphNode("AA");
+		HierarchicalGraphNode subNodeAB = new HierarchicalGraphNode("AB");
+		HierarchicalGraphNode subNodeAAA = new HierarchicalGraphNode("AAA");
 
-		HierarchicalNode<?,?,?,?> nodeAA = builder.addNode(nodeValueAA);
-		HierarchicalNode<?,?,?,?> nodeAAA = builder.addNode(nodeValueAAA);
-		HierarchicalNode<?,?,?,?> nodeBB = builder.addNode(nodeValueBB);
-		HierarchicalNode<?,?,?,?> nodeBBB = builder.addNode(nodeValueBBB);
-		
-		Edge<MockEdgeValue> edge0A = builder.addEdge(node0, edgeValue0A, nodeA);
-		Edge<MockEdgeValue> edgeAB = builder.addEdge(nodeA, edgeValueAB, nodeB);
-		Edge<MockEdgeValue> edgeBC = builder.addEdge(nodeB, edgeValueBC, nodeC);
-		Edge<MockEdgeValue> edgeCA = builder.addEdge(nodeC, edgeValueCA, nodeA);
+		builder.addNode(nodeA);
+		builder.addNode(nodeB);
+		builder.addNode(nodeC);
 
-		Edge<MockEdgeValue> edgeAABBB = builder.addEdge(nodeAA, edgeValueAABBB, nodeBBB);
-		Edge<MockEdgeValue> edgeAAABB = builder.addEdge(nodeAAA, edgeValueAAABB, nodeBB);
-		
-		HierarchicalGraph<MockNodeValue, 
-		                  MockEdgeValue, 
-		                  HierarchicalNode<MockNodeValue, MockEdgeValue, ?, Edge<MockEdgeValue>>, 
-		                  Edge<MockEdgeValue>> graph = builder.toGraph();
+		builder.addNode(subNodeAA);
+		builder.addNode(subNodeAAA);
+		builder.addNode(subNodeAB);
 
+		nodeA.addEdge("AA", nodeA);
+		nodeA.addEdge("AB", nodeB);
+		nodeB.addEdge("BC", nodeC);
+		
+		nodeA.addSubNode(subNodeAA);
+		nodeA.addSubNode(subNodeAB);
+		
+		subNodeAA.addEdge("AA_AB", subNodeAB);
+
+		subNodeAA.addSubNode(subNodeAAA);
+		subNodeAAA.addEdge("AAA_C", nodeC);
+
+		HierarchicalGraph<HierarchicalGraphNode, HierarchicalGraphEdge, SearchOptions> graph = builder.toGraph();
 		graph.write(Ntro.graphWriter());
+		
+		/*
 
 		List<Node<MockNodeValue>> nodes = new ArrayList<>();
 		graph.forEachNode(n -> {

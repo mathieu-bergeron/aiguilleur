@@ -22,10 +22,6 @@ public class      NodeBuilderNtro<N extends Node<N,E,SO>,
       implements  Node<N,E,SO>,
       	          NodeBuilder<N,E,SO> {
 
-	public NodeBuilderNtro(NodeId nodeId) {
-		super(nodeId);
-	}
-
 	private EdgesByDirection<N,E,SO> edgesByDirection = new EdgesByDirectionNtro<>();
 
 	public EdgesByDirection<N, E, SO> getEdgesByDirection() {
@@ -34,6 +30,10 @@ public class      NodeBuilderNtro<N extends Node<N,E,SO>,
 
 	public void setEdgesByDirection(EdgesByDirection<N, E, SO> edgesByDirection) {
 		this.edgesByDirection = edgesByDirection;
+	}
+
+	public NodeBuilderNtro(NodeId nodeId) {
+		super(nodeId);
 	}
 
 	@SuppressWarnings("unchecked")

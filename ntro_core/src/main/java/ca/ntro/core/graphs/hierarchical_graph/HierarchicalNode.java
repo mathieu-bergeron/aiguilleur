@@ -16,7 +16,7 @@ public interface HierarchicalNode<N extends HierarchicalNode<N,E,SO>,
 	boolean hasSubNodes();
 	boolean hasParent();
 
-	HierarchicalNode<N,E,SO> parent();
+	N parent();
 
 	void forEachSubNode(ReachableNodeVisitor<N,E,SO> visitor);
 	void forEachSubNode(SearchOptions options, ReachableNodeVisitor<N,E,SO> visitor);
