@@ -8,7 +8,7 @@ public interface Edge<N extends Node<N,E,SO>,
 
 	N from();
 
-	EdgeName id();
+	EdgeName name();
 
 	N to();
 

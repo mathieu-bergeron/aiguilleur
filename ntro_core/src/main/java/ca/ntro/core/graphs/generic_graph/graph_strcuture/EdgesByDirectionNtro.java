@@ -22,7 +22,7 @@ public class      EdgesByDirectionNtro<N extends Node<N,E,SO>,
 
 	@Override
 	protected String getSubMapKey(E edge) {
-		return edge.id().direction().name();
+		return edge.name().direction().name();
 	}
 
 	@Override

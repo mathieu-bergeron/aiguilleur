@@ -48,49 +48,32 @@ public abstract class EdgesMapNtro<N extends Node<N,E,SO>,
 	}
 
 	@Override
-	public <R> Result<R> reduceEdgeNames(R initialValue, EdgeNameReducer<R> reducer) {
-		ResultNtro<R> result = new ResultNtro<R>(initialValue);
+	public <R> void _reduceEdgeNames(ResultNtro<R> result, EdgeNameReducer<R> reducer) {
+		if(result.hasException()) {
+			return;
+		}
 		
 		for(SUBMAP subMap: edgesMap.values()) {
 			if(result.hasException()) {
 				break;
 			}
 
-			Result<R> nextResult = subMap.reduceEdgeNames(result.value(), reducer);
-			
-			if(nextResult.hasException()) {
-				
-				result.registerException(nextResult.exception());
-				
-			}else {
-				
-				result.registerValue(nextResult.value());
-			}
+			subMap._reduceEdgeNames(result, reducer);
 		}
-		
-		return result;
 	}
 
 	@Override
-	public <R> Result<R> reduceEdgesByName(EdgeName edgeName, R initialValue, EdgeReducer<N,E,SO,R> reducer) {
-		ResultNtro<R> result = new ResultNtro<R>(initialValue);
+	public <R> void _reduceEdgesByName(EdgeName edgeName, ResultNtro<R> result, EdgeReducer<N,E,SO,R> reducer) {
+		if(result.hasException()) {
+			return;
+		}
 		
 		SUBMAP subMap = getEdgesMap().get(getSubMapKey(edgeName));
 		
 		if(subMap != null) {
 
-			Result<R> nextResult = subMap.reduceEdgesByName(edgeName, result.value(), reducer);
+			subMap._reduceEdgesByName(edgeName, result, reducer);
 			
-			if(nextResult.hasException()) {
-				
-				result.registerException(nextResult.exception());
-				
-			}else {
-				
-				result.registerValue(nextResult.value());
-			}
 		}
-
-		return result;
 	}
 }

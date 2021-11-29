@@ -211,11 +211,11 @@ public abstract class ObjectGraphNtro
 
 			Object attributeValue = invokeGetter(currentObject, getterName);
 			
-			Path attributePath = Path.fromRawPath(fromNode.id().toString());
+			Path attributePath = Path.fromRawPath(fromNode.name().toString());
 			attributePath.addName(edgeName);
 			
 			Node<ObjectValue> toNode = createNode(attributePath, attributeValue);
-			Edge<ReferenceValue> edge = createEdge(fromNode.id(), edgeName, toNode.id());
+			Edge<ReferenceValue> edge = createEdge(fromNode.name(), edgeName, toNode.name());
 
 			Step<ObjectValue, ReferenceValue, Node<ObjectValue>, Edge<ReferenceValue>> walkedStep = new StepNtro<>(Direction.FORWARD, fromNode, edge, toNode);
 

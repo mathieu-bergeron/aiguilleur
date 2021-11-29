@@ -9,7 +9,6 @@ import ca.ntro.core.graphs.EdgeReducer;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.graphs.generic_graph.EdgeNameReducer;
-import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public class EdgesByToIdNtro<N extends Node<N,E,SO>, 
@@ -35,48 +34,42 @@ public class EdgesByToIdNtro<N extends Node<N,E,SO>,
 	}
 
 	@Override
-	public <R> Result<R> reduceEdgeNames(R initialValue, EdgeNameReducer<R> reducer) {
-		ResultNtro<R> result = new ResultNtro<R>(initialValue);
-		
+	public <R> void _reduceEdgeNames(ResultNtro<R> result, EdgeNameReducer<R> reducer) {
+		if(result.hasException()) {
+			return;
+		}
+
 		for(E edge: edgesMap.values()) {
-			if(result.hasException()) {
-				break;
-			}
-			
+
 			try {
 				
-				result.registerValue(reducer.reduceStep(result.value(), edge.id()));
+				result.registerValue(reducer.reduceStep(result.value(), edge.name()));
 
 			}catch(Throwable t) {
 				
 				result.registerException(t);
+				return;
 				
 			}
 		}
-		
-		return result;
 	}
 
 	@Override
-	public <R> Result<R> reduceEdgesByName(EdgeName edgeName, R initialValue, EdgeReducer<N,E,SO,R> reducer) {
-		ResultNtro<R> result = new ResultNtro<R>(initialValue);
-		
+	public <R> void _reduceEdgesByName(EdgeName edgeName, ResultNtro<R> result, EdgeReducer<N,E,SO,R> reducer) {
+		if(result.hasException()) {
+			return;
+		}
+
 		for(E edge: edgesMap.values()) {
-			if(result.hasException()) {
-				break;
-			}
-			
 			try {
 				
-				result.registerValue(reducer.reduceEdge(initialValue, edge));
+				result.registerValue(reducer.reduceEdge(result.value(), edge));
 
 			}catch(Throwable t) {
 				
 				result.registerException(t);
-				
+				return;
 			}
 		}
-		
-		return result;
 	}
 }

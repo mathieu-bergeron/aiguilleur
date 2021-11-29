@@ -84,7 +84,7 @@ public class     EdgeNtro<N extends Node<N,E,SO>,
 	}
 
 	@Override
-	public EdgeName id() {
+	public EdgeName name() {
 		return getEdgeName();
 	}
 

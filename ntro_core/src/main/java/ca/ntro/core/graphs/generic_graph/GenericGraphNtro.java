@@ -13,6 +13,7 @@ import ca.ntro.core.graphs.NodeVisitor;
 import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.graphs.writers.GraphWriter;
 import ca.ntro.core.wrappers.result.Result;
+import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class GenericGraphNtro<N extends Node<N,E,SO>, 
                                        E extends Edge<N,E,SO>,
@@ -41,6 +42,10 @@ public abstract class GenericGraphNtro<N extends Node<N,E,SO>,
 
 	protected abstract SearchOptions defaultSearchOptions();
 
+	protected abstract <R> void _reduceStartNodes(ResultNtro<R> result, NodeReducer<N, E, SO, R> reducer);
+	protected abstract <R> void _reduceEdgeNames(ResultNtro<R> result, EdgeNameReducer<R> reducer);
+	protected abstract <R> void _reduceEdgesByName(EdgeName edgeName, ResultNtro<R> result, EdgeReducer<N,E,SO,R> reducer);
+
 	@Override
 	public N findNode(NodeId id) {
 		// TODO Auto-generated method stub
@@ -48,10 +53,13 @@ public abstract class GenericGraphNtro<N extends Node<N,E,SO>,
 	}
 
 	@Override
-	public abstract <R> Result<R> reduceStartNodes(R initialValue, NodeReducer<N, E, SO, R> reducer);
+	public <R> Result<R> reduceStartNodes(R initialValue, NodeReducer<N, E, SO, R> reducer){
+		ResultNtro<R> result = new ResultNtro<>(initialValue);
+		
+		_reduceStartNodes(result, reducer);
 
-	protected abstract <R> Result<R> reduceEdgeNames(R initialValue, EdgeNameReducer<R> reducer);
-	protected abstract <R> Result<R> reduceEdgesByName(EdgeName edgeName, R initialValue, EdgeReducer<N,E,SO,R> reducer);
+		return result;
+	}
 
 	@Override
 	public void forEachStartNode(NodeVisitor<N, E, SO> visitor) {
