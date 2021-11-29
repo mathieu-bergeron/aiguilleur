@@ -1,12 +1,15 @@
 package ca.ntro.core.graphs.hierarchical_graph;
 
-import java.util.List;
-
+import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.Node;
-import ca.ntro.core.graphs.NodeValue;
+import ca.ntro.core.graphs.SearchOptions;
+import ca.ntro.core.graphs.generic_graph.Walk;
 
-public interface SubNodeReducer<NV extends NodeValue, R extends Object> {
+public interface SubNodeReducer<N extends Node<N,E,SO>,
+                                E extends Edge<N,E,SO>,
+                                SO extends SearchOptions,
+                                R extends Object> {
 	
-	R reduceSubNode(R accumulator, List<Node<NV>> parentNodes, Node<NV> n) throws Throwable;
+	R reduceSubNode(R accumulator, Walk<N,E,SO> parentNodes, N n) throws Throwable;
 
 }

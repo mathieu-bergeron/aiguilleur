@@ -1,21 +1,20 @@
 package ca.ntro.core.graphs.writers;
 
 import ca.ntro.core.graphs.Node;
-import ca.ntro.core.graphs.NodeValue;
 
 public class NodeSpecNtro implements NodeSpec {
 	
-	private Node<? extends NodeValue> node;
+	private Node<?,?,?> node;
 
-	public Node<? extends NodeValue> getNode() {
+	public Node<?,?,?> getNode() {
 		return node;
 	}
 
-	public void setNode(Node<? extends NodeValue> node) {
+	public void setNode(Node<?,?,?> node) {
 		this.node = node;
 	}
 	
-	public NodeSpecNtro(Node<? extends NodeValue> node) {
+	public NodeSpecNtro(Node<?,?,?> node) {
 		setNode(node);
 	}
 
@@ -26,6 +25,6 @@ public class NodeSpecNtro implements NodeSpec {
 
 	@Override
 	public String label() {
-		return node.value().label();
+		return node.id().label();
 	}
 }

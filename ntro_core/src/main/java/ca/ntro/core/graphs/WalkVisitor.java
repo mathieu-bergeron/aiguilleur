@@ -7,6 +7,6 @@ public interface WalkVisitor<N extends Node<N,E,SO>,
                              E extends Edge<N,E,SO>,
                              SO extends SearchOptions> {
 
-	void visitStep(Walk<N,E> walked, WalkId remainingWalk, N n) throws Throwable;
+	void visitStep(Walk<N,E,SO> walked, WalkId remainingWalk, N n) throws Throwable;
 
 }

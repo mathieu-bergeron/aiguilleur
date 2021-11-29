@@ -47,31 +47,31 @@ public abstract class GenericGraphNtro<N extends Node<N,E,SO>,
 	}
 
 	@Override
-	public void forEachStartNode(NodeVisitor<N> visitor) {
+	public void forEachStartNode(NodeVisitor<N, E, SO> visitor) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public <R> Result<R> reduceStartNodes(R initialValue, NodeReducer<N, R> reducer) {
+	public <R> Result<R> reduceStartNodes(R initialValue, NodeReducer<N, E, SO, R> reducer) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void forEachNode(NodeVisitor<N> visitor) {
+	public void forEachNode(NodeVisitor<N, E, SO> visitor) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public <R> Result<R> reduceNodes(R initialValue, NodeReducer<N, R> reducer) {
+	public <R> Result<R> reduceNodes(R initialValue, NodeReducer<N, E, SO, R> reducer) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void forEachEdge(EdgeVisitor<N, E> visitor) {
+	public void forEachEdge(EdgeVisitor<N, E, SO> visitor) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -81,6 +81,7 @@ public abstract class GenericGraphNtro<N extends Node<N,E,SO>,
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 
 	/*

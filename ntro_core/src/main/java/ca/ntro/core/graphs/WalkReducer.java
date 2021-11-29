@@ -8,6 +8,6 @@ public interface WalkReducer<N extends Node<N,E,SO>,
                              SO extends SearchOptions,
                              R extends Object> {
 
-	R reduceStep(R accumulator, Walk<N,E> walked, WalkId remainingWalk, N currentNode) throws Throwable;
+	R reduceStep(R accumulator, Walk<N,E,SO> walked, WalkId remainingWalk, N currentNode) throws Throwable;
 
 }

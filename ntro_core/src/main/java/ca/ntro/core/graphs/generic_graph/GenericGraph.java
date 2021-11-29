@@ -24,13 +24,13 @@ public interface GenericGraph<N extends Node<N,E,SO>,
 
 	N findNode(NodeId id);
 
-	void forEachStartNode(NodeVisitor<N> visitor);
-	<R extends Object> Result<R> reduceStartNodes(R initialValue, NodeReducer<N,R> reducer);
+	void forEachStartNode(NodeVisitor<N,E,SO> visitor);
+	<R extends Object> Result<R> reduceStartNodes(R initialValue, NodeReducer<N,E,SO,R> reducer);
 
-	void forEachNode(NodeVisitor<N> visitor);
-	<R extends Object> Result<R> reduceNodes(R initialValue, NodeReducer<N,R> reducer);
+	void forEachNode(NodeVisitor<N,E,SO> visitor);
+	<R extends Object> Result<R> reduceNodes(R initialValue, NodeReducer<N,E,SO,R> reducer);
 
-	void forEachEdge(EdgeVisitor<N,E> visitor);
+	void forEachEdge(EdgeVisitor<N,E,SO> visitor);
 	<R extends Object> Result<R> reduceEdges(R initialValue, EdgeReducer<N,E,SO,R> reducer);
 
 }

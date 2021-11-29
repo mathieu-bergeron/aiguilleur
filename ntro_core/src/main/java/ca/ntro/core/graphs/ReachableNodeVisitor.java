@@ -2,9 +2,10 @@ package ca.ntro.core.graphs;
 
 import ca.ntro.core.graphs.generic_graph.Walk;
 
-public interface ReachableNodeVisitor<N extends Node,
-                                      E extends Edge<N>> {
+public interface ReachableNodeVisitor<N extends Node<N,E,SO>,
+                                      E extends Edge<N,E,SO>,
+                                      SO extends SearchOptions> {
 
-	void visitReachableNode(Walk<N,E> walked, N n) throws Throwable;
+	void visitReachableNode(Walk<N,E,SO> walked, N n) throws Throwable;
 
 }

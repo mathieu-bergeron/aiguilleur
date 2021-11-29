@@ -31,16 +31,7 @@ public class      DirectedGraphNtro<N extends Node<N,E,SO>,
 	}
 
 	@Override
-	protected DirectedGraphStructure<NV,EV,N,E> createGraphStructure() {
-		return new DirectedGraphStructureNtro<>();
-	}
-
-	@Override
-	protected void detectCycleFrom(N from) {
-	}
-
-	@Override
-	protected InternalGraphWriter<NV,EV,N,E> internalGraphWriter() {
+	protected InternalGraphWriter<N,E,SO> internalGraphWriter() {
 		return new InternalGraphWriterNtro<>();
 	}
 }

@@ -10,4 +10,5 @@ public interface Walk<N extends Node<N,E,SO>,
 
        extends GenericWalk<E> {
 
+
 }

@@ -1,34 +1,32 @@
 package ca.ntro.core.graphs.hierarchical_graph;
 
 import ca.ntro.core.graphs.Edge;
-import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.Node;
-import ca.ntro.core.graphs.NodeValue;
+import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.graphs.generic_graph.GenericGraphBuilder;
 
-public interface HierarchicalGraphBuilder<NV extends NodeValue, 
-                                          EV extends EdgeValue,
-                                          N extends HierarchicalNode<NV,EV,N,E>,
-                                          E extends Edge<EV>> 
+public interface HierarchicalGraphBuilder<N extends HierarchicalNode<N,E,SO>,
+										  E extends Edge<N,E,SO>,
+										  SO extends SearchOptions>
 
-       extends   GenericGraphBuilder<NV,EV,N,E,HierarchicalGraphStructure<NV,EV,N,E>, HierarchicalGraph<NV,EV,N,E>> {
+       extends   GenericGraphBuilder<N,E,SO,HierarchicalGraph<N,E,SO>> {
 
-	void addSubNode(Node<NV> parentNode, Node<NV> subNode);
 
-	public static <NV extends NodeValue, 
-	               EV extends EdgeValue,
-	               N extends HierarchicalNode<NV,EV,N,E>,
-	               E extends Edge<EV>> HierarchicalGraphBuilder<NV,EV,N,E> newBuilder(){
+	public static <N extends HierarchicalNode<N,E,SO>,
+	               E extends Edge<N,E,SO>,
+	               SO extends SearchOptions>
+	
+  	       HierarchicalGraphBuilder<N,E,SO> newBuilder(){
 
-		return new HierarchicalGraphBuilderNtro<NV,EV,N,E>();
+		return new HierarchicalGraphBuilderNtro<>();
 	}
+	public static <N extends HierarchicalNode<N,E,SO>,
+	               E extends Edge<N,E,SO>,
+	               SO extends SearchOptions>
+	
+  	       HierarchicalGraphBuilder<N,E,SO> newBuilder(String graphName){
 
-	public static <NV extends NodeValue, 
-	               EV extends EdgeValue,
-	               N extends HierarchicalNode<NV,EV,N,E>,
-	               E extends Edge<EV>> HierarchicalGraphBuilder<NV,EV,N,E> newBuilder(String graphName){
-
-		return new HierarchicalGraphBuilderNtro<NV,EV,N,E>(graphName);
+		return new HierarchicalGraphBuilderNtro<>(graphName);
 	}
 
 }

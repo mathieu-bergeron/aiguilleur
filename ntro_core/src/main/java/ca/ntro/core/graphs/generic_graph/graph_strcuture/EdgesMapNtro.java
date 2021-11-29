@@ -5,9 +5,9 @@ import java.util.Map;
 
 import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeName;
+import ca.ntro.core.graphs.EdgeReducer;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.SearchOptions;
-import ca.ntro.core.graphs.StepReducer;
 import ca.ntro.core.graphs.generic_graph.EdgeNameReducer;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
@@ -72,7 +72,7 @@ public abstract class EdgesMapNtro<N extends Node<N,E,SO>,
 	}
 
 	@Override
-	public <R> Result<R> reduceEdgesByName(EdgeName edgeName, R initialValue, StepReducer<N, E, R> reducer) {
+	public <R> Result<R> reduceEdgesByName(EdgeName edgeName, R initialValue, EdgeReducer<N,E,SO,R> reducer) {
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 		
 		SUBMAP subMap = getEdgesMap().get(getSubMapKey(edgeName));

@@ -1,21 +1,18 @@
 package ca.ntro.core.graphs.hierarchical_graph;
 
 import ca.ntro.core.graphs.Edge;
-import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.Node;
-import ca.ntro.core.graphs.NodeValue;
 import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.graphs.generic_graph.GenericGraphBuilderNtro;
 import ca.ntro.core.graphs.generic_graph.InternalGraphWriter;
 
-public class      HierarchicalGraphBuilderNtro<NV extends NodeValue, 
-                                               EV extends EdgeValue,
-                                               N extends HierarchicalNode<NV,EV,N,E>,
-                                               E extends Edge<EV>> 
+public class      HierarchicalGraphBuilderNtro<N extends HierarchicalNode<N,E,SO>,
+											   E extends Edge<N,E,SO>,
+											   SO extends SearchOptions>
 
-       extends    GenericGraphBuilderNtro<NV,EV,N,E,HierarchicalGraphStructure<NV,EV,N,E>,HierarchicalGraph<NV,EV,N,E>> 
+       extends    GenericGraphBuilderNtro<N,E,SO,HierarchicalGraph<N,E,SO>> 
 
-       implements HierarchicalGraph<NV,EV,N,E>, HierarchicalGraphBuilder<NV,EV,N,E> {
+       implements HierarchicalGraph<N,E,SO>, HierarchicalGraphBuilder<N,E,SO> {
 
 	public HierarchicalGraphBuilderNtro() {
 		super();
@@ -26,7 +23,7 @@ public class      HierarchicalGraphBuilderNtro<NV extends NodeValue,
 	}
 
 	@Override
-	protected InternalGraphWriter<NV, EV, N, E> internalGraphWriter() {
+	protected InternalGraphWriter<N,E,SO> internalGraphWriter() {
 		return new InternalHierarchicalGraphWriterNtro<>();
 	}
 
@@ -34,20 +31,4 @@ public class      HierarchicalGraphBuilderNtro<NV extends NodeValue,
 	protected SearchOptions defaultSearchOptions() {
 		return new HierarchicalGraphSearchOptions();
 	}
-
-	@Override
-	protected HierarchicalGraphStructure<NV, EV, N, E> createGraphStructure() {
-		return new HierarchicalGraphStructureNtro<>();
-	}
-
-	@Override
-	protected void detectCycleFrom(N from) {
-
-	}
-
-	@Override
-	public void addSubNode(Node<NV> parentNode, Node<NV> subNode) {
-	}
-
-
 }

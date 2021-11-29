@@ -1,37 +1,34 @@
 package ca.ntro.core.graphs.hierarchical_graph;
 
 import ca.ntro.core.graphs.Edge;
-import ca.ntro.core.graphs.EdgeValue;
 import ca.ntro.core.graphs.Node;
-import ca.ntro.core.graphs.NodeValue;
 import ca.ntro.core.graphs.ReachableNodeReducer;
 import ca.ntro.core.graphs.ReachableNodeVisitor;
 import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.wrappers.result.Result;
 
-public interface HierarchicalNode<NV extends NodeValue, 
-                                  EV extends EdgeValue,
-                                  N extends HierarchicalNode<NV,EV,N,E>,
-                                  E extends Edge<EV>> 
+public interface HierarchicalNode<N extends HierarchicalNode<N,E,SO>,
+                                  E extends Edge<N,E,SO>,
+                                  SO extends SearchOptions>
 
-       extends   Node<NV> {
+       extends   Node<N,E,SO> {
 	
-	boolean isCluster();
-	boolean isRootNode();
+	boolean hasSubNodes();
+	boolean hasParent();
 
-	HierarchicalNode<NV,EV,N,E> parent();
+	HierarchicalNode<N,E,SO> parent();
 
-	void forEachSubNode(ReachableNodeVisitor<NV,EV,N,E> visitor);
-	void forEachSubNode(SearchOptions options, ReachableNodeVisitor<NV,EV,N,E> visitor);
+	void forEachSubNode(ReachableNodeVisitor<N,E,SO> visitor);
+	void forEachSubNode(SearchOptions options, ReachableNodeVisitor<N,E,SO> visitor);
 
-	<R extends Object> Result<R> reduceSubNodes(R initialValue, ReachableNodeReducer<NV,EV,N,E,R> reducer);
-	<R extends Object> Result<R> reduceSubNodes(SearchOptions options, R initialValue, ReachableNodeReducer<NV,EV,N,E,R> reducer);
+	<R extends Object> Result<R> reduceSubNodes(R initialValue, ReachableNodeReducer<N,E,SO,R> reducer);
+	<R extends Object> Result<R> reduceSubNodes(SearchOptions options, R initialValue, ReachableNodeReducer<N,E,SO,R> reducer);
 
-	void forEachParentNode(ReachableNodeVisitor<NV,EV,N,E> visitor);
-	void forEachParentNode(SearchOptions options, ReachableNodeVisitor<NV,EV,N,E> visitor);
+	void forEachParentNode(ReachableNodeVisitor<N,E,SO> visitor);
+	void forEachParentNode(SearchOptions options, ReachableNodeVisitor<N,E,SO> visitor);
 
-	<R extends Object> Result<R> reduceParentNodes(R initialValue, ReachableNodeReducer<NV,EV,N,E,R> reducer);
-	<R extends Object> Result<R> reduceParentNodes(SearchOptions options, R initialValue, ReachableNodeReducer<NV,EV,N,E,R> reducer);
+	<R extends Object> Result<R> reduceParentNodes(R initialValue, ReachableNodeReducer<N,E,SO,R> reducer);
+	<R extends Object> Result<R> reduceParentNodes(SearchOptions options, R initialValue, ReachableNodeReducer<N,E,SO,R> reducer);
 
 
 }

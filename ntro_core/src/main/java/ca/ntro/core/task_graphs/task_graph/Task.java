@@ -1,8 +1,8 @@
 package ca.ntro.core.task_graphs.task_graph;
 
-import ca.ntro.core.graphs.NodeValue;
+import ca.ntro.core.graphs.Node;
 
-public interface Task<AT extends AtomicTask> extends NodeValue {
+public interface Task<AT extends AtomicTask> extends Node {
 	
 	TaskState state();
 	

@@ -2,11 +2,12 @@ package ca.ntro.core.graphs;
 
 import ca.ntro.core.graphs.generic_graph.Walk;
 
-public interface ReachableStepReducer<N extends Node<N,E>,
-                                      E extends Edge<N>,
+public interface ReachableStepReducer<N extends Node<N,E,SO>,
+                                      E extends Edge<N,E,SO>,
+                                      SO extends SearchOptions,
                                       R extends Object> {
 	
 	
-	R reduceWalkedStep(R accumulator, Walk<N,E> walked, E edge) throws Throwable;
+	R reduceWalkedStep(R accumulator, Walk<N,E,SO> walked, E edge) throws Throwable;
 
 }
