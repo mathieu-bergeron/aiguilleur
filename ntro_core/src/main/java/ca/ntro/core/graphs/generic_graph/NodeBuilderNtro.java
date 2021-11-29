@@ -8,6 +8,7 @@ import ca.ntro.core.graphs.EdgeReducer;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.SearchOptions;
+import ca.ntro.core.graphs.SearchOptionsNtro;
 import ca.ntro.core.graphs.generic_graph.graph_strcuture.EdgesByDirection;
 import ca.ntro.core.graphs.generic_graph.graph_strcuture.EdgesByDirectionNtro;
 import ca.ntro.core.wrappers.result.ResultNtro;
@@ -84,5 +85,10 @@ public class      NodeBuilderNtro<N extends Node<N,E,SO>,
 			                              EdgeReducer<N,E,SO,R> reducer) {
 
 		getEdgesByDirection()._reduceEdgesByType(edgeType, result, reducer);
+	}
+
+	@Override
+	protected SO defaultSearchOptions() {
+		return (SO) new SearchOptionsNtro();
 	}
 }

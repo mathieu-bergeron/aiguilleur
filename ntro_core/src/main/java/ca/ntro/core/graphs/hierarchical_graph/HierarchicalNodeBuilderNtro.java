@@ -50,6 +50,12 @@ public class HierarchicalNodeBuilderNtro<N extends HierarchicalNode<N,E,SO>,
 		
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	protected SO defaultSearchOptions() {
+		return (SO) new HierarchicalGraphSearchOptions();
+	}
+
 
 
 }

@@ -6,6 +6,7 @@ import ca.ntro.core.graphs.EdgeIdNtro;
 import ca.ntro.core.graphs.EdgeType;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.SearchOptions;
+import ca.ntro.core.identifyers.Name;
 import ca.ntro.core.path.Path;
 
 public class     EdgeNtro<N extends Node<N,E,SO>, 
@@ -109,5 +110,10 @@ public class     EdgeNtro<N extends Node<N,E,SO>,
 		path.addName(to().id().toKey().toString());
 		
 		return new EdgeIdNtro(path.toKey());
+	}
+
+	@Override
+	public Name name() {
+		return getEdgeType().name();
 	}
 }
