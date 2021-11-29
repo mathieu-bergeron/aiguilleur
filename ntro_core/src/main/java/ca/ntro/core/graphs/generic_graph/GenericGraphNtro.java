@@ -2,6 +2,7 @@ package ca.ntro.core.graphs.generic_graph;
 
 
 import ca.ntro.core.graphs.Edge;
+import ca.ntro.core.graphs.EdgeName;
 import ca.ntro.core.graphs.EdgeReducer;
 import ca.ntro.core.graphs.EdgeVisitor;
 import ca.ntro.core.graphs.GraphId;
@@ -47,15 +48,15 @@ public abstract class GenericGraphNtro<N extends Node<N,E,SO>,
 	}
 
 	@Override
+	public abstract <R> Result<R> reduceStartNodes(R initialValue, NodeReducer<N, E, SO, R> reducer);
+
+	protected abstract <R> Result<R> reduceEdgeNames(R initialValue, EdgeNameReducer<R> reducer);
+	protected abstract <R> Result<R> reduceEdgesByName(EdgeName edgeName, R initialValue, EdgeReducer<N,E,SO,R> reducer);
+
+	@Override
 	public void forEachStartNode(NodeVisitor<N, E, SO> visitor) {
 		// TODO Auto-generated method stub
 		
-	}
-
-	@Override
-	public <R> Result<R> reduceStartNodes(R initialValue, NodeReducer<N, E, SO, R> reducer) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

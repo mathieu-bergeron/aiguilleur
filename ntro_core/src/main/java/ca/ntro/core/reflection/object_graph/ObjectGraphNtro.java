@@ -1,4 +1,4 @@
-package ca.ntro.core.reflection;
+package ca.ntro.core.reflection.object_graph;
 
 import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
@@ -7,11 +7,6 @@ import ca.ntro.core.graphs.GraphId;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.NodeReducer;
-import ca.ntro.core.graphs.StepId;
-import ca.ntro.core.graphs.StepIdNtro;
-import ca.ntro.core.graphs.Step;
-import ca.ntro.core.graphs.StepNtro;
-import ca.ntro.core.graphs.StepReducer;
 import ca.ntro.core.graphs.directed_graph.DirectedGraphSearchOptions;
 import ca.ntro.core.graphs.generic_graph.EdgeNameReducer;
 import ca.ntro.core.identifyers.Key;
@@ -19,9 +14,15 @@ import ca.ntro.core.graphs.generic_graph.EdgeNtro;
 import ca.ntro.core.graphs.generic_graph.GenericGraphNtro;
 import ca.ntro.core.graphs.generic_graph.NodeNtro;
 import ca.ntro.core.path.Path;
+import ca.ntro.core.reflection.MethodNameReducer;
+import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
-public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, ReferenceValue, Node<ObjectValue>, Edge<ReferenceValue>> implements ObjectGraph {
+public abstract class ObjectGraphNtro 
+
+       extends GenericGraphNtro<ObjectNode, ReferenceEdge, ObjectGraphSearchOptions> 
+
+       implements ObjectGraph {
 
 	private Object[] startObjects;
 
@@ -33,8 +34,8 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, Refe
 		this.startObjects = startObjects;
 	}
 
-	protected abstract Node<ObjectValue> findNodeInLocalHeap(Object object);
-	protected abstract void addNodeInLocalHeap(Node<ObjectValue> node);
+	protected abstract ObjectNode findNodeInLocalHeap(Object object);
+	protected abstract void addNodeInLocalHeap(ObjectNode node);
 
 	protected abstract <R> void _reduceMethodNames(Object object, ResultNtro<R> result, MethodNameReducer<R> reducer);
 	protected abstract Object invokeGetter(Object object, String getterName) throws Throwable;
@@ -59,9 +60,13 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, Refe
 	protected DirectedGraphSearchOptions defaultSearchOptions() {
 		return new DirectedGraphSearchOptions(new Direction[] {Direction.FORWARD});
 	}
-
+	
+	//@Override
+	//protected abstract <R> Result<R> reduceEdgeNames(R initialValue, EdgeNameReducer<R> reducer);
+	//protected abstract <R> Result<R> reduceEdgesByName(EdgeName edgeName, R initialValue, EdgeReducer<N,E,SO,R> reducer);
+	
 	@Override
-	protected <R> void _reduceStartNodes(ResultNtro<R> result, NodeReducer<ObjectValue, Node<ObjectValue>, R> reducer) {
+	protected <R> void _reduceStartNodes(ResultNtro<R> result, NodeReducer<ObjectNode, ReferenceEdge, ObjectGraphSearchOptions, R> reducer) {
 		if(result.hasException()) {
 			return;
 		}
@@ -86,6 +91,7 @@ public abstract class ObjectGraphNtro extends GenericGraphNtro<ObjectValue, Refe
 				_reduceStartNode(result, objectPath, object, reducer);
 			}
 		}
+
 	}
 
 	private <R> void _reduceStartNode(ResultNtro<R> result, Path objectPath, Object object, NodeReducer<ObjectValue,Node<ObjectValue>, R> reducer) {

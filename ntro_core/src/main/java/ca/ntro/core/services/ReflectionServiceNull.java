@@ -1,7 +1,7 @@
 package ca.ntro.core.services;
 
-import ca.ntro.core.reflection.ObjectGraph;
-import ca.ntro.core.reflection.ObjectGraphNull;
+import ca.ntro.core.reflection.object_graph.ObjectGraph;
+import ca.ntro.core.reflection.object_graph.ObjectGraphNull;
 
 public class ReflectionServiceNull implements ReflectionService {
 

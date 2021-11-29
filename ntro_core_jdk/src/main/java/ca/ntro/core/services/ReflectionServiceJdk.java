@@ -1,7 +1,7 @@
 package ca.ntro.core.services;
 
-import ca.ntro.core.reflection.ObjectGraph;
 import ca.ntro.core.reflection.ObjectGraphJdk;
+import ca.ntro.core.reflection.object_graph.ObjectGraph;
 
 public class ReflectionServiceJdk implements ReflectionService {
 
