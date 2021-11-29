@@ -54,6 +54,11 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 		return id.toHtmlId();
 	}
 
+	@Override
+	protected InternalGraphWriter<N, E, SO> internalGraphWriter(){
+		return new InternalGraphWriterNtro<>();
+	}
+
 	public GenericGraphBuilderNtro() {
 		setId(GraphId.newGraphId());
 	}
@@ -75,11 +80,6 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 		}
 	}
 
-	@Override
-	protected InternalGraphWriter<N, E, SO> internalGraphWriter() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@SuppressWarnings("unchecked")
 	@Override
