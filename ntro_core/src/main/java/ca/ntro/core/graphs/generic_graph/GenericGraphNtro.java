@@ -112,7 +112,7 @@ public abstract class GenericGraphNtro<N extends Node<N,E,SO>,
 		
 		forEachStartNode(startNode -> {
 			if(visitedNodes.contains(startNode.id().toKey().toString())) {
-				throw new Break();
+				return;
 			}
 
 			visitedNodes.add(startNode.id().toKey().toString());
@@ -129,7 +129,7 @@ public abstract class GenericGraphNtro<N extends Node<N,E,SO>,
 
 			startNode.forEachReachableNode(defaultSearchOptions(), (walked, n) -> {
 				if(visitedNodes.contains(n.id().toKey().toString())) {
-					throw new Break();
+					return;
 				}
 
 				visitedNodes.add(n.id().toKey().toString());
@@ -178,7 +178,7 @@ public abstract class GenericGraphNtro<N extends Node<N,E,SO>,
 			
 			n.forEachEdge(e -> {
 				if(visitedEdges.contains(e.id().toKey().toString())) {
-					throw new Break();
+					return;
 				}
 				
 				visitedEdges.add(e.id().toKey().toString());
@@ -197,77 +197,6 @@ public abstract class GenericGraphNtro<N extends Node<N,E,SO>,
 	}
 	
 	/*
-	
-
-
-	@Override
-	public void forEachEdge(EdgeVisitor<NV,EV,N,E> visitor) {
-		reduceEdges(null, (accumulator, from, edge, to) -> {
-			
-			visitor.visitEdge(from, edge, to);
-			
-			return null;
-
-		}).throwException();
-	}
-
-	@Override
-	public <R> Result<R> reduceEdges(R initialValue, EdgeReducer<NV,EV,N,E,R> reducer) {
-		
-		ResultNtro<R> result = new ResultNtro<R>(initialValue);
-
-		_reduceEdges(result, reducer);
-		
-		return result;
-	}
-
-	protected <R> void _reduceEdges(ResultNtro<R> result, EdgeReducer<NV,EV,N,E,R> reducer) {
-		if(result.hasException()) {
-			return;
-		}
-		
-		Set<String> visitedEdges = new HashSet<>();
-
-		_reduceStartNodes(result, (__, n) -> {
-
-			_reduceReachableEdges(n, defaultSearchOptions(), result, (___, walkedEdges, step) -> {
-				
-				if(!visitedEdges.contains(step.edge().id().toKey())) {
-					
-					try {
-
-						result.registerValue(reducer.reduceEdge(result.value(), step.from(), step.edge(), step.to()));
-
-					}catch(Throwable t) {
-						
-						result.registerException(t);
-					}
-					
-					visitedEdges.add(step.edge().id().toKey().toString());
-				}
-				
-				return result.value();
-			});
-
-			return result.value();
-		});
-	}
-
-	@Override
-	public void forEachReachableNode(N fromNode, ReachableNodeVisitor<NV,EV,N,E> visitor) {
-		forEachReachableNode(fromNode, defaultSearchOptions(), visitor);
-	}
-
-	@Override
-	public void forEachReachableNode(N fromNode, SearchOptions options, ReachableNodeVisitor<NV,EV,N,E> visitor) {
-		reduceReachableNodes(fromNode, options, null, (accumulator, walkedSteps, n) -> {
-
-			visitor.visitReachableNode(walkedSteps, n);
-			
-			return null;
-
-		}).throwException();
-	}
 
 	@Override
 	public <R> Result<R> reduceReachableNodes(N fromNode, 

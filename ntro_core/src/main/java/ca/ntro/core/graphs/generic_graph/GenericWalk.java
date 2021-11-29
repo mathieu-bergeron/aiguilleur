@@ -4,10 +4,16 @@ import ca.ntro.core.identifyers.Key;
 
 public interface GenericWalk<E extends GenericEdge> {
 
+	boolean isEmpty();
+
 	int size();
 	
 	Key toKey();
 	
-	E step(int index);
+	E get(int index);
+
+	void add(E edge);
+	
+	GenericWalk<E> subWalk(int fromIndex);
 
 }
