@@ -1,5 +1,6 @@
 package ca.ntro.core.graphs.hierarchical_graph;
 
+import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.NodeNotFoundException;
 import ca.ntro.core.graphs.SearchOptions;
@@ -37,6 +38,11 @@ public class      InternalHierarchicalGraphWriterNtro<N extends HierarchicalNode
 
 	@Override
 	protected void writeEdge(GraphWriter writer, E edge) {
+		if(edge.type().direction() == Direction.DOWN
+				|| edge.type().direction() == Direction.UP) {
+			return;
+		}
+
 		try {
 
 			if(edge.from().hasSubNodes()
