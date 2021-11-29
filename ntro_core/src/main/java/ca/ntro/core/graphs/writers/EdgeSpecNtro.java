@@ -23,7 +23,7 @@ public class EdgeSpecNtro implements EdgeSpec {
 	@Override
 	public String id() {
 		Path path = Path.fromSingleName(edge.from().id().toKey().toString());
-		path.addName(edge.name().name().toString());
+		path.addName(edge.type().name().toString());
 		path.addName(edge.to().id().toKey().toString());
 
 		return path.toKey();
@@ -31,6 +31,6 @@ public class EdgeSpecNtro implements EdgeSpec {
 
 	@Override
 	public String label() {
-		return edge.name().label();
+		return edge.type().label();
 	}
 }

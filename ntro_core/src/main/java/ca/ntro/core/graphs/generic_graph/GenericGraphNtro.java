@@ -2,7 +2,7 @@ package ca.ntro.core.graphs.generic_graph;
 
 
 import ca.ntro.core.graphs.Edge;
-import ca.ntro.core.graphs.EdgeName;
+import ca.ntro.core.graphs.EdgeType;
 import ca.ntro.core.graphs.EdgeReducer;
 import ca.ntro.core.graphs.EdgeVisitor;
 import ca.ntro.core.graphs.GraphId;
@@ -43,8 +43,6 @@ public abstract class GenericGraphNtro<N extends Node<N,E,SO>,
 	protected abstract SearchOptions defaultSearchOptions();
 
 	protected abstract <R> void _reduceStartNodes(ResultNtro<R> result, NodeReducer<N, E, SO, R> reducer);
-	protected abstract <R> void _reduceEdgeNames(ResultNtro<R> result, EdgeNameReducer<R> reducer);
-	protected abstract <R> void _reduceEdgesByName(EdgeName edgeName, ResultNtro<R> result, EdgeReducer<N,E,SO,R> reducer);
 
 	@Override
 	public N findNode(NodeId id) {

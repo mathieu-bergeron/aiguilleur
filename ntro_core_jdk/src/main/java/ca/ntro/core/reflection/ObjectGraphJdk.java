@@ -1,98 +1,30 @@
 package ca.ntro.core.reflection;
 
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
-
-import ca.ntro.core.graphs.Edge;
-import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.generic_graph.InternalGraphWriter;
-import ca.ntro.core.graphs.generic_graph.InternalGraphWriterNtro;
-import ca.ntro.core.reflection.object_graph.ObjectGraph;
+import ca.ntro.core.reflection.object_graph.LocalHeap;
 import ca.ntro.core.reflection.object_graph.ObjectGraphNtro;
-import ca.ntro.core.wrappers.result.ResultNtro;
+import ca.ntro.core.reflection.object_graph.ObjectGraphSearchOptions;
+import ca.ntro.core.reflection.object_graph.ObjectNode;
+import ca.ntro.core.reflection.object_graph.ReferenceEdge;
 
+public class ObjectGraphJdk extends ObjectGraphNtro {
 
-public class ObjectGraphJdk extends ObjectGraphNtro  implements ObjectGraph {
-	
-	private Map<Object, Map<Node<ObjectValue>, Object>> localHeap = new HashMap<>();
-	
-	public ObjectGraphJdk(Object rootObject) {
-		super(rootObject);
+	public ObjectGraphJdk(Object startObject) {
+		super(startObject);
 	}
 
-	public ObjectGraphJdk(Object[] rootObjects) {
-		super(rootObjects);
-	}
-
-	@Override
-	protected Node<ObjectValue> findNodeInLocalHeap(Object object) {
-		
-		Node<ObjectValue> node = null;
-		
-		Map<Node<ObjectValue>, Object> objectByNode = localHeap.get(object);
-		
-		if(objectByNode != null) {
-
-			for(Map.Entry<Node<ObjectValue>, Object> entry : objectByNode.entrySet()) {
-
-				if(entry.getValue() == object) {
-					node = entry.getKey();
-					break;
-				}
-			}
-		}
-		
-		return node;
+	public ObjectGraphJdk(Object[] startObjects) {
+		super(startObjects);
 	}
 
 	@Override
-	protected void addNodeInLocalHeap(Node<ObjectValue> node) {
-		
-		Object object = node.value().object();
-
-		Map<Node<ObjectValue>, Object> objectByNode = localHeap.get(object);
-
-		if(objectByNode == null) {
-			objectByNode = new HashMap<>();
-			localHeap.put(object, objectByNode);
-		}
-		
-		objectByNode.put(node, object);
+	protected LocalHeap createLocalHeap() {
+		return new LocalHeapJdk();
 	}
 
 	@Override
-	protected <R> void _reduceMethodNames(Object object, ResultNtro<R> result, MethodNameReducer<R> reducer) {
-		if(result.hasException()) {
-			return;
-		}
-		
-		for(Method method : object.getClass().getMethods()) {
-			
-			try {
-
-				result.registerValue(reducer.reduceMethodName(result.value(), method.getName()));
-
-			} catch (Throwable e) {
-				
-				result.registerException(e);
-				break;
-			}
-		}
-	}
-	
-	@Override
-	protected Object invokeGetter(Object object, String getterName) throws Throwable {
-
-		Method method = object.getClass().getMethod(getterName);
-
-		Object returnValue = method.invoke(object);
-
-		return returnValue;
+	protected InternalGraphWriter<ObjectNode, ReferenceEdge, ObjectGraphSearchOptions> internalGraphWriter() {
+		throw new RuntimeException("TODO");
 	}
 
-	@Override
-	protected InternalGraphWriter<ObjectValue, ReferenceValue, Node<ObjectValue>, Edge<ReferenceValue>> internalGraphWriter() {
-		return new InternalGraphWriterNtro<>();
-	}
 }

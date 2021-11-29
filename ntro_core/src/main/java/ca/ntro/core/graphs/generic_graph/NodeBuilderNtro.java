@@ -1,7 +1,7 @@
 package ca.ntro.core.graphs.generic_graph;
 
 import ca.ntro.core.graphs.Edge;
-import ca.ntro.core.graphs.EdgeName;
+import ca.ntro.core.graphs.EdgeType;
 import ca.ntro.core.graphs.EdgeReducer;
 import ca.ntro.core.graphs.EdgeVisitor;
 import ca.ntro.core.graphs.Node;
@@ -16,6 +16,7 @@ import ca.ntro.core.graphs.WalkVisitor;
 import ca.ntro.core.graphs.generic_graph.graph_strcuture.EdgesByDirection;
 import ca.ntro.core.graphs.generic_graph.graph_strcuture.EdgesByDirectionNtro;
 import ca.ntro.core.wrappers.result.Result;
+import ca.ntro.core.wrappers.result.ResultNtro;
 
 public class      NodeBuilderNtro<N extends Node<N,E,SO>, 
                                   E extends Edge<N,E,SO>,
@@ -74,6 +75,19 @@ public class      NodeBuilderNtro<N extends Node<N,E,SO>,
 	}
 
 	@Override
+	protected <R> void _reduceEdgeTypes(ResultNtro<R> result, EdgeTypeReducer<R> reducer) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected <R> void _reduceEdgesByType(EdgeType edgeType, 
+			                              ResultNtro<R> result,
+			                              EdgeReducer<N,E,SO,R> reducer) {
+		
+	}
+
+	@Override
 	public void forEachEdge(EdgeVisitor<N, E, SO> visitor) {
 		// TODO Auto-generated method stub
 		
@@ -123,18 +137,6 @@ public class      NodeBuilderNtro<N extends Node<N,E,SO>,
 
 	@Override
 	public <R> Result<R> reduceReachableEdges(SO options, R initialValue, ReachableStepReducer<N, E, SO, R> reducer) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected <R> Result<R> reduceEdgeNames(R initialValue, EdgeNameReducer<R> reducer) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected <R> Result<R> reduceEdgesByName(EdgeName edgeName, R initialValue, EdgeReducer<N, E, SO, R> reducer) {
 		// TODO Auto-generated method stub
 		return null;
 	}

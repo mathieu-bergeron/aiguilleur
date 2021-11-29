@@ -1,7 +1,7 @@
 package ca.ntro.core.graphs.generic_graph;
 
 import ca.ntro.core.graphs.Edge;
-import ca.ntro.core.graphs.EdgeName;
+import ca.ntro.core.graphs.EdgeType;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.SearchOptions;
 
@@ -12,7 +12,7 @@ public class     EdgeNtro<N extends Node<N,E,SO>,
       implements Edge<N,E,SO> {
 
 	private N from;
-	private EdgeName edgeName;
+	private EdgeType edgeName;
 	private N to;
 
 	public N getFrom() {
@@ -23,11 +23,11 @@ public class     EdgeNtro<N extends Node<N,E,SO>,
 		this.from = from;
 	}
 
-	public EdgeName getEdgeName() {
+	public EdgeType getEdgeName() {
 		return edgeName;
 	}
 
-	public void setEdgeName(EdgeName edgeName) {
+	public void setEdgeName(EdgeType edgeName) {
 		this.edgeName = edgeName;
 	}
 
@@ -39,7 +39,7 @@ public class     EdgeNtro<N extends Node<N,E,SO>,
 		this.to = to;
 	}
 
-	public EdgeNtro(N from, EdgeName edgeName, N to) {
+	public EdgeNtro(N from, EdgeType edgeName, N to) {
 		setFrom(from);
 		setEdgeName(edgeName);
 		setTo(to);
@@ -84,7 +84,7 @@ public class     EdgeNtro<N extends Node<N,E,SO>,
 	}
 
 	@Override
-	public EdgeName name() {
+	public EdgeType type() {
 		return getEdgeName();
 	}
 

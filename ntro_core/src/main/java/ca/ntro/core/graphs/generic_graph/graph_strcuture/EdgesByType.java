@@ -4,7 +4,7 @@ import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.SearchOptions;
 
-public interface EdgesByName<N extends Node<N,E,SO>, 
+public interface EdgesByType<N extends Node<N,E,SO>, 
                                  E extends Edge<N,E,SO>,
                                  SO extends SearchOptions> 
 

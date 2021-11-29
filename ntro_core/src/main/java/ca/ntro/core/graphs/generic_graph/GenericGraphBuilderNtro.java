@@ -1,9 +1,13 @@
 package ca.ntro.core.graphs.generic_graph;
 
 import ca.ntro.core.graphs.Edge;
+import ca.ntro.core.graphs.EdgeReducer;
+import ca.ntro.core.graphs.EdgeType;
 import ca.ntro.core.graphs.GraphId;
 import ca.ntro.core.graphs.Node;
+import ca.ntro.core.graphs.NodeReducer;
 import ca.ntro.core.graphs.SearchOptions;
+import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
                                               E extends Edge<N,E,SO>,
@@ -41,6 +45,38 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 	public GenericGraphBuilderNtro(String graphName) {
 		setId(GraphId.fromGraphName(graphName));
 	}
+
+	@Override
+	protected <R> void _reduceStartNodes(ResultNtro<R> result, NodeReducer<N, E, SO, R> reducer) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addNode(N node) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addEdge(E edge) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected InternalGraphWriter<N, E, SO> internalGraphWriter() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected SearchOptions defaultSearchOptions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+
 	
 	/*
 
@@ -121,30 +157,6 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 	}
 	*/
 	
-	
-	@Override
-	public void addNode(N node) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void addEdge(E edge) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected InternalGraphWriter<N, E, SO> internalGraphWriter() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected SearchOptions defaultSearchOptions() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	
 	

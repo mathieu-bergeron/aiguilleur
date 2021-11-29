@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ca.ntro.core.graphs.Edge;
-import ca.ntro.core.graphs.EdgeName;
+import ca.ntro.core.graphs.EdgeType;
 import ca.ntro.core.graphs.EdgeReducer;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.SearchOptions;
-import ca.ntro.core.graphs.generic_graph.EdgeNameReducer;
+import ca.ntro.core.graphs.generic_graph.EdgeTypeReducer;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
@@ -32,7 +32,7 @@ public abstract class EdgesMapNtro<N extends Node<N,E,SO>,
 	protected abstract SUBMAP createSubMap();
 
 	protected abstract String getSubMapKey(E edge);
-	protected abstract String getSubMapKey(EdgeName edgeName);
+	protected abstract String getSubMapKey(EdgeType edgeName);
 
 
 	@Override
@@ -48,7 +48,7 @@ public abstract class EdgesMapNtro<N extends Node<N,E,SO>,
 	}
 
 	@Override
-	public <R> void _reduceEdgeNames(ResultNtro<R> result, EdgeNameReducer<R> reducer) {
+	public <R> void _reduceEdgeNames(ResultNtro<R> result, EdgeTypeReducer<R> reducer) {
 		if(result.hasException()) {
 			return;
 		}
@@ -63,7 +63,7 @@ public abstract class EdgesMapNtro<N extends Node<N,E,SO>,
 	}
 
 	@Override
-	public <R> void _reduceEdgesByName(EdgeName edgeName, ResultNtro<R> result, EdgeReducer<N,E,SO,R> reducer) {
+	public <R> void _reduceEdgesByName(EdgeType edgeName, ResultNtro<R> result, EdgeReducer<N,E,SO,R> reducer) {
 		if(result.hasException()) {
 			return;
 		}

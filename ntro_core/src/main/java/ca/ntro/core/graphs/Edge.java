@@ -7,9 +7,8 @@ public interface Edge<N extends Node<N,E,SO>,
                       SO extends SearchOptions> extends GenericEdge {
 
 	N from();
-
-	EdgeName name();
-
 	N to();
+
+	EdgeType type();
 
 }
