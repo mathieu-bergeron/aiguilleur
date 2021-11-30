@@ -26,6 +26,27 @@ public class HierarchicalGraphTests {
 		InitializerTest.initialize();
 	}
 
+	@Test
+	public void hierarchicalGraph00() throws Throwable {
+
+		HierarchicalGraphBuilder<HierarchicalGraphNode, HierarchicalGraphEdge, HierarchicalGraphSearchOptions> builder = HierarchicalGraphBuilder.newBuilder("hierarchicalGraph00");
+
+		HierarchicalGraphNode nodeA = new HierarchicalGraphNode("A");
+		HierarchicalGraphNode nodeAA = new HierarchicalGraphNode("AA");
+		//HierarchicalGraphNode nodeAAA = new HierarchicalGraphNode("AAA");
+
+		builder.addNode(nodeA);
+		builder.addNode(nodeAA);
+		//builder.addNode(nodeAAA);
+
+		nodeA.addSubNode(nodeAA);
+		//nodeAA.addSubNode(nodeAAA);
+		HierarchicalGraph<HierarchicalGraphNode, HierarchicalGraphEdge, HierarchicalGraphSearchOptions> graph = builder.toGraph();
+
+		graph.write(Ntro.graphWriter());
+	}
+
+
 
 	@Test
 	public void hierarchicalGraph01() throws Throwable {
