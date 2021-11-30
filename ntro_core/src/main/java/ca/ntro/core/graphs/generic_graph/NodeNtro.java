@@ -193,19 +193,25 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 			                                 ResultNtro<R> result, 
 			                                 ReachableStepReducer<N,E,SO,R> reducer) {
 		
+		Set<String> visitedEdges = new HashSet<>();
+		Walk<N,E,SO> walked = new WalkNtro<>();
+		
 		if(options.searchStrategy() == SearchStrategy.DEPTH_FIRST_SEARCH) {
 
-			_reduceReachableEdgesDepthFirst(options, new HashSet<>(), result, reducer);
+			_reduceReachableEdgesDepthFirst(options, visitedEdges, walked, result, reducer);
 
 		}else {
 
-			_reduceReachableEdgesBreadthFirst(options, new HashSet<>(), result, reducer);
+			SearchOptions oneStepOptions = new SearchOptionsNtro(options.directions(), 1);
+
+			_reduceReachableEdgesBreadthFirst(options, oneStepOptions, visitedEdges, walked, result, reducer);
 		}
 	}
 
 	@SuppressWarnings("unchecked")
 	protected <R> void _reduceReachableEdgesDepthFirst(SearchOptions options, 
 			                                           Set<String> visitedEdges,
+			                                           Walk<N,E,SO> walked,
 			                                           ResultNtro<R> result, 
 			                                           ReachableStepReducer<N,E,SO,R> reducer) {
 
@@ -223,17 +229,12 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 					return result.value();
 				}
 				
-				Walk<N,E,SO> walked = new WalkNtro<>();
-				walked.add(edge);
-
-				if(options.maxDistance().hasValue() 
-						&& walked.size() > options.maxDistance().value()) {
-					return result.value();
-				}
+				Walk<N,E,SO> newWalked = new WalkNtro<>(walked);
+				newWalked.add(edge);
 				
 				try {
 				
-					result.registerValue(reducer.reduceWalkedStep(result.value(), walked, edge));
+					result.registerValue(reducer.reduceWalkedStep(result.value(), newWalked, edge));
 
 				}catch(Throwable t) {
 					
@@ -243,23 +244,21 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 				
 				visitedEdges.add(edge.id().toKey().toString());
 
-				((NodeNtro<N,E,SO>) edge.to())._reduceReachableEdgesDepthFirst(options, visitedEdges, result, reducer);
+				if(options.maxDistance().hasValue() 
+						&& newWalked.size() < options.maxDistance().value()) {
+
+					((NodeNtro<N,E,SO>) edge.to())._reduceReachableEdgesDepthFirst(options, 
+																				   visitedEdges, 
+																				   newWalked,
+																				   result, 
+																				   reducer);
+				}
 
 				return result.value();
 			});
 			
 			return result.value();
 		});
-	}
-
-	protected <R> void _reduceReachableEdgesBreadthFirst(SearchOptions options, 
-			                                             Set<String> visitedEdges,
-			                                             ResultNtro<R> result, 
-			                                             ReachableStepReducer<N,E,SO,R> reducer) {
-		
-		SearchOptions oneStepOptions = new SearchOptionsNtro(options.directions(), 1);
-		
-		_reduceReachableEdgesBreadthFirst(options, oneStepOptions, visitedEdges, new WalkNtro<N,E,SO>(), result, reducer);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -275,15 +274,19 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 			return;
 		}
 
-		_reduceReachableEdgesDepthFirst(oneStepOptions, visitedEdges, result, reducer);
+		_reduceReachableEdgesDepthFirst(oneStepOptions, visitedEdges, new WalkNtro<>(), result, reducer);
 
-		_reduceReachableEdgesDepthFirst(oneStepOptions, visitedEdges, result, (__, ___, edge) -> {
+		_reduceReachableEdgesDepthFirst(oneStepOptions, visitedEdges, new WalkNtro<>(), result, (__, ___, edge) -> {
 			
 			Walk<N,E,SO> newWalked = new WalkNtro<>(walked);
 			newWalked.add(edge);
 
-			((NodeNtro<N,E,SO>) edge.to())._reduceReachableEdgesBreadthFirst(options, oneStepOptions, visitedEdges, newWalked, result, reducer);
-			
+			((NodeNtro<N,E,SO>) edge.to())._reduceReachableEdgesBreadthFirst(options, 
+					                                                         oneStepOptions, 
+					                                                         visitedEdges, 
+					                                                         newWalked, 
+					                                                         result, 
+					                                                         reducer);
 			return result.value();
 		});
 	}
