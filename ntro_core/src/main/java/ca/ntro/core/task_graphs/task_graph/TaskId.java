@@ -1,5 +1,7 @@
 package ca.ntro.core.task_graphs.task_graph;
 
-public class TaskId {
+import ca.ntro.core.graphs.NodeId;
+
+public interface TaskId extends NodeId {
 
 }
