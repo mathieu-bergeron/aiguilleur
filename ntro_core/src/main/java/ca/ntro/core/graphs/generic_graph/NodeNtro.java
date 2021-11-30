@@ -244,8 +244,8 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 				
 				visitedEdges.add(edge.id().toKey().toString());
 
-				if(options.maxDistance().hasValue() 
-						&& newWalked.size() < options.maxDistance().value()) {
+				if(!(options.maxDistance().hasValue() 
+						&& newWalked.size() >= options.maxDistance().value())) {
 
 					((NodeNtro<N,E,SO>) edge.to())._reduceReachableEdgesDepthFirst(options, 
 																				   visitedEdges, 
