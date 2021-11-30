@@ -9,7 +9,6 @@ import ca.ntro.core.graphs.EdgeReducer;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.graphs.generic_graph.EdgeTypeReducer;
-import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class EdgesMapNtro<N extends Node<N,E,SO>, 
