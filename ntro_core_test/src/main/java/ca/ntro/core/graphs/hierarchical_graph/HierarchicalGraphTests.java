@@ -29,6 +29,7 @@ public class HierarchicalGraphTests {
 
 	@Test
 	public void hierarchicalGraph01() throws Throwable {
+		ExceptionThrowerMock exceptionThrower = registerMockExceptionThrower();
 
 		HierarchicalGraphBuilder<HierarchicalGraphNode, HierarchicalGraphEdge, HierarchicalGraphSearchOptions> builder = HierarchicalGraphBuilder.newBuilder("hierarchicalGraph01");
 
@@ -63,6 +64,9 @@ public class HierarchicalGraphTests {
 
 		HierarchicalGraph<HierarchicalGraphNode, HierarchicalGraphEdge, HierarchicalGraphSearchOptions> graph = builder.toGraph();
 
+		graph.write(Ntro.graphWriter());
+		exceptionThrower.throwLastException();
+
 		Ntro.asserter().assertTrue("nodeA has subNodes", nodeA.hasSubNodes());
 		Ntro.asserter().assertFalse("nodeB does not have subNodes", nodeB.hasSubNodes());
 		
@@ -71,6 +75,8 @@ public class HierarchicalGraphTests {
 		nodeA.forEachSubNode((walked, subNode) -> {
 			subNodes.add(subNode);
 		});
+		
+		exceptionThrower.throwLastException();
 		
 		Ntro.asserter().assertEquals(3, subNodes.size());
 
@@ -101,6 +107,5 @@ public class HierarchicalGraphTests {
 
 		Ntro.asserter().assertEquals(2, clusters.size());
 
-		graph.write(Ntro.graphWriter());
 	}
 }

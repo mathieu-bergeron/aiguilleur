@@ -22,26 +22,27 @@ public class      InternalHierarchicalGraphWriterNtro<N extends HierarchicalNode
        implements InternalHierarchicalGraphWriter<N,E,SO> {
 
 	@Override
-	protected void writeAfterInitialization(GenericGraph<N,E,SO> graph, GraphWriter writer) {
-
-		writeClusters(graph, writer);
-
-		super.writeAfterInitialization(graph, writer);
-	}
-
-	private void writeClusters(GenericGraph<N,E,SO> graph, GraphWriter writer) {
+	protected void writeNodes(GenericGraph<N,E,SO> graph, GraphWriter writer) {
 		graph.forEachNode(n -> {
-
 			if(n.hasSubNodes() && !n.hasParent()) {
 				writer.addCluster(new ClusterSpecNtro(n));
-			}
+				
+				n.forEachSubNode((walked, subNode) -> {
 
-			else if(n.hasSubNodes() && n.hasParent()) {
-				writer.addSubCluster(new ClusterSpecNtro(n.parent()), new ClusterSpecNtro(n));
-			}
+					if(subNode.hasSubNodes() && subNode.hasParent()) {
+						writer.addSubCluster(new ClusterSpecNtro(subNode.parent()), new ClusterSpecNtro(subNode));
+					}
 
-			else if(!n.hasSubNodes() && n.hasParent()) {
-				writer.addSubNode(new ClusterSpecNtro(n.parent()), new NodeSpecNtro(n));
+					else if(!subNode.hasSubNodes() && subNode.hasParent()) {
+						writer.addSubNode(new ClusterSpecNtro(subNode.parent()), new NodeSpecNtro(subNode));
+					}
+				});
+			}
+		});
+
+		graph.forEachNode(n -> {
+			if(!n.hasSubNodes() && !n.hasParent()) {
+				writer.addNode(new NodeSpecNtro(n));
 			}
 		});
 	}

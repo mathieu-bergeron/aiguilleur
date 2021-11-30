@@ -29,6 +29,10 @@ public class      InternalGraphWriterNtro<N extends Node<N,E,SO>,
 		
 		writeEdges(graph, writer);
 		
+		writeFiles(writer);
+	}
+
+	protected void writeFiles(GraphWriter writer) {
 		writer.writeDot();
 		writer.writePng();
 	}

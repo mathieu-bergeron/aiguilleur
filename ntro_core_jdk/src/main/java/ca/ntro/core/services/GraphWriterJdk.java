@@ -107,9 +107,10 @@ public class GraphWriterJdk implements GraphWriter {
 	public void addCluster(ClusterSpec clusterSpec) {
 		MutableGraph cluster = createCluster(clusterSpec);
 
-		graph.add(cluster);
-
-		clusters.put(clusterSpec.id(), cluster);
+		if(!clusterAlreadyAdded(clusterSpec)) {
+			graph.add(cluster);
+			clusters.put(clusterSpec.id(), cluster);
+		}
 	}
 
 	@Override
@@ -117,23 +118,31 @@ public class GraphWriterJdk implements GraphWriter {
 		MutableGraph cluster = createCluster(clusterSpec);
 		MutableGraph subCluster = createCluster(subClusterSpec);
 
-		graph.add(cluster);
-		cluster.add(subCluster);
+		if(!clusterAlreadyAdded(clusterSpec)) {
+			graph.add(cluster);
+			clusters.put(clusterSpec.id(), cluster);
+		}
 
-		clusters.put(clusterSpec.id(), cluster);
-		clusters.put(subClusterSpec.id(), subCluster);
+		if(!clusterAlreadyAdded(subClusterSpec)) {
+			cluster.add(subCluster);
+			clusters.put(subClusterSpec.id(), cluster);
+		}
 	}
 
 	@Override
 	public void addSubNode(ClusterSpec clusterSpec, NodeSpec nodeSpec) {
 		MutableGraph cluster = createCluster(clusterSpec);
 		MutableNode subNode = createNode(nodeSpec);
-
-		graph.add(cluster);
-		cluster.add(subNode);
 		
-		clusters.put(clusterSpec.id(), cluster);
-		nodes.put(nodeSpec.id(), subNode);
+		if(!clusterAlreadyAdded(clusterSpec)) {
+			graph.add(cluster);
+			clusters.put(clusterSpec.id(), cluster);
+		}
+		
+		if(!nodeAlreadyAdded(nodeSpec)) {
+			cluster.add(subNode);
+			nodes.put(nodeSpec.id(), subNode);
+		}
 	}
 
 	@Override
@@ -255,7 +264,6 @@ public class GraphWriterJdk implements GraphWriter {
 		cluster.graphAttrs().add(Label.of(clusterSpec.label()));
 		cluster.setDirected(true);
 
-		clusters.put(clusterSpec.id(), cluster);
 
 		return cluster;
 	}
@@ -273,12 +281,20 @@ public class GraphWriterJdk implements GraphWriter {
 		clusterInvisibleNodes.put(cluster.name().toString(), clusterInvisiableNode);
 	}
 
+	private boolean nodeAlreadyAdded(NodeSpec nodeSpec) {
+		return nodes.containsKey(nodeSpec.id());
+	}
+
+	private boolean clusterAlreadyAdded(ClusterSpec clusterSpec) {
+		return clusters.containsKey(clusterSpec.id());
+	}
+
 	private MutableNode createNode(NodeSpec nodeSpec) {
 		if(nodes.containsKey(nodeSpec.id())) return nodes.get(nodeSpec.id());
 
 		MutableNode node = mutNode(nodeSpec.id());
 		node.attrs().add(Label.of(nodeSpec.label()));
-		nodes.put(nodeSpec.id(), node);
+
 		return node;
 	}
 
