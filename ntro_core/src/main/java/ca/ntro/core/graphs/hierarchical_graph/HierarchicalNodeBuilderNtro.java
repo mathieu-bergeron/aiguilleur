@@ -60,6 +60,17 @@ public class HierarchicalNodeBuilderNtro<N extends HierarchicalNode<N,E,SO>,
 		E edge = (E) new EdgeNtro<N,E,SO>(this.toNode(), edgeType, subNode);
 
 		getEdgesByDirection().addEdge(edge);
+
+		((HierarchicalNodeBuilderNtro) subNode).addParentNode(this);
+	}
+
+	@SuppressWarnings("unchecked")
+	protected void addParentNode(N parentNode) {
+		EdgeTypeNtro edgeType = new EdgeTypeNtro(Direction.UP, "");
+
+		E edge = (E) new EdgeNtro<N,E,SO>(this.toNode(), edgeType, parentNode);
+
+		getEdgesByDirection().addEdge(edge);
 	}
 
 	@Override

@@ -186,7 +186,7 @@ public class GraphWriterJdk implements GraphWriter {
 		}
 
 		createClusterInvisibleNode(fromCluster);
-		MutableNode fromInvisibleNode = clusterInvisibleNodes.get(fromSpec.id());
+		MutableNode fromInvisibleNode = clusterInvisibleNodes.get(fromCluster.name().toString());
 		MutableNode fromNode = mutNode(fromInvisibleNode.name());
 
 		Link link = Link.to(toNode);
@@ -237,14 +237,14 @@ public class GraphWriterJdk implements GraphWriter {
 		}
 
 		createClusterInvisibleNode(toCluster);
-		MutableNode toInvisibleNode = clusterInvisibleNodes.get(toSpec.id());
+		MutableNode toInvisibleNode = clusterInvisibleNodes.get(toCluster.name().toString());
 
 		Link link = Link.to(toInvisibleNode);
 		link.attrs().add("lhead","cluster_" + toCluster.name());
 		link.attrs().add("label",edgeSpec.label());
 
 		createClusterInvisibleNode(fromCluster);
-		MutableNode fromInvisibleNode = clusterInvisibleNodes.get(fromSpec.id());
+		MutableNode fromInvisibleNode = clusterInvisibleNodes.get(fromCluster.name().toString());
 
 		MutableNode fromNode = mutNode(fromInvisibleNode.name());
 		link.attrs().add("ltail","cluster_" + fromCluster.name());

@@ -28,6 +28,7 @@ public class HierarchicalGraphTests {
 
 	@Test
 	public void hierarchicalGraph00() throws Throwable {
+		ExceptionThrowerMock exceptionThrower = registerMockExceptionThrower();
 
 		HierarchicalGraphBuilder<HierarchicalGraphNode, HierarchicalGraphEdge, HierarchicalGraphSearchOptions> builder = HierarchicalGraphBuilder.newBuilder("hierarchicalGraph00");
 
@@ -44,6 +45,8 @@ public class HierarchicalGraphTests {
 		HierarchicalGraph<HierarchicalGraphNode, HierarchicalGraphEdge, HierarchicalGraphSearchOptions> graph = builder.toGraph();
 
 		graph.write(Ntro.graphWriter());
+		
+		exceptionThrower.throwLastException();
 	}
 
 
