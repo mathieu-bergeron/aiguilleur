@@ -2,6 +2,7 @@ package ca.ntro.core.graphs.generic_graph;
 
 import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
+import ca.ntro.core.graphs.EdgeAlreadyAddedException;
 import ca.ntro.core.graphs.EdgeType;
 import ca.ntro.core.graphs.EdgeTypeNtro;
 import ca.ntro.core.graphs.EdgeReducer;
@@ -11,16 +12,17 @@ import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.graphs.SearchOptionsNtro;
 import ca.ntro.core.graphs.generic_graph.graph_strcuture.EdgesByDirection;
 import ca.ntro.core.graphs.generic_graph.graph_strcuture.EdgesByDirectionNtro;
+import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
-public class      NodeBuilderNtro<N extends Node<N,E,SO>, 
-                                  E extends Edge<N,E,SO>,
-                                  SO extends SearchOptions> 
+public abstract class NodeBuilderNtro<N extends Node<N,E,SO>, 
+                                      E extends Edge<N,E,SO>,
+                                      SO extends SearchOptions> 
 
-      extends     NodeNtro<N,E,SO>
+      extends         NodeNtro<N,E,SO>
 
-      implements  Node<N,E,SO>,
-      	          NodeBuilder<N,E,SO> {
+      implements      Node<N,E,SO>,
+      	              NodeBuilder<N,E,SO> {
 
 	private EdgesByDirection<N,E,SO> edgesByDirection = new EdgesByDirectionNtro<>();
 
@@ -58,15 +60,23 @@ public class      NodeBuilderNtro<N extends Node<N,E,SO>,
 		return false;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void addEdge(String edgeName, N to) {
 		EdgeTypeNtro edgeType = new EdgeTypeNtro(Direction.FORWARD, edgeName);
 
-		E edge = (E) new EdgeNtro<N,E,SO>(this.toNode(), edgeType, to);
+		E edge = createEdge(this.toNode(), edgeType, to);
+		
+		if(getEdgesByDirection().containsEdge(edge)) {
+			
+			Ntro.exceptionThrower().throwException(new EdgeAlreadyAddedException("Edge already added: " +  edgeName));
+			
+		}else {
 
-		getEdgesByDirection().addEdge(edge);
+			getEdgesByDirection().addEdge(edge);
+		}
 	}
+	
+	protected abstract E createEdge(N fromNode, EdgeType edgeType, N toNode);
 
 	@SuppressWarnings("unchecked")
 	@Override

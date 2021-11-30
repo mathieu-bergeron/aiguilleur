@@ -29,4 +29,5 @@ public class      EdgesByDirectionNtro<N extends Node<N,E,SO>,
 	protected String getSubMapKey(EdgeType edgeName) {
 		return edgeName.direction().name();
 	}
+
 }

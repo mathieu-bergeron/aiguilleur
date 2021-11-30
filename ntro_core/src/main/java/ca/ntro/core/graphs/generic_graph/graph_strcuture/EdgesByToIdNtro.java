@@ -16,6 +16,7 @@ public class EdgesByToIdNtro<N extends Node<N,E,SO>,
                              SO extends SearchOptions> 
 
        implements EdgesByToId<N,E,SO> {
+
 	
 
 	private Map<String, E> edgesMap = new HashMap<>();
@@ -26,6 +27,11 @@ public class EdgesByToIdNtro<N extends Node<N,E,SO>,
 
 	public void setEdgesMap(Map<String, E> edgesMap) {
 		this.edgesMap = edgesMap;
+	}
+
+	@Override
+	public boolean containsEdge(E edge) {
+		return getEdgesMap().containsKey(edge.to().id().toKey().toString());
 	}
 
 	@Override

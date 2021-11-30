@@ -34,6 +34,20 @@ public abstract class EdgesMapNtro<N extends Node<N,E,SO>,
 	protected abstract String getSubMapKey(E edge);
 	protected abstract String getSubMapKey(EdgeType edgeName);
 
+	@Override
+	public boolean containsEdge(E edge) {
+		boolean contains = false;
+		
+		SUBMAP subMap = getEdgesMap().get(getSubMapKey(edge));
+		
+		if(subMap != null) {
+			contains = subMap.containsEdge(edge);
+		}
+
+
+		return contains;
+	}
+
 
 	@Override
 	public void addEdge(E edge) {

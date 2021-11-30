@@ -7,34 +7,28 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import ca.ntro.core.graphs.SearchOptions;
-import ca.ntro.core.graphs.graph.GraphEdge;
-import ca.ntro.core.graphs.graph.GraphNode;
-import ca.ntro.core.graphs.hierarchical_graph.HierarchicalGraphBuilder;
-import ca.ntro.core.graphs.writers.ClusterSpecNtro;
-import ca.ntro.core.graphs.writers.GraphWriter;
 import ca.ntro.core.initialization.InitializerTest;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.services.ExceptionThrowerMock;
 
 public class HierarchicalGraphTests {
-	
-	private static ExceptionThrowerMock exceptionThrower = new ExceptionThrowerMock();
-	
-	protected ExceptionThrowerMock exceptionThrower() {
-		return exceptionThrower;
+
+	protected ExceptionThrowerMock registerMockExceptionThrower() {
+		ExceptionThrowerMock exceptionThrowerMock = new ExceptionThrowerMock();
+
+		InitializerTest.registerExceptionThrower(exceptionThrowerMock);
+
+		return exceptionThrowerMock;
 	}
 
 	@BeforeClass
 	public static void initialize() {
 		InitializerTest.initialize();
-		InitializerTest.registerExceptionThrower(exceptionThrower);
 	}
 
 
 	@Test
 	public void hierarchicalGraph01() throws Throwable {
-		exceptionThrower.clear();
 
 		HierarchicalGraphBuilder<HierarchicalGraphNode, HierarchicalGraphEdge, HierarchicalGraphSearchOptions> builder = HierarchicalGraphBuilder.newBuilder("hierarchicalGraph01");
 
@@ -105,11 +99,8 @@ public class HierarchicalGraphTests {
 			}
 		});
 
-		exceptionThrower.throwLastException();
-		
 		Ntro.asserter().assertEquals(2, clusters.size());
 
 		graph.write(Ntro.graphWriter());
-		exceptionThrower.throwLastException();
 	}
 }

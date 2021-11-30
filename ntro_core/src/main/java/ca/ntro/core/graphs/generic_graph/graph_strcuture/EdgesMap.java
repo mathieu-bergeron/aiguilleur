@@ -11,6 +11,8 @@ import ca.ntro.core.wrappers.result.ResultNtro;
 public interface EdgesMap<N extends Node<N,E,SO>, 
                           E extends Edge<N,E,SO>,
                           SO extends SearchOptions> {
+	
+	boolean containsEdge(E edge);
 
 	void addEdge(E edge);
 
