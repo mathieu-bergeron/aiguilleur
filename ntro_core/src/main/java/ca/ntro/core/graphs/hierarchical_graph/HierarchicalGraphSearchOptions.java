@@ -4,6 +4,7 @@ import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.SearchStrategy;
 import ca.ntro.core.graphs.graph.GraphSearchOptions;
 import ca.ntro.core.wrappers.optionnal.Optionnal;
+import ca.ntro.core.wrappers.optionnal.OptionnalNtro;
 
 public class HierarchicalGraphSearchOptions extends GraphSearchOptions {
 
@@ -15,6 +16,10 @@ public class HierarchicalGraphSearchOptions extends GraphSearchOptions {
 		super(searchStrategy, directions, maxDistance);
 	}
 
+
+	public HierarchicalGraphSearchOptions(Direction[] directions, Optionnal<Integer> maxDistance) {
+		super(directions, maxDistance);
+	}
 
 	@Override
 	protected Direction[] defaultDirections() {

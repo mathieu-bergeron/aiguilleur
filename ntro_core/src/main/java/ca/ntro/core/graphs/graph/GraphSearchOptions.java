@@ -20,6 +20,11 @@ public class GraphSearchOptions extends SearchOptionsNtro {
 		super(searchStrategy, directions, maxDistance);
 	}
 
+	public GraphSearchOptions(Direction[] directions, Optionnal<Integer> maxDistance) {
+		super(directions, maxDistance);
+	}
+
+
 	@Override
 	protected Direction[] defaultDirections() {
 		return new Direction[] {Direction.FORWARD};

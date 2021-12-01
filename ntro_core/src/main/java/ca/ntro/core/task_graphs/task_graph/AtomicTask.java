@@ -5,7 +5,8 @@ import ca.ntro.core.wrappers.result.Result;
 public interface AtomicTask<T  extends Task<T,AT,TG>, 
                             AT extends AtomicTask<T,AT,TG>,
                             TG extends TaskGraph<T,AT,TG>> {
-
+	
+	AtomicTaskId id();
 	T parentTask();
 
 	<R> void registerResult(Result<R> result);

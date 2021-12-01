@@ -1,15 +1,28 @@
 package ca.ntro.core.task_graphs.task_graph;
 
-public class TaskNtro<T  extends Task<T,AT,TG>, 
-                      AT extends AtomicTask<T,AT,TG>,
-                      TG extends TaskGraph<T,AT,TG>> 
+import java.util.HashMap;
+import java.util.Map;
+
+import ca.ntro.core.exceptions.Break;
+import ca.ntro.core.graphs.Direction;
+import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagSearchOptions;
+import ca.ntro.core.wrappers.result.Result;
+import ca.ntro.core.wrappers.result.ResultNtro;
+
+public class      TaskNtro<T  extends Task<T,AT,TG>, 
+                           AT extends AtomicTask<T,AT,TG>,
+                           TG extends TaskGraph<T,AT,TG>> 
 
 	   implements Task<T,AT,TG> {
 	
 	private TaskId id;
 	private TG graph;
 	private TaskGraphNodeBuilder<T,AT,TG> node;
+
 	private TaskState state = TaskState.QUEUED;
+
+	private Map<String, AT> entryTasks = new HashMap<>();
+	private Map<String, AT> exitTasks = new HashMap<>();
 
 	public TaskId getId() {
 		return id;
@@ -43,6 +56,23 @@ public class TaskNtro<T  extends Task<T,AT,TG>,
 		this.node = node;
 	}
 
+	public Map<String, AT> getEntryTasks() {
+		return entryTasks;
+	}
+
+	public void setEntryTasks(Map<String, AT> entryTasks) {
+		this.entryTasks = entryTasks;
+	}
+
+	public Map<String, AT> getExitTasks() {
+		return exitTasks;
+	}
+
+	public void setExitTasks(Map<String, AT> exitTasks) {
+		this.exitTasks = exitTasks;
+	}
+
+
 	public TaskNtro(TaskId id, TaskGraphNodeBuilder<T,AT,TG> node, TG graph) {
 		setId(id);
 		setNode(node);
@@ -61,66 +91,268 @@ public class TaskNtro<T  extends Task<T,AT,TG>,
 
 	@Override
 	public boolean isQueued() {
-		// TODO Auto-generated method stub
-		return false;
+
+		return reducePreviousTasks(false, (accumulator, previousTask) -> {
+			if(accumulator == true) {
+				throw new Break();
+			}
+
+			if(!previousTask.isDone()) {
+				accumulator = true;
+			}
+
+			return accumulator;
+
+		}).value();
 	}
 
 	@Override
 	public boolean isInProgress() {
-		// TODO Auto-generated method stub
-		return false;
+		return !isQueued()
+				&& !isDone();
 	}
 
 	@Override
 	public boolean isDone() {
-		// TODO Auto-generated method stub
-		return false;
+		return !isQueued()
+				&& areEntryTasksDone()
+				&& areSubTasksDone()
+				&& areExitTasksDone();
+	}
+	
+	protected boolean areEntryTasksDone() {
+		return reduceEntryTasks(true, (accumulator, entryTask) -> {
+			if(accumulator == false) {
+				throw new Break();
+			}
+
+			if(!entryTask.result().hasValue()) {
+				accumulator = false;
+			}
+			
+			return accumulator;
+
+		}).value();
+	}
+
+	protected boolean areExitTasksDone() {
+		return reduceExitTasks(true, (accumulator, exitTask) -> {
+			if(accumulator == false) {
+				throw new Break();
+			}
+
+			if(!exitTask.result().hasValue()) {
+				accumulator = false;
+			}
+			
+			return accumulator;
+
+		}).value();
+	}
+
+	protected boolean areSubTasksDone() {
+		return reduceSubTasks(true, (accumulator, subTask) -> {
+			if(accumulator == false) {
+				throw new Break();
+			}
+
+			if(!subTask.isDone()) {
+				accumulator = false;
+			}
+			
+			return accumulator;
+
+		}).value();
 	}
 
 	@Override
 	public AT findEntryTask(AtomicTaskId id) {
-		// TODO Auto-generated method stub
-		return null;
+		return getEntryTasks().get(id.toKey().toString());
 	}
 
 	@Override
 	public AT findExitTask(AtomicTaskId id) {
-		// TODO Auto-generated method stub
-		return null;
+		return getExitTasks().get(id.toKey().toString());
+	}
+
+	@Override
+	public T addSubTask(T subTask) {
+		getNode().addSubNode(toNode(subTask));
+
+		return asTask();
 	}
 
 	@SuppressWarnings("unchecked")
-	@Override
-	public T addSubTask(T subTask) {
-		TaskGraphNodeBuilder<T,AT,TG> subNode = ((TaskNtro<T,AT,TG>) subTask).getNode();
-
-		getNode().addSubNode(subNode);
-
-		return (T) this;
+	private TaskGraphNodeBuilder<T,AT,TG> toNode(T task) {
+		return ((TaskNtro<T,AT,TG>) task).getNode();
 	}
 
+	@SuppressWarnings("unchecked")
+	private T asTask() {
+		return (T) this;
+	}
+	
 	@Override
 	public T addPreviousTask(T previousTask) {
-		// TODO Auto-generated method stub
-		return null;
+		toNode(previousTask).addEdge("", getNode());
+
+		return asTask();
 	}
 
 	@Override
 	public T addNextTask(T nextTask) {
-		// TODO Auto-generated method stub
-		return null;
+		getNode().addEdge("", toNode(nextTask));
+
+		return asTask();
 	}
 
 	@Override
 	public T addEntryTask(AT entryTask) {
-		// TODO Auto-generated method stub
-		return null;
+		getEntryTasks().put(entryTask.id().toKey().toString(), entryTask);
+
+		return asTask();
 	}
 
 	@Override
 	public T addExitTask(AT exitTask) {
-		// TODO Auto-generated method stub
-		return null;
+		getExitTasks().put(exitTask.id().toKey().toString(), exitTask);
+
+		return asTask();
 	}
 
+	@Override
+	public void forEachPreviousTask(TaskVisitor<T, AT, TG> visitor) {
+		reducePreviousTasks(null, (__, task) -> {
+
+			visitor.visitTask(task);
+
+			return null;
+
+		}).throwException();
+	}
+
+	@Override
+	public <R> Result<R> reducePreviousTasks(R initialValue, TaskReducer<T, AT, TG, R> reducer) {
+		ResultNtro<R> result = new ResultNtro<R>(initialValue);
+
+		reduceNeighborTasks(Direction.BACKWARD, result, reducer);
+
+		return result;
+	}
+
+	protected <R> void reduceNeighborTasks(Direction direction, ResultNtro<R> result, TaskReducer<T, AT, TG, R> reducer) {
+
+		HierarchicalDagSearchOptions options = new HierarchicalDagSearchOptions(direction, 1);
+
+		getNode().reduceReachableNodes(options, (__, walked, node) -> {
+			
+			try {
+
+				result.registerValue(reducer.reduceTask(result.value(), node.task()));
+
+			}catch(Throwable t) {
+				
+				result.registerException(t);
+			}
+			
+			return null;
+		});
+	}
+
+	@Override
+	public void forEachSubTask(TaskVisitor<T, AT, TG> visitor) {
+		reduceSubTasks(null, (__, task) -> {
+
+			visitor.visitTask(task);
+
+			return null;
+
+		}).throwException();
+	}
+
+	@Override
+	public <R> Result<R> reduceSubTasks(R initialValue, TaskReducer<T, AT, TG, R> reducer) {
+		ResultNtro<R> result = new ResultNtro<R>(initialValue);
+
+		reduceNeighborTasks(Direction.DOWN, result, reducer);
+
+		return result;
+	}
+
+	@Override
+	public void forEachNextTask(TaskVisitor<T, AT, TG> visitor) {
+		reduceNextTasks(null, (__, task) -> {
+
+			visitor.visitTask(task);
+
+			return null;
+
+		}).throwException();
+	}
+
+	@Override
+	public <R> Result<R> reduceNextTasks(R initialValue, TaskReducer<T, AT, TG, R> reducer) {
+		ResultNtro<R> result = new ResultNtro<R>(initialValue);
+
+		reduceNeighborTasks(Direction.FORWARD, result, reducer);
+
+		return result;
+	}
+
+	@Override
+	public void forEachEntryTask(AtomicTaskVisitor<T, AT, TG> visitor) {
+		reduceEntryTasks(null, (__, atomicTask) -> {
+			
+			visitor.visitAtomicTask(atomicTask);
+			
+			return null;
+			
+		}).value();
+	}
+
+	@Override
+	public <R> Result<R> reduceEntryTasks(R initialValue, AtomicTaskReducer<T, AT, TG, R> reducer) {
+		ResultNtro<R> result = new ResultNtro<R>(initialValue);
+		
+		reduceAtomicTasks(getEntryTasks(), result, reducer);
+		
+		return result;
+	}
+
+	protected <R> void reduceAtomicTasks(Map<String, AT> atomicTasks, 
+			                             ResultNtro<R> result, 
+			                             AtomicTaskReducer<T, AT, TG, R> reducer) {
+		
+		for(AT atomicTask : atomicTasks.values()) {
+			try {
+				
+				result.registerValue(reducer.reduceAtomicTask(result.value(), atomicTask));
+				
+			} catch(Throwable t) {
+				
+				result.registerException(t);
+				break;
+			}
+		}
+	}
+
+	@Override
+	public void forEachExitTask(AtomicTaskVisitor<T, AT, TG> visitor) {
+		reduceExitTasks(null, (__, atomicTask) -> {
+			
+			visitor.visitAtomicTask(atomicTask);
+			
+			return null;
+			
+		}).value();
+	}
+
+	@Override
+	public <R> Result<R> reduceExitTasks(R initialValue, AtomicTaskReducer<T, AT, TG, R> reducer) {
+		ResultNtro<R> result = new ResultNtro<R>(initialValue);
+		
+		reduceAtomicTasks(getExitTasks(), result, reducer);
+		
+		return result;
+	}
 }
