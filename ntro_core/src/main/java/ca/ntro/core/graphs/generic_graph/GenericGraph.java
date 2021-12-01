@@ -23,7 +23,7 @@ public interface GenericGraph<N extends Node<N,E,SO>,
 	void write(GraphWriter writer);
 
 	N findNode(NodeId id);
-
+	
 	void forEachStartNode(NodeVisitor<N,E,SO> visitor);
 	<R extends Object> Result<R> reduceStartNodes(R initialValue, NodeReducer<N,E,SO,R> reducer);
 
