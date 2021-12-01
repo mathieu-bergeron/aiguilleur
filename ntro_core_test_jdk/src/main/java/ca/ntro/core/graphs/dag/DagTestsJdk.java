@@ -1,4 +1,4 @@
-package ca.ntro.core.graphs.tests;
+package ca.ntro.core.graphs.dag;
 
 import org.junit.BeforeClass;
 import org.junit.Test;

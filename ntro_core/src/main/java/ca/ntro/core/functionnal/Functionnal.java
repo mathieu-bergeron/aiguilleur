@@ -6,6 +6,8 @@ public interface Functionnal<V extends Object, R extends Object> {
 
 
 	boolean forEach(Reducing<V,R> reducing, GenericTester<V> tester);
+
+	boolean exists(Reducing<V,R> reducing, GenericTester<V> tester);
 	
 
 }

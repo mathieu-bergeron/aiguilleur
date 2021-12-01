@@ -17,5 +17,11 @@ public class InternalHierarchicalDagBuilderNtro<T  extends Task<T,AT,TG>,
 
 	   implements InternalHierarchicalDagBuilder<T,AT,TG> {
 
+	public InternalHierarchicalDagBuilderNtro() {
+		super();
+	}
 
+	public InternalHierarchicalDagBuilderNtro(String graphName) {
+		super(graphName);
+	}
 }

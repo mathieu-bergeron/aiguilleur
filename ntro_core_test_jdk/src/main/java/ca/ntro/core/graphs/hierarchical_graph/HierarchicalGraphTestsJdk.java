@@ -1,4 +1,4 @@
-package ca.ntro.core.graphs.tests;
+package ca.ntro.core.graphs.hierarchical_graph;
 
 import org.junit.BeforeClass;
 

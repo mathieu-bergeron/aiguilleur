@@ -9,6 +9,7 @@ public interface TaskGraph<T  extends Task<T,AT,TG>,
 	T findTask(TaskId id);
 	
 	T createTask(TaskId id);
+	T createTask(String id);
 
 	TG addTask(T task);
 	

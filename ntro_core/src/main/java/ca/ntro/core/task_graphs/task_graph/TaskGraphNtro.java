@@ -12,6 +12,14 @@ public class TaskGraphNtro<T  extends Task<T,AT,TG>,
 
 	private InternalTaskGraphWriter<T,AT,TG> internalWriter = new InternalTaskGraphWriterNtro<>();
 
+	public TaskGraphNtro() {
+		hdag = new InternalHierarchicalDagBuilderNtro<T,AT,TG>();
+	}
+
+	public TaskGraphNtro(String graphName) {
+		hdag = new InternalHierarchicalDagBuilderNtro<T,AT,TG>(graphName);
+	}
+
 	public InternalHierarchicalDagBuilder<T, AT, TG> getHdag() {
 		return hdag;
 	}
@@ -32,6 +40,11 @@ public class TaskGraphNtro<T  extends Task<T,AT,TG>,
 		hdag.addNode(node);
 
 		return (TG) this;
+	}
+
+	@Override
+	public T createTask(String id) {
+		return createTask(new TaskIdNtro(id));
 	}
 
 	@Override

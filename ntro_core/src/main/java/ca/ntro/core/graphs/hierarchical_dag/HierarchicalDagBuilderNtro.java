@@ -13,4 +13,12 @@ public class   HierarchicalDagBuilderNtro<N extends HierarchicalNode<N,E,SO>,
 
 	   implements HierarchicalDagBuilder<N,E,SO,G> {
 
+	public HierarchicalDagBuilderNtro() {
+		super();
+	}
+
+	public HierarchicalDagBuilderNtro(String graphName) {
+		super(graphName);
+	}
+
 }
