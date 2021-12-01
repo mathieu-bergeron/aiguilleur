@@ -2,9 +2,9 @@ package ca.ntro.core.task_graphs.task_graph;
 
 import ca.ntro.core.graphs.writers.GraphWriter;
 
-public class TaskGraphNtro<T  extends Task<T,AT,TG>, 
-                           AT extends AtomicTask<T,AT,TG>,
-                           TG extends TaskGraph<T,AT,TG>> 
+public abstract class TaskGraphNtro<T  extends Task<T,AT,TG>, 
+                                    AT extends AtomicTask<T,AT,TG>,
+                                    TG extends TaskGraph<T,AT,TG>> 
 
 	   implements TaskGraph<T,AT,TG> {
 	
@@ -51,10 +51,13 @@ public class TaskGraphNtro<T  extends Task<T,AT,TG>,
 	public T createTask(TaskId id) {
 		TaskGraphNodeBuilder<T,AT,TG> node = new TaskGraphNodeBuilderNtro<T,AT,TG>(id);
 		
-		TaskNtro<T,AT,TG> task = new TaskNtro<T,AT,TG>(id, node, (TG) this);
+		T task = createTask(id, node, (TG) this);
 		
 		return (T) task;
 	}
+	
+	protected abstract T createTask(TaskId id, TaskGraphNodeBuilder<T,AT,TG> node, TG graph);
+	
 
 	@Override
 	public void write(GraphWriter writer) {

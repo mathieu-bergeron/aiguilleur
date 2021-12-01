@@ -32,13 +32,12 @@ public class TaskGraphTests {
 
 		MockTask taskB = graph.createTask("B");
 		
-		graph.addTask(taskA);
-		graph.addTask(taskB);
-		
-		taskA.addSubTask(taskAA);
-		
-		taskA.addNextTask(taskB);
-		
-		graph.write(Ntro.graphWriter());
+		taskA.addSubTask(taskAA)
+		     .addNextTask(taskB);
+
+		graph.addTask(taskA)
+		     .addTask(taskB)
+		     .addTask(taskAA)
+			 .write(Ntro.graphWriter());
 	}
 }
