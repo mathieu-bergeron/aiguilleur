@@ -2,13 +2,14 @@ package ca.ntro.core.task_graphs.task_graph;
 
 import ca.ntro.core.wrappers.result.Result;
 
-public interface AtomicTask<AT extends  AtomicTask<AT,IAT>,
-                            IAT extends ImmutableAtomicTask<IAT>>
+public interface AtomicTask<T  extends Task<T,AT,TG>, 
+                            AT extends AtomicTask<T,AT,TG>,
+                            TG extends TaskGraph<T,AT,TG>> {
 
-       extends   ImmutableAtomicTask<IAT> {
+	T parentTask();
 
 	<R> void registerResult(Result<R> result);
-	
-	IAT toImmutableAtomicTask();
+
+	<R> Result<R> result();
 
 }

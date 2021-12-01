@@ -4,7 +4,7 @@ import ca.ntro.app.frontend.View;
 import ca.ntro.app.messages.Message;
 import ca.ntro.app.models.Model;
 import ca.ntro.core.identifyers.ModelId;
-import ca.ntro.core.task_graphs.task_graph.ImmutableTask;
+import ca.ntro.core.task_graphs.task_graph.Task;
 
 public interface TaskCreator {
 
@@ -31,7 +31,7 @@ public interface TaskCreator {
 	TaskCreator when(ControllerEvent task);
 	TaskCreator and(ControllerEvent task);
 
-	ImmutableTask execute(TaskExecutor executor);
+	Task execute(TaskExecutor executor);
 
 	<M extends Model> void removeModelObservers(Class<M> modelClass);
 	void removeModelObserver(ModelId modelId);

@@ -1,16 +1,16 @@
 package ca.ntro.core.task_graphs.task_graph;
 
-public interface TaskGraph<T   extends Task<T,IT,AT,IAT>, 
-					       IT  extends ImmutableTask<IT,AT,IAT>,
-                           AT  extends AtomicTask<AT,IAT>,
-                           IAT extends ImmutableAtomicTask<IAT>,
-                           IG  extends ImmutableTaskGraph<T,IT,AT,IAT,IG>,
-                           G   extends TaskGraph<T,IT,AT,IAT,IG,G>>
+import ca.ntro.core.graphs.writers.GraphWriter;
 
-       extends ImmutableTaskGraph<T,IT,AT,IAT,IG> {
+public interface TaskGraph<T  extends Task<T,AT,TG>, 
+                           AT extends AtomicTask<T,AT,TG>,
+                           TG extends TaskGraph<T,AT,TG>> {
 
-	G addTask(T task);
+	T findTask(TaskId id);
+	
+	T createTask(TaskId id);
 
-	IG toImmutableGraph();
-
+	TG addTask(T task);
+	
+	void write(GraphWriter writer);
 }
