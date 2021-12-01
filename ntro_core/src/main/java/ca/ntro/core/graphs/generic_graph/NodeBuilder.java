@@ -6,7 +6,10 @@ import ca.ntro.core.graphs.SearchOptions;
 
 public interface NodeBuilder<N extends Node<N,E,SO>,
                              E extends Edge<N,E,SO>,
-                             SO extends SearchOptions> {
+                             SO extends SearchOptions> 
+
+        extends Node<N,E,SO> {
+	 
 
 	void addEdge(String edgeName, N to);
 

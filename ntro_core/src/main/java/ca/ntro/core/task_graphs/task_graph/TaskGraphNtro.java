@@ -27,14 +27,20 @@ public class TaskGraphNtro<T  extends Task<T,AT,TG>,
 
 	@Override
 	public TG addTask(T task) {
-		hdag.addNode(new TaskGraphNodeNtro<T,AT,TG>(task));
+		TaskGraphNode<T,AT,TG> node = new TaskGraphNodeBuilderNtro<T,AT,TG>(task.id());
+
+		hdag.addNode(node);
 
 		return (TG) this;
 	}
 
 	@Override
 	public T createTask(TaskId id) {
-		return (T) new TaskNtro<T,AT,TG>(id, (TG) this);
+		TaskGraphNodeBuilder<T,AT,TG> node = new TaskGraphNodeBuilderNtro<T,AT,TG>(id);
+		
+		TaskNtro<T,AT,TG> task = new TaskNtro<T,AT,TG>(id, node, (TG) this);
+		
+		return (T) task;
 	}
 
 	@Override

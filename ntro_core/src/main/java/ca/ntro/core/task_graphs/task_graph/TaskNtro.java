@@ -8,6 +8,7 @@ public class TaskNtro<T  extends Task<T,AT,TG>,
 	
 	private TaskId id;
 	private TG graph;
+	private TaskGraphNodeBuilder<T,AT,TG> node;
 	private TaskState state = TaskState.QUEUED;
 
 	public TaskId getId() {
@@ -26,16 +27,6 @@ public class TaskNtro<T  extends Task<T,AT,TG>,
 		this.graph = graph;
 	}
 
-	@Override
-	public TaskId id() {
-		return getId();
-	}
-
-	@Override
-	public TG parentGraph() {
-		return getGraph();
-	}
-
 	public TaskState getState() {
 		return state;
 	}
@@ -44,9 +35,28 @@ public class TaskNtro<T  extends Task<T,AT,TG>,
 		this.state = state;
 	}
 	
-	public TaskNtro(TaskId id, TG graph) {
+	public TaskGraphNodeBuilder<T, AT, TG> getNode() {
+		return node;
+	}
+
+	public void setNode(TaskGraphNodeBuilder<T, AT, TG> node) {
+		this.node = node;
+	}
+
+	public TaskNtro(TaskId id, TaskGraphNodeBuilder<T,AT,TG> node, TG graph) {
 		setId(id);
+		setNode(node);
 		setGraph(graph);
+	}
+
+	@Override
+	public TaskId id() {
+		return getId();
+	}
+
+	@Override
+	public TG parentGraph() {
+		return getGraph();
 	}
 
 	@Override
@@ -79,10 +89,14 @@ public class TaskNtro<T  extends Task<T,AT,TG>,
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public T addSubTask(T subTask) {
-		// TODO Auto-generated method stub
-		return null;
+		TaskGraphNodeBuilder<T,AT,TG> subNode = ((TaskNtro<T,AT,TG>) subTask).getNode();
+
+		getNode().addSubNode(subNode);
+
+		return (T) this;
 	}
 
 	@Override
