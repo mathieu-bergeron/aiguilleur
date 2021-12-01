@@ -92,7 +92,7 @@ public class      TaskNtro<T  extends Task<T,AT,TG>,
 	@Override
 	public boolean isQueued() {
 		return ifSomePreviousTaskMatches(previousTask -> {
-			return !previousTask.isDone();
+			return previousTask.isQueued() || previousTask.isInProgress();
 		});
 	}
 
@@ -111,48 +111,21 @@ public class      TaskNtro<T  extends Task<T,AT,TG>,
 	}
 	
 	protected boolean areEntryTasksDone() {
-		return reduceEntryTasks(true, (accumulator, entryTask) -> {
-			if(accumulator == false) {
-				throw new Break();
-			}
-
-			if(!entryTask.result().hasValue()) {
-				accumulator = false;
-			}
-			
-			return accumulator;
-
-		}).value();
+		return ifAllEntryTasksMatch(entryTask -> {
+			return entryTask.result().hasValue();
+		}); 
 	}
 
 	protected boolean areExitTasksDone() {
-		return reduceExitTasks(true, (accumulator, exitTask) -> {
-			if(accumulator == false) {
-				throw new Break();
-			}
-
-			if(!exitTask.result().hasValue()) {
-				accumulator = false;
-			}
-			
-			return accumulator;
-
-		}).value();
+		return ifAllExitTasksMatch(exitTask -> {
+			return exitTask.result().hasValue();
+		}); 
 	}
 
 	protected boolean areSubTasksDone() {
-		return reduceSubTasks(true, (accumulator, subTask) -> {
-			if(accumulator == false) {
-				throw new Break();
-			}
-
-			if(!subTask.isDone()) {
-				accumulator = false;
-			}
-			
-			return accumulator;
-
-		}).value();
+		return ifAllSubTasksMatch(subTask -> {
+			return subTask.isDone();
+		});
 	}
 
 	@Override
