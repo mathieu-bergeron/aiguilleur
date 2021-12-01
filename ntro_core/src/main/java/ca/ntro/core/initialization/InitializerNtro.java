@@ -14,6 +14,8 @@ import ca.ntro.core.task_graphs.executable_task_graph.ExecutableTaskGraph;
 import ca.ntro.core.values.ObjectMap;
 import ca.ntro.core.values.ObjectMapNtro;
 import ca.ntro.core.wrappers.future.Future;
+import ca.ntro.core.wrappers.result.Result;
+import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class InitializerNtro implements Initializer {
 	
@@ -131,7 +133,7 @@ public abstract class InitializerNtro implements Initializer {
 	}
 
 	@Override
-	public ObjectMap executeBlocking() throws Throwable {
+	public Result<ObjectMap> executeBlocking() {
 		/*
 		
 		ObjectMap objectMap = buildGraph().executeBlocking();
@@ -141,7 +143,7 @@ public abstract class InitializerNtro implements Initializer {
 		return objectMap;
 		*/
 		
-		return new ObjectMapNtro();
+		return new ResultNtro<>(new ObjectMapNtro());
 	}
 
 	@Override

@@ -1,15 +1,16 @@
 package ca.ntro.core.task_graphs.task_graph;
 
-import ca.ntro.core.values.ObjectMap;
+public interface TaskGraph<T   extends Task<T,IT,AT,IAT>, 
+					       IT  extends ImmutableTask<IT,AT,IAT>,
+                           AT  extends AtomicTask<AT,IAT>,
+                           IAT extends ImmutableAtomicTask<IAT>,
+                           IG  extends ImmutableTaskGraph<T,IT,AT,IAT,IG>,
+                           G   extends TaskGraph<T,IT,AT,IAT,IG,G>>
 
-public interface TaskGraph<T extends Task<AT>, 
-                           AT extends AtomicTask> {
+       extends ImmutableTaskGraph<T,IT,AT,IAT,IG> {
 
-	T findTask(TaskId id);
+	G addTask(T task);
 
-	void notifyAtomicTaskCompleted(AT atomicTask, ObjectMap results);
-
-	boolean isAtomicTaskCompleted(AT atomicTask);
-	
+	IG toImmutableGraph();
 
 }

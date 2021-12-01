@@ -1,14 +1,26 @@
 package ca.ntro.core.task_graphs.task_graph;
 
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDag;
+import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagBuilder;
+import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagBuilderNtro;
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagSearchOptions;
-import ca.ntro.core.values.ObjectMap;
 
-public class TaskGraphNtro<T extends Task<AT>, AT extends AtomicTask> 
+public class TaskGraphNtro<T   extends Task<T,IT,AT,IAT>, 
+					       IT  extends ImmutableTask<IT,AT,IAT>,
+                           AT  extends AtomicTask<AT,IAT>,
+                           IAT extends ImmutableAtomicTask<IAT>,
+                           IG  extends ImmutableTaskGraph<T,IT,AT,IAT,IG>,
+                           G   extends TaskGraph<T,IT,AT,IAT,IG,G>> 
 
-       implements TaskGraph<T,AT> {
-
-	private HierarchicalDag<TaskGraphNode<T,AT>, TaskGraphEdge<T,AT>, HierarchicalDagSearchOptions> hdag;
+	   implements TaskGraph<T,IT,AT,IAT,IG,G> {
+	
+	
+	private HierarchicalDagBuilder<TaskGraphNode<T,IT,AT,IAT,IG,G>,
+	                               TaskGraphEdge<T,IT,AT,IAT,IG,G>,
+	                               HierarchicalDagSearchOptions,
+	                               HierarchicalDag<TaskGraphNode<T,IT,AT,IAT,IG,G>,
+	                                               TaskGraphEdge<T,IT,AT,IAT,IG,G>,
+	                                               HierarchicalDagSearchOptions>>     hdag = new HierarchicalDagBuilderNtro<>();
 
 	@Override
 	public T findTask(TaskId id) {
@@ -16,15 +28,14 @@ public class TaskGraphNtro<T extends Task<AT>, AT extends AtomicTask>
 	}
 
 	@Override
-	public void notifyAtomicTaskCompleted(AT atomicTask, ObjectMap results) {
-		// TODO Auto-generated method stub
-		
+	public G addTask(T task) {
+		hdag.addNode(new TaskGraphNodeNtro<T,IT,AT,IAT,IG,G>(task));
+
+		return (G) this;
 	}
 
 	@Override
-	public boolean isAtomicTaskCompleted(AT atomicTask) {
-		// TODO Auto-generated method stub
-		return false;
+	public IG toImmutableGraph() {
+		return (IG) this;
 	}
-
 }
