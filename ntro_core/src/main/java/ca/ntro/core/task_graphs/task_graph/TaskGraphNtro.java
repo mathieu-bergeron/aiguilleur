@@ -39,21 +39,23 @@ public abstract class TaskGraphNtro<T  extends Task<T,AT>,
 		hdag.addNode(node);
 	}
 
-	/*
+	@Override
 	public T createTask(String id) {
 		return createTask(new TaskIdNtro(id));
-	}*/
+	}
 
 	@Override
 	public T createTask(TaskId id) {
 		TaskGraphNodeBuilder<T,AT> node = new TaskGraphNodeBuilderNtro<T,AT>(id);
 		
-		T task = createTask(id, node, (TaskGraph<T,AT>) this);
+		T task = createTaskImpl(id, node, (TaskGraph<T,AT>) this);
 		
 		return (T) task;
 	}
 	
-	protected abstract T createTask(TaskId id, TaskGraphNodeBuilder<T,AT> node, TaskGraph<T,AT> graph);
+	// JSweet error: "supplied parameters do not match any signature of call target"
+	// if we keep name "createTask"
+	protected abstract T createTaskImpl(TaskId id, TaskGraphNodeBuilder<T,AT> node, TaskGraph<T,AT> graph);
 	
 
 	@Override
