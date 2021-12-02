@@ -4,15 +4,14 @@ import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDag;
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagBuilder;
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagSearchOptionsBuilder;
 
-public interface InternalHierarchicalDagBuilder<T  extends Task<T,AT,TG>, 
-                                                AT extends AtomicTask<T,AT,TG>,
-                                                TG extends TaskGraph<T,AT>> 
+public interface InternalHierarchicalDagBuilder<T  extends Task<T,AT>, 
+                                                AT extends AtomicTask<T,AT>>
 
-	   extends HierarchicalDagBuilder<TaskGraphNode<T,AT,TG>,
-	                                  TaskGraphEdge<T,AT,TG>,
+	   extends HierarchicalDagBuilder<TaskGraphNode<T,AT>,
+	                                  TaskGraphEdge<T,AT>,
 	                                  TaskGraphSearchOptionsBuilder,
-	                                  HierarchicalDag<TaskGraphNode<T,AT,TG>,
-	                                                  TaskGraphEdge<T,AT,TG>,
+	                                  HierarchicalDag<TaskGraphNode<T,AT>,
+	                                                  TaskGraphEdge<T,AT>,
 	                                                  TaskGraphSearchOptionsBuilder>> {
 	
 }

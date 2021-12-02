@@ -2,29 +2,28 @@ package ca.ntro.core.task_graphs.task_graph;
 
 import ca.ntro.core.graphs.writers.GraphWriter;
 
-public abstract class TaskGraphNtro<T  extends Task<T,AT,TG>, 
-                                    AT extends AtomicTask<T,AT,TG>,
-                                    TG extends TaskGraph<T,AT>> 
+public abstract class TaskGraphNtro<T  extends Task<T,AT>, 
+                                    AT extends AtomicTask<T,AT>>
 
 	   implements TaskGraph<T,AT> {
 	
-	private InternalHierarchicalDagBuilder<T,AT,TG> hdag = new InternalHierarchicalDagBuilderNtro<>();
+	private InternalHierarchicalDagBuilder<T,AT> hdag = new InternalHierarchicalDagBuilderNtro<>();
 
-	private InternalTaskGraphWriter<T,AT,TG> internalWriter = new InternalTaskGraphWriterNtro<>();
+	private InternalTaskGraphWriter<T,AT> internalWriter = new InternalTaskGraphWriterNtro<>();
 
 	public TaskGraphNtro() {
-		hdag = new InternalHierarchicalDagBuilderNtro<T,AT,TG>();
+		hdag = new InternalHierarchicalDagBuilderNtro<T,AT>();
 	}
 
 	public TaskGraphNtro(String graphName) {
-		hdag = new InternalHierarchicalDagBuilderNtro<T,AT,TG>(graphName);
+		hdag = new InternalHierarchicalDagBuilderNtro<T,AT>(graphName);
 	}
 
-	public InternalHierarchicalDagBuilder<T, AT, TG> getHdag() {
+	public InternalHierarchicalDagBuilder<T, AT> getHdag() {
 		return hdag;
 	}
 
-	public void setHdag(InternalHierarchicalDagBuilder<T, AT, TG> hdag) {
+	public void setHdag(InternalHierarchicalDagBuilder<T, AT> hdag) {
 		this.hdag = hdag;
 	}
 
@@ -35,7 +34,7 @@ public abstract class TaskGraphNtro<T  extends Task<T,AT,TG>,
 
 	@Override
 	public void addTask(T task) {
-		TaskGraphNode<T,AT,TG> node = new TaskGraphNodeBuilderNtro<T,AT,TG>(task.id());
+		TaskGraphNode<T,AT> node = new TaskGraphNodeBuilderNtro<T,AT>(task.id());
 
 		hdag.addNode(node);
 	}
@@ -47,14 +46,14 @@ public abstract class TaskGraphNtro<T  extends Task<T,AT,TG>,
 
 	@Override
 	public T createTask(TaskId id) {
-		TaskGraphNodeBuilder<T,AT,TG> node = new TaskGraphNodeBuilderNtro<T,AT,TG>(id);
+		TaskGraphNodeBuilder<T,AT> node = new TaskGraphNodeBuilderNtro<T,AT>(id);
 		
-		T task = createTask(id, node, (TG) this);
+		T task = createTask(id, node, (TaskGraph<T,AT>) this);
 		
 		return (T) task;
 	}
 	
-	protected abstract T createTask(TaskId id, TaskGraphNodeBuilder<T,AT,TG> node, TG graph);
+	protected abstract T createTask(TaskId id, TaskGraphNodeBuilder<T,AT> node, TaskGraph<T,AT> graph);
 	
 
 	@Override

@@ -3,18 +3,17 @@ package ca.ntro.core.task_graphs.task_graph;
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDag;
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagBuilderNtro;
 
-public class InternalHierarchicalDagBuilderNtro<T  extends Task<T,AT,TG>, 
-                                                AT extends AtomicTask<T,AT,TG>,
-                                                TG extends TaskGraph<T,AT>> 
+public class InternalHierarchicalDagBuilderNtro<T  extends Task<T,AT>, 
+                                                AT extends AtomicTask<T,AT>>
 
-       extends HierarchicalDagBuilderNtro<TaskGraphNode<T,AT,TG>,
-	                                      TaskGraphEdge<T,AT,TG>,
+       extends HierarchicalDagBuilderNtro<TaskGraphNode<T,AT>,
+	                                      TaskGraphEdge<T,AT>,
 	                                      TaskGraphSearchOptionsBuilder,
-	                                      HierarchicalDag<TaskGraphNode<T,AT,TG>,
-	                                                      TaskGraphEdge<T,AT,TG>,
+	                                      HierarchicalDag<TaskGraphNode<T,AT>,
+	                                                      TaskGraphEdge<T,AT>,
 	                                                      TaskGraphSearchOptionsBuilder>>
 
-	   implements InternalHierarchicalDagBuilder<T,AT,TG> {
+	   implements InternalHierarchicalDagBuilder<T,AT> {
 
 	public InternalHierarchicalDagBuilderNtro() {
 		super();

@@ -2,11 +2,10 @@ package ca.ntro.core.task_graphs.task_graph;
 
 import ca.ntro.core.wrappers.result.Result;
 
-public class      AtomicTaskNtro<T  extends Task<T,AT,TG>, 
-                                 AT extends AtomicTask<T,AT,TG>,
-                                 TG extends TaskGraph<T,AT>> 
+public class      AtomicTaskNtro<T  extends Task<T,AT>, 
+                                 AT extends AtomicTask<T,AT>>
 
-       implements AtomicTask<T,AT,TG> {
+       implements AtomicTask<T,AT> {
 	
 	private AtomicTaskId id;
 	private T parentTask;

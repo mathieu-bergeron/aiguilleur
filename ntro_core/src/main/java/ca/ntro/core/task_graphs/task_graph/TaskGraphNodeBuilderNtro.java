@@ -2,15 +2,14 @@ package ca.ntro.core.task_graphs.task_graph;
 
 import ca.ntro.core.graphs.hierarchical_graph.HierarchicalNodeBuilderNtro;
 
-public class TaskGraphNodeBuilderNtro<T  extends Task<T,AT,TG>, 
-                                      AT extends AtomicTask<T,AT,TG>,
-                                      TG extends TaskGraph<T,AT>> 
+public class TaskGraphNodeBuilderNtro<T  extends Task<T,AT>, 
+                                      AT extends AtomicTask<T,AT>>
 
-      extends HierarchicalNodeBuilderNtro<TaskGraphNode<T,AT,TG>,
-                                          TaskGraphEdge<T,AT,TG>,
+      extends HierarchicalNodeBuilderNtro<TaskGraphNode<T,AT>,
+                                          TaskGraphEdge<T,AT>,
                                           TaskGraphSearchOptionsBuilder>
 
-	  implements TaskGraphNodeBuilder<T,AT,TG> {
+	  implements TaskGraphNodeBuilder<T,AT> {
 
 	private T task;
 
