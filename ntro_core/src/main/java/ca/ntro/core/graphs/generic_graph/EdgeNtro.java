@@ -5,13 +5,13 @@ import ca.ntro.core.graphs.EdgeId;
 import ca.ntro.core.graphs.EdgeIdNtro;
 import ca.ntro.core.graphs.EdgeType;
 import ca.ntro.core.graphs.Node;
-import ca.ntro.core.graphs.SearchOptionsNtro;
+import ca.ntro.core.graphs.SearchOptionsBuilder;
 import ca.ntro.core.identifyers.Name;
 import ca.ntro.core.path.Path;
 
 public class     EdgeNtro<N extends Node<N,E,SO>, 
                           E extends Edge<N,E,SO>,
-                          SO extends SearchOptionsNtro> 
+                          SO extends SearchOptionsBuilder> 
 
       implements Edge<N,E,SO> {
 

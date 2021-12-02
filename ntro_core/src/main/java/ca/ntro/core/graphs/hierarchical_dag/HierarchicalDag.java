@@ -6,7 +6,7 @@ import ca.ntro.core.graphs.hierarchical_graph.HierarchicalNode;
 
 public interface HierarchicalDag<N extends HierarchicalNode<N,E,SO>,
                                  E extends Edge<N,E,SO>,
-                                 SO extends HierarchicalDagSearchOptions<SO>>
+                                 SO extends HierarchicalDagSearchOptionsBuilder>
 
                                  extends HierarchicalGraph<N,E,SO> {
 

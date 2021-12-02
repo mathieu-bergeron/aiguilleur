@@ -5,6 +5,8 @@ import java.util.Map;
 
 import ca.ntro.core.exceptions.Break;
 import ca.ntro.core.graphs.Direction;
+import ca.ntro.core.graphs.SearchOptionsNtro;
+import ca.ntro.core.graphs.SearchStrategy;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
@@ -219,10 +221,11 @@ public class      TaskNtro<T  extends Task<T,AT,TG>,
 
 	protected <R> void reduceNeighborTasks(Direction direction, ResultNtro<R> result, TaskReducer<T, AT, TG, R> reducer) {
 
-		TaskGraphSearchOptions options = new TaskGraphSearchOptions();
+		SearchOptionsNtro options = new SearchOptionsNtro();
+		options.setSearchStrategy(SearchStrategy.DEPTH_FIRST_SEARCH);
 		options.setDirections(new Direction[] {direction});
 		options.setMaxDistance(1);
-		options.setSortEdgesByName(true);
+		options.setSortEdgesByName(false);
 
 		getNode().reduceReachableNodes(options, (__, walked, node) -> {
 			

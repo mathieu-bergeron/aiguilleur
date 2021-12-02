@@ -8,7 +8,7 @@ import ca.ntro.core.graphs.EdgeTypeNtro;
 import ca.ntro.core.graphs.EdgeReducer;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeId;
-import ca.ntro.core.graphs.SearchOptionsNtro;
+import ca.ntro.core.graphs.SearchOptionsBuilder;
 import ca.ntro.core.graphs.SearchOptionsNtro;
 import ca.ntro.core.graphs.generic_graph.graph_strcuture.EdgesByDirection;
 import ca.ntro.core.graphs.generic_graph.graph_strcuture.EdgesByDirectionNtro;

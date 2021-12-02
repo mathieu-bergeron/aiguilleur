@@ -13,8 +13,6 @@ import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.EdgeAlreadyAddedException;
 import ca.ntro.core.graphs.EdgeTypeNtro;
 import ca.ntro.core.graphs.NodeAlreadyAddedException;
-import ca.ntro.core.graphs.SearchOptionsNtro;
-import ca.ntro.core.graphs.SearchOptionsNtro;
 import ca.ntro.core.graphs.SearchStrategy;
 import ca.ntro.core.initialization.InitializerTest;
 import ca.ntro.core.initialization.Ntro;
@@ -38,7 +36,7 @@ public class GraphTests {
 	@Test
 	public void simpleGraph00() throws Throwable {
 
-		GraphBuilder<GraphNode, GraphEdge, GraphSearchOptions> builder = GraphBuilder.newBuilder("simpleGraph00");
+		GraphBuilder<GraphNode, GraphEdge, GraphSearchOptionsBuilder> builder = GraphBuilder.newBuilder("simpleGraph00");
 		
 		GraphNode nodeA = new GraphNode("A");
 		GraphNode nodeB = new GraphNode("B");
@@ -48,13 +46,13 @@ public class GraphTests {
 
 		nodeA.addEdge("AB", nodeB);
 		
-		Graph<GraphNode, GraphEdge, GraphSearchOptions> graph = builder.toGraph();
+		Graph<GraphNode, GraphEdge, GraphSearchOptionsBuilder> graph = builder.toGraph();
 		graph.write(Ntro.graphWriter());
 	}
 
 	@Test
 	public void reachableEdgesDepthFirst01() throws Throwable {
-		GraphBuilder<GraphNode, GraphEdge, GraphSearchOptions> builder = GraphBuilder.newBuilder("reachableEdgesDepthFirst01");
+		GraphBuilder<GraphNode, GraphEdge, GraphSearchOptionsBuilder> builder = GraphBuilder.newBuilder("reachableEdgesDepthFirst01");
 
 		GraphNode nodeA = new GraphNode("A");
 		GraphNode nodeB = new GraphNode("B");
@@ -68,20 +66,19 @@ public class GraphTests {
 		nodeA.addEdge("AB", nodeB);
 		nodeB.addEdge("BC", nodeC);
 
-		Graph<GraphNode, GraphEdge, GraphSearchOptions> graph = builder.toGraph();
+		Graph<GraphNode, GraphEdge, GraphSearchOptionsBuilder> graph = builder.toGraph();
 		graph.write(Ntro.graphWriter());
 
-		GraphSearchOptions oneStepOptions = new GraphSearchOptions();
+		GraphSearchOptionsBuilderNtro oneStepOptions = new GraphSearchOptionsBuilderNtro();
 		oneStepOptions.setSearchStrategy(SearchStrategy.DEPTH_FIRST_SEARCH);
-		oneStepOptions.setDirections(new Direction[] {Direction.FORWARD});
+		oneStepOptions.toSearchOptions().setDirections(new Direction[] {Direction.FORWARD});
 		oneStepOptions.setMaxDistance(1);
-
 		
-		List<DirectedEdgeTriple<GraphNode, GraphEdge, GraphSearchOptions>> edges = new ArrayList<>();
+		List<DirectedEdgeTriple<GraphNode, GraphEdge, GraphSearchOptionsBuilder>> edges = new ArrayList<>();
 
 		nodeA.forEachReachableEdge(oneStepOptions, (walkedEdges, edge) -> {
 
-			edges.add(new DirectedEdgeTriple<GraphNode,GraphEdge,GraphSearchOptions>(edge.from(), edge.type(), edge.to()));
+			edges.add(new DirectedEdgeTriple<GraphNode,GraphEdge,GraphSearchOptionsBuilder>(edge.from(), edge.type(), edge.to()));
 		});
 
 		Ntro.asserter().assertEquals(2, edges.size());
@@ -98,7 +95,7 @@ public class GraphTests {
 	public void nodeAlreadyAddedException() {
 		ExceptionThrowerMock exceptionThrower = registerMockExceptionThrower();
 
-		GraphBuilder<GraphNode,GraphEdge,GraphSearchOptions> builder = GraphBuilder.newBuilder();
+		GraphBuilder<GraphNode,GraphEdge,GraphSearchOptionsBuilder> builder = GraphBuilder.newBuilder();
 		
 		GraphNode nodeA = new GraphNode("A");
 		GraphNode nodeB = new GraphNode("A");
@@ -113,7 +110,7 @@ public class GraphTests {
 	public void edgeAlreadyAddedException() {
 		ExceptionThrowerMock exceptionThrower = registerMockExceptionThrower();
 
-		GraphBuilder<GraphNode,GraphEdge,GraphSearchOptions> builder = GraphBuilder.newBuilder();
+		GraphBuilder<GraphNode,GraphEdge,GraphSearchOptionsBuilder> builder = GraphBuilder.newBuilder();
 		
 		GraphNode nodeA = new GraphNode("A");
 
@@ -130,7 +127,7 @@ public class GraphTests {
 	public void edgeAlreadyAddedExceptionUndirected() {
 		ExceptionThrowerMock exceptionThrower = registerMockExceptionThrower();
 
-		GraphBuilder<GraphNode,GraphEdge,GraphSearchOptions> builder = GraphBuilder.newBuilder();
+		GraphBuilder<GraphNode,GraphEdge,GraphSearchOptionsBuilder> builder = GraphBuilder.newBuilder();
 		
 		GraphNode nodeA = new GraphNode("A");
 		GraphNode nodeB = new GraphNode("B");

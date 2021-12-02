@@ -9,4 +9,6 @@ public interface SearchOptions {
 	Optionnal<Integer> maxDistance();
 	boolean sortEdgesByName();
 
+	void copyOptions(SearchOptions searchOptions);
+
 }

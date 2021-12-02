@@ -14,7 +14,7 @@ import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class ObjectNodeNtro 
 
-	   extends        NodeNtro<ObjectNode, ReferenceEdge, ObjectGraphSearchOptions>
+	   extends        NodeNtro<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder>
 
 	   implements     ObjectNode {
 	
@@ -82,7 +82,7 @@ public abstract class ObjectNodeNtro
 	@Override
 	protected <R> void _reduceEdgesByType(EdgeType edgeType, 
 			                              ResultNtro<R> result, 
-			                              EdgeReducer<ObjectNode, ReferenceEdge, ObjectGraphSearchOptions, R> reducer) {
+			                              EdgeReducer<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder, R> reducer) {
 
 		if(result.hasException()) {
 			return;

@@ -1,16 +1,14 @@
 package ca.ntro.core.reflection.object_graph;
 
-import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.GraphId;
 import ca.ntro.core.graphs.NodeReducer;
-import ca.ntro.core.graphs.directed_graph.DirectedGraphSearchOptions;
 import ca.ntro.core.graphs.generic_graph.GenericGraphNtro;
 import ca.ntro.core.path.Path;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class ObjectGraphNtro 
 
-       extends GenericGraphNtro<ObjectNode, ReferenceEdge, ObjectGraphSearchOptions> 
+       extends GenericGraphNtro<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder> 
 
        implements ObjectGraph {
 
@@ -60,12 +58,12 @@ public abstract class ObjectGraphNtro
 	}
 
 	@Override
-	protected ObjectGraphSearchOptions defaultSearchOptions() {
-		return new ObjectGraphSearchOptions();
+	protected ObjectGraphSearchOptionsBuilder defaultSearchOptions() {
+		return new ObjectGraphSearchOptionsBuilderNtro();
 	}
 
 	@Override
-	protected <R> void _reduceStartNodes(ResultNtro<R> result, NodeReducer<ObjectNode, ReferenceEdge, ObjectGraphSearchOptions, R> reducer) {
+	protected <R> void _reduceStartNodes(ResultNtro<R> result, NodeReducer<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder, R> reducer) {
 		if(result.hasException()) {
 			return;
 		}
@@ -93,7 +91,7 @@ public abstract class ObjectGraphNtro
 
 	}
 
-	private <R> void _reduceStartNode(ResultNtro<R> result, Path objectPath, Object object, NodeReducer<ObjectNode, ReferenceEdge, ObjectGraphSearchOptions, R> reducer) {
+	private <R> void _reduceStartNode(ResultNtro<R> result, Path objectPath, Object object, NodeReducer<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder, R> reducer) {
 		if(result.hasException()) {
 			return;
 		}

@@ -14,9 +14,9 @@ import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.ReachableNodeReducer;
 import ca.ntro.core.graphs.ReachableNodeVisitor;
 import ca.ntro.core.graphs.ReachableStepReducer;
+import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.graphs.SearchOptionsBuilder;
 import ca.ntro.core.graphs.ReachableEdgeVisitor;
-import ca.ntro.core.graphs.SearchOptionsNtro;
 import ca.ntro.core.graphs.SearchOptionsNtro;
 import ca.ntro.core.graphs.SearchStrategy;
 import ca.ntro.core.graphs.WalkReducer;
@@ -130,12 +130,12 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 		
-		_reduceReachableNodes(options, result, reducer);
+		_reduceReachableNodes(options.toSearchOptions(), result, reducer);
 		
 		return result;
 	}
 
-	protected <R> void _reduceReachableNodes(SO options, 
+	protected <R> void _reduceReachableNodes(SearchOptions options, 
 			                                 ResultNtro<R> result, 
 			                                 ReachableNodeReducer<N,E,SO,R> reducer) {
 
@@ -145,7 +145,7 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 		
 		Set<String> visitedNodes = new HashSet<>();
 		
-		forEachReachableEdge(options, (walked, edge) -> {
+		_forEachReachableEdge(options, (walked, edge) -> {
 			if(visitedNodes.contains(edge.to().id().toKey().toString())) {
 				return;
 			}
@@ -171,13 +171,20 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 
 	@Override
 	public void forEachReachableEdge(SO options, ReachableEdgeVisitor<N,E,SO> visitor) {
-		reduceReachableEdges(options, null, (accumulator, walked, edge) -> {
+		_forEachReachableEdge(options.toSearchOptions(), visitor);
+	}
+
+	protected <R> void _forEachReachableEdge(SearchOptions options, ReachableEdgeVisitor<N,E,SO> visitor) {
+		ResultNtro<R> result = new ResultNtro<R>(null);
+
+		_reduceReachableEdges(options, result, (accumulator, walked, edge) -> {
 
 			visitor.visitReachableEdge(walked, edge);
 
 			return null;
-
-		}).throwException();
+		});
+		
+		result.throwException();
 	}
 
 	@Override
@@ -189,12 +196,12 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 	public <R> Result<R> reduceReachableEdges(SO options, R initialValue, ReachableStepReducer<N,E,SO,R> reducer) {
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 
-		_reduceReachableEdges(options, result, reducer);
+		_reduceReachableEdges(options.toSearchOptions(), result, reducer);
 		
 		return result;
 	}
 
-	protected <R> void _reduceReachableEdges(SO options, 
+	protected <R> void _reduceReachableEdges(SearchOptions options, 
 			                                 ResultNtro<R> result, 
 			                                 ReachableStepReducer<N,E,SO,R> reducer) {
 		
@@ -207,16 +214,17 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 
 		}else {
 
-	        SO oneStepOptions = options.createClone();
+	        SearchOptionsNtro oneStepOptions = new SearchOptionsNtro();
+	        oneStepOptions.copyOptions(options);
 			oneStepOptions.setSearchStrategy(SearchStrategy.DEPTH_FIRST_SEARCH);
 			oneStepOptions.setMaxDistance(1);
-
+ 
 			_reduceReachableEdgesBreadthFirst(options, oneStepOptions, visitedEdges, walked, result, reducer);
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	protected <R> void _reduceReachableEdgesDepthFirst(SO options, 
+	protected <R> void _reduceReachableEdgesDepthFirst(SearchOptions options, 
 			                                           Set<String> visitedEdges,
 			                                           Walk<N,E,SO> walked,
 			                                           ResultNtro<R> result, 
@@ -272,8 +280,8 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 	}
 
 	@SuppressWarnings("unchecked")
-	protected <R> void _reduceReachableEdgesBreadthFirst(SO options, 
-			                                             SO oneStepOptions,
+	protected <R> void _reduceReachableEdgesBreadthFirst(SearchOptions options, 
+			                                             SearchOptions oneStepOptions,
 			                                             Set<String> visitedEdges,
 			                                             Walk<N,E,SO> walked,
 			                                             ResultNtro<R> result, 

@@ -15,7 +15,7 @@ import ca.ntro.core.initialization.Ntro;
 
 public class      InternalHierarchicalGraphWriterNtro<N extends HierarchicalNode<N,E,SO>,
                                                       E extends Edge<N,E,SO>,
-													  SO extends SearchOptionsNtro>
+													  SO extends HierarchicalGraphSearchOptionsBuilder>
 
        extends    InternalGraphWriterNtro<N,E,SO>
 

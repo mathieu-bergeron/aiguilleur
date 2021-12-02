@@ -4,10 +4,11 @@ import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeType;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.SearchOptionsNtro;
+import ca.ntro.core.graphs.graph.GraphSearchOptionsBuilder;
 
 public class DirectedEdgeTriple<N extends Node<N,E,SO>,
                                 E extends Edge<N,E,SO>,
-                                SO extends SearchOptionsNtro> {
+                                SO extends GraphSearchOptionsBuilder> {
 	
 	protected N from;
 	protected EdgeType edgeType;

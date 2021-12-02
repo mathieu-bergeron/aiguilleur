@@ -2,18 +2,17 @@ package ca.ntro.core.graphs.directed_graph;
 
 import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.Node;
-import ca.ntro.core.graphs.SearchOptionsNtro;
 import ca.ntro.core.graphs.generic_graph.GenericGraphBuilder;
 
 public interface DirectedGraphBuilder<N extends Node<N,E,SO>,
                                       E extends Edge<N,E,SO>,
-                                      SO extends SearchOptionsNtro>
+                                      SO extends DirectedGraphSearchOptionsBuilder>
 
        extends   GenericGraphBuilder<N,E,SO,DirectedGraph<N,E,SO>> {
 
 	public static <N extends Node<N,E,SO>,
 				   E extends Edge<N,E,SO>,
-				   SO extends SearchOptionsNtro>
+				   SO extends DirectedGraphSearchOptionsBuilder>
 	
 	       DirectedGraphBuilder<N,E,SO> 
 
@@ -24,7 +23,7 @@ public interface DirectedGraphBuilder<N extends Node<N,E,SO>,
 
 	public static <N extends Node<N,E,SO>,
 				   E extends Edge<N,E,SO>,
-				   SO extends SearchOptionsNtro>
+				   SO extends DirectedGraphSearchOptionsBuilder>
 	
       	    DirectedGraphBuilder<N,E,SO> newBuilder(String graphName){
 

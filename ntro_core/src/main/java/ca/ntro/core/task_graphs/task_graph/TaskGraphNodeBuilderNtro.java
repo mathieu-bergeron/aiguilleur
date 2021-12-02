@@ -1,6 +1,5 @@
 package ca.ntro.core.task_graphs.task_graph;
 
-import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagSearchOptions;
 import ca.ntro.core.graphs.hierarchical_graph.HierarchicalNodeBuilderNtro;
 
 public class TaskGraphNodeBuilderNtro<T  extends Task<T,AT,TG>, 
@@ -9,7 +8,7 @@ public class TaskGraphNodeBuilderNtro<T  extends Task<T,AT,TG>,
 
       extends HierarchicalNodeBuilderNtro<TaskGraphNode<T,AT,TG>,
                                           TaskGraphEdge<T,AT,TG>,
-                                          TaskGraphSearchOptions>
+                                          TaskGraphSearchOptionsBuilder>
 
 	  implements TaskGraphNodeBuilder<T,AT,TG> {
 

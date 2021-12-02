@@ -6,7 +6,7 @@ import ca.ntro.core.graphs.EdgeType;
 import ca.ntro.core.graphs.EdgeNameNtro;
 import ca.ntro.core.graphs.generic_graph.EdgeNtro;
 
-public class GraphEdge extends EdgeNtro<GraphNode, GraphEdge, GraphSearchOptions> {
+public class GraphEdge extends EdgeNtro<GraphNode, GraphEdge, GraphSearchOptionsBuilder> {
 
 	public GraphEdge(GraphNode from, EdgeType edgeName, GraphNode to) {
 		super(from, edgeName, to);

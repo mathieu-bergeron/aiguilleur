@@ -64,4 +64,12 @@ public class SearchOptionsNtro implements SearchOptions {
 	public boolean sortEdgesByName() {
 		return getSortEdgesByName();
 	}
+
+	@Override
+	public void copyOptions(SearchOptions searchOptions) {
+		setSearchStrategy(searchOptions.searchStrategy());
+		setMaxDistance(searchOptions.maxDistance());
+		setDirections(searchOptions.directions());
+		setSortEdgesByName(searchOptions.sortEdgesByName());
+	}
 }

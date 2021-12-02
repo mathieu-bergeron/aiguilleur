@@ -6,13 +6,15 @@ import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.ReachableNodeReducer;
 import ca.ntro.core.graphs.ReachableNodeVisitor;
+import ca.ntro.core.graphs.SearchOptions;
+import ca.ntro.core.graphs.SearchOptionsNtro;
 import ca.ntro.core.graphs.generic_graph.NodeNtro;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class      HierarchicalNodeNtro<N extends HierarchicalNode<N,E,SO>,
  									            E extends Edge<N,E,SO>,
- 									            SO extends HierarchicalGraphSearchOptions<SO>>
+ 									            SO extends HierarchicalGraphSearchOptionsBuilder>
 
        extends    NodeNtro<N,E,SO> 
 
@@ -93,9 +95,11 @@ public abstract class      HierarchicalNodeNtro<N extends HierarchicalNode<N,E,S
 
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 		
-		SO subNodeOptions = options.createClone();
-		options.setDirections(new Direction[] {Direction.DOWN});
-				
+		SearchOptionsNtro subNodeOptions = new SearchOptionsNtro();
+		subNodeOptions.copyOptions(options.toSearchOptions());
+
+		subNodeOptions.setDirections(new Direction[] {Direction.DOWN});
+
 		_reduceReachableNodes(subNodeOptions, result, reducer);
 		
 		return result;
@@ -129,7 +133,8 @@ public abstract class      HierarchicalNodeNtro<N extends HierarchicalNode<N,E,S
 
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 		
-		SO parentNodeOptions = options.createClone();
+		SearchOptionsNtro parentNodeOptions = new SearchOptionsNtro();
+		parentNodeOptions.copyOptions(options.toSearchOptions());
 		parentNodeOptions.setDirections(new Direction[] {Direction.UP});
 		
 		_reduceReachableNodes(parentNodeOptions, result, reducer);

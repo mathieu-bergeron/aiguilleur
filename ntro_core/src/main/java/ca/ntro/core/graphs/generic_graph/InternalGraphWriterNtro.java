@@ -3,6 +3,7 @@ package ca.ntro.core.graphs.generic_graph;
 import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeNotFoundException;
+import ca.ntro.core.graphs.SearchOptionsBuilder;
 import ca.ntro.core.graphs.SearchOptionsNtro;
 import ca.ntro.core.graphs.writers.EdgeSpecNtro;
 import ca.ntro.core.graphs.writers.GraphWriter;
@@ -12,7 +13,7 @@ import ca.ntro.core.initialization.Ntro;
 
 public class      InternalGraphWriterNtro<N extends Node<N,E,SO>,
                                           E extends Edge<N,E,SO>,
-                                          SO extends SearchOptionsNtro> 
+                                          SO extends SearchOptionsBuilder> 
 
        implements InternalGraphWriter<N,E,SO> {
 

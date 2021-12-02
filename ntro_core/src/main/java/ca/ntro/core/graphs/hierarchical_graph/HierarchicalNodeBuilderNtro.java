@@ -14,7 +14,7 @@ import ca.ntro.core.wrappers.result.ResultNtro;
 
 public class HierarchicalNodeBuilderNtro<N extends HierarchicalNode<N,E,SO>,
  									     E extends Edge<N,E,SO>,
- 									     SO extends HierarchicalGraphSearchOptions<SO>>
+ 									     SO extends HierarchicalGraphSearchOptionsBuilder>
 
        extends     HierarchicalNodeNtro<N,E,SO> 
 
@@ -86,6 +86,6 @@ public class HierarchicalNodeBuilderNtro<N extends HierarchicalNode<N,E,SO>,
 	@SuppressWarnings("unchecked")
 	@Override
 	protected SO defaultSearchOptions() {
-		return (SO) new HierarchicalGraphSearchOptions();
+		return (SO) new HierarchicalGraphSearchOptionsBuilderNtro();
 	}
 }

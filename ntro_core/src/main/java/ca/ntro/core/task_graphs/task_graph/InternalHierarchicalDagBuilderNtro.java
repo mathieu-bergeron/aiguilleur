@@ -9,10 +9,10 @@ public class InternalHierarchicalDagBuilderNtro<T  extends Task<T,AT,TG>,
 
        extends HierarchicalDagBuilderNtro<TaskGraphNode<T,AT,TG>,
 	                                      TaskGraphEdge<T,AT,TG>,
-	                                      TaskGraphSearchOptions,
+	                                      TaskGraphSearchOptionsBuilder,
 	                                      HierarchicalDag<TaskGraphNode<T,AT,TG>,
 	                                                      TaskGraphEdge<T,AT,TG>,
-	                                                      TaskGraphSearchOptions>>
+	                                                      TaskGraphSearchOptionsBuilder>>
 
 	   implements InternalHierarchicalDagBuilder<T,AT,TG> {
 

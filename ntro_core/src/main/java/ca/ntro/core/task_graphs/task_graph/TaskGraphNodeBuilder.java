@@ -9,6 +9,6 @@ public interface TaskGraphNodeBuilder <T extends Task<T,AT,TG>,
        extends TaskGraphNode<T,AT,TG>,
                HierarchicalNodeBuilder<TaskGraphNode<T,AT,TG>, 
                                        TaskGraphEdge<T,AT,TG>, 
-                                       TaskGraphSearchOptions> {
+                                       TaskGraphSearchOptionsBuilder> {
 
 }

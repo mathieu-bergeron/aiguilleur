@@ -31,10 +31,7 @@ public class      SearchOptionsBuilderNtro
 
 	@Override
 	public void copyOptions(SearchOptions searchOptions) {
-		getSearchOptions().setSearchStrategy(searchOptions.searchStrategy());
-		getSearchOptions().setMaxDistance(searchOptions.maxDistance());
-		getSearchOptions().setDirections(searchOptions.directions());
-		getSearchOptions().setSortEdgesByName(searchOptions.sortEdgesByName());
+		searchOptions.copyOptions(searchOptions);
 	}
 
 	@Override

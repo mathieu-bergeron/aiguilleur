@@ -7,7 +7,7 @@ import ca.ntro.core.graphs.generic_graph.InternalGraphWriter;
 
 public class      HierarchicalGraphBuilderNtro<N extends HierarchicalNode<N,E,SO>,
 											   E extends Edge<N,E,SO>,
-											   SO extends SearchOptionsNtro>
+											   SO extends HierarchicalGraphSearchOptionsBuilder>
 
        extends    GenericGraphBuilderNtro<N,E,SO,HierarchicalGraph<N,E,SO>> 
 
@@ -28,6 +28,6 @@ public class      HierarchicalGraphBuilderNtro<N extends HierarchicalNode<N,E,SO
 
 	@Override
 	protected SO defaultSearchOptions() {
-		return (SO) new HierarchicalGraphSearchOptions();
+		return (SO) new HierarchicalGraphSearchOptionsBuilderNtro();
 	}
 }

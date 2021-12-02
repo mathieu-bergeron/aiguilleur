@@ -10,7 +10,7 @@ import ca.ntro.core.graphs.NodeAlreadyAddedException;
 import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.NodeNotFoundException;
 import ca.ntro.core.graphs.NodeReducer;
-import ca.ntro.core.graphs.SearchOptionsNtro;
+import ca.ntro.core.graphs.SearchOptionsBuilder;
 import ca.ntro.core.graphs.SearchOptionsNtro;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.wrappers.result.Result;
@@ -18,7 +18,7 @@ import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
                                               E extends Edge<N,E,SO>,
-                                              SO extends SearchOptionsNtro,
+                                              SO extends SearchOptionsBuilder,
                                               G extends GenericGraph<N,E,SO>> 
 
        extends        GenericGraphNtro<N,E,SO>

@@ -8,5 +8,5 @@ public interface TaskGraphEdge<T  extends Task<T,AT,TG>,
 
        extends Edge<TaskGraphNode<T,AT,TG>, 
                     TaskGraphEdge<T,AT,TG>, 
-                    TaskGraphSearchOptions> {
+                    TaskGraphSearchOptionsBuilder> {
 }

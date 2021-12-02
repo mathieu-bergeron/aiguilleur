@@ -8,7 +8,7 @@ public interface InternalTaskGraphWriter<T  extends Task<T,AT,TG>,
 
        extends InternalHierarchicalDagWriter<TaskGraphNode<T,AT,TG>,
 	                                         TaskGraphEdge<T,AT,TG>,
-	                                         TaskGraphSearchOptions> {
+	                                         TaskGraphSearchOptionsBuilder> {
 	
 
 }

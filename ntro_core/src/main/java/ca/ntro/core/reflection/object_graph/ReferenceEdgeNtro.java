@@ -7,7 +7,7 @@ import ca.ntro.core.graphs.generic_graph.EdgeNtro;
 
 public class ReferenceEdgeNtro 
        
-       extends EdgeNtro<ObjectNode, ReferenceEdge, ObjectGraphSearchOptions>
+       extends EdgeNtro<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder>
 
 	   implements ReferenceEdge {
 
