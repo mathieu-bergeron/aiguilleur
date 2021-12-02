@@ -112,13 +112,18 @@ public class      TaskNtro<T  extends Task<T,AT,TG>,
 	
 	protected boolean areEntryTasksDone() {
 		return ifAllEntryTasksMatch(entryTask -> {
-			return entryTask.result().hasValue();
+			return isAtomicTaskDone(entryTask);
 		}); 
+	}
+
+	private boolean isAtomicTaskDone(AT atomicTask) {
+		return atomicTask.result().hasValue()
+				|| atomicTask.result().hasException();
 	}
 
 	protected boolean areExitTasksDone() {
 		return ifAllExitTasksMatch(exitTask -> {
-			return exitTask.result().hasValue();
+			return isAtomicTaskDone(exitTask);
 		}); 
 	}
 
@@ -215,7 +220,7 @@ public class      TaskNtro<T  extends Task<T,AT,TG>,
 
 	protected <R> void reduceNeighborTasks(Direction direction, ResultNtro<R> result, TaskReducer<T, AT, TG, R> reducer) {
 
-		HierarchicalDagSearchOptions options = new HierarchicalDagSearchOptions();
+		TaskGraphSearchOptions options = new TaskGraphSearchOptions();
 		options.setDirections(new Direction[] {direction});
 		options.setMaxDistance(1);
 		options.setSortEdgesByName(true);
