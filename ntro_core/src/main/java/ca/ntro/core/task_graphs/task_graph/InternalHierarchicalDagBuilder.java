@@ -6,7 +6,7 @@ import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagSearchOptionsBuilder;
 
 public interface InternalHierarchicalDagBuilder<T  extends Task<T,AT,TG>, 
                                                 AT extends AtomicTask<T,AT,TG>,
-                                                TG extends TaskGraph<T,AT,TG>> 
+                                                TG extends TaskGraph<T,AT>> 
 
 	   extends HierarchicalDagBuilder<TaskGraphNode<T,AT,TG>,
 	                                  TaskGraphEdge<T,AT,TG>,

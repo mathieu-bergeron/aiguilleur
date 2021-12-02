@@ -2,16 +2,17 @@ package ca.ntro.core.task_graphs.task_graph;
 
 import ca.ntro.core.graphs.writers.GraphWriter;
 
-public interface TaskGraph<T  extends Task<T,AT,TG>, 
-                           AT extends AtomicTask<T,AT,TG>,
-                           TG extends TaskGraph<T,AT,TG>> {
+public interface TaskGraph<T  extends Task<T,AT,?>, 
+                           AT extends AtomicTask<T,AT,?>> {
 
 	T findTask(TaskId id);
 	
-	T createTask(TaskId id);
-	T createTask(String id);
+	// JSweet error: "supplied parameters do not match any signature of call target"
+	//T createTask(String id);
 
-	TG addTask(T task);
+	T createTask(TaskId id);
+
+	void addTask(T task);
 	
 	void write(GraphWriter writer);
 }

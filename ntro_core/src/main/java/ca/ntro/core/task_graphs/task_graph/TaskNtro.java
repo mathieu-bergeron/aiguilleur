@@ -12,7 +12,7 @@ import ca.ntro.core.wrappers.result.ResultNtro;
 
 public class      TaskNtro<T  extends Task<T,AT,TG>, 
                            AT extends AtomicTask<T,AT,TG>,
-                           TG extends TaskGraph<T,AT,TG>> 
+                           TG extends TaskGraph<T,AT>> 
 
 	   implements Task<T,AT,TG> {
 	

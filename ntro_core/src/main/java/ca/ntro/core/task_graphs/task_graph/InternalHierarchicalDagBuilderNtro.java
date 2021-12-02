@@ -5,7 +5,7 @@ import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagBuilderNtro;
 
 public class InternalHierarchicalDagBuilderNtro<T  extends Task<T,AT,TG>, 
                                                 AT extends AtomicTask<T,AT,TG>,
-                                                TG extends TaskGraph<T,AT,TG>> 
+                                                TG extends TaskGraph<T,AT>> 
 
        extends HierarchicalDagBuilderNtro<TaskGraphNode<T,AT,TG>,
 	                                      TaskGraphEdge<T,AT,TG>,

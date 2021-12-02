@@ -4,7 +4,7 @@ import ca.ntro.core.exceptions.Break;
 
 public interface TaskMatcher<T  extends Task<T,AT,TG>, 
                              AT extends AtomicTask<T,AT,TG>,
-                             TG extends TaskGraph<T,AT,TG>> {
+                             TG extends TaskGraph<T,AT>> {
 	
 	boolean matches(T task) throws Break;
 

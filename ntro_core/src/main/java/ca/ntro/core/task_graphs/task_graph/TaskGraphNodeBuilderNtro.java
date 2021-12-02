@@ -4,7 +4,7 @@ import ca.ntro.core.graphs.hierarchical_graph.HierarchicalNodeBuilderNtro;
 
 public class TaskGraphNodeBuilderNtro<T  extends Task<T,AT,TG>, 
                                       AT extends AtomicTask<T,AT,TG>,
-                                      TG extends TaskGraph<T,AT,TG>> 
+                                      TG extends TaskGraph<T,AT>> 
 
       extends HierarchicalNodeBuilderNtro<TaskGraphNode<T,AT,TG>,
                                           TaskGraphEdge<T,AT,TG>,

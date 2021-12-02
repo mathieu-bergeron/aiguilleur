@@ -26,18 +26,22 @@ public class TaskGraphTests {
 	public void simpleTaskGraph01() {
 		
 		MockTaskGraph graph = new MockTaskGraph("simpleTaskGraph01");
-		
-		MockTask taskA = graph.createTask("A");
-		MockTask taskAA = graph.createTask("AA");
 
-		MockTask taskB = graph.createTask("B");
+	    // JSweet error: "supplied parameters do not match any signature of call target"
+		// MockTask taskA = graph.createTask("A");
 		
-		taskA.addSubTask(taskAA)
-		     .addNextTask(taskB);
+		MockTask taskA = graph.createTask(new TaskIdNtro("A"));
+		MockTask taskAA = graph.createTask(new TaskIdNtro("AA"));
 
-		graph.addTask(taskA)
-		     .addTask(taskB)
-		     .addTask(taskAA)
-			 .write(Ntro.graphWriter());
+		MockTask taskB = graph.createTask(new TaskIdNtro("B"));
+		
+		taskA.addSubTask(taskAA);
+		taskA.addNextTask(taskB);
+
+		graph.addTask(taskA);
+		graph.addTask(taskB);
+		graph.addTask(taskAA);
+
+		graph.write(Ntro.graphWriter());
 	}
 }

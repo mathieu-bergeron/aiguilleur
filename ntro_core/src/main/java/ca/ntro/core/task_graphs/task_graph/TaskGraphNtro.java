@@ -4,9 +4,9 @@ import ca.ntro.core.graphs.writers.GraphWriter;
 
 public abstract class TaskGraphNtro<T  extends Task<T,AT,TG>, 
                                     AT extends AtomicTask<T,AT,TG>,
-                                    TG extends TaskGraph<T,AT,TG>> 
+                                    TG extends TaskGraph<T,AT>> 
 
-	   implements TaskGraph<T,AT,TG> {
+	   implements TaskGraph<T,AT> {
 	
 	private InternalHierarchicalDagBuilder<T,AT,TG> hdag = new InternalHierarchicalDagBuilderNtro<>();
 
@@ -34,18 +34,16 @@ public abstract class TaskGraphNtro<T  extends Task<T,AT,TG>,
 	}
 
 	@Override
-	public TG addTask(T task) {
+	public void addTask(T task) {
 		TaskGraphNode<T,AT,TG> node = new TaskGraphNodeBuilderNtro<T,AT,TG>(task.id());
 
 		hdag.addNode(node);
-
-		return (TG) this;
 	}
 
-	@Override
+	/*
 	public T createTask(String id) {
 		return createTask(new TaskIdNtro(id));
-	}
+	}*/
 
 	@Override
 	public T createTask(TaskId id) {

@@ -4,7 +4,7 @@ import ca.ntro.core.wrappers.result.Result;
 
 public interface Task<T  extends Task<T,AT,TG>, 
                       AT extends AtomicTask<T,AT,TG>,
-                      TG extends TaskGraph<T,AT,TG>> {
+                      TG extends TaskGraph<T,AT>> {
 
 	TaskId id();
 	TG parentGraph();

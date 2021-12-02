@@ -4,7 +4,7 @@ import ca.ntro.core.graphs.Edge;
 
 public interface TaskGraphEdge<T  extends Task<T,AT,TG>, 
                                AT extends AtomicTask<T,AT,TG>,
-                               TG extends TaskGraph<T,AT,TG>> 
+                               TG extends TaskGraph<T,AT>> 
 
        extends Edge<TaskGraphNode<T,AT,TG>, 
                     TaskGraphEdge<T,AT,TG>, 
