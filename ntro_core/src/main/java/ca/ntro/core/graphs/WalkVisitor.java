@@ -5,7 +5,7 @@ import ca.ntro.core.graphs.generic_graph.WalkId;
 
 public interface WalkVisitor<N extends Node<N,E,SO>,
                              E extends Edge<N,E,SO>,
-                             SO extends SearchOptions> {
+                             SO extends SearchOptionsNtro> {
 
 	void visitStep(Walk<N,E,SO> walked, WalkId remainingWalk, N n) throws Throwable;
 

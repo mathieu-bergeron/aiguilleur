@@ -5,7 +5,7 @@ import ca.ntro.core.wrappers.result.Result;
 
 public interface Node<N extends Node<N,E,SO>, 
                       E extends Edge<N,E,SO>,
-                      SO extends SearchOptions> {
+                      SO extends SearchOptionsBuilder> {
 
 	NodeId id();
 

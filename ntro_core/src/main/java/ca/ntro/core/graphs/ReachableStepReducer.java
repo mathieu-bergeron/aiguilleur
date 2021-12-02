@@ -4,7 +4,7 @@ import ca.ntro.core.graphs.generic_graph.Walk;
 
 public interface ReachableStepReducer<N extends Node<N,E,SO>,
                                       E extends Edge<N,E,SO>,
-                                      SO extends SearchOptions,
+                                      SO extends SearchOptionsNtro,
                                       R extends Object> {
 	
 	

@@ -1,16 +1,15 @@
 package ca.ntro.core.graphs;
 
-import ca.ntro.core.initialization.Factory;
 import ca.ntro.core.wrappers.optionnal.Optionnal;
 
-public class SearchOptionsNtro<SO extends SearchOptions<SO>> implements SearchOptions<SO> {
-	
+public class SearchOptionsNtro implements SearchOptions {
+
 	private SearchStrategy searchStrategy = SearchStrategy.DEPTH_FIRST_SEARCH;
 	private Optionnal<Integer> maxDistance = Optionnal.none(Integer.class);
-	private Direction[] directions = defaultDirections();
-	private boolean sortEdgesByName = defaultSortByEdgeNames();
-	
-	protected SearchStrategy getSearchStrategy() {
+	private Direction[] directions = new Direction[] {Direction.BACKWARD, Direction.FORWARD};
+	private boolean sortEdgesByName = false;
+
+	public SearchStrategy getSearchStrategy() {
 		return searchStrategy;
 	}
 
@@ -46,17 +45,6 @@ public class SearchOptionsNtro<SO extends SearchOptions<SO>> implements SearchOp
 		this.sortEdgesByName = sortEdgesByName;
 	}
 
-	public SearchOptionsNtro() {
-	}
-
-	protected Direction[] defaultDirections() {
-		return new Direction[] {Direction.FORWARD};
-	}
-
-	protected boolean defaultSortByEdgeNames() {
-		return false;
-	}
-
 	@Override
 	public SearchStrategy searchStrategy() {
 		return getSearchStrategy();
@@ -72,35 +60,8 @@ public class SearchOptionsNtro<SO extends SearchOptions<SO>> implements SearchOp
 		return getMaxDistance();
 	}
 
-
-	@Override
-	public boolean containsDirection(Direction direction) {
-		boolean contains = false;
-		for(Direction candidate : directions()) {
-			if(candidate == direction) {
-				contains = true;
-				break;
-			}
-		}
-		
-		return contains;
-	}
-
 	@Override
 	public boolean sortEdgesByName() {
 		return getSortEdgesByName();
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public SO createClone() {
-		SO clone = (SO) Factory.newInstance(this.getClass());
-
-		clone.setDirections(directions());
-		clone.setSearchStrategy(searchStrategy());
-		clone.setMaxDistance(maxDistance());
-		clone.setSortEdgesByName(sortEdgesByName());
-
-		return clone;
 	}
 }

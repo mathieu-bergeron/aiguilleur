@@ -15,7 +15,7 @@ import ca.ntro.core.graphs.ReachableNodeReducer;
 import ca.ntro.core.graphs.ReachableNodeVisitor;
 import ca.ntro.core.graphs.ReachableStepReducer;
 import ca.ntro.core.graphs.ReachableEdgeVisitor;
-import ca.ntro.core.graphs.SearchOptions;
+import ca.ntro.core.graphs.SearchOptionsNtro;
 import ca.ntro.core.graphs.SearchOptionsNtro;
 import ca.ntro.core.graphs.SearchStrategy;
 import ca.ntro.core.graphs.WalkReducer;
@@ -25,7 +25,7 @@ import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class NodeNtro<N extends Node<N,E,SO>, 
                                E extends Edge<N,E,SO>,
-                               SO extends SearchOptions<SO>> 
+                               SO extends SearchOptionsNtro<SO>> 
 
       implements      Node<N,E,SO> {
 	

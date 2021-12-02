@@ -13,7 +13,7 @@ import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.EdgeAlreadyAddedException;
 import ca.ntro.core.graphs.EdgeTypeNtro;
 import ca.ntro.core.graphs.NodeAlreadyAddedException;
-import ca.ntro.core.graphs.SearchOptions;
+import ca.ntro.core.graphs.SearchOptionsNtro;
 import ca.ntro.core.graphs.SearchOptionsNtro;
 import ca.ntro.core.graphs.SearchStrategy;
 import ca.ntro.core.initialization.InitializerTest;

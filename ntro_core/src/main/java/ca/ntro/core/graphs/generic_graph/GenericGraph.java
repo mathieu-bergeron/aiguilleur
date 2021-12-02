@@ -9,13 +9,13 @@ import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.NodeReducer;
 import ca.ntro.core.graphs.NodeVisitor;
-import ca.ntro.core.graphs.SearchOptions;
+import ca.ntro.core.graphs.SearchOptionsNtro;
 import ca.ntro.core.graphs.writers.GraphWriter;
 import ca.ntro.core.wrappers.result.Result;
 
 public interface GenericGraph<N extends Node<N,E,SO>, 
                               E extends Edge<N,E,SO>,
-                              SO extends SearchOptions> {
+                              SO extends SearchOptionsBuilder> {
 
 	GraphId id();
 	String label();

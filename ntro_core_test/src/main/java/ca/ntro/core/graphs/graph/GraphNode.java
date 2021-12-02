@@ -4,7 +4,7 @@ package ca.ntro.core.graphs.graph;
 import ca.ntro.core.graphs.EdgeType;
 import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.NodeIdNtro;
-import ca.ntro.core.graphs.SearchOptions;
+import ca.ntro.core.graphs.SearchOptionsNtro;
 import ca.ntro.core.graphs.generic_graph.NodeBuilderNtro;
 
 public class GraphNode extends NodeBuilderNtro<GraphNode, GraphEdge, GraphSearchOptions> {
