@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import ca.ntro.core.exceptions.Break;
+import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeType;
 import ca.ntro.core.graphs.EdgeReducer;
@@ -69,7 +70,7 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 		return getNodeId();
 	}
 
-	protected abstract <R> void _reduceEdgeTypes(ResultNtro<R> result, EdgeTypeReducer<R> reducer);
+	protected abstract <R> void _reduceEdgeTypesForDirection(Direction direction, ResultNtro<R> result, EdgeTypeReducer<R> reducer);
 	protected abstract <R> void _reduceEdgesByType(EdgeType edgeType, ResultNtro<R> result, EdgeReducer<N,E,SO,R> reducer);
 
 	@Override
@@ -86,13 +87,16 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 	@Override
 	public <R> Result<R> reduceEdges(R initialValue, EdgeReducer<N, E, SO, R> reducer) {
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
+		
+		for(Direction direction : Direction.values()) {
 
-		_reduceEdgeTypes(result, (__, edgeType) -> {
+			_reduceEdgeTypesForDirection(direction, result, (__, edgeType) -> {
 
-			_reduceEdgesByType(edgeType, result, reducer);
-			
-			return result.value();
-		});
+				_reduceEdgesByType(edgeType, result, reducer);
+				
+				return result.value();
+			});
+		}
 		
 		return result;
 	}
@@ -220,47 +224,47 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 		if(result.hasException()) {
 			return;
 		}
+		
+		for(Direction direction : options.directions()) {
 
-		_reduceEdgeTypes(result, (__, edgeType) -> {
-			if(!options.containsDirection(edgeType.direction())) {
-				return result.value();
-			}
+			_reduceEdgeTypesForDirection(direction, result, (__, edgeType) -> {
 
-			_reduceEdgesByType(edgeType, result, (___, edge) -> {
-				if(visitedEdges.contains(edge.id().toKey().toString())) {
-					return result.value();
-				}
-				
-				Walk<N,E,SO> newWalked = new WalkNtro<>(walked);
-				newWalked.add(edge);
-				
-				try {
-				
-					result.registerValue(reducer.reduceWalkedStep(result.value(), newWalked, edge));
-
-				}catch(Throwable t) {
+				_reduceEdgesByType(edgeType, result, (___, edge) -> {
+					if(visitedEdges.contains(edge.id().toKey().toString())) {
+						return result.value();
+					}
 					
-					result.registerException(t);
+					Walk<N,E,SO> newWalked = new WalkNtro<>(walked);
+					newWalked.add(edge);
+					
+					try {
+					
+						result.registerValue(reducer.reduceWalkedStep(result.value(), newWalked, edge));
+
+					}catch(Throwable t) {
+						
+						result.registerException(t);
+						return result.value();
+					}
+					
+					visitedEdges.add(edge.id().toKey().toString());
+
+					if(!(options.maxDistance().hasValue() 
+							&& newWalked.size() >= options.maxDistance().value())) {
+
+						((NodeNtro<N,E,SO>) edge.to())._reduceReachableEdgesDepthFirst(options, 
+																					   visitedEdges, 
+																					   newWalked,
+																					   result, 
+																					   reducer);
+					}
+
 					return result.value();
-				}
+				});
 				
-				visitedEdges.add(edge.id().toKey().toString());
-
-				if(!(options.maxDistance().hasValue() 
-						&& newWalked.size() >= options.maxDistance().value())) {
-
-					((NodeNtro<N,E,SO>) edge.to())._reduceReachableEdgesDepthFirst(options, 
-																				   visitedEdges, 
-																				   newWalked,
-																				   result, 
-																				   reducer);
-				}
-
 				return result.value();
 			});
-			
-			return result.value();
-		});
+		}
 	}
 
 	@SuppressWarnings("unchecked")

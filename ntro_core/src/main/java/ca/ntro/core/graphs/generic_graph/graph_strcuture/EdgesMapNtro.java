@@ -1,8 +1,10 @@
 package ca.ntro.core.graphs.generic_graph.graph_strcuture;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeType;
 import ca.ntro.core.graphs.EdgeReducer;
@@ -13,7 +15,7 @@ import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class EdgesMapNtro<N extends Node<N,E,SO>, 
                                    E extends Edge<N,E,SO>,
-                                   SO extends SearchOptions,
+                                   SO extends SearchOptions<SO>,
                                    SUBMAP extends EdgesMap<N,E,SO>>
 
 	   implements     EdgesMap<N,E,SO> {
@@ -29,10 +31,11 @@ public abstract class EdgesMapNtro<N extends Node<N,E,SO>,
 	}
 
 	protected abstract SUBMAP createSubMap();
+	protected abstract Collection<SUBMAP> subMapsForDirection(Direction direction);
 
 	protected abstract String getSubMapKey(E edge);
 	protected abstract String getSubMapKey(EdgeType edgeName);
-
+	
 	@Override
 	public boolean containsEdge(E edge) {
 		boolean contains = false;
@@ -61,17 +64,17 @@ public abstract class EdgesMapNtro<N extends Node<N,E,SO>,
 	}
 
 	@Override
-	public <R> void _reduceEdgeTypes(ResultNtro<R> result, EdgeTypeReducer<R> reducer) {
+	public <R> void _reduceEdgeTypesForDirection(Direction direction, ResultNtro<R> result, EdgeTypeReducer<R> reducer) {
 		if(result.hasException()) {
 			return;
 		}
 		
-		for(SUBMAP subMap: edgesMap.values()) {
+		for(SUBMAP subMap : subMapsForDirection(direction)) {
 			if(result.hasException()) {
-				break;
+				return;
 			}
 
-			subMap._reduceEdgeTypes(result, reducer);
+			subMap._reduceEdgeTypesForDirection(direction, result, reducer);
 		}
 	}
 

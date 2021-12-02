@@ -3,6 +3,7 @@ package ca.ntro.core.graphs.generic_graph.graph_strcuture;
 import java.util.HashMap;
 import java.util.Map;
 
+import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeType;
 import ca.ntro.core.graphs.EdgeReducer;
@@ -13,7 +14,7 @@ import ca.ntro.core.wrappers.result.ResultNtro;
 
 public class EdgesByToIdNtro<N extends Node<N,E,SO>, 
                              E extends Edge<N,E,SO>,
-                             SO extends SearchOptions> 
+                             SO extends SearchOptions<SO>> 
 
        implements EdgesByToId<N,E,SO> {
 
@@ -40,7 +41,7 @@ public class EdgesByToIdNtro<N extends Node<N,E,SO>,
 	}
 
 	@Override
-	public <R> void _reduceEdgeTypes(ResultNtro<R> result, EdgeTypeReducer<R> reducer) {
+	public <R> void _reduceEdgeTypesForDirection(Direction direction, ResultNtro<R> result, EdgeTypeReducer<R> reducer) {
 		if(result.hasException()) {
 			return;
 		}

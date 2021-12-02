@@ -6,7 +6,7 @@ import ca.ntro.core.graphs.SearchOptions;
 
 public interface EdgesByDirection<N extends Node<N,E,SO>, 
                                   E extends Edge<N,E,SO>,
-                                  SO extends SearchOptions> 
+                                  SO extends SearchOptions<SO>> 
 
        extends   EdgesMap<N,E,SO>  {
 }

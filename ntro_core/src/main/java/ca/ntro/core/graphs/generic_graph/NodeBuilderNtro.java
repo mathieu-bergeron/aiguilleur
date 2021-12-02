@@ -85,8 +85,8 @@ public abstract class NodeBuilderNtro<N extends Node<N,E,SO>,
 	}
 
 	@Override
-	protected <R> void _reduceEdgeTypes(ResultNtro<R> result, EdgeTypeReducer<R> reducer) {
-		getEdgesByDirection()._reduceEdgeTypes(result, reducer);
+	protected <R> void _reduceEdgeTypesForDirection(Direction direction, ResultNtro<R> result, EdgeTypeReducer<R> reducer) {
+		getEdgesByDirection()._reduceEdgeTypesForDirection(direction, result, reducer);
 	}
 
 	@Override

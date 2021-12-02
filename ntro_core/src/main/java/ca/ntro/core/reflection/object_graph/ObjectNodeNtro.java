@@ -47,8 +47,12 @@ public abstract class ObjectNodeNtro
 	protected abstract Object invokeGetter(Object object, String getterName) throws Throwable;
 
 	@Override
-	protected <R> void _reduceEdgeTypes(ResultNtro<R> result, EdgeTypeReducer<R> reducer) {
+	protected <R> void _reduceEdgeTypesForDirection(Direction direction, ResultNtro<R> result, EdgeTypeReducer<R> reducer) {
 		if(result.hasException()) {
+			return;
+		}
+		
+		if(direction != Direction.FORWARD) {
 			return;
 		}
 

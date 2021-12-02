@@ -1,6 +1,11 @@
 package ca.ntro.core.graphs.generic_graph.graph_strcuture;
 
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeType;
 import ca.ntro.core.graphs.Node;
@@ -8,7 +13,7 @@ import ca.ntro.core.graphs.SearchOptions;
 
 public class      EdgesByDirectionNtro<N extends Node<N,E,SO>, 
                                        E extends Edge<N,E,SO>,
-                                       SO extends SearchOptions,
+                                       SO extends SearchOptions<SO>,
                                        SUBMAP extends EdgesByType<N,E,SO>> 
 
        extends    EdgesMapNtro<N,E,SO, SUBMAP>
@@ -21,6 +26,14 @@ public class      EdgesByDirectionNtro<N extends Node<N,E,SO>,
 	}
 
 	@Override
+	protected Collection<SUBMAP> subMapsForDirection(Direction direction) {
+		List<SUBMAP> subMaps = new ArrayList<>();
+		subMaps.add(getEdgesMap().get(direction.name()));
+
+		return subMaps;
+	}
+
+	@Override
 	protected String getSubMapKey(E edge) {
 		return edge.type().direction().name();
 	}
@@ -29,5 +42,8 @@ public class      EdgesByDirectionNtro<N extends Node<N,E,SO>,
 	protected String getSubMapKey(EdgeType edgeName) {
 		return edgeName.direction().name();
 	}
+
+
+
 
 }
