@@ -7,7 +7,7 @@ import ca.ntro.core.graphs.NodeIdNtro;
 import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.graphs.generic_graph.NodeBuilderNtro;
 
-public class GraphNode extends NodeBuilderNtro<GraphNode, GraphEdge, SearchOptions> {
+public class GraphNode extends NodeBuilderNtro<GraphNode, GraphEdge, GraphSearchOptions> {
 
 	public GraphNode(NodeId nodeId) {
 		super(nodeId);

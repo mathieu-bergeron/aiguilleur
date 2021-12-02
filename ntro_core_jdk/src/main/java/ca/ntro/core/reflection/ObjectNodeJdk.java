@@ -6,7 +6,7 @@ import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.reflection.object_graph.LocalHeap;
 import ca.ntro.core.reflection.object_graph.ObjectGraphSearchOptions;
-import ca.ntro.core.reflection.object_graph.ObjectGraphSearchOptionsNtro;
+import ca.ntro.core.reflection.object_graph.ObjectGraphSearchOptions;
 import ca.ntro.core.reflection.object_graph.ObjectNodeNtro;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
@@ -48,7 +48,7 @@ public class ObjectNodeJdk extends ObjectNodeNtro {
 
 	@Override
 	protected ObjectGraphSearchOptions defaultSearchOptions() {
-		return new ObjectGraphSearchOptionsNtro(new Direction[] {Direction.FORWARD});
+		return new ObjectGraphSearchOptions();
 	}
 
 }

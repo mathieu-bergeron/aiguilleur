@@ -24,7 +24,7 @@ import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class NodeNtro<N extends Node<N,E,SO>, 
                                E extends Edge<N,E,SO>,
-                               SO extends SearchOptions> 
+                               SO extends SearchOptions<SO>> 
 
       implements      Node<N,E,SO> {
 	
@@ -189,7 +189,7 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 		return result;
 	}
 
-	protected <R> void _reduceReachableEdges(SearchOptions options, 
+	protected <R> void _reduceReachableEdges(SO options, 
 			                                 ResultNtro<R> result, 
 			                                 ReachableStepReducer<N,E,SO,R> reducer) {
 		
@@ -202,14 +202,16 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 
 		}else {
 
-			SearchOptions oneStepOptions = new SearchOptionsNtro(options.directions(), 1);
+	        SO oneStepOptions = options.createClone();
+			oneStepOptions.setSearchStrategy(SearchStrategy.DEPTH_FIRST_SEARCH);
+			oneStepOptions.setMaxDistance(1);
 
 			_reduceReachableEdgesBreadthFirst(options, oneStepOptions, visitedEdges, walked, result, reducer);
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	protected <R> void _reduceReachableEdgesDepthFirst(SearchOptions options, 
+	protected <R> void _reduceReachableEdgesDepthFirst(SO options, 
 			                                           Set<String> visitedEdges,
 			                                           Walk<N,E,SO> walked,
 			                                           ResultNtro<R> result, 
@@ -262,8 +264,8 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 	}
 
 	@SuppressWarnings("unchecked")
-	protected <R> void _reduceReachableEdgesBreadthFirst(SearchOptions options, 
-			                                             SearchOptions oneStepOptions,
+	protected <R> void _reduceReachableEdgesBreadthFirst(SO options, 
+			                                             SO oneStepOptions,
 			                                             Set<String> visitedEdges,
 			                                             Walk<N,E,SO> walked,
 			                                             ResultNtro<R> result, 

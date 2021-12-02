@@ -7,7 +7,7 @@ import ca.ntro.core.graphs.generic_graph.GenericGraph;
 
 public interface Graph<N extends Node<N,E,SO>,
                        E extends Edge<N,E,SO>,
-                       SO extends SearchOptions>
+                       SO extends SearchOptions<SO>>
 
        extends    GenericGraph<N,E,SO> {
 	

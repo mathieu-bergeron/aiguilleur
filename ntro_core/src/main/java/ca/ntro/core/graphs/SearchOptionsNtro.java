@@ -1,81 +1,60 @@
 package ca.ntro.core.graphs;
 
+import ca.ntro.core.initialization.Factory;
 import ca.ntro.core.wrappers.optionnal.Optionnal;
 
-public class SearchOptionsNtro implements SearchOptions {
+public class SearchOptionsNtro<SO extends SearchOptions<SO>> implements SearchOptions<SO> {
 	
 	private SearchStrategy searchStrategy = SearchStrategy.DEPTH_FIRST_SEARCH;
 	private Optionnal<Integer> maxDistance = Optionnal.none(Integer.class);
 	private Direction[] directions = defaultDirections();
+	private boolean sortEdgesByName = defaultSortByEdgeNames();
 	
 	protected SearchStrategy getSearchStrategy() {
 		return searchStrategy;
 	}
 
-	protected void setSearchStrategy(SearchStrategy searchStrategy) {
+	public void setSearchStrategy(SearchStrategy searchStrategy) {
 		this.searchStrategy = searchStrategy;
 	}
 
-	protected Optionnal<Integer> getMaxDistance() {
+	public Optionnal<Integer> getMaxDistance() {
 		return maxDistance;
 	}
 
-	protected void setMaxDistance(Optionnal<Integer> maxDistance) {
+	public void setMaxDistance(Optionnal<Integer> maxDistance) {
 		this.maxDistance = maxDistance;
 	}
 
-	protected void setMaxDistance(int maxDistance) {
+	public void setMaxDistance(int maxDistance) {
 		this.maxDistance = Optionnal.fromValue(maxDistance);
 	}
 
-	protected Direction[] getDirections() {
+	public Direction[] getDirections() {
 		return directions;
 	}
 
-	protected void setDirections(Direction[] directions) {
+	public void setDirections(Direction[] directions) {
 		this.directions = directions;
+	}
+
+	public boolean getSortEdgesByName() {
+		return sortEdgesByName;
+	}
+
+	public void setSortEdgesByName(boolean sortEdgesByName) {
+		this.sortEdgesByName = sortEdgesByName;
 	}
 
 	public SearchOptionsNtro() {
 	}
 
-	public SearchOptionsNtro(SearchStrategy searchStrategy) {
-		setSearchStrategy(searchStrategy);
+	protected Direction[] defaultDirections() {
+		return new Direction[] {Direction.FORWARD};
 	}
 
-	public SearchOptionsNtro(SearchStrategy searchStrategy, int maxDistance) {
-		setSearchStrategy(searchStrategy);
-		setMaxDistance(maxDistance);
-	}
-
-	public SearchOptionsNtro(int maxDistance) {
-		setMaxDistance(maxDistance);
-	}
-
-	public SearchOptionsNtro(Direction[] directions) {
-		setDirections(directions);
-	}
-
-	public SearchOptionsNtro(Direction[] directions, int maxDistance) {
-		setDirections(directions);
-		setMaxDistance(maxDistance);
-	}
-
-	public SearchOptionsNtro(SearchStrategy searchStrategy, Direction[] directions, int maxDistance) {
-		setSearchStrategy(searchStrategy);
-		setDirections(directions);
-		setMaxDistance(maxDistance);
-	}
-
-	public SearchOptionsNtro(SearchStrategy searchStrategy, Direction[] directions, Optionnal<Integer> maxDistance) {
-		setSearchStrategy(searchStrategy);
-		setDirections(directions);
-		setMaxDistance(maxDistance);
-	}
-
-	public SearchOptionsNtro(Direction[] directions, Optionnal<Integer> maxDistance) {
-		setDirections(directions);
-		setMaxDistance(maxDistance);
+	protected boolean defaultSortByEdgeNames() {
+		return false;
 	}
 
 	@Override
@@ -92,10 +71,7 @@ public class SearchOptionsNtro implements SearchOptions {
 	public Optionnal<Integer> maxDistance() {
 		return getMaxDistance();
 	}
-	
-	protected Direction[] defaultDirections() {
-		return new Direction[] {Direction.FORWARD};
-	}
+
 
 	@Override
 	public boolean containsDirection(Direction direction) {
@@ -108,5 +84,23 @@ public class SearchOptionsNtro implements SearchOptions {
 		}
 		
 		return contains;
+	}
+
+	@Override
+	public boolean sortEdgesByName() {
+		return getSortEdgesByName();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public SO createClone() {
+		SO clone = (SO) Factory.newInstance(this.getClass());
+
+		clone.setDirections(directions());
+		clone.setSearchStrategy(searchStrategy());
+		clone.setMaxDistance(maxDistance());
+		clone.setSortEdgesByName(sortEdgesByName());
+
+		return clone;
 	}
 }

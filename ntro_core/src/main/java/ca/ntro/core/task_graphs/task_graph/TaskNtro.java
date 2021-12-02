@@ -215,7 +215,10 @@ public class      TaskNtro<T  extends Task<T,AT,TG>,
 
 	protected <R> void reduceNeighborTasks(Direction direction, ResultNtro<R> result, TaskReducer<T, AT, TG, R> reducer) {
 
-		HierarchicalDagSearchOptions options = new HierarchicalDagSearchOptions(direction, 1);
+		HierarchicalDagSearchOptions options = new HierarchicalDagSearchOptions();
+		options.setDirections(new Direction[] {direction});
+		options.setMaxDistance(1);
+		options.setSortEdgesByName(true);
 
 		getNode().reduceReachableNodes(options, (__, walked, node) -> {
 			

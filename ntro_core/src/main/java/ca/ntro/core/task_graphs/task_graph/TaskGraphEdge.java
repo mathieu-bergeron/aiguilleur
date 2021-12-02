@@ -1,7 +1,6 @@
 package ca.ntro.core.task_graphs.task_graph;
 
 import ca.ntro.core.graphs.Edge;
-import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagSearchOptions;
 
 public interface TaskGraphEdge<T  extends Task<T,AT,TG>, 
                                AT extends AtomicTask<T,AT,TG>,
@@ -9,5 +8,5 @@ public interface TaskGraphEdge<T  extends Task<T,AT,TG>,
 
        extends Edge<TaskGraphNode<T,AT,TG>, 
                     TaskGraphEdge<T,AT,TG>, 
-                    HierarchicalDagSearchOptions> {
+                    TaskGraphSearchOptions> {
 }

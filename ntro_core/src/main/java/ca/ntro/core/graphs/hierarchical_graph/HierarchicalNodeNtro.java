@@ -12,7 +12,7 @@ import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class      HierarchicalNodeNtro<N extends HierarchicalNode<N,E,SO>,
  									            E extends Edge<N,E,SO>,
- 									            SO extends HierarchicalGraphSearchOptions>
+ 									            SO extends HierarchicalGraphSearchOptions<SO>>
 
        extends    NodeNtro<N,E,SO> 
 
@@ -93,9 +93,10 @@ public abstract class      HierarchicalNodeNtro<N extends HierarchicalNode<N,E,S
 
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 		
-		HierarchicalGraphSearchOptions subNodeOptions = new HierarchicalGraphSearchOptions(options.searchStrategy(), new Direction[] {Direction.DOWN}, options.maxDistance());
-		
-		_reduceReachableNodes((SO) subNodeOptions, result, reducer);
+		SO subNodeOptions = options.createClone();
+		options.setDirections(new Direction[] {Direction.DOWN});
+				
+		_reduceReachableNodes(subNodeOptions, result, reducer);
 		
 		return result;
 	}
@@ -128,9 +129,10 @@ public abstract class      HierarchicalNodeNtro<N extends HierarchicalNode<N,E,S
 
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 		
-		HierarchicalGraphSearchOptions parentNodeOptions = new HierarchicalGraphSearchOptions(options.searchStrategy(), new Direction[] {Direction.UP}, options.maxDistance());
+		SO parentNodeOptions = options.createClone();
+		parentNodeOptions.setDirections(new Direction[] {Direction.UP});
 		
-		_reduceReachableNodes((SO) parentNodeOptions, result, reducer);
+		_reduceReachableNodes(parentNodeOptions, result, reducer);
 		
 		return result;
 	}

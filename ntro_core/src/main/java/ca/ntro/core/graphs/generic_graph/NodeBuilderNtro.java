@@ -17,7 +17,7 @@ import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class NodeBuilderNtro<N extends Node<N,E,SO>, 
                                       E extends Edge<N,E,SO>,
-                                      SO extends SearchOptions> 
+                                      SO extends SearchOptions<SO>> 
 
       extends         NodeNtro<N,E,SO>
 

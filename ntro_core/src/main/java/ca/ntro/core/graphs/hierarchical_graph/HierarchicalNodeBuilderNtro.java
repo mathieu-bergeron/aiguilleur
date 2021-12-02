@@ -14,7 +14,7 @@ import ca.ntro.core.wrappers.result.ResultNtro;
 
 public class HierarchicalNodeBuilderNtro<N extends HierarchicalNode<N,E,SO>,
  									     E extends Edge<N,E,SO>,
- 									     SO extends HierarchicalGraphSearchOptions>
+ 									     SO extends HierarchicalGraphSearchOptions<SO>>
 
        extends     HierarchicalNodeNtro<N,E,SO> 
 

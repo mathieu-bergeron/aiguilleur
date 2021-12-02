@@ -38,7 +38,7 @@ public class GraphTests {
 	@Test
 	public void simpleGraph00() throws Throwable {
 
-		GraphBuilder<GraphNode, GraphEdge, SearchOptions> builder = GraphBuilder.newBuilder("simpleGraph00");
+		GraphBuilder<GraphNode, GraphEdge, GraphSearchOptions> builder = GraphBuilder.newBuilder("simpleGraph00");
 		
 		GraphNode nodeA = new GraphNode("A");
 		GraphNode nodeB = new GraphNode("B");
@@ -48,13 +48,13 @@ public class GraphTests {
 
 		nodeA.addEdge("AB", nodeB);
 		
-		Graph<GraphNode, GraphEdge, SearchOptions> graph = builder.toGraph();
+		Graph<GraphNode, GraphEdge, GraphSearchOptions> graph = builder.toGraph();
 		graph.write(Ntro.graphWriter());
 	}
 
 	@Test
 	public void reachableEdgesDepthFirst01() throws Throwable {
-		GraphBuilder<GraphNode, GraphEdge, SearchOptions> builder = GraphBuilder.newBuilder("reachableEdgesDepthFirst01");
+		GraphBuilder<GraphNode, GraphEdge, GraphSearchOptions> builder = GraphBuilder.newBuilder("reachableEdgesDepthFirst01");
 
 		GraphNode nodeA = new GraphNode("A");
 		GraphNode nodeB = new GraphNode("B");
@@ -68,16 +68,20 @@ public class GraphTests {
 		nodeA.addEdge("AB", nodeB);
 		nodeB.addEdge("BC", nodeC);
 
-		Graph<GraphNode, GraphEdge, SearchOptions> graph = builder.toGraph();
+		Graph<GraphNode, GraphEdge, GraphSearchOptions> graph = builder.toGraph();
 		graph.write(Ntro.graphWriter());
 
-		SearchOptions oneStepOptions = new SearchOptionsNtro(SearchStrategy.DEPTH_FIRST_SEARCH, new Direction[] {Direction.FORWARD}, 1);
+		GraphSearchOptions oneStepOptions = new GraphSearchOptions();
+		oneStepOptions.setSearchStrategy(SearchStrategy.DEPTH_FIRST_SEARCH);
+		oneStepOptions.setDirections(new Direction[] {Direction.FORWARD});
+		oneStepOptions.setMaxDistance(1);
+
 		
-		List<DirectedEdgeTriple<GraphNode, GraphEdge, SearchOptions>> edges = new ArrayList<>();
+		List<DirectedEdgeTriple<GraphNode, GraphEdge, GraphSearchOptions>> edges = new ArrayList<>();
 
 		nodeA.forEachReachableEdge(oneStepOptions, (walkedEdges, edge) -> {
 
-			edges.add(new DirectedEdgeTriple<GraphNode,GraphEdge, SearchOptions>(edge.from(), edge.type(), edge.to()));
+			edges.add(new DirectedEdgeTriple<GraphNode,GraphEdge,GraphSearchOptions>(edge.from(), edge.type(), edge.to()));
 		});
 
 		Ntro.asserter().assertEquals(2, edges.size());
@@ -94,7 +98,7 @@ public class GraphTests {
 	public void nodeAlreadyAddedException() {
 		ExceptionThrowerMock exceptionThrower = registerMockExceptionThrower();
 
-		GraphBuilder<GraphNode, GraphEdge, SearchOptions> builder = GraphBuilder.newBuilder();
+		GraphBuilder<GraphNode,GraphEdge,GraphSearchOptions> builder = GraphBuilder.newBuilder();
 		
 		GraphNode nodeA = new GraphNode("A");
 		GraphNode nodeB = new GraphNode("A");
@@ -109,7 +113,7 @@ public class GraphTests {
 	public void edgeAlreadyAddedException() {
 		ExceptionThrowerMock exceptionThrower = registerMockExceptionThrower();
 
-		GraphBuilder<GraphNode, GraphEdge, SearchOptions> builder = GraphBuilder.newBuilder();
+		GraphBuilder<GraphNode,GraphEdge,GraphSearchOptions> builder = GraphBuilder.newBuilder();
 		
 		GraphNode nodeA = new GraphNode("A");
 
@@ -126,7 +130,7 @@ public class GraphTests {
 	public void edgeAlreadyAddedExceptionUndirected() {
 		ExceptionThrowerMock exceptionThrower = registerMockExceptionThrower();
 
-		GraphBuilder<GraphNode, GraphEdge, SearchOptions> builder = GraphBuilder.newBuilder();
+		GraphBuilder<GraphNode,GraphEdge,GraphSearchOptions> builder = GraphBuilder.newBuilder();
 		
 		GraphNode nodeA = new GraphNode("A");
 		GraphNode nodeB = new GraphNode("B");
