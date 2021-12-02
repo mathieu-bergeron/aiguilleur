@@ -50,6 +50,8 @@ public abstract class CollectionsNtro implements Collections {
 	 *         string comparison in Javascript is not
 	 *         the same as in Java (lower/upper cases are
 	 *         not considered in the same order).
+	 *         
+	 *  Java: UpperCase always first (B before a)
 	 */
 
 	protected int compareStringRecursively(String s1, String s2) {
@@ -73,26 +75,36 @@ public abstract class CollectionsNtro implements Collections {
 		if(char1.equals(char2)) {
 
 			return compareStringRecursively(s1.substring(1), s2.substring(1));
-
-		}else if(char1.toLowerCase().equals(char2)) {
+		}
+		
+		if(isUpperCase(char1)
+				&& !isUpperCase(char2)) {
 
 			return -1;
 
-		}else if(char1.toUpperCase().equals(char2)) {
-
+		}else if(!isUpperCase(char1)
+				&& isUpperCase(char2)) {
+			
 			return +1;
 		}
 
 		char lower1 = char1.toLowerCase().charAt(0);
 		char lower2 = char2.toLowerCase().charAt(0);
-
+		
 		if(lower1 < lower2) {
-			
+
 			return -1;
 
 		}else {
-			
+
 			return +1;
 		}
 	}
+	
+	private boolean isUpperCase(String character) {
+		return character.equals(character.toUpperCase());
+	}
+	
+	
+	
 }

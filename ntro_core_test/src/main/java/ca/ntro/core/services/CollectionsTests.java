@@ -36,18 +36,26 @@ public class CollectionsTests {
 		toSort.add("aa");
 		toSort.add("a");
 		toSort.add("A");
+		toSort.add("Aa");
+		toSort.add("Ab");
 		toSort.add("bb");
 		toSort.add("b");
 		toSort.add("B");
+		toSort.add("Bb");
+		toSort.add("Ba");
 		
 		List<String> sorted = Ntro.collections().sortList(toSort);
 		
 		Ntro.asserter().assertTrue("get(0) == A", sorted.get(0).equals("A"));
-		Ntro.asserter().assertTrue("get(1) == a", sorted.get(1).equals("a"));
-		Ntro.asserter().assertTrue("get(2) == aa", sorted.get(2).equals("aa"));
+		Ntro.asserter().assertTrue("get(1) == Aa", sorted.get(1).equals("Aa"));
+		Ntro.asserter().assertTrue("get(2) == Ab", sorted.get(2).equals("Ab"));
 		Ntro.asserter().assertTrue("get(3) == B", sorted.get(3).equals("B"));
-		Ntro.asserter().assertTrue("get(4) == b", sorted.get(4).equals("b"));
-		Ntro.asserter().assertTrue("get(5) == bb", sorted.get(5).equals("bb"));
+		Ntro.asserter().assertTrue("get(4) == Ba", sorted.get(4).equals("Ba"));
+		Ntro.asserter().assertTrue("get(5) == Bb", sorted.get(5).equals("Bb"));
+		Ntro.asserter().assertTrue("get(6) == a", sorted.get(6).equals("a"));
+		Ntro.asserter().assertTrue("get(6) == aa", sorted.get(7).equals("aa"));
+		Ntro.asserter().assertTrue("get(8) == b", sorted.get(8).equals("b"));
+		Ntro.asserter().assertTrue("get(9) == bb", sorted.get(9).equals("bb"));
 	}
 
 }
