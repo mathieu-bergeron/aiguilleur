@@ -73,8 +73,10 @@ public abstract class EdgesMapNtro<N extends Node<N,E,SO>,
 			if(result.hasException()) {
 				return;
 			}
-
-			subMap._reduceEdgeTypesForDirection(direction, result, reducer);
+			
+			if(subMap != null) {
+				subMap._reduceEdgeTypesForDirection(direction, result, reducer);
+			}
 		}
 	}
 

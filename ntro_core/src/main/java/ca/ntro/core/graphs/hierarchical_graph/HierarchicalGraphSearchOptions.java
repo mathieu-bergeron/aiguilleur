@@ -5,10 +5,6 @@ import ca.ntro.core.graphs.graph.GraphSearchOptions;
 
 public class HierarchicalGraphSearchOptions<SO extends HierarchicalGraphSearchOptions<SO>> extends GraphSearchOptions<SO> {
 
-	public HierarchicalGraphSearchOptions() {
-		super();
-	}
-
 	@Override
 	protected Direction[] defaultDirections() {
 		return new Direction[] {Direction.DOWN, Direction.FORWARD};

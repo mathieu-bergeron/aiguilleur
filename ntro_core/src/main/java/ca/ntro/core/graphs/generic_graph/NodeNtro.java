@@ -251,12 +251,15 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 
 					if(!(options.maxDistance().hasValue() 
 							&& newWalked.size() >= options.maxDistance().value())) {
+						
+						// JSweet: typing error on casting w/o creating a local var
+						NodeNtro<N,E,SO> to = (NodeNtro<N,E,SO>) edge.to();
 
-						((NodeNtro<N,E,SO>) edge.to())._reduceReachableEdgesDepthFirst(options, 
-																					   visitedEdges, 
-																					   newWalked,
-																					   result, 
-																					   reducer);
+						to._reduceReachableEdgesDepthFirst(options, 
+													       visitedEdges, 
+														   newWalked,
+														   result, 
+														   reducer);
 					}
 
 					return result.value();
@@ -287,12 +290,15 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 			Walk<N,E,SO> newWalked = new WalkNtro<>(walked);
 			newWalked.add(edge);
 
-			((NodeNtro<N,E,SO>) edge.to())._reduceReachableEdgesBreadthFirst(options, 
-					                                                         oneStepOptions, 
-					                                                         visitedEdges, 
-					                                                         newWalked, 
-					                                                         result, 
-					                                                         reducer);
+			// JSweet: typing error on casting w/o creating a local var
+			NodeNtro<N,E,SO> to = (NodeNtro<N,E,SO>) edge.to();
+
+			to._reduceReachableEdgesBreadthFirst(options, 
+					                             oneStepOptions, 
+					                             visitedEdges, 
+					                             newWalked, 
+					                             result, 
+					                             reducer);
 			return result.value();
 		});
 	}
@@ -342,8 +348,11 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 				newWalked.add(edge);
 
 				result.registerValue(reducer.reduceStep(result.value(), newWalked, remainingWalk, edge.to()));
-				
-				((NodeNtro<N,E,SO>) edge.to())._reduceWalk(newWalked, remainingWalk, result, reducer);
+
+				// JSweet: typing error on casting w/o creating a local var
+				NodeNtro<N,E,SO> to = (NodeNtro<N,E,SO>) edge.to();
+
+				to._reduceWalk(newWalked, remainingWalk, result, reducer);
 
 			}catch(Throwable t) {
 				

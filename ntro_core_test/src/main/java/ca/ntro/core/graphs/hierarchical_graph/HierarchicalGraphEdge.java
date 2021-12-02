@@ -5,7 +5,7 @@ import ca.ntro.core.graphs.EdgeType;
 import ca.ntro.core.graphs.EdgeNameNtro;
 import ca.ntro.core.graphs.generic_graph.EdgeNtro;
 
-public class HierarchicalGraphEdge extends EdgeNtro<HierarchicalGraphNode, HierarchicalGraphEdge, HierarchicalGraphSearchOptions> {
+public class HierarchicalGraphEdge extends EdgeNtro<HierarchicalGraphNode, HierarchicalGraphEdge, HierarchicalGraphSearchOptionsMock> {
 
 	public HierarchicalGraphEdge(HierarchicalGraphNode from, EdgeType edgeName, HierarchicalGraphNode to) {
 		super(from, edgeName, to);
