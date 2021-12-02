@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface Collections {
 
-	<I> List<I> sort(List<I> input);
+	<I> List<I> sortList(List<I> input);
 
 }

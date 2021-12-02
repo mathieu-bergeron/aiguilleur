@@ -105,7 +105,7 @@ public class Ntro {
 	
 	private static Collections collections = new CollectionsNull();
 
-	static void registerGraphWriter(Collections collections){
+	static void registerCollections(Collections collections){
 		Ntro.collections = collections;
 	}
 

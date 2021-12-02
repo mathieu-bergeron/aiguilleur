@@ -7,7 +7,7 @@ public abstract class CollectionsNtro implements Collections {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
-	public <I> List<I> sort(List<I> input) {
+	public <I> List<I> sortList(List<I> input) {
 		List<I> result = new ArrayList<>(input);
 		
 		result.sort((s1, s2) -> {
@@ -43,6 +43,14 @@ public abstract class CollectionsNtro implements Collections {
 			return compareStringRecursively(s1, s2);
 		}
 	}
+	
+	/**
+	 * JSweet: the strange implementation of the method
+	 *         below tries to circumvent the fact that
+	 *         string comparison in Javascript is not
+	 *         the same as in Java (lower/upper cases are
+	 *         not considered in the same order).
+	 */
 
 	protected int compareStringRecursively(String s1, String s2) {
 
@@ -59,19 +67,31 @@ public abstract class CollectionsNtro implements Collections {
 			return +1;
 		}
 		
-		char char1 = s1.charAt(0);
-		char char2 = s2.charAt(0);
-
-		if(char1 == char2) {
+		String char1 = s1.substring(0,1);
+		String char2 = s2.substring(0,1);
+		
+		if(char1.equals(char2)) {
 
 			return compareStringRecursively(s1.substring(1), s2.substring(1));
 
-		}else if(char1 < char2) {
+		}else if(char1.toLowerCase().equals(char2)) {
 
 			return -1;
 
-		}else {
+		}else if(char1.toUpperCase().equals(char2)) {
 
+			return +1;
+		}
+
+		char lower1 = char1.toLowerCase().charAt(0);
+		char lower2 = char2.toLowerCase().charAt(0);
+
+		if(lower1 < lower2) {
+			
+			return -1;
+
+		}else {
+			
 			return +1;
 		}
 	}
