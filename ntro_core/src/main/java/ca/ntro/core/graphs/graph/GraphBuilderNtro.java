@@ -11,7 +11,7 @@ import ca.ntro.core.graphs.generic_graph.InternalGraphWriterNtro;
 
 public class      GraphBuilderNtro<N extends Node<N,E,SO>,
 								   E extends Edge<N,E,SO>,
-								   SO extends SearchOptionsNtro<SO>>
+								   SO extends SearchOptionsBuilder>
 
        extends    GenericGraphBuilderNtro<N,E,SO, Graph<N,E,SO>> 
 

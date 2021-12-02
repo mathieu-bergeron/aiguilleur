@@ -1,9 +1,9 @@
 package ca.ntro.core.reflection.object_graph;
 
 import ca.ntro.core.graphs.Direction;
-import ca.ntro.core.graphs.SearchOptionsNtro;
+import ca.ntro.core.graphs.SearchOptionsBuilderNtro;
 
-public class ObjectGraphSearchOptions extends SearchOptionsNtro<ObjectGraphSearchOptions> {
+public class ObjectGraphSearchOptions extends SearchOptionsBuilderNtro {
 
 	protected Direction[] defaultDirections() {
 		return new Direction[] {Direction.FORWARD};
