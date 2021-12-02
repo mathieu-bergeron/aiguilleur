@@ -30,7 +30,7 @@ public class HierarchicalGraphTests {
 	public void hierarchicalGraph00() throws Throwable {
 		ExceptionThrowerMock exceptionThrower = registerMockExceptionThrower();
 
-		HierarchicalGraphBuilder<HierarchicalGraphNode, HierarchicalGraphEdge, HierarchicalGraphSearchOptionsMock> builder = HierarchicalGraphBuilder.newBuilder("hierarchicalGraph00");
+		HierarchicalGraphBuilder<HierarchicalGraphNode, HierarchicalGraphEdge, HierarchicalGraphSearchOptionsBuilder> builder = HierarchicalGraphBuilder.newBuilder("hierarchicalGraph00");
 
 		HierarchicalGraphNode nodeA = new HierarchicalGraphNode("A");
 		HierarchicalGraphNode nodeAA = new HierarchicalGraphNode("AA");
@@ -42,7 +42,7 @@ public class HierarchicalGraphTests {
 
 		nodeA.addSubNode(nodeAA);
 		//nodeAA.addSubNode(nodeAAA);
-		HierarchicalGraph<HierarchicalGraphNode, HierarchicalGraphEdge, HierarchicalGraphSearchOptionsMock> graph = builder.toGraph();
+		HierarchicalGraph<HierarchicalGraphNode, HierarchicalGraphEdge, HierarchicalGraphSearchOptionsBuilder> graph = builder.toGraph();
 
 		graph.write(Ntro.graphWriter());
 		
@@ -55,7 +55,7 @@ public class HierarchicalGraphTests {
 	public void hierarchicalGraph01() throws Throwable {
 		ExceptionThrowerMock exceptionThrower = registerMockExceptionThrower();
 
-		HierarchicalGraphBuilder<HierarchicalGraphNode, HierarchicalGraphEdge, HierarchicalGraphSearchOptionsMock> builder = HierarchicalGraphBuilder.newBuilder("hierarchicalGraph01");
+		HierarchicalGraphBuilder<HierarchicalGraphNode, HierarchicalGraphEdge, HierarchicalGraphSearchOptionsBuilder> builder = HierarchicalGraphBuilder.newBuilder("hierarchicalGraph01");
 
 		HierarchicalGraphNode nodeA = new HierarchicalGraphNode("A");
 		HierarchicalGraphNode nodeB = new HierarchicalGraphNode("B");
@@ -86,7 +86,7 @@ public class HierarchicalGraphTests {
 
 		subNodeAAA.addEdge("AAA_C", nodeC);
 
-		HierarchicalGraph<HierarchicalGraphNode, HierarchicalGraphEdge, HierarchicalGraphSearchOptionsMock> graph = builder.toGraph();
+		HierarchicalGraph<HierarchicalGraphNode, HierarchicalGraphEdge, HierarchicalGraphSearchOptionsBuilder> graph = builder.toGraph();
 
 		graph.write(Ntro.graphWriter());
 		exceptionThrower.throwLastException();
