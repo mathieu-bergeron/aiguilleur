@@ -4,6 +4,8 @@ import ca.ntro.core.graphs.writers.GraphWriter;
 import ca.ntro.core.graphs.writers.GraphWriterNull;
 import ca.ntro.core.services.Asserter;
 import ca.ntro.core.services.AsserterNull;
+import ca.ntro.core.services.Collections;
+import ca.ntro.core.services.CollectionsNull;
 import ca.ntro.core.services.ExceptionThrower;
 import ca.ntro.core.services.ExceptionThrowerNull;
 import ca.ntro.core.services.ReflectionService;
@@ -95,5 +97,22 @@ public class Ntro {
 	}
 
 	/* </GraphWriter> */
+	
+	
+	
+
+	/* <Collections> */
+	
+	private static Collections collections = new CollectionsNull();
+
+	static void registerGraphWriter(Collections collections){
+		Ntro.collections = collections;
+	}
+
+	public static Collections collections(){
+		return Ntro.collections;
+	}
+
+	/* </Collections> */
 
 }

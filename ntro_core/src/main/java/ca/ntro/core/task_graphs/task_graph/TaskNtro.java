@@ -5,7 +5,6 @@ import java.util.Map;
 
 import ca.ntro.core.exceptions.Break;
 import ca.ntro.core.graphs.Direction;
-import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagSearchOptions;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
