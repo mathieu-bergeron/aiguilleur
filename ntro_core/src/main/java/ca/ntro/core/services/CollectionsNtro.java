@@ -77,6 +77,17 @@ public abstract class CollectionsNtro implements Collections {
 			return compareStringRecursively(s1.substring(1), s2.substring(1));
 		}
 		
+		if(char1.equals("_")
+				&& !char2.equals("_")) {
+			
+			return -1;
+			
+		}else if(!char1.equals("_")
+				&& char2.equals("_")) {
+			
+			return +1;
+		}
+		
 		if(isUpperCase(char1)
 				&& !isUpperCase(char2)) {
 
