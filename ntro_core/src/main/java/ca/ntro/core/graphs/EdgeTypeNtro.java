@@ -1,6 +1,7 @@
 package ca.ntro.core.graphs;
 
 import ca.ntro.core.identifyers.Name;
+import ca.ntro.core.path.Path;
 
 public class EdgeTypeNtro implements EdgeType {
 	
@@ -78,6 +79,15 @@ public class EdgeTypeNtro implements EdgeType {
 	@Override
 	public Name name() {
 		return getName();
+	}
+	
+	
+	@Override
+	public String toString() {
+		Path path = Path.fromSingleName(direction().name());
+		path.addName(name().toString());
+
+		return path.toRawPath();
 	}
 
 }

@@ -60,15 +60,24 @@ public abstract class NodeBuilderNtro<N extends Node<N,E,SO>,
 		return false;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void addEdge(String edgeName, N to) {
-		EdgeTypeNtro edgeType = new EdgeTypeNtro(Direction.FORWARD, edgeName);
+		EdgeTypeNtro edgeForward = new EdgeTypeNtro(Direction.FORWARD, edgeName);
+		EdgeTypeNtro edgeBackward = new EdgeTypeNtro(Direction.BACKWARD, edgeName);
+		
+		addEdge(edgeForward, to);
+
+		((NodeBuilderNtro<N,E,SO>) to).addEdge(edgeBackward, this.toNode());
+	}
+
+	protected void addEdge(EdgeType edgeType, N to) {
 
 		E edge = createEdge(this.toNode(), edgeType, to);
 		
 		if(getEdgesByDirection().containsEdge(edge)) {
 			
-			Ntro.exceptionThrower().throwException(new EdgeAlreadyAddedException("Edge already added: " +  edgeName));
+			Ntro.exceptionThrower().throwException(new EdgeAlreadyAddedException("Edge already added: " +  edgeType));
 			
 		}else {
 
