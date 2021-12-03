@@ -307,123 +307,6 @@ public class      TaskNtro<T  extends Task<T,AT>,
 		return result;
 	}
 
-	@Override
-	public boolean ifAllEntryTasksMatch(AtomicTaskMatcher<T,AT> matcher) {
-		return ifAllAtomicTasksMatch(getEntryTasks(), matcher);
-	}
-
-	@Override
-	public boolean ifSomeEntryTaskMatches(AtomicTaskMatcher<T,AT> matcher) {
-		return ifSomeAtomicTaskMatches(getEntryTasks(), matcher);
-	}
-
-	@Override
-	public void forEachEntryTask(AtomicTaskVisitor<T, AT> visitor) {
-		reduceEntryTasks(null, (__, atomicTask) -> {
-			
-			visitor.visitAtomicTask(atomicTask);
-			
-			return null;
-			
-		}).value();
-	}
-
-	@Override
-	public <R> Result<R> reduceEntryTasks(R initialValue, AtomicTaskReducer<T, AT, R> reducer) {
-		ResultNtro<R> result = new ResultNtro<R>(initialValue);
-		
-		reduceAtomicTasks(getEntryTasks(), result, reducer);
-		
-		return result;
-	}
-
-	protected boolean ifSomeAtomicTaskMatches(Map<String, AT> atomicTasks, 
-			                             	  AtomicTaskMatcher<T,AT> matcher) {
-		
-		ResultNtro<Boolean> result = new ResultNtro<>(false);
-		
-		reduceAtomicTasks(atomicTasks, result, (accumulator, atomicTask) -> {
-			if(accumulator == true) {
-				throw new Break();
-			}
-			
-			if(matcher.matches(atomicTask)) {
-				accumulator = true;
-			}
-			
-			return accumulator;
-		});
-		
-		return result.value();
-	}
-
-	protected boolean ifAllAtomicTasksMatch(Map<String, AT> atomicTasks, 
-			                             	AtomicTaskMatcher<T,AT> matcher) {
-		
-		ResultNtro<Boolean> result = new ResultNtro<>(true);
-		
-		reduceAtomicTasks(atomicTasks, result, (accumulator, atomicTask) -> {
-			if(accumulator == false) {
-				throw new Break();
-			}
-			
-			if(!matcher.matches(atomicTask)) {
-				accumulator = false;
-			}
-			
-			return accumulator;
-		});
-		
-		return result.value();
-	}
-
-	protected <R> void reduceAtomicTasks(Map<String, AT> atomicTasks, 
-			                             ResultNtro<R> result, 
-			                             AtomicTaskReducer<T, AT, R> reducer) {
-		
-		for(AT atomicTask : atomicTasks.values()) {
-			try {
-				
-				result.registerValue(reducer.reduceAtomicTask(result.value(), atomicTask));
-				
-			} catch(Throwable t) {
-				
-				result.registerException(t);
-				break;
-			}
-		}
-	}
-
-	@Override
-	public boolean ifAllExitTasksMatch(AtomicTaskMatcher<T, AT> matcher) {
-		return ifAllAtomicTasksMatch(getExitTasks(), matcher);
-	}
-
-	@Override
-	public boolean ifSomeExitTaskMatches(AtomicTaskMatcher<T, AT> matcher) {
-		return ifSomeAtomicTaskMatches(getExitTasks(), matcher);
-	}
-
-
-	@Override
-	public void forEachExitTask(AtomicTaskVisitor<T, AT> visitor) {
-		reduceExitTasks(null, (__, atomicTask) -> {
-			
-			visitor.visitAtomicTask(atomicTask);
-			
-			return null;
-			
-		}).value();
-	}
-
-	@Override
-	public <R> Result<R> reduceExitTasks(R initialValue, AtomicTaskReducer<T, AT, R> reducer) {
-		ResultNtro<R> result = new ResultNtro<R>(initialValue);
-		
-		reduceAtomicTasks(getExitTasks(), result, reducer);
-		
-		return result;
-	}
 
 
 	@Override
@@ -571,5 +454,200 @@ public class      TaskNtro<T  extends Task<T,AT>,
 			
 			return null;
 		});
+	}
+
+	@Override
+	public T findFirstReachableTaskThatMatches(TaskMatcher<T, AT> matcher) {
+		return _findFirstReachableTaskThatMatches(defaultOptions(), matcher);
+	}
+
+	@Override
+	public T findFirstReachableTaskThatMatches(TaskGraphSearchOptionsBuilder options, TaskMatcher<T, AT> matcher) {
+		return _findFirstReachableTaskThatMatches(options.toSearchOptions(), matcher);
+	}
+
+	protected T _findFirstReachableTaskThatMatches(SearchOptions options, TaskMatcher<T, AT> matcher) {
+		ResultNtro<T> result = new ResultNtro<T>();
+		
+		_forEachReachableTask(options, (task) -> {
+			
+			if(matcher.matches(task)) {
+				result.registerValue(task);
+				
+				throw new Break();
+			}
+		});
+		
+		return result.value();
+	}
+
+	@Override
+	public T findFirstPreviousTaskThatMatches(TaskMatcher<T, AT> matcher) {
+		return _findFirstReachableTaskThatMatches(neighborSearchOptions(Direction.BACKWARD), matcher);
+	}
+
+	@Override
+	public T findFirstSubTaskThatMatches(TaskMatcher<T, AT> matcher) {
+		return _findFirstReachableTaskThatMatches(neighborSearchOptions(Direction.DOWN), matcher);
+	}
+
+	@Override
+	public T findFirstNextTaskThatMatches(TaskMatcher<T, AT> matcher) {
+		return _findFirstReachableTaskThatMatches(neighborSearchOptions(Direction.FORWARD), matcher);
+	}
+	
+	
+	
+
+	@Override
+	public AT findFirstEntryTaskThatMatches(AtomicTaskMatcher<T, AT> matcher) {
+		ResultNtro<AT> result = new ResultNtro<AT>();
+		
+		reduceEntryTasks(null, (__, entryTask) -> {
+			if(matcher.matches(entryTask)) {
+				
+				result.registerValue(entryTask);
+				throw new Break();
+			}
+
+			return null;
+		});
+		
+		return result.value();
+	}
+	
+	@Override
+	public AT findFirstExitTaskThatMatches(AtomicTaskMatcher<T, AT> matcher) {
+		ResultNtro<AT> result = new ResultNtro<AT>();
+
+		reduceExitTasks(null, (__, exitTask) -> {
+			if(matcher.matches(exitTask)) {
+				
+				result.registerValue(exitTask);
+				throw new Break();
+			}
+
+			return null;
+		});
+		
+		return result.value();
+	}
+
+	@Override
+	public boolean ifAllEntryTasksMatch(AtomicTaskMatcher<T,AT> matcher) {
+		return ifAllAtomicTasksMatch(getEntryTasks(), matcher);
+	}
+
+	@Override
+	public boolean ifSomeEntryTaskMatches(AtomicTaskMatcher<T,AT> matcher) {
+		return ifSomeAtomicTaskMatches(getEntryTasks(), matcher);
+	}
+
+	@Override
+	public void forEachEntryTask(AtomicTaskVisitor<T, AT> visitor) {
+		reduceEntryTasks(null, (__, atomicTask) -> {
+			
+			visitor.visitAtomicTask(atomicTask);
+			
+			return null;
+			
+		}).value();
+	}
+
+	@Override
+	public <R> Result<R> reduceEntryTasks(R initialValue, AtomicTaskReducer<T, AT, R> reducer) {
+		ResultNtro<R> result = new ResultNtro<R>(initialValue);
+		
+		reduceAtomicTasks(getEntryTasks(), result, reducer);
+		
+		return result;
+	}
+
+	protected boolean ifSomeAtomicTaskMatches(Map<String, AT> atomicTasks, 
+			                             	  AtomicTaskMatcher<T,AT> matcher) {
+		
+		ResultNtro<Boolean> result = new ResultNtro<>(false);
+		
+		reduceAtomicTasks(atomicTasks, result, (accumulator, atomicTask) -> {
+			if(accumulator == true) {
+				throw new Break();
+			}
+			
+			if(matcher.matches(atomicTask)) {
+				accumulator = true;
+			}
+			
+			return accumulator;
+		});
+		
+		return result.value();
+	}
+
+	protected boolean ifAllAtomicTasksMatch(Map<String, AT> atomicTasks, 
+			                             	AtomicTaskMatcher<T,AT> matcher) {
+		
+		ResultNtro<Boolean> result = new ResultNtro<>(true);
+		
+		reduceAtomicTasks(atomicTasks, result, (accumulator, atomicTask) -> {
+			if(accumulator == false) {
+				throw new Break();
+			}
+			
+			if(!matcher.matches(atomicTask)) {
+				accumulator = false;
+			}
+			
+			return accumulator;
+		});
+		
+		return result.value();
+	}
+
+	protected <R> void reduceAtomicTasks(Map<String, AT> atomicTasks, 
+			                             ResultNtro<R> result, 
+			                             AtomicTaskReducer<T, AT, R> reducer) {
+		
+		for(AT atomicTask : atomicTasks.values()) {
+			try {
+				
+				result.registerValue(reducer.reduceAtomicTask(result.value(), atomicTask));
+				
+			} catch(Throwable t) {
+				
+				result.registerException(t);
+				break;
+			}
+		}
+	}
+
+	@Override
+	public boolean ifAllExitTasksMatch(AtomicTaskMatcher<T, AT> matcher) {
+		return ifAllAtomicTasksMatch(getExitTasks(), matcher);
+	}
+
+	@Override
+	public boolean ifSomeExitTaskMatches(AtomicTaskMatcher<T, AT> matcher) {
+		return ifSomeAtomicTaskMatches(getExitTasks(), matcher);
+	}
+
+
+	@Override
+	public void forEachExitTask(AtomicTaskVisitor<T, AT> visitor) {
+		reduceExitTasks(null, (__, atomicTask) -> {
+			
+			visitor.visitAtomicTask(atomicTask);
+			
+			return null;
+			
+		}).value();
+	}
+
+	@Override
+	public <R> Result<R> reduceExitTasks(R initialValue, AtomicTaskReducer<T, AT, R> reducer) {
+		ResultNtro<R> result = new ResultNtro<R>(initialValue);
+		
+		reduceAtomicTasks(getExitTasks(), result, reducer);
+		
+		return result;
 	}
 }
