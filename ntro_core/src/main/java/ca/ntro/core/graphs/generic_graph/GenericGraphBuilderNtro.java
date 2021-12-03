@@ -1,10 +1,9 @@
 package ca.ntro.core.graphs.generic_graph;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
+import ca.ntro.core.exceptions.Break;
 import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeType;
@@ -33,7 +32,7 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 
 	private GraphId id;
 
-	private Map<String, N> nodes = new HashMap<>();
+	private Map<String, N> startNodes = new HashMap<>();
 
 	public GraphId getId() {
 		return id;
@@ -43,12 +42,12 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 		this.id = id;
 	}
 
-	public Map<String, N> getNodes() {
-		return nodes;
+	public Map<String, N> getStartNodes() {
+		return startNodes;
 	}
 
-	public void setNodes(Map<String, N> nodes) {
-		this.nodes = nodes;
+	public void setStartNodes(Map<String, N> nodes) {
+		this.startNodes = nodes;
 	}
 
 	@Override
@@ -108,8 +107,9 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 
 		if(!toNode.isPartOfCycle()) {
 			((NodeBuilder<N,E,SO>) toNode).setIsStartNode(false);
+			getStartNodes().remove(toNode.id().toKey().toString());
 		}
-		
+
 		return forwardEdge;
 	}
 
@@ -126,15 +126,31 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 	protected abstract E createEdge(N fromNode, EdgeType edgeType, N toNode);
 
 	protected void addNode(N node) {
-		if(getNodes().containsKey(node.id().toKey().toString())) {
+		if(ifNodeAlreadyExists(node)) {
 
 			Ntro.exceptionThrower().throwException(new NodeAlreadyAddedException("Node already added: " + node.id().toKey()));
 
 		}else {
 			
-			getNodes().put(node.id().toKey().toString(), node);
+			getStartNodes().put(node.id().toKey().toString(), node);
 
 		}
+	}
+	
+	protected boolean ifNodeAlreadyExists(N node) {
+		ResultNtro<Boolean> result = new ResultNtro<>(false);
+
+		_reduceNodes(result, (__, reachableNode) -> {
+			
+			if(reachableNode.id().equals(node.id())) {
+				result.registerValue(true);
+				throw new Break();
+			}
+			
+			return result.value();
+		});
+
+		return result.value();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -144,29 +160,12 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 	}
 
 	@Override
-	public N findNode(NodeId id) {
-		N node = getNodes().get(id.toKey().toString());
-		
-		if(node == null) {
-			Ntro.exceptionThrower().throwException(new NodeNotFoundException("Node not found for key: " + id.toKey()));
-		}
-		
-		return node;
-	}
-
-	@Override
 	protected <R> void _reduceStartNodes(ResultNtro<R> result, NodeReducer<N, E, SO, R> reducer) {
-		_reduceNodes(result, reducer);
-	}
-
-	@Override
-	protected <R> void _reduceNodes(ResultNtro<R> result, NodeReducer<N, E, SO, R> reducer) {
 		if(result.hasException()) {
 			return;
 		}
-		
-		for(N node : nodes.values()) {
-			
+
+		for(N node : startNodes.values()) {
 			try {
 				
 				result.registerValue(reducer.reduceNode(result.value(), node));

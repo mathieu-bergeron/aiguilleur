@@ -36,4 +36,25 @@ public final class Key {
 	public String toString() {
 		return key;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if(o == this) return true;
+		if(o == null) return false;
+		if(o instanceof Key) {
+			Key n = (Key) o;
+			
+			if(n.key == null && key != null) {
+				return false;
+			}
+
+			if(n.key != null && !n.key.equals(key)) {
+				return false;
+			}
+			
+			return true;
+		}
+		
+		return false;
+	}
 }

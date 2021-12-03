@@ -11,6 +11,7 @@ import ca.ntro.core.graphs.EdgeVisitor;
 import ca.ntro.core.graphs.GraphId;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeId;
+import ca.ntro.core.graphs.NodeIdNtro;
 import ca.ntro.core.graphs.NodeReducer;
 import ca.ntro.core.graphs.NodeVisitor;
 import ca.ntro.core.graphs.SearchOptionsBuilder;
@@ -46,13 +47,18 @@ public abstract class GenericGraphNtro<N extends Node<N,E,SO>,
 	protected abstract <R> void _reduceStartNodes(ResultNtro<R> result, NodeReducer<N, E, SO, R> reducer);
 
 	@Override
-	public N findNode(NodeId id) {
+	public N findNode(String nodeId) {
+		return findNode(new NodeIdNtro(nodeId));
+	}
+
+	@Override
+	public N findNode(NodeId nodeId) {
 		Result<N> result = reduceNodes(null, (accumulator, n) -> {
 			if(accumulator != null) {
 				throw new Break();
 			}
 
-			if(n.id().equals(id)) {
+			if(n.id().equals(nodeId)) {
 				accumulator = n;
 			}
 

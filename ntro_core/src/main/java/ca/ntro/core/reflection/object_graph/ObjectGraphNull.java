@@ -79,4 +79,10 @@ public class ObjectGraphNull implements ObjectGraph {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public ObjectNode findNode(String nodeId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
