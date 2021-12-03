@@ -3,14 +3,16 @@ package ca.ntro.core.task_graphs.task_graph;
 import ca.ntro.core.wrappers.result.Result;
 
 public interface Task<T  extends Task<T,AT>, 
-                      AT extends AtomicTask<T,AT>> {
+                      AT extends AtomicTask<T,AT>> 
+
+       extends TaskStateAccessor {
 
 	TaskId id();
 	TaskGraph<T,AT> parentGraph();
 
-	boolean isQueued();
-	boolean isInProgress();
-	boolean isDone();
+	boolean hasParentTask();
+	T parentTask();
+
 
 	AT findEntryTask(AtomicTaskId id);
 	AT findExitTask(AtomicTaskId id);
@@ -45,5 +47,14 @@ public interface Task<T  extends Task<T,AT>,
 	boolean ifSomeNextTaskMatches(TaskMatcher<T,AT> matcher);
 	void forEachNextTask(TaskVisitor<T,AT> visitor);
 	<R> Result<R> reduceNextTasks(R initialValue, TaskReducer<T,AT,R> reducer);
-	
+
+	boolean ifAllReachableTasksMatch(TaskMatcher<T,AT> matcher);
+	boolean ifSomeReachableTaskMatches(TaskMatcher<T,AT> matcher);
+	void forEachReachableTask(TaskVisitor<T,AT> visitor);
+	<R> Result<R> reduceReachableTasks(R initialValue, TaskReducer<T,AT,R> reducer);
+
+	boolean ifAllReachableTasksMatch(TaskGraphSearchOptionsBuilder options, TaskMatcher<T,AT> matcher);
+	boolean ifSomeReachableTaskMatches(TaskGraphSearchOptionsBuilder options, TaskMatcher<T,AT> matcher);
+	void forEachReachableTask(TaskGraphSearchOptionsBuilder options, TaskVisitor<T,AT> visitor);
+	<R> Result<R> reduceReachableTasks(TaskGraphSearchOptionsBuilder options, R initialValue, TaskReducer<T,AT,R> reducer);
 }

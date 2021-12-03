@@ -5,6 +5,7 @@ import java.util.Map;
 
 import ca.ntro.core.exceptions.Break;
 import ca.ntro.core.graphs.Direction;
+import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.graphs.SearchOptionsNtro;
 import ca.ntro.core.graphs.SearchStrategy;
 import ca.ntro.core.wrappers.result.Result;
@@ -18,8 +19,6 @@ public class      TaskNtro<T  extends Task<T,AT>,
 	private TaskId id;
 	private TaskGraph<T,AT> graph;
 	private TaskGraphNodeBuilder<T,AT> node;
-
-	private TaskState state = TaskState.QUEUED;
 
 	private Map<String, AT> entryTasks = new HashMap<>();
 	private Map<String, AT> exitTasks = new HashMap<>();
@@ -38,14 +37,6 @@ public class      TaskNtro<T  extends Task<T,AT>,
 
 	public void setGraph(TaskGraph<T,AT> graph) {
 		this.graph = graph;
-	}
-
-	public TaskState getState() {
-		return state;
-	}
-
-	public void setState(TaskState state) {
-		this.state = state;
 	}
 	
 	public TaskGraphNodeBuilder<T, AT> getNode() {
@@ -90,21 +81,54 @@ public class      TaskNtro<T  extends Task<T,AT>,
 	}
 
 	@Override
-	public boolean isQueued() {
-		return ifSomePreviousTaskMatches(previousTask -> {
-			return previousTask.isQueued() || previousTask.isInProgress();
+	public T parentTask() {
+		T parentTask = null;
+
+		if(getNode().hasParent()) {
+			parentTask = getNode().parent().task();
+		}
+		
+		return parentTask;
+	}
+
+	@Override
+	public boolean hasParentTask() {
+		return getNode().hasParent();
+	}
+
+	@Override
+	public boolean isBlocked() {
+		return !arePreviousTasksDone()
+				|| !areParentEntryTasksDone();
+	}
+
+	protected boolean arePreviousTasksDone() {
+		return ifAllPreviousTasksMatch(previousTask -> {
+			return previousTask.isDone();
 		});
+	}
+	
+	protected boolean areParentEntryTasksDone() {
+		boolean done = true;
+
+		if(hasParentTask()) {
+			done = parentTask().ifAllEntryTasksMatch(entryTask -> {
+				return entryTask.isDone();
+			});
+		}
+
+		return done;
 	}
 
 	@Override
 	public boolean isInProgress() {
-		return !isQueued()
+		return !isBlocked()
 				&& !isDone();
 	}
 
 	@Override
 	public boolean isDone() {
-		return !isQueued()
+		return !isBlocked()
 				&& areEntryTasksDone()
 				&& areSubTasksDone()
 				&& areExitTasksDone();
@@ -118,7 +142,7 @@ public class      TaskNtro<T  extends Task<T,AT>,
 
 	private boolean isAtomicTaskDone(AT atomicTask) {
 		return atomicTask.result().hasValue()
-				|| atomicTask.result().hasException();
+				&& !atomicTask.result().hasException();
 	}
 
 	protected boolean areExitTasksDone() {
@@ -220,61 +244,27 @@ public class      TaskNtro<T  extends Task<T,AT>,
 
 	protected <R> void reduceNeighborTasks(Direction direction, ResultNtro<R> result, TaskReducer<T, AT, R> reducer) {
 
+		_reduceReachableTasks(neighborSearchOptions(direction), result, reducer);
+	}
+	
+	protected SearchOptions neighborSearchOptions(Direction direction) {
+
 		SearchOptionsNtro options = new SearchOptionsNtro();
 		options.setSearchStrategy(SearchStrategy.DEPTH_FIRST_SEARCH);
 		options.setDirections(new Direction[] {direction});
 		options.setMaxDistance(1);
 		options.setSortEdgesByName(false);
-
-		getNode().reduceReachableNodes(options, (__, walked, node) -> {
-			
-			try {
-
-				result.registerValue(reducer.reduceTask(result.value(), node.task()));
-
-			}catch(Throwable t) {
-				
-				result.registerException(t);
-			}
-			
-			return null;
-		});
+		
+		return options;
 	}
 
+
 	protected boolean ifSomeNeighborTaskMatches(Direction direction, TaskMatcher<T, AT> matcher) {
-		ResultNtro<Boolean> result = new ResultNtro<>(false);
-		
-		reduceNeighborTasks(direction, result, (accumulator, task) -> {
-			if(accumulator == true) {
-				throw new Break();
-			}
-			
-			if(matcher.matches(task)) {
-				accumulator = true;
-			}
-			
-			return accumulator;
-		});
-		
-		return result.value();
+		return _ifSomeReachableTaskMatches(neighborSearchOptions(direction), matcher);
 	}
 
 	protected boolean ifAllNeighborTasksMatch(Direction direction, TaskMatcher<T, AT> matcher) {
-		ResultNtro<Boolean> result = new ResultNtro<>(true);
-		
-		reduceNeighborTasks(direction, result, (accumulator, task) -> {
-			if(accumulator == false) {
-				throw new Break();
-			}
-			
-			if(!matcher.matches(task)) {
-				accumulator = false;
-			}
-			
-			return accumulator;
-		});
-		
-		return result.value();
+		return _ifAllReachableTasksMatch(neighborSearchOptions(direction), matcher);
 	}
 
 	@Override
@@ -458,4 +448,128 @@ public class      TaskNtro<T  extends Task<T,AT>,
 	}
 
 
+	@Override
+	public boolean ifAllReachableTasksMatch(TaskMatcher<T, AT> matcher) {
+		return _ifAllReachableTasksMatch(defaultOptions(), matcher);
+	}
+
+	protected boolean _ifAllReachableTasksMatch(SearchOptions options, TaskMatcher<T, AT> matcher) {
+		ResultNtro<Boolean> result = new ResultNtro<>(true);
+		
+		_reduceReachableTasks(options, result, (accumulator, task) -> {
+			if(accumulator == false) {
+				throw new Break();
+			}
+			
+			if(!matcher.matches(task)) {
+				accumulator = false;
+			}
+			
+			return accumulator;
+		});
+		
+		return result.value();
+	}
+	
+	protected TaskGraphSearchOptionsBuilder defaultSearchOptions() {
+		return new TaskGraphSearchOptionsBuilderNtro();
+	}
+	
+	private SearchOptions defaultOptions() {
+		return defaultSearchOptions().toSearchOptions();
+	}
+
+	@Override
+	public boolean ifSomeReachableTaskMatches(TaskMatcher<T, AT> matcher) {
+		return _ifSomeReachableTaskMatches(defaultOptions(), matcher);
+	}
+
+	protected boolean _ifSomeReachableTaskMatches(SearchOptions options, TaskMatcher<T, AT> matcher) {
+		ResultNtro<Boolean> result = new ResultNtro<>(false);
+
+		_reduceReachableTasks(options, result, (accumulator, task) -> {
+			if(accumulator == true) {
+				throw new Break();
+			}
+			
+			if(matcher.matches(task)) {
+				accumulator = true;
+			}
+			
+			return accumulator;
+		});
+		
+		return result.value();
+	}
+
+	@Override
+	public void forEachReachableTask(TaskVisitor<T, AT> visitor) {
+		_forEachReachableTask(defaultOptions(), visitor);
+	}
+
+	@Override
+	public <R> Result<R> reduceReachableTasks(R initialValue, TaskReducer<T, AT, R> reducer) {
+		ResultNtro<R> result = new ResultNtro<>(initialValue);
+
+		_reduceReachableTasks(defaultOptions(), result, reducer);
+		
+		return result;
+	}
+
+	@Override
+	public boolean ifAllReachableTasksMatch(TaskGraphSearchOptionsBuilder options, TaskMatcher<T, AT> matcher) {
+		return _ifAllReachableTasksMatch(options.toSearchOptions(), matcher);
+	}
+
+	@Override
+	public boolean ifSomeReachableTaskMatches(TaskGraphSearchOptionsBuilder options, TaskMatcher<T, AT> matcher) {
+		return _ifSomeReachableTaskMatches(options.toSearchOptions(), matcher);
+	}
+
+	@Override
+	public void forEachReachableTask(TaskGraphSearchOptionsBuilder options, TaskVisitor<T, AT> visitor) {
+		_forEachReachableTask(options.toSearchOptions(), visitor);
+	}
+	
+	protected void _forEachReachableTask(SearchOptions options, TaskVisitor<T, AT> visitor) {
+		ResultNtro<?> result = new ResultNtro<>();
+
+		_reduceReachableTasks(options, result, (__, task) -> {
+			
+			visitor.visitTask(task);
+			
+			return null;
+		});
+	}
+
+	@Override
+	public <R> Result<R> reduceReachableTasks(TaskGraphSearchOptionsBuilder options, 
+			                                  R initialValue, 
+			                                  TaskReducer<T, AT, R> reducer) {
+		
+		ResultNtro<R> result = new ResultNtro<R>(initialValue);
+
+		_reduceReachableTasks(options.toSearchOptions(), result, reducer);
+		
+		return result;
+	}
+
+	protected <R> void _reduceReachableTasks(SearchOptions options, 
+			                                 ResultNtro<R> result, 
+			                                 TaskReducer<T, AT, R> reducer) {
+
+		getNode().reduceReachableNodes(options, (__, walked, node) -> {
+			
+			try {
+
+				result.registerValue(reducer.reduceTask(result.value(), node.task()));
+
+			}catch(Throwable t) {
+				
+				result.registerException(t);
+			}
+			
+			return null;
+		});
+	}
 }

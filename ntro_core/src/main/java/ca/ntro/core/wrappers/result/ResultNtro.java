@@ -9,6 +9,9 @@ public class ResultNtro<R extends Object> implements Result<R> {
 	private boolean hasValue = false;
 	private Throwable exception = null;
 
+	public ResultNtro() {
+	}
+
 	public ResultNtro(R value) {
 		this.value = value;
 	}
