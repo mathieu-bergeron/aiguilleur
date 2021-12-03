@@ -10,7 +10,6 @@ import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.NodeReducer;
 import ca.ntro.core.graphs.NodeVisitor;
 import ca.ntro.core.graphs.SearchOptionsBuilder;
-import ca.ntro.core.graphs.SearchOptionsNtro;
 import ca.ntro.core.graphs.writers.GraphWriter;
 import ca.ntro.core.wrappers.result.Result;
 

@@ -98,7 +98,7 @@ public abstract class ObjectGraphNtro
 
 		try {
 
-			result.registerValue(reducer.reduceNode(result.value(), getLocalHeap().findOrCreateNode(objectPath, object)));
+			result.registerValue(reducer.reduceNode(result.value(), getLocalHeap().findOrCreateNode(this, objectPath, object)));
 
 		} catch (Throwable t) {
 

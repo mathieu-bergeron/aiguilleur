@@ -10,24 +10,4 @@ public interface DirectedGraphBuilder<N extends Node<N,E,SO>,
 
        extends   GenericGraphBuilder<N,E,SO,DirectedGraph<N,E,SO>> {
 
-	public static <N extends Node<N,E,SO>,
-				   E extends Edge<N,E,SO>,
-				   SO extends DirectedGraphSearchOptionsBuilder>
-	
-	       DirectedGraphBuilder<N,E,SO> 
-
-		   newBuilder(){
-
-		return new DirectedGraphNtro<>();
-	}
-
-	public static <N extends Node<N,E,SO>,
-				   E extends Edge<N,E,SO>,
-				   SO extends DirectedGraphSearchOptionsBuilder>
-	
-      	    DirectedGraphBuilder<N,E,SO> newBuilder(String graphName){
-
-		return new DirectedGraphNtro<>(graphName);
-	}
-
 }

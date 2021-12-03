@@ -34,9 +34,8 @@ public abstract class TaskGraphNtro<T  extends Task<T,AT>,
 
 	@Override
 	public void addTask(T task) {
-		TaskGraphNode<T,AT> node = new TaskGraphNodeBuilderNtro<T,AT>(task.id());
 
-		hdag.addNode(node);
+		hdag.addNode(task.id());
 	}
 
 	@Override

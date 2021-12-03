@@ -4,10 +4,10 @@ import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.generic_graph.GenericGraphBuilderNtro;
 import ca.ntro.core.graphs.hierarchical_graph.HierarchicalNode;
 
-public class   HierarchicalDagBuilderNtro<N extends HierarchicalNode<N,E,SO>,
-                                          E extends Edge<N,E,SO>,
-                                          SO extends HierarchicalDagSearchOptionsBuilder,
-                                          G extends HierarchicalDag<N,E,SO>>
+public abstract class HierarchicalDagBuilderNtro<N extends HierarchicalNode<N,E,SO>,
+                                                 E extends Edge<N,E,SO>,
+                                                 SO extends HierarchicalDagSearchOptionsBuilder,
+                                                 G extends HierarchicalDag<N,E,SO>>
 
        extends GenericGraphBuilderNtro<N,E,SO,G>
 

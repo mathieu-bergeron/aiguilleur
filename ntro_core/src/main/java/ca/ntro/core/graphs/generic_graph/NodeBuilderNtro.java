@@ -24,6 +24,7 @@ public abstract class NodeBuilderNtro<N extends Node<N,E,SO>,
       implements      Node<N,E,SO>,
       	              NodeBuilder<N,E,SO> {
 
+	private GenericGraphBuilderNtro<N,E,SO, GenericGraph<N,E,SO>> graph;
 	private EdgesByDirection<N,E,SO> edgesByDirection = new EdgesByDirectionNtro<>();
 
 	public EdgesByDirection<N, E, SO> getEdgesByDirection() {
@@ -34,8 +35,17 @@ public abstract class NodeBuilderNtro<N extends Node<N,E,SO>,
 		this.edgesByDirection = edgesByDirection;
 	}
 
-	public NodeBuilderNtro(NodeId nodeId) {
+	public GenericGraphBuilderNtro<N, E, SO, GenericGraph<N, E, SO>> getGraph() {
+		return graph;
+	}
+
+	public void setGraph(GenericGraphBuilderNtro<N, E, SO, GenericGraph<N, E, SO>> graph) {
+		this.graph = graph;
+	}
+
+	public NodeBuilderNtro(NodeId nodeId, GenericGraphBuilderNtro<N,E,SO,GenericGraph<N,E,SO>> graph) {
 		super(nodeId);
+		setGraph(graph);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -58,6 +68,11 @@ public abstract class NodeBuilderNtro<N extends Node<N,E,SO>,
 		}
 
 		return false;
+	}
+
+	@Override
+	public GenericGraph<N,E,SO> parentGraph(){
+		return getGraph();
 	}
 
 	@SuppressWarnings("unchecked")

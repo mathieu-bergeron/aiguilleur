@@ -1,5 +1,6 @@
 package ca.ntro.core.graphs;
 
+import ca.ntro.core.graphs.generic_graph.GenericGraph;
 import ca.ntro.core.graphs.generic_graph.WalkId;
 import ca.ntro.core.wrappers.result.Result;
 
@@ -8,6 +9,7 @@ public interface Node<N extends Node<N,E,SO>,
                       SO extends SearchOptionsBuilder> {
 
 	NodeId id();
+	GenericGraph<N,E,SO> parentGraph();
 
 	void forEachEdge(EdgeVisitor<N,E,SO> visitor);
 	<R extends Object> Result<R> reduceEdges(R initialValue, EdgeReducer<N,E,SO,R> reducer);

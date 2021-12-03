@@ -6,6 +6,7 @@ import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.EdgeReducer;
 import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.generic_graph.EdgeTypeReducer;
+import ca.ntro.core.graphs.generic_graph.GenericGraph;
 import ca.ntro.core.graphs.generic_graph.NodeNtro;
 import ca.ntro.core.path.Path;
 import ca.ntro.core.reflection.MethodNameReducer;
@@ -20,9 +21,14 @@ public abstract class ObjectNodeNtro
 	
 	private Object object;
 	private LocalHeap localHeap;
+	private ObjectGraph graph;
 
-	public Object getObject() {
-		return object;
+	public ObjectGraph getGraph(){
+		return graph;
+	}
+
+	public void setGraph(ObjectGraph graph) {
+		this.graph = graph;
 	}
 
 	public void setObject(Object object) {
@@ -37,14 +43,25 @@ public abstract class ObjectNodeNtro
 		this.localHeap = localHeap;
 	}
 
-	public ObjectNodeNtro(LocalHeap localHeap, Object object, NodeId nodeId) {
+	public Object getObject() {
+		return object;
+	}
+
+	public ObjectNodeNtro(ObjectGraph graph, LocalHeap localHeap, Object object, NodeId nodeId) {
 		super(nodeId);
+		setGraph(graph);
 		setLocalHeap(localHeap);
 		setObject(object);
 	}
 
 	protected abstract <R> void _reduceMethodNames(Object object, ResultNtro<R> result, MethodNameReducer<R> reducer);
 	protected abstract Object invokeGetter(Object object, String getterName) throws Throwable;
+
+	@Override
+	public GenericGraph<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder> parentGraph() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	protected <R> void _reduceEdgeTypesForDirection(Direction direction, ResultNtro<R> result, EdgeTypeReducer<R> reducer) {
@@ -105,7 +122,7 @@ public abstract class ObjectNodeNtro
 			Path attributePath = Path.fromRawPath(this.id().toKey().toString());
 			attributePath.addName(attributeName);
 			
-			ObjectNode toNode = getLocalHeap().findOrCreateNode(attributePath, attributeValue);
+			ObjectNode toNode = getLocalHeap().findOrCreateNode(getGraph(), attributePath, attributeValue);
 			ReferenceEdge edge = new ReferenceEdgeNtro(this, attributeName, toNode);
 			
 			result.registerValue(reducer.reduceEdge(result.value(), edge));

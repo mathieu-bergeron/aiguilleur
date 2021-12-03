@@ -2,18 +2,18 @@ package ca.ntro.core.reflection;
 
 import java.lang.reflect.Method;
 
-import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.reflection.object_graph.LocalHeap;
+import ca.ntro.core.reflection.object_graph.ObjectGraph;
 import ca.ntro.core.reflection.object_graph.ObjectGraphSearchOptionsBuilder;
 import ca.ntro.core.reflection.object_graph.ObjectGraphSearchOptionsBuilderNtro;
 import ca.ntro.core.reflection.object_graph.ObjectNodeNtro;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public class ObjectNodeJdk extends ObjectNodeNtro {
-
-	public ObjectNodeJdk(LocalHeap localHeap, Object object, NodeId nodeId) {
-		super(localHeap, object, nodeId);
+	
+	public ObjectNodeJdk(ObjectGraph graph, LocalHeap localHeap, Object object, NodeId nodeId) {
+		super(graph, localHeap, object, nodeId);
 	}
 
 	@Override
@@ -50,5 +50,4 @@ public class ObjectNodeJdk extends ObjectNodeNtro {
 	protected ObjectGraphSearchOptionsBuilder defaultSearchOptions() {
 		return new ObjectGraphSearchOptionsBuilderNtro();
 	}
-
 }

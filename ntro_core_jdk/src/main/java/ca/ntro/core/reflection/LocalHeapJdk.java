@@ -6,6 +6,7 @@ import java.util.Map;
 import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.reflection.object_graph.LocalHeap;
 import ca.ntro.core.reflection.object_graph.LocalHeapNtro;
+import ca.ntro.core.reflection.object_graph.ObjectGraph;
 import ca.ntro.core.reflection.object_graph.ObjectNode;
 
 public class LocalHeapJdk extends LocalHeapNtro {
@@ -13,8 +14,8 @@ public class LocalHeapJdk extends LocalHeapNtro {
 	private Map<Object, Map<ObjectNode, Object>> heap = new HashMap<>();
 
 	@Override
-	protected ObjectNode createNode(LocalHeap localHeap, Object object, NodeId nodeId) {
-		return new ObjectNodeJdk(localHeap, object, nodeId);
+	protected ObjectNode createNode(ObjectGraph graph, LocalHeap localHeap, Object object, NodeId nodeId) {
+		return new ObjectNodeJdk(graph, localHeap, object, nodeId);
 	}
 
 	@Override

@@ -1,17 +1,21 @@
 package ca.ntro.core.graphs.generic_graph;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.GraphId;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeAlreadyAddedException;
 import ca.ntro.core.graphs.NodeId;
+import ca.ntro.core.graphs.NodeIdNtro;
 import ca.ntro.core.graphs.NodeNotFoundException;
 import ca.ntro.core.graphs.NodeReducer;
 import ca.ntro.core.graphs.SearchOptionsBuilder;
 import ca.ntro.core.graphs.SearchOptionsNtro;
+import ca.ntro.core.identifyers.Key;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
@@ -26,7 +30,9 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
                       GenericGraph<N,E,SO> {
 
 	private GraphId id;
+
 	private Map<String, N> nodes = new HashMap<>();
+	private Set<String> startNodes = new HashSet<>();
 
 	public GraphId getId() {
 		return id;
@@ -67,9 +73,25 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 		setId(GraphId.fromGraphName(graphName));
 	}
 
+	@Override
+	public N addNode(String nodeId) {
+		NodeIdNtro nodeIdNtro = new NodeIdNtro(nodeId);
+
+		return addNode(nodeIdNtro);
+	}
 
 	@Override
-	public void addNode(N node) {
+	public N addNode(NodeId nodeId) {
+		N node = createNode(nodeId);
+		
+		addNode(node);
+		
+		return node;
+	}
+	
+	protected abstract N createNode(NodeId nodeId);
+
+	protected void addNode(N node) {
 		if(getNodes().containsKey(node.id().toKey().toString())) {
 
 			Ntro.exceptionThrower().throwException(new NodeAlreadyAddedException("Node already added: " + node.id().toKey()));

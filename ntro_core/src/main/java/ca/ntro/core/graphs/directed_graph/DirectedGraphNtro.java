@@ -6,14 +6,14 @@ import ca.ntro.core.graphs.generic_graph.GenericGraphBuilderNtro;
 import ca.ntro.core.graphs.generic_graph.InternalGraphWriter;
 import ca.ntro.core.graphs.generic_graph.InternalGraphWriterNtro;
 
-public class      DirectedGraphNtro<N extends Node<N,E,SO>,
-                                    E extends Edge<N,E,SO>,
-                                    SO extends DirectedGraphSearchOptionsBuilder>
+public abstract class DirectedGraphNtro<N extends Node<N,E,SO>,
+                                        E extends Edge<N,E,SO>,
+                                        SO extends DirectedGraphSearchOptionsBuilder>
 
-       extends    GenericGraphBuilderNtro<N,E,SO,DirectedGraph<N,E,SO>> 
+       extends        GenericGraphBuilderNtro<N,E,SO,DirectedGraph<N,E,SO>> 
 
-       implements DirectedGraph<N,E,SO>, 
-                  DirectedGraphBuilder<N,E,SO> {
+       implements     DirectedGraph<N,E,SO>, 
+                      DirectedGraphBuilder<N,E,SO> {
 
 	public DirectedGraphNtro() {
 		super();

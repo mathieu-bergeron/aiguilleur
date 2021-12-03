@@ -6,13 +6,13 @@ import ca.ntro.core.graphs.EdgeType;
 import ca.ntro.core.graphs.EdgeNameNtro;
 import ca.ntro.core.graphs.generic_graph.EdgeNtro;
 
-public class GraphEdge extends EdgeNtro<GraphNode, GraphEdge, GraphSearchOptionsBuilder> {
+public class MockEdge extends EdgeNtro<MockNode, MockEdge, GraphSearchOptionsBuilder> {
 
-	public GraphEdge(GraphNode from, EdgeType edgeName, GraphNode to) {
+	public MockEdge(MockNode from, EdgeType edgeName, MockNode to) {
 		super(from, edgeName, to);
 	}
 
-	public GraphEdge(GraphNode from, String edgeName, GraphNode to) {
+	public MockEdge(MockNode from, String edgeName, MockNode to) {
 		super(from, new EdgeNameNtro(Direction.FORWARD, edgeName), to);
 	}
 

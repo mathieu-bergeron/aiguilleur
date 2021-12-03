@@ -12,14 +12,14 @@ import ca.ntro.core.graphs.generic_graph.graph_strcuture.EdgesByDirection;
 import ca.ntro.core.graphs.generic_graph.graph_strcuture.EdgesByDirectionNtro;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
-public class HierarchicalNodeBuilderNtro<N extends HierarchicalNode<N,E,SO>,
- 									     E extends Edge<N,E,SO>,
- 									     SO extends HierarchicalGraphSearchOptionsBuilder>
+public abstract class HierarchicalNodeBuilderNtro<N extends HierarchicalNode<N,E,SO>,
+ 									              E extends Edge<N,E,SO>,
+ 									              SO extends HierarchicalGraphSearchOptionsBuilder>
 
-       extends     HierarchicalNodeNtro<N,E,SO> 
+       extends        HierarchicalNodeNtro<N,E,SO> 
 
-	   implements  HierarchicalNode<N,E,SO>,
-	               HierarchicalNodeBuilder<N,E,SO> {
+	   implements     HierarchicalNode<N,E,SO>,
+	                  HierarchicalNodeBuilder<N,E,SO> {
 
 
 	private EdgesByDirection<N,E,SO> edgesByDirection = new EdgesByDirectionNtro<>();

@@ -4,9 +4,9 @@ import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.directed_graph.DirectedGraphNtro;
 
-public class      DagNtro<N extends Node<N,E,SO>,
-                          E extends Edge<N,E,SO>,
-                          SO extends DagSearchOptionsBuilder>
+public abstract class DagNtro<N extends Node<N,E,SO>,
+                              E extends Edge<N,E,SO>,
+                              SO extends DagSearchOptionsBuilder>
                          
 
        extends    DirectedGraphNtro<N,E,SO> 

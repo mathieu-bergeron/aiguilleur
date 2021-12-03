@@ -9,7 +9,6 @@ public interface NodeBuilder<N extends Node<N,E,SO>,
                              SO extends SearchOptionsBuilder> 
 
         extends Node<N,E,SO> {
-	 
 
 	void addEdge(String edgeName, N to);
 
