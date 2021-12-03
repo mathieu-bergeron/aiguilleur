@@ -10,8 +10,11 @@ public interface NodeBuilder<N extends Node<N,E,SO>,
 
         extends Node<N,E,SO> {
 
-	void addEdge(String edgeName, N to);
+	void setIsStartNode(boolean b);
+
+	E addEdge(String edgeName, N toNode);
 
 	N toNode();
+
 
 }

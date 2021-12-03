@@ -293,7 +293,17 @@ public class GraphWriterJdk implements GraphWriter {
 		if(nodes.containsKey(nodeSpec.id())) return nodes.get(nodeSpec.id());
 
 		MutableNode node = mutNode(nodeSpec.id());
+		
 		node.attrs().add(Label.of(nodeSpec.label()));
+		
+		if(nodeSpec.color() != null) {
+			node.attrs().add("style", "filled");
+			node.attrs().add("fillcolor", nodeSpec.color());
+		}
+
+		if(nodeSpec.shape() != null) {
+			node.attrs().add("shape", nodeSpec.shape());
+		}
 
 		return node;
 	}

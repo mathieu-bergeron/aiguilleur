@@ -21,6 +21,7 @@ import ca.ntro.core.graphs.SearchOptionsNtro;
 import ca.ntro.core.graphs.SearchStrategy;
 import ca.ntro.core.graphs.WalkReducer;
 import ca.ntro.core.graphs.WalkVisitor;
+import ca.ntro.core.wrappers.optionnal.Optionnal;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
@@ -102,7 +103,9 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 		return result;
 	}
 
-	protected abstract SO defaultSearchOptions();
+	protected SO defaultSearchOptions() {
+		return parentGraph().defaultSearchOptions();
+	}
 
 	@Override
 	public void forEachReachableNode(ReachableNodeVisitor<N,E,SO> visitor) {
@@ -118,6 +121,19 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 			return null;
 
 		}).throwException();
+	}
+
+	protected void _forEachReachableNode(SearchOptions options, ReachableNodeVisitor<N,E,SO> visitor) {
+		ResultNtro<?> result = new ResultNtro<>();
+
+		_reduceReachableNodes(options, result, (accumulator, walkedSteps, n) -> {
+
+			visitor.visitReachableNode(walkedSteps, n);
+			return null;
+
+		});
+
+		result.throwException();
 	}
 
 	@Override
@@ -373,4 +389,24 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 		});
 	}
 
+	@Override
+	public boolean isPartOfCycle() {
+		ResultNtro<Boolean> result = new ResultNtro<>(false);
+		
+		SearchOptionsNtro options = new SearchOptionsNtro();
+		options.setDirections(new Direction[] {Direction.FORWARD});
+		options.setSearchStrategy(SearchStrategy.DEPTH_FIRST_SEARCH);
+		options.setMaxDistance(Optionnal.none(Integer.class));
+		options.setSortEdgesByName(false);
+		
+		_forEachReachableNode(options, (walked, reachableNode) -> {
+
+			if(reachableNode == this) {
+				result.registerValue(true);
+				throw new Break();
+			}
+		});
+		
+		return result.value();
+	}
 }

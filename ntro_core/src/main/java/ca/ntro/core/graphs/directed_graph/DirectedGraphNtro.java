@@ -24,7 +24,7 @@ public abstract class DirectedGraphNtro<N extends Node<N,E,SO>,
 	}
 
 	@Override
-	protected SO defaultSearchOptions() {
+	public SO defaultSearchOptions() {
 		return (SO) new DirectedGraphSearchOptionsBuilderNtro();
 	}
 

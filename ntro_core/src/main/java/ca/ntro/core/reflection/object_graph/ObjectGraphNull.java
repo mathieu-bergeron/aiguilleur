@@ -74,4 +74,9 @@ public class ObjectGraphNull implements ObjectGraph {
 		return null;
 	}
 
+	@Override
+	public ObjectGraphSearchOptionsBuilder defaultSearchOptions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

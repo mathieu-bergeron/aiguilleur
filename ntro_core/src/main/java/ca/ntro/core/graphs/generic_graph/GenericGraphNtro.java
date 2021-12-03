@@ -40,7 +40,8 @@ public abstract class GenericGraphNtro<N extends Node<N,E,SO>,
 
 	protected abstract InternalGraphWriter<N,E,SO> internalGraphWriter();
 
-	protected abstract SO defaultSearchOptions();
+	@Override
+	public abstract SO defaultSearchOptions();
 
 	protected abstract <R> void _reduceStartNodes(ResultNtro<R> result, NodeReducer<N, E, SO, R> reducer);
 

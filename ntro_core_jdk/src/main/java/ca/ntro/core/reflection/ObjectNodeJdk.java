@@ -50,4 +50,5 @@ public class ObjectNodeJdk extends ObjectNodeNtro {
 	protected ObjectGraphSearchOptionsBuilder defaultSearchOptions() {
 		return new ObjectGraphSearchOptionsBuilderNtro();
 	}
+
 }

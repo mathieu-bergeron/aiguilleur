@@ -5,7 +5,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
+import ca.ntro.core.graphs.EdgeType;
+import ca.ntro.core.graphs.EdgeTypeNtro;
 import ca.ntro.core.graphs.GraphId;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeAlreadyAddedException;
@@ -15,7 +18,6 @@ import ca.ntro.core.graphs.NodeNotFoundException;
 import ca.ntro.core.graphs.NodeReducer;
 import ca.ntro.core.graphs.SearchOptionsBuilder;
 import ca.ntro.core.graphs.SearchOptionsNtro;
-import ca.ntro.core.identifyers.Key;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
@@ -32,7 +34,6 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 	private GraphId id;
 
 	private Map<String, N> nodes = new HashMap<>();
-	private Set<String> startNodes = new HashSet<>();
 
 	public GraphId getId() {
 		return id;
@@ -79,17 +80,50 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 
 		return addNode(nodeIdNtro);
 	}
+	
+    @SuppressWarnings("unchecked")
+	protected GenericGraphBuilder<N,E,SO,GenericGraph<N,E,SO>> toGenericGraphBuilder(){
+    	return (GenericGraphBuilder<N,E,SO,GenericGraph<N,E,SO>>) this;
+    }
 
 	@Override
 	public N addNode(NodeId nodeId) {
-		N node = createNode(nodeId);
-		
+		N node = createNode(nodeId, toGenericGraphBuilder());
+
 		addNode(node);
 		
 		return node;
 	}
-	
-	protected abstract N createNode(NodeId nodeId);
+
+	protected abstract N createNode(NodeId nodeId, GenericGraphBuilder<N,E,SO,GenericGraph<N,E,SO>> graphBuilder);
+
+	@Override
+	public E addEdge(N fromNode, String edgeName, N toNode) {
+		EdgeType edgeTypeForward = new EdgeTypeNtro(Direction.FORWARD, edgeName);
+		EdgeType edgeTypeBackward = new EdgeTypeNtro(Direction.BACKWARD, edgeName);
+		
+		addEdge(toNode, edgeTypeBackward, fromNode);
+		
+		E forwardEdge = addEdge(fromNode,edgeTypeForward,toNode);
+
+		if(!toNode.isPartOfCycle()) {
+			((NodeBuilder<N,E,SO>) toNode).setIsStartNode(false);
+		}
+		
+		return forwardEdge;
+	}
+
+	@SuppressWarnings("unchecked")
+	protected E addEdge(N fromNode, EdgeType edgeType, N toNode) {
+
+		E edge = createEdge(fromNode, edgeType, toNode);
+
+		((NodeBuilderNtro<N,E,SO>) fromNode).addEdge(edge);
+		
+		return edge;
+	}
+
+	protected abstract E createEdge(N fromNode, EdgeType edgeType, N toNode);
 
 	protected void addNode(N node) {
 		if(getNodes().containsKey(node.id().toKey().toString())) {
@@ -99,13 +133,13 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 		}else {
 			
 			getNodes().put(node.id().toKey().toString(), node);
+
 		}
 	}
 
-
 	@SuppressWarnings("unchecked")
 	@Override
-	protected SO defaultSearchOptions() {
+	public SO defaultSearchOptions() {
 		return (SO) new SearchOptionsNtro();
 	}
 

@@ -4,5 +4,7 @@ public interface NodeSpec {
 	
 	String id();
 	String label();
+	String color();
+	String shape();
 
 }

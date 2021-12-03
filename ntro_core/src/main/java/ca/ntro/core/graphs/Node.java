@@ -11,6 +11,9 @@ public interface Node<N extends Node<N,E,SO>,
 	NodeId id();
 	GenericGraph<N,E,SO> parentGraph();
 
+	boolean isStartNode();
+	boolean isPartOfCycle();
+
 	void forEachEdge(EdgeVisitor<N,E,SO> visitor);
 	<R extends Object> Result<R> reduceEdges(R initialValue, EdgeReducer<N,E,SO,R> reducer);
 

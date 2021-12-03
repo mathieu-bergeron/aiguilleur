@@ -3,7 +3,7 @@ package ca.ntro.core.graphs.graph;
 import ca.ntro.core.graphs.Direction;
 
 import ca.ntro.core.graphs.EdgeType;
-import ca.ntro.core.graphs.EdgeNameNtro;
+import ca.ntro.core.graphs.EdgeTypeNtro;
 import ca.ntro.core.graphs.generic_graph.EdgeNtro;
 
 public class MockEdge extends EdgeNtro<MockNode, MockEdge, GraphSearchOptionsBuilder> {
@@ -13,7 +13,7 @@ public class MockEdge extends EdgeNtro<MockNode, MockEdge, GraphSearchOptionsBui
 	}
 
 	public MockEdge(MockNode from, String edgeName, MockNode to) {
-		super(from, new EdgeNameNtro(Direction.FORWARD, edgeName), to);
+		super(from, new EdgeTypeNtro(Direction.FORWARD, edgeName), to);
 	}
 
 }

@@ -22,6 +22,8 @@ public interface GenericGraph<N extends Node<N,E,SO>,
 
 	void write(GraphWriter writer);
 
+	SO defaultSearchOptions();
+
 	N findNode(NodeId id);
 	
 	void forEachStartNode(NodeVisitor<N,E,SO> visitor);

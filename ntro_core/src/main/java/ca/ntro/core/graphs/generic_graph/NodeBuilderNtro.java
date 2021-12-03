@@ -4,12 +4,11 @@ import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.EdgeAlreadyAddedException;
 import ca.ntro.core.graphs.EdgeType;
-import ca.ntro.core.graphs.EdgeTypeNtro;
 import ca.ntro.core.graphs.EdgeReducer;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.SearchOptionsBuilder;
-import ca.ntro.core.graphs.SearchOptionsNtro;
+import ca.ntro.core.graphs.SearchOptionsBuilderNtro;
 import ca.ntro.core.graphs.generic_graph.graph_strcuture.EdgesByDirection;
 import ca.ntro.core.graphs.generic_graph.graph_strcuture.EdgesByDirectionNtro;
 import ca.ntro.core.initialization.Ntro;
@@ -24,7 +23,8 @@ public abstract class NodeBuilderNtro<N extends Node<N,E,SO>,
       implements      Node<N,E,SO>,
       	              NodeBuilder<N,E,SO> {
 
-	private GenericGraphBuilderNtro<N,E,SO, GenericGraph<N,E,SO>> graph;
+	private boolean isStartNode = true;
+	private GenericGraphBuilder<N,E,SO, GenericGraph<N,E,SO>> graphBuilder;
 	private EdgesByDirection<N,E,SO> edgesByDirection = new EdgesByDirectionNtro<>();
 
 	public EdgesByDirection<N, E, SO> getEdgesByDirection() {
@@ -35,17 +35,25 @@ public abstract class NodeBuilderNtro<N extends Node<N,E,SO>,
 		this.edgesByDirection = edgesByDirection;
 	}
 
-	public GenericGraphBuilderNtro<N, E, SO, GenericGraph<N, E, SO>> getGraph() {
-		return graph;
+	public GenericGraphBuilder<N, E, SO, GenericGraph<N, E, SO>> getGraphBuilder() {
+		return graphBuilder;
 	}
 
-	public void setGraph(GenericGraphBuilderNtro<N, E, SO, GenericGraph<N, E, SO>> graph) {
-		this.graph = graph;
+	public void setGraphBuilder(GenericGraphBuilder<N, E, SO, GenericGraph<N, E, SO>> graph) {
+		this.graphBuilder = graph;
 	}
 
-	public NodeBuilderNtro(NodeId nodeId, GenericGraphBuilderNtro<N,E,SO,GenericGraph<N,E,SO>> graph) {
+	public boolean getIsStartNode() {
+		return isStartNode;
+	}
+
+	public void setIsStartNode(boolean isStartNode) {
+		this.isStartNode = isStartNode;
+	}
+
+	public NodeBuilderNtro(NodeId nodeId, GenericGraphBuilder<N,E,SO,GenericGraph<N,E,SO>> graphBuilder) {
 		super(nodeId);
-		setGraph(graph);
+		setGraphBuilder(graphBuilder);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -72,27 +80,24 @@ public abstract class NodeBuilderNtro<N extends Node<N,E,SO>,
 
 	@Override
 	public GenericGraph<N,E,SO> parentGraph(){
-		return getGraph();
+		return getGraphBuilder().toGraph();
 	}
 
 	@SuppressWarnings("unchecked")
-	@Override
-	public void addEdge(String edgeName, N to) {
-		EdgeTypeNtro edgeForward = new EdgeTypeNtro(Direction.FORWARD, edgeName);
-		EdgeTypeNtro edgeBackward = new EdgeTypeNtro(Direction.BACKWARD, edgeName);
-		
-		addEdge(edgeForward, to);
-
-		((NodeBuilderNtro<N,E,SO>) to).addEdge(edgeBackward, this.toNode());
+	protected GenericGraphBuilder<N,E,SO,?> graphBuilder(){
+		return ((GenericGraphBuilderNtro<N,E,SO,?>) parentGraph());
 	}
 
-	protected void addEdge(EdgeType edgeType, N to) {
+	@Override
+	public E addEdge(String edgeName, N toNode) {
+		return graphBuilder().addEdge(this.toNode(), edgeName, toNode);
+	}
 
-		E edge = createEdge(this.toNode(), edgeType, to);
-		
+	protected void addEdge(E edge) {
+
 		if(getEdgesByDirection().containsEdge(edge)) {
-			
-			Ntro.exceptionThrower().throwException(new EdgeAlreadyAddedException("Edge already added: " +  edgeType));
+
+			Ntro.exceptionThrower().throwException(new EdgeAlreadyAddedException("Edge already added: " +  edge.id().toKey()));
 			
 		}else {
 
@@ -100,8 +105,6 @@ public abstract class NodeBuilderNtro<N extends Node<N,E,SO>,
 		}
 	}
 	
-	protected abstract E createEdge(N fromNode, EdgeType edgeType, N toNode);
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public N toNode() {
@@ -123,6 +126,11 @@ public abstract class NodeBuilderNtro<N extends Node<N,E,SO>,
 
 	@Override
 	protected SO defaultSearchOptions() {
-		return (SO) new SearchOptionsNtro();
+		return (SO) new SearchOptionsBuilderNtro();
+	}
+
+	@Override
+	public boolean isStartNode() {
+		return getIsStartNode();
 	}
 }

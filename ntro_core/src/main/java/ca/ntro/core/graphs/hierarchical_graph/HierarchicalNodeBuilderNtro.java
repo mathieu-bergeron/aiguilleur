@@ -22,6 +22,8 @@ public abstract class HierarchicalNodeBuilderNtro<N extends HierarchicalNode<N,E
 	                  HierarchicalNodeBuilder<N,E,SO> {
 
 
+	private boolean isStartNode = true;
+	private HierarchicalGraphBuilder<N,E,SO> graphBuilder;
 	private EdgesByDirection<N,E,SO> edgesByDirection = new EdgesByDirectionNtro<>();
 
 	public EdgesByDirection<N, E, SO> getEdgesByDirection() {
@@ -32,8 +34,27 @@ public abstract class HierarchicalNodeBuilderNtro<N extends HierarchicalNode<N,E
 		this.edgesByDirection = edgesByDirection;
 	}
 
-	public HierarchicalNodeBuilderNtro(NodeId id) {
+	public HierarchicalGraphBuilder<N, E, SO> getGraphBuilder() {
+		return graphBuilder;
+	}
+
+	public void setGraphBuilder(HierarchicalGraphBuilder<N, E, SO> graphBuilder) {
+		this.graphBuilder = graphBuilder;
+	}
+	
+	@Override
+	public void setIsStartNode(boolean isStartNode) {
+		this.isStartNode = isStartNode;
+	}
+
+	public boolean getIsStartNode() {
+		return isStartNode;
+	}
+
+
+	public HierarchicalNodeBuilderNtro(NodeId id, HierarchicalGraphBuilder<N,E,SO> graphBuilder) {
 		super(id);
+		setGraphBuilder(graphBuilder);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -42,14 +63,9 @@ public abstract class HierarchicalNodeBuilderNtro<N extends HierarchicalNode<N,E
 		return (N) this;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public void addEdge(String edgeName, N to) {
-		EdgeTypeNtro edgeType = new EdgeTypeNtro(Direction.FORWARD, edgeName);
-
-		E edge = (E) new EdgeNtro<N,E,SO>(this.toNode(), edgeType, to);
-
-		getEdgesByDirection().addEdge(edge);
+	public E addEdge(String edgeName, N toNode) {
+		return getGraphBuilder().addEdge(this.toNode(), edgeName, toNode);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -61,7 +77,7 @@ public abstract class HierarchicalNodeBuilderNtro<N extends HierarchicalNode<N,E
 
 		getEdgesByDirection().addEdge(edge);
 
-		((HierarchicalNodeBuilderNtro) subNode).addParentNode(this);
+		((HierarchicalNodeBuilderNtro<N,E,SO>) subNode).addParentNode(this.toNode());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -88,4 +104,10 @@ public abstract class HierarchicalNodeBuilderNtro<N extends HierarchicalNode<N,E
 	protected SO defaultSearchOptions() {
 		return (SO) new HierarchicalGraphSearchOptionsBuilderNtro();
 	}
+
+	@Override
+	public boolean isStartNode() {
+		return getIsStartNode();
+	}
+
 }

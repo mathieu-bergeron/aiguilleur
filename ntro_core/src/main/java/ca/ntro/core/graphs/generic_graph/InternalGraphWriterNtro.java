@@ -1,5 +1,6 @@
 package ca.ntro.core.graphs.generic_graph;
 
+import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeNotFoundException;
@@ -44,15 +45,21 @@ public class      InternalGraphWriterNtro<N extends Node<N,E,SO>,
 
 	protected void writeNodes(GenericGraph<N,E,SO> graph, GraphWriter writer) {
 		graph.forEachNode(n -> {
-			writer.addNode(new NodeSpecNtro(n));
+			NodeSpecNtro nodeSpec = new NodeSpecNtro(n);
+
+			if(n.isStartNode()) {
+				nodeSpec.setShape("hexagon");
+			}
+
+			writer.addNode(nodeSpec);
 		});
 	}
 
 	protected void writeEdges(GenericGraph<N,E,SO> graph, GraphWriter writer) {
 		graph.forEachEdge((edge) -> {
-
-			writeEdge(writer, edge);
-
+			if(edge.type().direction() == Direction.FORWARD) {
+				writeEdge(writer, edge);
+			}
 		});
 	}
 

@@ -137,4 +137,9 @@ public abstract class ObjectNodeNtro
 	public Object object() {
 		return getObject();
 	}
+
+	@Override
+	public boolean isStartNode() {
+		return ((ObjectGraphNtro) getGraph()).isStartNode(this);
+	}
 }

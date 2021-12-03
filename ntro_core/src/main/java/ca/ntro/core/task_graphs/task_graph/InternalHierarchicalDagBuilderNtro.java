@@ -2,6 +2,8 @@ package ca.ntro.core.task_graphs.task_graph;
 
 import ca.ntro.core.graphs.EdgeType;
 import ca.ntro.core.graphs.NodeId;
+import ca.ntro.core.graphs.generic_graph.GenericGraph;
+import ca.ntro.core.graphs.generic_graph.GenericGraphBuilder;
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDag;
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagBuilderNtro;
 
@@ -27,18 +29,27 @@ public class InternalHierarchicalDagBuilderNtro<T  extends Task<T,AT>,
 
 	@Override
 	public TaskGraphEdge<T, AT> addEdge(TaskGraphNode<T, AT> fromNode, String edgeName, TaskGraphNode<T, AT> toNode) {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public TaskGraphEdge<T, AT> addEdge(TaskGraphNode<T, AT> fromNode, EdgeType edgeType, TaskGraphNode<T, AT> toNode) {
-		// TODO Auto-generated method stub
+
+		return null;
+	}
+
+
+	@Override
+	protected TaskGraphEdge<T, AT> createEdge(TaskGraphNode<T, AT> fromNode, EdgeType edgeType,
+			TaskGraphNode<T, AT> toNode) {
+
 		return null;
 	}
 
 	@Override
-	protected TaskGraphNode<T, AT> createNode(NodeId nodeId) {
+	protected TaskGraphNode<T, AT> createNode(NodeId nodeId,
+			GenericGraphBuilder<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder, GenericGraph<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder>> graphBuilder) {
 		// TODO Auto-generated method stub
 		return null;
 	}

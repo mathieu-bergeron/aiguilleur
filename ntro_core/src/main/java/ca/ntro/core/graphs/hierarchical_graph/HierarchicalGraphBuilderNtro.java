@@ -26,7 +26,7 @@ public abstract class HierarchicalGraphBuilderNtro<N extends HierarchicalNode<N,
 	}
 
 	@Override
-	protected SO defaultSearchOptions() {
+	public SO defaultSearchOptions() {
 		return (SO) new HierarchicalGraphSearchOptionsBuilderNtro();
 	}
 }

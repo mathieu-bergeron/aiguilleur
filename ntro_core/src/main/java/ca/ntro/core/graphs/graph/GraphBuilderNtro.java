@@ -25,7 +25,7 @@ public abstract class GraphBuilderNtro<N extends Node<N,E,SO>,
 	}
 
 	@Override
-	protected SO defaultSearchOptions() {
+	public SO defaultSearchOptions() {
 		return (SO) new GraphSearchOptionsBuilderNtro();
 	}
 

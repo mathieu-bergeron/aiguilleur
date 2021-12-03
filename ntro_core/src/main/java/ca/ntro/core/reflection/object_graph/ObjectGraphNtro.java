@@ -58,7 +58,7 @@ public abstract class ObjectGraphNtro
 	}
 
 	@Override
-	protected ObjectGraphSearchOptionsBuilder defaultSearchOptions() {
+	public ObjectGraphSearchOptionsBuilder defaultSearchOptions() {
 		return new ObjectGraphSearchOptionsBuilderNtro();
 	}
 
@@ -104,5 +104,18 @@ public abstract class ObjectGraphNtro
 
 			result.registerException(t);
 		}
+	}
+
+	boolean isStartNode(ObjectNode objectNode) {
+		boolean isStartNode = false;
+		
+		for(Object startObjet : startObjects) {
+			if(objectNode.object() == startObjet) {
+				isStartNode = true;
+				break;
+			}
+		}
+		
+		return isStartNode;
 	}
 }

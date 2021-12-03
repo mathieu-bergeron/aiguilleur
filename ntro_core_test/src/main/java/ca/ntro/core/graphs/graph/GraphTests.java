@@ -1,19 +1,8 @@
 package ca.ntro.core.graphs.graph;
 
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
-import ca.ntro.core.graphs.DirectedEdgeTriple;
-import ca.ntro.core.graphs.Direction;
-import ca.ntro.core.graphs.EdgeAlreadyAddedException;
-import ca.ntro.core.graphs.EdgeTypeNtro;
-import ca.ntro.core.graphs.NodeAlreadyAddedException;
-import ca.ntro.core.graphs.SearchStrategy;
 import ca.ntro.core.initialization.InitializerTest;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.services.ExceptionThrowerMock;
@@ -36,12 +25,35 @@ public class GraphTests {
 	@Test
 	public void simpleGraph00() throws Throwable {
 
-		MockGraphBuilder builder = new MockGraphBuilder();
+		MockGraphBuilder builder = new MockGraphBuilder("simpleGraph00");
 		
 		MockNode nodeA = builder.addNode("A");
 		MockNode nodeB = builder.addNode("B");
+		MockNode nodeC = builder.addNode("C");
 
 		MockEdge edgeAB = builder.addEdge(nodeA, "AB", nodeB);
+		MockEdge edgeBC = builder.addEdge(nodeB, "BC", nodeC);
+
+		Graph<MockNode, MockEdge, GraphSearchOptionsBuilder> graph = builder.toGraph();
+
+		graph.write(Ntro.graphWriter());
+	}
+
+	@Test
+	public void simpleGraph01() throws Throwable {
+
+		MockGraphBuilder builder = new MockGraphBuilder("simpleGraph01");
+
+		MockNode nodeA = builder.addNode("A");
+
+		MockNode nodeB = builder.addNode("B");
+		MockNode nodeC = builder.addNode("C");
+		MockNode nodeD= builder.addNode("D");
+
+		MockEdge edgeAC = builder.addEdge(nodeA, "AC", nodeC);
+		MockEdge edgeBC = builder.addEdge(nodeB, "BC", nodeC);
+		MockEdge edgeCD = builder.addEdge(nodeC, "CD", nodeD);
+		MockEdge edgeDB = builder.addEdge(nodeD, "DA", nodeA);
 
 		Graph<MockNode, MockEdge, GraphSearchOptionsBuilder> graph = builder.toGraph();
 
@@ -128,7 +140,6 @@ public class GraphTests {
 		*/
 	}
 
-	@Ignore
 	@Test
 	public void edgeAlreadyAddedExceptionUndirected() {
 		/*
