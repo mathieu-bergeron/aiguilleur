@@ -9,7 +9,7 @@ public interface Graph<N extends Node<N,E,SO>,
                        E extends Edge<N,E,SO>,
                        SO extends SearchOptionsBuilder>
 
-       extends    GenericGraph<N,E,SO> {
+       extends   GenericGraph<N,E,SO> {
 
 	
 

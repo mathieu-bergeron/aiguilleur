@@ -72,6 +72,8 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 		return getNodeId();
 	}
 
+	// FIXME: this should be done by composition, not heritage
+	//        by composition, 
 	protected abstract <R> void _reduceEdgeTypesForDirection(Direction direction, ResultNtro<R> result, EdgeTypeReducer<R> reducer);
 	protected abstract <R> void _reduceEdgesByType(EdgeType edgeType, ResultNtro<R> result, EdgeReducer<N,E,SO,R> reducer);
 
