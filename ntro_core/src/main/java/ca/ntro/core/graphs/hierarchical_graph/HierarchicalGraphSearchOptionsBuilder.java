@@ -5,7 +5,7 @@ import ca.ntro.core.graphs.graph.GraphSearchOptionsBuilder;
 public interface HierarchicalGraphSearchOptionsBuilder extends GraphSearchOptionsBuilder {
 
 	enum HierarchicalGraphDirection {
-		SIDEWAYS, UP, DOWN
+		SAME_LEVEL, UP_TO_PARENT_NODE, DOWN_TO_SUB_NODES
 	}
 
 }
