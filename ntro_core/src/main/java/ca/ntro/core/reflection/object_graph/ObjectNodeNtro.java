@@ -2,12 +2,18 @@ package ca.ntro.core.reflection.object_graph;
 
 import ca.ntro.core.graphs.EdgeType;
 import ca.ntro.core.graphs.EdgeTypeNtro;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.EdgeReducer;
 import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.generic_graph.EdgeTypeReducer;
 import ca.ntro.core.graphs.generic_graph.GenericGraph;
 import ca.ntro.core.graphs.generic_graph.NodeNtro;
+import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.path.Path;
 import ca.ntro.core.reflection.MethodNameReducer;
 import ca.ntro.core.reflection.ReflectionUtils;
@@ -75,6 +81,61 @@ public abstract class ObjectNodeNtro
 
 		Object currentObject = object();
 		
+		if(currentObject instanceof List) {
+			
+			_reduceEdgeTypesForList(result, reducer, (List<?>) currentObject);
+
+			
+		} else if(currentObject instanceof Map) {
+
+			_reduceEdgeTypesForMap(result, reducer, (Map<String,?>) currentObject);
+			
+		}else {
+			
+			_reduceEdgeTypesForUserDefinedObject(result, reducer, currentObject);
+		}
+	}
+
+	protected <R> void _reduceEdgeTypesForList(ResultNtro<R> result, 
+			                                   EdgeTypeReducer<R> reducer, 
+			                                   List<?> list) {
+		
+		for(int i = 0; i < list.size(); i++) {
+			try {
+				
+				result.registerValue(reducer.reduceEdgeType(result.value(), new EdgeTypeNtro(Direction.FORWARD, String.valueOf(i))));
+
+			} catch (Throwable t) {
+				
+				result.registerException(t);
+			}
+		}
+	}
+
+	protected <R> void _reduceEdgeTypesForMap(ResultNtro<R> result, 
+			                                  EdgeTypeReducer<R> reducer, 
+			                                  Map<String,?> map) {
+		
+		List<String> keys = new ArrayList<>(map.keySet());
+		
+		List<String> sortedKeys = Ntro.collections().sortList(keys);
+
+		for(String key : sortedKeys) {
+			try {
+				
+				result.registerValue(reducer.reduceEdgeType(result.value(), new EdgeTypeNtro(Direction.FORWARD, key)));
+
+			} catch (Throwable t) {
+				
+				result.registerException(t);
+			}
+		}
+	}
+
+	protected <R> void _reduceEdgeTypesForUserDefinedObject(ResultNtro<R> result, 
+			                                                EdgeTypeReducer<R> reducer, 
+			                                                Object currentObject) {
+
 		_reduceMethodNames(currentObject, result, (__, methodName) -> {
 
 			if(ReflectionUtils.isGetterName(methodName) 
@@ -83,7 +144,7 @@ public abstract class ObjectNodeNtro
 				String attributeName = ReflectionUtils.attributeNameFromGetterName(methodName);
 
 				try {
-
+					
 					result.registerValue(reducer.reduceEdgeType(result.value(), new EdgeTypeNtro(Direction.FORWARD, attributeName)));
 
 				} catch (Throwable t) {
