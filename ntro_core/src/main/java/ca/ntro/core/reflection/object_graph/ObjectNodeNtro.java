@@ -78,9 +78,13 @@ public abstract class ObjectNodeNtro
 		if(direction != Direction.FORWARD) {
 			return;
 		}
+		
+		if(isSimpleValue(object())) {
+			return;
+		}
 
 		Object currentObject = object();
-		
+
 		if(currentObject instanceof List) {
 			
 			_reduceEdgeTypesForList(result, reducer, (List<?>) currentObject);
@@ -94,6 +98,16 @@ public abstract class ObjectNodeNtro
 			
 			_reduceEdgeTypesForUserDefinedObject(result, reducer, currentObject);
 		}
+	}
+
+	private boolean isSimpleValue(Object object) {
+		return object instanceof String
+				|| object instanceof Character
+				|| object instanceof Integer
+				|| object instanceof Long
+				|| object instanceof Float
+				|| object instanceof Double
+				|| object instanceof Boolean;
 	}
 
 	protected <R> void _reduceEdgeTypesForList(ResultNtro<R> result, 
