@@ -65,8 +65,7 @@ public abstract class ObjectNodeNtro
 
 	@Override
 	public GenericGraph<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder> parentGraph() {
-		// TODO Auto-generated method stub
-		return null;
+		return getGraph();
 	}
 
 	@Override
