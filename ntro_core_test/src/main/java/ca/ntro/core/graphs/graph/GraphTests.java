@@ -37,9 +37,9 @@ public class GraphTests {
 
 		MockGraphBuilder builder = new MockGraphBuilder("simpleGraph01");
 		
-		MockNodeBuilder nodeA = builder.addNode("A");
-		MockNodeBuilder nodeB = builder.addNode("B");
-		MockNodeBuilder nodeC = builder.addNode("C");
+		MockNode nodeA = builder.addNode("A");
+		MockNode nodeB = builder.addNode("B");
+		MockNode nodeC = builder.addNode("C");
 
 		MockEdge edgeAB = builder.addEdge(nodeA, "AB", nodeB);
 		MockEdge edgeBC = builder.addEdge(nodeB, "BC", nodeC);
@@ -53,11 +53,11 @@ public class GraphTests {
 
 		MockGraphBuilder builder = new MockGraphBuilder("simpleGraph02");
 
-		MockNodeBuilder nodeA = builder.addNode("A");
+		MockNode nodeA = builder.addNode("A");
 
-		MockNodeBuilder nodeB = builder.addNode("B");
-		MockNodeBuilder nodeC = builder.addNode("C");
-		MockNodeBuilder nodeD= builder.addNode("D");
+		MockNode nodeB = builder.addNode("B");
+		MockNode nodeC = builder.addNode("C");
+		MockNode nodeD= builder.addNode("D");
 
 		MockEdge edgeAC = builder.addEdge(nodeA, "AC", nodeC);
 		MockEdge edgeBC = builder.addEdge(nodeB, "BC", nodeC);
@@ -74,17 +74,17 @@ public class GraphTests {
 
 		MockGraphBuilder builder = new MockGraphBuilder("simpleGraph03");
 
-		MockNodeBuilder nodeA = builder.addNode("A");
+		MockNode nodeA = builder.addNode("A");
 
-		MockNodeBuilder nodeB = builder.addNode("B");
-		MockNodeBuilder nodeC = builder.addNode("C");
-		MockNodeBuilder nodeD = builder.addNode("D");
-		MockNodeBuilder nodeE = builder.addNode("E");
+		MockNode nodeB = builder.addNode("B");
+		MockNode nodeC = builder.addNode("C");
+		MockNode nodeD = builder.addNode("D");
+		MockNode nodeE = builder.addNode("E");
 
-		MockNodeBuilder nodeF = builder.addNode("F");
-		MockNodeBuilder nodeG = builder.addNode("G");
-		MockNodeBuilder nodeH = builder.addNode("H");
-		MockNodeBuilder nodeI = builder.addNode("I");
+		MockNode nodeF = builder.addNode("F");
+		MockNode nodeG = builder.addNode("G");
+		MockNode nodeH = builder.addNode("H");
+		MockNode nodeI = builder.addNode("I");
 
 		builder.addEdge(nodeA, "AB", nodeB);
 		builder.addEdge(nodeA, "AC", nodeC);
@@ -113,8 +113,8 @@ public class GraphTests {
 
 		MockGraphBuilder builder = new MockGraphBuilder("nodeAlreadyExists01");
 
-		MockNodeBuilder nodeA = builder.addNode("A");
-		MockNodeBuilder nodeAA = builder.addNode("A");
+		MockNode nodeA = builder.addNode("A");
+		MockNode nodeAA = builder.addNode("A");
 
 		Graph<MockNode, MockEdge, GraphSearchOptionsBuilder> graph = builder.asGraph();
 

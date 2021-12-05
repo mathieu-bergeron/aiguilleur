@@ -7,14 +7,14 @@ import ca.ntro.core.graphs.generic_graph.GenericGraph;
 import ca.ntro.core.graphs.generic_graph.GenericGraphBuilder;
 import ca.ntro.core.graphs.generic_graph.GenericGraphStructure;
 
-public class MockGraphBuilder extends GraphBuilderNtro<MockNode, MockEdge, GraphSearchOptionsBuilder, MockNodeBuilder>{
+public class MockGraphBuilder extends GraphBuilderNtro<MockNode, MockEdge, GraphSearchOptionsBuilder, MockNode>{
 
 	public MockGraphBuilder(String graphName) {
 		super(graphName);
 	}
 
 	@Override
-	protected MockEdge createEdge(MockNodeBuilder fromNode, EdgeType edgeType, MockNodeBuilder toNode) {
+	protected MockEdge createEdge(MockNode fromNode, EdgeType edgeType, MockNode toNode) {
 
 		return new MockEdge(fromNode.toNode(), edgeType, toNode.toNode());
 	}
@@ -22,14 +22,14 @@ public class MockGraphBuilder extends GraphBuilderNtro<MockNode, MockEdge, Graph
 	@Override
 	protected Graph<MockNode, MockEdge, GraphSearchOptionsBuilder> createGraph(GraphId id,
 			GenericGraphStructure<MockNode, MockEdge, GraphSearchOptionsBuilder> graphStructure) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return (Graph<MockNode, MockEdge, GraphSearchOptionsBuilder>) new MockGraph(id, graphStructure);
 	}
 
 	@Override
-	protected MockNodeBuilder createNodeBuilder(NodeId nodeId,
-			GenericGraphBuilder<MockNode, MockEdge, GraphSearchOptionsBuilder, MockNodeBuilder, GenericGraph<MockNode, MockEdge, GraphSearchOptionsBuilder>> graphBuilder) {
-		// TODO Auto-generated method stub
-		return null;
+	protected MockNode createNodeBuilder(NodeId nodeId,
+			GenericGraphBuilder<MockNode, MockEdge, GraphSearchOptionsBuilder, MockNode, GenericGraph<MockNode, MockEdge, GraphSearchOptionsBuilder>> graphBuilder) {
+
+		return new MockNode(nodeId, graphBuilder);
 	}
 }
