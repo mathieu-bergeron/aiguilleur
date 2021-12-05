@@ -2,59 +2,28 @@ package ca.ntro.core.graphs.hierarchical_graph;
 
 import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.Edge;
-import ca.ntro.core.graphs.EdgeReducer;
-import ca.ntro.core.graphs.EdgeType;
 import ca.ntro.core.graphs.EdgeTypeNtro;
 import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.generic_graph.EdgeNtro;
-import ca.ntro.core.graphs.generic_graph.EdgeTypeReducer;
-import ca.ntro.core.graphs.generic_graph.graph_strcuture.EdgesByDirection;
-import ca.ntro.core.graphs.generic_graph.graph_strcuture.EdgesByDirectionNtro;
-import ca.ntro.core.wrappers.result.ResultNtro;
+import ca.ntro.core.graphs.generic_graph.GenericGraph;
+import ca.ntro.core.graphs.generic_graph.GenericGraphBuilder;
+import ca.ntro.core.graphs.generic_graph.GenericNodeBuilderNtro;
 
 public abstract class HierarchicalNodeBuilderNtro<N extends HierarchicalNode<N,E,SO>,
  									              E extends Edge<N,E,SO>,
- 									              SO extends HierarchicalGraphSearchOptionsBuilder>
+ 									              SO extends HierarchicalGraphSearchOptionsBuilder,
+ 									              NB extends HierarchicalNodeBuilder<N,E,SO,NB>>
 
-       extends        HierarchicalNodeNtro<N,E,SO> 
+       extends        GenericNodeBuilderNtro<N,E,SO,NB> 
 
 	   implements     HierarchicalNode<N,E,SO>,
-	                  HierarchicalNodeBuilder<N,E,SO> {
+	                  HierarchicalNodeBuilder<N,E,SO,NB> {
 
 
-	private boolean isStartNode = true;
-	private HierarchicalGraphBuilder<N,E,SO> graphBuilder;
-	private EdgesByDirection<N,E,SO> edgesByDirection = new EdgesByDirectionNtro<>();
 
-	public EdgesByDirection<N, E, SO> getEdgesByDirection() {
-		return edgesByDirection;
-	}
-
-	public void setEdgesByDirection(EdgesByDirection<N, E, SO> edgesByDirection) {
-		this.edgesByDirection = edgesByDirection;
-	}
-
-	public HierarchicalGraphBuilder<N, E, SO> getGraphBuilder() {
-		return graphBuilder;
-	}
-
-	public void setGraphBuilder(HierarchicalGraphBuilder<N, E, SO> graphBuilder) {
-		this.graphBuilder = graphBuilder;
-	}
-	
-	@Override
-	public void setIsStartNode(boolean isStartNode) {
-		this.isStartNode = isStartNode;
-	}
-
-	public boolean getIsStartNode() {
-		return isStartNode;
-	}
-
-
-	public HierarchicalNodeBuilderNtro(NodeId id, HierarchicalGraphBuilder<N,E,SO> graphBuilder) {
-		super(id);
-		setGraphBuilder(graphBuilder);
+	public HierarchicalNodeBuilderNtro(NodeId nodeId, 
+			                           GenericGraphBuilder<N, E, SO, NB, GenericGraph<N, E, SO>> graphBuilder) {
+		super(nodeId, graphBuilder);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -77,7 +46,7 @@ public abstract class HierarchicalNodeBuilderNtro<N extends HierarchicalNode<N,E
 
 		getEdgesByDirection().addEdge(edge);
 
-		((HierarchicalNodeBuilderNtro<N,E,SO>) subNode).addParentNode(this.toNode());
+		((HierarchicalNodeBuilderNtro<N,E,SO,NB>) subNode).addParentNode(this.toNode());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -89,25 +58,9 @@ public abstract class HierarchicalNodeBuilderNtro<N extends HierarchicalNode<N,E
 		getEdgesByDirection().addEdge(edge);
 	}
 
-	@Override
-	protected <R> void _reduceEdgeTypesForDirection(Direction direction, ResultNtro<R> result, EdgeTypeReducer<R> reducer) {
-		getEdgesByDirection()._reduceEdgeTypesForDirection(direction, result, reducer);
-	}
-
-	@Override
-	protected <R> void _reduceEdgesByType(EdgeType edgeType, ResultNtro<R> result, EdgeReducer<N, E, SO, R> reducer) {
-		getEdgesByDirection()._reduceEdgesByType(edgeType, result, reducer);
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
 	protected SO defaultSearchOptions() {
 		return (SO) new HierarchicalGraphSearchOptionsBuilderNtro();
 	}
-
-	@Override
-	public boolean isStartNode() {
-		return getIsStartNode();
-	}
-
 }

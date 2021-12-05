@@ -10,6 +10,7 @@ public interface InternalHierarchicalDagBuilder<T  extends Task<T,AT>,
 	   extends HierarchicalDagBuilder<TaskGraphNode<T,AT>,
 	                                  TaskGraphEdge<T,AT>,
 	                                  TaskGraphSearchOptionsBuilder,
+	                                  TaskGraphNodeBuilder<T,AT>,
 	                                  HierarchicalDag<TaskGraphNode<T,AT>,
 	                                                  TaskGraphEdge<T,AT>,
 	                                                  TaskGraphSearchOptionsBuilder>> {

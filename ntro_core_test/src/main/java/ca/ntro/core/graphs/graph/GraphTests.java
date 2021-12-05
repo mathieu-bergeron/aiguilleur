@@ -37,12 +37,12 @@ public class GraphTests {
 
 		MockGraphBuilder builder = new MockGraphBuilder("simpleGraph01");
 		
-		MockNode nodeA = builder.addNode("A");
-		MockNode nodeB = builder.addNode("B");
-		MockNode nodeC = builder.addNode("C");
+		MockNodeBuilder nodeA = builder.addNode("A");
+		MockNodeBuilder nodeB = builder.addNode("B");
+		MockNodeBuilder nodeC = builder.addNode("C");
 
-		MockEdge edgeAB = builder.addEdge(nodeA, "AB", nodeB);
-		MockEdge edgeBC = builder.addEdge(nodeB, "BC", nodeC);
+		MockEdge edgeAB = builder.addEdge(nodeA.toNode(), "AB", nodeB.toNode());
+		MockEdge edgeBC = builder.addEdge(nodeB.toNode(), "BC", nodeC.toNode());
 
 		Graph<MockNode, MockEdge, GraphSearchOptionsBuilder> graph = builder.toGraph();
 
@@ -53,16 +53,16 @@ public class GraphTests {
 
 		MockGraphBuilder builder = new MockGraphBuilder("simpleGraph02");
 
-		MockNode nodeA = builder.addNode("A");
+		MockNodeBuilder nodeA = builder.addNode("A");
 
-		MockNode nodeB = builder.addNode("B");
-		MockNode nodeC = builder.addNode("C");
-		MockNode nodeD= builder.addNode("D");
+		MockNodeBuilder nodeB = builder.addNode("B");
+		MockNodeBuilder nodeC = builder.addNode("C");
+		MockNodeBuilder nodeD= builder.addNode("D");
 
-		MockEdge edgeAC = builder.addEdge(nodeA, "AC", nodeC);
-		MockEdge edgeBC = builder.addEdge(nodeB, "BC", nodeC);
-		MockEdge edgeCD = builder.addEdge(nodeC, "CD", nodeD);
-		MockEdge edgeDB = builder.addEdge(nodeD, "DA", nodeA);
+		MockEdge edgeAC = builder.addEdge(nodeA.toNode(), "AC", nodeC.toNode());
+		MockEdge edgeBC = builder.addEdge(nodeB.toNode(), "BC", nodeC.toNode());
+		MockEdge edgeCD = builder.addEdge(nodeC.toNode(), "CD", nodeD.toNode());
+		MockEdge edgeDB = builder.addEdge(nodeD.toNode(), "DA", nodeA.toNode());
 
 		Graph<MockNode, MockEdge, GraphSearchOptionsBuilder> graph = builder.toGraph();
 		graph.write(Ntro.graphWriter());
@@ -74,27 +74,27 @@ public class GraphTests {
 
 		MockGraphBuilder builder = new MockGraphBuilder("simpleGraph03");
 
-		MockNode nodeA = builder.addNode("A");
+		MockNodeBuilder nodeA = builder.addNode("A");
 
-		MockNode nodeB = builder.addNode("B");
-		MockNode nodeC = builder.addNode("C");
-		MockNode nodeD = builder.addNode("D");
-		MockNode nodeE = builder.addNode("E");
+		MockNodeBuilder nodeB = builder.addNode("B");
+		MockNodeBuilder nodeC = builder.addNode("C");
+		MockNodeBuilder nodeD = builder.addNode("D");
+		MockNodeBuilder nodeE = builder.addNode("E");
 
-		MockNode nodeF = builder.addNode("F");
-		MockNode nodeG = builder.addNode("G");
-		MockNode nodeH = builder.addNode("H");
-		MockNode nodeI = builder.addNode("I");
+		MockNodeBuilder nodeF = builder.addNode("F");
+		MockNodeBuilder nodeG = builder.addNode("G");
+		MockNodeBuilder nodeH = builder.addNode("H");
+		MockNodeBuilder nodeI = builder.addNode("I");
 
-		builder.addEdge(nodeA, "AB", nodeB);
-		builder.addEdge(nodeA, "AC", nodeC);
-		builder.addEdge(nodeA, "AD", nodeD);
-		builder.addEdge(nodeA, "AE", nodeE);
+		builder.addEdge(nodeA.toNode(), "AB", nodeB.toNode());
+		builder.addEdge(nodeA.toNode(), "AC", nodeC.toNode());
+		builder.addEdge(nodeA.toNode(), "AD", nodeD.toNode());
+		builder.addEdge(nodeA.toNode(), "AE", nodeE.toNode());
 
-		builder.addEdge(nodeE, "EF", nodeF);
-		builder.addEdge(nodeE, "EG", nodeG);
-		builder.addEdge(nodeE, "EH", nodeH);
-		builder.addEdge(nodeE, "EI", nodeI);
+		builder.addEdge(nodeE.toNode(), "EF", nodeF.toNode());
+		builder.addEdge(nodeE.toNode(), "EG", nodeG.toNode());
+		builder.addEdge(nodeE.toNode(), "EH", nodeH.toNode());
+		builder.addEdge(nodeE.toNode(), "EI", nodeI.toNode());
 
 		Graph<MockNode, MockEdge, GraphSearchOptionsBuilder> graph = builder.toGraph();
 		graph.write(Ntro.graphWriter());
@@ -113,8 +113,8 @@ public class GraphTests {
 
 		MockGraphBuilder builder = new MockGraphBuilder("nodeAlreadyExists01");
 
-		MockNode nodeA = builder.addNode("A");
-		MockNode nodeAA = builder.addNode("A");
+		MockNodeBuilder nodeA = builder.addNode("A");
+		MockNodeBuilder nodeAA = builder.addNode("A");
 
 		Graph<MockNode, MockEdge, GraphSearchOptionsBuilder> graph = builder.toGraph();
 

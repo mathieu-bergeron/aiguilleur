@@ -1,54 +1,39 @@
 package ca.ntro.core.reflection;
 
-import java.lang.reflect.Method;
 
 import ca.ntro.core.graphs.NodeId;
+import ca.ntro.core.graphs.generic_graph.GenericNodeStructure;
 import ca.ntro.core.reflection.object_graph.LocalHeap;
 import ca.ntro.core.reflection.object_graph.ObjectGraph;
 import ca.ntro.core.reflection.object_graph.ObjectGraphSearchOptionsBuilder;
 import ca.ntro.core.reflection.object_graph.ObjectGraphSearchOptionsBuilderNtro;
+import ca.ntro.core.reflection.object_graph.ObjectNode;
 import ca.ntro.core.reflection.object_graph.ObjectNodeNtro;
-import ca.ntro.core.wrappers.result.ResultNtro;
+import ca.ntro.core.reflection.object_graph.ReferenceEdge;
 
 public class ObjectNodeJdk extends ObjectNodeNtro {
 	
+
 	public ObjectNodeJdk(ObjectGraph graph, LocalHeap localHeap, Object object, NodeId nodeId) {
 		super(graph, localHeap, object, nodeId);
 	}
 
-	@Override
-	protected <R> void _reduceMethodNames(Object object, ResultNtro<R> result, MethodNameReducer<R> reducer) {
-		if(result.hasException()) {
-			return;
-		}
-		
-		for(Method method : object.getClass().getMethods()) {
-			
-			try {
-
-				result.registerValue(reducer.reduceMethodName(result.value(), method.getName()));
-
-			} catch (Throwable e) {
-				
-				result.registerException(e);
-				break;
-			}
-		}
-	}
-
-	@Override
-	protected Object invokeGetter(Object object, String getterName) throws Throwable {
-
-		Method method = object.getClass().getMethod(getterName);
-
-		Object returnValue = method.invoke(object);
-
-		return returnValue;
-	}
 
 	@Override
 	protected ObjectGraphSearchOptionsBuilder defaultSearchOptions() {
 		return new ObjectGraphSearchOptionsBuilderNtro();
+	}
+
+	@Override
+	public boolean isStartNode() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	protected GenericNodeStructure<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder> nodeStructure() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

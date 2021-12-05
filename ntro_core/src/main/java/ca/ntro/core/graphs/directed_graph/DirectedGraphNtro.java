@@ -31,7 +31,6 @@ public abstract class DirectedGraphNtro<N extends Node<N,E,SO>,
 		return (SO) new DirectedGraphSearchOptionsBuilderNtro();
 	}
 
-	@Override
 	protected InternalGraphWriter<N,E,SO> internalGraphWriter() {
 		return new InternalGraphWriterNtro<>();
 	}
