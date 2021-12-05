@@ -13,7 +13,6 @@ import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeAlreadyAddedException;
 import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.NodeIdNtro;
-import ca.ntro.core.graphs.NodeNotFoundException;
 import ca.ntro.core.graphs.NodeReducer;
 import ca.ntro.core.graphs.SearchOptionsBuilder;
 import ca.ntro.core.graphs.SearchOptionsNtro;
@@ -106,7 +105,7 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 		E forwardEdge = addEdge(fromNode,edgeTypeForward,toNode);
 
 		if(!toNode.isPartOfCycle()) {
-			((NodeBuilder<N,E,SO>) toNode).setIsStartNode(false);
+			((GenericNodeBuilder<N,E,SO>) toNode).setIsStartNode(false);
 			getStartNodes().remove(toNode.id().toKey().toString());
 		}
 

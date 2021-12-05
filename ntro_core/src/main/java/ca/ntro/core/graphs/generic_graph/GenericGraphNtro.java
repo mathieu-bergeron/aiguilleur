@@ -23,7 +23,6 @@ public abstract class GenericGraphNtro<N extends Node<N,E,SO>,
                                        E extends Edge<N,E,SO>,
                                        SO extends SearchOptionsBuilder> 
 
-
        implements     GenericGraph<N,E,SO> {
 	
 

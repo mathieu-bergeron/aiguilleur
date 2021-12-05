@@ -21,7 +21,7 @@ public abstract class NodeBuilderNtro<N extends Node<N,E,SO>,
       extends         NodeNtro<N,E,SO>
 
       implements      Node<N,E,SO>,
-      	              NodeBuilder<N,E,SO> {
+      	              GenericNodeBuilder<N,E,SO> {
 
 	private boolean isStartNode = true;
 	private GenericGraphBuilder<N,E,SO, GenericGraph<N,E,SO>> graphBuilder;
