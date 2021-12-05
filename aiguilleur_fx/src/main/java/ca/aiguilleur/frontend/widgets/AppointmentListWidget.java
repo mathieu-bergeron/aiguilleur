@@ -11,7 +11,7 @@ public class AppointmentListWidget extends Pane {
 
 		int index = Integer.valueOf(valuePath.name(0));
 		
-		if(updateType == UpdateType.UPDATE) {
+		if(updateType == UpdateType.SET) {
 			
 			AppointmentWidget appointment = (AppointmentWidget) getChildren().get(index);
 			

@@ -5,13 +5,13 @@ package ca.ntro.app.models;
  * 
  * https://en.wikipedia.org/wiki/Wagner%E2%80%93Fischer_algorithm
  * 
- * UPDATE == substitution
+ * SET == substitution
  * 
  * @author mbergeron
  *
  */
 public enum UpdateType {
 
-	UPDATE, INSERT, DELETE;
+	SET, INSERT, DELETE;
 
 }

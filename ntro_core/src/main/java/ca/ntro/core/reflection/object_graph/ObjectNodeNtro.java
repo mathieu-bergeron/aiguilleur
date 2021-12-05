@@ -4,6 +4,7 @@ package ca.ntro.core.reflection.object_graph;
 import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.generic_graph.GenericGraph;
 import ca.ntro.core.graphs.generic_graph.GenericNodeNtro;
+import ca.ntro.core.reflection.object_updates.ObjectUpdates;
 
 public abstract class ObjectNodeNtro 
 
@@ -55,5 +56,12 @@ public abstract class ObjectNodeNtro
 	@Override
 	public Object object() {
 		return getObject();
+	}
+
+	@Override
+	public ObjectUpdates asUpdates() {
+		// TODO: describe the object as a sequence
+		// of SET/INSERT/DELETE operations
+		return null;
 	}
 }
