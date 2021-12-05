@@ -14,21 +14,23 @@ public interface Node<N extends Node<N,E,SO>,
 
 	boolean isStartNode();
 	boolean isPartOfCycle();
+	
+	Stream<E> edges();
 
 	void forEachEdge(EdgeVisitor<N,E,SO> visitor);
 	<R extends Object> Result<R> reduceEdges(R initialValue, EdgeReducer<N,E,SO,R> reducer);
 
-	void forEachReachableNode(ReachableNodeVisitor<N,E,SO> visitor);
-	void forEachReachableNode(SO options, ReachableNodeVisitor<N,E,SO> visitor);
-
 	Stream<ReachedNode<N,E,SO>> reachableNodes();
 	Stream<ReachedNode<N,E,SO>> reachableNodes(SO options);
+
+	void forEachReachableNode(ReachableNodeVisitor<N,E,SO> visitor);
+	void forEachReachableNode(SO options, ReachableNodeVisitor<N,E,SO> visitor);
 
 	<R extends Object> Result<R> reduceReachableNodes(R initialValue, ReachableNodeReducer<N,E,SO,R> reducer);
 	<R extends Object> Result<R> reduceReachableNodes(SO options, R initialValue, ReachableNodeReducer<N,E,SO,R> reducer);
 
-	//Stream<N> reachableEdges();
-	//Stream<N> reachableEdges(SO options);
+	Stream<ReachedEdge<N,E,SO>> reachableEdges();
+	Stream<ReachedEdge<N,E,SO>> reachableEdges(SO options);
 
 	void forEachReachableEdge(ReachableEdgeVisitor<N,E,SO> visitor);
 	void forEachReachableEdge(SO options, ReachableEdgeVisitor<N,E,SO> visitor);
