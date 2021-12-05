@@ -2,6 +2,7 @@ package ca.ntro.core.graphs;
 
 import ca.ntro.core.graphs.generic_graph.GenericGraph;
 import ca.ntro.core.graphs.generic_graph.WalkId;
+import ca.ntro.core.stream.Stream;
 import ca.ntro.core.wrappers.result.Result;
 
 public interface Node<N extends Node<N,E,SO>, 
@@ -20,8 +21,8 @@ public interface Node<N extends Node<N,E,SO>,
 	void forEachReachableNode(ReachableNodeVisitor<N,E,SO> visitor);
 	void forEachReachableNode(SO options, ReachableNodeVisitor<N,E,SO> visitor);
 
-	//Stream<N> reachableNodes();
-	//Stream<N> reachableNodes(SO options);
+	Stream<ReachedNode<N,E,SO>> reachableNodes();
+	Stream<ReachedNode<N,E,SO>> reachableNodes(SO options);
 
 	<R extends Object> Result<R> reduceReachableNodes(R initialValue, ReachableNodeReducer<N,E,SO,R> reducer);
 	<R extends Object> Result<R> reduceReachableNodes(SO options, R initialValue, ReachableNodeReducer<N,E,SO,R> reducer);

@@ -111,21 +111,9 @@ public abstract class StreamNtro<I extends Object>
 	}
 
 	@Override
-	public <A> Stream<A> map(Mapper<I,A> mapper) {
-		return new StreamNtro<A>() {
-			@Override
-			public <R> void _reduce(ResultNtro<R> result, _Reducer<A, R> _reducer) {
-				StreamNtro.this._reduce(result, (__, item) -> {
-					try {
-
-						_reducer._reduce(result, mapper.map(item));
-
-					}catch(Throwable t) {
-						result.registerException(t);
-					}
-				});
-			}
-		};
+	public <R> Stream<R> map(Mapper<I,R> mapper) {
+		// JSweet: typing error when using anonymous class
+		return new StreamMapNtro<I,R>(this, mapper);
 	}
 
 	@Override
@@ -156,8 +144,4 @@ public abstract class StreamNtro<I extends Object>
 		return result;
 	}
 
-	@Override
-	public _Stream<I> _stream() {
-		return (_Stream<I>) this;
-	}
 }

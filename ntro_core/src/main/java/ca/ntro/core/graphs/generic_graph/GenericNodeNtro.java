@@ -13,6 +13,8 @@ import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.ReachableNodeReducer;
 import ca.ntro.core.graphs.ReachableNodeVisitor;
+import ca.ntro.core.graphs.ReachedNode;
+import ca.ntro.core.graphs.ReachedNodeNtro;
 import ca.ntro.core.graphs.ReachableEdgeReducer;
 import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.graphs.SearchOptionsBuilder;
@@ -21,6 +23,9 @@ import ca.ntro.core.graphs.SearchOptionsNtro;
 import ca.ntro.core.graphs.SearchStrategy;
 import ca.ntro.core.graphs.WalkReducer;
 import ca.ntro.core.graphs.WalkVisitor;
+import ca.ntro.core.stream.Stream;
+import ca.ntro.core.stream.StreamNtro;
+import ca.ntro.core.stream._Reducer;
 import ca.ntro.core.wrappers.optionnal.Optionnal;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
@@ -168,6 +173,35 @@ public abstract class GenericNodeNtro<N extends Node<N,E,SO>,
 			try {
 				
 				result.registerValue(reducer.reduceReachableNode(result.value(), walked, edge.to()));
+
+			} catch(Throwable t) {
+				
+				result.registerException(t);
+				throw new Break();
+			}
+
+			visitedNodes.add(edge.to().id().toKey().toString());
+		});
+	}
+
+	protected <R> void __reduceReachableNodes(SearchOptions options, 
+			                                  ResultNtro<R> result, 
+			                                  _Reducer<ReachedNode<N,E,SO>, R> _reducer) {
+
+		if(result.hasException()) {
+			return;
+		}
+		
+		Set<String> visitedNodes = new HashSet<>();
+		
+		_forEachReachableEdge(options, (walked, edge) -> {
+			if(visitedNodes.contains(edge.to().id().toKey().toString())) {
+				return;
+			}
+
+			try {
+				
+				_reducer._reduce(result, new ReachedNodeNtro<N,E,SO>(walked, edge.to()));
 
 			} catch(Throwable t) {
 				
@@ -407,5 +441,18 @@ public abstract class GenericNodeNtro<N extends Node<N,E,SO>,
 		});
 		
 		return result.value();
+	}
+
+	public Stream<ReachedNode<N,E,SO>> reachableNodes(){
+		return reachableNodes(defaultSearchOptions());
+	}
+
+	public Stream<ReachedNode<N,E,SO>> reachableNodes(SO options){
+		return new StreamNtro<ReachedNode<N,E,SO>>() {
+			@Override
+			public <R> void _reduce(ResultNtro<R> result, _Reducer<ReachedNode<N, E, SO>, R> _reducer) {
+				__reduceReachableNodes(options.toSearchOptions(), result, _reducer);
+			}
+		};
 	}
 }

@@ -6,6 +6,14 @@ public class      SearchOptionsBuilderNtro
 	
 	private SearchOptionsNtro searchOptions = new SearchOptionsNtro();
 
+	public SearchOptionsBuilderNtro() {
+	}
+
+	public SearchOptionsBuilderNtro(SearchOptions options) {
+			setSearchOptions(new SearchOptionsNtro());
+			copyOptions(options);
+	}
+
 	public SearchOptionsNtro getSearchOptions() {
 		return searchOptions;
 	}

@@ -4,6 +4,7 @@ package ca.ntro.core.stream;
 import java.util.List;
 
 import ca.ntro.core.wrappers.result.Result;
+import ca.ntro.core.wrappers.result.ResultNtro;
 
 public interface Stream<I extends Object> {
 
@@ -19,9 +20,10 @@ public interface Stream<I extends Object> {
 
 	<R> Stream<R> map(Mapper<I,R> mapper);
 
+	List<I> collect();
+
 	<R> Result<R> reduce(R initialValue, Reducer<I,R> reducer);
 
-	List<I> collect();
-	
-	_Stream<I> _stream();
+	<R> void _reduce(ResultNtro<R> result, _Reducer<I,R> _reducer);
+
 }

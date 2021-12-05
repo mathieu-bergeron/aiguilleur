@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ca.ntro.core.graphs.Direction;
-import ca.ntro.core.graphs.SearchOptions;
+import ca.ntro.core.graphs.ReachedNode;
 import ca.ntro.core.graphs.SearchOptionsNtro;
 import ca.ntro.core.graphs.SearchStrategy;
 import ca.ntro.core.stream._Reducer;
@@ -213,112 +213,69 @@ public class      TaskNtro<T  extends Task<T,AT>,
 		return asTask();
 	}
 
-	protected <R> void _reduceNeighborTasks(Direction direction, ResultNtro<R> result, _Reducer<T,R> _reducer) {
+	protected TaskGraphSearchOptionsBuilderNtro neighborSearchOptions(Direction direction) {
 
-		_reduceReachableTasksInternal(neighborSearchOptions(direction), result, _reducer);
-	}
-	
-	protected SearchOptions neighborSearchOptions(Direction direction) {
-
-		SearchOptionsNtro options = new SearchOptionsNtro();
-		options.setSearchStrategy(SearchStrategy.DEPTH_FIRST_SEARCH);
-		options.setDirections(new Direction[] {direction});
-		options.setMaxDistance(1);
-		options.setSortEdgesByName(false);
+		SearchOptionsNtro neighborSearchOptions = new SearchOptionsNtro();
+		neighborSearchOptions.setSearchStrategy(SearchStrategy.DEPTH_FIRST_SEARCH);
+		neighborSearchOptions.setDirections(new Direction[] {direction});
+		neighborSearchOptions.setMaxDistance(1);
+		neighborSearchOptions.setSortEdgesByName(false);
 		
-		return options;
+		TaskGraphSearchOptionsBuilderNtro defaultBuilder = new TaskGraphSearchOptionsBuilderNtro();
+		
+		defaultBuilder.copyOptions(neighborSearchOptions);
+
+		return defaultBuilder;
 	}
 
 	protected TaskGraphSearchOptionsBuilder defaultSearchOptions() {
 		return new TaskGraphSearchOptionsBuilderNtro();
 	}
 
-	protected <R> void _reduceReachableTasksInternal(SearchOptions options, 
-			                                         ResultNtro<R> result, 
-			                                         _Reducer<T,R> reducer) {
+	protected Stream<AT> atomicTasks(Map<String, AT> atomicTasks){
+		return new StreamNtro<AT>() {
+			@Override
+			public <R> void _reduce(ResultNtro<R> result, _Reducer<AT, R> _reducer) {
 
-		getNode().reduceReachableNodes(options, (__, walked, node) -> {
-			
-			try {
+				for(AT atomicTask : atomicTasks.values()) {
+					try {
 
-				reducer._reduce(result, node.task());
+						_reducer._reduce(result, atomicTask);
 
-			}catch(Throwable t) {
-				
-				result.registerException(t);
+					} catch(Throwable t) {
+						
+						result.registerException(t);
+						break;
+					}
+				}
 			}
-			
-			return null;
-		});
+		};
 	}
-
-	protected <R> void _reduceAtomicTasks(Map<String, AT> atomicTasks, 
-			                              ResultNtro<R> result, 
-			                              _Reducer<AT,R> _reducer) {
-		
-		for(AT atomicTask : atomicTasks.values()) {
-			try {
-
-				_reducer._reduce(result, atomicTask);
-
-			} catch(Throwable t) {
-				
-				result.registerException(t);
-				break;
-			}
-		}
-	}
-
 
 
 	@Override
 	public Stream<T> previousTasks() {
-		return new StreamNtro<T>() {
-			@Override
-			public <R> void _reduce(ResultNtro<R> result, _Reducer<T, R> _reducer) {
-				_reduceNeighborTasks(Direction.BACKWARD, result, _reducer);
-			}
-		};
+		return reachableTasks(neighborSearchOptions(Direction.BACKWARD));
 	}
 
 	@Override
 	public Stream<AT> entryTasks() {
-		return new StreamNtro<AT>() {
-			@Override
-			public <R> void _reduce(ResultNtro<R> result, _Reducer<AT, R> _reducer) {
-				_reduceAtomicTasks(getEntryTasks(), result, _reducer);
-			}
-		};
+		return atomicTasks(getEntryTasks());
 	}
 
 	@Override
 	public Stream<T> subTasks() {
-		return new StreamNtro<T>() {
-			@Override
-			public <R> void _reduce(ResultNtro<R> result, _Reducer<T, R> _reducer) {
-				_reduceNeighborTasks(Direction.DOWN, result, _reducer);
-			}
-		};
+		return reachableTasks(neighborSearchOptions(Direction.DOWN));
 	}
 
 	@Override
 	public Stream<AT> exitTasks() {
-		return new StreamNtro<AT>() {
-			@Override
-			public <R> void _reduce(ResultNtro<R> result, _Reducer<AT, R> _reducer) {
-				_reduceAtomicTasks(getExitTasks(), result, _reducer);
-			}
-		};
+		return atomicTasks(getEntryTasks());
 	}
 
 	@Override
 	public Stream<T> nextTasks() {
-		return new StreamNtro<T>() {
-			@Override
-			public <R> void _reduce(ResultNtro<R> result, _Reducer<T, R> _reducer) {
-				_reduceNeighborTasks(Direction.FORWARD, result, _reducer);
-			}
-		};
+		return reachableTasks(neighborSearchOptions(Direction.FORWARD));
 	}
 
 	@Override
@@ -332,19 +289,14 @@ public class      TaskNtro<T  extends Task<T,AT>,
 			@Override
 			public <R> void _reduce(ResultNtro<R> result, _Reducer<T, R> _reducer) {
 				
-				getNode().reduceReachableNodes(options, (__, walked, node) -> {
-					
-					try {
-						
-						_reducer._reduce(result, node.task());
-
-					}catch(Throwable t) {
-						
-						result.registerException(t);
-					}
-					
-					return null;
-				});
+				// JSweet: we need to explicitly declare intermediate streams
+				Stream<ReachedNode<TaskGraphNode<T,AT>, 
+				                   TaskGraphEdge<T,AT>,
+				                   TaskGraphSearchOptionsBuilder>> reachedNodes = getNode().reachableNodes();
+				
+				Stream<T> reachedTasks = reachedNodes.map(rn -> rn.node().task());
+				
+				reachedTasks._reduce(result, _reducer);
 			}
 		};
 	}

@@ -13,7 +13,6 @@ public interface Task<T  extends Task<T,AT>,
 	boolean hasParentTask();
 	T parentTask();
 
-
 	AT findEntryTask(AtomicTaskId id);
 	AT findExitTask(AtomicTaskId id);
 	
