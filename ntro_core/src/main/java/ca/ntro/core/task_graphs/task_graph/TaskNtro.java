@@ -292,7 +292,7 @@ public class      TaskNtro<T  extends Task<T,AT>,
 				// JSweet: we need to explicitly declare intermediate streams
 				Stream<ReachedNode<TaskGraphNode<T,AT>, 
 				                   TaskGraphEdge<T,AT>,
-				                   TaskGraphSearchOptionsBuilder>> reachedNodes = getNode().reachableNodes();
+				                   TaskGraphSearchOptionsBuilder>> reachedNodes = getNode().reachableNodes(options);
 				
 				Stream<T> reachedTasks = reachedNodes.map(rn -> rn.node().task());
 				
