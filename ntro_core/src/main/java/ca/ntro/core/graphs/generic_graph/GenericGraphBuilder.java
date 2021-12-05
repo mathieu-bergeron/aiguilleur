@@ -8,7 +8,10 @@ import ca.ntro.core.graphs.SearchOptionsBuilder;
 public interface GenericGraphBuilder<N extends Node<N,E,SO>,
                                      E extends Edge<N,E,SO>,
                                      SO extends SearchOptionsBuilder,
-                                     G extends GenericGraph<N,E,SO>> {
+                                     G extends GenericGraph<N,E,SO>>
+
+       extends GenericGraph<N,E,SO>,
+               GenericGraphStructure<N,E,SO> {
 
 	N addNode(String nodeId);
 	N addNode(NodeId nodeId);

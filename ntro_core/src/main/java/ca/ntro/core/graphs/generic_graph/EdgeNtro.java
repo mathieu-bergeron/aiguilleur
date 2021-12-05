@@ -54,7 +54,7 @@ public class     EdgeNtro<N extends Node<N,E,SO>,
 	public boolean equals(Object o) {
 		if(o == this) return true;
 		if(o == null) return false;
-		if(o instanceof NodeNtro) {
+		if(o instanceof GenericNodeNtro) {
 			EdgeNtro e = (EdgeNtro) o;
 
 			if(e.from == null && from != null) {

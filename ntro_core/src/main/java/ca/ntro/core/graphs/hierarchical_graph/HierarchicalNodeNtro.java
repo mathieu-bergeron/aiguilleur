@@ -8,7 +8,7 @@ import ca.ntro.core.graphs.ReachableNodeReducer;
 import ca.ntro.core.graphs.ReachableNodeVisitor;
 import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.graphs.SearchOptionsNtro;
-import ca.ntro.core.graphs.generic_graph.NodeNtro;
+import ca.ntro.core.graphs.generic_graph.GenericNodeNtro;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
@@ -16,7 +16,7 @@ public abstract class      HierarchicalNodeNtro<N extends HierarchicalNode<N,E,S
  									            E extends Edge<N,E,SO>,
  									            SO extends HierarchicalGraphSearchOptionsBuilder>
 
-       extends    NodeNtro<N,E,SO> 
+       extends    GenericNodeNtro<N,E,SO> 
 
 	   implements HierarchicalNode<N,E,SO> {
 

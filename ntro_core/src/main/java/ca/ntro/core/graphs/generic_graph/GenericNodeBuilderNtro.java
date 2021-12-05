@@ -14,11 +14,11 @@ import ca.ntro.core.graphs.generic_graph.graph_strcuture.EdgesByDirectionNtro;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
-public abstract class NodeBuilderNtro<N extends Node<N,E,SO>, 
+public abstract class GenericNodeBuilderNtro<N extends Node<N,E,SO>, 
                                       E extends Edge<N,E,SO>,
                                       SO extends SearchOptionsBuilder> 
 
-      extends         NodeNtro<N,E,SO>
+      extends         GenericNodeNtro<N,E,SO>
 
       implements      Node<N,E,SO>,
       	              GenericNodeBuilder<N,E,SO> {
@@ -51,7 +51,7 @@ public abstract class NodeBuilderNtro<N extends Node<N,E,SO>,
 		this.isStartNode = isStartNode;
 	}
 
-	public NodeBuilderNtro(NodeId nodeId, GenericGraphBuilder<N,E,SO,GenericGraph<N,E,SO>> graphBuilder) {
+	public GenericNodeBuilderNtro(NodeId nodeId, GenericGraphBuilder<N,E,SO,GenericGraph<N,E,SO>> graphBuilder) {
 		super(nodeId);
 		setGraphBuilder(graphBuilder);
 	}
@@ -61,8 +61,8 @@ public abstract class NodeBuilderNtro<N extends Node<N,E,SO>,
 	public boolean equals(Object o) {
 		if(o == this) return true;
 		if(o == null) return false;
-		if(o instanceof NodeNtro) {
-			NodeBuilderNtro<N,E,SO> n = (NodeBuilderNtro<N,E,SO>) o;
+		if(o instanceof GenericNodeNtro) {
+			GenericNodeBuilderNtro<N,E,SO> n = (GenericNodeBuilderNtro<N,E,SO>) o;
 			
 			if(n.edgesByDirection == null && edgesByDirection != null) {
 				return false;

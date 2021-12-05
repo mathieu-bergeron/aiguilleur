@@ -25,7 +25,7 @@ import ca.ntro.core.wrappers.optionnal.Optionnal;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
-public abstract class NodeNtro<N extends Node<N,E,SO>, 
+public abstract class GenericNodeNtro<N extends Node<N,E,SO>, 
                                E extends Edge<N,E,SO>,
                                SO extends SearchOptionsBuilder> 
 
@@ -46,8 +46,8 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 	public boolean equals(Object o) {
 		if(o == this) return true;
 		if(o == null) return false;
-		if(o instanceof NodeNtro) {
-			NodeNtro n = (NodeNtro) o;
+		if(o instanceof GenericNodeNtro) {
+			GenericNodeNtro n = (GenericNodeNtro) o;
 			
 			if(n.nodeId == null && nodeId != null) {
 				return false;
@@ -63,7 +63,7 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 		return false;
 	}
 	
-	public NodeNtro(NodeId nodeId) {
+	public GenericNodeNtro(NodeId nodeId) {
 		setNodeId(nodeId);
 	}
 
@@ -280,7 +280,7 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 							&& newWalked.size() >= options.maxDistance().value())) {
 						
 						// JSweet: typing error on casting w/o creating a local var
-						NodeNtro<N,E,SO> to = (NodeNtro<N,E,SO>) edge.to();
+						GenericNodeNtro<N,E,SO> to = (GenericNodeNtro<N,E,SO>) edge.to();
 
 						to._reduceReachableEdgesDepthFirst(options, 
 													       visitedEdges, 
@@ -318,7 +318,7 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 			newWalked.add(edge);
 
 			// JSweet: typing error on casting w/o creating a local var
-			NodeNtro<N,E,SO> to = (NodeNtro<N,E,SO>) edge.to();
+			GenericNodeNtro<N,E,SO> to = (GenericNodeNtro<N,E,SO>) edge.to();
 
 			to._reduceReachableEdgesBreadthFirst(options, 
 					                             oneStepOptions, 
@@ -377,7 +377,7 @@ public abstract class NodeNtro<N extends Node<N,E,SO>,
 				result.registerValue(reducer.reduceStep(result.value(), newWalked, remainingWalk, edge.to()));
 
 				// JSweet: typing error on casting w/o creating a local var
-				NodeNtro<N,E,SO> to = (NodeNtro<N,E,SO>) edge.to();
+				GenericNodeNtro<N,E,SO> to = (GenericNodeNtro<N,E,SO>) edge.to();
 
 				to._reduceWalk(newWalked, remainingWalk, result, reducer);
 

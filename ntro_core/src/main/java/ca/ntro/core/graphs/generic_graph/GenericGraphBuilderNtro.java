@@ -117,7 +117,7 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 
 		E edge = createEdge(fromNode, edgeType, toNode);
 
-		((NodeBuilderNtro<N,E,SO>) fromNode).addEdge(edge);
+		((GenericNodeBuilderNtro<N,E,SO>) fromNode).addEdge(edge);
 		
 		return edge;
 	}

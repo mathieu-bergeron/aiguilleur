@@ -8,7 +8,8 @@ public interface GenericNodeBuilder<N extends Node<N,E,SO>,
                                     E extends Edge<N,E,SO>,
                                     SO extends SearchOptionsBuilder> 
 
-        extends Node<N,E,SO> {
+        extends Node<N,E,SO>,
+                GenericNodeStructure<N,E,SO> {
 
 	void setIsStartNode(boolean b);
 

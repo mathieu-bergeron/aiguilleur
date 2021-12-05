@@ -12,7 +12,7 @@ import ca.ntro.core.graphs.EdgeReducer;
 import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.generic_graph.EdgeTypeReducer;
 import ca.ntro.core.graphs.generic_graph.GenericGraph;
-import ca.ntro.core.graphs.generic_graph.NodeNtro;
+import ca.ntro.core.graphs.generic_graph.GenericNodeNtro;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.path.Path;
 import ca.ntro.core.reflection.MethodNameReducer;
@@ -21,7 +21,7 @@ import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class ObjectNodeNtro 
 
-	   extends        NodeNtro<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder>
+	   extends        GenericNodeNtro<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder>
 
 	   implements     ObjectNode {
 	
