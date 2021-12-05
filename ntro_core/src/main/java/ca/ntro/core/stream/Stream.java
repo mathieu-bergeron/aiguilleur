@@ -1,5 +1,6 @@
 package ca.ntro.core.stream;
 
+
 import java.util.List;
 
 import ca.ntro.core.wrappers.result.Result;
@@ -21,4 +22,6 @@ public interface Stream<I extends Object> {
 	<R> Result<R> reduce(R initialValue, Reducer<I,R> reducer);
 
 	List<I> collect();
+	
+	_Stream<I> _stream();
 }

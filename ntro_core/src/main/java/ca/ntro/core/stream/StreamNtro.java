@@ -7,9 +7,13 @@ import ca.ntro.core.exceptions.Break;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
-public abstract class StreamNtro<I extends Object> implements Stream<I> {
+public abstract class StreamNtro<I extends Object> 
+
+       implements     Stream<I>, 
+                      _Stream<I> {
 	
-	protected abstract <R> void _reduce(ResultNtro<R> result, _Reducer<I,R> _reducer);
+	@Override
+	public abstract <R> void _reduce(ResultNtro<R> result, _Reducer<I,R> _reducer);
 
 	@Override
 	public boolean ifAll(Matcher<I> matcher) {
@@ -90,7 +94,7 @@ public abstract class StreamNtro<I extends Object> implements Stream<I> {
 	public Stream<I> findAll(Matcher<I> matcher) {
 		return new StreamNtro<I>() {
 			@Override
-			protected <R> void _reduce(ResultNtro<R> result, _Reducer<I, R> _reducer) {
+			public <R> void _reduce(ResultNtro<R> result, _Reducer<I, R> _reducer) {
 				StreamNtro.this._reduce(result, (__, item) -> {
 					try {
 
@@ -110,7 +114,7 @@ public abstract class StreamNtro<I extends Object> implements Stream<I> {
 	public <A> Stream<A> map(Mapper<I,A> mapper) {
 		return new StreamNtro<A>() {
 			@Override
-			protected <R> void _reduce(ResultNtro<R> result, _Reducer<A, R> _reducer) {
+			public <R> void _reduce(ResultNtro<R> result, _Reducer<A, R> _reducer) {
 				StreamNtro.this._reduce(result, (__, item) -> {
 					try {
 
@@ -150,5 +154,10 @@ public abstract class StreamNtro<I extends Object> implements Stream<I> {
 		});
 
 		return result;
+	}
+
+	@Override
+	public _Stream<I> _stream() {
+		return (_Stream<I>) this;
 	}
 }

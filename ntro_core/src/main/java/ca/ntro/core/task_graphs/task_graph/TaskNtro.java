@@ -275,7 +275,7 @@ public class      TaskNtro<T  extends Task<T,AT>,
 	public Stream<T> previousTasks() {
 		return new StreamNtro<T>() {
 			@Override
-			protected <R> void _reduce(ResultNtro<R> result, _Reducer<T, R> _reducer) {
+			public <R> void _reduce(ResultNtro<R> result, _Reducer<T, R> _reducer) {
 				_reduceNeighborTasks(Direction.BACKWARD, result, _reducer);
 			}
 		};
@@ -285,7 +285,7 @@ public class      TaskNtro<T  extends Task<T,AT>,
 	public Stream<AT> entryTasks() {
 		return new StreamNtro<AT>() {
 			@Override
-			protected <R> void _reduce(ResultNtro<R> result, _Reducer<AT, R> _reducer) {
+			public <R> void _reduce(ResultNtro<R> result, _Reducer<AT, R> _reducer) {
 				_reduceAtomicTasks(getEntryTasks(), result, _reducer);
 			}
 		};
@@ -295,7 +295,7 @@ public class      TaskNtro<T  extends Task<T,AT>,
 	public Stream<T> subTasks() {
 		return new StreamNtro<T>() {
 			@Override
-			protected <R> void _reduce(ResultNtro<R> result, _Reducer<T, R> _reducer) {
+			public <R> void _reduce(ResultNtro<R> result, _Reducer<T, R> _reducer) {
 				_reduceNeighborTasks(Direction.DOWN, result, _reducer);
 			}
 		};
@@ -305,7 +305,7 @@ public class      TaskNtro<T  extends Task<T,AT>,
 	public Stream<AT> exitTasks() {
 		return new StreamNtro<AT>() {
 			@Override
-			protected <R> void _reduce(ResultNtro<R> result, _Reducer<AT, R> _reducer) {
+			public <R> void _reduce(ResultNtro<R> result, _Reducer<AT, R> _reducer) {
 				_reduceAtomicTasks(getExitTasks(), result, _reducer);
 			}
 		};
@@ -315,7 +315,7 @@ public class      TaskNtro<T  extends Task<T,AT>,
 	public Stream<T> nextTasks() {
 		return new StreamNtro<T>() {
 			@Override
-			protected <R> void _reduce(ResultNtro<R> result, _Reducer<T, R> _reducer) {
+			public <R> void _reduce(ResultNtro<R> result, _Reducer<T, R> _reducer) {
 				_reduceNeighborTasks(Direction.FORWARD, result, _reducer);
 			}
 		};
@@ -330,7 +330,7 @@ public class      TaskNtro<T  extends Task<T,AT>,
 	public Stream<T> reachableTasks(TaskGraphSearchOptionsBuilder options) {
 		return new StreamNtro<T>() {
 			@Override
-			protected <R> void _reduce(ResultNtro<R> result, _Reducer<T, R> _reducer) {
+			public <R> void _reduce(ResultNtro<R> result, _Reducer<T, R> _reducer) {
 				
 				getNode().reduceReachableNodes(options, (__, walked, node) -> {
 					
