@@ -26,8 +26,8 @@ public interface Node<N extends Node<N,E,SO>,
 	void forEachReachableEdge(ReachableEdgeVisitor<N,E,SO> visitor);
 	void forEachReachableEdge(SO options, ReachableEdgeVisitor<N,E,SO> visitor);
 
-	<R extends Object> Result<R> reduceReachableEdges(R initialValue, ReachableStepReducer<N,E,SO,R> reducer);
-	<R extends Object> Result<R> reduceReachableEdges(SO options, R initialValue, ReachableStepReducer<N,E,SO,R> reducer);
+	<R extends Object> Result<R> reduceReachableEdges(R initialValue, ReachableEdgeReducer<N,E,SO,R> reducer);
+	<R extends Object> Result<R> reduceReachableEdges(SO options, R initialValue, ReachableEdgeReducer<N,E,SO,R> reducer);
 
 	void visitWalk(WalkId walk, WalkVisitor<N,E,SO> visitor);
 	<R extends Object> Result<R> reduceWalk(WalkId walk, R initialValue, WalkReducer<N,E,SO,R> reducer);

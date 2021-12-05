@@ -1,4 +1,4 @@
-package ca.ntro.core.functionnal;
+package ca.ntro.core.functional;
 
 import ca.ntro.core.wrappers.result.Result;
 

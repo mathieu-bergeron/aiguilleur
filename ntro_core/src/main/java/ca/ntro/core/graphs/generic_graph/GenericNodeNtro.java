@@ -13,7 +13,7 @@ import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.ReachableNodeReducer;
 import ca.ntro.core.graphs.ReachableNodeVisitor;
-import ca.ntro.core.graphs.ReachableStepReducer;
+import ca.ntro.core.graphs.ReachableEdgeReducer;
 import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.graphs.SearchOptionsBuilder;
 import ca.ntro.core.graphs.ReachableEdgeVisitor;
@@ -203,12 +203,12 @@ public abstract class GenericNodeNtro<N extends Node<N,E,SO>,
 	}
 
 	@Override
-	public <R> Result<R> reduceReachableEdges(R initialValue, ReachableStepReducer<N,E,SO,R> reducer) {
+	public <R> Result<R> reduceReachableEdges(R initialValue, ReachableEdgeReducer<N,E,SO,R> reducer) {
 		return reduceReachableEdges(defaultSearchOptions(), initialValue, reducer);
 	}
 
 	@Override
-	public <R> Result<R> reduceReachableEdges(SO options, R initialValue, ReachableStepReducer<N,E,SO,R> reducer) {
+	public <R> Result<R> reduceReachableEdges(SO options, R initialValue, ReachableEdgeReducer<N,E,SO,R> reducer) {
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
 
 		_reduceReachableEdges(options.toSearchOptions(), result, reducer);
@@ -218,7 +218,7 @@ public abstract class GenericNodeNtro<N extends Node<N,E,SO>,
 
 	protected <R> void _reduceReachableEdges(SearchOptions options, 
 			                                 ResultNtro<R> result, 
-			                                 ReachableStepReducer<N,E,SO,R> reducer) {
+			                                 ReachableEdgeReducer<N,E,SO,R> reducer) {
 		
 		Set<String> visitedEdges = new HashSet<>();
 		Walk<N,E,SO> walked = new WalkNtro<>();
@@ -243,7 +243,7 @@ public abstract class GenericNodeNtro<N extends Node<N,E,SO>,
 			                                           Set<String> visitedEdges,
 			                                           Walk<N,E,SO> walked,
 			                                           ResultNtro<R> result, 
-			                                           ReachableStepReducer<N,E,SO,R> reducer) {
+			                                           ReachableEdgeReducer<N,E,SO,R> reducer) {
 
 		if(result.hasException()) {
 			return;
@@ -263,7 +263,7 @@ public abstract class GenericNodeNtro<N extends Node<N,E,SO>,
 					
 					try {
 					
-						result.registerValue(reducer.reduceWalkedStep(result.value(), newWalked, edge));
+						result.registerValue(reducer.reduceEdge(result.value(), newWalked, edge));
 
 					}catch(Throwable t) {
 						
@@ -300,7 +300,7 @@ public abstract class GenericNodeNtro<N extends Node<N,E,SO>,
 			                                             Set<String> visitedEdges,
 			                                             Walk<N,E,SO> walked,
 			                                             ResultNtro<R> result, 
-			                                             ReachableStepReducer<N,E,SO,R> reducer) {
+			                                             ReachableEdgeReducer<N,E,SO,R> reducer) {
 
 		if(options.maxDistance().hasValue() 
 				&& walked.size() + 1 > options.maxDistance().value()) {

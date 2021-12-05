@@ -7,7 +7,7 @@ public interface ObjectGraph
       
        extends DirectedGraph<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder> {
 	
-	
+
 	ObjectUpdates objectAsUpdates(Object object);
 
 }

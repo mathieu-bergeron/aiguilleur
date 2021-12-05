@@ -1,4 +1,4 @@
-package ca.ntro.core.functionnal;
+package ca.ntro.core.functional;
 
 public interface Functionnal<V extends Object, R extends Object> {
 	

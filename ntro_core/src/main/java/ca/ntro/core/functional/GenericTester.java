@@ -1,4 +1,4 @@
-package ca.ntro.core.functionnal;
+package ca.ntro.core.functional;
 
 public interface GenericTester<V extends Object> {
 
