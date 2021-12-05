@@ -6,19 +6,19 @@ import ca.ntro.core.wrappers.result.Result;
 
 public interface Stream<I extends Object> {
 
-	boolean ifAll(GenericMatcher<I> matcher);
+	boolean ifAll(Matcher<I> matcher);
 
-	boolean ifSome(GenericMatcher<I> matcher);
+	boolean ifSome(Matcher<I> matcher);
 
-	void forEach(GenericVisitor<I> visitor);
+	void forEach(Visitor<I> visitor);
 	
-	I findFirst(GenericMatcher<I> matcher);
+	I findFirst(Matcher<I> matcher);
 
-	Stream<I> findAll(GenericMatcher<I> matcher);
+	Stream<I> findAll(Matcher<I> matcher);
 
-	<R> Stream<R> map(GenericMapper<I,R> mapper);
+	<R> Stream<R> map(Mapper<I,R> mapper);
 
-	<R> Result<R> reduce(R initialValue, GenericReducer<I,R> reducer);
+	<R> Result<R> reduce(R initialValue, Reducer<I,R> reducer);
 
 	List<I> collect();
 }

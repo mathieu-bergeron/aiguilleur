@@ -9,10 +9,10 @@ import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class StreamNtro<I extends Object> implements Stream<I> {
 	
-	protected abstract <R> void _reduce(ResultNtro<R> result, InternalReducer<I,R> reducer);
+	protected abstract <R> void _reduce(ResultNtro<R> result, _Reducer<I,R> _reducer);
 
 	@Override
-	public boolean ifAll(GenericMatcher<I> matcher) {
+	public boolean ifAll(Matcher<I> matcher) {
 		ResultNtro<Boolean> result = new ResultNtro<>(true);
 
 		_reduce(result, (__, item) -> {
@@ -32,7 +32,7 @@ public abstract class StreamNtro<I extends Object> implements Stream<I> {
 	}
 
 	@Override
-	public boolean ifSome(GenericMatcher<I> matcher) {
+	public boolean ifSome(Matcher<I> matcher) {
 		ResultNtro<Boolean> result = new ResultNtro<>(false);
 
 		_reduce(result, (__, item) -> {
@@ -52,7 +52,7 @@ public abstract class StreamNtro<I extends Object> implements Stream<I> {
 	}
 
 	@Override
-	public void forEach(GenericVisitor<I> visitor) {
+	public void forEach(Visitor<I> visitor) {
 		ResultNtro<?> result = new ResultNtro<>();
 
 		_reduce(result, (__, item) -> {
@@ -67,7 +67,7 @@ public abstract class StreamNtro<I extends Object> implements Stream<I> {
 	}
 
 	@Override
-	public I findFirst(GenericMatcher<I> matcher) {
+	public I findFirst(Matcher<I> matcher) {
 		ResultNtro<I> result = new ResultNtro<>();
 
 		_reduce(result, (__, item) -> {
@@ -87,15 +87,15 @@ public abstract class StreamNtro<I extends Object> implements Stream<I> {
 	}
 
 	@Override
-	public Stream<I> findAll(GenericMatcher<I> matcher) {
+	public Stream<I> findAll(Matcher<I> matcher) {
 		return new StreamNtro<I>() {
 			@Override
-			protected <R> void _reduce(ResultNtro<R> result, InternalReducer<I, R> reducer) {
-				_reduce(result, (__, item) -> {
+			protected <R> void _reduce(ResultNtro<R> result, _Reducer<I, R> _reducer) {
+				StreamNtro.this._reduce(result, (__, item) -> {
 					try {
 
 						if(matcher.matches(item)) {
-							reducer.reduce(result, item);
+							_reducer._reduce(result, item);
 						}
 
 					}catch(Throwable t) {
@@ -107,14 +107,14 @@ public abstract class StreamNtro<I extends Object> implements Stream<I> {
 	}
 
 	@Override
-	public <A> Stream<A> map(GenericMapper<I,A> mapper) {
+	public <A> Stream<A> map(Mapper<I,A> mapper) {
 		return new StreamNtro<A>() {
 			@Override
-			protected <R> void _reduce(ResultNtro<R> result, InternalReducer<A, R> reducer) {
+			protected <R> void _reduce(ResultNtro<R> result, _Reducer<A, R> _reducer) {
 				StreamNtro.this._reduce(result, (__, item) -> {
 					try {
 
-						reducer.reduce(result, mapper.map(item));
+						_reducer._reduce(result, mapper.map(item));
 
 					}catch(Throwable t) {
 						result.registerException(t);
@@ -125,7 +125,7 @@ public abstract class StreamNtro<I extends Object> implements Stream<I> {
 	}
 
 	@Override
-	public <R> Result<R> reduce(R initialValue, GenericReducer<I, R> reducer) {
+	public <R> Result<R> reduce(R initialValue, Reducer<I, R> reducer) {
 		ResultNtro<R> result = new ResultNtro<>(initialValue);
 
 		_reduce(result, (__, item) -> {
