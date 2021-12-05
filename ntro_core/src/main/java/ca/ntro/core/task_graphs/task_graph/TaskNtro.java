@@ -8,6 +8,10 @@ import ca.ntro.core.graphs.Direction;
 import ca.ntro.core.graphs.SearchOptions;
 import ca.ntro.core.graphs.SearchOptionsNtro;
 import ca.ntro.core.graphs.SearchStrategy;
+import ca.ntro.core.stream.GenericReducer;
+import ca.ntro.core.stream.InternalReducer;
+import ca.ntro.core.stream.Stream;
+import ca.ntro.core.stream.StreamNtro;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
@@ -246,6 +250,11 @@ public class      TaskNtro<T  extends Task<T,AT>,
 
 		_reduceReachableTasks(neighborSearchOptions(direction), result, reducer);
 	}
+
+	protected <R> void reduceNeighborTasks(Direction direction, ResultNtro<R> result, InternalReducer<T,R> reducer) {
+
+		_reduceReachableTasksInternal(neighborSearchOptions(direction), result, reducer);
+	}
 	
 	protected SearchOptions neighborSearchOptions(Direction direction) {
 
@@ -456,6 +465,25 @@ public class      TaskNtro<T  extends Task<T,AT>,
 		});
 	}
 
+	protected <R> void _reduceReachableTasksInternal(SearchOptions options, 
+			                                         ResultNtro<R> result, 
+			                                         InternalReducer<T,R> reducer) {
+
+		getNode().reduceReachableNodes(options, (__, walked, node) -> {
+			
+			try {
+
+				reducer.reduce(result, node.task());
+
+			}catch(Throwable t) {
+				
+				result.registerException(t);
+			}
+			
+			return null;
+		});
+	}
+
 	@Override
 	public T findFirstReachableTaskThatMatches(TaskMatcher<T, AT> matcher) {
 		return _findFirstReachableTaskThatMatches(defaultOptions(), matcher);
@@ -649,5 +677,15 @@ public class      TaskNtro<T  extends Task<T,AT>,
 		reduceAtomicTasks(getExitTasks(), result, reducer);
 		
 		return result;
+	}
+
+	@Override
+	public Stream<T> previousTasks() {
+		return new StreamNtro<T>() {
+			@Override
+			protected <R> void _reduce(ResultNtro<R> result, InternalReducer<T, R> reducer) {
+				reduceNeighborTasks(Direction.BACKWARD, result, reducer);
+			}
+		};
 	}
 }

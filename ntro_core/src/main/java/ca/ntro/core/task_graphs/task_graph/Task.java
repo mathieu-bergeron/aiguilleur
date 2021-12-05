@@ -1,5 +1,6 @@
 package ca.ntro.core.task_graphs.task_graph;
 
+import ca.ntro.core.stream.Stream;
 import ca.ntro.core.wrappers.result.Result;
 
 public interface Task<T  extends Task<T,AT>, 
@@ -23,16 +24,7 @@ public interface Task<T  extends Task<T,AT>,
 	T addEntryTask(AT entryTask);
 	T addExitTask(AT exitTask);
 	
-	// FIXME: a generic functional "hub" with all map/reduce functions
-	// FunctionalHub<TaskMatcher<T,AT>, TaskVisitor<T,AT>, TaskMapper<T,AT>, TaskReducer<T,AT> previousTasks()
-	//
-	// previousTasks().ifAll();
-	// previousTasks().ifSome();
-	// previousTasks().findFirst()
-	// previousTasks().findAll()
-	// previousTasks().forEach()
-	// previousTasks().map()
-	// previousTasks().reduce()
+	Stream<T> previousTasks();
 	
 	boolean ifAllPreviousTasksMatch(TaskMatcher<T,AT> matcher);
 	boolean ifSomePreviousTaskMatches(TaskMatcher<T,AT> matcher);
