@@ -9,8 +9,7 @@ import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class StreamNtro<I extends Object> 
 
-       implements     Stream<I>, 
-                      _Stream<I> {
+       implements     Stream<I> {
 	
 	@Override
 	public abstract <R> void _reduce(ResultNtro<R> result, _Reducer<I,R> _reducer);
