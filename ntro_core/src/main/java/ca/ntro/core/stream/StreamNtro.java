@@ -1,8 +1,10 @@
 package ca.ntro.core.stream;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ca.ntro.core.exceptions.Break;
+import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class StreamNtro<I extends Object> implements Stream<I> {
@@ -31,43 +33,122 @@ public abstract class StreamNtro<I extends Object> implements Stream<I> {
 
 	@Override
 	public boolean ifSome(GenericMatcher<I> matcher) {
-		// TODO Auto-generated method stub
-		return false;
+		ResultNtro<Boolean> result = new ResultNtro<>(false);
+
+		_reduce(result, (__, item) -> {
+			try {
+
+				if(matcher.matches(item)) {
+					result.registerValue(true);
+					throw new Break();
+				}
+				
+			}catch(Throwable t) {
+				result.registerException(t);
+			}
+		});
+
+		return result.value();
 	}
 
 	@Override
 	public void forEach(GenericVisitor<I> visitor) {
-		// TODO Auto-generated method stub
-		
+		ResultNtro<?> result = new ResultNtro<>();
+
+		_reduce(result, (__, item) -> {
+			try {
+
+				visitor.visit(item);
+				
+			}catch(Throwable t) {
+				result.registerException(t);
+			}
+		});
 	}
 
 	@Override
 	public I findFirst(GenericMatcher<I> matcher) {
-		// TODO Auto-generated method stub
-		return null;
+		ResultNtro<I> result = new ResultNtro<>();
+
+		_reduce(result, (__, item) -> {
+			try {
+
+				if(matcher.matches(item)) {
+					result.registerValue(item);
+					throw new Break();
+				}
+				
+			}catch(Throwable t) {
+				result.registerException(t);
+			}
+		});
+
+		return result.value();
 	}
 
 	@Override
 	public Stream<I> findAll(GenericMatcher<I> matcher) {
-		// TODO Auto-generated method stub
-		return null;
+		return new StreamNtro<I>() {
+			@Override
+			protected <R> void _reduce(ResultNtro<R> result, InternalReducer<I, R> reducer) {
+				_reduce(result, (__, item) -> {
+					try {
+
+						if(matcher.matches(item)) {
+							reducer.reduce(result, item);
+						}
+
+					}catch(Throwable t) {
+						result.registerException(t);
+					}
+				});
+			}
+		};
 	}
 
 	@Override
-	public Stream<I> map(GenericMapper<I> mapper) {
-		// TODO Auto-generated method stub
-		return null;
+	public <A> Stream<A> map(GenericMapper<I,A> mapper) {
+		return new StreamNtro<A>() {
+			@Override
+			protected <R> void _reduce(ResultNtro<R> result, InternalReducer<A, R> reducer) {
+				StreamNtro.this._reduce(result, (__, item) -> {
+					try {
+
+						reducer.reduce(result, mapper.map(item));
+
+					}catch(Throwable t) {
+						result.registerException(t);
+					}
+				});
+			}
+		};
 	}
 
 	@Override
-	public <R> R reduce(R initialValue, GenericReducer<I, R> reducer) {
-		// TODO Auto-generated method stub
-		return null;
+	public <R> Result<R> reduce(R initialValue, GenericReducer<I, R> reducer) {
+		ResultNtro<R> result = new ResultNtro<>(initialValue);
+
+		_reduce(result, (__, item) -> {
+			try {
+
+				result.registerValue(reducer.reduce(result.value(), item).value());
+
+			}catch(Throwable t) {
+				result.registerException(t);
+			}
+		});
+
+		return result;
 	}
 
 	@Override
 	public List<I> collect() {
-		// TODO Auto-generated method stub
-		return null;
+		List<I> result = new ArrayList<>();
+		
+		forEach(item -> {
+			result.add(item);
+		});
+
+		return result;
 	}
 }

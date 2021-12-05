@@ -2,6 +2,8 @@ package ca.ntro.core.stream;
 
 import java.util.List;
 
+import ca.ntro.core.wrappers.result.Result;
+
 public interface Stream<I extends Object> {
 
 	boolean ifAll(GenericMatcher<I> matcher);
@@ -14,9 +16,9 @@ public interface Stream<I extends Object> {
 
 	Stream<I> findAll(GenericMatcher<I> matcher);
 
-	Stream<I> map(GenericMapper<I> mapper);
+	<R> Stream<R> map(GenericMapper<I,R> mapper);
 
-	<R> R reduce(R initialValue, GenericReducer<I,R> reducer);
+	<R> Result<R> reduce(R initialValue, GenericReducer<I,R> reducer);
 
 	List<I> collect();
 }

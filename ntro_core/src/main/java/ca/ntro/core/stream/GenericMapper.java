@@ -1,7 +1,7 @@
 package ca.ntro.core.stream;
 
-public interface GenericMapper<I extends Object> {
+public interface GenericMapper<I extends Object, R extends Object> {
 	
-	I map(I item) throws Throwable;
+	R map(I item) throws Throwable;
 
 }
