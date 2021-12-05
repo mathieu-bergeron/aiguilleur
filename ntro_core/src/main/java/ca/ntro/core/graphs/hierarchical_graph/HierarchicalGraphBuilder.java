@@ -6,9 +6,10 @@ import ca.ntro.core.graphs.generic_graph.GenericGraphBuilder;
 public interface HierarchicalGraphBuilder<N extends HierarchicalNode<N,E,SO>,
 										  E extends Edge<N,E,SO>,
 										  SO extends HierarchicalGraphSearchOptionsBuilder,
-										  NB extends HierarchicalNodeBuilder<N,E,SO,NB>>
+										  NB extends HierarchicalNodeBuilder<N,E,SO,NB>,
+										  G extends HierarchicalGraph<N,E,SO>>
 
-       extends   GenericGraphBuilder<N,E,SO,NB,HierarchicalGraph<N,E,SO>> {
+       extends   GenericGraphBuilder<N,E,SO,NB,G> {
 
 
 }

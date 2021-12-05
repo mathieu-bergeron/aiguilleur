@@ -7,35 +7,35 @@ public abstract class TaskGraphNtro<T  extends Task<T,AT>,
 
 	   implements TaskGraph<T,AT> {
 	
-	private InternalHierarchicalDagBuilder<T,AT> hdag = new InternalHierarchicalDagBuilderNtro<>();
+	private InternalHierarchicalDagBuilder<T,AT> hdagBuilder = new InternalHierarchicalDagBuilderNtro<>();
 
 	private InternalTaskGraphWriter<T,AT> internalWriter = new InternalTaskGraphWriterNtro<>();
 
 	public TaskGraphNtro() {
-		hdag = new InternalHierarchicalDagBuilderNtro<T,AT>();
+		hdagBuilder = new InternalHierarchicalDagBuilderNtro<T,AT>();
 	}
 
 	public TaskGraphNtro(String graphName) {
-		hdag = new InternalHierarchicalDagBuilderNtro<T,AT>(graphName);
+		hdagBuilder = new InternalHierarchicalDagBuilderNtro<T,AT>(graphName);
 	}
 
 	public InternalHierarchicalDagBuilder<T, AT> getHdag() {
-		return hdag;
+		return hdagBuilder;
 	}
 
 	public void setHdag(InternalHierarchicalDagBuilder<T, AT> hdag) {
-		this.hdag = hdag;
+		this.hdagBuilder = hdag;
 	}
 
 	@Override
 	public T findTask(TaskId id) {
-		return hdag.findNode(id).task();
+		return hdagBuilder.asGraph().findNode(id).task();
 	}
 
 	@Override
 	public void addTask(T task) {
 
-		hdag.addNode(task.id());
+		hdagBuilder.addNode(task.id());
 	}
 
 	@Override
@@ -59,6 +59,6 @@ public abstract class TaskGraphNtro<T  extends Task<T,AT>,
 
 	@Override
 	public void write(GraphWriter writer) {
-		internalWriter.write(hdag, writer);
+		internalWriter.write(hdagBuilder.asGraph(), writer);
 	}
 }
