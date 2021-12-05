@@ -26,6 +26,9 @@ public interface Node<N extends Node<N,E,SO>,
 	<R extends Object> Result<R> reduceReachableNodes(R initialValue, ReachableNodeReducer<N,E,SO,R> reducer);
 	<R extends Object> Result<R> reduceReachableNodes(SO options, R initialValue, ReachableNodeReducer<N,E,SO,R> reducer);
 
+	//Stream<N> reachableEdges();
+	//Stream<N> reachableEdges(SO options);
+
 	void forEachReachableEdge(ReachableEdgeVisitor<N,E,SO> visitor);
 	void forEachReachableEdge(SO options, ReachableEdgeVisitor<N,E,SO> visitor);
 
