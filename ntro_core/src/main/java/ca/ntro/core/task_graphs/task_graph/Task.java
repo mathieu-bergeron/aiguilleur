@@ -24,7 +24,7 @@ public interface Task<T  extends Task<T,AT>,
 	T addExitTask(AT exitTask);
 	
 	// FIXME: a generic functional "hub" with all map/reduce functions
-	// FunctionalHub<> previousTasks()
+	// FunctionalHub<TaskMatcher<T,AT>, TaskVisitor<T,AT>, TaskMapper<T,AT>, TaskReducer<T,AT> previousTasks()
 	//
 	// previousTasks().ifAll();
 	// previousTasks().ifSome();
