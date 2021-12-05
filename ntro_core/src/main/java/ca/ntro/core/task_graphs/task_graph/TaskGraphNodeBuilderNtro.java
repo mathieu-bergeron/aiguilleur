@@ -49,7 +49,7 @@ public class TaskGraphNodeBuilderNtro<T  extends Task<T,AT>,
 
 	@Override
 	public GenericGraph<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder> parentGraph() {
-		return getGraphBuilder().toGraph();
+		return getGraphBuilder().asGraph();
 	}
 
 	@Override

@@ -37,26 +37,6 @@ public class InternalHierarchicalDagBuilderNtro<T  extends Task<T,AT>,
 	}
 
 	@Override
-	public TaskGraphEdge<T, AT> addEdge(TaskGraphNode<T, AT> fromNode, String edgeName, TaskGraphNode<T, AT> toNode) {
-
-		return null;
-	}
-
-	@Override
-	public TaskGraphEdge<T, AT> addEdge(TaskGraphNode<T, AT> fromNode, EdgeType edgeType, TaskGraphNode<T, AT> toNode) {
-
-		return null;
-	}
-
-
-	@Override
-	protected TaskGraphEdge<T, AT> createEdge(TaskGraphNode<T, AT> fromNode, EdgeType edgeType,
-			TaskGraphNode<T, AT> toNode) {
-
-		return null;
-	}
-
-	@Override
 	public GraphId id() {
 		// TODO Auto-generated method stub
 		return null;
@@ -149,4 +129,10 @@ public class InternalHierarchicalDagBuilderNtro<T  extends Task<T,AT>,
 		return null;
 	}
 
+	@Override
+	protected TaskGraphEdge<T, AT> createEdge(TaskGraphNodeBuilder<T, AT> fromNode, EdgeType edgeType,
+			TaskGraphNodeBuilder<T, AT> toNode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

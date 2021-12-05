@@ -41,10 +41,10 @@ public class GraphTests {
 		MockNodeBuilder nodeB = builder.addNode("B");
 		MockNodeBuilder nodeC = builder.addNode("C");
 
-		MockEdge edgeAB = builder.addEdge(nodeA.toNode(), "AB", nodeB.toNode());
-		MockEdge edgeBC = builder.addEdge(nodeB.toNode(), "BC", nodeC.toNode());
+		MockEdge edgeAB = builder.addEdge(nodeA, "AB", nodeB);
+		MockEdge edgeBC = builder.addEdge(nodeB, "BC", nodeC);
 
-		Graph<MockNode, MockEdge, GraphSearchOptionsBuilder> graph = builder.toGraph();
+		Graph<MockNode, MockEdge, GraphSearchOptionsBuilder> graph = builder.asGraph();
 
 		graph.write(Ntro.graphWriter());
 	}
@@ -59,12 +59,12 @@ public class GraphTests {
 		MockNodeBuilder nodeC = builder.addNode("C");
 		MockNodeBuilder nodeD= builder.addNode("D");
 
-		MockEdge edgeAC = builder.addEdge(nodeA.toNode(), "AC", nodeC.toNode());
-		MockEdge edgeBC = builder.addEdge(nodeB.toNode(), "BC", nodeC.toNode());
-		MockEdge edgeCD = builder.addEdge(nodeC.toNode(), "CD", nodeD.toNode());
-		MockEdge edgeDB = builder.addEdge(nodeD.toNode(), "DA", nodeA.toNode());
+		MockEdge edgeAC = builder.addEdge(nodeA, "AC", nodeC);
+		MockEdge edgeBC = builder.addEdge(nodeB, "BC", nodeC);
+		MockEdge edgeCD = builder.addEdge(nodeC, "CD", nodeD);
+		MockEdge edgeDB = builder.addEdge(nodeD, "DA", nodeA);
 
-		Graph<MockNode, MockEdge, GraphSearchOptionsBuilder> graph = builder.toGraph();
+		Graph<MockNode, MockEdge, GraphSearchOptionsBuilder> graph = builder.asGraph();
 		graph.write(Ntro.graphWriter());
 		
 		return builder;
@@ -86,17 +86,17 @@ public class GraphTests {
 		MockNodeBuilder nodeH = builder.addNode("H");
 		MockNodeBuilder nodeI = builder.addNode("I");
 
-		builder.addEdge(nodeA.toNode(), "AB", nodeB.toNode());
-		builder.addEdge(nodeA.toNode(), "AC", nodeC.toNode());
-		builder.addEdge(nodeA.toNode(), "AD", nodeD.toNode());
-		builder.addEdge(nodeA.toNode(), "AE", nodeE.toNode());
+		builder.addEdge(nodeA, "AB", nodeB);
+		builder.addEdge(nodeA, "AC", nodeC);
+		builder.addEdge(nodeA, "AD", nodeD);
+		builder.addEdge(nodeA, "AE", nodeE);
 
-		builder.addEdge(nodeE.toNode(), "EF", nodeF.toNode());
-		builder.addEdge(nodeE.toNode(), "EG", nodeG.toNode());
-		builder.addEdge(nodeE.toNode(), "EH", nodeH.toNode());
-		builder.addEdge(nodeE.toNode(), "EI", nodeI.toNode());
+		builder.addEdge(nodeE, "EF", nodeF);
+		builder.addEdge(nodeE, "EG", nodeG);
+		builder.addEdge(nodeE, "EH", nodeH);
+		builder.addEdge(nodeE, "EI", nodeI);
 
-		Graph<MockNode, MockEdge, GraphSearchOptionsBuilder> graph = builder.toGraph();
+		Graph<MockNode, MockEdge, GraphSearchOptionsBuilder> graph = builder.asGraph();
 		graph.write(Ntro.graphWriter());
 		
 		return builder;
@@ -116,7 +116,7 @@ public class GraphTests {
 		MockNodeBuilder nodeA = builder.addNode("A");
 		MockNodeBuilder nodeAA = builder.addNode("A");
 
-		Graph<MockNode, MockEdge, GraphSearchOptionsBuilder> graph = builder.toGraph();
+		Graph<MockNode, MockEdge, GraphSearchOptionsBuilder> graph = builder.asGraph();
 
 		graph.write(Ntro.graphWriter());
 
@@ -147,16 +147,16 @@ public class GraphTests {
 		
 		List<DirectedEdgeTriple<MockNode, MockEdge, GraphSearchOptionsBuilder>> edges = new ArrayList<>();
 		
-		MockNode nodeA = builder.toGraph().findNode("A");
-		MockNode nodeB = builder.toGraph().findNode("B");
-		MockNode nodeC = builder.toGraph().findNode("C");
-		MockNode nodeD = builder.toGraph().findNode("D");
-		MockNode nodeE = builder.toGraph().findNode("E");
+		MockNode nodeA = builder.asGraph().findNode("A");
+		MockNode nodeB = builder.asGraph().findNode("B");
+		MockNode nodeC = builder.asGraph().findNode("C");
+		MockNode nodeD = builder.asGraph().findNode("D");
+		MockNode nodeE = builder.asGraph().findNode("E");
 
-		MockNode nodeF = builder.toGraph().findNode("F");
-		MockNode nodeG = builder.toGraph().findNode("G");
-		MockNode nodeH = builder.toGraph().findNode("H");
-		MockNode nodeI = builder.toGraph().findNode("I");
+		MockNode nodeF = builder.asGraph().findNode("F");
+		MockNode nodeG = builder.asGraph().findNode("G");
+		MockNode nodeH = builder.asGraph().findNode("H");
+		MockNode nodeI = builder.asGraph().findNode("I");
 
 		nodeA.forEachReachableEdge(oneStepOptions, (walkedEdges, edge) -> {
 			edges.add(new DirectedEdgeTriple<MockNode,MockEdge,GraphSearchOptionsBuilder>(edge.from(), edge.type(), edge.to()));

@@ -84,7 +84,7 @@ public abstract class GenericNodeBuilderNtro<N extends Node<N,E,SO>,
 
 	@Override
 	public GenericGraph<N,E,SO> parentGraph(){
-		return getGraphBuilder().toGraph();
+		return getGraphBuilder().asGraph();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -92,12 +92,14 @@ public abstract class GenericNodeBuilderNtro<N extends Node<N,E,SO>,
 		return ((GenericGraphBuilderNtro<N,E,SO,NB,?>) parentGraph());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public E addEdge(String edgeName, N toNode) {
-		return graphBuilder().addEdge(this.toNode(), edgeName, toNode);
+	public E addEdge(String edgeName, NB toNode) {
+		return graphBuilder().addEdge((NB) this, edgeName, toNode);
 	}
 
-	protected void addEdge(E edge) {
+	@Override
+	public void addEdge(E edge) {
 
 		if(getEdgesByDirection().containsEdge(edge)) {
 
@@ -130,7 +132,7 @@ public abstract class GenericNodeBuilderNtro<N extends Node<N,E,SO>,
 
 	@Override
 	protected SO defaultSearchOptions() {
-		return getGraphBuilder().toGraph().defaultSearchOptions();
+		return getGraphBuilder().asGraph().defaultSearchOptions();
 	}
 
 	@Override

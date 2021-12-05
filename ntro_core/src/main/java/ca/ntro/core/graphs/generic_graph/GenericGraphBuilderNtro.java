@@ -79,7 +79,7 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 	protected abstract NB createNodeBuilder(NodeId nodeId, GenericGraphBuilder<N,E,SO,NB,GenericGraph<N,E,SO>> graphBuilder);
 
 	@Override
-	public E addEdge(N fromNode, String edgeName, N toNode) {
+	public E addEdge(NB fromNode, String edgeName, NB toNode) {
 		EdgeType edgeTypeForward = new EdgeTypeNtro(Direction.FORWARD, edgeName);
 		EdgeType edgeTypeBackward = new EdgeTypeNtro(Direction.BACKWARD, edgeName);
 		
@@ -88,24 +88,23 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 		E forwardEdge = addEdge(fromNode,edgeTypeForward,toNode);
 
 		if(!toNode.isPartOfCycle()) {
-			((GenericNodeBuilder<N,E,SO,NB>) toNode).setIsStartNode(false);
+			toNode.setIsStartNode(false);
 			getStartNodes().remove(toNode.id().toKey().toString());
 		}
 
 		return forwardEdge;
 	}
 
-	@SuppressWarnings("unchecked")
-	protected E addEdge(N fromNode, EdgeType edgeType, N toNode) {
+	protected E addEdge(NB fromNode, EdgeType edgeType, NB toNode) {
 
 		E edge = createEdge(fromNode, edgeType, toNode);
 
-		((GenericNodeBuilderNtro<N,E,SO,NB>) fromNode).addEdge(edge);
+		fromNode.addEdge(edge);
 		
 		return edge;
 	}
 
-	protected abstract E createEdge(N fromNode, EdgeType edgeType, N toNode);
+	protected abstract E createEdge(NB fromNode, EdgeType edgeType, NB toNode);
 
 	protected void addNode(N node) {
 		if(ifNodeAlreadyExists(node)) {
@@ -154,7 +153,7 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 	}
 
 	@Override
-	public G toGraph() {
+	public G asGraph() {
 		return getGraph();
 	}
 }

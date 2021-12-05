@@ -14,7 +14,8 @@ public interface GenericNodeBuilder<N extends Node<N,E,SO>,
 
 	void setIsStartNode(boolean b);
 
-	E addEdge(String edgeName, N toNode);
+	E addEdge(String edgeName, NB toNode);
+	void addEdge(E edge);
 
 	N toNode();
 

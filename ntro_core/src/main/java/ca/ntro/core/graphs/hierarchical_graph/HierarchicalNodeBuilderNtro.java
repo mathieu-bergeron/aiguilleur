@@ -32,17 +32,12 @@ public abstract class HierarchicalNodeBuilderNtro<N extends HierarchicalNode<N,E
 		return (N) this;
 	}
 
-	@Override
-	public E addEdge(String edgeName, N toNode) {
-		return getGraphBuilder().addEdge(this.toNode(), edgeName, toNode);
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
-	public void addSubNode(N subNode) {
+	public void addSubNode(NB subNode) {
 		EdgeTypeNtro edgeType = new EdgeTypeNtro(Direction.DOWN, "");
 
-		E edge = (E) new EdgeNtro<N,E,SO>(this.toNode(), edgeType, subNode);
+		E edge = (E) new EdgeNtro<N,E,SO>(this.toNode(), edgeType, subNode.toNode());
 
 		getEdgesByDirection().addEdge(edge);
 
