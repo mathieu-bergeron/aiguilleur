@@ -2,6 +2,7 @@ package ca.ntro.core.reflection.object_graph;
 
 import ca.ntro.core.graphs.GraphId;
 import ca.ntro.core.graphs.generic_graph.GenericGraphNtro;
+import ca.ntro.core.reflection.object_updates.ObjectUpdates;
 
 public abstract class ObjectGraphNtro 
 
@@ -25,6 +26,13 @@ public abstract class ObjectGraphNtro
 	@Override
 	public ObjectGraphSearchOptionsBuilder defaultSearchOptions() {
 		return new ObjectGraphSearchOptionsBuilderNtro();
+	}
+
+	@Override
+	public ObjectUpdates objectAsUpdates(Object object) {
+		// TODO: describe an object of the graph
+		//       as a sequence of UPDATE/INSERT/DELETE operations
+		return null;
 	}
 
 }

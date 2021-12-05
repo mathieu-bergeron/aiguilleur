@@ -7,6 +7,7 @@ import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.NodeReducer;
 import ca.ntro.core.graphs.NodeVisitor;
 import ca.ntro.core.graphs.writers.GraphWriter;
+import ca.ntro.core.reflection.object_updates.ObjectUpdates;
 import ca.ntro.core.wrappers.result.Result;
 
 public class ObjectGraphNull implements ObjectGraph {
@@ -82,6 +83,12 @@ public class ObjectGraphNull implements ObjectGraph {
 
 	@Override
 	public ObjectNode findNode(String nodeId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ObjectUpdates objectAsUpdates(Object object) {
 		// TODO Auto-generated method stub
 		return null;
 	}
