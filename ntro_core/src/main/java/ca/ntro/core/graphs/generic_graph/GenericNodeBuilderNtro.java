@@ -8,23 +8,23 @@ import ca.ntro.core.graphs.EdgeReducer;
 import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.SearchOptionsBuilder;
-import ca.ntro.core.graphs.SearchOptionsBuilderNtro;
 import ca.ntro.core.graphs.generic_graph.graph_strcuture.EdgesByDirection;
 import ca.ntro.core.graphs.generic_graph.graph_strcuture.EdgesByDirectionNtro;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class GenericNodeBuilderNtro<N extends Node<N,E,SO>, 
-                                      E extends Edge<N,E,SO>,
-                                      SO extends SearchOptionsBuilder> 
+                                             E extends Edge<N,E,SO>,
+                                             SO extends SearchOptionsBuilder,
+                                             NB extends GenericNodeBuilder<N,E,SO,NB>> 
 
       extends         GenericNodeNtro<N,E,SO>
 
       implements      Node<N,E,SO>,
-      	              GenericNodeBuilder<N,E,SO> {
+      	              GenericNodeBuilder<N,E,SO,NB> {
 
 	private boolean isStartNode = true;
-	private GenericGraphBuilder<N,E,SO, GenericGraph<N,E,SO>> graphBuilder;
+	private GenericGraphBuilder<N,E,SO, NB, GenericGraph<N,E,SO>> graphBuilder;
 	private EdgesByDirection<N,E,SO> edgesByDirection = new EdgesByDirectionNtro<>();
 
 	public EdgesByDirection<N, E, SO> getEdgesByDirection() {
@@ -35,11 +35,11 @@ public abstract class GenericNodeBuilderNtro<N extends Node<N,E,SO>,
 		this.edgesByDirection = edgesByDirection;
 	}
 
-	public GenericGraphBuilder<N, E, SO, GenericGraph<N, E, SO>> getGraphBuilder() {
+	public GenericGraphBuilder<N,E,SO,NB,GenericGraph<N, E, SO>> getGraphBuilder() {
 		return graphBuilder;
 	}
 
-	public void setGraphBuilder(GenericGraphBuilder<N, E, SO, GenericGraph<N, E, SO>> graph) {
+	public void setGraphBuilder(GenericGraphBuilder<N,E,SO,NB,GenericGraph<N, E, SO>> graph) {
 		this.graphBuilder = graph;
 	}
 
@@ -51,7 +51,7 @@ public abstract class GenericNodeBuilderNtro<N extends Node<N,E,SO>,
 		this.isStartNode = isStartNode;
 	}
 
-	public GenericNodeBuilderNtro(NodeId nodeId, GenericGraphBuilder<N,E,SO,GenericGraph<N,E,SO>> graphBuilder) {
+	public GenericNodeBuilderNtro(NodeId nodeId, GenericGraphBuilder<N,E,SO,NB,GenericGraph<N,E,SO>> graphBuilder) {
 		super(nodeId);
 		setGraphBuilder(graphBuilder);
 	}
@@ -62,13 +62,17 @@ public abstract class GenericNodeBuilderNtro<N extends Node<N,E,SO>,
 		if(o == this) return true;
 		if(o == null) return false;
 		if(o instanceof GenericNodeNtro) {
-			GenericNodeBuilderNtro<N,E,SO> n = (GenericNodeBuilderNtro<N,E,SO>) o;
+			GenericNodeBuilderNtro<N,E,SO,NB> n = (GenericNodeBuilderNtro<N,E,SO,NB>) o;
 			
 			if(n.edgesByDirection == null && edgesByDirection != null) {
 				return false;
 			}
 
 			if(n.edgesByDirection != null && !n.edgesByDirection.equals(edgesByDirection)) {
+				return false;
+			}
+
+			if(n.isStartNode != isStartNode) {
 				return false;
 			}
 			
@@ -84,8 +88,8 @@ public abstract class GenericNodeBuilderNtro<N extends Node<N,E,SO>,
 	}
 
 	@SuppressWarnings("unchecked")
-	protected GenericGraphBuilder<N,E,SO,?> graphBuilder(){
-		return ((GenericGraphBuilderNtro<N,E,SO,?>) parentGraph());
+	protected GenericGraphBuilder<N,E,SO,NB,?> graphBuilder(){
+		return ((GenericGraphBuilderNtro<N,E,SO,NB,?>) parentGraph());
 	}
 
 	@Override
@@ -112,21 +116,21 @@ public abstract class GenericNodeBuilderNtro<N extends Node<N,E,SO>,
 	}
 
 	@Override
-	protected <R> void _reduceEdgeTypesForDirection(Direction direction, ResultNtro<R> result, EdgeTypeReducer<R> reducer) {
+	public <R> void reduceEdgeTypesForDirection(Direction direction, ResultNtro<R> result, EdgeTypeReducer<R> reducer) {
 		getEdgesByDirection()._reduceEdgeTypesForDirection(direction, result, reducer);
 	}
 
 	@Override
-	protected <R> void _reduceEdgesByType(EdgeType edgeType, 
-			                              ResultNtro<R> result,
-			                              EdgeReducer<N,E,SO,R> reducer) {
+	public <R> void reduceEdgesByType(EdgeType edgeType, 
+			                          ResultNtro<R> result,
+			                          EdgeReducer<N,E,SO,R> reducer) {
 
 		getEdgesByDirection()._reduceEdgesByType(edgeType, result, reducer);
 	}
 
 	@Override
 	protected SO defaultSearchOptions() {
-		return (SO) new SearchOptionsBuilderNtro();
+		return getGraphBuilder().toGraph().defaultSearchOptions();
 	}
 
 	@Override

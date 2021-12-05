@@ -26,7 +26,9 @@ public interface GenericGraph<N extends Node<N,E,SO>,
 
 	N findNode(String nodeId);
 	N findNode(NodeId nodeId);
-	
+
+	//E findEdge(NodeId fromId, String edgeName, NodeId toId);
+
 	void forEachStartNode(NodeVisitor<N,E,SO> visitor);
 	<R extends Object> Result<R> reduceStartNodes(R initialValue, NodeReducer<N,E,SO,R> reducer);
 

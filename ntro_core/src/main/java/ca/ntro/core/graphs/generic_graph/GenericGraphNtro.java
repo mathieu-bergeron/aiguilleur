@@ -38,11 +38,11 @@ public abstract class GenericGraphNtro<N extends Node<N,E,SO>,
 	}
 
 	protected abstract InternalGraphWriter<N,E,SO> internalGraphWriter();
+	protected abstract GenericGraphStructure<N,E,SO> graphStructure();
 
 	@Override
 	public abstract SO defaultSearchOptions();
 
-	protected abstract <R> void _reduceStartNodes(ResultNtro<R> result, NodeReducer<N, E, SO, R> reducer);
 
 	@Override
 	public N findNode(String nodeId) {
@@ -72,7 +72,7 @@ public abstract class GenericGraphNtro<N extends Node<N,E,SO>,
 	public <R> Result<R> reduceStartNodes(R initialValue, NodeReducer<N, E, SO, R> reducer){
 		ResultNtro<R> result = new ResultNtro<>(initialValue);
 		
-		_reduceStartNodes(result, reducer);
+		graphStructure().reduceStartNodes(result, reducer);
 
 		return result;
 	}

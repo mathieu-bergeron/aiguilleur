@@ -15,31 +15,19 @@ import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.NodeIdNtro;
 import ca.ntro.core.graphs.NodeReducer;
 import ca.ntro.core.graphs.SearchOptionsBuilder;
-import ca.ntro.core.graphs.SearchOptionsNtro;
 import ca.ntro.core.initialization.Ntro;
-import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
                                               E extends Edge<N,E,SO>,
                                               SO extends SearchOptionsBuilder,
+                                              NB extends GenericNodeBuilder<N,E,SO,NB>,
                                               G extends GenericGraph<N,E,SO>> 
 
-       extends        GenericGraphNtro<N,E,SO>
-       implements     GenericGraphBuilder<N,E,SO,G>, 
-                      GenericGraph<N,E,SO> {
+       implements     GenericGraphBuilder<N,E,SO,NB,G> {
 
-	private GraphId id;
-
+	private G graph;
 	private Map<String, N> startNodes = new HashMap<>();
-
-	public GraphId getId() {
-		return id;
-	}
-
-	public void setId(GraphId id) {
-		this.id = id;
-	}
 
 	public Map<String, N> getStartNodes() {
 		return startNodes;
@@ -49,51 +37,46 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 		this.startNodes = nodes;
 	}
 
-	@Override
-	public GraphId id() {
-		return id;
+	public G getGraph() {
+		return graph;
 	}
 
-	@Override
-	public String label() {
-		return id.toHtmlId();
+	public void setGraph(G graph) {
+		this.graph = graph;
 	}
-
-	@Override
-	protected InternalGraphWriter<N, E, SO> internalGraphWriter(){
-		return new InternalGraphWriterNtro<>();
-	}
-
+	
 	public GenericGraphBuilderNtro() {
-		setId(GraphId.newGraphId());
+		graph = createGraph(GraphId.newGraphId(), (GenericGraphStructure<N,E,SO>) this);
 	}
 
 	public GenericGraphBuilderNtro(String graphName) {
-		setId(GraphId.fromGraphName(graphName));
+		graph = createGraph(GraphId.fromGraphName(graphName), (GenericGraphStructure<N,E,SO>) this);
 	}
+	
+	protected abstract G createGraph(GraphId id, GenericGraphStructure<N,E,SO> graphStructure);
 
 	@Override
-	public N addNode(String nodeId) {
+	public NB addNode(String nodeId) {
 		NodeIdNtro nodeIdNtro = new NodeIdNtro(nodeId);
 
 		return addNode(nodeIdNtro);
 	}
 	
     @SuppressWarnings("unchecked")
-	protected GenericGraphBuilder<N,E,SO,GenericGraph<N,E,SO>> toGenericGraphBuilder(){
-    	return (GenericGraphBuilder<N,E,SO,GenericGraph<N,E,SO>>) this;
+	protected GenericGraphBuilder<N,E,SO,NB,GenericGraph<N,E,SO>> toGenericGraphBuilder(){
+    	return (GenericGraphBuilder<N,E,SO,NB,GenericGraph<N,E,SO>>) this;
     }
 
 	@Override
-	public N addNode(NodeId nodeId) {
-		N node = createNode(nodeId, toGenericGraphBuilder());
+	public NB addNode(NodeId nodeId) {
+		NB node = createNodeBuilder(nodeId, toGenericGraphBuilder());
 
-		addNode(node);
+		addNode(node.toNode());
 		
 		return node;
 	}
 
-	protected abstract N createNode(NodeId nodeId, GenericGraphBuilder<N,E,SO,GenericGraph<N,E,SO>> graphBuilder);
+	protected abstract NB createNodeBuilder(NodeId nodeId, GenericGraphBuilder<N,E,SO,NB,GenericGraph<N,E,SO>> graphBuilder);
 
 	@Override
 	public E addEdge(N fromNode, String edgeName, N toNode) {
@@ -105,7 +88,7 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 		E forwardEdge = addEdge(fromNode,edgeTypeForward,toNode);
 
 		if(!toNode.isPartOfCycle()) {
-			((GenericNodeBuilder<N,E,SO>) toNode).setIsStartNode(false);
+			((GenericNodeBuilder<N,E,SO,NB>) toNode).setIsStartNode(false);
 			getStartNodes().remove(toNode.id().toKey().toString());
 		}
 
@@ -117,7 +100,7 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 
 		E edge = createEdge(fromNode, edgeType, toNode);
 
-		((GenericNodeBuilderNtro<N,E,SO>) fromNode).addEdge(edge);
+		((GenericNodeBuilderNtro<N,E,SO,NB>) fromNode).addEdge(edge);
 		
 		return edge;
 	}
@@ -137,29 +120,22 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 	}
 	
 	protected boolean ifNodeAlreadyExists(N node) {
-		ResultNtro<Boolean> result = new ResultNtro<>(false);
-
-		_reduceNodes(result, (__, reachableNode) -> {
-			
-			if(reachableNode.id().equals(node.id())) {
-				result.registerValue(true);
+		return getGraph().reduceNodes(false, (accumulator, reachableNode) -> {
+			if(accumulator == true) {
 				throw new Break();
 			}
 			
-			return result.value();
-		});
+			if(reachableNode.id().equals(node.id())) {
+				accumulator = true;
+			}
+			
+			return accumulator;
 
-		return result.value();
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public SO defaultSearchOptions() {
-		return (SO) new SearchOptionsNtro();
+		}).value();
 	}
 
 	@Override
-	protected <R> void _reduceStartNodes(ResultNtro<R> result, NodeReducer<N, E, SO, R> reducer) {
+	public <R> void reduceStartNodes(ResultNtro<R> result, NodeReducer<N, E, SO, R> reducer) {
 		if(result.hasException()) {
 			return;
 		}
@@ -178,19 +154,7 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 	}
 
 	@Override
-	public <R> Result<R> reduceNodes(R initialValue, NodeReducer<N, E, SO, R> reducer) {
-		ResultNtro<R> result = new ResultNtro<>(initialValue);
-
-		_reduceNodes(result, reducer);
-		
-		return result;
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
 	public G toGraph() {
-		return (G) this;
+		return getGraph();
 	}
-
-
 }

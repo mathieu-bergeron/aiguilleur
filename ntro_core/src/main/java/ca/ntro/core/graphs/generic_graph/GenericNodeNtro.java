@@ -71,11 +71,8 @@ public abstract class GenericNodeNtro<N extends Node<N,E,SO>,
 	public NodeId id() {
 		return getNodeId();
 	}
-
-	// FIXME: this should be done by composition, not heritage
-	//        by composition, 
-	protected abstract <R> void _reduceEdgeTypesForDirection(Direction direction, ResultNtro<R> result, EdgeTypeReducer<R> reducer);
-	protected abstract <R> void _reduceEdgesByType(EdgeType edgeType, ResultNtro<R> result, EdgeReducer<N,E,SO,R> reducer);
+	
+	protected abstract GenericNodeStructure<N,E,SO> nodeStructure();
 
 	@Override
 	public void forEachEdge(EdgeVisitor<N,E,SO> visitor) {
@@ -94,9 +91,9 @@ public abstract class GenericNodeNtro<N extends Node<N,E,SO>,
 		
 		for(Direction direction : Direction.values()) {
 
-			_reduceEdgeTypesForDirection(direction, result, (__, edgeType) -> {
+			nodeStructure().reduceEdgeTypesForDirection(direction, result, (__, edgeType) -> {
 
-				_reduceEdgesByType(edgeType, result, reducer);
+				nodeStructure().reduceEdgesByType(edgeType, result, reducer);
 				
 				return result.value();
 			});
@@ -254,9 +251,9 @@ public abstract class GenericNodeNtro<N extends Node<N,E,SO>,
 		
 		for(Direction direction : options.directions()) {
 
-			_reduceEdgeTypesForDirection(direction, result, (__, edgeType) -> {
+			nodeStructure().reduceEdgeTypesForDirection(direction, result, (__, edgeType) -> {
 
-				_reduceEdgesByType(edgeType, result, (___, edge) -> {
+				nodeStructure().reduceEdgesByType(edgeType, result, (___, edge) -> {
 					if(visitedEdges.contains(edge.id().toKey().toString())) {
 						return result.value();
 					}
@@ -367,7 +364,7 @@ public abstract class GenericNodeNtro<N extends Node<N,E,SO>,
 		EdgeType edgeType = walk.get(0);
 		WalkId remainingWalk = (WalkId) walk.subWalk(1);
 		
-		_reduceEdgesByType(edgeType, result, (__, edge) -> {
+		nodeStructure().reduceEdgesByType(edgeType, result, (__, edge) -> {
 
 			try {
 				

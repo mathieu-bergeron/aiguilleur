@@ -19,7 +19,7 @@ public class MockGraphBuilder extends GraphBuilderNtro<MockNode, MockEdge, Graph
 	}
 
 	@Override
-	protected MockNode createNode(NodeId nodeId,
+	protected MockNode createNodeBuilder(NodeId nodeId,
 			GenericGraphBuilder<MockNode, MockEdge, GraphSearchOptionsBuilder, GenericGraph<MockNode, MockEdge, GraphSearchOptionsBuilder>> graphBuilder) {
 		
 		return new MockNode(nodeId, graphBuilder);

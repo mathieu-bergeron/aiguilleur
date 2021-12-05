@@ -48,7 +48,7 @@ public class InternalHierarchicalDagBuilderNtro<T  extends Task<T,AT>,
 	}
 
 	@Override
-	protected TaskGraphNode<T, AT> createNode(NodeId nodeId,
+	protected TaskGraphNode<T, AT> createNodeBuilder(NodeId nodeId,
 			GenericGraphBuilder<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder, GenericGraph<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder>> graphBuilder) {
 		// TODO Auto-generated method stub
 		return null;
