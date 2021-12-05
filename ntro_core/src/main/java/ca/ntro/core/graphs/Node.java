@@ -20,6 +20,9 @@ public interface Node<N extends Node<N,E,SO>,
 	void forEachReachableNode(ReachableNodeVisitor<N,E,SO> visitor);
 	void forEachReachableNode(SO options, ReachableNodeVisitor<N,E,SO> visitor);
 
+	//Stream<N> reachableNodes();
+	//Stream<N> reachableNodes(SO options);
+
 	<R extends Object> Result<R> reduceReachableNodes(R initialValue, ReachableNodeReducer<N,E,SO,R> reducer);
 	<R extends Object> Result<R> reduceReachableNodes(SO options, R initialValue, ReachableNodeReducer<N,E,SO,R> reducer);
 

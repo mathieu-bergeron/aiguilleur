@@ -331,7 +331,7 @@ public class      TaskNtro<T  extends Task<T,AT>,
 		return new StreamNtro<T>() {
 			@Override
 			protected <R> void _reduce(ResultNtro<R> result, _Reducer<T, R> _reducer) {
-
+				
 				getNode().reduceReachableNodes(options, (__, walked, node) -> {
 					
 					try {
