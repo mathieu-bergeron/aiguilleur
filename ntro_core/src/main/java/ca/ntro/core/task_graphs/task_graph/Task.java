@@ -23,6 +23,17 @@ public interface Task<T  extends Task<T,AT>,
 	T addEntryTask(AT entryTask);
 	T addExitTask(AT exitTask);
 	
+	// FIXME: a generic functional "hub" with all map/reduce functions
+	// FunctionalHub<> previousTasks()
+	//
+	// previousTasks().ifAll();
+	// previousTasks().ifSome();
+	// previousTasks().findFirst()
+	// previousTasks().findAll()
+	// previousTasks().forEach()
+	// previousTasks().map()
+	// previousTasks().reduce()
+	
 	boolean ifAllPreviousTasksMatch(TaskMatcher<T,AT> matcher);
 	boolean ifSomePreviousTaskMatches(TaskMatcher<T,AT> matcher);
 	T findFirstPreviousTaskThatMatches(TaskMatcher<T,AT> matcher);
