@@ -1,9 +1,9 @@
 package ca.ntro.core.reflection.object_graph;
 
 
-import ca.ntro.core.graphs.generics.directed_graph.GenericDirectedGraph;
-import ca.ntro.core.graphs.generics.directed_graph.GenericNodeNtro;
-import ca.ntro.core.graphs.generics.directed_graph.NodeId;
+import ca.ntro.core.graphs.generics.generic_graph.GenericGraph;
+import ca.ntro.core.graphs.generics.generic_graph.GenericNodeNtro;
+import ca.ntro.core.graphs.generics.generic_graph.NodeId;
 import ca.ntro.core.reflection.object_updates.ObjectUpdates;
 
 public abstract class ObjectNodeNtro 
@@ -49,7 +49,7 @@ public abstract class ObjectNodeNtro
 
 
 	@Override
-	public GenericDirectedGraph<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder> parentGraph() {
+	public GenericGraph<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder> parentGraph() {
 		return getGraph();
 	}
 

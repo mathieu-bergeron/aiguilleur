@@ -1,6 +1,6 @@
 package ca.ntro.core.graphs.graph;
 
-import ca.ntro.core.graphs.generics.directed_graph.SearchOptionsBuilder;
+import ca.ntro.core.graphs.generics.generic_graph.SearchOptionsBuilder;
 
 public interface GraphSearchOptionsBuilder extends SearchOptionsBuilder {
 

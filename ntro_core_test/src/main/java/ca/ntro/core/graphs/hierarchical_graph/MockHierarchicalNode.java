@@ -1,10 +1,10 @@
 package ca.ntro.core.graphs.hierarchical_graph;
 
-import ca.ntro.core.graphs.generics.directed_graph.GenericDirectedGraph;
-import ca.ntro.core.graphs.generics.directed_graph.GenericNodeStructure;
-import ca.ntro.core.graphs.generics.directed_graph.NodeId;
-import ca.ntro.core.graphs.generics.hierarchical_directed_graph.HierarchicalGraphSearchOptionsBuilder;
-import ca.ntro.core.graphs.generics.hierarchical_directed_graph.GenericHierarchicalNodeNtro;
+import ca.ntro.core.graphs.generics.generic_graph.GenericGraph;
+import ca.ntro.core.graphs.generics.generic_graph.GenericNodeStructure;
+import ca.ntro.core.graphs.generics.generic_graph.NodeId;
+import ca.ntro.core.graphs.generics.generic_hierarchical_graph.GenericHierarchicalNodeNtro;
+import ca.ntro.core.graphs.generics.generic_hierarchical_graph.HierarchicalGraphSearchOptionsBuilder;
 
 public class MockHierarchicalNode extends GenericHierarchicalNodeNtro<MockHierarchicalNode, 
                                                                     MockHierarchicalEdge,
@@ -15,7 +15,7 @@ public class MockHierarchicalNode extends GenericHierarchicalNodeNtro<MockHierar
 	}
 
 	@Override
-	public GenericDirectedGraph<MockHierarchicalNode, MockHierarchicalEdge, HierarchicalGraphSearchOptionsBuilder> parentGraph() {
+	public GenericGraph<MockHierarchicalNode, MockHierarchicalEdge, HierarchicalGraphSearchOptionsBuilder> parentGraph() {
 		// TODO Auto-generated method stub
 		return null;
 	}

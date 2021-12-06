@@ -1,11 +1,11 @@
 package ca.ntro.core.reflection.object_graph;
 
-import ca.ntro.core.graphs.generics.directed_graph.EdgeReducer;
-import ca.ntro.core.graphs.generics.directed_graph.EdgeVisitor;
-import ca.ntro.core.graphs.generics.directed_graph.GraphId;
-import ca.ntro.core.graphs.generics.directed_graph.NodeId;
-import ca.ntro.core.graphs.generics.directed_graph.NodeReducer;
-import ca.ntro.core.graphs.generics.directed_graph.NodeVisitor;
+import ca.ntro.core.graphs.generics.generic_graph.EdgeReducer;
+import ca.ntro.core.graphs.generics.generic_graph.EdgeVisitor;
+import ca.ntro.core.graphs.generics.generic_graph.GraphId;
+import ca.ntro.core.graphs.generics.generic_graph.NodeId;
+import ca.ntro.core.graphs.generics.generic_graph.NodeReducer;
+import ca.ntro.core.graphs.generics.generic_graph.NodeVisitor;
 import ca.ntro.core.graphs.writers.GraphWriter;
 import ca.ntro.core.reflection.object_updates.ObjectUpdates;
 import ca.ntro.core.stream.Stream;

@@ -1,18 +1,18 @@
 package ca.ntro.core.graphs.writers;
 
-import ca.ntro.core.graphs.generics.directed_graph.GenericNode;
+import ca.ntro.core.graphs.generics.generic_graph.Node;
 
 public class NodeSpecNtro implements NodeSpec {
 	
-	private GenericNode<?,?,?> node;
+	private Node<?,?,?> node;
 	private String color;
 	private String shape;
 
-	public GenericNode<?,?,?> getNode() {
+	public Node<?,?,?> getNode() {
 		return node;
 	}
 
-	public void setNode(GenericNode<?,?,?> node) {
+	public void setNode(Node<?,?,?> node) {
 		this.node = node;
 	}
 	
@@ -32,7 +32,7 @@ public class NodeSpecNtro implements NodeSpec {
 		this.shape = shape;
 	}
 
-	public NodeSpecNtro(GenericNode<?,?,?> node) {
+	public NodeSpecNtro(Node<?,?,?> node) {
 		setNode(node);
 	}
 

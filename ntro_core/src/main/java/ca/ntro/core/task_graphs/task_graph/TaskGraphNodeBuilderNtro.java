@@ -1,23 +1,22 @@
 package ca.ntro.core.task_graphs.task_graph;
 
-import ca.ntro.core.graphs.generics.directed_graph.EdgeReducer;
-import ca.ntro.core.graphs.generics.directed_graph.EdgeVisitor;
-import ca.ntro.core.graphs.generics.directed_graph.GenericDirectedGraph;
-import ca.ntro.core.graphs.generics.directed_graph.GenericDirectedGraphBuilder;
-import ca.ntro.core.graphs.generics.directed_graph.GenericNodeStructure;
-import ca.ntro.core.graphs.generics.directed_graph.NodeId;
-import ca.ntro.core.graphs.generics.directed_graph.ReachableEdgeReducer;
-import ca.ntro.core.graphs.generics.directed_graph.ReachableEdgeVisitor;
-import ca.ntro.core.graphs.generics.directed_graph.ReachableNodeReducer;
-import ca.ntro.core.graphs.generics.directed_graph.ReachableNodeVisitor;
-import ca.ntro.core.graphs.generics.directed_graph.VisitedEdge;
-import ca.ntro.core.graphs.generics.directed_graph.VisitedNode;
-import ca.ntro.core.graphs.generics.directed_graph.WalkId;
-import ca.ntro.core.graphs.generics.directed_graph.WalkInProgress;
-import ca.ntro.core.graphs.generics.directed_graph.WalkReducer;
-import ca.ntro.core.graphs.generics.directed_graph.WalkVisitor;
-import ca.ntro.core.graphs.generics.hierarchical_directed_graph.GenericHierarchicalGraphBuilder;
-import ca.ntro.core.graphs.generics.hierarchical_directed_graph.GenericHierarchicalNodeBuilderNtro;
+import ca.ntro.core.graphs.generics.generic_graph.EdgeReducer;
+import ca.ntro.core.graphs.generics.generic_graph.EdgeVisitor;
+import ca.ntro.core.graphs.generics.generic_graph.GenericGraph;
+import ca.ntro.core.graphs.generics.generic_graph.GenericGraphBuilder;
+import ca.ntro.core.graphs.generics.generic_graph.GenericNodeStructure;
+import ca.ntro.core.graphs.generics.generic_graph.NodeId;
+import ca.ntro.core.graphs.generics.generic_graph.ReachableEdgeReducer;
+import ca.ntro.core.graphs.generics.generic_graph.ReachableEdgeVisitor;
+import ca.ntro.core.graphs.generics.generic_graph.ReachableNodeReducer;
+import ca.ntro.core.graphs.generics.generic_graph.ReachableNodeVisitor;
+import ca.ntro.core.graphs.generics.generic_graph.VisitedEdge;
+import ca.ntro.core.graphs.generics.generic_graph.VisitedNode;
+import ca.ntro.core.graphs.generics.generic_graph.WalkId;
+import ca.ntro.core.graphs.generics.generic_graph.WalkInProgress;
+import ca.ntro.core.graphs.generics.generic_graph.WalkReducer;
+import ca.ntro.core.graphs.generics.generic_graph.WalkVisitor;
+import ca.ntro.core.graphs.generics.generic_hierarchical_graph.GenericHierarchicalNodeBuilderNtro;
 import ca.ntro.core.stream.Stream;
 import ca.ntro.core.wrappers.result.Result;
 
@@ -33,11 +32,11 @@ public class TaskGraphNodeBuilderNtro<T  extends Task<T,AT>,
 
 
 	public TaskGraphNodeBuilderNtro(NodeId nodeId,
-			                        GenericDirectedGraphBuilder<TaskGraphNode<T, AT>, 
+			                        GenericGraphBuilder<TaskGraphNode<T, AT>, 
 			                                            TaskGraphEdge<T, AT>, 
 			                                            TaskGraphSearchOptionsBuilder, 
 			                                            TaskGraphNodeBuilder<T, AT>, 
-			                                            GenericDirectedGraph<TaskGraphNode<T, AT>, 
+			                                            GenericGraph<TaskGraphNode<T, AT>, 
 			                                            TaskGraphEdge<T, AT>, 
 			                                            TaskGraphSearchOptionsBuilder>> graphBuilder) {
 		super(nodeId, graphBuilder);
@@ -59,7 +58,7 @@ public class TaskGraphNodeBuilderNtro<T  extends Task<T,AT>,
 	}
 
 	@Override
-	public GenericDirectedGraph<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder> parentGraph() {
+	public GenericGraph<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder> parentGraph() {
 		return getGraphBuilder().graph();
 	}
 
@@ -281,6 +280,12 @@ public class TaskGraphNodeBuilderNtro<T  extends Task<T,AT>,
 			WalkReducer<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder, R> reducer) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void setNodeName(String nodeName) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

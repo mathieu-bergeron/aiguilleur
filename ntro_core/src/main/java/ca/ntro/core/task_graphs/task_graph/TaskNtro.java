@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ca.ntro.core.stream._Reducer;
-import ca.ntro.core.graphs.generics.directed_graph.Direction;
-import ca.ntro.core.graphs.generics.directed_graph.SearchOptionsNtro;
-import ca.ntro.core.graphs.generics.directed_graph.SearchStrategy;
-import ca.ntro.core.graphs.generics.directed_graph.VisitedNode;
+import ca.ntro.core.graphs.generics.generic_graph.Direction;
+import ca.ntro.core.graphs.generics.generic_graph.SearchOptionsNtro;
+import ca.ntro.core.graphs.generics.generic_graph.SearchStrategy;
+import ca.ntro.core.graphs.generics.generic_graph.VisitedNode;
 import ca.ntro.core.stream.Stream;
 import ca.ntro.core.stream.StreamNtro;
 import ca.ntro.core.wrappers.result.ResultNtro;

@@ -1,17 +1,9 @@
 package ca.ntro.core.graphs.graph;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import ca.ntro.core.graphs.DirectedEdgeTriple;
-import ca.ntro.core.graphs.generics.directed_graph.Direction;
-import ca.ntro.core.graphs.generics.directed_graph.EdgeTypeNtro;
-import ca.ntro.core.graphs.generics.directed_graph.NodeAlreadyAddedException;
-import ca.ntro.core.graphs.generics.directed_graph.SearchStrategy;
-import ca.ntro.core.graphs.generics.graph.GenericGraph;
 import ca.ntro.core.initialization.InitializerTest;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.services.ExceptionThrowerMock;
@@ -39,8 +31,11 @@ public class GraphTests {
 
 		builder.setGraphName("simpleGraph01");
 		
-		MockNode nodeA = builder.addNode("A");
+		GraphNodeBuilder<MockNode, MockEdge> nodeA = builder.addNode("A");
+
 		MockEdge edgeAA = builder.addEdge(nodeA, "AA", nodeA);
+
+		nodeA.addEdge(edgeAA);
 
 		Graph<MockNode, MockEdge> graph = builder.graph();
 

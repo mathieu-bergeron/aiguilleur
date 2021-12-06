@@ -1,8 +1,8 @@
 package ca.ntro.core.reflection;
 
 
-import ca.ntro.core.graphs.generics.directed_graph.GenericNodeStructure;
-import ca.ntro.core.graphs.generics.directed_graph.NodeId;
+import ca.ntro.core.graphs.generics.generic_graph.GenericNodeStructure;
+import ca.ntro.core.graphs.generics.generic_graph.NodeId;
 import ca.ntro.core.reflection.object_graph.LocalHeap;
 import ca.ntro.core.reflection.object_graph.ObjectGraph;
 import ca.ntro.core.reflection.object_graph.ObjectGraphNtro;

@@ -1,14 +1,14 @@
 package ca.ntro.core.graphs.graph;
 
-import ca.ntro.core.graphs.generics.directed_graph.GenericDirectedGraphNtro;
-import ca.ntro.core.graphs.generics.directed_graph.GenericGraphStructure;
-import ca.ntro.core.graphs.generics.directed_graph.GraphId;
-import ca.ntro.core.graphs.generics.directed_graph.InternalGraphWriter;
+import ca.ntro.core.graphs.generics.generic_graph.GenericGraphNtro;
+import ca.ntro.core.graphs.generics.generic_graph.GenericGraphStructure;
+import ca.ntro.core.graphs.generics.generic_graph.GraphId;
+import ca.ntro.core.graphs.generics.generic_graph.InternalGraphWriter;
 
 public class GraphNtro<N extends GraphNode<N,E>,
                        E extends GraphEdge<N,E>> 
 
-       extends GenericDirectedGraphNtro<N,E,GraphSearchOptionsBuilder>
+       extends GenericGraphNtro<N,E,GraphSearchOptionsBuilder>
 
 	   implements Graph<N,E> {
 

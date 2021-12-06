@@ -1,6 +1,6 @@
 package ca.ntro.core.identifyers;
 
-import ca.ntro.core.graphs.generics.directed_graph.GraphId;
+import ca.ntro.core.graphs.generics.generic_graph.GraphId;
 import ca.ntro.core.path.Filepath;
 import ca.ntro.core.path.Path;
 

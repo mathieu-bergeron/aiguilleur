@@ -1,12 +1,12 @@
 package ca.ntro.core.reflection.object_graph;
 
-import ca.ntro.core.graphs.generics.directed_graph.GenericDirectedGraphNtro;
-import ca.ntro.core.graphs.generics.directed_graph.GraphId;
+import ca.ntro.core.graphs.generics.generic_graph.GenericGraphNtro;
+import ca.ntro.core.graphs.generics.generic_graph.GraphId;
 import ca.ntro.core.reflection.object_updates.ObjectUpdates;
 
 public abstract class ObjectGraphNtro 
 
-       extends GenericDirectedGraphNtro<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder> 
+       extends GenericGraphNtro<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder> 
 
        implements ObjectGraph {
 	

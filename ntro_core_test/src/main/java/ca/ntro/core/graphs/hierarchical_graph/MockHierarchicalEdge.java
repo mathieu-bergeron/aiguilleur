@@ -1,8 +1,8 @@
 package ca.ntro.core.graphs.hierarchical_graph;
 
-import ca.ntro.core.graphs.generics.directed_graph.EdgeNtro;
-import ca.ntro.core.graphs.generics.directed_graph.EdgeType;
-import ca.ntro.core.graphs.generics.hierarchical_directed_graph.HierarchicalGraphSearchOptionsBuilder;
+import ca.ntro.core.graphs.generics.generic_graph.EdgeNtro;
+import ca.ntro.core.graphs.generics.generic_graph.EdgeType;
+import ca.ntro.core.graphs.generics.generic_hierarchical_graph.HierarchicalGraphSearchOptionsBuilder;
 
 public class MockHierarchicalEdge extends EdgeNtro<MockHierarchicalNode, MockHierarchicalEdge, HierarchicalGraphSearchOptionsBuilder> {
 

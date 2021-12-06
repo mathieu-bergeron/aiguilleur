@@ -1,6 +1,6 @@
 package ca.ntro.core.reflection.object_graph;
 
-import ca.ntro.core.graphs.generics.directed_graph.NodeReducer;
+import ca.ntro.core.graphs.generics.generic_graph.NodeReducer;
 import ca.ntro.core.path.Path;
 import ca.ntro.core.stream._Reducer;
 import ca.ntro.core.wrappers.result.ResultNtro;

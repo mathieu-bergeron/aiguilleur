@@ -1,8 +1,8 @@
 package ca.ntro.core.graphs.hierarchical_dag;
 
-import ca.ntro.core.graphs.generics.directed_graph.Edge;
-import ca.ntro.core.graphs.generics.hierarchical_directed_graph.GenericHierarchicalNode;
-import ca.ntro.core.graphs.generics.hierarchical_directed_graph.InternalHierarchicalGraphWriter;
+import ca.ntro.core.graphs.generics.generic_graph.Edge;
+import ca.ntro.core.graphs.generics.generic_hierarchical_graph.GenericHierarchicalNode;
+import ca.ntro.core.graphs.generics.generic_hierarchical_graph.InternalHierarchicalGraphWriter;
 
 public interface InternalHierarchicalDagWriter<N extends GenericHierarchicalNode<N,E,SO>,
  											   E extends Edge<N,E,SO>,

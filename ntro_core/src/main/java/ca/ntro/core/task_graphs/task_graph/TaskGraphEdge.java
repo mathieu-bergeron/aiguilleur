@@ -1,6 +1,6 @@
 package ca.ntro.core.task_graphs.task_graph;
 
-import ca.ntro.core.graphs.generics.directed_graph.Edge;
+import ca.ntro.core.graphs.generics.generic_graph.Edge;
 
 public interface TaskGraphEdge<T  extends Task<T,AT>, 
                                AT extends AtomicTask<T,AT>>

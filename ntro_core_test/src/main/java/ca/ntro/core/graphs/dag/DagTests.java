@@ -8,8 +8,8 @@ import org.junit.Test;
 
 import ca.ntro.core.graphs.dag.CycleException;
 import ca.ntro.core.graphs.dag.DagNtro;
-import ca.ntro.core.graphs.generics.directed_graph.EdgeNtro;
-import ca.ntro.core.graphs.generics.directed_graph.GenericNodeNtro;
+import ca.ntro.core.graphs.generics.generic_graph.EdgeNtro;
+import ca.ntro.core.graphs.generics.generic_graph.GenericNodeNtro;
 import ca.ntro.core.initialization.InitializerTest;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.services.ExceptionThrowerMock;

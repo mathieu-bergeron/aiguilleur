@@ -1,6 +1,6 @@
 package ca.ntro.core.task_graphs.task_graph;
 
-import ca.ntro.core.graphs.generics.hierarchical_directed_graph.GenericHierarchicalNode;
+import ca.ntro.core.graphs.generics.generic_hierarchical_graph.GenericHierarchicalNode;
 
 public interface TaskGraphNode<T  extends Task<T,AT>, 
                                AT extends AtomicTask<T,AT>>

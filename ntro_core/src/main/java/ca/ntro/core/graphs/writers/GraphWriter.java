@@ -1,7 +1,7 @@
 package ca.ntro.core.graphs.writers;
 
-import ca.ntro.core.graphs.generics.directed_graph.GraphId;
-import ca.ntro.core.graphs.generics.directed_graph.NodeNotFoundException;
+import ca.ntro.core.graphs.generics.generic_graph.GraphId;
+import ca.ntro.core.graphs.generics.generic_graph.NodeNotFoundException;
 
 public interface GraphWriter {
 	

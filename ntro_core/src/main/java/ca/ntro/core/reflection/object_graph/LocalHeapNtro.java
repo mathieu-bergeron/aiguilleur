@@ -1,7 +1,7 @@
 package ca.ntro.core.reflection.object_graph;
 
-import ca.ntro.core.graphs.generics.directed_graph.NodeId;
-import ca.ntro.core.graphs.generics.directed_graph.NodeIdNtro;
+import ca.ntro.core.graphs.generics.generic_graph.NodeId;
+import ca.ntro.core.graphs.generics.generic_graph.NodeIdNtro;
 import ca.ntro.core.path.Path;
 
 public abstract class LocalHeapNtro implements LocalHeap {

@@ -3,7 +3,7 @@ package ca.ntro.core.reflection;
 import java.util.HashMap;
 import java.util.Map;
 
-import ca.ntro.core.graphs.generics.directed_graph.NodeId;
+import ca.ntro.core.graphs.generics.generic_graph.NodeId;
 import ca.ntro.core.reflection.object_graph.LocalHeap;
 import ca.ntro.core.reflection.object_graph.LocalHeapNtro;
 import ca.ntro.core.reflection.object_graph.ObjectGraph;

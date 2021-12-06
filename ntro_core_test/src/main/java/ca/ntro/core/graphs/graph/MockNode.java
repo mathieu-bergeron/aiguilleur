@@ -1,6 +1,6 @@
 package ca.ntro.core.graphs.graph;
 
-import ca.ntro.core.graphs.generics.directed_graph.NodeId;
+import ca.ntro.core.graphs.generics.generic_graph.NodeId;
 
 public class MockNode extends GraphNodeNtro<MockNode, MockEdge> {
 
