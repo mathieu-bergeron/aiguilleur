@@ -8,23 +8,20 @@ import ca.ntro.core.graphs.generics.directed_graph.NodeId;
 import ca.ntro.core.graphs.generics.graph.GraphSearchOptionsBuilder;
 
 public class      GraphNodeBuilderNtro <N extends GraphNode<N,E>,
-                                        E extends GraphEdge<N,E>> 
+                                        E extends GraphEdge<N,E>,
+                                        NB extends GraphNodeBuilder<N,E,NB>> 
 
-       extends    GenericNodeBuilderNtro<N,E,GraphSearchOptionsBuilder, GraphNodeBuilder<N,E>>
+       extends    GenericNodeBuilderNtro<N,E,GraphSearchOptionsBuilder, NB>
 
-       implements GraphNodeBuilder<N,E>
+       implements GraphNode<N,E>,
+                  GraphNodeBuilder<N,E,NB>
 
 {
 
-	public GraphNodeBuilderNtro(NodeId nodeId,
-			GenericDirectedGraphBuilder<N, E, GraphSearchOptionsBuilder, GraphNodeBuilder<N, E>, GenericDirectedGraph<N, E, GraphSearchOptionsBuilder>> graphBuilder) {
-		super(nodeId, graphBuilder);
-	}
 
-	@Override
-	public E addEdge(String edgeName, GraphNodeBuilder<N, E> toNode) {
-		// TODO Auto-generated method stub
-		return null;
+	public GraphNodeBuilderNtro(NodeId nodeId,
+			GenericDirectedGraphBuilder<N, E, GraphSearchOptionsBuilder, NB, GenericDirectedGraph<N, E, GraphSearchOptionsBuilder>> graphBuilder) {
+		super(nodeId, graphBuilder);
 	}
 
 	@Override
@@ -32,4 +29,5 @@ public class      GraphNodeBuilderNtro <N extends GraphNode<N,E>,
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 }

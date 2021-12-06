@@ -11,11 +11,16 @@ import ca.ntro.core.graphs.generics.graph.GenericGraphBuilderNtro;
 import ca.ntro.core.graphs.generics.graph.GraphSearchOptionsBuilder;
 
 public class GraphBuilderNtro <N extends GraphNode<N,E>,
-                               E extends GraphEdge<N,E>> 
+                               E extends GraphEdge<N,E>,
+                               NB extends GraphNodeBuilder<N,E,NB>> 
 
-       extends GenericGraphBuilderNtro<N,E,GraphSearchOptionsBuilder, GraphNodeBuilder<N,E>>
+       extends GenericGraphBuilderNtro<N,E,GraphSearchOptionsBuilder,NB>
 
-       implements GraphBuilder<N,E> {
+       implements GraphBuilder<N,E,NB> {
+
+	public GraphBuilderNtro(String graphName) {
+		super(graphName);
+	}
 
 	@Override
 	protected GenericGraph<N, E, GraphSearchOptionsBuilder> createGraph(GraphId id,
@@ -25,14 +30,14 @@ public class GraphBuilderNtro <N extends GraphNode<N,E>,
 	}
 
 	@Override
-	protected GraphNodeBuilder<N, E> createNodeBuilder(NodeId nodeId,
-			GenericDirectedGraphBuilder<N, E, GraphSearchOptionsBuilder, GraphNodeBuilder<N, E>, GenericDirectedGraph<N, E, GraphSearchOptionsBuilder>> graphBuilder) {
+	protected NB createNodeBuilder(NodeId nodeId,
+			GenericDirectedGraphBuilder<N, E, GraphSearchOptionsBuilder, NB, GenericDirectedGraph<N, E, GraphSearchOptionsBuilder>> graphBuilder) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	protected E createEdge(GraphNodeBuilder<N, E> fromNode, EdgeType edgeType, GraphNodeBuilder<N, E> toNode) {
+	protected E createEdge(NB fromNode, EdgeType edgeType, NB toNode) {
 		// TODO Auto-generated method stub
 		return null;
 	}
