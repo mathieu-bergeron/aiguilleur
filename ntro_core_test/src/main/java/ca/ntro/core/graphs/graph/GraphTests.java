@@ -7,11 +7,14 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import ca.ntro.core.graphs.DirectedEdgeTriple;
-import ca.ntro.core.graphs.Direction;
-import ca.ntro.core.graphs.EdgeTypeNtro;
-import ca.ntro.core.graphs.NodeAlreadyAddedException;
-import ca.ntro.core.graphs.NodeIdNtro;
-import ca.ntro.core.graphs.SearchStrategy;
+import ca.ntro.core.graphs.generics.directed_graph.Direction;
+import ca.ntro.core.graphs.generics.directed_graph.EdgeTypeNtro;
+import ca.ntro.core.graphs.generics.directed_graph.NodeAlreadyAddedException;
+import ca.ntro.core.graphs.generics.directed_graph.NodeIdNtro;
+import ca.ntro.core.graphs.generics.directed_graph.SearchStrategy;
+import ca.ntro.core.graphs.generics.graph.GenericGraph;
+import ca.ntro.core.graphs.generics.graph.GraphSearchOptionsBuilder;
+import ca.ntro.core.graphs.generics.graph.GraphSearchOptionsBuilderNtro;
 import ca.ntro.core.initialization.InitializerTest;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.services.ExceptionThrowerMock;
@@ -44,7 +47,7 @@ public class GraphTests {
 		MockEdge edgeAB = builder.addEdge(nodeA, "AB", nodeB);
 		MockEdge edgeBC = builder.addEdge(nodeB, "BC", nodeC);
 
-		Graph<MockNode, MockEdge, GraphSearchOptionsBuilder> graph = builder.asGraph();
+		GenericGraph<MockNode, MockEdge, GraphSearchOptionsBuilder> graph = builder.asGraph();
 
 		graph.write(Ntro.graphWriter());
 	}
@@ -64,7 +67,7 @@ public class GraphTests {
 		MockEdge edgeCD = builder.addEdge(nodeC, "CD", nodeD);
 		MockEdge edgeDB = builder.addEdge(nodeD, "DA", nodeA);
 
-		Graph<MockNode, MockEdge, GraphSearchOptionsBuilder> graph = builder.asGraph();
+		GenericGraph<MockNode, MockEdge, GraphSearchOptionsBuilder> graph = builder.asGraph();
 		graph.write(Ntro.graphWriter());
 		
 		return builder;
@@ -96,7 +99,7 @@ public class GraphTests {
 		builder.addEdge(nodeE, "EH", nodeH);
 		builder.addEdge(nodeE, "EI", nodeI);
 
-		Graph<MockNode, MockEdge, GraphSearchOptionsBuilder> graph = builder.asGraph();
+		GenericGraph<MockNode, MockEdge, GraphSearchOptionsBuilder> graph = builder.asGraph();
 		graph.write(Ntro.graphWriter());
 		
 		return builder;
@@ -116,7 +119,7 @@ public class GraphTests {
 		MockNode nodeA = builder.addNode("A");
 		MockNode nodeAA = builder.addNode("A");
 
-		Graph<MockNode, MockEdge, GraphSearchOptionsBuilder> graph = builder.asGraph();
+		GenericGraph<MockNode, MockEdge, GraphSearchOptionsBuilder> graph = builder.asGraph();
 
 		graph.write(Ntro.graphWriter());
 
@@ -142,7 +145,7 @@ public class GraphTests {
 		
 		GraphSearchOptionsBuilderNtro oneStepOptions = new GraphSearchOptionsBuilderNtro();
 		oneStepOptions.setSearchStrategy(SearchStrategy.DEPTH_FIRST_SEARCH);
-		oneStepOptions.toSearchOptions().setDirections(new Direction[] {Direction.FORWARD});
+		oneStepOptions.internal().setDirections(new Direction[] {Direction.FORWARD});
 		oneStepOptions.setMaxDistance(1);
 		
 		List<DirectedEdgeTriple<MockNode, MockEdge, GraphSearchOptionsBuilder>> edges = new ArrayList<>();

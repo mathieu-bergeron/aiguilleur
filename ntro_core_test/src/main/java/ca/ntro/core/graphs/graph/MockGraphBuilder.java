@@ -1,13 +1,16 @@
 package ca.ntro.core.graphs.graph;
 
-import ca.ntro.core.graphs.EdgeType;
-import ca.ntro.core.graphs.GraphId;
-import ca.ntro.core.graphs.NodeId;
-import ca.ntro.core.graphs.generic_graph.GenericGraph;
-import ca.ntro.core.graphs.generic_graph.GenericGraphBuilder;
-import ca.ntro.core.graphs.generic_graph.GenericGraphStructure;
+import ca.ntro.core.graphs.generics.directed_graph.EdgeType;
+import ca.ntro.core.graphs.generics.directed_graph.GenericDirectedGraph;
+import ca.ntro.core.graphs.generics.directed_graph.GenericDirectedGraphBuilder;
+import ca.ntro.core.graphs.generics.directed_graph.GenericGraphStructure;
+import ca.ntro.core.graphs.generics.directed_graph.GraphId;
+import ca.ntro.core.graphs.generics.directed_graph.NodeId;
+import ca.ntro.core.graphs.generics.graph.GenericGraph;
+import ca.ntro.core.graphs.generics.graph.GenericGraphBuilderNtro;
+import ca.ntro.core.graphs.generics.graph.GraphSearchOptionsBuilder;
 
-public class MockGraphBuilder extends GraphBuilderNtro<MockNode, MockEdge, GraphSearchOptionsBuilder, MockNode>{
+public class MockGraphBuilder extends GraphBuilderNtro<MockNode, MockEdge> {
 
 	public MockGraphBuilder(String graphName) {
 		super(graphName);
@@ -20,15 +23,15 @@ public class MockGraphBuilder extends GraphBuilderNtro<MockNode, MockEdge, Graph
 	}
 
 	@Override
-	protected Graph<MockNode, MockEdge, GraphSearchOptionsBuilder> createGraph(GraphId id,
+	protected GenericGraph<MockNode, MockEdge, GraphSearchOptionsBuilder> createGraph(GraphId id,
 			GenericGraphStructure<MockNode, MockEdge, GraphSearchOptionsBuilder> graphStructure) {
 		
-		return (Graph<MockNode, MockEdge, GraphSearchOptionsBuilder>) new MockGraph(id, graphStructure);
+		return (GenericGraph<MockNode, MockEdge, GraphSearchOptionsBuilder>) new MockGraph(id, graphStructure);
 	}
 
 	@Override
 	protected MockNode createNodeBuilder(NodeId nodeId,
-			GenericGraphBuilder<MockNode, MockEdge, GraphSearchOptionsBuilder, MockNode, GenericGraph<MockNode, MockEdge, GraphSearchOptionsBuilder>> graphBuilder) {
+			GenericDirectedGraphBuilder<MockNode, MockEdge, GraphSearchOptionsBuilder, MockNode, GenericDirectedGraph<MockNode, MockEdge, GraphSearchOptionsBuilder>> graphBuilder) {
 
 		return new MockNode(nodeId, graphBuilder);
 	}

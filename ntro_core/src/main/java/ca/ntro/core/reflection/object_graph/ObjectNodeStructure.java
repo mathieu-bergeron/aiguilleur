@@ -1,6 +1,6 @@
 package ca.ntro.core.reflection.object_graph;
 
-import ca.ntro.core.graphs.generic_graph.GenericNodeStructure;
+import ca.ntro.core.graphs.generics.directed_graph.GenericNodeStructure;
 
 public interface ObjectNodeStructure 
 	   extends   GenericNodeStructure<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder> {

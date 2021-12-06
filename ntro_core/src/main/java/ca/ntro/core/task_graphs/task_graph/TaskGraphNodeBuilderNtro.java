@@ -1,13 +1,13 @@
 package ca.ntro.core.task_graphs.task_graph;
 
-import ca.ntro.core.graphs.NodeId;
-import ca.ntro.core.graphs.ReachableNodeReducer;
-import ca.ntro.core.graphs.ReachableNodeVisitor;
-import ca.ntro.core.graphs.generic_graph.GenericGraph;
-import ca.ntro.core.graphs.generic_graph.GenericGraphBuilder;
-import ca.ntro.core.graphs.generic_graph.GenericNodeStructure;
-import ca.ntro.core.graphs.hierarchical_graph.HierarchicalGraphBuilder;
-import ca.ntro.core.graphs.hierarchical_graph.HierarchicalNodeBuilderNtro;
+import ca.ntro.core.graphs.generics.directed_graph.GenericDirectedGraph;
+import ca.ntro.core.graphs.generics.directed_graph.GenericDirectedGraphBuilder;
+import ca.ntro.core.graphs.generics.directed_graph.GenericNodeStructure;
+import ca.ntro.core.graphs.generics.directed_graph.NodeId;
+import ca.ntro.core.graphs.generics.directed_graph.ReachableNodeReducer;
+import ca.ntro.core.graphs.generics.directed_graph.ReachableNodeVisitor;
+import ca.ntro.core.graphs.generics.hierarchical_directed_graph.HierarchicalGraphBuilder;
+import ca.ntro.core.graphs.generics.hierarchical_directed_graph.HierarchicalNodeBuilderNtro;
 import ca.ntro.core.wrappers.result.Result;
 
 public class TaskGraphNodeBuilderNtro<T  extends Task<T,AT>, 
@@ -22,11 +22,11 @@ public class TaskGraphNodeBuilderNtro<T  extends Task<T,AT>,
 
 
 	public TaskGraphNodeBuilderNtro(NodeId nodeId,
-			                        GenericGraphBuilder<TaskGraphNode<T, AT>, 
+			                        GenericDirectedGraphBuilder<TaskGraphNode<T, AT>, 
 			                                            TaskGraphEdge<T, AT>, 
 			                                            TaskGraphSearchOptionsBuilder, 
 			                                            TaskGraphNodeBuilder<T, AT>, 
-			                                            GenericGraph<TaskGraphNode<T, AT>, 
+			                                            GenericDirectedGraph<TaskGraphNode<T, AT>, 
 			                                            TaskGraphEdge<T, AT>, 
 			                                            TaskGraphSearchOptionsBuilder>> graphBuilder) {
 		super(nodeId, graphBuilder);
@@ -48,7 +48,7 @@ public class TaskGraphNodeBuilderNtro<T  extends Task<T,AT>,
 	}
 
 	@Override
-	public GenericGraph<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder> parentGraph() {
+	public GenericDirectedGraph<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder> parentGraph() {
 		return getGraphBuilder().asGraph();
 	}
 

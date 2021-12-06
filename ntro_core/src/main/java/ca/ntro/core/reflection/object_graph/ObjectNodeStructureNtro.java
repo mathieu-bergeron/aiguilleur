@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import ca.ntro.core.graphs.Direction;
-import ca.ntro.core.graphs.EdgeReducer;
-import ca.ntro.core.graphs.EdgeType;
-import ca.ntro.core.graphs.EdgeTypeNtro;
-import ca.ntro.core.graphs.generic_graph.EdgeTypeReducer;
+import ca.ntro.core.graphs.generics.directed_graph.Direction;
+import ca.ntro.core.graphs.generics.directed_graph.EdgeReducer;
+import ca.ntro.core.graphs.generics.directed_graph.EdgeType;
+import ca.ntro.core.graphs.generics.directed_graph.EdgeTypeNtro;
+import ca.ntro.core.graphs.generics.directed_graph.EdgeTypeReducer;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.path.Path;
 import ca.ntro.core.reflection.MethodNameReducer;

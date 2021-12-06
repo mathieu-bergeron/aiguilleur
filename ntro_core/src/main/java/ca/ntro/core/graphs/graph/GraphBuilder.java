@@ -1,15 +1,11 @@
 package ca.ntro.core.graphs.graph;
 
-import ca.ntro.core.graphs.Edge;
-import ca.ntro.core.graphs.Node;
-import ca.ntro.core.graphs.generic_graph.GenericGraphBuilder;
-import ca.ntro.core.graphs.generic_graph.GenericNodeBuilder;
+import ca.ntro.core.graphs.generics.graph.GenericGraphBuilder;
+import ca.ntro.core.graphs.generics.graph.GraphSearchOptionsBuilder;
 
-public interface GraphBuilder<N extends Node<N,E,SO>,
-							  E extends Edge<N,E,SO>,
-							  SO extends GraphSearchOptionsBuilder,
-							  NB extends GenericNodeBuilder<N,E,SO,NB>>
+public interface GraphBuilder<N extends GraphNode<N,E>,
+                              E extends GraphEdge<N,E>>
 
-       extends GenericGraphBuilder<N,E,SO,NB,Graph<N,E,SO>> {
+       extends GenericGraphBuilder<N,E, GraphSearchOptionsBuilder, GraphNodeBuilder<N,E>> {
 
 }

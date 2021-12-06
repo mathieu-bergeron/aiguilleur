@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import ca.ntro.core.graphs.GraphId;
-import ca.ntro.core.graphs.NodeNotFoundException;
+import ca.ntro.core.graphs.generics.directed_graph.GraphId;
+import ca.ntro.core.graphs.generics.directed_graph.NodeNotFoundException;
 import ca.ntro.core.graphs.writers.ClusterNotFoundException;
 import ca.ntro.core.graphs.writers.ClusterSpec;
 import ca.ntro.core.graphs.writers.EdgeSpec;

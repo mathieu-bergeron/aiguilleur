@@ -1,9 +1,9 @@
 package ca.ntro.core.reflection.object_graph;
 
-import ca.ntro.core.graphs.Direction;
-import ca.ntro.core.graphs.EdgeType;
-import ca.ntro.core.graphs.EdgeTypeNtro;
-import ca.ntro.core.graphs.generic_graph.EdgeNtro;
+import ca.ntro.core.graphs.generics.directed_graph.Direction;
+import ca.ntro.core.graphs.generics.directed_graph.EdgeNtro;
+import ca.ntro.core.graphs.generics.directed_graph.EdgeType;
+import ca.ntro.core.graphs.generics.directed_graph.EdgeTypeNtro;
 
 public class ReferenceEdgeNtro 
        

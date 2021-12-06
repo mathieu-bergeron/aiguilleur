@@ -1,6 +1,6 @@
 package ca.ntro.core.graphs.writers;
 
-import ca.ntro.core.graphs.Edge;
+import ca.ntro.core.graphs.generics.directed_graph.Edge;
 import ca.ntro.core.path.Path;
 
 public class EdgeSpecNtro implements EdgeSpec {

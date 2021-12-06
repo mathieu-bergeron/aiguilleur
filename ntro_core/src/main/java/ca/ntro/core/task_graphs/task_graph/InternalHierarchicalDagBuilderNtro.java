@@ -1,11 +1,11 @@
 package ca.ntro.core.task_graphs.task_graph;
 
-import ca.ntro.core.graphs.EdgeType;
-import ca.ntro.core.graphs.GraphId;
-import ca.ntro.core.graphs.NodeId;
-import ca.ntro.core.graphs.generic_graph.GenericGraph;
-import ca.ntro.core.graphs.generic_graph.GenericGraphBuilder;
-import ca.ntro.core.graphs.generic_graph.GenericGraphStructure;
+import ca.ntro.core.graphs.generics.directed_graph.EdgeType;
+import ca.ntro.core.graphs.generics.directed_graph.GenericDirectedGraph;
+import ca.ntro.core.graphs.generics.directed_graph.GenericDirectedGraphBuilder;
+import ca.ntro.core.graphs.generics.directed_graph.GenericGraphStructure;
+import ca.ntro.core.graphs.generics.directed_graph.GraphId;
+import ca.ntro.core.graphs.generics.directed_graph.NodeId;
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDag;
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagBuilderNtro;
 
@@ -40,7 +40,7 @@ public class InternalHierarchicalDagBuilderNtro<T  extends Task<T,AT>,
 
 	@Override
 	protected TaskGraphNodeBuilder<T, AT> createNodeBuilder(NodeId nodeId,
-			GenericGraphBuilder<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder, TaskGraphNodeBuilder<T, AT>, GenericGraph<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder>> graphBuilder) {
+			GenericDirectedGraphBuilder<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder, TaskGraphNodeBuilder<T, AT>, GenericDirectedGraph<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder>> graphBuilder) {
 		// TODO Auto-generated method stub
 		return null;
 	}

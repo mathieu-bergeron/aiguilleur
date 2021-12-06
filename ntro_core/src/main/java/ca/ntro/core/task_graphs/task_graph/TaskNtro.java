@@ -3,11 +3,11 @@ package ca.ntro.core.task_graphs.task_graph;
 import java.util.HashMap;
 import java.util.Map;
 
-import ca.ntro.core.graphs.Direction;
-import ca.ntro.core.graphs.ReachedNode;
-import ca.ntro.core.graphs.SearchOptionsNtro;
-import ca.ntro.core.graphs.SearchStrategy;
 import ca.ntro.core.stream._Reducer;
+import ca.ntro.core.graphs.generics.directed_graph.Direction;
+import ca.ntro.core.graphs.generics.directed_graph.SearchOptionsNtro;
+import ca.ntro.core.graphs.generics.directed_graph.SearchStrategy;
+import ca.ntro.core.graphs.generics.directed_graph.VisitedNode;
 import ca.ntro.core.stream.Stream;
 import ca.ntro.core.stream.StreamNtro;
 import ca.ntro.core.wrappers.result.ResultNtro;
@@ -215,17 +215,14 @@ public class      TaskNtro<T  extends Task<T,AT>,
 
 	protected TaskGraphSearchOptionsBuilderNtro neighborSearchOptions(Direction direction) {
 
-		SearchOptionsNtro neighborSearchOptions = new SearchOptionsNtro();
-		neighborSearchOptions.setSearchStrategy(SearchStrategy.DEPTH_FIRST_SEARCH);
-		neighborSearchOptions.setDirections(new Direction[] {direction});
-		neighborSearchOptions.setMaxDistance(1);
-		neighborSearchOptions.setSortEdgesByName(false);
-		
-		TaskGraphSearchOptionsBuilderNtro defaultBuilder = new TaskGraphSearchOptionsBuilderNtro();
-		
-		defaultBuilder.copyOptions(neighborSearchOptions);
+		TaskGraphSearchOptionsBuilderNtro neighborOptions = new TaskGraphSearchOptionsBuilderNtro();
 
-		return defaultBuilder;
+		neighborOptions.internal().setSearchStrategy(SearchStrategy.DEPTH_FIRST_SEARCH);
+		neighborOptions.internal().setDirections(new Direction[] {direction});
+		neighborOptions.internal().setMaxDistance(1);
+		neighborOptions.internal().setSortEdgesByName(false);
+
+		return neighborOptions;
 	}
 
 	protected TaskGraphSearchOptionsBuilder defaultSearchOptions() {
@@ -240,7 +237,7 @@ public class      TaskNtro<T  extends Task<T,AT>,
 				for(AT atomicTask : atomicTasks.values()) {
 					try {
 
-						_reducer._reduce(result, atomicTask);
+						_reducer._reduce(atomicTask);
 
 					} catch(Throwable t) {
 						
@@ -290,7 +287,7 @@ public class      TaskNtro<T  extends Task<T,AT>,
 			public <R> void _reduce(ResultNtro<R> result, _Reducer<T, R> _reducer) {
 				
 				// JSweet: we need to explicitly declare intermediate streams
-				Stream<ReachedNode<TaskGraphNode<T,AT>, 
+				Stream<VisitedNode<TaskGraphNode<T,AT>, 
 				                   TaskGraphEdge<T,AT>,
 				                   TaskGraphSearchOptionsBuilder>> reachedNodes = getNode().reachableNodes(options);
 				

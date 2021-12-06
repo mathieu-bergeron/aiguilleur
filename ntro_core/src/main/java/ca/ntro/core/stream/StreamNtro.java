@@ -18,7 +18,7 @@ public abstract class StreamNtro<I extends Object>
 	public boolean ifAll(Matcher<I> matcher) {
 		ResultNtro<Boolean> result = new ResultNtro<>(true);
 
-		_reduce(result, (__, item) -> {
+		_reduce(result, item -> {
 			try {
 
 				if(!matcher.matches(item)) {
@@ -38,7 +38,7 @@ public abstract class StreamNtro<I extends Object>
 	public boolean ifSome(Matcher<I> matcher) {
 		ResultNtro<Boolean> result = new ResultNtro<>(false);
 
-		_reduce(result, (__, item) -> {
+		_reduce(result, item -> {
 			try {
 
 				if(matcher.matches(item)) {
@@ -58,7 +58,7 @@ public abstract class StreamNtro<I extends Object>
 	public void forEach(Visitor<I> visitor) {
 		ResultNtro<?> result = new ResultNtro<>();
 
-		_reduce(result, (__, item) -> {
+		_reduce(result, item -> {
 			try {
 
 				visitor.visit(item);
@@ -73,7 +73,7 @@ public abstract class StreamNtro<I extends Object>
 	public I findFirst(Matcher<I> matcher) {
 		ResultNtro<I> result = new ResultNtro<>();
 
-		_reduce(result, (__, item) -> {
+		_reduce(result, item -> {
 			try {
 
 				if(matcher.matches(item)) {
@@ -94,11 +94,11 @@ public abstract class StreamNtro<I extends Object>
 		return new StreamNtro<I>() {
 			@Override
 			public <R> void _reduce(ResultNtro<R> result, _Reducer<I, R> _reducer) {
-				StreamNtro.this._reduce(result, (__, item) -> {
+				StreamNtro.this._reduce(result, item -> {
 					try {
 
 						if(matcher.matches(item)) {
-							_reducer._reduce(result, item);
+							_reducer._reduce(item);
 						}
 
 					}catch(Throwable t) {
@@ -119,7 +119,7 @@ public abstract class StreamNtro<I extends Object>
 	public <R> Result<R> reduce(R initialValue, Reducer<I, R> reducer) {
 		ResultNtro<R> result = new ResultNtro<>(initialValue);
 
-		_reduce(result, (__, item) -> {
+		_reduce(result, item -> {
 			try {
 
 				result.registerValue(reducer.reduce(result.value(), item).value());

@@ -1,16 +1,16 @@
 package ca.ntro.core.graphs.directed_graph;
 
-import ca.ntro.core.graphs.Edge;
-import ca.ntro.core.graphs.Node;
-import ca.ntro.core.graphs.generic_graph.GenericGraphNtro;
-import ca.ntro.core.graphs.generic_graph.GenericNodeBuilder;
+import ca.ntro.core.graphs.generics.directed_graph.Edge;
+import ca.ntro.core.graphs.generics.directed_graph.GenericDirectedGraphNtro;
+import ca.ntro.core.graphs.generics.directed_graph.GenericNode;
+import ca.ntro.core.graphs.generics.directed_graph.GenericNodeBuilder;
 
-public abstract class DirectedGraphNtro<N extends Node<N,E,SO>,
+public abstract class DirectedGraphNtro<N extends GenericNode<N,E,SO>,
                                         E extends Edge<N,E,SO>,
                                         SO extends DirectedGraphSearchOptionsBuilder,
                                         NB extends GenericNodeBuilder<N,E,SO,NB>>
 
-       extends        GenericGraphNtro<N,E,SO> 
+       extends        GenericDirectedGraphNtro<N,E,SO> 
 
        implements     DirectedGraph<N,E,SO> {
 

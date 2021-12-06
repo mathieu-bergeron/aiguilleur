@@ -1,11 +1,11 @@
 package ca.ntro.core.graphs.dag;
 
-import ca.ntro.core.graphs.Edge;
-import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.directed_graph.DirectedGraphNtro;
-import ca.ntro.core.graphs.generic_graph.GenericNodeBuilder;
+import ca.ntro.core.graphs.generics.directed_graph.Edge;
+import ca.ntro.core.graphs.generics.directed_graph.GenericNode;
+import ca.ntro.core.graphs.generics.directed_graph.GenericNodeBuilder;
 
-public abstract class DagNtro<N extends Node<N,E,SO>,
+public abstract class DagNtro<N extends GenericNode<N,E,SO>,
                               E extends Edge<N,E,SO>,
                               SO extends DagSearchOptionsBuilder,
                               NB extends GenericNodeBuilder<N,E,SO,NB>>
