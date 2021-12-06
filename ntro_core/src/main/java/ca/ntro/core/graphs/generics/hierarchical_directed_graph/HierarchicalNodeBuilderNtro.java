@@ -16,7 +16,8 @@ public abstract class HierarchicalNodeBuilderNtro<N extends HierarchicalNode<N,E
 
        extends        GenericNodeBuilderNtro<N,E,SO,NB> 
 
-	   implements     HierarchicalNodeBuilder<N,E,SO,NB> {
+	   implements     HierarchicalNodeBuilder<N,E,SO,NB>,
+	                  HierarchicalNode<N,E,SO> {
 
 
 

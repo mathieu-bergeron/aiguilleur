@@ -2,7 +2,6 @@ package ca.ntro.core.graphs.generics.hierarchical_directed_graph;
 
 import ca.ntro.core.graphs.generics.directed_graph.Edge;
 import ca.ntro.core.graphs.generics.directed_graph.GenericDirectedGraph;
-import ca.ntro.core.graphs.generics.directed_graph.SearchOptionsNtro;
 
 public interface HierarchicalGraph<N extends HierarchicalNode<N,E,SO>,
 								   E extends Edge<N,E,SO>,
