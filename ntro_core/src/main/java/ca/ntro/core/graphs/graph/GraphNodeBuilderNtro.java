@@ -13,8 +13,7 @@ public class      GraphNodeBuilderNtro <N extends GraphNode<N,E>,
 
        extends    GenericNodeBuilderNtro<N,E,GraphSearchOptionsBuilder, NB>
 
-       implements GraphNode<N,E>,
-                  GraphNodeBuilder<N,E,NB>
+       implements GraphNodeBuilder<N,E,NB>
 
 {
 
@@ -24,7 +23,6 @@ public class      GraphNodeBuilderNtro <N extends GraphNode<N,E>,
 		super(nodeId, graphBuilder);
 	}
 
-	@Override
 	protected GenericNodeStructure<N, E, GraphSearchOptionsBuilder> nodeStructure() {
 		return this;
 	}

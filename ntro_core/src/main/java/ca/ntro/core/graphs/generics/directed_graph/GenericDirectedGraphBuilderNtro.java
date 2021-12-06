@@ -96,7 +96,8 @@ public abstract class GenericDirectedGraphBuilderNtro<N extends GenericNode<N,E,
 
 	protected abstract E createEdge(NB fromNode, EdgeType edgeType, NB toNode);
 
-	protected void addNode(N node) {
+	@Override
+	public void addNode(N node) {
 		if(ifNodeAlreadyExists(node)) {
 
 			Ntro.exceptionThrower().throwException(new NodeAlreadyAddedException("Node already added: " + node.id().toKey()));

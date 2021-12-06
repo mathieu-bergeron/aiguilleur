@@ -9,32 +9,33 @@ import ca.ntro.core.graphs.generics.directed_graph.NodeId;
 import ca.ntro.core.graphs.generics.graph.GenericGraph;
 import ca.ntro.core.graphs.generics.graph.GraphSearchOptionsBuilder;
 
-public class MockGraphBuilder extends GraphBuilderNtro<MockNode, MockEdge, MockNode> {
-
-	public MockGraphBuilder() {
-		super();
-	}
+public class MockGraphBuilder extends GraphBuilderNtro<MockNode, MockEdge, MockNodeBuilder> {
 
 	public MockGraphBuilder(String graphName) {
 		super(graphName);
 	}
 
+	public MockGraphBuilder(MockGraph mockGraph) {
+		super();
+	}
+
 	@Override
 	protected GenericGraph<MockNode, MockEdge, GraphSearchOptionsBuilder> createGraph(GraphId id,
 			GenericGraphStructure<MockNode, MockEdge, GraphSearchOptionsBuilder> graphStructure) {
-		
+
 		return new MockGraph(id, graphStructure);
 	}
 
 	@Override
-	protected MockNode createNodeBuilder(NodeId nodeId,
-			GenericDirectedGraphBuilder<MockNode, MockEdge, GraphSearchOptionsBuilder, MockNode, GenericDirectedGraph<MockNode, MockEdge, GraphSearchOptionsBuilder>> graphBuilder) {
+	protected MockNodeBuilder createNodeBuilder(NodeId nodeId,
+			GenericDirectedGraphBuilder<MockNode, MockEdge, GraphSearchOptionsBuilder, MockNodeBuilder, GenericDirectedGraph<MockNode, MockEdge, GraphSearchOptionsBuilder>> graphBuilder) {
 		
-		return new MockNode(nodeId, graphBuilder);
+		return new MockNodeBuilder(nodeId, graphBuilder);
 	}
 
 	@Override
-	protected MockEdge createEdge(MockNode fromNode, EdgeType edgeType, MockNode toNode) {
-		return new MockEdge(fromNode, edgeType, toNode);
+	protected MockEdge createEdge(MockNodeBuilder fromNode, EdgeType edgeType, MockNodeBuilder toNode) {
+		
+		return new MockEdge(fromNode.node(), edgeType, toNode.node());
 	}
 }

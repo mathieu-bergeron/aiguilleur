@@ -13,5 +13,4 @@ public class MockHierarchicalGraph extends HierarchicalGraphNtro<MockHierarchica
 			GenericGraphStructure<MockHierarchicalNode, MockHierarchicalEdge, HierarchicalGraphSearchOptionsBuilder> graphStructure) {
 		super(id, graphStructure);
 	}
-
 }

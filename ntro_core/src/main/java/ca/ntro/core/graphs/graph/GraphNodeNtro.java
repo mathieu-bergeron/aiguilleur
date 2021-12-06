@@ -15,7 +15,10 @@ public class GraphNodeNtro<N extends GraphNode<N,E>,
 
 	public GraphNodeNtro(NodeId nodeId) {
 		super(nodeId);
-		// TODO Auto-generated constructor stub
+	}
+
+	public GraphNodeNtro(String nodeId) {
+		super(nodeId);
 	}
 
 	@Override

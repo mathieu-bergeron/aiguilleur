@@ -10,4 +10,5 @@ public class MockHierarchicalEdge extends EdgeNtro<MockHierarchicalNode, MockHie
 		super(from, edgeType, to);
 	}
 
+
 }

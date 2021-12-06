@@ -1,13 +1,24 @@
 package ca.ntro.core.task_graphs.task_graph;
 
+import ca.ntro.core.graphs.generics.directed_graph.EdgeReducer;
+import ca.ntro.core.graphs.generics.directed_graph.EdgeVisitor;
 import ca.ntro.core.graphs.generics.directed_graph.GenericDirectedGraph;
 import ca.ntro.core.graphs.generics.directed_graph.GenericDirectedGraphBuilder;
 import ca.ntro.core.graphs.generics.directed_graph.GenericNodeStructure;
 import ca.ntro.core.graphs.generics.directed_graph.NodeId;
+import ca.ntro.core.graphs.generics.directed_graph.ReachableEdgeReducer;
+import ca.ntro.core.graphs.generics.directed_graph.ReachableEdgeVisitor;
 import ca.ntro.core.graphs.generics.directed_graph.ReachableNodeReducer;
 import ca.ntro.core.graphs.generics.directed_graph.ReachableNodeVisitor;
+import ca.ntro.core.graphs.generics.directed_graph.VisitedEdge;
+import ca.ntro.core.graphs.generics.directed_graph.VisitedNode;
+import ca.ntro.core.graphs.generics.directed_graph.WalkId;
+import ca.ntro.core.graphs.generics.directed_graph.WalkInProgress;
+import ca.ntro.core.graphs.generics.directed_graph.WalkReducer;
+import ca.ntro.core.graphs.generics.directed_graph.WalkVisitor;
 import ca.ntro.core.graphs.generics.hierarchical_directed_graph.HierarchicalGraphBuilder;
 import ca.ntro.core.graphs.generics.hierarchical_directed_graph.HierarchicalNodeBuilderNtro;
+import ca.ntro.core.stream.Stream;
 import ca.ntro.core.wrappers.result.Result;
 
 public class TaskGraphNodeBuilderNtro<T  extends Task<T,AT>, 
@@ -126,8 +137,148 @@ public class TaskGraphNodeBuilderNtro<T  extends Task<T,AT>,
 		return null;
 	}
 
-	@Override
 	protected GenericNodeStructure<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder> nodeStructure() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public NodeId id() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isPartOfCycle() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Stream<TaskGraphEdge<T, AT>> edges() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void forEachEdge(
+			EdgeVisitor<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder> visitor) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public <R> Result<R> reduceEdges(R initialValue,
+			EdgeReducer<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder, R> reducer) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Stream<VisitedNode<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder>> reachableNodes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Stream<VisitedNode<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder>> reachableNodes(
+			TaskGraphSearchOptionsBuilder options) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void forEachReachableNode(
+			ReachableNodeVisitor<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder> visitor) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void forEachReachableNode(TaskGraphSearchOptionsBuilder options,
+			ReachableNodeVisitor<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder> visitor) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public <R> Result<R> reduceReachableNodes(R initialValue,
+			ReachableNodeReducer<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder, R> reducer) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <R> Result<R> reduceReachableNodes(TaskGraphSearchOptionsBuilder options, R initialValue,
+			ReachableNodeReducer<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder, R> reducer) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Stream<VisitedEdge<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder>> reachableEdges() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Stream<VisitedEdge<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder>> reachableEdges(
+			TaskGraphSearchOptionsBuilder options) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void forEachReachableEdge(
+			ReachableEdgeVisitor<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder> visitor) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void forEachReachableEdge(TaskGraphSearchOptionsBuilder options,
+			ReachableEdgeVisitor<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder> visitor) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public <R> Result<R> reduceReachableEdges(R initialValue,
+			ReachableEdgeReducer<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder, R> reducer) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <R> Result<R> reduceReachableEdges(TaskGraphSearchOptionsBuilder options, R initialValue,
+			ReachableEdgeReducer<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder, R> reducer) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Stream<WalkInProgress<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder>> walk() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Stream<WalkInProgress<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder>> walk(
+			TaskGraphSearchOptionsBuilder options) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void visitWalk(WalkId walk,
+			WalkVisitor<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder> visitor) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public <R> Result<R> reduceWalk(WalkId walk, R initialValue,
+			WalkReducer<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder, R> reducer) {
 		// TODO Auto-generated method stub
 		return null;
 	}

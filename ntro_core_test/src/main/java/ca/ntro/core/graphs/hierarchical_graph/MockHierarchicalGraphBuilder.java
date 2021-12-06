@@ -12,7 +12,7 @@ import ca.ntro.core.graphs.generics.hierarchical_directed_graph.HierarchicalGrap
 public class MockHierarchicalGraphBuilder extends HierarchicalGraphBuilderNtro<MockHierarchicalNode, 
                                                                                MockHierarchicalEdge, 
                                                                                HierarchicalGraphSearchOptionsBuilder,
-                                                                               MockHierarchicalNode,
+                                                                               MockHierarchicalNodeBuilder,
                                                                                MockHierarchicalGraph> {
 
 	public MockHierarchicalGraphBuilder(String graphName) {
@@ -22,22 +22,22 @@ public class MockHierarchicalGraphBuilder extends HierarchicalGraphBuilderNtro<M
 	@Override
 	protected MockHierarchicalGraph createGraph(GraphId id,
 			GenericGraphStructure<MockHierarchicalNode, MockHierarchicalEdge, HierarchicalGraphSearchOptionsBuilder> graphStructure) {
-		
-		return new MockHierarchicalGraph(id, graphStructure);
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	protected MockHierarchicalNode createNodeBuilder(NodeId nodeId,
-			GenericDirectedGraphBuilder<MockHierarchicalNode, MockHierarchicalEdge, HierarchicalGraphSearchOptionsBuilder, MockHierarchicalNode, GenericDirectedGraph<MockHierarchicalNode, MockHierarchicalEdge, HierarchicalGraphSearchOptionsBuilder>> graphBuilder) {
-		
-		return new MockHierarchicalNode(nodeId, graphBuilder);
+	protected MockHierarchicalNodeBuilder createNodeBuilder(NodeId nodeId,
+			GenericDirectedGraphBuilder<MockHierarchicalNode, MockHierarchicalEdge, HierarchicalGraphSearchOptionsBuilder, MockHierarchicalNodeBuilder, GenericDirectedGraph<MockHierarchicalNode, MockHierarchicalEdge, HierarchicalGraphSearchOptionsBuilder>> graphBuilder) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	protected MockHierarchicalEdge createEdge(MockHierarchicalNode fromNode, EdgeType edgeType,
-			MockHierarchicalNode toNode) {
-		
-		return new MockHierarchicalEdge(fromNode, edgeType, toNode);
+	protected MockHierarchicalEdge createEdge(MockHierarchicalNodeBuilder fromNode, EdgeType edgeType,
+			MockHierarchicalNodeBuilder toNode) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

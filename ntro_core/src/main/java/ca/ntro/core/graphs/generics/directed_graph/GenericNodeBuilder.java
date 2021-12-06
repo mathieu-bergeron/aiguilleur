@@ -12,7 +12,4 @@ public interface GenericNodeBuilder<N extends GenericNode<N,E,SO>,
 	E addEdge(String edgeName, NB toNode);
 	void addEdge(E edge);
 
-	N node();
-
-
 }

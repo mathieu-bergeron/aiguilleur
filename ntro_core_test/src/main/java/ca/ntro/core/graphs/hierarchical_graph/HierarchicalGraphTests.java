@@ -29,9 +29,9 @@ public class HierarchicalGraphTests {
 
 		MockHierarchicalGraphBuilder builder = new MockHierarchicalGraphBuilder("hierarchicalGraph00");
 		
-		MockHierarchicalNode nodeA = builder.addNode("A");
-		MockHierarchicalNode nodeAA = builder.addNode("AA");
-		MockHierarchicalNode nodeB = builder.addNode("B");
+		MockHierarchicalNodeBuilder nodeA = builder.addNode("A");
+		MockHierarchicalNodeBuilder nodeAA = builder.addNode("AA");
+		MockHierarchicalNodeBuilder nodeB = builder.addNode("B");
 		
 		nodeA.addEdge("AB", nodeB);
 		

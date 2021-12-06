@@ -10,10 +10,7 @@ public abstract class GenericNodeBuilderNtro<N extends GenericNode<N,E,SO>,
                                              SO extends SearchOptionsBuilder,
                                              NB extends GenericNodeBuilder<N,E,SO,NB>> 
 
-      extends         GenericNodeNtro<N,E,SO>
-
-      implements      GenericNode<N,E,SO>,
-      	              GenericNodeBuilder<N,E,SO,NB> {
+      implements      GenericNodeBuilder<N,E,SO,NB> {
 
 	private boolean isStartNode = true;
 	private GenericDirectedGraphBuilder<N,E,SO, NB, GenericDirectedGraph<N,E,SO>> graphBuilder;
@@ -44,7 +41,7 @@ public abstract class GenericNodeBuilderNtro<N extends GenericNode<N,E,SO>,
 	}
 
 	public GenericNodeBuilderNtro(NodeId nodeId, GenericDirectedGraphBuilder<N,E,SO,NB,GenericDirectedGraph<N,E,SO>> graphBuilder) {
-		super(nodeId);
+		super();
 		setGraphBuilder(graphBuilder);
 	}
 
@@ -74,7 +71,6 @@ public abstract class GenericNodeBuilderNtro<N extends GenericNode<N,E,SO>,
 		return false;
 	}
 
-	@Override
 	public GenericDirectedGraph<N,E,SO> parentGraph(){
 		return getGraphBuilder().graph();
 	}
@@ -122,12 +118,10 @@ public abstract class GenericNodeBuilderNtro<N extends GenericNode<N,E,SO>,
 		getEdgesByDirection()._reduceEdgesByType(edgeType, result, reducer);
 	}
 
-	@Override
 	protected SO defaultSearchOptions() {
 		return getGraphBuilder().graph().defaultSearchOptions();
 	}
 
-	@Override
 	public boolean isStartNode() {
 		return getIsStartNode();
 	}

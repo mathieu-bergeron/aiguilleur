@@ -36,14 +36,29 @@ public class GraphTests {
 
 	@Test
 	public void simpleGraph01() {
-
-		MockGraphBuilder builder = new MockGraphBuilder("simpleGraph01");
 		
-		MockNode nodeA = builder.addNode("A");
-		MockNode nodeB = builder.addNode("B");
-		MockNode nodeC = builder.addNode("C");
+		MockGraph graph = new MockGraph("simpleGraph01");
 
-		MockEdge edgeAB = builder.addEdge(nodeA, "AB", nodeB);
+		MockGraphBuilder builder = new MockGraphBuilder(graph);
+		
+		MockNode nodeA_ = new MockNode("A");
+
+		nodeA_.parentGraph(); // null as not added to a graph
+
+		builder.addNode(nodeA_);
+
+		nodeA_.parentGraph(); // now parentGraph() returns a graph
+		
+		
+		MockEdge edgeAB = new MockEdge("AB");
+
+
+		MockNodeBuilder nodeA = builder.addNode("A");
+		MockNodeBuilder nodeB = builder.addNode("B");
+		MockNodeBuilder nodeC = builder.addNode("C");
+
+		builder.addEdge(nodeA, edgeAB, nodeB);
+
 		MockEdge edgeBC = builder.addEdge(nodeB, "BC", nodeC);
 
 		GenericGraph<MockNode, MockEdge, GraphSearchOptionsBuilder> graph = builder.graph();
@@ -55,11 +70,11 @@ public class GraphTests {
 
 		MockGraphBuilder builder = new MockGraphBuilder("simpleGraph02");
 
-		MockNode nodeA = builder.addNode("A");
+		MockNodeBuilder nodeA = builder.addNode("A");
 
-		MockNode nodeB = builder.addNode("B");
-		MockNode nodeC = builder.addNode("C");
-		MockNode nodeD= builder.addNode("D");
+		MockNodeBuilder nodeB = builder.addNode("B");
+		MockNodeBuilder nodeC = builder.addNode("C");
+		MockNodeBuilder nodeD= builder.addNode("D");
 
 		MockEdge edgeAC = builder.addEdge(nodeA, "AC", nodeC);
 		MockEdge edgeBC = builder.addEdge(nodeB, "BC", nodeC);
@@ -76,17 +91,17 @@ public class GraphTests {
 
 		MockGraphBuilder builder = new MockGraphBuilder("simpleGraph03");
 
-		MockNode nodeA = builder.addNode("A");
+		MockNodeBuilder nodeA = builder.addNode("A");
 
-		MockNode nodeB = builder.addNode("B");
-		MockNode nodeC = builder.addNode("C");
-		MockNode nodeD = builder.addNode("D");
-		MockNode nodeE = builder.addNode("E");
+		MockNodeBuilder nodeB = builder.addNode("B");
+		MockNodeBuilder nodeC = builder.addNode("C");
+		MockNodeBuilder nodeD = builder.addNode("D");
+		MockNodeBuilder nodeE = builder.addNode("E");
 
-		MockNode nodeF = builder.addNode("F");
-		MockNode nodeG = builder.addNode("G");
-		MockNode nodeH = builder.addNode("H");
-		MockNode nodeI = builder.addNode("I");
+		MockNodeBuilder nodeF = builder.addNode("F");
+		MockNodeBuilder nodeG = builder.addNode("G");
+		MockNodeBuilder nodeH = builder.addNode("H");
+		MockNodeBuilder nodeI = builder.addNode("I");
 
 		builder.addEdge(nodeA, "AB", nodeB);
 		builder.addEdge(nodeA, "AC", nodeC);
@@ -115,8 +130,8 @@ public class GraphTests {
 
 		MockGraphBuilder builder = new MockGraphBuilder("nodeAlreadyExists01");
 
-		MockNode nodeA = builder.addNode("A");
-		MockNode nodeAA = builder.addNode("A");
+		MockNodeBuilder nodeA = builder.addNode("A");
+		MockNodeBuilder nodeAA = builder.addNode("A");
 
 		GenericGraph<MockNode, MockEdge, GraphSearchOptionsBuilder> graph = builder.graph();
 

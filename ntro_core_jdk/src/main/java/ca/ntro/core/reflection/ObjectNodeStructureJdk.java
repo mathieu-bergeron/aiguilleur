@@ -55,4 +55,10 @@ public class ObjectNodeStructureJdk extends ObjectNodeStructureNtro {
 		return getGraph();
 	}
 
+	@Override
+	public ObjectNode node() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
