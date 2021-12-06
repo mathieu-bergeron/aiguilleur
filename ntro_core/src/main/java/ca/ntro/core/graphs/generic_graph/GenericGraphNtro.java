@@ -211,16 +211,7 @@ public abstract class GenericGraphNtro<N extends Node<N,E,SO>,
 
 				// JSweet: we need explicit variables to avoid typing errors
 				GenericGraphStructure<N,E,SO> graphStructure = graphStructure();
-				
 				graphStructure._reduceStartNodes(result, _reducer);
-
-				/*
-				graphStructure.reduceStartNodes(result, (__, node) -> {
-
-					_reducer._reduce(result, node);
-					
-					return result.value();
-				});*/
 			}
 		};
 	}
