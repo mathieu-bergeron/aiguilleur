@@ -447,7 +447,17 @@ public abstract class GenericNodeNtro<N extends Node<N,E,SO>,
 	
 	@Override
 	public Stream<E> edges(){
-		return null;
+		return new StreamNtro<E>() {
+			@Override
+			public <R> void _reduce(ResultNtro<R> result, _Reducer<E, R> _reducer) {
+				reduceEdges(result.value(), (__, edge) ->{
+
+					_reducer._reduce(result, edge);
+					
+					return result.value();
+				});
+			}
+		};
 	}
 
 	@Override

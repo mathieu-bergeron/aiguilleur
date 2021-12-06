@@ -2,6 +2,7 @@ package ca.ntro.core.graphs.generic_graph;
 
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import ca.ntro.core.exceptions.Break;
@@ -207,7 +208,19 @@ public abstract class GenericGraphNtro<N extends Node<N,E,SO>,
 		return new StreamNtro<N>(){
 			@Override
 			public <R> void _reduce(ResultNtro<R> result, _Reducer<N, R> _reducer) {
-				graphStructure()._reduceStartNodes(result, _reducer);
+
+				// JSweet: we need explicit variables to avoid typing errors
+				GenericGraphStructure<N,E,SO> graphStructure = graphStructure();
+				
+				graphStructure._reduceStartNodes(result, _reducer);
+
+				/*
+				graphStructure.reduceStartNodes(result, (__, node) -> {
+
+					_reducer._reduce(result, node);
+					
+					return result.value();
+				});*/
 			}
 		};
 	}
@@ -217,41 +230,22 @@ public abstract class GenericGraphNtro<N extends Node<N,E,SO>,
 			@Override
 			public <R> void _reduce(ResultNtro<R> result, _Reducer<N, R> _reducer) {
 
-				Set<String> visitedNodes = new HashSet<>();
+				Stream<N> startNodes = startNodes();
+				Stream<String> startNodeKeys = startNodes.map(sn -> sn.id().toKey().toString());
+
+				SO options = defaultSearchOptions();
 				
-				Stream<N> startNodes = startNodes().findAll(startNode -> {
-					if(visitedNodes.contains(startNode.id().toKey().toString())) {
-
-						return false;
-
-					}else {
-
-						visitedNodes.add(startNode.id().toKey().toString());
-
-						return true;
-					}
-				});
+				options.toSearchOptions()
+				       .visitedNodes()
+				       .addAll(startNodeKeys.collect());
 				
 				startNodes._reduce(result, _reducer);
 				
 				startNodes.forEach(startNode -> {
 
-					Stream<ReachedNode<N,E,SO>> reachedNodes = startNode.reachableNodes();
+					Stream<ReachedNode<N,E,SO>> reachedNodes = startNode.reachableNodes(options);
 					
 					Stream<N> nodes = reachedNodes.map(rn -> rn.node());
-					
-					nodes = nodes.findAll(n -> {
-						if(visitedNodes.contains(startNode.id().toKey().toString())) {
-
-							return false;
-
-						}else {
-
-							visitedNodes.add(startNode.id().toKey().toString());
-							
-							return true;
-						}
-					});
 					
 					nodes._reduce(result, _reducer);
 				});
@@ -263,5 +257,4 @@ public abstract class GenericGraphNtro<N extends Node<N,E,SO>,
 		return null;
 		
 	}
-
 }

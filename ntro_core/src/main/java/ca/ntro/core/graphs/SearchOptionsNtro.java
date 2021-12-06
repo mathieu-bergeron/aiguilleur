@@ -1,5 +1,8 @@
 package ca.ntro.core.graphs;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import ca.ntro.core.wrappers.optionnal.Optionnal;
 
 public class SearchOptionsNtro implements SearchOptions {
@@ -8,6 +11,9 @@ public class SearchOptionsNtro implements SearchOptions {
 	private Optionnal<Integer> maxDistance = Optionnal.none(Integer.class);
 	private Direction[] directions = new Direction[] {Direction.BACKWARD, Direction.FORWARD};
 	private boolean sortEdgesByName = false;
+	
+	private Set<String> visitedNodes = new HashSet<>();
+	private Set<String> visitedEdges = new HashSet<>();
 
 	public SearchStrategy getSearchStrategy() {
 		return searchStrategy;
@@ -45,6 +51,22 @@ public class SearchOptionsNtro implements SearchOptions {
 		this.sortEdgesByName = sortEdgesByName;
 	}
 
+	public Set<String> getVisitedNodes() {
+		return visitedNodes;
+	}
+
+	public void setVisitedNodes(Set<String> visitedNodes) {
+		this.visitedNodes = visitedNodes;
+	}
+
+	public Set<String> getVisitedEdges() {
+		return visitedEdges;
+	}
+
+	public void setVisitedEdges(Set<String> visitedEdges) {
+		this.visitedEdges = visitedEdges;
+	}
+
 	@Override
 	public SearchStrategy searchStrategy() {
 		return getSearchStrategy();
@@ -71,5 +93,15 @@ public class SearchOptionsNtro implements SearchOptions {
 		setMaxDistance(searchOptions.maxDistance());
 		setDirections(searchOptions.directions());
 		setSortEdgesByName(searchOptions.sortEdgesByName());
+	}
+
+	@Override
+	public Set<String> visitedNodes() {
+		return getVisitedNodes();
+	}
+
+	@Override
+	public Set<String> visitedEdges() {
+		return getVisitedEdges();
 	}
 }

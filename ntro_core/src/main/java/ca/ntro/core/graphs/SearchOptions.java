@@ -1,5 +1,7 @@
 package ca.ntro.core.graphs;
 
+import java.util.Set;
+
 import ca.ntro.core.wrappers.optionnal.Optionnal;
 
 public interface SearchOptions {
@@ -8,6 +10,9 @@ public interface SearchOptions {
 	Direction[] directions();
 	Optionnal<Integer> maxDistance();
 	boolean sortEdgesByName();
+	
+	Set<String> visitedNodes();
+	Set<String> visitedEdges();
 
 	void copyOptions(SearchOptions searchOptions);
 
