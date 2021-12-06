@@ -28,7 +28,7 @@ public abstract class HierarchicalNodeBuilderNtro<N extends HierarchicalNode<N,E
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public N toNode() {
+	public N node() {
 		return (N) this;
 	}
 
@@ -37,18 +37,18 @@ public abstract class HierarchicalNodeBuilderNtro<N extends HierarchicalNode<N,E
 	public void addSubNode(NB subNode) {
 		EdgeTypeNtro edgeType = new EdgeTypeNtro(Direction.DOWN, "");
 
-		E edge = (E) new EdgeNtro<N,E,SO>(this.toNode(), edgeType, subNode.toNode());
+		E edge = (E) new EdgeNtro<N,E,SO>(this.node(), edgeType, subNode.node());
 
 		getEdgesByDirection().addEdge(edge);
 
-		((HierarchicalNodeBuilderNtro<N,E,SO,NB>) subNode).addParentNode(this.toNode());
+		((HierarchicalNodeBuilderNtro<N,E,SO,NB>) subNode).addParentNode(this.node());
 	}
 
 	@SuppressWarnings("unchecked")
 	protected void addParentNode(N parentNode) {
 		EdgeTypeNtro edgeType = new EdgeTypeNtro(Direction.UP, "");
 
-		E edge = (E) new EdgeNtro<N,E,SO>(this.toNode(), edgeType, parentNode);
+		E edge = (E) new EdgeNtro<N,E,SO>(this.node(), edgeType, parentNode);
 
 		getEdgesByDirection().addEdge(edge);
 	}

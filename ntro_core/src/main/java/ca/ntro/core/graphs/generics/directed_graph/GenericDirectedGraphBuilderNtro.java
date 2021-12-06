@@ -61,7 +61,7 @@ public abstract class GenericDirectedGraphBuilderNtro<N extends GenericNode<N,E,
 	public NB addNode(NodeId nodeId) {
 		NB node = createNodeBuilder(nodeId, toGenericGraphBuilder());
 
-		addNode(node.toNode());
+		addNode(node.node());
 		
 		return node;
 	}
@@ -77,9 +77,9 @@ public abstract class GenericDirectedGraphBuilderNtro<N extends GenericNode<N,E,
 		
 		E forwardEdge = addEdge(fromNode,edgeTypeForward,toNode);
 
-		if(!toNode.isPartOfCycle()) {
+		if(!toNode.node().isPartOfCycle()) {
 			toNode.setIsStartNode(false);
-			getStartNodes().remove(toNode.id().toKey().toString());
+			getStartNodes().remove(toNode.node().id().toKey().toString());
 		}
 
 		return forwardEdge;
@@ -144,7 +144,7 @@ public abstract class GenericDirectedGraphBuilderNtro<N extends GenericNode<N,E,
 	}
 
 	@Override
-	public G asGraph() {
+	public G graph() {
 		return getGraph();
 	}
 

@@ -76,7 +76,7 @@ public abstract class GenericNodeBuilderNtro<N extends GenericNode<N,E,SO>,
 
 	@Override
 	public GenericDirectedGraph<N,E,SO> parentGraph(){
-		return getGraphBuilder().asGraph();
+		return getGraphBuilder().graph();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -105,7 +105,7 @@ public abstract class GenericNodeBuilderNtro<N extends GenericNode<N,E,SO>,
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public N toNode() {
+	public N node() {
 		return (N) this;
 	}
 
@@ -124,7 +124,7 @@ public abstract class GenericNodeBuilderNtro<N extends GenericNode<N,E,SO>,
 
 	@Override
 	protected SO defaultSearchOptions() {
-		return getGraphBuilder().asGraph().defaultSearchOptions();
+		return getGraphBuilder().graph().defaultSearchOptions();
 	}
 
 	@Override

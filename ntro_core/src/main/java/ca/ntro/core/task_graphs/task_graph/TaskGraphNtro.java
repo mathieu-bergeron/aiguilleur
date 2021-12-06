@@ -29,7 +29,7 @@ public abstract class TaskGraphNtro<T  extends Task<T,AT>,
 
 	@Override
 	public T findTask(TaskId id) {
-		return hdagBuilder.asGraph().findNode(id).task();
+		return hdagBuilder.graph().findNode(id).task();
 	}
 
 	@Override
@@ -59,6 +59,6 @@ public abstract class TaskGraphNtro<T  extends Task<T,AT>,
 
 	@Override
 	public void write(GraphWriter writer) {
-		internalWriter.write(hdagBuilder.asGraph(), writer);
+		internalWriter.write(hdagBuilder.graph(), writer);
 	}
 }

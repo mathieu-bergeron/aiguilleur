@@ -1,8 +1,6 @@
 package ca.ntro.core.graphs.hierarchical_graph;
 
 
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -28,27 +26,18 @@ public class HierarchicalGraphTests {
 
 	@Test
 	public void hierarchicalGraph00() throws Throwable {
-		/*
-		ExceptionThrowerMock exceptionThrower = registerMockExceptionThrower();
 
-		HierarchicalGraphBuilder<HierarchicalGraphNode, HierarchicalGraphEdge, HierarchicalGraphSearchOptionsBuilder> builder = HierarchicalGraphBuilder.newBuilder("hierarchicalGraph00");
-
-		HierarchicalGraphNode nodeA = new HierarchicalGraphNode("A");
-		HierarchicalGraphNode nodeAA = new HierarchicalGraphNode("AA");
-		//HierarchicalGraphNode nodeAAA = new HierarchicalGraphNode("AAA");
-
-		builder.addNode(nodeA);
-		builder.addNode(nodeAA);
-		//builder.addNode(nodeAAA);
-
-		nodeA.addSubNode(nodeAA);
-		//nodeAA.addSubNode(nodeAAA);
-		HierarchicalGraph<HierarchicalGraphNode, HierarchicalGraphEdge, HierarchicalGraphSearchOptionsBuilder> graph = builder.toGraph();
-
-		graph.write(Ntro.graphWriter());
+		MockHierarchicalGraphBuilder builder = new MockHierarchicalGraphBuilder("hierarchicalGraph00");
 		
-		exceptionThrower.throwLastException();
-		*/
+		MockHierarchicalNode nodeA = builder.addNode("A");
+		MockHierarchicalNode nodeAA = builder.addNode("AA");
+		MockHierarchicalNode nodeB = builder.addNode("B");
+		
+		nodeA.addEdge("AB", nodeB);
+		
+		MockHierarchicalGraph graph = builder.graph();
+		
+		graph.write(Ntro.graphWriter());
 	}
 
 

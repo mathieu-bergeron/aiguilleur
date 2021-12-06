@@ -13,5 +13,5 @@ public interface GenericDirectedGraphBuilder<N extends GenericNode<N,E,SO>,
 
 	E addEdge(NB fromNode, String edgeName, NB toNode);
 
-	G asGraph();
+	G graph();
 }
