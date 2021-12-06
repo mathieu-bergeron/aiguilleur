@@ -8,9 +8,6 @@ public class MockEdge extends GraphEdgeNtro<MockNode, MockEdge> {
 		super(from, edgeType, to);
 	}
 
-	public MockEdge(String string) {
-		// TODO Auto-generated constructor stub
-	}
 
 
 }
