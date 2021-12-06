@@ -1,6 +1,7 @@
 package ca.ntro.core.graphs.generics.directed_graph;
 
 import ca.ntro.core.identifyers.Name;
+import ca.ntro.core.path.Filepath;
 import ca.ntro.core.path.Path;
 
 public class     EdgeNtro<N extends GenericNode<N,E,SO>, 
@@ -98,7 +99,7 @@ public class     EdgeNtro<N extends GenericNode<N,E,SO>,
 
 	@Override
 	public EdgeId id() {
-		Path path = Path.fromSingleName(from().id().toKey().toString());
+		Filepath path = Filepath.fromSingleName(from().id().toKey().toString());
 		path.addName(type().direction().name());
 		path.addName(type().name().toString());
 		path.addName(to().id().toKey().toString());

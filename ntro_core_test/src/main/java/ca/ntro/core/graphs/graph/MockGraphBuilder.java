@@ -11,6 +11,10 @@ import ca.ntro.core.graphs.generics.graph.GraphSearchOptionsBuilder;
 
 public class MockGraphBuilder extends GraphBuilderNtro<MockNode, MockEdge, MockNode> {
 
+	public MockGraphBuilder() {
+		super();
+	}
+
 	public MockGraphBuilder(String graphName) {
 		super(graphName);
 	}

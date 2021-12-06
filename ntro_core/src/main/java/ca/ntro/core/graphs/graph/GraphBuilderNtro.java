@@ -11,7 +11,12 @@ public abstract class GraphBuilderNtro <N extends GraphNode<N,E>,
 
        implements GraphBuilder<N,E,NB> {
 
+	public GraphBuilderNtro() {
+		super();
+	}
+
 	public GraphBuilderNtro(String graphName) {
 		super(graphName);
 	}
+
 }

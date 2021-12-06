@@ -4,8 +4,8 @@ import ca.ntro.core.graphs.generics.directed_graph.EdgeType;
 
 public class MockEdge extends GraphEdgeNtro<MockNode, MockEdge> {
 
-	public MockEdge(MockNode from, EdgeType edgeType, MockNode to) {
-		super(from, edgeType, to);
+	public MockEdge(MockNode fromNode, EdgeType edgeType, MockNode toNode) {
+		super(fromNode, edgeType, toNode);
 	}
 
 }
