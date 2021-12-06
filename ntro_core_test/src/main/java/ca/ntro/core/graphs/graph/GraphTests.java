@@ -10,7 +10,6 @@ import ca.ntro.core.graphs.DirectedEdgeTriple;
 import ca.ntro.core.graphs.generics.directed_graph.Direction;
 import ca.ntro.core.graphs.generics.directed_graph.EdgeTypeNtro;
 import ca.ntro.core.graphs.generics.directed_graph.NodeAlreadyAddedException;
-import ca.ntro.core.graphs.generics.directed_graph.NodeIdNtro;
 import ca.ntro.core.graphs.generics.directed_graph.SearchStrategy;
 import ca.ntro.core.graphs.generics.graph.GenericGraph;
 import ca.ntro.core.graphs.generics.graph.GraphSearchOptionsBuilder;

@@ -182,7 +182,7 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 
 			try {
 				
-				_reducer._reduce(new VisitedNodeNtro<N,E,SO>(walked, edge.to()));
+				_reducer._reduce(result, new VisitedNodeNtro<N,E,SO>(walked, edge.to()));
 
 			} catch(Throwable t) {
 				
@@ -431,7 +431,7 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 			public <R> void _reduce(ResultNtro<R> result, _Reducer<E, R> _reducer) {
 				reduceEdges(result.value(), (__, edge) ->{
 
-					_reducer._reduce(edge);
+					_reducer._reduce(result, edge);
 					
 					return result.value();
 				});

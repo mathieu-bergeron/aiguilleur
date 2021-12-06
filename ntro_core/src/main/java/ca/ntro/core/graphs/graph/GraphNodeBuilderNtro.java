@@ -26,8 +26,7 @@ public class      GraphNodeBuilderNtro <N extends GraphNode<N,E>,
 
 	@Override
 	protected GenericNodeStructure<N, E, GraphSearchOptionsBuilder> nodeStructure() {
-		// TODO Auto-generated method stub
-		return null;
+		return this;
 	}
 
 }

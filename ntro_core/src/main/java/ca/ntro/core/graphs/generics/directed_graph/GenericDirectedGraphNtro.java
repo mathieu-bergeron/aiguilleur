@@ -2,7 +2,6 @@ package ca.ntro.core.graphs.generics.directed_graph;
 
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import ca.ntro.core.exceptions.Break;
@@ -235,6 +234,5 @@ public abstract class GenericDirectedGraphNtro<N extends GenericNode<N,E,SO>,
 
 	public Stream<E> edges(){
 		return null;
-		
 	}
 }

@@ -11,7 +11,4 @@ public class MockNode extends GraphNodeBuilderNtro<MockNode, MockEdge, MockNode>
 			GenericDirectedGraphBuilder<MockNode, MockEdge, GraphSearchOptionsBuilder, MockNode, GenericDirectedGraph<MockNode, MockEdge, GraphSearchOptionsBuilder>> graphBuilder) {
 		super(nodeId, graphBuilder);
 	}
-
-
-
 }

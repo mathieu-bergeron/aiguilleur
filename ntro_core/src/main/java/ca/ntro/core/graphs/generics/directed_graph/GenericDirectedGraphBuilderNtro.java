@@ -110,6 +110,7 @@ public abstract class GenericDirectedGraphBuilderNtro<N extends GenericNode<N,E,
 	
 	protected boolean ifNodeAlreadyExists(N node) {
 		return getGraph().reduceNodes(false, (accumulator, reachableNode) -> {
+			
 			if(accumulator == true) {
 				throw new Break();
 			}
@@ -131,7 +132,7 @@ public abstract class GenericDirectedGraphBuilderNtro<N extends GenericNode<N,E,
 
 		for(N node : startNodes.values()) {
 			try {
-				
+
 				result.registerValue(reducer.reduceNode(result.value(), node));
 
 			}catch(Throwable t) {
@@ -149,6 +150,21 @@ public abstract class GenericDirectedGraphBuilderNtro<N extends GenericNode<N,E,
 
 	@Override
 	public <R> void _reduceStartNodes(ResultNtro<R> result, _Reducer<N,R> reducer) {
+		if(result.hasException()) {
+			return;
+		}
+
+		for(N node : startNodes.values()) {
+			try {
+
+				reducer._reduce(result, node);
+
+			}catch(Throwable t) {
+				
+				result.registerException(t);
+				return;
+			}
+		}
 		
 	}
 }
