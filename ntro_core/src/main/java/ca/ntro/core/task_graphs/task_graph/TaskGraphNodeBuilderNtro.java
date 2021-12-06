@@ -31,17 +31,6 @@ public class TaskGraphNodeBuilderNtro<T  extends Task<T,AT>,
 	  implements TaskGraphNodeBuilder<T,AT> {
 
 
-	public TaskGraphNodeBuilderNtro(NodeId nodeId,
-			                        GenericGraphBuilder<TaskGraphNode<T, AT>, 
-			                                            TaskGraphEdge<T, AT>, 
-			                                            TaskGraphSearchOptionsBuilder, 
-			                                            TaskGraphNodeBuilder<T, AT>, 
-			                                            GenericGraph<TaskGraphNode<T, AT>, 
-			                                            TaskGraphEdge<T, AT>, 
-			                                            TaskGraphSearchOptionsBuilder>> graphBuilder) {
-		super(nodeId, graphBuilder);
-	}
-
 	private T task;
 
 	public T getTask() {

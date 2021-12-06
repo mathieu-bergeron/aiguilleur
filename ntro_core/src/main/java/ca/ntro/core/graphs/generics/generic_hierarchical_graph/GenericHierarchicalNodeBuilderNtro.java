@@ -20,11 +20,6 @@ public abstract class GenericHierarchicalNodeBuilderNtro<N extends GenericHierar
 
 
 
-	public GenericHierarchicalNodeBuilderNtro(NodeId nodeId, 
-			                           GenericGraphBuilder<N, E, SO, NB, GenericGraph<N, E, SO>> graphBuilder) {
-		super(nodeId, graphBuilder);
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public N node() {

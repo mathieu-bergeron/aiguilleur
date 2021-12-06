@@ -16,7 +16,8 @@ public abstract class TaskGraphNtro<T  extends Task<T,AT>,
 	}
 
 	public TaskGraphNtro(String graphName) {
-		hdagBuilder = new InternalHierarchicalDagBuilderNtro<T,AT>(graphName);
+		hdagBuilder = new InternalHierarchicalDagBuilderNtro<T,AT>();
+		hdagBuilder.setGraphName(graphName);
 	}
 
 	public InternalHierarchicalDagBuilder<T, AT> getHdag() {

@@ -8,9 +8,6 @@ public interface GenericGraphBuilder<N extends Node<N,E,SO>,
 
        extends GenericGraphStructure<N,E,SO> { 
 	
-	void setNodeClass(Class<N> nodeClass);
-	void setEdgeClass(Class<E> edgeClass);
-	void setSearchOptionsClass(Class<SO> searchOptionsClass);
 
 	NB addNode(String nodeId);
 	NB addNode(NodeId nodeId);

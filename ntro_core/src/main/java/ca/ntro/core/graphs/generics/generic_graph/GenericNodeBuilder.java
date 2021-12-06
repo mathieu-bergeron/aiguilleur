@@ -7,7 +7,6 @@ public interface GenericNodeBuilder<N extends Node<N,E,SO>,
 
         extends  GenericNodeStructure<N,E,SO> {
 	
-	
 	void setNodeName(String nodeName);
 
 	void setIsStartNode(boolean b);

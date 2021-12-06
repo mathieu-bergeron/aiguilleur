@@ -8,16 +8,23 @@ import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.stream._Reducer;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
-public class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
-                                     E extends Edge<N,E,SO>,
-                                     SO extends SearchOptionsBuilder,
-                                     NB extends GenericNodeBuilder<N,E,SO,NB>,
-                                     G extends GenericGraph<N,E,SO>> 
+public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
+                                              E extends Edge<N,E,SO>,
+                                              SO extends SearchOptionsBuilder,
+                                              NB extends GenericNodeBuilder<N,E,SO,NB>,
+                                              G extends GenericGraph<N,E,SO>> 
 
        implements     GenericGraphBuilder<N,E,SO,NB,G> {
+	
+	private Class<N> nodeClass;
+	private Class<E> edgeClass;
 
-	private G graph;
+	private GenericGraphNtro<N,E,SO> graph;
 	private Map<String, N> startNodes = new HashMap<>();
+	
+	protected abstract GenericGraphNtro<N,E,SO> createGraph();
+	protected abstract GenericNodeBuilderNtro<N,E,SO,NB> createNodeBuilder();
+	
 
 	public Map<String, N> getStartNodes() {
 		return startNodes;
@@ -27,24 +34,30 @@ public class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 		this.startNodes = nodes;
 	}
 
-	public G getGraph() {
+	public GenericGraphNtro<N, E, SO> getGraph() {
 		return graph;
 	}
-
-	public void setGraph(G graph) {
+	public void setGraph(GenericGraphNtro<N, E, SO> graph) {
 		this.graph = graph;
 	}
-	
-	public GenericGraphBuilderNtro() {
-		graph = createGraph(GraphId.newGraphId(), (GenericGraphStructure<N,E,SO>) this);
+	public Class<N> getNodeClass() {
+		return nodeClass;
 	}
 
-	public GenericGraphBuilderNtro(String graphName) {
-		graph = createGraph(GraphId.fromGraphName(graphName), (GenericGraphStructure<N,E,SO>) this);
+	public void setNodeClass(Class<N> nodeClass) {
+		this.nodeClass = nodeClass;
+	}
+
+	public Class<? extends E> getEdgeClass() {
+		return edgeClass;
+	}
+
+	public void setEdgeClass(Class<E> edgeClass) {
+		this.edgeClass = edgeClass;
 	}
 	
-	protected G createGraph(GraphId id, GenericGraphStructure<N,E,SO> graphStructure) {
-		return null;
+	public void initialize() {
+		graph = createGraph();
 	}
 
 	@Override
@@ -150,9 +163,10 @@ public class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public G graph() {
-		return getGraph();
+		return (G) getGraph();
 	}
 
 	@Override
@@ -176,26 +190,8 @@ public class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 	}
 
 	@Override
-	public void setNodeClass(Class<N> nodeClass) {
-		// TODO Auto-generated method stub
-		
+	public void setGraphName(String graphName) {
+		((GenericGraphNtro<N,E,SO>) graph).setId(GraphId.fromGraphName(graphName));
 	}
 
-	@Override
-	public void setEdgeClass(Class<E> edgeClass) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setSearchOptionsClass(Class<SO> searchOptionsClass) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setGraphName(String string) {
-		// TODO Auto-generated method stub
-		
-	}
 }

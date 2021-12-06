@@ -12,6 +12,9 @@ public abstract class GenericNodeBuilderNtro<N extends Node<N,E,SO>,
 
       implements      GenericNodeBuilder<N,E,SO,NB> {
 
+	private Class<N> nodeClass;
+	private Class<E> edgeClass;
+
 	private boolean isStartNode = true;
 	private GenericGraphBuilder<N,E,SO, NB, GenericGraph<N,E,SO>> graphBuilder;
 	private EdgesByDirection<N,E,SO> edgesByDirection = new EdgesByDirectionNtro<>();
@@ -38,11 +41,6 @@ public abstract class GenericNodeBuilderNtro<N extends Node<N,E,SO>,
 
 	public void setIsStartNode(boolean isStartNode) {
 		this.isStartNode = isStartNode;
-	}
-
-	public GenericNodeBuilderNtro(NodeId nodeId, GenericGraphBuilder<N,E,SO,NB,GenericGraph<N,E,SO>> graphBuilder) {
-		super();
-		setGraphBuilder(graphBuilder);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -124,5 +122,11 @@ public abstract class GenericNodeBuilderNtro<N extends Node<N,E,SO>,
 
 	public boolean isStartNode() {
 		return getIsStartNode();
+	}
+
+	@Override
+	public void setNodeName(String nodeName) {
+		// TODO Auto-generated method stub
+		
 	}
 }

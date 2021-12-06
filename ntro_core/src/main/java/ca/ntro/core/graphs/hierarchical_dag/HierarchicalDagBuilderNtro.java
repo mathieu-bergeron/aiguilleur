@@ -2,7 +2,6 @@ package ca.ntro.core.graphs.hierarchical_dag;
 
 import ca.ntro.core.graphs.generics.generic_graph.Edge;
 import ca.ntro.core.graphs.generics.generic_graph.GenericGraphBuilderNtro;
-import ca.ntro.core.graphs.generics.generic_graph.GenericNodeBuilder;
 import ca.ntro.core.graphs.generics.generic_hierarchical_graph.GenericHierarchicalNode;
 import ca.ntro.core.graphs.generics.generic_hierarchical_graph.GenericHierarchicalNodeBuilder;
 
@@ -16,12 +15,5 @@ public abstract class HierarchicalDagBuilderNtro<N extends GenericHierarchicalNo
 
 	   implements HierarchicalDagBuilder<N,E,SO,NB,G> {
 
-	public HierarchicalDagBuilderNtro() {
-		super();
-	}
-
-	public HierarchicalDagBuilderNtro(String graphName) {
-		super(graphName);
-	}
 
 }

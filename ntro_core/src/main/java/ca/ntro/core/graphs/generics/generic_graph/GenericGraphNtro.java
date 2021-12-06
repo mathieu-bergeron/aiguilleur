@@ -18,12 +18,25 @@ public abstract class GenericGraphNtro<N extends Node<N,E,SO>,
 
        implements     GenericGraph<N,E,SO> {
 	
+	private GraphId id;
+
+	public GraphId getId() {
+		return id;
+	}
+
+	public void setId(GraphId id) {
+		this.id = id;
+	}
 
 	@Override
-	public abstract GraphId id();
+	public GraphId id() {
+		return getId();
+	}
 
 	@Override
-	public abstract String label();
+	public String label() {
+		return getId().toKey().toString();
+	}
 
 	@Override
 	public void write(GraphWriter writer) {
@@ -235,4 +248,5 @@ public abstract class GenericGraphNtro<N extends Node<N,E,SO>,
 	public Stream<E> edges(){
 		return null;
 	}
+
 }
