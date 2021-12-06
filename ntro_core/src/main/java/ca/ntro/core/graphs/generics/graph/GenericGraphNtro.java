@@ -37,12 +37,12 @@ public abstract class GenericGraphNtro<N extends GenericNode<N,E,SO>,
 	}
 
 	@Override
-	protected InternalGraphWriter<N, E, SO> internalGraphWriter() {
+	public InternalGraphWriter<N, E, SO> internalGraphWriter() {
 		return new InternalGraphWriterNtro<N,E,SO>();
 	}
 
 	@Override
-	protected GenericGraphStructure<N, E, SO> graphStructure() {
+	public GenericGraphStructure<N, E, SO> graphStructure() {
 		return graphStructure;
 	}
 

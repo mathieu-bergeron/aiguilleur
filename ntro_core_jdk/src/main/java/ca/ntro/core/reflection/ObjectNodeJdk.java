@@ -5,12 +5,13 @@ import ca.ntro.core.graphs.generics.directed_graph.GenericNodeStructure;
 import ca.ntro.core.graphs.generics.directed_graph.NodeId;
 import ca.ntro.core.reflection.object_graph.LocalHeap;
 import ca.ntro.core.reflection.object_graph.ObjectGraph;
+import ca.ntro.core.reflection.object_graph.ObjectGraphNtro;
 import ca.ntro.core.reflection.object_graph.ObjectGraphSearchOptionsBuilder;
 import ca.ntro.core.reflection.object_graph.ObjectGraphSearchOptionsBuilderNtro;
 import ca.ntro.core.reflection.object_graph.ObjectNode;
 import ca.ntro.core.reflection.object_graph.ObjectNodeNtro;
+import ca.ntro.core.reflection.object_graph.ObjectNodeStructureNtro;
 import ca.ntro.core.reflection.object_graph.ReferenceEdge;
-import ca.ntro.core.reflection.object_updates.ObjectUpdates;
 
 public class ObjectNodeJdk extends ObjectNodeNtro {
 	
@@ -33,8 +34,7 @@ public class ObjectNodeJdk extends ObjectNodeNtro {
 
 	@Override
 	protected GenericNodeStructure<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder> nodeStructure() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ObjectNodeStructureJdk((ObjectNodeNtro) this, (ObjectGraphNtro) getGraph());
 	}
 
 

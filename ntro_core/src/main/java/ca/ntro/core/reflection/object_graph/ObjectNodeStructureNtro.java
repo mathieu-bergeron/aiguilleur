@@ -17,23 +17,29 @@ import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 	
-	private ObjectNode node;
-	private ObjectGraphStructure graphStructure;
+	private ObjectNodeNtro node;
+	private ObjectGraphNtro graph;
 
-	public ObjectNode getNode() {
+
+	public ObjectNodeNtro getNode() {
 		return node;
 	}
 
-	public void setNode(ObjectNode node) {
+	public void setNode(ObjectNodeNtro node) {
 		this.node = node;
 	}
 
-	public ObjectGraphStructure getGraphStructure() {
-		return graphStructure;
+	public ObjectGraphNtro getGraph() {
+		return graph;
 	}
 
-	public void setGraphStructure(ObjectGraphStructure graphStructure) {
-		this.graphStructure = graphStructure;
+	public void setGraph(ObjectGraphNtro graph) {
+		this.graph = graph;
+	}
+
+	public ObjectNodeStructureNtro(ObjectNodeNtro node, ObjectGraphNtro graph) {
+		setNode(node);
+		setGraph(graph);
 	}
 
 	protected abstract <R> void _reduceMethodNames(Object object, ResultNtro<R> result, MethodNameReducer<R> reducer);
@@ -100,7 +106,11 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 			Path attributePath = Path.fromRawPath(this.asNode().id().toKey().toString());
 			attributePath.addName(attributeName);
 			
-			ObjectNode toNode = ((ObjectGraphStructureNtro)getGraphStructure()).getLocalHeap().findOrCreateNode(getGraphStructure(), attributePath, attributeValue);
+			assert(getGraph() != null);
+			
+			ObjectGraphStructureNtro graphStructure = (ObjectGraphStructureNtro) getGraph().graphStructure();
+			
+			ObjectNode toNode = graphStructure.getLocalHeap().findOrCreateNode(getGraph(), attributePath, attributeValue);
 			ReferenceEdge edge = new ReferenceEdgeNtro(this.asNode(), attributeName, toNode);
 			
 			result.registerValue(reducer.reduceEdge(result.value(), edge));
@@ -109,8 +119,6 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 			
 			result.registerException(t);
 		} 
-		// TODO Auto-generated method stub
-		
 	}
 
 	private boolean isSimpleValue(Object object) {

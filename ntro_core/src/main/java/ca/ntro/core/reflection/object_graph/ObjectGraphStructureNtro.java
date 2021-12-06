@@ -2,12 +2,19 @@ package ca.ntro.core.reflection.object_graph;
 
 import ca.ntro.core.graphs.generics.directed_graph.NodeReducer;
 import ca.ntro.core.path.Path;
+import ca.ntro.core.stream._Reducer;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class ObjectGraphStructureNtro implements ObjectGraphStructure {
 
+	private ObjectGraph graph;
 	private Object[] startObjects;
 	private LocalHeap localHeap = createLocalHeap();
+
+	public ObjectGraphStructureNtro(Object o, ObjectGraph graph) {
+		setGraph(graph);
+		setStartObjects(new Object[] {o});
+	}
 
 	public Object[] getStartObjects() {
 		return startObjects;
@@ -23,6 +30,14 @@ public abstract class ObjectGraphStructureNtro implements ObjectGraphStructure {
 
 	public void setLocalHeap(LocalHeap localHeap) {
 		this.localHeap = localHeap;
+	}
+
+	public ObjectGraph getGraph() {
+		return graph;
+	}
+
+	public void setGraph(ObjectGraph graph) {
+		this.graph = graph;
 	}
 
 	protected abstract LocalHeap createLocalHeap();
@@ -64,7 +79,7 @@ public abstract class ObjectGraphStructureNtro implements ObjectGraphStructure {
 
 		try {
 
-			result.registerValue(reducer.reduceNode(result.value(), getLocalHeap().findOrCreateNode(this, objectPath, object)));
+			result.registerValue(reducer.reduceNode(result.value(), getLocalHeap().findOrCreateNode(getGraph(), objectPath, object)));
 
 		} catch (Throwable t) {
 
@@ -94,6 +109,11 @@ public abstract class ObjectGraphStructureNtro implements ObjectGraphStructure {
 		}
 		
 		return isStartNode;
+	}
+
+	@Override
+	public <R> void _reduceStartNodes(ResultNtro<R> result, _Reducer<ObjectNode, R> reducer) {
+		throw new RuntimeException("TODO");
 	}
 
 }

@@ -2,17 +2,21 @@ package ca.ntro.core.reflection;
 
 import ca.ntro.core.graphs.generics.directed_graph.GenericGraphStructure;
 import ca.ntro.core.graphs.generics.directed_graph.InternalGraphWriter;
+import ca.ntro.core.graphs.generics.directed_graph.InternalGraphWriterNtro;
 import ca.ntro.core.reflection.object_graph.LocalHeap;
 import ca.ntro.core.reflection.object_graph.ObjectGraphNtro;
 import ca.ntro.core.reflection.object_graph.ObjectGraphSearchOptionsBuilder;
 import ca.ntro.core.reflection.object_graph.ObjectNode;
 import ca.ntro.core.reflection.object_graph.ReferenceEdge;
-import ca.ntro.core.reflection.object_updates.ObjectUpdates;
 
 public class ObjectGraphJdk extends ObjectGraphNtro {
+	
+	private ObjectGraphStructureJdk graphStructure;
 
 	public ObjectGraphJdk(Object o) {
 		super(o);
+		
+		this.graphStructure = new ObjectGraphStructureJdk(o, this);
 	}
 
 	protected LocalHeap createLocalHeap() {
@@ -20,15 +24,13 @@ public class ObjectGraphJdk extends ObjectGraphNtro {
 	}
 
 	@Override
-	protected InternalGraphWriter<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder> internalGraphWriter() {
-		throw new RuntimeException("TODO");
+	public InternalGraphWriter<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder> internalGraphWriter() {
+		return new InternalGraphWriterNtro<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder>();
 	}
 
 	@Override
-	protected GenericGraphStructure<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder> graphStructure() {
-		// TODO Auto-generated method stub
-		return null;
+	public GenericGraphStructure<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder> graphStructure() {
+		return graphStructure;
 	}
-
 
 }

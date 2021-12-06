@@ -9,6 +9,10 @@ import org.junit.Test;
 import ca.ntro.core.graphs.DirectedEdgeTriple;
 import ca.ntro.core.initialization.InitializerTest;
 import ca.ntro.core.initialization.Ntro;
+import ca.ntro.core.reflection.object_graph.ObjectGraph;
+import ca.ntro.core.reflection.object_graph.ObjectGraphSearchOptionsBuilder;
+import ca.ntro.core.reflection.object_graph.ObjectNode;
+import ca.ntro.core.reflection.object_graph.ReferenceEdge;
 import ca.ntro.core.services.ExceptionThrowerMock;
 
 public class ObjectGraphTests {
@@ -27,7 +31,6 @@ public class ObjectGraphTests {
 	
 	@Test
 	public void testObjectGraph01() throws Throwable {
-		/*
 		
 		TestObject01 o = new TestObject01();
 		
@@ -37,7 +40,7 @@ public class ObjectGraphTests {
 		List<Object> rootValues = new ArrayList<>();
 
 		graph.forEachStartNode(n -> {
-			rootValues.add(n.value().object());
+			rootValues.add(n.object());
 		});
 
 		exceptionThrower.throwLastException();
@@ -48,7 +51,7 @@ public class ObjectGraphTests {
 		List<Object> subValues = new ArrayList<>();
 
 		graph.forEachNode(n -> {
-			subValues.add(n.value().object());
+			subValues.add(n.object());
 		});
 
 		exceptionThrower.throwLastException();
@@ -56,14 +59,11 @@ public class ObjectGraphTests {
 		Ntro.asserter().assertTrue("Should contain " + o, subValues.contains(o));
 		Ntro.asserter().assertTrue("Should contain " + o.getAttribute01(), subValues.contains(o.getAttribute01()));
 		Ntro.asserter().assertEquals(2, subValues.size());
-		*/
 		
 	}
 
 	@Test
 	public void testObjectGraph02() throws Throwable {
-		/*
-		
 		TestObject02 o = new TestObject02();
 		
 		ObjectGraph graph = Ntro.reflectionService().objectGraph(o);
@@ -72,8 +72,7 @@ public class ObjectGraphTests {
 		List<Object> subValues = new ArrayList<>();
 
 		graph.forEachNode(n -> {
-			
-			subValues.add(n.value().object());
+			subValues.add(n.object());
 		});
 
 		exceptionThrower.throwLastException();
@@ -82,15 +81,11 @@ public class ObjectGraphTests {
 		Ntro.asserter().assertTrue("Should contain", subValues.contains(o));
 		Ntro.asserter().assertTrue("Should contain", subValues.contains(o.getTestObject01()));
 		Ntro.asserter().assertTrue("Should contain", subValues.contains(o.getTestObject01().getAttribute01()));
-		
-		*/
 
 	}
 
 	@Test
 	public void testObjectCycle() throws Throwable {
-		
-		/*
 		TestObjectCycle o = new TestObjectCycle();
 		
 		ObjectGraph graph = Ntro.reflectionService().objectGraph(o);
@@ -99,7 +94,7 @@ public class ObjectGraphTests {
 		List<Object> subValues = new ArrayList<>();
 
 		graph.forEachNode(n -> {
-			subValues.add(n.value().object());
+			subValues.add(n.object());
 		});
 		
 		exceptionThrower.throwLastException();
@@ -107,16 +102,15 @@ public class ObjectGraphTests {
 		Ntro.asserter().assertEquals(1, subValues.size());
 		Ntro.asserter().assertTrue("Should contain", subValues.contains(o));
 
-		List<DirectedEdgeTriple<ObjectValue, ReferenceValue>> edges = new ArrayList<>();
-
-		graph.forEachEdge((from,edge,to) -> {
-			edges.add(new DirectedEdgeTriple<ObjectValue, ReferenceValue>(from,edge,to));
-		});
+		/*
+		List<DirectedEdgeTriple<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder>> edges = new ArrayList<>();
+		graph.forEachEdge(edge -> {
+			edges.add(new DirectedEdgeTriple<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder>(edge.from(), edge.edgeType, edge.to())));
+		});*/
 		
 		exceptionThrower.throwLastException();
 
-		Ntro.asserter().assertEquals(1, edges.size());
-		*/
+		//Ntro.asserter().assertEquals(1, edges.size());
 	}
 
 }

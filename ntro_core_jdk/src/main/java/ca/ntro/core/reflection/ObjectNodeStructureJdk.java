@@ -3,11 +3,17 @@ package ca.ntro.core.reflection;
 import java.lang.reflect.Method;
 
 import ca.ntro.core.reflection.object_graph.ObjectGraph;
+import ca.ntro.core.reflection.object_graph.ObjectGraphNtro;
 import ca.ntro.core.reflection.object_graph.ObjectNode;
+import ca.ntro.core.reflection.object_graph.ObjectNodeNtro;
 import ca.ntro.core.reflection.object_graph.ObjectNodeStructureNtro;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public class ObjectNodeStructureJdk extends ObjectNodeStructureNtro {
+
+	public ObjectNodeStructureJdk(ObjectNodeNtro node, ObjectGraphNtro graph) {
+		super(node, graph);
+	}
 
 	@Override
 	protected <R> void _reduceMethodNames(Object object, ResultNtro<R> result, MethodNameReducer<R> reducer) {
@@ -41,14 +47,12 @@ public class ObjectNodeStructureJdk extends ObjectNodeStructureNtro {
 
 	@Override
 	public ObjectNode asNode() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getNode();
 	}
 
 	@Override
 	public ObjectGraph parentGraph() {
-		// TODO Auto-generated method stub
-		return null;
+		return getGraph();
 	}
 
 }

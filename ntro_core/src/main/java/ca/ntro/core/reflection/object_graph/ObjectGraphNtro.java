@@ -9,6 +9,7 @@ public abstract class ObjectGraphNtro
        extends GenericDirectedGraphNtro<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder> 
 
        implements ObjectGraph {
+	
 
 	public ObjectGraphNtro(Object o) {
 	}
@@ -27,6 +28,7 @@ public abstract class ObjectGraphNtro
 	public ObjectGraphSearchOptionsBuilder defaultSearchOptions() {
 		return new ObjectGraphSearchOptionsBuilderNtro();
 	}
+
 
 	@Override
 	public ObjectUpdates objectAsUpdates(Object object) {

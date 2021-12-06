@@ -30,8 +30,8 @@ public abstract class GenericDirectedGraphNtro<N extends GenericNode<N,E,SO>,
 		internalGraphWriter().write(this, writer);
 	}
 
-	protected abstract InternalGraphWriter<N,E,SO> internalGraphWriter();
-	protected abstract GenericGraphStructure<N,E,SO> graphStructure();
+	public abstract InternalGraphWriter<N,E,SO> internalGraphWriter();
+	public abstract GenericGraphStructure<N,E,SO> graphStructure();
 
 	@Override
 	public abstract SO defaultSearchOptions();

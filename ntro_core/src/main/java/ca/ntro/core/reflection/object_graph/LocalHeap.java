@@ -4,6 +4,6 @@ import ca.ntro.core.path.Path;
 
 public interface LocalHeap {
 
-	ObjectNode findOrCreateNode(ObjectGraphStructure structure, Path attributePath, Object object);
+	ObjectNode findOrCreateNode(ObjectGraph graph, Path attributePath, Object object);
 
 }
