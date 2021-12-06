@@ -37,6 +37,9 @@ public interface Node<N extends Node<N,E,SO>,
 
 	<R extends Object> Result<R> reduceReachableEdges(R initialValue, ReachableEdgeReducer<N,E,SO,R> reducer);
 	<R extends Object> Result<R> reduceReachableEdges(SO options, R initialValue, ReachableEdgeReducer<N,E,SO,R> reducer);
+	
+	Stream<WalkInProgress<N,E,SO>> walk();
+	Stream<WalkInProgress<N,E,SO>> walk(SO options);
 
 	void visitWalk(WalkId walk, WalkVisitor<N,E,SO> visitor);
 	<R extends Object> Result<R> reduceWalk(WalkId walk, R initialValue, WalkReducer<N,E,SO,R> reducer);

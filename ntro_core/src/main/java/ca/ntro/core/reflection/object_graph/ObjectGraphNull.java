@@ -8,6 +8,7 @@ import ca.ntro.core.graphs.NodeReducer;
 import ca.ntro.core.graphs.NodeVisitor;
 import ca.ntro.core.graphs.writers.GraphWriter;
 import ca.ntro.core.reflection.object_updates.ObjectUpdates;
+import ca.ntro.core.stream.Stream;
 import ca.ntro.core.wrappers.result.Result;
 
 public class ObjectGraphNull implements ObjectGraph {
@@ -89,6 +90,24 @@ public class ObjectGraphNull implements ObjectGraph {
 
 	@Override
 	public ObjectUpdates objectAsUpdates(Object object) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Stream<ObjectNode> startNodes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Stream<ObjectNode> nodes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Stream<ReferenceEdge> edges() {
 		// TODO Auto-generated method stub
 		return null;
 	}

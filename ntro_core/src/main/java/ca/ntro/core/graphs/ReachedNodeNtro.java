@@ -6,18 +6,11 @@ public class ReachedNodeNtro <N extends Node<N,E,SO>,
                               E extends Edge<N,E,SO>,
                               SO extends SearchOptionsBuilder> 
 
+       extends ReachedItemNtro<N,E,SO>
+
        implements ReachedNode<N,E,SO> {
 	
-	private Walk<N,E,SO> walked;
 	private N node;
-
-	public Walk<N, E, SO> getWalked() {
-		return walked;
-	}
-
-	public void setWalked(Walk<N, E, SO> walked) {
-		this.walked = walked;
-	}
 
 	public N getNode() {
 		return node;
@@ -31,19 +24,12 @@ public class ReachedNodeNtro <N extends Node<N,E,SO>,
 	}
 	
 	public ReachedNodeNtro(Walk<N,E,SO> walked, N node) {
-		setWalked(walked);
+		super(walked);
 		setNode(node);
-	}
-	
-	@Override
-	public Walk<N, E, SO> walked() {
-		return getWalked();
 	}
 
 	@Override
 	public N node() {
 		return getNode();
 	}
-	
-
 }

@@ -14,8 +14,12 @@ import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.NodeIdNtro;
 import ca.ntro.core.graphs.NodeReducer;
 import ca.ntro.core.graphs.NodeVisitor;
+import ca.ntro.core.graphs.ReachedNode;
 import ca.ntro.core.graphs.SearchOptionsBuilder;
 import ca.ntro.core.graphs.writers.GraphWriter;
+import ca.ntro.core.stream.Stream;
+import ca.ntro.core.stream.StreamNtro;
+import ca.ntro.core.stream._Reducer;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
@@ -196,6 +200,68 @@ public abstract class GenericGraphNtro<N extends Node<N,E,SO>,
 				}
 			});
 		});
+	}
+
+
+	public Stream<N> startNodes(){
+		return new StreamNtro<N>(){
+			@Override
+			public <R> void _reduce(ResultNtro<R> result, _Reducer<N, R> _reducer) {
+				graphStructure()._reduceStartNodes(result, _reducer);
+			}
+		};
+	}
+
+	public Stream<N> nodes(){
+		return new StreamNtro<N>(){
+			@Override
+			public <R> void _reduce(ResultNtro<R> result, _Reducer<N, R> _reducer) {
+
+				Set<String> visitedNodes = new HashSet<>();
+				
+				Stream<N> startNodes = startNodes().findAll(startNode -> {
+					if(visitedNodes.contains(startNode.id().toKey().toString())) {
+
+						return false;
+
+					}else {
+
+						visitedNodes.add(startNode.id().toKey().toString());
+
+						return true;
+					}
+				});
+				
+				startNodes._reduce(result, _reducer);
+				
+				startNodes.forEach(startNode -> {
+
+					Stream<ReachedNode<N,E,SO>> reachedNodes = startNode.reachableNodes();
+					
+					Stream<N> nodes = reachedNodes.map(rn -> rn.node());
+					
+					nodes = nodes.findAll(n -> {
+						if(visitedNodes.contains(startNode.id().toKey().toString())) {
+
+							return false;
+
+						}else {
+
+							visitedNodes.add(startNode.id().toKey().toString());
+							
+							return true;
+						}
+					});
+					
+					nodes._reduce(result, _reducer);
+				});
+			}
+		};
+	}
+
+	public Stream<E> edges(){
+		return null;
+		
 	}
 
 }

@@ -16,6 +16,7 @@ import ca.ntro.core.graphs.NodeIdNtro;
 import ca.ntro.core.graphs.NodeReducer;
 import ca.ntro.core.graphs.SearchOptionsBuilder;
 import ca.ntro.core.initialization.Ntro;
+import ca.ntro.core.stream._Reducer;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
@@ -155,5 +156,10 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 	@Override
 	public G asGraph() {
 		return getGraph();
+	}
+
+	@Override
+	public <R> void _reduceStartNodes(ResultNtro<R> result, _Reducer<N,R> reducer) {
+		
 	}
 }

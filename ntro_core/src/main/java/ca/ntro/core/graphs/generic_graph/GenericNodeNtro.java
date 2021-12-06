@@ -13,6 +13,7 @@ import ca.ntro.core.graphs.Node;
 import ca.ntro.core.graphs.NodeId;
 import ca.ntro.core.graphs.ReachableNodeReducer;
 import ca.ntro.core.graphs.ReachableNodeVisitor;
+import ca.ntro.core.graphs.ReachedEdge;
 import ca.ntro.core.graphs.ReachedNode;
 import ca.ntro.core.graphs.ReachedNodeNtro;
 import ca.ntro.core.graphs.ReachableEdgeReducer;
@@ -21,6 +22,7 @@ import ca.ntro.core.graphs.SearchOptionsBuilder;
 import ca.ntro.core.graphs.ReachableEdgeVisitor;
 import ca.ntro.core.graphs.SearchOptionsNtro;
 import ca.ntro.core.graphs.SearchStrategy;
+import ca.ntro.core.graphs.WalkInProgress;
 import ca.ntro.core.graphs.WalkReducer;
 import ca.ntro.core.graphs.WalkVisitor;
 import ca.ntro.core.stream.Stream;
@@ -442,11 +444,18 @@ public abstract class GenericNodeNtro<N extends Node<N,E,SO>,
 		
 		return result.value();
 	}
+	
+	@Override
+	public Stream<E> edges(){
+		return null;
+	}
 
+	@Override
 	public Stream<ReachedNode<N,E,SO>> reachableNodes(){
 		return reachableNodes(defaultSearchOptions());
 	}
 
+	@Override
 	public Stream<ReachedNode<N,E,SO>> reachableNodes(SO options){
 		return new StreamNtro<ReachedNode<N,E,SO>>() {
 			@Override
@@ -454,5 +463,26 @@ public abstract class GenericNodeNtro<N extends Node<N,E,SO>,
 				__reduceReachableNodes(options.toSearchOptions(), result, _reducer);
 			}
 		};
+	}
+
+	@Override
+	public Stream<ReachedEdge<N,E,SO>> reachableEdges(){
+		return null;
+	}
+
+	@Override
+	public Stream<ReachedEdge<N,E,SO>> reachableEdges(SO options){
+		return null;
+	}
+
+	@Override
+	public Stream<WalkInProgress<N,E,SO>> walk(){
+		return null;
+	}
+
+	@Override
+	public Stream<WalkInProgress<N,E,SO>> walk(SO options){
+		return null;
+		
 	}
 }
