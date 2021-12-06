@@ -12,8 +12,6 @@ import ca.ntro.core.graphs.generics.directed_graph.EdgeTypeNtro;
 import ca.ntro.core.graphs.generics.directed_graph.NodeAlreadyAddedException;
 import ca.ntro.core.graphs.generics.directed_graph.SearchStrategy;
 import ca.ntro.core.graphs.generics.graph.GenericGraph;
-import ca.ntro.core.graphs.generics.graph.GraphSearchOptionsBuilder;
-import ca.ntro.core.graphs.generics.graph.GraphSearchOptionsBuilderNtro;
 import ca.ntro.core.initialization.InitializerTest;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.services.ExceptionThrowerMock;

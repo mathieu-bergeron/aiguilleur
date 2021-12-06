@@ -12,16 +12,16 @@ import ca.ntro.core.graphs.generics.directed_graph.SearchOptionsNtro;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
-public abstract class      HierarchicalNodeNtro<N extends HierarchicalNode<N,E,SO>,
+public abstract class      GenericHierarchicalNodeNtro<N extends GenericHierarchicalNode<N,E,SO>,
  									            E extends Edge<N,E,SO>,
  									            SO extends HierarchicalGraphSearchOptionsBuilder>
 
        extends    GenericNodeNtro<N,E,SO> 
 
-	   implements HierarchicalNode<N,E,SO> {
+	   implements GenericHierarchicalNode<N,E,SO> {
 
 
-	public HierarchicalNodeNtro(NodeId id) {
+	public GenericHierarchicalNodeNtro(NodeId id) {
 		super(id);
 	}
 

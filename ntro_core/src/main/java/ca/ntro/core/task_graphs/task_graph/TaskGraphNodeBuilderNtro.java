@@ -16,15 +16,15 @@ import ca.ntro.core.graphs.generics.directed_graph.WalkId;
 import ca.ntro.core.graphs.generics.directed_graph.WalkInProgress;
 import ca.ntro.core.graphs.generics.directed_graph.WalkReducer;
 import ca.ntro.core.graphs.generics.directed_graph.WalkVisitor;
-import ca.ntro.core.graphs.generics.hierarchical_directed_graph.HierarchicalGraphBuilder;
-import ca.ntro.core.graphs.generics.hierarchical_directed_graph.HierarchicalNodeBuilderNtro;
+import ca.ntro.core.graphs.generics.hierarchical_directed_graph.GenericHierarchicalGraphBuilder;
+import ca.ntro.core.graphs.generics.hierarchical_directed_graph.GenericHierarchicalNodeBuilderNtro;
 import ca.ntro.core.stream.Stream;
 import ca.ntro.core.wrappers.result.Result;
 
 public class TaskGraphNodeBuilderNtro<T  extends Task<T,AT>, 
                                       AT extends AtomicTask<T,AT>>
 
-      extends HierarchicalNodeBuilderNtro<TaskGraphNode<T,AT>,
+      extends GenericHierarchicalNodeBuilderNtro<TaskGraphNode<T,AT>,
                                           TaskGraphEdge<T,AT>,
                                           TaskGraphSearchOptionsBuilder,
                                           TaskGraphNodeBuilder<T,AT>>

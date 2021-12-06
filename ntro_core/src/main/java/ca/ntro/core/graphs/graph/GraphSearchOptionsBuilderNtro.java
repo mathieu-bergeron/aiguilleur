@@ -1,4 +1,4 @@
-package ca.ntro.core.graphs.generics.graph;
+package ca.ntro.core.graphs.graph;
 
 import ca.ntro.core.graphs.generics.directed_graph.SearchOptionsBuilderNtro;
 

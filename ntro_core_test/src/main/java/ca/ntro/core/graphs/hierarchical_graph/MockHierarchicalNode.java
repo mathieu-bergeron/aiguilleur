@@ -4,9 +4,9 @@ import ca.ntro.core.graphs.generics.directed_graph.GenericDirectedGraph;
 import ca.ntro.core.graphs.generics.directed_graph.GenericNodeStructure;
 import ca.ntro.core.graphs.generics.directed_graph.NodeId;
 import ca.ntro.core.graphs.generics.hierarchical_directed_graph.HierarchicalGraphSearchOptionsBuilder;
-import ca.ntro.core.graphs.generics.hierarchical_directed_graph.HierarchicalNodeNtro;
+import ca.ntro.core.graphs.generics.hierarchical_directed_graph.GenericHierarchicalNodeNtro;
 
-public class MockHierarchicalNode extends HierarchicalNodeNtro<MockHierarchicalNode, 
+public class MockHierarchicalNode extends GenericHierarchicalNodeNtro<MockHierarchicalNode, 
                                                                     MockHierarchicalEdge,
                                                                     HierarchicalGraphSearchOptionsBuilder>{
 

@@ -13,7 +13,7 @@ import ca.ntro.core.graphs.writers.GraphWriter;
 import ca.ntro.core.graphs.writers.NodeSpecNtro;
 import ca.ntro.core.initialization.Ntro;
 
-public class      InternalHierarchicalGraphWriterNtro<N extends HierarchicalNode<N,E,SO>,
+public class      InternalHierarchicalGraphWriterNtro<N extends GenericHierarchicalNode<N,E,SO>,
                                                       E extends Edge<N,E,SO>,
 													  SO extends HierarchicalGraphSearchOptionsBuilder>
 

@@ -1,6 +1,6 @@
 package ca.ntro.core.graphs.generics.hierarchical_directed_graph;
 
-import ca.ntro.core.graphs.generics.graph.GraphSearchOptionsBuilder;
+import ca.ntro.core.graphs.graph.GraphSearchOptionsBuilder;
 
 public interface HierarchicalGraphSearchOptionsBuilder extends GraphSearchOptionsBuilder {
 

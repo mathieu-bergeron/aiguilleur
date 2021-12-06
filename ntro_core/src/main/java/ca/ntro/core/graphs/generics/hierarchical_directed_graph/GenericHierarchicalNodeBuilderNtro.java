@@ -9,18 +9,18 @@ import ca.ntro.core.graphs.generics.directed_graph.GenericDirectedGraphBuilder;
 import ca.ntro.core.graphs.generics.directed_graph.GenericNodeBuilderNtro;
 import ca.ntro.core.graphs.generics.directed_graph.NodeId;
 
-public abstract class HierarchicalNodeBuilderNtro<N extends HierarchicalNode<N,E,SO>,
+public abstract class GenericHierarchicalNodeBuilderNtro<N extends GenericHierarchicalNode<N,E,SO>,
  									              E extends Edge<N,E,SO>,
  									              SO extends HierarchicalGraphSearchOptionsBuilder,
- 									              NB extends HierarchicalNodeBuilder<N,E,SO,NB>>
+ 									              NB extends GenericHierarchicalNodeBuilder<N,E,SO,NB>>
 
        extends        GenericNodeBuilderNtro<N,E,SO,NB> 
 
-	   implements     HierarchicalNodeBuilder<N,E,SO,NB> {
+	   implements     GenericHierarchicalNodeBuilder<N,E,SO,NB> {
 
 
 
-	public HierarchicalNodeBuilderNtro(NodeId nodeId, 
+	public GenericHierarchicalNodeBuilderNtro(NodeId nodeId, 
 			                           GenericDirectedGraphBuilder<N, E, SO, NB, GenericDirectedGraph<N, E, SO>> graphBuilder) {
 		super(nodeId, graphBuilder);
 	}
@@ -40,7 +40,7 @@ public abstract class HierarchicalNodeBuilderNtro<N extends HierarchicalNode<N,E
 
 		getEdgesByDirection().addEdge(edge);
 
-		((HierarchicalNodeBuilderNtro<N,E,SO,NB>) subNode).addParentNode(this.node());
+		((GenericHierarchicalNodeBuilderNtro<N,E,SO,NB>) subNode).addParentNode(this.node());
 	}
 
 	@SuppressWarnings("unchecked")
