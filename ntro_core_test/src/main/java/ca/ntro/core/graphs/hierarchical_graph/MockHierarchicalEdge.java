@@ -6,6 +6,10 @@ import ca.ntro.core.graphs.generics.generic_hierarchical_graph.HierarchicalGraph
 
 public class MockHierarchicalEdge extends EdgeNtro<MockHierarchicalNode, MockHierarchicalEdge, HierarchicalGraphSearchOptionsBuilder> {
 
+	public MockHierarchicalEdge() {
+		super();
+	}
+
 	public MockHierarchicalEdge(MockHierarchicalNode from, EdgeType edgeType, MockHierarchicalNode to) {
 		super(from, edgeType, to);
 	}

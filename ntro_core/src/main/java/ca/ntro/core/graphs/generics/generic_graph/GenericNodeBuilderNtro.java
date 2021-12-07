@@ -1,7 +1,7 @@
 package ca.ntro.core.graphs.generics.generic_graph;
 
-import ca.ntro.core.graphs.generics.generic_graph_structure.EdgesByDirection;
-import ca.ntro.core.graphs.generics.generic_graph_structure.EdgesByDirectionNtro;
+import ca.ntro.core.graphs.generics.generic_graph.graph_structure.EdgesByDirection;
+import ca.ntro.core.graphs.generics.generic_graph.graph_structure.EdgesByDirectionNtro;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.wrappers.result.ResultNtro;
 

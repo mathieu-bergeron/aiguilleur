@@ -20,10 +20,13 @@ public abstract class      GenericHierarchicalNodeNtro<N extends GenericHierarch
 
 	   implements GenericHierarchicalNode<N,E,SO> {
 
+	public GenericHierarchicalNodeNtro() {
+	}
 
 	public GenericHierarchicalNodeNtro(NodeId id) {
 		super(id);
 	}
+
 
 	@Override
 	public boolean hasSubNodes() {
