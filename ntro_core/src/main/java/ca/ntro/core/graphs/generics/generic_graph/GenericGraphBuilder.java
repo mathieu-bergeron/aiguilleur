@@ -11,8 +11,7 @@ public interface GenericGraphBuilder<N extends Node<N,E,SO>,
 
 	NB addNode(String nodeId);
 	NB addNode(NodeId nodeId);
-
-	void addNode(N node);
+	NB addNode(N node);
 
 	E addEdge(NB fromNode, String edgeName, NB toNode);
 

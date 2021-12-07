@@ -116,7 +116,7 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 	}
 
 	@Override
-	public void addNode(N node) {
+	public NB addNode(N node) {
 		if(ifNodeAlreadyExists(node)) {
 
 			Ntro.exceptionThrower().throwException(new NodeAlreadyAddedException("Node already added: " + node.id().toKey()));
@@ -126,6 +126,13 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 			getStartNodes().put(node.id().toKey().toString(), node);
 
 		}
+		
+		GenericNodeBuilderNtro<N,E,SO,NB> builder = createNodeBuilder();
+		
+		builder.setNode(node);
+		
+		return (NB) builder;
+		
 	}
 	
 	protected boolean ifNodeAlreadyExists(N node) {

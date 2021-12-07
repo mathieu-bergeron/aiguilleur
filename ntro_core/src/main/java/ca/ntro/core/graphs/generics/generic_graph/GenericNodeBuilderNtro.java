@@ -14,6 +14,8 @@ public abstract class GenericNodeBuilderNtro<N extends Node<N,E,SO>,
 
 	private Class<N> nodeClass;
 	private Class<E> edgeClass;
+	
+	private N node;
 
 	private boolean isStartNode = true;
 	private GenericGraphBuilder<N,E,SO, NB, GenericGraph<N,E,SO>> graphBuilder;
@@ -40,6 +42,34 @@ public abstract class GenericNodeBuilderNtro<N extends Node<N,E,SO>,
 	}
 
 	public void setIsStartNode(boolean isStartNode) {
+		this.isStartNode = isStartNode;
+	}
+
+	public Class<N> getNodeClass() {
+		return nodeClass;
+	}
+
+	public void setNodeClass(Class<N> nodeClass) {
+		this.nodeClass = nodeClass;
+	}
+
+	public Class<E> getEdgeClass() {
+		return edgeClass;
+	}
+
+	public void setEdgeClass(Class<E> edgeClass) {
+		this.edgeClass = edgeClass;
+	}
+
+	public N getNode() {
+		return node;
+	}
+
+	public void setNode(N node) {
+		this.node = node;
+	}
+
+	public void setStartNode(boolean isStartNode) {
 		this.isStartNode = isStartNode;
 	}
 
@@ -129,4 +159,5 @@ public abstract class GenericNodeBuilderNtro<N extends Node<N,E,SO>,
 		// TODO Auto-generated method stub
 		
 	}
+
 }
