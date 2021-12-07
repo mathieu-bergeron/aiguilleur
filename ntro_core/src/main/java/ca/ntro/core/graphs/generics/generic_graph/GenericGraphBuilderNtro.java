@@ -55,8 +55,8 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 	public void setEdgeClass(Class<E> edgeClass) {
 		this.edgeClass = edgeClass;
 	}
-	
-	public GenericGraphBuilderNtro() {
+
+	void initialize() {
 		graph = createGraph();
 		graph.setGraphStructure(this);
 	}

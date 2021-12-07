@@ -13,14 +13,12 @@ public class      GraphBuilderNtro<N extends GraphNode<N,E>,
 
 	@Override
 	protected GenericGraphNtro<N, E, GraphSearchOptionsBuilder> createGraph() {
-		GraphNtro<N,E> graph = new GraphNtro<>();
-		graph.setGraphStructure(this);
-
-		return graph;
+		return new GraphNtro<>();
 	}
 
 	@Override
 	protected GenericNodeBuilderNtro<N, E, GraphSearchOptionsBuilder, GraphNodeBuilder<N, E>> createNodeBuilder() {
 		return new GraphNodeBuilderNtro<>();
 	}
+
 }
