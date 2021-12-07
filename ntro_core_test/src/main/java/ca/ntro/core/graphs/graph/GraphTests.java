@@ -4,6 +4,7 @@ package ca.ntro.core.graphs.graph;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import ca.ntro.core.graphs.generics.generic_graph.NodeAlreadyAddedException;
 import ca.ntro.core.initialization.InitializerTest;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.services.ExceptionThrowerMock;
@@ -32,9 +33,8 @@ public class GraphTests {
 		builder.setGraphName("simpleGraph01");
 		
 		GraphNodeBuilder<MockNode, MockEdge> nodeA = builder.addNode("A");
-
 		GraphNodeBuilder<MockNode, MockEdge> nodeB = builder.addNode(new MockNode("B"));
-		
+
 		builder.addEdge(nodeA, "AA", nodeA);
 		builder.addEdge(nodeA, "AB", nodeB);
 
@@ -43,48 +43,44 @@ public class GraphTests {
 		graph.write(Ntro.graphWriter());
 	}
 	
-	/*
-	
-	public MockGraphBuilder buildSimpleGraph02(){
+	public GraphBuilder<MockNode, MockEdge> buildSimpleGraph02(){
 
-		MockGraphBuilder builder = new MockGraphBuilder("simpleGraph02");
+		GraphBuilder<MockNode, MockEdge> builder = GraphBuilder.newBuilder(MockNode.class, MockEdge.class);
+		builder.setGraphName("simpleGraph02");
 
-		MockNodeBuilder nodeA = builder.addNode("A");
+		GraphNodeBuilder<MockNode,MockEdge> nodeA = builder.addNode("A");
 
-		MockNodeBuilder nodeB = builder.addNode("B");
-		MockNodeBuilder nodeC = builder.addNode("C");
-		MockNodeBuilder nodeD= builder.addNode("D");
+		GraphNodeBuilder<MockNode,MockEdge> nodeB = builder.addNode("B");
+		GraphNodeBuilder<MockNode,MockEdge> nodeC = builder.addNode("C");
+		GraphNodeBuilder<MockNode,MockEdge> nodeD = builder.addNode("D");
 
 		MockEdge edgeAC = builder.addEdge(nodeA, "AC", nodeC);
 		MockEdge edgeBC = builder.addEdge(nodeB, "BC", nodeC);
 		MockEdge edgeCD = builder.addEdge(nodeC, "CD", nodeD);
 		MockEdge edgeDB = builder.addEdge(nodeD, "DA", nodeA);
 
-		GenericGraph<MockNode, MockEdge, GraphSearchOptionsBuilder> graph = builder.graph();
+		Graph<MockNode, MockEdge> graph = builder.graph();
 		graph.write(Ntro.graphWriter());
 		
 		return builder;
 	}
 	
-	*/
-	
-	/*
+	public GraphBuilder<MockNode, MockEdge> buildSimpleGraph03(){
 
-	public MockGraphBuilder buildSimpleGraph03(){
+		GraphBuilder<MockNode, MockEdge> builder = GraphBuilder.newBuilder(MockNode.class, MockEdge.class);
+		builder.setGraphName("simpleGraph03");
 
-		MockGraphBuilder builder = new MockGraphBuilder("simpleGraph03");
+		GraphNodeBuilder<MockNode,MockEdge>  nodeA = builder.addNode("A");
 
-		MockNodeBuilder nodeA = builder.addNode("A");
+		GraphNodeBuilder<MockNode,MockEdge> nodeB = builder.addNode("B");
+		GraphNodeBuilder<MockNode,MockEdge> nodeC = builder.addNode("C");
+	    GraphNodeBuilder<MockNode,MockEdge> nodeD = builder.addNode("D");
+	    GraphNodeBuilder<MockNode,MockEdge> nodeE = builder.addNode("E");
 
-		MockNodeBuilder nodeB = builder.addNode("B");
-		MockNodeBuilder nodeC = builder.addNode("C");
-		MockNodeBuilder nodeD = builder.addNode("D");
-		MockNodeBuilder nodeE = builder.addNode("E");
-
-		MockNodeBuilder nodeF = builder.addNode("F");
-		MockNodeBuilder nodeG = builder.addNode("G");
-		MockNodeBuilder nodeH = builder.addNode("H");
-		MockNodeBuilder nodeI = builder.addNode("I");
+	    GraphNodeBuilder<MockNode,MockEdge> nodeF = builder.addNode("F");
+		GraphNodeBuilder<MockNode,MockEdge> nodeG = builder.addNode("G");
+		GraphNodeBuilder<MockNode,MockEdge> nodeH = builder.addNode("H");
+		GraphNodeBuilder<MockNode,MockEdge> nodeI = builder.addNode("I");
 
 		builder.addEdge(nodeA, "AB", nodeB);
 		builder.addEdge(nodeA, "AC", nodeC);
@@ -96,48 +92,48 @@ public class GraphTests {
 		builder.addEdge(nodeE, "EH", nodeH);
 		builder.addEdge(nodeE, "EI", nodeI);
 
-		GenericGraph<MockNode, MockEdge, GraphSearchOptionsBuilder> graph = builder.graph();
+		Graph<MockNode, MockEdge> graph = builder.graph();
 		graph.write(Ntro.graphWriter());
 		
 		return builder;
 	}
-	
-	*/
 
 	@Test
 	public void simpleGraph02() {
-		//buildSimpleGraph02();
+		buildSimpleGraph02();
+	}
+
+	@Test
+	public void simpleGraph03() {
+		buildSimpleGraph03();
 	}
 
 	@Test
 	public void nodeAlreadyExists01() {
-		/*
 		ExceptionThrowerMock exceptionThrower = registerMockExceptionThrower();
 
-		MockGraphBuilder builder = new MockGraphBuilder("nodeAlreadyExists01");
+		GraphBuilder<MockNode, MockEdge> builder = GraphBuilder.newBuilder(MockNode.class, MockEdge.class);
+		builder.setGraphName("nodeAlreadyExists01");
 
-		MockNodeBuilder nodeA = builder.addNode("A");
-		MockNodeBuilder nodeAA = builder.addNode("A");
+		GraphNodeBuilder<MockNode,MockEdge> nodeA = builder.addNode("A");
+		GraphNodeBuilder<MockNode,MockEdge> nodeAA = builder.addNode("A");
 
-		GenericGraph<MockNode, MockEdge, GraphSearchOptionsBuilder> graph = builder.graph();
+		Graph<MockNode, MockEdge> graph = builder.graph();
 
 		graph.write(Ntro.graphWriter());
 
 		
 		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrown(NodeAlreadyAddedException.class));
-		*/
 	}
 
 	@Test
 	public void nodeAlreadyExists02() throws Throwable {
-		/*
 		ExceptionThrowerMock exceptionThrower = registerMockExceptionThrower();
 		
-		MockGraphBuilder builder = buildSimpleGraph02();
+		GraphBuilder<MockNode,MockEdge> builder = buildSimpleGraph02();
 		builder.addNode("D");
 
 		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrown(NodeAlreadyAddedException.class));
-		*/
 	}
 
 
