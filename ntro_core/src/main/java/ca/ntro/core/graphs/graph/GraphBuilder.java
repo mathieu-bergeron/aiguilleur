@@ -7,7 +7,7 @@ public interface GraphBuilder<N extends GraphNode<N,E>,
 
        extends   GenericGraphBuilder<N,E, GraphSearchOptionsBuilder, GraphNodeBuilder<N,E>, Graph<N,E>> {
 
-	static <N extends GraphNode<N,E>, E extends GraphEdge<N,E>> 
+	static <N extends GraphNodeNtro<N,E>, E extends GraphEdgeNtro<N,E>> 
 
 	      GraphBuilder<N,E> newBuilder(Class<N> nodeClass, Class<E> edgeClass) {
 		
