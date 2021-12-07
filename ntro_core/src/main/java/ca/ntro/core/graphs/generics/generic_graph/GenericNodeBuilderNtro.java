@@ -84,9 +84,8 @@ public abstract class GenericNodeBuilderNtro<N extends Node<N,E,SO>,
 		return getGraphBuilder().graph();
 	}
 
-	@SuppressWarnings("unchecked")
 	protected GenericGraphBuilder<N,E,SO,NB,?> graphBuilder(){
-		return ((GenericGraphBuilderNtro<N,E,SO,NB,?>) parentGraph());
+		return getGraphBuilder();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -132,10 +131,5 @@ public abstract class GenericNodeBuilderNtro<N extends Node<N,E,SO>,
 
 	public boolean isStartNode() {
 		return getIsStartNode();
-	}
-
-	@Override
-	public void setNodeName(String nodeName) {
-		((GenericNodeNtro<N,E,SO>) node()).setNodeId(new NodeIdNtro(nodeName));
 	}
 }

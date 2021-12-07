@@ -7,12 +7,10 @@ public interface GenericNodeBuilder<N extends Node<N,E,SO>,
 
         extends  GenericNodeStructure<N,E,SO> {
 	
-	void setNodeName(String nodeName);
-
-	void setIsStartNode(boolean b);
-
 	E addEdge(String edgeName, NB toNode);
 
 	void addEdge(E edge);
+
+	void setIsStartNode(boolean b);
 
 }

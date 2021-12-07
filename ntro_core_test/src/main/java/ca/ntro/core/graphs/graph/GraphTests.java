@@ -1,10 +1,18 @@
 package ca.ntro.core.graphs.graph;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import ca.ntro.core.graphs.DirectedEdgeTriple;
+import ca.ntro.core.graphs.generics.generic_graph.Direction;
+import ca.ntro.core.graphs.generics.generic_graph.EdgeAlreadyAddedException;
+import ca.ntro.core.graphs.generics.generic_graph.EdgeTypeNtro;
 import ca.ntro.core.graphs.generics.generic_graph.NodeAlreadyAddedException;
+import ca.ntro.core.graphs.generics.generic_graph.SearchStrategy;
 import ca.ntro.core.initialization.InitializerTest;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.services.ExceptionThrowerMock;
@@ -138,9 +146,8 @@ public class GraphTests {
 
 	@Test
 	public void reachableEdgesDepthFirst01() throws Throwable {
-		/*
 
-		MockGraphBuilder builder = buildSimpleGraph03();
+		GraphBuilder<MockNode,MockEdge> builder = buildSimpleGraph03();
 		
 		GraphSearchOptionsBuilderNtro oneStepOptions = new GraphSearchOptionsBuilderNtro();
 		oneStepOptions.setSearchStrategy(SearchStrategy.DEPTH_FIRST_SEARCH);
@@ -154,7 +161,6 @@ public class GraphTests {
 		MockNode nodeC = builder.graph().findNode("C");
 		MockNode nodeD = builder.graph().findNode("D");
 		MockNode nodeE = builder.graph().findNode("E");
-
 		MockNode nodeF = builder.graph().findNode("F");
 		MockNode nodeG = builder.graph().findNode("G");
 		MockNode nodeH = builder.graph().findNode("H");
@@ -174,26 +180,21 @@ public class GraphTests {
 		Ntro.asserter().assertFalse("Should not contain", edges.contains(new DirectedEdgeTriple<>(nodeE, new EdgeTypeNtro(Direction.FORWARD, "EG"), nodeG)));
 		Ntro.asserter().assertFalse("Should not contain", edges.contains(new DirectedEdgeTriple<>(nodeE, new EdgeTypeNtro(Direction.FORWARD, "EH"), nodeH)));
 		Ntro.asserter().assertFalse("Should not contain", edges.contains(new DirectedEdgeTriple<>(nodeE, new EdgeTypeNtro(Direction.FORWARD, "EI"), nodeI)));
-		*/
 	}
 
 
 	@Test
 	public void edgeAlreadyAddedException() {
-		/*
 		ExceptionThrowerMock exceptionThrower = registerMockExceptionThrower();
 
-		GraphBuilder<MockNode,MockEdge,GraphSearchOptionsBuilder> builder = GraphBuilder.newBuilder();
+		GraphBuilder<MockNode,MockEdge> builder = GraphBuilder.newBuilder(MockNode.class, MockEdge.class);
 		
-		MockNode nodeA = new MockNode("A");
-
-		builder.addNode(nodeA);
+		GraphNodeBuilder<MockNode,MockEdge> nodeA = builder.addNode(new MockNode("A"));
 		
 		nodeA.addEdge("AA", nodeA);
 		nodeA.addEdge("AA", nodeA);
 		
 		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrown(EdgeAlreadyAddedException.class));
-		*/
 	}
 
 	@Test

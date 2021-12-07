@@ -271,11 +271,5 @@ public class TaskGraphNodeBuilderNtro<T  extends Task<T,AT>,
 		return null;
 	}
 
-	@Override
-	public void setNodeName(String nodeName) {
-		// TODO Auto-generated method stub
-		
-	}
-
 
 }
