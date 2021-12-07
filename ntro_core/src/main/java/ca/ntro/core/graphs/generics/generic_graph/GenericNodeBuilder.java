@@ -11,6 +11,4 @@ public interface GenericNodeBuilder<N extends Node<N,E,SO>,
 
 	void addEdge(E edge);
 
-	void setIsStartNode(boolean b);
-
 }

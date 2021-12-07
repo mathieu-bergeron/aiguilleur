@@ -101,7 +101,7 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 		E forwardEdge = addEdge(fromNode,edgeTypeForward,toNode);
 
 		if(!toNode.node().isPartOfCycle()) {
-			toNode.setIsStartNode(false);
+			((GenericNodeBuilderNtro<N,E,SO,NB>) toNode).setIsStartNode(false);
 			getStartNodes().remove(toNode.node().id().toKey().toString());
 		}
 
