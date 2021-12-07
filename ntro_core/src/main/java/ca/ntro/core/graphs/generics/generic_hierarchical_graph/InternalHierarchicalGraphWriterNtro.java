@@ -5,6 +5,7 @@ import ca.ntro.core.graphs.generics.generic_graph.Edge;
 import ca.ntro.core.graphs.generics.generic_graph.GenericGraph;
 import ca.ntro.core.graphs.generics.generic_graph.InternalGraphWriterNtro;
 import ca.ntro.core.graphs.generics.generic_graph.NodeNotFoundException;
+import ca.ntro.core.graphs.generics.generic_graph.SearchOptionsNtro;
 import ca.ntro.core.graphs.writers.ClusterNotFoundException;
 import ca.ntro.core.graphs.writers.ClusterSpecNtro;
 import ca.ntro.core.graphs.writers.EdgeSpecNtro;
@@ -22,20 +23,30 @@ public class      InternalHierarchicalGraphWriterNtro<N extends GenericHierarchi
 
 	@Override
 	protected void writeNodes(GenericGraph<N,E,SO> graph, GraphWriter writer) {
+		SO downOptions = graph.defaultSearchOptions();
+		
+		SearchOptionsNtro downOptionsNtro = new SearchOptionsNtro();
+		downOptionsNtro.setDirections(new Direction[] {Direction.DOWN});
+
+		downOptions.copyOptions(downOptionsNtro);
+
+		// write clusters and subclusters first
 		graph.forEachNode(n -> {
 			if(n.hasSubNodes() && !n.hasParent()) {
 				writer.addCluster(new ClusterSpecNtro(n));
 				
 				n.forEachSubNode((walked, subNode) -> {
-
 					if(subNode.hasSubNodes() && subNode.hasParent()) {
 						writer.addSubCluster(new ClusterSpecNtro(subNode.parent()), new ClusterSpecNtro(subNode));
 					}
-
-					else if(!subNode.hasSubNodes() && subNode.hasParent()) {
-						writer.addSubNode(new ClusterSpecNtro(subNode.parent()), new NodeSpecNtro(subNode));
-					}
 				});
+			}
+		});
+
+		// write subnodes once subclusters are written
+		graph.forEachNode(n -> {
+			if(!n.hasSubNodes() && n.hasParent()) {
+				writer.addSubNode(new ClusterSpecNtro(n.parent()), new NodeSpecNtro(n));
 			}
 		});
 
