@@ -29,7 +29,6 @@ public class GraphTests {
 	public void simpleGraph01() {
 		
 		GraphBuilder<MockNode, MockEdge> builder = GraphBuilder.newBuilder(MockNode.class, MockEdge.class);
-		
 		builder.setGraphName("simpleGraph01");
 		
 		GraphNodeBuilder<MockNode, MockEdge> nodeA = builder.addNode("A");

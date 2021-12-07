@@ -70,26 +70,25 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 
 	@Override
 	public NB addNode(NodeId nodeId) {
-		NB nodeBuilder = createNodeBuilder(nodeId);
-
-		addNode(nodeBuilder.node());
+		N node = Factory.newInstance(getNodeClass());
 		
-		return nodeBuilder;
+		((GenericNodeNtro<N,E,SO>)node).setGraph(graph());
+		((GenericNodeNtro<N,E,SO>)node).setNodeId(nodeId);
+		
+		return addNode(node);
 	}
 
-	protected NB createNodeBuilder(NodeId nodeId) {
-		GenericNodeBuilderNtro<N,E,SO,NB> nodeBuilder = createNodeBuilder();
+	@Override
+	public NB addNode(N node) {
+		GenericNodeBuilderNtro<N,E,SO,NB> builder = createNodeBuilder();
+		builder.setGraphBuilder(this);
+		builder.setNode(node);
 		
-		N node = Factory.newInstance(getNodeClass());
-
-		((GenericNodeNtro<N,E,SO>)node).setNodeId(nodeId);
-		((GenericNodeNtro<N,E,SO>)node).setNodeStructure(nodeBuilder);
-		((GenericNodeNtro<N,E,SO>)node).setGraph(graph());
-
-		nodeBuilder.setGraphBuilder(this);
-		nodeBuilder.setNode(node);
+		((GenericNodeNtro<N,E,SO>)node).setNodeStructure(builder);
 		
-		return (NB) nodeBuilder;
+		memorizeNode(node);
+		
+		return (NB) builder;
 	}
 
 	@Override
@@ -127,19 +126,6 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 		((EdgeNtro<N,E,SO>) edge).setEdgeType(edgeType);
 		
 		return edge;
-	}
-
-	@Override
-	public NB addNode(N node) {
-		GenericNodeBuilderNtro<N,E,SO,NB> builder = createNodeBuilder();
-		builder.setGraphBuilder(this);
-		builder.setNode(node);
-		
-		((GenericNodeNtro<N,E,SO>)node).setNodeStructure(builder);
-		
-		memorizeNode(node);
-		
-		return (NB) builder;
 	}
 
 	protected void memorizeNode(N node) {
