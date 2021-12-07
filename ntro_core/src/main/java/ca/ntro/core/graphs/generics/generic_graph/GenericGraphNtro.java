@@ -245,26 +245,26 @@ public abstract class GenericGraphNtro<N extends Node<N,E,SO>,
 	}
 
 	public Stream<N> nodes(){
-		return new StreamNtro<N>(){
+		return new StreamNtro<N>() {
 			@Override
 			public <R> void _reduce(ResultNtro<R> result, _Reducer<N, R> _reducer) {
 
 				Stream<N> startNodes = startNodes();
-				Stream<String> startNodeKeys = startNodes.map(sn -> sn.id().toKey().toString());
+				startNodes._reduce(result, _reducer);
 
-				SO options = defaultSearchOptions();
+				Stream<String> startNodeIds = startNodes.map(sn -> sn.id().toKey().toString());
 				
+				SO options = defaultSearchOptions();
+
 				options.internal()
 				       .visitedNodes()
-				       .addAll(startNodeKeys.collect());
-				
-				startNodes._reduce(result, _reducer);
-				
+				       .addAll(startNodeIds.collect());
+
 				startNodes.forEach(startNode -> {
 
-					Stream<VisitedNode<N,E,SO>> reachedNodes = startNode.reachableNodes(options);
-					
-					Stream<N> nodes = reachedNodes.map(rn -> rn.node());
+					Stream<VisitedNode<N,E,SO>> visitedNodes = startNode.reachableNodes(options);
+
+					Stream<N> nodes = visitedNodes.map(vn -> vn.node());
 					
 					nodes._reduce(result, _reducer);
 				});
@@ -273,7 +273,20 @@ public abstract class GenericGraphNtro<N extends Node<N,E,SO>,
 	}
 
 	public Stream<E> edges(){
-		return null;
-	}
+		/*
+		 * TODO: add a reduceStream
+		 * 
+		 * nodes().reduceStream(n -> n.edges())
+		 * 
+		 */
+		return new StreamNtro<E>() {
+			@Override
+			public <R> void _reduce(ResultNtro<R> result, _Reducer<E, R> _reducer) {
 
+				nodes().forEach(n -> {
+					n.edges()._reduce(result, _reducer);
+				});
+			}
+		};
+	}
 }

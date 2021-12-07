@@ -19,8 +19,6 @@ public interface GenericGraph<N extends Node<N,E,SO>,
 	N findNode(String nodeId);
 	N findNode(NodeId nodeId);
 
-	//E findEdge(NodeId fromId, String edgeName, NodeId toId);
-	
 	Stream<N> startNodes();
 
 	void forEachStartNode(NodeVisitor<N,E,SO> visitor);
