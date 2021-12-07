@@ -38,6 +38,9 @@ public class     EdgeNtro<N extends Node<N,E,SO>,
 		this.to = to;
 	}
 
+	public EdgeNtro() {
+	}
+
 	public EdgeNtro(N from, EdgeType edgeType, N to) {
 		setFrom(from);
 		setEdgeType(edgeType);

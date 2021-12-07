@@ -20,7 +20,6 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 	private ObjectNodeNtro node;
 	private ObjectGraphNtro graph;
 
-
 	public ObjectNodeNtro getNode() {
 		return node;
 	}
@@ -192,7 +191,8 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 		});
 	}
 
-	private boolean isStartNode() {
+	@Override
+	public boolean isStartNode() {
 		return asNode().isStartNode();
 	}
 }

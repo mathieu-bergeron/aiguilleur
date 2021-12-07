@@ -35,11 +35,8 @@ public class GraphTests {
 
 		GraphNodeBuilder<MockNode, MockEdge> nodeB = builder.addNode(new MockNode("B"));
 		
-		//MockNode _nodeA = nodeA.node();
-
-		MockEdge edgeAA = builder.addEdge(nodeA, "AA", nodeA);
-
-		//nodeA.addEdge(edgeAA);
+		builder.addEdge(nodeA, "AA", nodeA);
+		builder.addEdge(nodeA, "AB", nodeB);
 
 		Graph<MockNode, MockEdge> graph = builder.graph();
 

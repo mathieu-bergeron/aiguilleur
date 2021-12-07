@@ -56,7 +56,7 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 		this.edgeClass = edgeClass;
 	}
 
-	void initialize() {
+	public void initialize() {
 		graph = createGraph();
 		graph.setGraphStructure(this);
 	}
@@ -84,6 +84,7 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 
 		((GenericNodeNtro<N,E,SO>)node).setNodeId(nodeId);
 		((GenericNodeNtro<N,E,SO>)node).setNodeStructure(nodeBuilder);
+		((GenericNodeNtro<N,E,SO>)node).setGraph(graph());
 
 		nodeBuilder.setGraphBuilder(this);
 		nodeBuilder.setNode(node);
@@ -118,7 +119,14 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 	}
 
 	protected E createEdge(NB fromNode, EdgeType edgeType, NB toNode) {
-		return null;
+		
+		E edge = Factory.newInstance(getEdgeClass());
+		
+		((EdgeNtro<N,E,SO>) edge).setFrom(fromNode.node());
+		((EdgeNtro<N,E,SO>) edge).setTo(toNode.node());
+		((EdgeNtro<N,E,SO>) edge).setEdgeType(edgeType);
+		
+		return edge;
 	}
 
 	@Override
@@ -193,7 +201,7 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 			return;
 		}
 
-		for(N node : startNodes.values()) {
+		for(N node : getStartNodes().values()) {
 			try {
 
 				reducer._reduce(result, node);
@@ -209,7 +217,7 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 
 	@Override
 	public void setGraphName(String graphName) {
-		((GenericGraphNtro<N,E,SO>) graph).setId(GraphId.fromGraphName(graphName));
+		((GenericGraphNtro<N,E,SO>) graph()).setId(GraphId.fromGraphName(graphName));
 	}
 
 }

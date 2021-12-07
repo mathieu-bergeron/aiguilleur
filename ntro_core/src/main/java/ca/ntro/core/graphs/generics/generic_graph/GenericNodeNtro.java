@@ -19,6 +19,7 @@ public abstract class GenericNodeNtro<N extends Node<N,E,SO>,
 	
 	private NodeId nodeId;
 	private GenericNodeStructure<N,E,SO> nodeStructure;
+	private GenericGraph<N,E,SO> graph;
 
 	public NodeId getNodeId() {
 		return nodeId;
@@ -30,6 +31,14 @@ public abstract class GenericNodeNtro<N extends Node<N,E,SO>,
 
 	public GenericNodeStructure<N, E, SO> getNodeStructure() {
 		return nodeStructure;
+	}
+
+	public GenericGraph<N, E, SO> getGraph() {
+		return graph;
+	}
+
+	public void setGraph(GenericGraph<N, E, SO> graph) {
+		this.graph = graph;
 	}
 
 	public void setNodeStructure(GenericNodeStructure<N, E, SO> nodeStructure) {
@@ -492,5 +501,15 @@ public abstract class GenericNodeNtro<N extends Node<N,E,SO>,
 	public Stream<WalkInProgress<N,E,SO>> walk(SO options){
 		return null;
 		
+	}
+
+	@Override
+	public GenericGraph<N, E, SO> parentGraph() {
+		return getGraph();
+	}
+
+	@Override
+	public boolean isStartNode() {
+		return nodeStructure().isStartNode();
 	}
 }
