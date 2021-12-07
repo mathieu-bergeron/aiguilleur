@@ -25,7 +25,7 @@ public abstract class ObjectGraphNtro
 	}
 
 	@Override
-	protected ObjectGraphSearchOptionsBuilder createDefaultSearchOptions() {
+	protected ObjectGraphSearchOptionsBuilder newDefaultSearchOptionsInstance() {
 		return new ObjectGraphSearchOptionsBuilderNtro();
 	}
 

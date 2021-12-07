@@ -5,7 +5,6 @@ import ca.ntro.core.graphs.generics.generic_graph.Edge;
 import ca.ntro.core.graphs.generics.generic_graph.GenericGraph;
 import ca.ntro.core.graphs.generics.generic_graph.InternalGraphWriterNtro;
 import ca.ntro.core.graphs.generics.generic_graph.NodeNotFoundException;
-import ca.ntro.core.graphs.generics.generic_graph.SearchOptionsNtro;
 import ca.ntro.core.graphs.writers.ClusterNotFoundException;
 import ca.ntro.core.graphs.writers.ClusterSpecNtro;
 import ca.ntro.core.graphs.writers.EdgeSpecNtro;
@@ -15,7 +14,7 @@ import ca.ntro.core.initialization.Ntro;
 
 public class      InternalHierarchicalGraphWriterNtro<N extends GenericHierarchicalNode<N,E,SO>,
                                                       E extends Edge<N,E,SO>,
-													  SO extends HierarchicalGraphSearchOptionsBuilder>
+													  SO extends HierarchicalSearchOptionsBuilder>
 
        extends    InternalGraphWriterNtro<N,E,SO>
 

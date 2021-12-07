@@ -92,6 +92,20 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 	}
 
 	@Override
+	public NB findNode(String nodeId) {
+		NodeIdNtro nodeIdNtro = new NodeIdNtro(nodeId);
+
+		return findNode(nodeIdNtro);
+	}
+
+	@Override
+	public NB findNode(NodeId nodeId) {
+		N node = graph().findNode(nodeId);
+
+		return (NB) ((GenericNodeNtro<N,E,SO>)node).nodeStructure();
+	}
+
+	@Override
 	public E addEdge(NB fromNode, String edgeName, NB toNode) {
 		EdgeType edgeTypeForward = new EdgeTypeNtro(Direction.FORWARD, edgeName);
 		EdgeType edgeTypeBackward = new EdgeTypeNtro(Direction.BACKWARD, edgeName);

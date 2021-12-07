@@ -7,8 +7,8 @@ import ca.ntro.core.graphs.generics.generic_graph.ReachableNodeVisitor;
 import ca.ntro.core.wrappers.result.Result;
 
 public interface GenericHierarchicalNode<N extends GenericHierarchicalNode<N,E,SO>,
-                                  E extends Edge<N,E,SO>,
-                                  SO extends HierarchicalGraphSearchOptionsBuilder>
+                                         E extends Edge<N,E,SO>,
+                                         SO extends HierarchicalSearchOptionsBuilder>
 
        extends   Node<N,E,SO> {
 	

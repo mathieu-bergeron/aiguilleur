@@ -6,7 +6,7 @@ import ca.ntro.core.graphs.generics.generic_graph.Walk;
 
 public interface SubNodeReducer<N extends Node<N,E,SO>,
                                 E extends Edge<N,E,SO>,
-                                SO extends HierarchicalGraphSearchOptionsBuilder,
+                                SO extends HierarchicalSearchOptionsBuilder,
                                 R extends Object> {
 	
 	R reduceSubNode(R accumulator, Walk<N,E,SO> parentNodes, N n) throws Throwable;

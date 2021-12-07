@@ -29,7 +29,7 @@ public class ObjectGraphJdk extends ObjectGraphNtro {
 	}
 
 	@Override
-	protected InternalGraphWriter<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder> createInternalGraphWriter() {
+	protected InternalGraphWriter<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder> newInternalGraphWriterInstance() {
 		return new InternalGraphWriterNtro<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder>();
 	}
 }

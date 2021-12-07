@@ -19,15 +19,15 @@ public abstract class GenericGraphNtro<N extends Node<N,E,SO>,
        implements     GenericGraph<N,E,SO> {
 	
 	private GraphId id;
-	private InternalGraphWriter<N,E,SO> internalGraphWriter = createInternalGraphWriter();
+	private InternalGraphWriter<N,E,SO> internalGraphWriter = newInternalGraphWriterInstance();
 	private GenericGraphStructure<N,E,SO> graphStructure;
 
-	protected abstract InternalGraphWriter<N,E,SO> createInternalGraphWriter();
-	protected abstract SO createDefaultSearchOptions();
+	protected abstract InternalGraphWriter<N,E,SO> newInternalGraphWriterInstance();
+	protected abstract SO newDefaultSearchOptionsInstance();
 
 	@Override
 	public SO defaultSearchOptions() {
-		return createDefaultSearchOptions();
+		return newDefaultSearchOptionsInstance();
 	}
 
 	public InternalGraphWriter<N, E, SO> getInternalGraphWriter() {

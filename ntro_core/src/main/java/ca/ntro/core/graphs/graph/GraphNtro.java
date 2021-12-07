@@ -12,12 +12,12 @@ public class GraphNtro<N extends GraphNode<N,E>,
 	   implements Graph<N,E> {
 	
 	@Override
-	protected InternalGraphWriter<N, E, GraphSearchOptionsBuilder> createInternalGraphWriter() {
+	protected InternalGraphWriter<N, E, GraphSearchOptionsBuilder> newInternalGraphWriterInstance() {
 		return new InternalGraphWriterNtro<>();
 	}
 
 	@Override
-	protected GraphSearchOptionsBuilder createDefaultSearchOptions() {
+	protected GraphSearchOptionsBuilder newDefaultSearchOptionsInstance() {
 		return new GraphSearchOptionsBuilderNtro();
 	}
 }

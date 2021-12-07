@@ -6,7 +6,7 @@ import ca.ntro.core.graphs.generics.generic_graph.SearchOptionsNtro;
 
 public interface InternalHierarchicalGraphWriter<N extends GenericHierarchicalNode<N,E,SO>,
  												 E extends Edge<N,E,SO>,
- 												 SO extends HierarchicalGraphSearchOptionsBuilder>
+ 												 SO extends HierarchicalSearchOptionsBuilder>
 
        extends InternalGraphWriter<N,E,SO> {
 

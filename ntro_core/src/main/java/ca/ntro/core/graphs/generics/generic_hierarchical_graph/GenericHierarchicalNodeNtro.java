@@ -7,18 +7,17 @@ import ca.ntro.core.graphs.generics.generic_graph.GenericNodeNtro;
 import ca.ntro.core.graphs.generics.generic_graph.NodeId;
 import ca.ntro.core.graphs.generics.generic_graph.ReachableNodeReducer;
 import ca.ntro.core.graphs.generics.generic_graph.ReachableNodeVisitor;
-import ca.ntro.core.graphs.generics.generic_graph.SearchOptions;
 import ca.ntro.core.graphs.generics.generic_graph.SearchOptionsNtro;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
-public abstract class      GenericHierarchicalNodeNtro<N extends GenericHierarchicalNode<N,E,SO>,
- 									            E extends Edge<N,E,SO>,
- 									            SO extends HierarchicalGraphSearchOptionsBuilder>
+public abstract class GenericHierarchicalNodeNtro<N extends GenericHierarchicalNode<N,E,SO>,
+ 									              E extends Edge<N,E,SO>,
+ 									              SO extends HierarchicalSearchOptionsBuilder>
 
-       extends    GenericNodeNtro<N,E,SO> 
+       extends        GenericNodeNtro<N,E,SO> 
 
-	   implements GenericHierarchicalNode<N,E,SO> {
+	   implements     GenericHierarchicalNode<N,E,SO> {
 
 	public GenericHierarchicalNodeNtro() {
 	}
@@ -26,7 +25,6 @@ public abstract class      GenericHierarchicalNodeNtro<N extends GenericHierarch
 	public GenericHierarchicalNodeNtro(NodeId id) {
 		super(id);
 	}
-
 
 	@Override
 	public boolean hasSubNodes() {

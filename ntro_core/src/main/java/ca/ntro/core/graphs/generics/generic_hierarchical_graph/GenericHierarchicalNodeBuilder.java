@@ -5,7 +5,7 @@ import ca.ntro.core.graphs.generics.generic_graph.GenericNodeBuilder;
 
 public interface GenericHierarchicalNodeBuilder<N  extends GenericHierarchicalNode<N,E,SO>,
                                          E  extends Edge<N,E,SO>,
-                                         SO extends HierarchicalGraphSearchOptionsBuilder,
+                                         SO extends HierarchicalSearchOptionsBuilder,
                                          NB extends GenericHierarchicalNodeBuilder<N,E,SO,NB>>
 
        extends   GenericNodeBuilder<N,E,SO,NB> {

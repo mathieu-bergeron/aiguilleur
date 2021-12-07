@@ -4,14 +4,11 @@ import ca.ntro.core.graphs.generics.generic_graph.Direction;
 import ca.ntro.core.graphs.generics.generic_graph.Edge;
 import ca.ntro.core.graphs.generics.generic_graph.EdgeNtro;
 import ca.ntro.core.graphs.generics.generic_graph.EdgeTypeNtro;
-import ca.ntro.core.graphs.generics.generic_graph.GenericGraph;
-import ca.ntro.core.graphs.generics.generic_graph.GenericGraphBuilder;
 import ca.ntro.core.graphs.generics.generic_graph.GenericNodeBuilderNtro;
-import ca.ntro.core.graphs.generics.generic_graph.NodeId;
 
 public abstract class GenericHierarchicalNodeBuilderNtro<N extends GenericHierarchicalNode<N,E,SO>,
  									              E extends Edge<N,E,SO>,
- 									              SO extends HierarchicalGraphSearchOptionsBuilder,
+ 									              SO extends HierarchicalSearchOptionsBuilder,
  									              NB extends GenericHierarchicalNodeBuilder<N,E,SO,NB>>
 
        extends        GenericNodeBuilderNtro<N,E,SO,NB> 
@@ -19,11 +16,9 @@ public abstract class GenericHierarchicalNodeBuilderNtro<N extends GenericHierar
 	   implements     GenericHierarchicalNodeBuilder<N,E,SO,NB> {
 
 
-
-	@SuppressWarnings("unchecked")
 	@Override
 	public N node() {
-		return (N) this;
+		return getNode();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -50,6 +45,6 @@ public abstract class GenericHierarchicalNodeBuilderNtro<N extends GenericHierar
 	@SuppressWarnings("unchecked")
 	@Override
 	protected SO defaultSearchOptions() {
-		return (SO) new HierarchicalGraphSearchOptionsBuilderNtro();
+		return (SO) new HierarchicalSearchOptionsBuilderNtro();
 	}
 }
