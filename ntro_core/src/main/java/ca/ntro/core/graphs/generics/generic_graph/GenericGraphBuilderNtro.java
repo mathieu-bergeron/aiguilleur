@@ -20,11 +20,11 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 	private Class<N> nodeClass;
 	private Class<E> edgeClass;
 
-	private GenericGraphNtro<N,E,SO> graph;
+	private G graph;
 	private Map<String, N> startNodes = new HashMap<>();
 	
-	protected abstract GenericGraphNtro<N,E,SO> newGraphInstance();
-	protected abstract GenericNodeBuilderNtro<N,E,SO,NB> newNodeBuilderInstance();
+	protected abstract G newGraphInstance();
+	protected abstract NB newNodeBuilderInstance();
 
 	public Map<String, N> getStartNodes() {
 		return startNodes;
@@ -34,10 +34,10 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 		this.startNodes = nodes;
 	}
 
-	public GenericGraphNtro<N, E, SO> getGraph() {
+	public G getGraph() {
 		return graph;
 	}
-	public void setGraph(GenericGraphNtro<N, E, SO> graph) {
+	public void setGraph(G graph) {
 		this.graph = graph;
 	}
 	public Class<N> getNodeClass() {
@@ -57,8 +57,8 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 	}
 
 	public void initialize() {
-		graph = newGraphInstance();
-		graph.setGraphStructure(this);
+		setGraph(newGraphInstance());
+		graphNtro(getGraph()).setGraphStructure(this);
 	}
 
 	@Override
@@ -72,23 +72,33 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 	public NB addNode(NodeId nodeId) {
 		N node = Factory.newInstance(getNodeClass());
 		
-		((GenericNodeNtro<N,E,SO>)node).setGraph(graph());
-		((GenericNodeNtro<N,E,SO>)node).setNodeId(nodeId);
+		nodeNtro(node).setGraph(graph());
+		nodeNtro(node).setNodeId(nodeId);
 		
 		return addNode(node);
+	}
+	
+	@SuppressWarnings("unchecked")
+	private GenericNodeNtro<N,E,SO> nodeNtro(N node){
+		return (GenericNodeNtro<N,E,SO>) node;
+	}
+
+	@SuppressWarnings("unchecked")
+	private GenericNodeBuilderNtro<N,E,SO,NB> nodeBuilderNtro(NB nodeBuilder){
+		return (GenericNodeBuilderNtro<N,E,SO,NB>) nodeBuilder;
 	}
 
 	@Override
 	public NB addNode(N node) {
-		GenericNodeBuilderNtro<N,E,SO,NB> builder = newNodeBuilderInstance();
-		builder.setGraphBuilder(this);
-		builder.setNode(node);
+		NB builder = newNodeBuilderInstance();
+		nodeBuilderNtro(builder).setGraphBuilder(this);
+		nodeBuilderNtro(builder).setNode(node);
 		
-		((GenericNodeNtro<N,E,SO>)node).setNodeStructure(builder);
+		nodeNtro(node).setNodeStructure(builder);
 		
 		memorizeNode(node);
-		
-		return (NB) builder;
+
+		return builder;
 	}
 
 	@Override
@@ -98,11 +108,12 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 		return findNode(nodeIdNtro);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public NB findNode(NodeId nodeId) {
 		N node = graph().findNode(nodeId);
 
-		return (NB) ((GenericNodeNtro<N,E,SO>)node).nodeStructure();
+		return (NB) nodeNtro(node).nodeStructure();
 	}
 
 	@Override
@@ -115,7 +126,7 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 		E forwardEdge = addEdge(fromNode,edgeTypeForward,toNode);
 
 		if(!toNode.node().isPartOfCycle()) {
-			((GenericNodeBuilderNtro<N,E,SO,NB>) toNode).setIsStartNode(false);
+		    nodeBuilderNtro(toNode).setIsStartNode(false);
 			getStartNodes().remove(toNode.node().id().toKey().toString());
 		}
 
@@ -131,13 +142,18 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 		return edge;
 	}
 
+    @SuppressWarnings("unchecked")
+	private EdgeNtro<N,E,SO> edgeNtro(E edge){
+		return (EdgeNtro<N,E,SO>) edge;
+    }
+
 	protected E createEdge(NB fromNode, EdgeType edgeType, NB toNode) {
 		
 		E edge = Factory.newInstance(getEdgeClass());
-		
-		((EdgeNtro<N,E,SO>) edge).setFrom(fromNode.node());
-		((EdgeNtro<N,E,SO>) edge).setTo(toNode.node());
-		((EdgeNtro<N,E,SO>) edge).setEdgeType(edgeType);
+
+		edgeNtro(edge).setFrom(fromNode.node());
+		edgeNtro(edge).setTo(toNode.node());
+		edgeNtro(edge).setEdgeType(edgeType);
 		
 		return edge;
 	}
@@ -189,10 +205,9 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public G graph() {
-		return (G) getGraph();
+		return getGraph();
 	}
 
 	@Override
@@ -212,12 +227,16 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 				return;
 			}
 		}
-		
+	}
+	
+	@SuppressWarnings("unchecked")
+	private GenericGraphNtro<N,E,SO> graphNtro(G graph){
+		return (GenericGraphNtro<N,E,SO>) graph;
 	}
 
 	@Override
 	public void setGraphName(String graphName) {
-		((GenericGraphNtro<N,E,SO>) graph()).setId(GraphId.fromGraphName(graphName));
+		graphNtro(graph()).setId(GraphId.fromGraphName(graphName));
 	}
 
 }

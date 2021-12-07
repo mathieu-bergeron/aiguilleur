@@ -1,8 +1,6 @@
 package ca.ntro.core.graphs.graph;
 
 import ca.ntro.core.graphs.generics.generic_graph.GenericGraphBuilderNtro;
-import ca.ntro.core.graphs.generics.generic_graph.GenericGraphNtro;
-import ca.ntro.core.graphs.generics.generic_graph.GenericNodeBuilderNtro;
 
 public class      GraphBuilderNtro<N extends GraphNode<N,E>,
                                    E extends GraphEdge<N,E>>
@@ -12,12 +10,12 @@ public class      GraphBuilderNtro<N extends GraphNode<N,E>,
        implements GraphBuilder<N,E> {
 
 	@Override
-	protected GenericGraphNtro<N, E, GraphSearchOptionsBuilder> newGraphInstance() {
+	protected Graph<N,E> newGraphInstance() {
 		return new GraphNtro<>();
 	}
 
 	@Override
-	protected GenericNodeBuilderNtro<N, E, GraphSearchOptionsBuilder, GraphNodeBuilder<N, E>> newNodeBuilderInstance() {
+	protected GraphNodeBuilder<N,E> newNodeBuilderInstance() {
 		return new GraphNodeBuilderNtro<>();
 	}
 

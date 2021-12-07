@@ -1,7 +1,5 @@
 package ca.ntro.core.task_graphs.task_graph;
 
-import ca.ntro.core.graphs.generics.generic_graph.GenericGraphNtro;
-import ca.ntro.core.graphs.generics.generic_graph.GenericNodeBuilderNtro;
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDag;
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagBuilderNtro;
 
@@ -19,14 +17,15 @@ public class InternalHierarchicalDagBuilderNtro<T  extends Task<T,AT>,
 	   implements InternalHierarchicalDagBuilder<T,AT> {
 
 	@Override
-	protected GenericGraphNtro<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder> newGraphInstance() {
-		return null;
+	protected HierarchicalDag<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder> newGraphInstance() {
+		throw new RuntimeException("TODO");
 	}
 
 	@Override
-	protected GenericNodeBuilderNtro<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder, TaskGraphNodeBuilder<T, AT>> newNodeBuilderInstance() {
-		return null;
+	protected TaskGraphNodeBuilder<T, AT> newNodeBuilderInstance() {
+		throw new RuntimeException("TODO");
 	}
+
 
 
 }
