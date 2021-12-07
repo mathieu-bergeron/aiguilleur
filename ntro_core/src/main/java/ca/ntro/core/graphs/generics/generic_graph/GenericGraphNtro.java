@@ -19,6 +19,40 @@ public abstract class GenericGraphNtro<N extends Node<N,E,SO>,
        implements     GenericGraph<N,E,SO> {
 	
 	private GraphId id;
+	private InternalGraphWriter<N,E,SO> internalGraphWriter = createInternalGraphWriter();
+	private GenericGraphStructure<N,E,SO> graphStructure;
+
+	protected abstract InternalGraphWriter<N,E,SO> createInternalGraphWriter();
+	protected abstract SO createDefaultSearchOptions();
+
+	@Override
+	public SO defaultSearchOptions() {
+		return createDefaultSearchOptions();
+	}
+
+	public InternalGraphWriter<N, E, SO> getInternalGraphWriter() {
+		return internalGraphWriter;
+	}
+
+	public void setInternalGraphWriter(InternalGraphWriter<N, E, SO> internalGraphWriter) {
+		this.internalGraphWriter = internalGraphWriter;
+	}
+
+	public GenericGraphStructure<N, E, SO> getGraphStructure() {
+		return graphStructure;
+	}
+
+	public void setGraphStructure(GenericGraphStructure<N, E, SO> graphStructure) {
+		this.graphStructure = graphStructure;
+	}
+
+	public InternalGraphWriter<N,E,SO> internalGraphWriter(){
+		return getInternalGraphWriter();
+	}
+
+	public GenericGraphStructure<N,E,SO> graphStructure(){
+		return getGraphStructure();
+	}
 
 	public GraphId getId() {
 		return id;
@@ -42,13 +76,6 @@ public abstract class GenericGraphNtro<N extends Node<N,E,SO>,
 	public void write(GraphWriter writer) {
 		internalGraphWriter().write(this, writer);
 	}
-
-	public abstract InternalGraphWriter<N,E,SO> internalGraphWriter();
-	public abstract GenericGraphStructure<N,E,SO> graphStructure();
-
-	@Override
-	public abstract SO defaultSearchOptions();
-
 
 	@Override
 	public N findNode(String nodeId) {

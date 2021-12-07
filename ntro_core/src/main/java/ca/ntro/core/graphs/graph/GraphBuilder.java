@@ -16,7 +16,6 @@ public interface GraphBuilder<N extends GraphNode<N,E>,
 		builder.setNodeClass(nodeClass);
 		builder.setEdgeClass(edgeClass);
 		
-		builder.initialize();
 
 		return builder;
 	}

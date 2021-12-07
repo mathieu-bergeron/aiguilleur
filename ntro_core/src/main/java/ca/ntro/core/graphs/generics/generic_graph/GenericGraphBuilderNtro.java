@@ -56,8 +56,9 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 		this.edgeClass = edgeClass;
 	}
 	
-	public void initialize() {
+	public GenericGraphBuilderNtro() {
 		graph = createGraph();
+		graph.setGraphStructure(this);
 	}
 
 	@Override
@@ -66,29 +67,25 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 
 		return addNode(nodeIdNtro);
 	}
-	
-    @SuppressWarnings("unchecked")
-	protected GenericGraphBuilder<N,E,SO,NB,GenericGraph<N,E,SO>> toGenericGraphBuilder(){
-    	return (GenericGraphBuilder<N,E,SO,NB,GenericGraph<N,E,SO>>) this;
-    }
 
 	@Override
 	public NB addNode(NodeId nodeId) {
-		NB node = createNodeBuilder(nodeId, toGenericGraphBuilder());
+		NB nodeBuilder = createNodeBuilder(nodeId);
 
-		addNode(node.node());
+		addNode(nodeBuilder.node());
 		
-		return node;
+		return nodeBuilder;
 	}
 
-	protected NB createNodeBuilder(NodeId nodeId, GenericGraphBuilder<N,E,SO,NB,GenericGraph<N,E,SO>> graphBuilder) {
+	protected NB createNodeBuilder(NodeId nodeId) {
 		GenericNodeBuilderNtro<N,E,SO,NB> nodeBuilder = createNodeBuilder();
-		nodeBuilder.setGraphBuilder(graphBuilder);
 		
 		N node = Factory.newInstance(getNodeClass());
-		
-		((GenericNodeNtro<N,E,SO>)node).setNodeId(nodeId);
 
+		((GenericNodeNtro<N,E,SO>)node).setNodeId(nodeId);
+		((GenericNodeNtro<N,E,SO>)node).setNodeStructure(nodeBuilder);
+
+		nodeBuilder.setGraphBuilder(this);
 		nodeBuilder.setNode(node);
 		
 		return (NB) nodeBuilder;
@@ -126,6 +123,18 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 
 	@Override
 	public NB addNode(N node) {
+		GenericNodeBuilderNtro<N,E,SO,NB> builder = createNodeBuilder();
+		builder.setGraphBuilder(this);
+		builder.setNode(node);
+		
+		((GenericNodeNtro<N,E,SO>)node).setNodeStructure(builder);
+		
+		memorizeNode(node);
+		
+		return (NB) builder;
+	}
+
+	protected void memorizeNode(N node) {
 		if(ifNodeAlreadyExists(node)) {
 
 			Ntro.exceptionThrower().throwException(new NodeAlreadyAddedException("Node already added: " + node.id().toKey()));
@@ -135,13 +144,6 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 			getStartNodes().put(node.id().toKey().toString(), node);
 
 		}
-		
-		GenericNodeBuilderNtro<N,E,SO,NB> builder = createNodeBuilder();
-		
-		builder.setNode(node);
-		
-		return (NB) builder;
-		
 	}
 
 	protected boolean ifNodeAlreadyExists(N node) {

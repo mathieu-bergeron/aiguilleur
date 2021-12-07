@@ -12,13 +12,10 @@ public abstract class GenericNodeBuilderNtro<N extends Node<N,E,SO>,
 
       implements      GenericNodeBuilder<N,E,SO,NB> {
 
-	private Class<N> nodeClass;
-	private Class<E> edgeClass;
-
 	private N node;
+	private GenericGraphBuilderNtro<N,E,SO, NB, ?> graphBuilder;
 
 	private boolean isStartNode = true;
-	private GenericGraphBuilder<N,E,SO, NB, GenericGraph<N,E,SO>> graphBuilder;
 	private EdgesByDirection<N,E,SO> edgesByDirection = new EdgesByDirectionNtro<>();
 
 	public EdgesByDirection<N, E, SO> getEdgesByDirection() {
@@ -29,12 +26,12 @@ public abstract class GenericNodeBuilderNtro<N extends Node<N,E,SO>,
 		this.edgesByDirection = edgesByDirection;
 	}
 
-	public GenericGraphBuilder<N,E,SO,NB,GenericGraph<N, E, SO>> getGraphBuilder() {
+	public GenericGraphBuilderNtro<N,E,SO,NB,?> getGraphBuilder() {
 		return graphBuilder;
 	}
 
-	public void setGraphBuilder(GenericGraphBuilder<N,E,SO,NB,GenericGraph<N, E, SO>> graph) {
-		this.graphBuilder = graph;
+	public void setGraphBuilder(GenericGraphBuilderNtro<N, E, SO, NB, ?> genericGraphBuilderNtro) {
+		this.graphBuilder = genericGraphBuilderNtro;
 	}
 
 	public boolean getIsStartNode() {
@@ -43,22 +40,6 @@ public abstract class GenericNodeBuilderNtro<N extends Node<N,E,SO>,
 
 	public void setIsStartNode(boolean isStartNode) {
 		this.isStartNode = isStartNode;
-	}
-
-	public Class<N> getNodeClass() {
-		return nodeClass;
-	}
-
-	public void setNodeClass(Class<N> nodeClass) {
-		this.nodeClass = nodeClass;
-	}
-
-	public Class<E> getEdgeClass() {
-		return edgeClass;
-	}
-
-	public void setEdgeClass(Class<E> edgeClass) {
-		this.edgeClass = edgeClass;
 	}
 
 	public N getNode() {

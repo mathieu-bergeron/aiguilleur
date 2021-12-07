@@ -18,6 +18,7 @@ public abstract class GenericNodeNtro<N extends Node<N,E,SO>,
       implements      Node<N,E,SO> {
 	
 	private NodeId nodeId;
+	private GenericNodeStructure<N,E,SO> nodeStructure;
 
 	public NodeId getNodeId() {
 		return nodeId;
@@ -25,6 +26,18 @@ public abstract class GenericNodeNtro<N extends Node<N,E,SO>,
 
 	public void setNodeId(NodeId nodeId) {
 		this.nodeId = nodeId;
+	}
+
+	public GenericNodeStructure<N, E, SO> getNodeStructure() {
+		return nodeStructure;
+	}
+
+	public void setNodeStructure(GenericNodeStructure<N, E, SO> nodeStructure) {
+		this.nodeStructure = nodeStructure;
+	}
+
+	protected GenericNodeStructure<N, E, SO> nodeStructure() {
+		return getNodeStructure();
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -65,7 +78,6 @@ public abstract class GenericNodeNtro<N extends Node<N,E,SO>,
 		return getNodeId();
 	}
 	
-	protected abstract GenericNodeStructure<N,E,SO> nodeStructure();
 
 	@Override
 	public void forEachEdge(EdgeVisitor<N,E,SO> visitor) {

@@ -32,14 +32,15 @@ public class GraphTests {
 		builder.setGraphName("simpleGraph01");
 		
 		GraphNodeBuilder<MockNode, MockEdge> nodeA = builder.addNode("A");
+		GraphNodeBuilder<MockNode, MockEdge> nodeB = builder.addNode("B");
 
-		GraphNodeBuilder<MockNode, MockEdge> nodeB = builder.addNode(new MockNode("B"));
+		//GraphNodeBuilder<MockNode, MockEdge> nodeB = builder.addNode(new MockNode("B"));
 		
-		MockNode _nodeA = nodeA.node();
+		//MockNode _nodeA = nodeA.node();
 
-		MockEdge edgeAA = builder.addEdge(nodeA, "AA", nodeA);
+		//MockEdge edgeAA = builder.addEdge(nodeA, "AA", nodeA);
 
-		nodeA.addEdge(edgeAA);
+		//nodeA.addEdge(edgeAA);
 
 		Graph<MockNode, MockEdge> graph = builder.graph();
 

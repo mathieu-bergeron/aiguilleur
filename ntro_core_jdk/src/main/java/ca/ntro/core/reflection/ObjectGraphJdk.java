@@ -24,13 +24,12 @@ public class ObjectGraphJdk extends ObjectGraphNtro {
 	}
 
 	@Override
-	public InternalGraphWriter<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder> internalGraphWriter() {
-		return new InternalGraphWriterNtro<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder>();
-	}
-
-	@Override
 	public GenericGraphStructure<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder> graphStructure() {
 		return graphStructure;
 	}
 
+	@Override
+	protected InternalGraphWriter<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder> createInternalGraphWriter() {
+		return new InternalGraphWriterNtro<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder>();
+	}
 }

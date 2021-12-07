@@ -8,7 +8,6 @@ public interface GenericGraphBuilder<N extends Node<N,E,SO>,
 
        extends GenericGraphStructure<N,E,SO> { 
 	
-
 	NB addNode(String nodeId);
 	NB addNode(NodeId nodeId);
 	NB addNode(N node);
