@@ -57,6 +57,9 @@ public abstract class GenericNodeNtro<N extends Node<N,E,SO>,
 		setNodeId(new NodeIdNtro(nodeId));
 	}
 
+	public GenericNodeNtro() {
+	}
+
 	@Override
 	public NodeId id() {
 		return getNodeId();

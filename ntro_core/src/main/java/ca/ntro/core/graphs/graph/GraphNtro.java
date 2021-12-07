@@ -4,6 +4,7 @@ import ca.ntro.core.graphs.generics.generic_graph.GenericGraphNtro;
 import ca.ntro.core.graphs.generics.generic_graph.GenericGraphStructure;
 import ca.ntro.core.graphs.generics.generic_graph.GraphId;
 import ca.ntro.core.graphs.generics.generic_graph.InternalGraphWriter;
+import ca.ntro.core.graphs.generics.generic_graph.InternalGraphWriterNtro;
 
 public class GraphNtro<N extends GraphNode<N,E>,
                        E extends GraphEdge<N,E>> 
@@ -11,7 +12,9 @@ public class GraphNtro<N extends GraphNode<N,E>,
        extends GenericGraphNtro<N,E,GraphSearchOptionsBuilder>
 
 	   implements Graph<N,E> {
+	
 
+	private GraphBuilderNtro<N, E> graphBuilder;
 
 	@Override
 	public GraphSearchOptionsBuilder defaultSearchOptions() {
@@ -20,25 +23,25 @@ public class GraphNtro<N extends GraphNode<N,E>,
 
 	@Override
 	public GraphId id() {
-		// TODO Auto-generated method stub
-		return null;
+		return GraphId.newGraphId();
 	}
 
 	@Override
 	public String label() {
-		// TODO Auto-generated method stub
-		return null;
+		return GraphId.newGraphId().toKey().toString();
 	}
 
 	@Override
 	public InternalGraphWriter<N, E, GraphSearchOptionsBuilder> internalGraphWriter() {
-		// TODO Auto-generated method stub
-		return null;
+		return new InternalGraphWriterNtro<>();
 	}
 
 	@Override
 	public GenericGraphStructure<N, E, GraphSearchOptionsBuilder> graphStructure() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.graphBuilder;
+	}
+
+	public void setGraphStructure(GraphBuilderNtro<N, E> graphBuilderNtro) {
+		this.graphBuilder = graphBuilderNtro;
 	}
 }

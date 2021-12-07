@@ -3,6 +3,10 @@ package ca.ntro.core.graphs.graph;
 import ca.ntro.core.graphs.generics.generic_graph.NodeId;
 
 public class MockNode extends GraphNodeNtro<MockNode, MockEdge> {
+	
+	public MockNode() {
+		super();
+	}
 
 	public MockNode(NodeId nodeId) {
 		super(nodeId);

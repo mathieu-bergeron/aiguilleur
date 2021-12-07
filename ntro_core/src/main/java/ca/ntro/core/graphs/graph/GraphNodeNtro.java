@@ -20,6 +20,10 @@ public class GraphNodeNtro<N extends GraphNode<N,E>,
 		super(nodeId);
 	}
 
+	public GraphNodeNtro() {
+		super();
+	}
+
 	@Override
 	public GenericGraph<N, E, GraphSearchOptionsBuilder> parentGraph() {
 		// TODO Auto-generated method stub

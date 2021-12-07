@@ -14,7 +14,7 @@ public abstract class GenericNodeBuilderNtro<N extends Node<N,E,SO>,
 
 	private Class<N> nodeClass;
 	private Class<E> edgeClass;
-	
+
 	private N node;
 
 	private boolean isStartNode = true;
@@ -126,11 +126,10 @@ public abstract class GenericNodeBuilderNtro<N extends Node<N,E,SO>,
 			getEdgesByDirection().addEdge(edge);
 		}
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	@Override
 	public N node() {
-		return (N) this;
+		return getNode();
 	}
 
 	@Override
@@ -156,8 +155,6 @@ public abstract class GenericNodeBuilderNtro<N extends Node<N,E,SO>,
 
 	@Override
 	public void setNodeName(String nodeName) {
-		// TODO Auto-generated method stub
-		
+		((GenericNodeNtro<N,E,SO>) node()).setNodeId(new NodeIdNtro(nodeName));
 	}
-
 }

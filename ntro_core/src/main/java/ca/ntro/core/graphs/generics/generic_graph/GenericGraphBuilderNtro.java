@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ca.ntro.core.exceptions.Break;
+import ca.ntro.core.initialization.Factory;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.stream._Reducer;
 import ca.ntro.core.wrappers.result.ResultNtro;
@@ -24,7 +25,6 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 	
 	protected abstract GenericGraphNtro<N,E,SO> createGraph();
 	protected abstract GenericNodeBuilderNtro<N,E,SO,NB> createNodeBuilder();
-	
 
 	public Map<String, N> getStartNodes() {
 		return startNodes;
@@ -82,7 +82,16 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 	}
 
 	protected NB createNodeBuilder(NodeId nodeId, GenericGraphBuilder<N,E,SO,NB,GenericGraph<N,E,SO>> graphBuilder) {
-		return null;
+		GenericNodeBuilderNtro<N,E,SO,NB> nodeBuilder = createNodeBuilder();
+		nodeBuilder.setGraphBuilder(graphBuilder);
+		
+		N node = Factory.newInstance(getNodeClass());
+		
+		((GenericNodeNtro<N,E,SO>)node).setNodeId(nodeId);
+
+		nodeBuilder.setNode(node);
+		
+		return (NB) nodeBuilder;
 	}
 
 	@Override
@@ -134,9 +143,9 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 		return (NB) builder;
 		
 	}
-	
+
 	protected boolean ifNodeAlreadyExists(N node) {
-		return getGraph().reduceNodes(false, (accumulator, reachableNode) -> {
+		return graph().reduceNodes(false, (accumulator, reachableNode) -> {
 			
 			if(accumulator == true) {
 				throw new Break();
@@ -156,7 +165,7 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 		if(result.hasException()) {
 			return;
 		}
-
+		
 		for(N node : startNodes.values()) {
 			try {
 
