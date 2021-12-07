@@ -23,8 +23,8 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 	private GenericGraphNtro<N,E,SO> graph;
 	private Map<String, N> startNodes = new HashMap<>();
 	
-	protected abstract GenericGraphNtro<N,E,SO> createGraph();
-	protected abstract GenericNodeBuilderNtro<N,E,SO,NB> createNodeBuilder();
+	protected abstract GenericGraphNtro<N,E,SO> newGraphInstance();
+	protected abstract GenericNodeBuilderNtro<N,E,SO,NB> newNodeBuilderInstance();
 
 	public Map<String, N> getStartNodes() {
 		return startNodes;
@@ -57,7 +57,7 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 	}
 
 	public void initialize() {
-		graph = createGraph();
+		graph = newGraphInstance();
 		graph.setGraphStructure(this);
 	}
 
@@ -80,7 +80,7 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 
 	@Override
 	public NB addNode(N node) {
-		GenericNodeBuilderNtro<N,E,SO,NB> builder = createNodeBuilder();
+		GenericNodeBuilderNtro<N,E,SO,NB> builder = newNodeBuilderInstance();
 		builder.setGraphBuilder(this);
 		builder.setNode(node);
 		

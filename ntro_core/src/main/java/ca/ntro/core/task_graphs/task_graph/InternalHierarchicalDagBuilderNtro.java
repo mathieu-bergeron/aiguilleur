@@ -19,12 +19,12 @@ public class InternalHierarchicalDagBuilderNtro<T  extends Task<T,AT>,
 	   implements InternalHierarchicalDagBuilder<T,AT> {
 
 	@Override
-	protected GenericGraphNtro<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder> createGraph() {
+	protected GenericGraphNtro<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder> newGraphInstance() {
 		return null;
 	}
 
 	@Override
-	protected GenericNodeBuilderNtro<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder, TaskGraphNodeBuilder<T, AT>> createNodeBuilder() {
+	protected GenericNodeBuilderNtro<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>, TaskGraphSearchOptionsBuilder, TaskGraphNodeBuilder<T, AT>> newNodeBuilderInstance() {
 		return null;
 	}
 

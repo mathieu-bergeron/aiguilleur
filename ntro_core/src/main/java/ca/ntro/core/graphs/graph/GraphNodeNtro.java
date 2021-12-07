@@ -10,6 +10,10 @@ public class GraphNodeNtro<N extends GraphNode<N,E>,
 
        implements GraphNode<N,E> {
 
+	public GraphNodeNtro() {
+		super();
+	}
+
 	public GraphNodeNtro(NodeId nodeId) {
 		super(nodeId);
 	}
@@ -17,9 +21,4 @@ public class GraphNodeNtro<N extends GraphNode<N,E>,
 	public GraphNodeNtro(String nodeId) {
 		super(nodeId);
 	}
-
-	public GraphNodeNtro() {
-		super();
-	}
-
 }

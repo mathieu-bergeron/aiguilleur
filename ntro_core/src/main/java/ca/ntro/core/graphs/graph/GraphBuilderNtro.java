@@ -12,12 +12,12 @@ public class      GraphBuilderNtro<N extends GraphNode<N,E>,
        implements GraphBuilder<N,E> {
 
 	@Override
-	protected GenericGraphNtro<N, E, GraphSearchOptionsBuilder> createGraph() {
+	protected GenericGraphNtro<N, E, GraphSearchOptionsBuilder> newGraphInstance() {
 		return new GraphNtro<>();
 	}
 
 	@Override
-	protected GenericNodeBuilderNtro<N, E, GraphSearchOptionsBuilder, GraphNodeBuilder<N, E>> createNodeBuilder() {
+	protected GenericNodeBuilderNtro<N, E, GraphSearchOptionsBuilder, GraphNodeBuilder<N, E>> newNodeBuilderInstance() {
 		return new GraphNodeBuilderNtro<>();
 	}
 
