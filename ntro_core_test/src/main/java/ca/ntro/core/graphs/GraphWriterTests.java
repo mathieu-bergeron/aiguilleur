@@ -11,16 +11,13 @@ import ca.ntro.core.graphs.generics.generic_graph.GraphId;
 import ca.ntro.core.graphs.generics.generic_graph.NodeNotFoundException;
 import ca.ntro.core.graphs.graph.MockEdge;
 import ca.ntro.core.graphs.graph.MockNode;
-import ca.ntro.core.graphs.writers.ClusterAlreadyAddedException;
 import ca.ntro.core.graphs.writers.ClusterNotFoundException;
 import ca.ntro.core.graphs.writers.ClusterSpec;
 import ca.ntro.core.graphs.writers.ClusterSpecNtro;
-import ca.ntro.core.graphs.writers.EdgeAlreadyAddedException;
 import ca.ntro.core.graphs.writers.EdgeSpecNtro;
 import ca.ntro.core.graphs.writers.GraphWriter;
 import ca.ntro.core.graphs.writers.GraphWriterException;
 import ca.ntro.core.graphs.writers.GraphWriterOptionsNtro;
-import ca.ntro.core.graphs.writers.NodeAlreadyAddedException;
 import ca.ntro.core.graphs.writers.NodeSpec;
 import ca.ntro.core.graphs.writers.NodeSpecNtro;
 import ca.ntro.core.initialization.InitializerTest;
@@ -55,27 +52,54 @@ public class GraphWriterTests {
 		
 		MockNode nodeA = new MockNode("A");
 		MockNode nodeAA = new MockNode("AA");
-		MockNode nodeAAA = new MockNode("AAA");
 		MockNode nodeB = new MockNode("B");
 		MockNode nodeC = new MockNode("C");
+		MockNode nodeD = new MockNode("D");
+
+		MockNode nodeF = new MockNode("F");
+		MockNode nodeFF = new MockNode("FF");
+
+		MockNode nodeE = new MockNode("E");
 		
-		MockEdge edgeA_B = new MockEdge(nodeA,new EdgeTypeNtro(Direction.FORWARD, "a_b"), nodeB);
+		MockEdge edgeBC = new MockEdge(nodeB,new EdgeTypeNtro(Direction.FORWARD, "BC"), nodeC);
+		MockEdge edgeBD = new MockEdge(nodeB,new EdgeTypeNtro(Direction.FORWARD, "BD"), nodeD);
+
+		MockEdge edgeA_AA = new MockEdge(nodeA,new EdgeTypeNtro(Direction.FORWARD, "A_AA"), nodeAA);
+		MockEdge edgeA_FF = new MockEdge(nodeA,new EdgeTypeNtro(Direction.FORWARD, "A_FF"), nodeFF);
+		MockEdge edgeB_E = new MockEdge(nodeB,new EdgeTypeNtro(Direction.FORWARD, "B_E"), nodeE);
 		
 		ClusterSpec clusterA = new ClusterSpecNtro(nodeA);
 		ClusterSpec clusterAA = new ClusterSpecNtro(nodeAA);
-		ClusterSpec clusterAAA = new ClusterSpecNtro(nodeAAA);
+
+		ClusterSpec clusterF = new ClusterSpecNtro(nodeF);
+		ClusterSpec clusterFF = new ClusterSpecNtro(nodeFF);
+
 		NodeSpec _nodeB = new NodeSpecNtro(nodeB);
 		NodeSpec _nodeC = new NodeSpecNtro(nodeC);
-		
+		NodeSpec _nodeD = new NodeSpecNtro(nodeD);
+		NodeSpec _nodeE = new NodeSpecNtro(nodeE);
+
 		try {
 
 			writer.addCluster(clusterA);
 			writer.addSubCluster(clusterA, clusterAA);
-			writer.addSubCluster(clusterAA, clusterAAA);
-			writer.addSubNode(clusterAAA,_nodeB);
+
+			writer.addCluster(clusterF);
+			writer.addSubCluster(clusterF, clusterFF);
+			
+			writer.addSubNode(clusterAA,_nodeB);
+			writer.addSubNode(clusterAA,_nodeD);
+
+			writer.addSubNode(clusterFF,_nodeE);
+
 			writer.addNode(_nodeC);
 
-		 	writer.addEdge(_nodeB, new EdgeSpecNtro(edgeA_B), _nodeC);
+		 	writer.addEdge(_nodeB, new EdgeSpecNtro(edgeBC), _nodeC);
+		 	writer.addEdge(_nodeB, new EdgeSpecNtro(edgeBD), _nodeD);
+
+		 	//writer.addEdge(clusterA, new EdgeSpecNtro(edgeA_AA), clusterAA);
+		 	writer.addEdge(_nodeB, new EdgeSpecNtro(edgeB_E), _nodeE);
+		 	writer.addEdge(clusterA, new EdgeSpecNtro(edgeA_FF), clusterFF);
 
 		} catch (GraphWriterException e) {
 			Ntro.exceptionThrower().throwException(e);
@@ -84,5 +108,6 @@ public class GraphWriterTests {
 		writer.writeDot();
 		writer.writePng();
 	}
+
 	
 }
