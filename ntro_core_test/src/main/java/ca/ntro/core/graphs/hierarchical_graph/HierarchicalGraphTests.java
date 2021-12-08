@@ -49,6 +49,18 @@ public class HierarchicalGraphTests {
 		
 		nodeAA.addSubNode(nodeAAA);
 	}
+
+	private void buildGraph03(HierarchicalGraphBuilder<MockHierarchicalNode, MockHierarchicalEdge> builder){
+
+		HierarchicalGraphNodeBuilder<MockHierarchicalNode, MockHierarchicalEdge> nodeAA = builder.findNode("AA");
+
+		HierarchicalGraphNodeBuilder<MockHierarchicalNode, MockHierarchicalEdge> nodeF = builder.addNode("F");
+		HierarchicalGraphNodeBuilder<MockHierarchicalNode, MockHierarchicalEdge> nodeFF = builder.addNode("FF");
+		
+		nodeF.addSubNode(nodeFF);
+		
+		builder.addEdge(nodeAA, "AA_FF", nodeFF);
+	}
 	
 	@Test
 	public void hierarchicalGraph00() throws Throwable {
@@ -80,6 +92,19 @@ public class HierarchicalGraphTests {
 		buildGraph02(builder);
 		
 		builder.setGraphName("hierarchicalGraph02");
+		builder.graph().write(Ntro.graphWriter());
+	}
+
+	@Test
+	public void hierarchicalGraph03() throws Throwable {
+		HierarchicalGraphBuilder<MockHierarchicalNode, MockHierarchicalEdge> builder = newBuilder();
+
+		buildGraph00(builder);
+		buildGraph01(builder);
+		buildGraph02(builder);
+		buildGraph03(builder);
+		
+		builder.setGraphName("hierarchicalGraph03");
 		builder.graph().write(Ntro.graphWriter());
 	}
 

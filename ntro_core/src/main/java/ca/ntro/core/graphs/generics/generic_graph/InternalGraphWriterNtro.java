@@ -6,6 +6,7 @@ import ca.ntro.core.graphs.writers.GraphWriter;
 import ca.ntro.core.graphs.writers.GraphWriterException;
 import ca.ntro.core.graphs.writers.GraphWriterOptions;
 import ca.ntro.core.graphs.writers.NodeAlreadyAddedException;
+import ca.ntro.core.graphs.writers.NodeSpec;
 import ca.ntro.core.graphs.writers.NodeSpecNtro;
 import ca.ntro.core.initialization.Ntro;
 
@@ -39,18 +40,34 @@ public class      InternalGraphWriterNtro<N extends Node<N,E,SO>,
 	protected GraphWriterOptions defaultOptions() {
 		return GraphWriterOptions.directed(false);
 	}
+	
+	
+	protected void adjustNodeSpecAttributes(Node<N,E,SO> node, NodeSpecNtro nodeSpec) {
+		if(node.isStartNode()) {
+			nodeSpec.setColor("gray");
+		}
+	}
+	
+	
+	protected NodeSpecNtro nodeSpec(Node<N,E,SO> node) {
+		NodeSpecNtro nodeSpec = new NodeSpecNtro(node);
+		
+		adjustNodeSpecAttributes(node, nodeSpec);
+		
+		return nodeSpec;
+	}
+
+	protected EdgeSpecNtro edgeSpec(Edge<N,E,SO> edge) {
+		EdgeSpecNtro edgeSpec = new EdgeSpecNtro(edge);
+
+		return edgeSpec;
+	}
 
 	protected void writeNodes(GenericGraph<N,E,SO> graph, GraphWriter writer) {
 		graph.forEachNode(n -> {
-			NodeSpecNtro nodeSpec = new NodeSpecNtro(n);
-
-			if(n.isStartNode()) {
-				nodeSpec.setShape("hexagon");
-			}
-
 			try {
 
-				writer.addNode(nodeSpec);
+				writer.addNode(nodeSpec(n));
 
 			} catch (GraphWriterException e) {
 				Ntro.exceptionThrower().throwException(e);
@@ -69,7 +86,7 @@ public class      InternalGraphWriterNtro<N extends Node<N,E,SO>,
 	protected void writeEdge(GraphWriter writer, E edge) {
 		try {
 
-			writer.addEdge(new NodeSpecNtro(edge.from()), new EdgeSpecNtro(edge), new NodeSpecNtro(edge.to()));
+			writer.addEdge(nodeSpec(edge.from()), edgeSpec(edge), nodeSpec(edge.to()));
 
 		} catch (GraphWriterException e) {
 			Ntro.exceptionThrower().throwException(e);
