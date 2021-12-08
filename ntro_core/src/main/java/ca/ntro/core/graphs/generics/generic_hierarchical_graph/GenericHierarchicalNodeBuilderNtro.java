@@ -39,6 +39,10 @@ public abstract class GenericHierarchicalNodeBuilderNtro<N extends GenericHierar
 
 		E edge = (E) new EdgeNtro<N,E,SO>(this.node(), edgeType, parentNode);
 
+		((GenericHierarchicalNodeBuilderNtro<N,E,SO,NB>) this).setIsStartNode(false);
+		
+		getGraphBuilder().removeStartNode(this.node());
+		
 		getEdgesByDirection().addEdge(edge);
 	}
 
