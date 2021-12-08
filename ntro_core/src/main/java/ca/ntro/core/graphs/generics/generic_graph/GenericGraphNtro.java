@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import ca.ntro.core.exceptions.Break;
-import ca.ntro.core.graphs.writers.GraphWriter;
+import ca.ntro.core.graphs.graph_writer.GraphWriter;
 import ca.ntro.core.stream.Stream;
 import ca.ntro.core.stream.StreamNtro;
 import ca.ntro.core.stream._Reducer;

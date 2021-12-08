@@ -1,7 +1,7 @@
 package ca.ntro.core.initialization;
 
-import ca.ntro.core.graphs.writers.GraphWriter;
-import ca.ntro.core.graphs.writers.GraphWriterNull;
+import ca.ntro.core.graphs.graph_writer.GraphWriter;
+import ca.ntro.core.graphs.graph_writer.GraphWriterNull;
 import ca.ntro.core.services.Asserter;
 import ca.ntro.core.services.AsserterNull;
 import ca.ntro.core.services.Collections;

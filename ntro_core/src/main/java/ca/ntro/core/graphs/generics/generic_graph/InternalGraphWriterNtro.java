@@ -1,13 +1,13 @@
 package ca.ntro.core.graphs.generics.generic_graph;
 
-import ca.ntro.core.graphs.writers.EdgeAlreadyAddedException;
-import ca.ntro.core.graphs.writers.EdgeSpecNtro;
-import ca.ntro.core.graphs.writers.GraphWriter;
-import ca.ntro.core.graphs.writers.GraphWriterException;
-import ca.ntro.core.graphs.writers.GraphWriterOptions;
-import ca.ntro.core.graphs.writers.NodeAlreadyAddedException;
-import ca.ntro.core.graphs.writers.NodeSpec;
-import ca.ntro.core.graphs.writers.NodeSpecNtro;
+import ca.ntro.core.graphs.graph_writer.EdgeAlreadyAddedException;
+import ca.ntro.core.graphs.graph_writer.EdgeSpecNtro;
+import ca.ntro.core.graphs.graph_writer.GraphWriter;
+import ca.ntro.core.graphs.graph_writer.GraphWriterException;
+import ca.ntro.core.graphs.graph_writer.GraphWriterOptions;
+import ca.ntro.core.graphs.graph_writer.NodeAlreadyAddedException;
+import ca.ntro.core.graphs.graph_writer.NodeSpec;
+import ca.ntro.core.graphs.graph_writer.NodeSpecNtro;
 import ca.ntro.core.initialization.Ntro;
 
 public class      InternalGraphWriterNtro<N extends Node<N,E,SO>,

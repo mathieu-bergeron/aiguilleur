@@ -1,7 +1,7 @@
 package ca.ntro.core.graphs.generics.generic_graph;
 
 
-import ca.ntro.core.graphs.writers.GraphWriter;
+import ca.ntro.core.graphs.graph_writer.GraphWriter;
 import ca.ntro.core.stream.Stream;
 import ca.ntro.core.wrappers.result.Result;
 

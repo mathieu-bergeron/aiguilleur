@@ -5,9 +5,9 @@ import ca.ntro.core.graphs.generics.generic_graph.Edge;
 import ca.ntro.core.graphs.generics.generic_graph.GenericGraph;
 import ca.ntro.core.graphs.generics.generic_graph.InternalGraphWriterNtro;
 import ca.ntro.core.graphs.generics.generic_graph.SearchOptionsNtro;
-import ca.ntro.core.graphs.writers.ClusterSpecNtro;
-import ca.ntro.core.graphs.writers.GraphWriter;
-import ca.ntro.core.graphs.writers.GraphWriterException;
+import ca.ntro.core.graphs.graph_writer.ClusterSpecNtro;
+import ca.ntro.core.graphs.graph_writer.GraphWriter;
+import ca.ntro.core.graphs.graph_writer.GraphWriterException;
 import ca.ntro.core.initialization.Ntro;
 
 public class      InternalHierarchicalGraphWriterNtro<N extends GenericHierarchicalNode<N,E,SO>,

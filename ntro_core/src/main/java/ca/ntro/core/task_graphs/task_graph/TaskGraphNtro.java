@@ -1,6 +1,6 @@
 package ca.ntro.core.task_graphs.task_graph;
 
-import ca.ntro.core.graphs.writers.GraphWriter;
+import ca.ntro.core.graphs.graph_writer.GraphWriter;
 
 public abstract class TaskGraphNtro<T  extends Task<T,AT>, 
                                     AT extends AtomicTask<T,AT>>

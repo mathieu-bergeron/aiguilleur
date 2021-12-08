@@ -6,16 +6,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ca.ntro.core.graphs.generics.generic_graph.GraphId;
-import ca.ntro.core.graphs.writers.ClusterAlreadyAddedException;
-import ca.ntro.core.graphs.writers.ClusterNotFoundException;
-import ca.ntro.core.graphs.writers.ClusterSpec;
-import ca.ntro.core.graphs.writers.EdgeSpec;
-import ca.ntro.core.graphs.writers.GraphItemSpec;
-import ca.ntro.core.graphs.writers.GraphWriter;
-import ca.ntro.core.graphs.writers.GraphWriterOptions;
-import ca.ntro.core.graphs.writers.NodeAlreadyAddedException;
-import ca.ntro.core.graphs.writers.NodeNotFoundException;
-import ca.ntro.core.graphs.writers.NodeSpec;
+import ca.ntro.core.graphs.graph_writer.ClusterAlreadyAddedException;
+import ca.ntro.core.graphs.graph_writer.ClusterNotFoundException;
+import ca.ntro.core.graphs.graph_writer.ClusterSpec;
+import ca.ntro.core.graphs.graph_writer.EdgeSpec;
+import ca.ntro.core.graphs.graph_writer.GraphItemSpec;
+import ca.ntro.core.graphs.graph_writer.GraphWriter;
+import ca.ntro.core.graphs.graph_writer.GraphWriterOptions;
+import ca.ntro.core.graphs.graph_writer.NodeAlreadyAddedException;
+import ca.ntro.core.graphs.graph_writer.NodeNotFoundException;
+import ca.ntro.core.graphs.graph_writer.NodeSpec;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.path.Filepath;
 

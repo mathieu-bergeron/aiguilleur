@@ -1,4 +1,4 @@
-package ca.ntro.core.graphs.writers;
+package ca.ntro.core.graphs.graph_writer;
 
 public interface EdgeSpec extends GraphItemSpec {
 

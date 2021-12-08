@@ -1,4 +1,4 @@
-package ca.ntro.core.graphs.writers;
+package ca.ntro.core.graphs.graph_writer;
 
 public class NodeAlreadyAddedException extends GraphWriterException {
 	private static final long serialVersionUID = 8424792238796155480L;

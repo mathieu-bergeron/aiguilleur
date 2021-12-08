@@ -1,4 +1,4 @@
-package ca.ntro.core.graphs.writers;
+package ca.ntro.core.graphs.graph_writer;
 
 import ca.ntro.core.graphs.generics.generic_graph.Edge;
 import ca.ntro.core.path.Path;
