@@ -122,7 +122,7 @@ public abstract class StreamNtro<I extends Object>
 		_reduce(result, (__, item) -> {
 			try {
 
-				result.registerValue(reducer.reduce(result.value(), item).value());
+				result.registerValue(reducer.reduce(result.value(), item));
 
 			}catch(Throwable t) {
 				result.registerException(t);

@@ -56,7 +56,43 @@ public class StreamTests {
 		Ntro.asserter().assertTrue("doubles[1] == 4", doublesList.get(1).equals(4));
 		Ntro.asserter().assertTrue("doubles[2] == 6", doublesList.get(2).equals(6));
 	}
-	
-	
+
+	@Test
+	public void map02() {
+		Stream<Integer> stream = createStream(new Integer[] {1,2,3});
+		
+		Stream<Character> chars = stream.map(i -> (char) (((int)'a') + i));
+		
+		List<Character> charList = chars.collect();
+		
+		Ntro.asserter().assertTrue("chars[0] == b", charList.get(0).equals('b'));
+		Ntro.asserter().assertTrue("chars[1] == c", charList.get(1).equals('c'));
+		Ntro.asserter().assertTrue("chars[2] == d", charList.get(2).equals('d'));
+	}
+
+	@Test
+	public void reduceToValue01() {
+		Stream<Integer> stream = createStream(new Integer[] {1,2,3});
+		
+		Integer sum = stream.reduce(0, (acc, i) -> {
+
+			return acc+i;
+
+		}).value();
+		
+		Ntro.asserter().assertEquals(sum, 6);
+	}
+
+	@Test
+	public void reduceToStream01() {
+		char[][] chars = new char[3][];
+		chars[0] = new char[] {'a','b'};
+		chars[1] = new char[] {'c','d'};
+		chars[2] = new char[] {'e','f'};
+		
+		Stream<Integer> intStream = createStream(new Integer[] {0,1,2});
+		
+		//Stream<Character> charStream = intStream.reduce(initialValue, reducer)
+	}
 	
 }
