@@ -1,9 +1,5 @@
 package ca.ntro.core.graphs.writers;
 
-public interface EdgeSpec {
-	
-	String id();
-	String label();
-	
+public interface EdgeSpec extends GraphItemSpec {
 
 }

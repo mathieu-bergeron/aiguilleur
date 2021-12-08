@@ -10,6 +10,7 @@ import ca.ntro.core.graphs.writers.ClusterAlreadyAddedException;
 import ca.ntro.core.graphs.writers.ClusterNotFoundException;
 import ca.ntro.core.graphs.writers.ClusterSpec;
 import ca.ntro.core.graphs.writers.EdgeSpec;
+import ca.ntro.core.graphs.writers.GraphItemSpec;
 import ca.ntro.core.graphs.writers.GraphWriter;
 import ca.ntro.core.graphs.writers.GraphWriterOptions;
 import ca.ntro.core.graphs.writers.NodeAlreadyAddedException;
@@ -24,6 +25,7 @@ import guru.nidi.graphviz.attribute.Rank.RankDir;
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
 import guru.nidi.graphviz.model.Link;
+import guru.nidi.graphviz.model.MutableAttributed;
 import guru.nidi.graphviz.model.MutableGraph;
 import guru.nidi.graphviz.model.MutableNode;
 
@@ -219,8 +221,9 @@ public class GraphWriterJdk implements GraphWriter {
 		MutableGraph cluster = mutGraph(clusterSpec.id());
 		cluster.setCluster(true);
 		cluster.graphAttrs().add(Rank.dir(RankDir.LEFT_TO_RIGHT));
-		cluster.graphAttrs().add(Label.of(clusterSpec.label()));
 		cluster.setDirected(this.options.isDirected());
+		
+		adjustNodeAttributes(cluster.graphAttrs(), clusterSpec);
 		
 		MutableNode invisibleNode = createClusterInvisibleNode(clusterSpec);
 		cluster.add(invisibleNode);
@@ -240,10 +243,6 @@ public class GraphWriterJdk implements GraphWriter {
 		checkThatClusterExists(clusterSpec);
 
 		return clusters.get(clusterSpec.id());
-	}
-
-	private MutableNode findClusterInvisibleNode(MutableGraph cluster) {
-		return clusterInvisibleNodes.get(cluster.name().toString());
 	}
 	
 	private String invisibleNodeId(ClusterSpec clusterSpec) {
@@ -279,27 +278,34 @@ public class GraphWriterJdk implements GraphWriter {
 		}
 	}
 
-	private MutableNode findNode(NodeSpec nodeSpec) throws NodeNotFoundException {
-		checkThatNodeExists(nodeSpec);
-
-		return nodes.get(nodeSpec.id());
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private void adjustGraphItemAttributes(MutableAttributed attrs, GraphItemSpec spec) {
+		attrs.add(Label.of(spec.label()));
 	}
+	
+	@SuppressWarnings("rawtypes")
+	private void adjustNodeAttributes(MutableAttributed attrs, NodeSpec spec) {
 
+		adjustGraphItemAttributes(attrs, spec);
+		
+		attrs.add("style", "filled");
+		if(spec.color() != null) {
+			attrs.add("fillcolor", spec.color());
+		}else {
+			attrs.add("fillcolor", "white");
+		}
+
+		if(spec.shape() != null) {
+			attrs.add("shape", spec.shape());
+		}
+	}
+	
 	private MutableNode createNode(NodeSpec nodeSpec) throws NodeAlreadyAddedException {
 		checkThatNodeDoesNotAlreadyExists(nodeSpec);
 
 		MutableNode node = mutNode(nodeSpec.id());
-		
-		node.attrs().add(Label.of(nodeSpec.label()));
-		
-		if(nodeSpec.color() != null) {
-			node.attrs().add("style", "filled");
-			node.attrs().add("fillcolor", nodeSpec.color());
-		}
 
-		if(nodeSpec.shape() != null) {
-			node.attrs().add("shape", nodeSpec.shape());
-		}
+		adjustNodeAttributes(node.attrs(), nodeSpec);
 		
 		nodes.put(nodeSpec.id(), node);
 		

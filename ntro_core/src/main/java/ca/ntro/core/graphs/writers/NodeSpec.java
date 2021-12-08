@@ -1,9 +1,7 @@
 package ca.ntro.core.graphs.writers;
 
-public interface NodeSpec {
+public interface NodeSpec extends GraphItemSpec {
 	
-	String id();
-	String label();
 	String color();
 	String shape();
 }

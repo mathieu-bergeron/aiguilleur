@@ -6,10 +6,8 @@ import ca.ntro.core.graphs.generics.generic_graph.GenericGraph;
 import ca.ntro.core.graphs.generics.generic_graph.InternalGraphWriterNtro;
 import ca.ntro.core.graphs.generics.generic_graph.SearchOptionsNtro;
 import ca.ntro.core.graphs.writers.ClusterSpecNtro;
-import ca.ntro.core.graphs.writers.EdgeSpecNtro;
 import ca.ntro.core.graphs.writers.GraphWriter;
 import ca.ntro.core.graphs.writers.GraphWriterException;
-import ca.ntro.core.graphs.writers.NodeSpecNtro;
 import ca.ntro.core.initialization.Ntro;
 
 public class      InternalHierarchicalGraphWriterNtro<N extends GenericHierarchicalNode<N,E,SO>,
@@ -83,19 +81,19 @@ public class      InternalHierarchicalGraphWriterNtro<N extends GenericHierarchi
 			if(edge.from().hasSubNodes()
 					&& edge.to().hasSubNodes()) {
 				
-				writer.addEdge(new ClusterSpecNtro(edge.from()), new EdgeSpecNtro(edge), new ClusterSpecNtro(edge.to()));
+				writer.addEdge(clusterSpec(edge.from()), edgeSpec(edge), clusterSpec(edge.to()));
 				
 			}else if(edge.from().hasSubNodes()) {
 
-				writer.addEdge(new ClusterSpecNtro(edge.from()), new EdgeSpecNtro(edge), new NodeSpecNtro(edge.to()));
+				writer.addEdge(clusterSpec(edge.from()), edgeSpec(edge), nodeSpec(edge.to()));
 				
 			}else if(edge.to().hasSubNodes()) {
 
-				writer.addEdge(new NodeSpecNtro(edge.from()), new EdgeSpecNtro(edge), new ClusterSpecNtro(edge.to()));
+				writer.addEdge(nodeSpec(edge.from()), edgeSpec(edge), clusterSpec(edge.to()));
 				
 			}else {
 
-				writer.addEdge(new NodeSpecNtro(edge.from()), new EdgeSpecNtro(edge), new NodeSpecNtro(edge.to()));
+				writer.addEdge(nodeSpec(edge.from()), edgeSpec(edge), nodeSpec(edge.to()));
 
 			}
 

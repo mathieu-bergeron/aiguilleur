@@ -127,10 +127,14 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 
 		if(!toNode.node().isPartOfCycle()) {
 		    nodeBuilderNtro(toNode).setIsStartNode(false);
-			getStartNodes().remove(toNode.node().id().toKey().toString());
+		    removeStartNode(toNode.node());
 		}
 
 		return forwardEdge;
+	}
+
+	public void removeStartNode(N node) {
+		getStartNodes().remove(node.id().toKey().toString());
 	}
 
 	protected E addEdge(NB fromNode, EdgeType edgeType, NB toNode) {
