@@ -74,7 +74,8 @@ public class GraphWriterTests {
 			writer.addSubCluster(clusterAA, clusterAAA);
 			writer.addSubNode(clusterAAA,_nodeB);
 			writer.addNode(_nodeC);
-			//writer.addEdge(_nodeB, new EdgeSpecNtro(edgeA_B), _nodeC);
+
+		 	writer.addEdge(_nodeB, new EdgeSpecNtro(edgeA_B), _nodeC);
 
 		} catch (GraphWriterException e) {
 			Ntro.exceptionThrower().throwException(e);

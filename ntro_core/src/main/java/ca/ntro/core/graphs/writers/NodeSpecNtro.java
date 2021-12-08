@@ -55,4 +55,5 @@ public class NodeSpecNtro implements NodeSpec {
 	public String shape() {
 		return getShape();
 	}
+
 }

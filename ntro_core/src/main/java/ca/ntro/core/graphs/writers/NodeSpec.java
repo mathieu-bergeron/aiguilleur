@@ -6,5 +6,4 @@ public interface NodeSpec {
 	String label();
 	String color();
 	String shape();
-
 }

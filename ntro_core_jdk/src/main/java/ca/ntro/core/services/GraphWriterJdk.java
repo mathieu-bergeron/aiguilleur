@@ -138,16 +138,8 @@ public class GraphWriterJdk implements GraphWriter {
 
 	@Override
 	public void addEdge(NodeSpec fromSpec, EdgeSpec edgeSpec, NodeSpec toSpec) throws NodeNotFoundException {
-		MutableNode fromNode = nodes.get(fromSpec.id());
-		MutableNode toNode = nodes.get(toSpec.id());
-
-		if(fromNode == null) {
-			throw new NodeNotFoundException("Node not found " + fromSpec.id());
-		}
-
-		if(toNode == null) {
-			throw new NodeNotFoundException("Node not found " + toSpec.id());
-		}
+		MutableNode fromNode = findNode(fromSpec);
+		MutableNode toNode = findNode(toSpec);
 
 		Link link = Link.to(toNode);
 		link.attrs().add("label", edgeSpec.label());
@@ -158,16 +150,8 @@ public class GraphWriterJdk implements GraphWriter {
 
 	@Override
 	public void addEdge(ClusterSpec fromSpec, EdgeSpec edgeSpec, NodeSpec toSpec) throws NodeNotFoundException, ClusterNotFoundException {
-		MutableGraph fromCluster = clusters.get(fromSpec.id());
-		MutableNode toNode = nodes.get(toSpec.id());
-
-		if(fromCluster == null) {
-			throw new ClusterNotFoundException("Cluster not found " + fromSpec.id());
-		}
-
-		if(toNode == null) {
-			throw new NodeNotFoundException("Node not found " + toSpec.id());
-		}
+		MutableGraph fromCluster = findCluster(fromSpec);
+		MutableNode toNode = findNode(toSpec);
 
 		MutableNode fromInvisibleNode = findClusterInvisibleNode(fromCluster);
 
