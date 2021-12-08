@@ -460,7 +460,7 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 	public Stream<E> edges(){
 		return new StreamNtro<E>() {
 			@Override
-			public <R> void _reduce(ResultNtro<R> result, _Reducer<E, R> _reducer) {
+			public <R> void reduceWithResult(ResultNtro<R> result, _Reducer<E, R> _reducer) {
 				reduceEdges(result.value(), (__, edge) ->{
 
 					_reducer._reduce(result, edge);
@@ -480,7 +480,7 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 	public Stream<VisitedNode<N,E,SO>> reachableNodes(SO options){
 		return new StreamNtro<VisitedNode<N,E,SO>>() {
 			@Override
-			public <R> void _reduce(ResultNtro<R> result, _Reducer<VisitedNode<N, E, SO>, R> _reducer) {
+			public <R> void reduceWithResult(ResultNtro<R> result, _Reducer<VisitedNode<N, E, SO>, R> _reducer) {
 				__reduceReachableNodes(options.internal(), result, _reducer);
 			}
 		};

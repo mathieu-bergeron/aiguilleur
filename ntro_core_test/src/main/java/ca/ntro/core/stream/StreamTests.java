@@ -74,7 +74,7 @@ public class StreamTests {
 	public void reduceToValue01() {
 		Stream<Integer> stream = createStream(new Integer[] {1,2,3});
 		
-		Integer sum = stream.reduce(0, (acc, i) -> {
+		Integer sum = stream.reduceToResult(0, (acc, i) -> {
 
 			return acc+i;
 

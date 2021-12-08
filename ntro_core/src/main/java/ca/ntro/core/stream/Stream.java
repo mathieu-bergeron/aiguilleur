@@ -22,8 +22,11 @@ public interface Stream<I extends Object> {
 
 	List<I> collect();
 
-	<R> Result<R> reduce(R initialValue, Reducer<I,R> reducer);
+	<R> Result<R> reduceToResult(R initialValue, Reducer<I,R> reducer);
 
-	<R> void _reduce(ResultNtro<R> result, _Reducer<I,R> _reducer);
+	<R> void reduceWithResult(ResultNtro<R> result, _Reducer<I,R> _reducer);
+
+	<R,A> Stream<R> reduceToStream(StreamReducer<I,A,R> reducer);
+
 
 }

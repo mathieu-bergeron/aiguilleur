@@ -12,13 +12,13 @@ public abstract class StreamNtro<I extends Object>
        implements     Stream<I> {
 	
 	@Override
-	public abstract <R> void _reduce(ResultNtro<R> result, _Reducer<I,R> _reducer);
+	public abstract <R> void reduceWithResult(ResultNtro<R> result, _Reducer<I,R> _reducer);
 
 	@Override
 	public boolean ifAll(Matcher<I> matcher) {
 		ResultNtro<Boolean> result = new ResultNtro<>(true);
 
-		_reduce(result, (__, item) -> {
+		reduceWithResult(result, (__, item) -> {
 			try {
 
 				if(!matcher.matches(item)) {
@@ -38,7 +38,7 @@ public abstract class StreamNtro<I extends Object>
 	public boolean ifSome(Matcher<I> matcher) {
 		ResultNtro<Boolean> result = new ResultNtro<>(false);
 
-		_reduce(result, (__,item) -> {
+		reduceWithResult(result, (__,item) -> {
 			try {
 
 				if(matcher.matches(item)) {
@@ -58,7 +58,7 @@ public abstract class StreamNtro<I extends Object>
 	public void forEach(Visitor<I> visitor) {
 		ResultNtro<?> result = new ResultNtro<>();
 
-		_reduce(result, (__,item) -> {
+		reduceWithResult(result, (__,item) -> {
 			try {
 
 				visitor.visit(item);
@@ -73,7 +73,7 @@ public abstract class StreamNtro<I extends Object>
 	public I findFirst(Matcher<I> matcher) {
 		ResultNtro<I> result = new ResultNtro<>();
 
-		_reduce(result, (__,item) -> {
+		reduceWithResult(result, (__,item) -> {
 			try {
 
 				if(matcher.matches(item)) {
@@ -93,8 +93,8 @@ public abstract class StreamNtro<I extends Object>
 	public Stream<I> findAll(Matcher<I> matcher) {
 		return new StreamNtro<I>() {
 			@Override
-			public <R> void _reduce(ResultNtro<R> result, _Reducer<I, R> _reducer) {
-				StreamNtro.this._reduce(result, (__,item) -> {
+			public <R> void reduceWithResult(ResultNtro<R> result, _Reducer<I, R> _reducer) {
+				StreamNtro.this.reduceWithResult(result, (__,item) -> {
 					try {
 
 						if(matcher.matches(item)) {
@@ -116,10 +116,10 @@ public abstract class StreamNtro<I extends Object>
 	}
 
 	@Override
-	public <R> Result<R> reduce(R initialValue, Reducer<I, R> reducer) {
+	public <R> Result<R> reduceToResult(R initialValue, Reducer<I, R> reducer) {
 		ResultNtro<R> result = new ResultNtro<>(initialValue);
 
-		_reduce(result, (__, item) -> {
+		reduceWithResult(result, (__, item) -> {
 			try {
 
 				result.registerValue(reducer.reduce(result.value(), item));
