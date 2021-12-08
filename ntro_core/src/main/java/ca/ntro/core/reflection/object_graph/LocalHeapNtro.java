@@ -7,7 +7,7 @@ import ca.ntro.core.path.Path;
 public abstract class LocalHeapNtro implements LocalHeap {
 
 	@Override
-	public ObjectNode findOrCreateNode(ObjectGraph graph, Path attributePath, Object object) {
+	public ObjectNode findOrCreateNode(ObjectGraph graph, Path attributePath, Object object, boolean isStartNode) {
 
 		ObjectNode node = findNodeInHeap(object);
 
@@ -15,7 +15,7 @@ public abstract class LocalHeapNtro implements LocalHeap {
 			
 			NodeId nodeId = new NodeIdNtro(attributePath.toKey());
 
-			node = createNode(graph, this, object, nodeId);
+			node = createNode(graph, this, object, nodeId, isStartNode);
 
 			addNodeToHeap(node);
 		}
@@ -23,7 +23,7 @@ public abstract class LocalHeapNtro implements LocalHeap {
 		return node;
 	}
 
-	protected abstract ObjectNode createNode(ObjectGraph graph, LocalHeap localHeap, Object object, NodeId nodeId);
+	protected abstract ObjectNode createNode(ObjectGraph graph, LocalHeap localHeap, Object object, NodeId nodeId, boolean isStartNode);
 
 	protected abstract ObjectNode findNodeInHeap(Object object);
 

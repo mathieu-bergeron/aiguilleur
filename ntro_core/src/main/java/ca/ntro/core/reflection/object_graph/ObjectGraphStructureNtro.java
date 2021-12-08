@@ -82,8 +82,8 @@ public abstract class ObjectGraphStructureNtro implements ObjectGraphStructure {
 		}
 
 		try {
-
-			result.registerValue(reducer.reduceNode(result.value(), getLocalHeap().findOrCreateNode(getGraph(), objectPath, object)));
+			
+			result.registerValue(reducer.reduceNode(result.value(), getLocalHeap().findOrCreateNode(getGraph(), objectPath, object, true)));
 
 		} catch (Throwable t) {
 

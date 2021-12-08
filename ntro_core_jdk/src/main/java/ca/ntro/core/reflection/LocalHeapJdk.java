@@ -14,9 +14,9 @@ public class LocalHeapJdk extends LocalHeapNtro {
 	private Map<Object, Map<ObjectNode, Object>> heap = new HashMap<>();
 
 	@Override
-	protected ObjectNode createNode(ObjectGraph graph, LocalHeap localHeap, Object object, NodeId nodeId) {
+	protected ObjectNode createNode(ObjectGraph graph, LocalHeap localHeap, Object object, NodeId nodeId, boolean isStartNode) {
 		
-		return new ObjectNodeJdk(graph, localHeap, object, nodeId);
+		return new ObjectNodeJdk(graph, localHeap, object, nodeId, isStartNode);
 	}
 
 	@Override

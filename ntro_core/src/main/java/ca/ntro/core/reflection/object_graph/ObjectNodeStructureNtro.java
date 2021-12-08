@@ -110,7 +110,7 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 			
 			ObjectGraphStructureNtro graphStructure = (ObjectGraphStructureNtro) getGraph().graphStructure();
 			
-			ObjectNode toNode = graphStructure.getLocalHeap().findOrCreateNode(getGraph(), attributePath, attributeValue);
+			ObjectNode toNode = graphStructure.getLocalHeap().findOrCreateNode(getGraph(), attributePath, attributeValue, false);
 			ReferenceEdge edge = new ReferenceEdgeNtro(this.asNode(), attributeName, toNode);
 			
 			result.registerValue(reducer.reduceEdge(result.value(), edge));

@@ -15,9 +15,13 @@ import ca.ntro.core.reflection.object_graph.ReferenceEdge;
 
 public class ObjectNodeJdk extends ObjectNodeNtro {
 	
+	
+	private boolean isStartNode = false;
 
-	public ObjectNodeJdk(ObjectGraph graph, LocalHeap localHeap, Object object, NodeId nodeId) {
+	public ObjectNodeJdk(ObjectGraph graph, LocalHeap localHeap, Object object, NodeId nodeId, boolean isStartNode) {
 		super(graph, localHeap, object, nodeId);
+		
+		this.isStartNode = isStartNode;
 	}
 
 
@@ -28,8 +32,7 @@ public class ObjectNodeJdk extends ObjectNodeNtro {
 
 	@Override
 	public boolean isStartNode() {
-		// TODO Auto-generated method stub
-		return false;
+		return isStartNode;
 	}
 
 	@Override
