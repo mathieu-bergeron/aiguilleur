@@ -8,8 +8,8 @@ public class ReferenceEdgeNtro
 
 	   implements ReferenceEdge {
 
-	public ReferenceEdgeNtro(ObjectNode asNode, String attributeName, ObjectNode toNode) {
-		super(adNobkjkj)
+	public ReferenceEdgeNtro(ObjectNode fromNode, String edgeName, ObjectNode toNode) {
+		super(fromNode, edgeName, toNode);
 	}
 
 

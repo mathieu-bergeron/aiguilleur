@@ -2,12 +2,12 @@ package ca.ntro.core.reflection;
 
 
 import ca.ntro.core.graphs.common.NodeId;
+import ca.ntro.core.graphs.directed_graph.DirectedSearchOptions;
+import ca.ntro.core.graphs.directed_graph.DirectedSearchOptionsNtro;
 import ca.ntro.core.graphs.generics.graph.GenericNodeStructure;
 import ca.ntro.core.reflection.object_graph.LocalHeap;
 import ca.ntro.core.reflection.object_graph.ObjectGraph;
 import ca.ntro.core.reflection.object_graph.ObjectGraphNtro;
-import ca.ntro.core.reflection.object_graph.ObjectGraphSearchOptionsBuilder;
-import ca.ntro.core.reflection.object_graph.ObjectGraphSearchOptionsBuilderNtro;
 import ca.ntro.core.reflection.object_graph.ObjectNode;
 import ca.ntro.core.reflection.object_graph.ObjectNodeNtro;
 import ca.ntro.core.reflection.object_graph.ObjectNodeStructureNtro;
@@ -22,8 +22,8 @@ public class ObjectNodeJdk extends ObjectNodeNtro {
 
 
 	@Override
-	protected ObjectGraphSearchOptionsBuilder defaultSearchOptions() {
-		return new ObjectGraphSearchOptionsBuilderNtro();
+	protected DirectedSearchOptions defaultSearchOptions() {
+		return new DirectedSearchOptionsNtro();
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class ObjectNodeJdk extends ObjectNodeNtro {
 	}
 
 	@Override
-	protected GenericNodeStructure<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder> nodeStructure() {
+	protected GenericNodeStructure<ObjectNode, ReferenceEdge, DirectedSearchOptions> nodeStructure() {
 		return new ObjectNodeStructureJdk((ObjectNodeNtro) this, (ObjectGraphNtro) getGraph());
 	}
 

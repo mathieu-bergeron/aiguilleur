@@ -9,6 +9,9 @@ public abstract class ObjectGraphNtro
 
        implements     ObjectGraph {
 	
+	public ObjectGraphNtro(Object o) {
+	}
+
 	@Override
 	public ObjectUpdates objectAsUpdates(Object object) {
 		// TODO: describe an object of the graph

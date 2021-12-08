@@ -1,13 +1,13 @@
 package ca.ntro.core.graphs;
 
 import ca.ntro.core.graphs.common.EdgeType;
-import ca.ntro.core.graphs.directed_graph.DirectedGraphSearchOptionsBuilder;
 import ca.ntro.core.graphs.generics.graph.GenericEdge;
 import ca.ntro.core.graphs.generics.graph.GenericNode;
+import ca.ntro.core.graphs.generics.graph.SearchOptions;
 
 public class  UndirectedEdgeTriple<N extends GenericNode<N,E,SO>,
 								   E extends GenericEdge<N,E,SO>,
-								   SO extends DirectedGraphSearchOptionsBuilder> 
+								   SO extends SearchOptions> 
 	
 	extends   DirectedEdgeTriple<N,E,SO>  {
 	

@@ -6,13 +6,9 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import ca.ntro.core.graphs.DirectedEdgeTriple;
 import ca.ntro.core.initialization.InitializerTest;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.reflection.object_graph.ObjectGraph;
-import ca.ntro.core.reflection.object_graph.ObjectGraphSearchOptionsBuilder;
-import ca.ntro.core.reflection.object_graph.ObjectNode;
-import ca.ntro.core.reflection.object_graph.ReferenceEdge;
 import ca.ntro.core.services.ExceptionThrowerMock;
 
 public class ObjectGraphTests {

@@ -1,5 +1,6 @@
 package ca.ntro.core.reflection.object_graph;
 
+import ca.ntro.core.graphs.directed_graph.DirectedSearchOptions;
 import ca.ntro.core.graphs.generics.graph.NodeReducer;
 import ca.ntro.core.path.Path;
 import ca.ntro.core.stream._Reducer;
@@ -72,7 +73,7 @@ public abstract class ObjectGraphStructureNtro implements ObjectGraphStructure {
 		}
 	}
 
-	private <R> void _reduceStartNode(ResultNtro<R> result, Path objectPath, Object object, NodeReducer<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder, R> reducer) {
+	private <R> void _reduceStartNode(ResultNtro<R> result, Path objectPath, Object object, NodeReducer<ObjectNode, ReferenceEdge, DirectedSearchOptions, R> reducer) {
 		if(result.hasException()) {
 			return;
 		}
