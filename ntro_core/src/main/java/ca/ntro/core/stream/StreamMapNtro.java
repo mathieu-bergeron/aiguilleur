@@ -13,7 +13,7 @@ public class StreamMapNtro<I extends Object, R extends Object> extends StreamNtr
 	}
 
 	@Override
-	public <RR> void reduceWithResult(ResultNtro<RR> result, _Reducer<R, RR> _reducer) {
+	public <RR> void reduceWithResult(ResultNtro<RR> result, Reducer<R, RR> _reducer) {
 		parentStream.reduceWithResult(result, (__,item) -> {
 			try {
 

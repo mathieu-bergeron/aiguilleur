@@ -3,7 +3,7 @@ package ca.ntro.core.task_graphs.task_graph;
 import java.util.HashMap;
 import java.util.Map;
 
-import ca.ntro.core.stream._Reducer;
+import ca.ntro.core.stream.Reducer;
 import ca.ntro.core.graphs.common.Direction;
 import ca.ntro.core.graphs.generics.graph.InternalSearchOptionsNtro;
 import ca.ntro.core.graphs.generics.graph.SearchStrategy;
@@ -232,7 +232,7 @@ public class      TaskNtro<T  extends Task<T,AT>,
 	protected Stream<AT> atomicTasks(Map<String, AT> atomicTasks){
 		return new StreamNtro<AT>() {
 			@Override
-			public <R> void reduceWithResult(ResultNtro<R> result, _Reducer<AT, R> _reducer) {
+			public <R> void reduceWithResult(ResultNtro<R> result, Reducer<AT, R> _reducer) {
 
 				for(AT atomicTask : atomicTasks.values()) {
 					try {
@@ -284,7 +284,7 @@ public class      TaskNtro<T  extends Task<T,AT>,
 	public Stream<T> reachableTasks(TaskGraphSearchOptionsBuilder options) {
 		return new StreamNtro<T>() {
 			@Override
-			public <R> void reduceWithResult(ResultNtro<R> result, _Reducer<T, R> _reducer) {
+			public <R> void reduceWithResult(ResultNtro<R> result, Reducer<T, R> _reducer) {
 				
 				// JSweet: we need to explicitly declare intermediate streams
 				Stream<VisitedNode<TaskGraphNode<T,AT>, 

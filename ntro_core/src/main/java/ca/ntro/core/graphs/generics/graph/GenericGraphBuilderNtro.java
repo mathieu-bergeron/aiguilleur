@@ -13,7 +13,7 @@ import ca.ntro.core.graphs.common.NodeId;
 import ca.ntro.core.graphs.common.NodeIdNtro;
 import ca.ntro.core.initialization.Factory;
 import ca.ntro.core.initialization.Ntro;
-import ca.ntro.core.stream._Reducer;
+import ca.ntro.core.stream.Reducer;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class GenericGraphBuilderNtro<N extends GenericNode<N,E,SO>,
@@ -231,7 +231,7 @@ public abstract class GenericGraphBuilderNtro<N extends GenericNode<N,E,SO>,
 	}
 
 	@Override
-	public <R> void _reduceStartNodes(ResultNtro<R> result, _Reducer<N,R> reducer) {
+	public <R> void _reduceStartNodes(ResultNtro<R> result, Reducer<N,R> reducer) {
 		if(result.hasException()) {
 			return;
 		}

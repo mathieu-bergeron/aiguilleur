@@ -10,7 +10,7 @@ import ca.ntro.core.graphs.common.NodeIdNtro;
 import ca.ntro.core.graphs.graph_writer.GraphWriter;
 import ca.ntro.core.stream.Stream;
 import ca.ntro.core.stream.StreamNtro;
-import ca.ntro.core.stream._Reducer;
+import ca.ntro.core.stream.Reducer;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
@@ -237,7 +237,7 @@ public abstract class GenericGraphNtro<N extends GenericNode<N,E,SO>,
 	public Stream<N> startNodes(){
 		return new StreamNtro<N>(){
 			@Override
-			public <R> void reduceWithResult(ResultNtro<R> result, _Reducer<N, R> _reducer) {
+			public <R> void reduceWithResult(ResultNtro<R> result, Reducer<N, R> _reducer) {
 
 				// JSweet: we need explicit variables to avoid typing errors
 				GenericGraphStructure<N,E,SO> graphStructure = graphStructure();
@@ -249,7 +249,7 @@ public abstract class GenericGraphNtro<N extends GenericNode<N,E,SO>,
 	public Stream<N> nodes(){
 		return new StreamNtro<N>() {
 			@Override
-			public <R> void reduceWithResult(ResultNtro<R> result, _Reducer<N, R> _reducer) {
+			public <R> void reduceWithResult(ResultNtro<R> result, Reducer<N, R> _reducer) {
 
 				Stream<N> startNodes = startNodes();
 				startNodes.reduceWithResult(result, _reducer);
@@ -283,7 +283,7 @@ public abstract class GenericGraphNtro<N extends GenericNode<N,E,SO>,
 		 */
 		return new StreamNtro<E>() {
 			@Override
-			public <R> void reduceWithResult(ResultNtro<R> result, _Reducer<E, R> _reducer) {
+			public <R> void reduceWithResult(ResultNtro<R> result, Reducer<E, R> _reducer) {
 				
 				nodes().forEach(n -> {
 

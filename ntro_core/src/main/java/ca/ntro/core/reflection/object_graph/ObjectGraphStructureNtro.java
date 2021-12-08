@@ -3,7 +3,7 @@ package ca.ntro.core.reflection.object_graph;
 import ca.ntro.core.graphs.directed_graph.DirectedSearchOptions;
 import ca.ntro.core.graphs.generics.graph.NodeReducer;
 import ca.ntro.core.path.Path;
-import ca.ntro.core.stream._Reducer;
+import ca.ntro.core.stream.Reducer;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class ObjectGraphStructureNtro implements ObjectGraphStructure {
@@ -116,7 +116,7 @@ public abstract class ObjectGraphStructureNtro implements ObjectGraphStructure {
 	}
 
 	@Override
-	public <R> void _reduceStartNodes(ResultNtro<R> result, _Reducer<ObjectNode, R> reducer) {
+	public <R> void _reduceStartNodes(ResultNtro<R> result, Reducer<ObjectNode, R> reducer) {
 		throw new RuntimeException("TODO");
 	}
 

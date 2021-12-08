@@ -12,7 +12,7 @@ public abstract class StreamNtro<I extends Object>
        implements     Stream<I> {
 	
 	@Override
-	public abstract <R> void reduceWithResult(ResultNtro<R> result, _Reducer<I,R> _reducer);
+	public abstract <R> void reduceWithResult(ResultNtro<R> result, Reducer<I,R> _reducer);
 
 	@Override
 	public boolean ifAll(Matcher<I> matcher) {
@@ -93,7 +93,7 @@ public abstract class StreamNtro<I extends Object>
 	public Stream<I> findAll(Matcher<I> matcher) {
 		return new StreamNtro<I>() {
 			@Override
-			public <R> void reduceWithResult(ResultNtro<R> result, _Reducer<I, R> _reducer) {
+			public <R> void reduceWithResult(ResultNtro<R> result, Reducer<I, R> _reducer) {
 				StreamNtro.this.reduceWithResult(result, (__,item) -> {
 					try {
 
@@ -116,7 +116,7 @@ public abstract class StreamNtro<I extends Object>
 	}
 
 	@Override
-	public <R> Result<R> reduceToResult(R initialValue, Reducer<I, R> reducer) {
+	public <R> Result<R> reduceToResult(R initialValue, ResultReducer<I, R> reducer) {
 		ResultNtro<R> result = new ResultNtro<>(initialValue);
 
 		reduceWithResult(result, (__, item) -> {
