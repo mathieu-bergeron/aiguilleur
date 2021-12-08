@@ -52,7 +52,10 @@ public class HierarchicalGraphTests {
 
 	private void buildGraph03(HierarchicalGraphBuilder<MockHierarchicalNode, MockHierarchicalEdge> builder){
 
+		HierarchicalGraphNodeBuilder<MockHierarchicalNode, MockHierarchicalEdge> nodeA = builder.findNode("A");
 		HierarchicalGraphNodeBuilder<MockHierarchicalNode, MockHierarchicalEdge> nodeAA = builder.findNode("AA");
+
+		HierarchicalGraphNodeBuilder<MockHierarchicalNode, MockHierarchicalEdge> node0 = builder.addNode("0");
 
 		HierarchicalGraphNodeBuilder<MockHierarchicalNode, MockHierarchicalEdge> nodeF = builder.addNode("F");
 		HierarchicalGraphNodeBuilder<MockHierarchicalNode, MockHierarchicalEdge> nodeFF = builder.addNode("FF");
@@ -60,6 +63,8 @@ public class HierarchicalGraphTests {
 		nodeF.addSubNode(nodeFF);
 		
 		builder.addEdge(nodeAA, "AA_FF", nodeFF);
+		builder.addEdge(node0, "0A", nodeA);
+		builder.addEdge(node0, "00", node0);
 	}
 	
 	@Test
