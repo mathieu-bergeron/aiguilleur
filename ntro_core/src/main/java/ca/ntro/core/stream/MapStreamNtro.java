@@ -2,12 +2,12 @@ package ca.ntro.core.stream;
 
 import ca.ntro.core.wrappers.result.ResultNtro;
 
-public class StreamMapNtro<I extends Object, R extends Object> extends StreamNtro<R> {
+public class MapStreamNtro<I extends Object, R extends Object> extends StreamNtro<R> {
 	
 	private StreamNtro<I> parentStream;
 	private Mapper<I,R> mapper;
 
-	public StreamMapNtro(StreamNtro<I> parentStream, Mapper<I, R> mapper) {
+	public MapStreamNtro(StreamNtro<I> parentStream, Mapper<I, R> mapper) {
 		this.parentStream = parentStream;
 		this.mapper = mapper;
 	}

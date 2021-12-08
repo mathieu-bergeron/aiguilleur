@@ -87,12 +87,27 @@ public class StreamTests {
 	public void reduceToStream01() {
 		char[][] chars = new char[3][];
 		chars[0] = new char[] {'a','b'};
-		chars[1] = new char[] {'c','d'};
-		chars[2] = new char[] {'e','f'};
+		chars[1] = new char[] {'c'};
+		chars[2] = new char[] {'d','e','f'};
 		
 		Stream<Integer> intStream = createStream(new Integer[] {0,1,2});
 		
-		//Stream<Character> charStream = intStream.reduce(initialValue, reducer)
+		Stream<Character> charStream = intStream.reduceToStream((result,reducer,item) -> {
+
+			char[] insideChars = chars[item];
+
+			for(char insideChar : insideChars) {
+				reducer._reduce(result, insideChar);
+			}
+		});
+		
+		List<Character> charList = charStream.collect();
+
+		Ntro.asserter().assertEquals(charList.size(), 6);
+
+		Ntro.asserter().assertTrue("chars[0] == a", charList.get(0).equals('a'));
+		Ntro.asserter().assertTrue("chars[1] == b", charList.get(1).equals('b'));
+		Ntro.asserter().assertTrue("chars[2] == c", charList.get(2).equals('c'));
 	}
 	
 }

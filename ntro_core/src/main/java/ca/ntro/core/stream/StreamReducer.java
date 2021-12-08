@@ -1,7 +1,9 @@
 package ca.ntro.core.stream;
 
-public interface StreamReducer<I extends Object, M extends Object, R extends Object> {
+import ca.ntro.core.wrappers.result.ResultNtro;
+
+public interface StreamReducer<I extends Object, J extends Object, R extends Object> {
 	
-	Stream<R> reduce(Reducer<M,I> reducer, I item) throws Throwable;
+	void reduce(ResultNtro<R> result, Reducer<J,R> reducer, I item) throws Throwable;
 
 }
