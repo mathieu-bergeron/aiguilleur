@@ -1,9 +1,9 @@
 package ca.ntro.core.reflection.object_graph;
 
-import ca.ntro.core.graphs.generics.generic_graph.Node;
+import ca.ntro.core.graphs.generics.graph.GenericNode;
 import ca.ntro.core.reflection.object_updates.ObjectUpdates;
 
-public interface ObjectNode extends Node<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder> {
+public interface ObjectNode extends GenericNode<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder> {
 	
 	Object object();
 

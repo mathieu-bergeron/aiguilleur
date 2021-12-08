@@ -1,6 +1,6 @@
 package ca.ntro.core.task_graphs.task_graph;
 
-import ca.ntro.core.graphs.generics.generic_graph.NodeIdNtro;
+import ca.ntro.core.graphs.common.NodeIdNtro;
 import ca.ntro.core.identifyers.Key;
 
 public class TaskIdNtro extends NodeIdNtro implements TaskId {

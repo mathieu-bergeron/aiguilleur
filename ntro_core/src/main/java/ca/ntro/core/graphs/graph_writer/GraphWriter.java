@@ -1,6 +1,6 @@
 package ca.ntro.core.graphs.graph_writer;
 
-import ca.ntro.core.graphs.generics.generic_graph.GraphId;
+import ca.ntro.core.graphs.generics.graph.GraphId;
 
 public interface GraphWriter {
 	

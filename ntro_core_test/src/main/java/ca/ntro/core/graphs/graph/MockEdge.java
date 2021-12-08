@@ -1,8 +1,8 @@
 package ca.ntro.core.graphs.graph;
 
-import ca.ntro.core.graphs.generics.generic_graph.EdgeType;
+import ca.ntro.core.graphs.common.EdgeType;
 
-public class MockEdge extends GraphEdgeNtro<MockNode, MockEdge> {
+public class MockEdge extends EdgeNtro<MockNode, MockEdge> {
 
 	public MockEdge() {
 		super();

@@ -1,13 +1,13 @@
 package ca.ntro.core.reflection.object_graph;
 
-import ca.ntro.core.graphs.generics.generic_graph.Direction;
-import ca.ntro.core.graphs.generics.generic_graph.EdgeNtro;
-import ca.ntro.core.graphs.generics.generic_graph.EdgeType;
-import ca.ntro.core.graphs.generics.generic_graph.EdgeTypeNtro;
+import ca.ntro.core.graphs.common.Direction;
+import ca.ntro.core.graphs.common.EdgeType;
+import ca.ntro.core.graphs.common.EdgeTypeNtro;
+import ca.ntro.core.graphs.generics.graph.GenericEdgeNtro;
 
 public class ReferenceEdgeNtro 
        
-       extends EdgeNtro<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder>
+       extends GenericEdgeNtro<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder>
 
 	   implements ReferenceEdge {
 

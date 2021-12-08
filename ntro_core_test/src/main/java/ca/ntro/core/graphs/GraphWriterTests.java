@@ -5,10 +5,10 @@ package ca.ntro.core.graphs;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import ca.ntro.core.graphs.generics.generic_graph.Direction;
-import ca.ntro.core.graphs.generics.generic_graph.EdgeTypeNtro;
-import ca.ntro.core.graphs.generics.generic_graph.GraphId;
-import ca.ntro.core.graphs.generics.generic_graph.NodeNotFoundException;
+import ca.ntro.core.graphs.common.Direction;
+import ca.ntro.core.graphs.common.EdgeTypeNtro;
+import ca.ntro.core.graphs.generics.graph.GraphId;
+import ca.ntro.core.graphs.generics.graph.NodeNotFoundException;
 import ca.ntro.core.graphs.graph.MockEdge;
 import ca.ntro.core.graphs.graph.MockNode;
 import ca.ntro.core.graphs.graph_writer.ClusterNotFoundException;

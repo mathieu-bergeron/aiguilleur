@@ -1,9 +1,9 @@
 package ca.ntro.core.graphs.hierarchical_graph;
 
-import ca.ntro.core.graphs.generics.generic_hierarchical_graph.HierarchicalSearchOptionsBuilder;
+import ca.ntro.core.graphs.generics.hierarchical_graph.HierarchicalSearchOptions;
 
 public interface HierarchicalGraphSearchOptionsBuilder 
 
-       extends   HierarchicalSearchOptionsBuilder {
+       extends   HierarchicalSearchOptions {
 
 }

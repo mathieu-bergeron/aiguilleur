@@ -1,13 +1,13 @@
 package ca.ntro.core.graphs.graph_writer;
 
-import ca.ntro.core.graphs.generics.generic_graph.Node;
+import ca.ntro.core.graphs.generics.graph.GenericNode;
 
 public class ClusterSpecNtro 
        extends NodeSpecNtro 
 
        implements ClusterSpec {
 
-	public ClusterSpecNtro(Node<?,?,?> node) {
+	public ClusterSpecNtro(GenericNode<?,?,?> node) {
 		super(node);
 	}
 }

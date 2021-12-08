@@ -1,9 +1,9 @@
 package ca.ntro.core.graphs.graph;
 
-import ca.ntro.core.graphs.generics.generic_graph.GenericGraph;
+import ca.ntro.core.graphs.generics.graph.GenericGraph;
 
-public interface Graph <N extends GraphNode<N,E>,
-                        E extends GraphEdge<N,E>>
+public interface Graph <N extends Node<N,E>,
+                        E extends Edge<N,E>>
 
        extends GenericGraph<N,E, GraphSearchOptionsBuilder> {
 

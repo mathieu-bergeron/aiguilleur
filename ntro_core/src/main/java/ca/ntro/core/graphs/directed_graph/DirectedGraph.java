@@ -1,11 +1,11 @@
 package ca.ntro.core.graphs.directed_graph;
 
-import ca.ntro.core.graphs.generics.generic_graph.Edge;
-import ca.ntro.core.graphs.generics.generic_graph.GenericGraph;
-import ca.ntro.core.graphs.generics.generic_graph.Node;
+import ca.ntro.core.graphs.generics.graph.GenericEdge;
+import ca.ntro.core.graphs.generics.graph.GenericGraph;
+import ca.ntro.core.graphs.generics.graph.GenericNode;
 
-public interface DirectedGraph<N extends Node<N,E,SO>,
-                               E extends Edge<N,E,SO>,
+public interface DirectedGraph<N extends GenericNode<N,E,SO>,
+                               E extends GenericEdge<N,E,SO>,
                                SO extends DirectedGraphSearchOptionsBuilder>
 
        extends   GenericGraph<N,E,SO> {

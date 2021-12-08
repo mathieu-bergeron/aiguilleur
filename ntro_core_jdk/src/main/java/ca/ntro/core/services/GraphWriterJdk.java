@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import ca.ntro.core.graphs.generics.generic_graph.GraphId;
+import ca.ntro.core.graphs.generics.graph.GraphId;
 import ca.ntro.core.graphs.graph_writer.ClusterAlreadyAddedException;
 import ca.ntro.core.graphs.graph_writer.ClusterNotFoundException;
 import ca.ntro.core.graphs.graph_writer.ClusterSpec;

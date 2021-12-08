@@ -1,21 +1,21 @@
 package ca.ntro.core.graphs.graph_writer;
 
-import ca.ntro.core.graphs.generics.generic_graph.Edge;
+import ca.ntro.core.graphs.generics.graph.GenericEdge;
 import ca.ntro.core.path.Path;
 
 public class EdgeSpecNtro implements EdgeSpec {
 
-	private Edge<?,?,?> edge;
+	private GenericEdge<?,?,?> edge;
 	
-	public Edge<?,?,?> getEdge() {
+	public GenericEdge<?,?,?> getEdge() {
 		return edge;
 	}
 
-	public void setEdge(Edge<?,?,?> edge) {
+	public void setEdge(GenericEdge<?,?,?> edge) {
 		this.edge = edge;
 	}
 	
-	public EdgeSpecNtro(Edge<?,?,?> edge) {
+	public EdgeSpecNtro(GenericEdge<?,?,?> edge) {
 		setEdge(edge);
 	}
 	

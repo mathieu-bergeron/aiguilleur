@@ -1,13 +1,13 @@
 package ca.ntro.core.graphs.graph;
 
-import ca.ntro.core.graphs.generics.generic_graph.GenericGraphBuilder;
+import ca.ntro.core.graphs.generics.graph.GenericGraphBuilder;
 
-public interface GraphBuilder<N extends GraphNode<N,E>,
-                              E extends GraphEdge<N,E>>
+public interface GraphBuilder<N extends Node<N,E>,
+                              E extends Edge<N,E>>
 
-       extends   GenericGraphBuilder<N,E, GraphSearchOptionsBuilder, GraphNodeBuilder<N,E>, Graph<N,E>> {
+       extends   GenericGraphBuilder<N,E, GraphSearchOptionsBuilder, NodeBuilder<N,E>, Graph<N,E>> {
 
-	static <N extends GraphNodeNtro<N,E>, E extends GraphEdgeNtro<N,E>> 
+	static <N extends NodeNtro<N,E>, E extends EdgeNtro<N,E>> 
 
 	      GraphBuilder<N,E> newBuilder(Class<N> nodeClass, Class<E> edgeClass) {
 		

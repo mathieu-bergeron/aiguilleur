@@ -1,7 +1,7 @@
 package ca.ntro.core.graphs.hierarchical_graph;
 
-import ca.ntro.core.graphs.generics.generic_graph.NodeId;
-import ca.ntro.core.graphs.generics.generic_hierarchical_graph.GenericHierarchicalNodeNtro;
+import ca.ntro.core.graphs.common.NodeId;
+import ca.ntro.core.graphs.generics.hierarchical_graph.GenericHierarchicalNodeNtro;
 
 public class      HierarchicalGraphNodeNtro<N extends HierarchicalGraphNode<N,E>,
                                             E extends HierarchicalGraphEdge<N,E>> 

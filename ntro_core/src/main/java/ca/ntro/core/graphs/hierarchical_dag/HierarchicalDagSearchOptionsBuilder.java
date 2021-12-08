@@ -1,7 +1,7 @@
 package ca.ntro.core.graphs.hierarchical_dag;
 
-import ca.ntro.core.graphs.generics.generic_hierarchical_graph.HierarchicalSearchOptionsBuilder;
+import ca.ntro.core.graphs.generics.hierarchical_graph.HierarchicalSearchOptions;
 
-public interface HierarchicalDagSearchOptionsBuilder extends HierarchicalSearchOptionsBuilder {
+public interface HierarchicalDagSearchOptionsBuilder extends HierarchicalSearchOptions {
 
 }

@@ -8,11 +8,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import ca.ntro.core.graphs.DirectedEdgeTriple;
-import ca.ntro.core.graphs.generics.generic_graph.Direction;
-import ca.ntro.core.graphs.generics.generic_graph.EdgeAlreadyAddedException;
-import ca.ntro.core.graphs.generics.generic_graph.EdgeTypeNtro;
-import ca.ntro.core.graphs.generics.generic_graph.NodeAlreadyAddedException;
-import ca.ntro.core.graphs.generics.generic_graph.SearchStrategy;
+import ca.ntro.core.graphs.common.Direction;
+import ca.ntro.core.graphs.common.EdgeAlreadyAddedException;
+import ca.ntro.core.graphs.common.EdgeTypeNtro;
+import ca.ntro.core.graphs.common.NodeAlreadyAddedException;
+import ca.ntro.core.graphs.generics.graph.SearchStrategy;
 import ca.ntro.core.initialization.InitializerTest;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.services.ExceptionThrowerMock;
@@ -39,8 +39,8 @@ public class GraphTests {
 		GraphBuilder<MockNode, MockEdge> builder = GraphBuilder.newBuilder(MockNode.class, MockEdge.class);
 		builder.setGraphName("simpleGraph01");
 		
-		GraphNodeBuilder<MockNode, MockEdge> nodeA = builder.addNode("A");
-		GraphNodeBuilder<MockNode, MockEdge> nodeB = builder.addNode(new MockNode("B"));
+		NodeBuilder<MockNode, MockEdge> nodeA = builder.addNode("A");
+		NodeBuilder<MockNode, MockEdge> nodeB = builder.addNode(new MockNode("B"));
 
 		builder.addEdge(nodeA, "AA", nodeA);
 		builder.addEdge(nodeA, "AB", nodeB);
@@ -55,11 +55,11 @@ public class GraphTests {
 		GraphBuilder<MockNode, MockEdge> builder = GraphBuilder.newBuilder(MockNode.class, MockEdge.class);
 		builder.setGraphName("simpleGraph02");
 
-		GraphNodeBuilder<MockNode,MockEdge> nodeA = builder.addNode("A");
+		NodeBuilder<MockNode,MockEdge> nodeA = builder.addNode("A");
 
-		GraphNodeBuilder<MockNode,MockEdge> nodeB = builder.addNode("B");
-		GraphNodeBuilder<MockNode,MockEdge> nodeC = builder.addNode("C");
-		GraphNodeBuilder<MockNode,MockEdge> nodeD = builder.addNode("D");
+		NodeBuilder<MockNode,MockEdge> nodeB = builder.addNode("B");
+		NodeBuilder<MockNode,MockEdge> nodeC = builder.addNode("C");
+		NodeBuilder<MockNode,MockEdge> nodeD = builder.addNode("D");
 
 		MockEdge edgeAC = builder.addEdge(nodeA, "AC", nodeC);
 		MockEdge edgeBC = builder.addEdge(nodeB, "BC", nodeC);
@@ -77,17 +77,17 @@ public class GraphTests {
 		GraphBuilder<MockNode, MockEdge> builder = GraphBuilder.newBuilder(MockNode.class, MockEdge.class);
 		builder.setGraphName("simpleGraph03");
 
-		GraphNodeBuilder<MockNode,MockEdge>  nodeA = builder.addNode("A");
+		NodeBuilder<MockNode,MockEdge>  nodeA = builder.addNode("A");
 
-		GraphNodeBuilder<MockNode,MockEdge> nodeB = builder.addNode("B");
-		GraphNodeBuilder<MockNode,MockEdge> nodeC = builder.addNode("C");
-	    GraphNodeBuilder<MockNode,MockEdge> nodeD = builder.addNode("D");
-	    GraphNodeBuilder<MockNode,MockEdge> nodeE = builder.addNode("E");
+		NodeBuilder<MockNode,MockEdge> nodeB = builder.addNode("B");
+		NodeBuilder<MockNode,MockEdge> nodeC = builder.addNode("C");
+	    NodeBuilder<MockNode,MockEdge> nodeD = builder.addNode("D");
+	    NodeBuilder<MockNode,MockEdge> nodeE = builder.addNode("E");
 
-	    GraphNodeBuilder<MockNode,MockEdge> nodeF = builder.addNode("F");
-		GraphNodeBuilder<MockNode,MockEdge> nodeG = builder.addNode("G");
-		GraphNodeBuilder<MockNode,MockEdge> nodeH = builder.addNode("H");
-		GraphNodeBuilder<MockNode,MockEdge> nodeI = builder.addNode("I");
+	    NodeBuilder<MockNode,MockEdge> nodeF = builder.addNode("F");
+		NodeBuilder<MockNode,MockEdge> nodeG = builder.addNode("G");
+		NodeBuilder<MockNode,MockEdge> nodeH = builder.addNode("H");
+		NodeBuilder<MockNode,MockEdge> nodeI = builder.addNode("I");
 
 		builder.addEdge(nodeA, "AB", nodeB);
 		builder.addEdge(nodeA, "AC", nodeC);
@@ -122,8 +122,8 @@ public class GraphTests {
 		GraphBuilder<MockNode, MockEdge> builder = GraphBuilder.newBuilder(MockNode.class, MockEdge.class);
 		builder.setGraphName("nodeAlreadyExists01");
 
-		GraphNodeBuilder<MockNode,MockEdge> nodeA = builder.addNode("A");
-		GraphNodeBuilder<MockNode,MockEdge> nodeAA = builder.addNode("A");
+		NodeBuilder<MockNode,MockEdge> nodeA = builder.addNode("A");
+		NodeBuilder<MockNode,MockEdge> nodeAA = builder.addNode("A");
 
 		Graph<MockNode, MockEdge> graph = builder.graph();
 
@@ -189,8 +189,8 @@ public class GraphTests {
 
 		GraphBuilder<MockNode,MockEdge> builder = GraphBuilder.newBuilder(MockNode.class, MockEdge.class);
 
-		GraphNodeBuilder<MockNode, MockEdge> nodeA = builder.addNode("A");
-		GraphNodeBuilder<MockNode, MockEdge> nodeB = builder.addNode("B");
+		NodeBuilder<MockNode, MockEdge> nodeA = builder.addNode("A");
+		NodeBuilder<MockNode, MockEdge> nodeB = builder.addNode("B");
 		
 		nodeA.addEdge("ab", nodeB);
 		nodeA.addEdge("ab", nodeB);
@@ -204,8 +204,8 @@ public class GraphTests {
 
 		GraphBuilder<MockNode,MockEdge> builder = GraphBuilder.newBuilder(MockNode.class, MockEdge.class);
 		
-		GraphNodeBuilder<MockNode, MockEdge> nodeA = builder.addNode("A");
-		GraphNodeBuilder<MockNode, MockEdge> nodeB = builder.addNode("B");
+		NodeBuilder<MockNode, MockEdge> nodeA = builder.addNode("A");
+		NodeBuilder<MockNode, MockEdge> nodeB = builder.addNode("B");
 
 		nodeA.addEdge("ab", nodeB);
 		nodeB.addEdge("ab", nodeA);

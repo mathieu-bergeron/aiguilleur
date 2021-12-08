@@ -1,11 +1,11 @@
 package ca.ntro.core.graphs.graph;
 
-import ca.ntro.core.graphs.generics.generic_graph.GenericGraphNtro;
-import ca.ntro.core.graphs.generics.generic_graph.InternalGraphWriter;
-import ca.ntro.core.graphs.generics.generic_graph.InternalGraphWriterNtro;
+import ca.ntro.core.graphs.generics.graph.GenericGraphNtro;
+import ca.ntro.core.graphs.generics.graph.InternalGraphWriter;
+import ca.ntro.core.graphs.generics.graph.InternalGraphWriterNtro;
 
-public class GraphNtro<N extends GraphNode<N,E>,
-                       E extends GraphEdge<N,E>> 
+public class GraphNtro<N extends Node<N,E>,
+                       E extends Edge<N,E>> 
 
        extends GenericGraphNtro<N,E,GraphSearchOptionsBuilder>
 

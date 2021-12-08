@@ -1,11 +1,11 @@
 package ca.ntro.core.graphs.graph;
 
-import ca.ntro.core.graphs.generics.generic_graph.GenericGraphBuilderNtro;
+import ca.ntro.core.graphs.generics.graph.GenericGraphBuilderNtro;
 
-public class      GraphBuilderNtro<N extends GraphNode<N,E>,
-                                   E extends GraphEdge<N,E>>
+public class      GraphBuilderNtro<N extends Node<N,E>,
+                                   E extends Edge<N,E>>
 
-       extends    GenericGraphBuilderNtro<N,E, GraphSearchOptionsBuilder, GraphNodeBuilder<N,E>, Graph<N,E>> 
+       extends    GenericGraphBuilderNtro<N,E, GraphSearchOptionsBuilder, NodeBuilder<N,E>, Graph<N,E>> 
 
        implements GraphBuilder<N,E> {
 
@@ -15,8 +15,8 @@ public class      GraphBuilderNtro<N extends GraphNode<N,E>,
 	}
 
 	@Override
-	protected GraphNodeBuilder<N,E> newNodeBuilderInstance() {
-		return new GraphNodeBuilderNtro<>();
+	protected NodeBuilder<N,E> newNodeBuilderInstance() {
+		return new NodeBuilderNtro<>();
 	}
 
 }

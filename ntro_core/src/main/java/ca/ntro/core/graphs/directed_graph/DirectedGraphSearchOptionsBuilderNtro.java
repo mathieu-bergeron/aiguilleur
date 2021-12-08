@@ -1,6 +1,6 @@
 package ca.ntro.core.graphs.directed_graph;
 
-import ca.ntro.core.graphs.generics.generic_graph.Direction;
+import ca.ntro.core.graphs.common.Direction;
 import ca.ntro.core.graphs.graph.GraphSearchOptionsBuilderNtro;
 import ca.ntro.core.initialization.Ntro;
 

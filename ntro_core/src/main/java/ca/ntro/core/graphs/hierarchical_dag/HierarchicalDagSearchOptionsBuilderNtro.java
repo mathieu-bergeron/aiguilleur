@@ -1,11 +1,11 @@
 package ca.ntro.core.graphs.hierarchical_dag;
 
-import ca.ntro.core.graphs.generics.generic_graph.SearchOptions;
-import ca.ntro.core.graphs.generics.generic_hierarchical_graph.HierarchicalSearchOptionsBuilderNtro;
+import ca.ntro.core.graphs.generics.graph.InternalSearchOptions;
+import ca.ntro.core.graphs.generics.hierarchical_graph.HierarchicalSearchOptionsNtro;
 
 public class HierarchicalDagSearchOptionsBuilderNtro 
        
-       extends HierarchicalSearchOptionsBuilderNtro  
+       extends HierarchicalSearchOptionsNtro  
        
        implements HierarchicalDagSearchOptionsBuilder {
 
