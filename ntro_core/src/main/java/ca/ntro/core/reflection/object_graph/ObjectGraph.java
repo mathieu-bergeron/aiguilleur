@@ -5,7 +5,7 @@ import ca.ntro.core.reflection.object_updates.ObjectUpdates;
 
 public interface ObjectGraph 
       
-       extends DirectedGraph<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder> {
+       extends DirectedGraph<ObjectNode, ReferenceEdge> {
 	
 
 	ObjectUpdates objectAsUpdates(Object object);

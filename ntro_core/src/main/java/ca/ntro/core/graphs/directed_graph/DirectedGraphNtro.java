@@ -1,20 +1,24 @@
 package ca.ntro.core.graphs.directed_graph;
 
-import ca.ntro.core.graphs.generics.graph.GenericEdge;
 import ca.ntro.core.graphs.generics.graph.GenericGraphNtro;
-import ca.ntro.core.graphs.generics.graph.GenericNodeBuilder;
-import ca.ntro.core.graphs.generics.graph.GenericNode;
+import ca.ntro.core.graphs.generics.graph.InternalGraphWriter;
 
-public abstract class DirectedGraphNtro<N extends GenericNode<N,E,SO>,
-                                        E extends GenericEdge<N,E,SO>,
-                                        SO extends DirectedGraphSearchOptionsBuilder,
-                                        NB extends GenericNodeBuilder<N,E,SO,NB>>
+public class      DirectedGraphNtro<N extends  DirectedNode<N,E>, 
+                                    E extends  DirectedEdge<N,E>>
 
-       extends        GenericGraphNtro<N,E,SO> 
+       extends    GenericGraphNtro<N,E,DirectedSearchOptions>
 
-       implements     DirectedGraph<N,E,SO> {
 
-	public DirectedGraphNtro() {
-		super();
+       implements DirectedGraph<N,E> {
+
+	@Override
+	protected InternalGraphWriter<N,E,DirectedSearchOptions> newInternalGraphWriterInstance() {
+		return new InternalDirectedGraphWriterNtro<N,E>();
 	}
+
+	@Override
+	protected DirectedSearchOptions newDefaultSearchOptionsInstance() {
+		return new DirectedSearchOptionsNtro();
+	}
+
 }

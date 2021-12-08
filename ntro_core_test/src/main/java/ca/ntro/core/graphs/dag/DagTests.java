@@ -6,7 +6,7 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import ca.ntro.core.graphs.dag.CycleException;
+import ca.ntro.core.graphs.common.CycleException;
 import ca.ntro.core.graphs.dag.DagNtro;
 import ca.ntro.core.graphs.generics.graph.GenericEdgeNtro;
 import ca.ntro.core.graphs.generics.graph.GenericNodeNtro;

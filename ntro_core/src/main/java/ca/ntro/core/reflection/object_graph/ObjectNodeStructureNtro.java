@@ -7,6 +7,7 @@ import java.util.Map;
 import ca.ntro.core.graphs.common.Direction;
 import ca.ntro.core.graphs.common.EdgeType;
 import ca.ntro.core.graphs.common.EdgeTypeNtro;
+import ca.ntro.core.graphs.directed_graph.DirectedSearchOptions;
 import ca.ntro.core.graphs.generics.graph.EdgeReducer;
 import ca.ntro.core.graphs.generics.graph.EdgeTypeReducer;
 import ca.ntro.core.initialization.Ntro;
@@ -82,7 +83,7 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 	@Override
 	public <R> void reduceEdgesByType(EdgeType edgeType, 
 			                          ResultNtro<R> result, 
-			                          EdgeReducer<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder, R> reducer) {
+			                          EdgeReducer<ObjectNode, ReferenceEdge, DirectedSearchOptions, R> reducer) {
 
 		if(result.hasException()) {
 			return;

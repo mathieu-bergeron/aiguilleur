@@ -1,35 +1,14 @@
 package ca.ntro.core.reflection.object_graph;
 
-import ca.ntro.core.graphs.generics.graph.GenericGraphNtro;
-import ca.ntro.core.graphs.generics.graph.GraphId;
+import ca.ntro.core.graphs.directed_graph.DirectedGraphNtro;
 import ca.ntro.core.reflection.object_updates.ObjectUpdates;
 
 public abstract class ObjectGraphNtro 
 
-       extends GenericGraphNtro<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder> 
+       extends        DirectedGraphNtro<ObjectNode, ReferenceEdge> 
 
-       implements ObjectGraph {
+       implements     ObjectGraph {
 	
-
-	public ObjectGraphNtro(Object o) {
-	}
-
-	@Override
-	public GraphId id() {
-		return GraphId.fromGraphName(label());
-	}
-
-	@Override
-	public String label() {
-		return ((ObjectGraphStructure) graphStructure()).label();
-	}
-
-	@Override
-	protected ObjectGraphSearchOptionsBuilder newDefaultSearchOptionsInstance() {
-		return new ObjectGraphSearchOptionsBuilderNtro();
-	}
-
-
 	@Override
 	public ObjectUpdates objectAsUpdates(Object object) {
 		// TODO: describe an object of the graph

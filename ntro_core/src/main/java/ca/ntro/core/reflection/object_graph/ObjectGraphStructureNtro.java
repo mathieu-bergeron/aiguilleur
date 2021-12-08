@@ -44,7 +44,7 @@ public abstract class ObjectGraphStructureNtro implements ObjectGraphStructure {
 
 	@Override
 	public <R> void reduceStartNodes(ResultNtro<R> result, 
-			                         NodeReducer<ObjectNode, ReferenceEdge, ObjectGraphSearchOptionsBuilder, R> reducer) {
+			                         NodeReducer<ObjectNode, ReferenceEdge, DirectedSearchOptions, R> reducer) {
 
 		if(result.hasException()) {
 			return;

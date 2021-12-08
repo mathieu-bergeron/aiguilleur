@@ -4,13 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ca.ntro.core.exceptions.Break;
+import ca.ntro.core.graphs.common.CycleException;
 import ca.ntro.core.graphs.common.Direction;
 import ca.ntro.core.graphs.common.EdgeType;
 import ca.ntro.core.graphs.common.EdgeTypeNtro;
 import ca.ntro.core.graphs.common.NodeAlreadyAddedException;
 import ca.ntro.core.graphs.common.NodeId;
 import ca.ntro.core.graphs.common.NodeIdNtro;
-import ca.ntro.core.graphs.dag.CycleException;
 import ca.ntro.core.initialization.Factory;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.stream._Reducer;
