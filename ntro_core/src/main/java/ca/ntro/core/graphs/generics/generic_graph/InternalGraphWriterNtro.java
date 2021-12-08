@@ -1,8 +1,11 @@
 package ca.ntro.core.graphs.generics.generic_graph;
 
+import ca.ntro.core.graphs.writers.EdgeAlreadyAddedException;
 import ca.ntro.core.graphs.writers.EdgeSpecNtro;
 import ca.ntro.core.graphs.writers.GraphWriter;
+import ca.ntro.core.graphs.writers.GraphWriterException;
 import ca.ntro.core.graphs.writers.GraphWriterOptions;
+import ca.ntro.core.graphs.writers.NodeAlreadyAddedException;
 import ca.ntro.core.graphs.writers.NodeSpecNtro;
 import ca.ntro.core.initialization.Ntro;
 
@@ -45,7 +48,13 @@ public class      InternalGraphWriterNtro<N extends Node<N,E,SO>,
 				nodeSpec.setShape("hexagon");
 			}
 
-			writer.addNode(nodeSpec);
+			try {
+
+				writer.addNode(nodeSpec);
+
+			} catch (GraphWriterException e) {
+				Ntro.exceptionThrower().throwException(e);
+			}
 		});
 	}
 
@@ -62,8 +71,7 @@ public class      InternalGraphWriterNtro<N extends Node<N,E,SO>,
 
 			writer.addEdge(new NodeSpecNtro(edge.from()), new EdgeSpecNtro(edge), new NodeSpecNtro(edge.to()));
 
-		} catch (NodeNotFoundException e) {
-				
+		} catch (GraphWriterException e) {
 			Ntro.exceptionThrower().throwException(e);
 		}
 	}

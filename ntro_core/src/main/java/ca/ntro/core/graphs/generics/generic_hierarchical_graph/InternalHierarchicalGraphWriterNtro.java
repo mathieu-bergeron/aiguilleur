@@ -6,10 +6,13 @@ import ca.ntro.core.graphs.generics.generic_graph.GenericGraph;
 import ca.ntro.core.graphs.generics.generic_graph.InternalGraphWriterNtro;
 import ca.ntro.core.graphs.generics.generic_graph.NodeNotFoundException;
 import ca.ntro.core.graphs.generics.generic_graph.SearchOptionsNtro;
+import ca.ntro.core.graphs.writers.ClusterAlreadyAddedException;
 import ca.ntro.core.graphs.writers.ClusterNotFoundException;
 import ca.ntro.core.graphs.writers.ClusterSpecNtro;
 import ca.ntro.core.graphs.writers.EdgeSpecNtro;
 import ca.ntro.core.graphs.writers.GraphWriter;
+import ca.ntro.core.graphs.writers.GraphWriterException;
+import ca.ntro.core.graphs.writers.NodeAlreadyAddedException;
 import ca.ntro.core.graphs.writers.NodeSpecNtro;
 import ca.ntro.core.initialization.Ntro;
 
@@ -33,11 +36,21 @@ public class      InternalHierarchicalGraphWriterNtro<N extends GenericHierarchi
 		// write clusters and subclusters first
 		graph.forEachNode(n -> {
 			if(n.hasSubNodes() && !n.hasParent()) {
-				writer.addCluster(new ClusterSpecNtro(n));
+				try {
+
+					writer.addCluster(new ClusterSpecNtro(n));
+
+				} catch (GraphWriterException e) {
+					Ntro.exceptionThrower().throwException(e);
+				}
 				
 				n.forEachSubNode((walked, subNode) -> {
 					if(subNode.hasSubNodes() && subNode.hasParent()) {
-						writer.addSubCluster(new ClusterSpecNtro(subNode.parent()), new ClusterSpecNtro(subNode));
+						try {
+							writer.addSubCluster(new ClusterSpecNtro(subNode.parent()), new ClusterSpecNtro(subNode));
+						} catch (GraphWriterException e) {
+							Ntro.exceptionThrower().throwException(e);
+						}
 					}
 				});
 			}
@@ -46,13 +59,23 @@ public class      InternalHierarchicalGraphWriterNtro<N extends GenericHierarchi
 		// write subnodes once subclusters are written
 		graph.forEachNode(n -> {
 			if(!n.hasSubNodes() && n.hasParent()) {
-				writer.addSubNode(new ClusterSpecNtro(n.parent()), new NodeSpecNtro(n));
+				try {
+
+					writer.addSubNode(new ClusterSpecNtro(n.parent()), new NodeSpecNtro(n));
+
+				} catch (GraphWriterException e) {
+					Ntro.exceptionThrower().throwException(e);
+				}
 			}
 		});
 
 		graph.forEachNode(n -> {
 			if(!n.hasSubNodes() && !n.hasParent()) {
-				writer.addNode(new NodeSpecNtro(n));
+				try {
+					writer.addNode(new NodeSpecNtro(n));
+				} catch (GraphWriterException e) {
+					Ntro.exceptionThrower().throwException(e);
+				}
 			}
 		});
 	}
@@ -85,8 +108,7 @@ public class      InternalHierarchicalGraphWriterNtro<N extends GenericHierarchi
 
 			}
 
-		} catch (NodeNotFoundException | ClusterNotFoundException e) {
-
+		} catch (GraphWriterException e) {
 			Ntro.exceptionThrower().throwException(e);
 		}
 	}

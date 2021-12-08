@@ -6,12 +6,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ca.ntro.core.graphs.generics.generic_graph.GraphId;
-import ca.ntro.core.graphs.generics.generic_graph.NodeNotFoundException;
+import ca.ntro.core.graphs.writers.ClusterAlreadyAddedException;
 import ca.ntro.core.graphs.writers.ClusterNotFoundException;
 import ca.ntro.core.graphs.writers.ClusterSpec;
 import ca.ntro.core.graphs.writers.EdgeSpec;
 import ca.ntro.core.graphs.writers.GraphWriter;
 import ca.ntro.core.graphs.writers.GraphWriterOptions;
+import ca.ntro.core.graphs.writers.NodeAlreadyAddedException;
+import ca.ntro.core.graphs.writers.NodeNotFoundException;
 import ca.ntro.core.graphs.writers.NodeSpec;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.path.Filepath;
@@ -35,12 +37,14 @@ public class GraphWriterJdk implements GraphWriter {
 	private Map<String, MutableGraph> clusters = new HashMap<>();
 	private Map<String, MutableNode> clusterInvisibleNodes = new HashMap<>();
 	private Map<String, MutableNode> nodes = new HashMap<>();
+	private GraphWriterOptions options;
 
 	public GraphWriterJdk() {
 	}
 
 	@Override
 	public void initialize(GraphId id, GraphWriterOptions options) {
+		this.options = options;
 		this.basepath = id.toFilepath();
 
 		graph = mutGraph(basepath.filename()).setDirected(options.isDirected())
@@ -73,7 +77,6 @@ public class GraphWriterJdk implements GraphWriter {
 		}
 	}
 
-
 	@Override
 	public void writeSvg() {
 		try {
@@ -104,53 +107,34 @@ public class GraphWriterJdk implements GraphWriter {
 	}
 
 	@Override
-	public void addCluster(ClusterSpec clusterSpec) {
-		MutableGraph cluster = createCluster(clusterSpec);
-
-		if(!clusterAlreadyAdded(clusterSpec)) {
-			graph.add(cluster);
-			clusters.put(clusterSpec.id(), cluster);
-		}
-	}
-
-	@Override
-	public void addSubCluster(ClusterSpec clusterSpec, ClusterSpec subClusterSpec) {
-		MutableGraph cluster = createCluster(clusterSpec);
-		MutableGraph subCluster = createCluster(subClusterSpec);
-
-		if(!clusterAlreadyAdded(clusterSpec)) {
-			graph.add(cluster);
-			clusters.put(clusterSpec.id(), cluster);
-		}
-
-		if(!clusterAlreadyAdded(subClusterSpec)) {
-			cluster.add(subCluster);
-			clusters.put(subClusterSpec.id(), cluster);
-		}
-	}
-
-	@Override
-	public void addSubNode(ClusterSpec clusterSpec, NodeSpec nodeSpec) {
-		MutableGraph cluster = createCluster(clusterSpec);
-		MutableNode subNode = createNode(nodeSpec);
-		
-		if(!clusterAlreadyAdded(clusterSpec)) {
-			graph.add(cluster);
-			clusters.put(clusterSpec.id(), cluster);
-		}
-		
-		if(!nodeAlreadyAdded(nodeSpec)) {
-			cluster.add(subNode);
-			nodes.put(nodeSpec.id(), subNode);
-		}
-	}
-
-	@Override
-	public void addNode(NodeSpec nodeSpec) {
+	public void addNode(NodeSpec nodeSpec) throws NodeAlreadyAddedException {
 		MutableNode node = createNode(nodeSpec);
-		nodes.put(nodeSpec.id(), node);
 		graph.add(node);
 	}
+
+	@Override
+	public void addCluster(ClusterSpec clusterSpec) throws ClusterAlreadyAddedException {
+		MutableGraph cluster = createCluster(clusterSpec);
+
+		graph.add(cluster);
+	}
+
+	@Override
+	public void addSubCluster(ClusterSpec clusterSpec, ClusterSpec subClusterSpec) throws ClusterNotFoundException, ClusterAlreadyAddedException {
+		MutableGraph cluster = findCluster(clusterSpec);
+		MutableGraph subCluster = createCluster(subClusterSpec);
+		
+		cluster.add(subCluster);
+	}
+
+	@Override
+	public void addSubNode(ClusterSpec clusterSpec, NodeSpec nodeSpec) throws ClusterNotFoundException, NodeAlreadyAddedException {
+		MutableGraph cluster = findCluster(clusterSpec);
+		MutableNode subNode = createNode(nodeSpec);
+
+		cluster.add(subNode);
+	}
+
 
 	@Override
 	public void addEdge(NodeSpec fromSpec, EdgeSpec edgeSpec, NodeSpec toSpec) throws NodeNotFoundException {
@@ -185,35 +169,21 @@ public class GraphWriterJdk implements GraphWriter {
 			throw new NodeNotFoundException("Node not found " + toSpec.id());
 		}
 
-		createClusterInvisibleNode(fromCluster);
-		MutableNode fromInvisibleNode = clusterInvisibleNodes.get(fromCluster.name().toString());
-		MutableNode fromNode = mutNode(fromInvisibleNode.name());
+		MutableNode fromInvisibleNode = findClusterInvisibleNode(fromCluster);
 
 		Link link = Link.to(toNode);
 		link.attrs().add("label",edgeSpec.label());
 		link.attrs().add("ltail","cluster_" + fromCluster.name());
 
-		fromNode.links().add(link);
-		fromNode.attrs().add("label", fromSpec.label());
-
-		graph.add(fromNode);
+		fromInvisibleNode.links().add(link);
 	}
 
 	@Override
 	public void addEdge(NodeSpec fromSpec, EdgeSpec edgeSpec, ClusterSpec toSpec) throws NodeNotFoundException, ClusterNotFoundException {
-		MutableNode fromNode = nodes.get(fromSpec.id());
-		MutableGraph toCluster = clusters.get(toSpec.id());
-		
-		if(fromNode == null) {
-			throw new NodeNotFoundException("Node not found " + fromSpec.id());
-		}
+		MutableNode fromNode = findNode(fromSpec);
+		MutableGraph toCluster = findCluster(toSpec);
 
-		if(toCluster == null) {
-			throw new ClusterNotFoundException("Cluster not found " + toSpec.id());
-		}
-
-		createClusterInvisibleNode(toCluster);
-		MutableNode toInvisibleNode = clusterInvisibleNodes.get(toSpec.id());
+		MutableNode toInvisibleNode = findClusterInvisibleNode(toCluster);
 
 		Link link = Link.to(toInvisibleNode);
 		link.attrs().add("lhead","cluster_" + toCluster.name());
@@ -225,72 +195,77 @@ public class GraphWriterJdk implements GraphWriter {
 
 	@Override
 	public void addEdge(ClusterSpec fromSpec, EdgeSpec edgeSpec, ClusterSpec toSpec) throws ClusterNotFoundException {
-		MutableGraph fromCluster = clusters.get(fromSpec.id());
-		MutableGraph toCluster = clusters.get(toSpec.id());
-		
-		if(fromCluster == null) {
-			throw new ClusterNotFoundException("Cluster not found " + fromSpec.id());
-		}
-
-		if(toCluster == null) {
-			throw new ClusterNotFoundException("Cluster not found " + toSpec.id());
-		}
-
-		createClusterInvisibleNode(toCluster);
-		MutableNode toInvisibleNode = clusterInvisibleNodes.get(toCluster.name().toString());
+		MutableGraph fromCluster = findCluster(fromSpec);
+		MutableGraph toCluster = findCluster(toSpec);
+	
+		MutableNode toInvisibleNode = findClusterInvisibleNode(toCluster);
 
 		Link link = Link.to(toInvisibleNode);
 		link.attrs().add("lhead","cluster_" + toCluster.name());
 		link.attrs().add("label",edgeSpec.label());
 
-		createClusterInvisibleNode(fromCluster);
-		MutableNode fromInvisibleNode = clusterInvisibleNodes.get(fromCluster.name().toString());
+		MutableNode fromInvisibleNode = findClusterInvisibleNode(fromCluster);
 
-		MutableNode fromNode = mutNode(fromInvisibleNode.name());
 		link.attrs().add("ltail","cluster_" + fromCluster.name());
 
-		fromNode.links().add(link);
-		fromNode.attrs().add("label", fromSpec.label());
-
-		graph.add(fromNode);
+		fromInvisibleNode.links().add(link);
 	}
 
-	private MutableGraph createCluster(ClusterSpec clusterSpec) {
-		if(clusters.containsKey(clusterSpec.id())) return clusters.get(clusterSpec.id());
+	private MutableGraph createCluster(ClusterSpec clusterSpec) throws ClusterAlreadyAddedException {
+		if(clusters.containsKey(clusterSpec.id())) {
+			throw new ClusterAlreadyAddedException("Cluster already added: " + clusterSpec.id());
+		}
 		
 		MutableGraph cluster = mutGraph(clusterSpec.id());
 		cluster.setCluster(true);
 		cluster.graphAttrs().add(Rank.dir(RankDir.LEFT_TO_RIGHT));
 		cluster.graphAttrs().add(Label.of(clusterSpec.label()));
-		cluster.setDirected(true);
-
-
+		cluster.setDirected(this.options.isDirected());
+		
+		createClusterInvisibleNode(cluster);
+		
+		clusters.put(clusterSpec.id(), cluster);
+		
 		return cluster;
+	}
+
+	private MutableGraph findCluster(ClusterSpec clusterSpec) throws ClusterNotFoundException {
+		if(!clusters.containsKey(clusterSpec.id())) {
+			throw new ClusterNotFoundException("Cluster not found: " + clusterSpec.id());
+		}
+
+		return clusters.get(clusterSpec.id());
+	}
+
+	private MutableNode findClusterInvisibleNode(MutableGraph cluster) {
+		return clusterInvisibleNodes.get(cluster.name().toString());
 	}
 
 	private void createClusterInvisibleNode(MutableGraph cluster) {
 		if(clusterInvisibleNodes.containsKey(cluster.name().toString())) return;
 
 		String clusterInvisibleNodeId = "__" + cluster.name() + "__";
-		MutableNode clusterInvisiableNode = mutNode(clusterInvisibleNodeId);
-		clusterInvisiableNode.attrs().add("shape", "none");
-		clusterInvisiableNode.attrs().add("style", "invis");
-		clusterInvisiableNode.attrs().add("label", "");
+		MutableNode clusterInvisibleNode = mutNode(clusterInvisibleNodeId);
+		clusterInvisibleNode.attrs().add("shape", "none");
+		clusterInvisibleNode.attrs().add("style", "invis");
+		clusterInvisibleNode.attrs().add("label", "");
 		
-		cluster.add(clusterInvisiableNode);
-		clusterInvisibleNodes.put(cluster.name().toString(), clusterInvisiableNode);
+		cluster.add(clusterInvisibleNode);
+		clusterInvisibleNodes.put(cluster.name().toString(), clusterInvisibleNode);
 	}
 
-	private boolean nodeAlreadyAdded(NodeSpec nodeSpec) {
-		return nodes.containsKey(nodeSpec.id());
+	private MutableNode findNode(NodeSpec nodeSpec) throws NodeNotFoundException {
+		if(!nodes.containsKey(nodeSpec.id())) {
+			throw new NodeNotFoundException("Node not found: " + nodeSpec.id());
+		}
+		
+		return nodes.get(nodeSpec.id());
 	}
 
-	private boolean clusterAlreadyAdded(ClusterSpec clusterSpec) {
-		return clusters.containsKey(clusterSpec.id());
-	}
-
-	private MutableNode createNode(NodeSpec nodeSpec) {
-		if(nodes.containsKey(nodeSpec.id())) return nodes.get(nodeSpec.id());
+	private MutableNode createNode(NodeSpec nodeSpec) throws NodeAlreadyAddedException {
+		if(nodes.containsKey(nodeSpec.id())) {
+			throw new NodeAlreadyAddedException("Node already added: " + nodeSpec.id());
+		}
 
 		MutableNode node = mutNode(nodeSpec.id());
 		
@@ -304,8 +279,9 @@ public class GraphWriterJdk implements GraphWriter {
 		if(nodeSpec.shape() != null) {
 			node.attrs().add("shape", nodeSpec.shape());
 		}
-
+		
+		nodes.put(nodeSpec.id(), node);
+		
 		return node;
 	}
-
 }
