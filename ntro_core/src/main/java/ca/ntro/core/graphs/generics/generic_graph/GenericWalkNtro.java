@@ -6,7 +6,7 @@ import java.util.List;
 import ca.ntro.core.identifyers.Key;
 import ca.ntro.core.path.Path;
 
-public class GenericWalkNtro<E extends GenericEdge> implements GenericWalk<E> {
+public class GenericWalkNtro<E extends GenericStep> implements GenericWalk<E> {
 	
 	private List<E> edges = new ArrayList<>();
 

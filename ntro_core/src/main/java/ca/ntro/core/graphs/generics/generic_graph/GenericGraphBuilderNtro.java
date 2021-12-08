@@ -120,10 +120,10 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 	public E addEdge(NB fromNode, String edgeName, NB toNode) {
 		EdgeType edgeTypeForward = new EdgeTypeNtro(Direction.FORWARD, edgeName);
 		EdgeType edgeTypeBackward = new EdgeTypeNtro(Direction.BACKWARD, edgeName);
-		
-		addEdge(toNode, edgeTypeBackward, fromNode);
-		
+
 		E forwardEdge = addEdge(fromNode,edgeTypeForward,toNode);
+
+		addEdge(toNode, edgeTypeBackward, fromNode);
 
 		if(!toNode.node().isPartOfCycle()) {
 		    nodeBuilderNtro(toNode).setIsStartNode(false);
@@ -141,7 +141,7 @@ public abstract class GenericGraphBuilderNtro<N extends Node<N,E,SO>,
 
 		E edge = createEdge(fromNode, edgeType, toNode);
 
-		fromNode.addEdge(edge);
+		nodeBuilderNtro(fromNode).addEdge(edge);
 		
 		return edge;
 	}

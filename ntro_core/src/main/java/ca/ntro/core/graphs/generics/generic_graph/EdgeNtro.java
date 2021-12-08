@@ -47,43 +47,55 @@ public class     EdgeNtro<N extends Node<N,E,SO>,
 		setTo(to);
 	}
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object o) {
 		if(o == this) return true;
 		if(o == null) return false;
-		if(o instanceof GenericNodeNtro) {
-			EdgeNtro e = (EdgeNtro) o;
-
-			if(e.from == null && from != null) {
-				return false;
-			}
+		if(o instanceof Edge) {
+			Edge<N,E,SO> e = (Edge<N,E,SO>) o;
 			
-			if(e.from != null && !e.from.equals(from)) {
-				return false;
-			}
-			
-			if(e.edgeType == null && edgeType != null) {
-				return false;
-			}
-			
-			if(e.edgeType != null && !e.edgeType.equals(edgeType)) {
-				return false;
-			}
-
-			if(e.to == null && to != null) {
-				return false;
-			}
-			
-			if(e.to != null && !e.to.equals(to)) {
-				return false;
-			}
-
-			return true;
 		}
 		
 		return false;
 	}
+
+	protected boolean equals(N nodeA, N nodeB) {
+		if(nodeA == null && nodeB != null) {
+			return false;
+		}
+		
+		if(nodeA != null && !nodeA.equals(nodeB)) {
+			return false;
+		}
+		
+		return true;
+	}
+
+	protected boolean equals(EdgeType typeA, EdgeType typeB) {
+		if(typeA == null && typeB != null) {
+			return false;
+		}
+		
+		if(typeA != null && !typeA.equals(typeB)) {
+			return false;
+		}
+		
+		return true;
+	}
+
+	protected boolean equalsUndirected(EdgeType typeA, EdgeType typeB) {
+		if(typeA == null && typeB != null) {
+			return false;
+		}
+		
+		if(typeA != null && !typeA.equalsUndirected(typeB)) {
+			return false;
+		}
+		
+		return true;
+	}
+	
 
 	@Override
 	public EdgeType type() {
@@ -113,5 +125,12 @@ public class     EdgeNtro<N extends Node<N,E,SO>,
 	@Override
 	public Name name() {
 		return getEdgeType().name();
+	}
+
+	@Override
+	public boolean equalsUndirected(E edge) {
+		return equals(from(), edge.from())
+				&& equals(to(), edge.to())
+				&& equalsUndirected(type(), edge.type());
 	}
 }

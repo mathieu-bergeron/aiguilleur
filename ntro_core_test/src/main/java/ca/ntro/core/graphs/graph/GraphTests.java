@@ -188,32 +188,28 @@ public class GraphTests {
 		ExceptionThrowerMock exceptionThrower = registerMockExceptionThrower();
 
 		GraphBuilder<MockNode,MockEdge> builder = GraphBuilder.newBuilder(MockNode.class, MockEdge.class);
+
+		GraphNodeBuilder<MockNode, MockEdge> nodeA = builder.addNode("A");
+		GraphNodeBuilder<MockNode, MockEdge> nodeB = builder.addNode("B");
 		
-		GraphNodeBuilder<MockNode,MockEdge> nodeA = builder.addNode(new MockNode("A"));
-		
-		nodeA.addEdge("AA", nodeA);
-		nodeA.addEdge("AA", nodeA);
+		nodeA.addEdge("ab", nodeB);
+		nodeA.addEdge("ab", nodeB);
 		
 		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrown(EdgeAlreadyAddedException.class));
 	}
 
 	@Test
 	public void edgeAlreadyAddedExceptionUndirected() {
-		/*
 		ExceptionThrowerMock exceptionThrower = registerMockExceptionThrower();
 
-		GraphBuilder<MockNode,MockEdge,GraphSearchOptionsBuilder> builder = GraphBuilder.newBuilder();
+		GraphBuilder<MockNode,MockEdge> builder = GraphBuilder.newBuilder(MockNode.class, MockEdge.class);
 		
-		MockNode nodeA = new MockNode("A");
-		MockNode nodeB = new MockNode("B");
+		GraphNodeBuilder<MockNode, MockEdge> nodeA = builder.addNode("A");
+		GraphNodeBuilder<MockNode, MockEdge> nodeB = builder.addNode("B");
 
-		builder.addNode(nodeA);
-		builder.addNode(nodeB);
-		
-		nodeA.addEdge("AB", nodeB);
-		nodeB.addEdge("AB", nodeA);
+		nodeA.addEdge("ab", nodeB);
+		nodeB.addEdge("ab", nodeA);
 
 		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrown(EdgeAlreadyAddedException.class));
-		*/
 	}
 }

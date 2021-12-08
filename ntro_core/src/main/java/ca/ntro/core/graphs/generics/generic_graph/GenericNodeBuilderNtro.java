@@ -94,10 +94,9 @@ public abstract class GenericNodeBuilderNtro<N extends Node<N,E,SO>,
 		return graphBuilder().addEdge((NB) this, edgeName, toNode);
 	}
 
-	@Override
 	public void addEdge(E edge) {
 
-		if(getEdgesByDirection().containsEdge(edge)) {
+		if(ifEdgeAlreadyExists(edge)) {
 
 			Ntro.exceptionThrower().throwException(new EdgeAlreadyAddedException("Edge already added: " +  edge.id().toKey()));
 			
@@ -105,6 +104,25 @@ public abstract class GenericNodeBuilderNtro<N extends Node<N,E,SO>,
 
 			getEdgesByDirection().addEdge(edge);
 		}
+	}
+	
+	public boolean ifEdgeAlreadyExists(E edge) {
+		boolean alreadyAdded = false;
+		
+		if(edge.from() != edge.to()) {
+
+			alreadyAdded = node().edges().ifSome(e -> {
+				return e.equalsUndirected(edge);
+			});
+
+		}else {
+
+			alreadyAdded = node().edges().ifSome(e -> {
+				return e.equals(edge);
+			});
+		}
+		
+		return alreadyAdded;
 	}
 
 	@Override

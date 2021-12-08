@@ -66,6 +66,9 @@ public class EdgeTypeNtro implements EdgeType {
 		setName(new Name(name));
 	}
 
+	public EdgeTypeNtro() {
+	}
+
 	@Override
 	public String label() {
 		return name().toString();
@@ -88,6 +91,27 @@ public class EdgeTypeNtro implements EdgeType {
 		path.addName(name().toString());
 
 		return path.toRawPath();
+	}
+
+	@Override
+	public boolean equalsUndirected(EdgeType other) {
+		if(other.name() == null && name() != null) {
+			return false;
+		}
+		
+		if(other.name() != null && !other.name().equals(other.name())) {
+			return false;
+		}
+
+		if(other.direction() == null && direction() != null) {
+			return false;
+		}
+
+		if(other.direction() != null && !other.direction().equalsUndirected(other.direction())) {
+			return false;
+		}
+		
+		return true;
 	}
 
 }

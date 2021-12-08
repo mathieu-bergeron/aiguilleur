@@ -9,6 +9,4 @@ public interface GenericNodeBuilder<N extends Node<N,E,SO>,
 	
 	E addEdge(String edgeName, NB toNode);
 
-	void addEdge(E edge);
-
 }

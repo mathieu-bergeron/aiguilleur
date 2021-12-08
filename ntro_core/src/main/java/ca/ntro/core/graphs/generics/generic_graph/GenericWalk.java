@@ -2,7 +2,7 @@ package ca.ntro.core.graphs.generics.generic_graph;
 
 import ca.ntro.core.identifyers.Key;
 
-public interface GenericWalk<E extends GenericEdge> {
+public interface GenericWalk<E extends GenericStep> {
 
 	boolean isEmpty();
 
