@@ -25,22 +25,8 @@ public class StreamTests {
 		InitializerTest.initialize();
 	}
 	
-	private <V> Stream<V> createStream(V[] values){
-		return new StreamNtro<V>() {
-			@Override
-			public <R> void _reduce(ResultNtro<R> result, _Reducer<V, R> _reducer) {
-				for(V v : values) {
-					try {
-
-						_reducer._reduce(result, v);
-
-					} catch (Throwable e) {
-
-						Ntro.exceptionThrower().throwException(e);
-					}
-				}
-			}
-		};
+	private <V extends Object> Stream<V> createStream(V[] values){
+		return new ArrayStream<V>(values);
 	}
 	
 	@Test
