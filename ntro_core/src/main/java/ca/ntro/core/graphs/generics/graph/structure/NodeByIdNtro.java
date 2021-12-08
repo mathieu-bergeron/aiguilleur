@@ -1,4 +1,4 @@
-package ca.ntro.core.graphs.generics.graph_structure;
+package ca.ntro.core.graphs.generics.graph.structure;
 
 import ca.ntro.core.graphs.generics.graph.GenericEdge;
 import ca.ntro.core.graphs.generics.graph.GenericNode;

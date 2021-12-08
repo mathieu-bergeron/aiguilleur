@@ -3,8 +3,8 @@ package ca.ntro.core.graphs.generics.graph;
 import ca.ntro.core.graphs.common.Direction;
 import ca.ntro.core.graphs.common.EdgeAlreadyAddedException;
 import ca.ntro.core.graphs.common.EdgeType;
-import ca.ntro.core.graphs.generics.graph_structure.EdgesByDirection;
-import ca.ntro.core.graphs.generics.graph_structure.EdgesByDirectionNtro;
+import ca.ntro.core.graphs.generics.graph.structure.EdgesByDirection;
+import ca.ntro.core.graphs.generics.graph.structure.EdgesByDirectionNtro;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.wrappers.result.ResultNtro;
 

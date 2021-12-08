@@ -10,11 +10,14 @@ public abstract class ObjectGraphStructureNtro implements ObjectGraphStructure {
 
 	private ObjectGraph graph;
 	private Object[] startObjects;
-	private LocalHeap localHeap = createLocalHeap();
+	private LocalHeap localHeap = newLocalHeapInstance();
 
 	public ObjectGraphStructureNtro(Object o, ObjectGraph graph) {
 		setGraph(graph);
 		setStartObjects(new Object[] {o});
+	}
+
+	public ObjectGraphStructureNtro() {
 	}
 
 	public Object[] getStartObjects() {
@@ -41,7 +44,7 @@ public abstract class ObjectGraphStructureNtro implements ObjectGraphStructure {
 		this.graph = graph;
 	}
 
-	protected abstract LocalHeap createLocalHeap();
+	protected abstract LocalHeap newLocalHeapInstance();
 
 	@Override
 	public <R> void reduceStartNodes(ResultNtro<R> result, 

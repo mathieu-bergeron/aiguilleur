@@ -6,12 +6,16 @@ import ca.ntro.core.reflection.object_graph.ObjectGraphStructureNtro;
 
 public class ObjectGraphStructureJdk extends ObjectGraphStructureNtro {
 
+	public ObjectGraphStructureJdk() {
+		super();
+	}
+
 	public ObjectGraphStructureJdk(Object o, ObjectGraph graph) {
 		super(o, graph);
 	}
 
 	@Override
-	protected LocalHeap createLocalHeap() {
+	protected LocalHeap newLocalHeapInstance() {
 		return new LocalHeapJdk();
 	}
 

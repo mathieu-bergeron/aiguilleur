@@ -1,4 +1,4 @@
-package ca.ntro.core.graphs.generics.graph_structure;
+package ca.ntro.core.graphs.generics.graph.structure;
 
 import java.util.Collection;
 import java.util.HashMap;
