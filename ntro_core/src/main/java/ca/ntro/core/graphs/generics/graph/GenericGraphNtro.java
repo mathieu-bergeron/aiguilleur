@@ -237,7 +237,7 @@ public abstract class GenericGraphNtro<N extends GenericNode<N,E,SO>,
 	public Stream<N> startNodes(){
 		return new StreamNtro<N>(){
 			@Override
-			public <R> void reduceWithResult(ResultNtro<R> result, Reducer<N, R> _reducer) {
+			public <R> void applyReducer(ResultNtro<R> result, Reducer<N, R> _reducer) {
 
 				// JSweet: we need explicit variables to avoid typing errors
 				GenericGraphStructure<N,E,SO> graphStructure = graphStructure();
@@ -249,10 +249,10 @@ public abstract class GenericGraphNtro<N extends GenericNode<N,E,SO>,
 	public Stream<N> nodes(){
 		return new StreamNtro<N>() {
 			@Override
-			public <R> void reduceWithResult(ResultNtro<R> result, Reducer<N, R> _reducer) {
+			public <R> void applyReducer(ResultNtro<R> result, Reducer<N, R> _reducer) {
 
 				Stream<N> startNodes = startNodes();
-				startNodes.reduceWithResult(result, _reducer);
+				startNodes.applyReducer(result, _reducer);
 
 				Stream<String> startNodeIds = startNodes.map(sn -> sn.id().toKey().toString());
 				
@@ -268,7 +268,7 @@ public abstract class GenericGraphNtro<N extends GenericNode<N,E,SO>,
 
 					Stream<N> nodes = visitedNodes.map(vn -> vn.node());
 					
-					nodes.reduceWithResult(result, _reducer);
+					nodes.applyReducer(result, _reducer);
 				});
 			}
 		};
@@ -283,14 +283,14 @@ public abstract class GenericGraphNtro<N extends GenericNode<N,E,SO>,
 		 */
 		return new StreamNtro<E>() {
 			@Override
-			public <R> void reduceWithResult(ResultNtro<R> result, Reducer<E, R> _reducer) {
+			public <R> void applyReducer(ResultNtro<R> result, Reducer<E, R> _reducer) {
 				
 				nodes().forEach(n -> {
 
 					// JSweet: stream variable to make type explicit
 					Stream<E> edges = n.edges();
 
-					edges.reduceWithResult(result, _reducer);
+					edges.applyReducer(result, _reducer);
 				});
 			}
 		};

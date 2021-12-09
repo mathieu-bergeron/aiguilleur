@@ -24,8 +24,8 @@ public interface Stream<I extends Object> {
 
 	<R> Result<R> reduceToResult(R initialValue, ResultReducer<I,R> reducer);
 
-	<R> void reduceWithResult(ResultNtro<R> result, Reducer<I,R> _reducer);
-
 	<R> Stream<R> reduceToStream(StreamReducer<I,R> reducer);
+
+	<R> void applyReducer(ResultNtro<R> result, Reducer<I,R> _reducer);
 
 }

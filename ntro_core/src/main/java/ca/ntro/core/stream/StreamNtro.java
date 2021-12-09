@@ -12,13 +12,13 @@ public abstract class StreamNtro<I extends Object>
        implements     Stream<I> {
 	
 	@Override
-	public abstract <R> void reduceWithResult(ResultNtro<R> result, Reducer<I,R> _reducer);
+	public abstract <R> void applyReducer(ResultNtro<R> result, Reducer<I,R> _reducer);
 
 	@Override
 	public boolean ifAll(Matcher<I> matcher) {
 		ResultNtro<Boolean> result = new ResultNtro<>(true);
 
-		reduceWithResult(result, (__, item) -> {
+		applyReducer(result, (__, item) -> {
 			try {
 
 				if(!matcher.matches(item)) {
@@ -38,7 +38,7 @@ public abstract class StreamNtro<I extends Object>
 	public boolean ifSome(Matcher<I> matcher) {
 		ResultNtro<Boolean> result = new ResultNtro<>(false);
 
-		reduceWithResult(result, (__,item) -> {
+		applyReducer(result, (__,item) -> {
 			try {
 
 				if(matcher.matches(item)) {
@@ -58,7 +58,7 @@ public abstract class StreamNtro<I extends Object>
 	public void forEach(Visitor<I> visitor) {
 		ResultNtro<?> result = new ResultNtro<>();
 
-		reduceWithResult(result, (__,item) -> {
+		applyReducer(result, (__,item) -> {
 			try {
 
 				visitor.visit(item);
@@ -73,7 +73,7 @@ public abstract class StreamNtro<I extends Object>
 	public I findFirst(Matcher<I> matcher) {
 		ResultNtro<I> result = new ResultNtro<>();
 
-		reduceWithResult(result, (__,item) -> {
+		applyReducer(result, (__,item) -> {
 			try {
 
 				if(matcher.matches(item)) {
@@ -93,8 +93,8 @@ public abstract class StreamNtro<I extends Object>
 	public Stream<I> findAll(Matcher<I> matcher) {
 		return new StreamNtro<I>() {
 			@Override
-			public <R> void reduceWithResult(ResultNtro<R> result, Reducer<I, R> _reducer) {
-				StreamNtro.this.reduceWithResult(result, (__,item) -> {
+			public <R> void applyReducer(ResultNtro<R> result, Reducer<I, R> _reducer) {
+				StreamNtro.this.applyReducer(result, (__,item) -> {
 					try {
 
 						if(matcher.matches(item)) {
@@ -111,15 +111,16 @@ public abstract class StreamNtro<I extends Object>
 
 	@Override
 	public <R> Stream<R> map(Mapper<I,R> mapper) {
-		// JSweet: typing error when using anonymous class
-		return new MapStreamNtro<I,R>(this, mapper);
+		return reduceToStream((result, reducer, item) -> {
+			reducer._reduce(result, mapper.map(item));
+		});
 	}
 
 	@Override
 	public <R> Result<R> reduceToResult(R initialValue, ResultReducer<I, R> reducer) {
 		ResultNtro<R> result = new ResultNtro<>(initialValue);
 
-		reduceWithResult(result, (__, item) -> {
+		applyReducer(result, (__, item) -> {
 			try {
 
 				result.registerValue(reducer.reduce(result.value(), item));

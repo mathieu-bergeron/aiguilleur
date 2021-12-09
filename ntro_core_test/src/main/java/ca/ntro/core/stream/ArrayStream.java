@@ -12,7 +12,7 @@ public class ArrayStream<V extends Object> extends StreamNtro<V> {
 	}
 
 	@Override
-	public <R> void reduceWithResult(ResultNtro<R> result, Reducer<V, R> _reducer) {
+	public <R> void applyReducer(ResultNtro<R> result, Reducer<V, R> _reducer) {
 		for(V v : values) {
 			try {
 

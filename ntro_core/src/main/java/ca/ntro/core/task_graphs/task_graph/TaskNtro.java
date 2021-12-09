@@ -232,7 +232,7 @@ public class      TaskNtro<T  extends Task<T,AT>,
 	protected Stream<AT> atomicTasks(Map<String, AT> atomicTasks){
 		return new StreamNtro<AT>() {
 			@Override
-			public <R> void reduceWithResult(ResultNtro<R> result, Reducer<AT, R> _reducer) {
+			public <R> void applyReducer(ResultNtro<R> result, Reducer<AT, R> _reducer) {
 
 				for(AT atomicTask : atomicTasks.values()) {
 					try {
@@ -284,7 +284,7 @@ public class      TaskNtro<T  extends Task<T,AT>,
 	public Stream<T> reachableTasks(TaskGraphSearchOptionsBuilder options) {
 		return new StreamNtro<T>() {
 			@Override
-			public <R> void reduceWithResult(ResultNtro<R> result, Reducer<T, R> _reducer) {
+			public <R> void applyReducer(ResultNtro<R> result, Reducer<T, R> _reducer) {
 				
 				// JSweet: we need to explicitly declare intermediate streams
 				Stream<VisitedNode<TaskGraphNode<T,AT>, 
@@ -293,7 +293,7 @@ public class      TaskNtro<T  extends Task<T,AT>,
 				
 				Stream<T> reachedTasks = reachedNodes.map(rn -> rn.node().task());
 				
-				reachedTasks.reduceWithResult(result, _reducer);
+				reachedTasks.applyReducer(result, _reducer);
 			}
 		};
 	}
