@@ -26,7 +26,6 @@ public interface Stream<I extends Object> {
 
 	<R> void reduceWithResult(ResultNtro<R> result, Reducer<I,R> _reducer);
 
-	<R> Stream<R> reduceToStream(StreamReducer<R,I> reducer);
-
+	<R> Stream<R> reduceToStream(StreamReducer<I,R> reducer);
 
 }

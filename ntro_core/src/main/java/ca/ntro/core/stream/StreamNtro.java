@@ -133,8 +133,8 @@ public abstract class StreamNtro<I extends Object>
 	}
 
 	@Override
-	public <R> Stream<R> reduceToStream(StreamReducer<R,I> reducer) {
-		return new ReduceToStreamNtro<R,I>(this, reducer);
+	public <R> Stream<R> reduceToStream(StreamReducer<I,R> reducer) {
+		return null;
 	}
 
 	@Override
