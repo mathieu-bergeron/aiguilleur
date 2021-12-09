@@ -23,14 +23,30 @@ public abstract class GenericGraphBuilderNtro<N extends GenericNode<N,E,SO>,
 
        implements     GenericGraphBuilder<N,E,SO,NB,G> {
 	
-	private Class<N> nodeClass;
-	private Class<E> edgeClass;
-
+	private GenericNodeFactory<N,E,SO> nodeFactory;
+	private GenericEdgeFactory<N,E,SO> edgeFactory;
+	
 	private G graph;
 	private Map<String, N> startNodes = new HashMap<>();
 	
 	protected abstract G newGraphInstance();
 	protected abstract NB newNodeBuilderInstance();
+	
+	public GenericNodeFactory<N, E, SO> getNodeFactory() {
+		return nodeFactory;
+	}
+
+	public void setNodeFactory(GenericNodeFactory<N, E, SO> nodeFactory) {
+		this.nodeFactory = nodeFactory;
+	}
+
+	public GenericEdgeFactory<N, E, SO> getEdgeFactory() {
+		return edgeFactory;
+	}
+
+	public void setEdgeFactory(GenericEdgeFactory<N, E, SO> edgeFactory) {
+		this.edgeFactory = edgeFactory;
+	}
 
 	public Map<String, N> getStartNodes() {
 		return startNodes;
@@ -45,21 +61,6 @@ public abstract class GenericGraphBuilderNtro<N extends GenericNode<N,E,SO>,
 	}
 	public void setGraph(G graph) {
 		this.graph = graph;
-	}
-	public Class<N> getNodeClass() {
-		return nodeClass;
-	}
-
-	public void setNodeClass(Class<N> nodeClass) {
-		this.nodeClass = nodeClass;
-	}
-
-	public Class<? extends E> getEdgeClass() {
-		return edgeClass;
-	}
-
-	public void setEdgeClass(Class<E> edgeClass) {
-		this.edgeClass = edgeClass;
 	}
 
 	public void initialize() {
@@ -76,7 +77,7 @@ public abstract class GenericGraphBuilderNtro<N extends GenericNode<N,E,SO>,
 
 	@Override
 	public NB addNode(NodeId nodeId) {
-		N node = Factory.newInstance(getNodeClass());
+		N node = getNodeFactory().newInstance();
 		
 		nodeNtro(node).setGraph(graph());
 		nodeNtro(node).setNodeId(nodeId);
@@ -168,7 +169,7 @@ public abstract class GenericGraphBuilderNtro<N extends GenericNode<N,E,SO>,
 
 	protected E createEdge(NB fromNode, EdgeType edgeType, NB toNode) {
 		
-		E edge = Factory.newInstance(getEdgeClass());
+		E edge = edgeFactory.newInstance();
 
 		edgeNtro(edge).setFrom(fromNode.node());
 		edgeNtro(edge).setTo(toNode.node());

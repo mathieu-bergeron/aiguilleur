@@ -24,7 +24,7 @@ public class      TaskNtro<T  extends Task<T,AT>,
 
 	private Map<String, AT> entryTasks = new HashMap<>();
 	private Map<String, AT> exitTasks = new HashMap<>();
-
+	
 	public TaskId getId() {
 		return id;
 	}
@@ -64,6 +64,11 @@ public class      TaskNtro<T  extends Task<T,AT>,
 	public void setNodeBuilder(HierarchicalDagNodeBuilder<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>> node) {
 		this.nodeBuilder = node;
 	}
+
+	public TaskNtro(){
+		super();
+	}
+
 
 	public TaskNtro(String id){
 		setId(new TaskIdNtro(id));

@@ -10,21 +10,18 @@ public class TaskGraphNtro<T  extends Task<T,AT>,
 
 	   implements TaskGraph<T,AT> {
 	
-	@SuppressWarnings("unchecked")
-	private HierarchicalDagBuilder<TaskGraphNode<T,AT>,
-	                               TaskGraphEdge<T,AT>> hdagBuilder = HierarchicalDagBuilder.newBuilder(TaskGraphNodeNtro.class,
-	                                		                                                                TaskGraphEdgeNtro.class);
+	private InternalHierarchicalDagBuilder<T,AT> hdagBuilder;
 
 	private InternalTaskGraphWriter<T,AT> internalWriter = new InternalTaskGraphWriterNtro<>();
 	
 	private Class<T> taskClass;
 	private Class<AT> atomicTaskClass;
-
-	public HierarchicalDagBuilder<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>> getHdagBuilder() {
+	
+	public InternalHierarchicalDagBuilder<T, AT> getHdagBuilder() {
 		return hdagBuilder;
 	}
 
-	public void setHdagBuilder(HierarchicalDagBuilder<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>> hdagBuilder) {
+	public void setHdagBuilder(InternalHierarchicalDagBuilder<T, AT> hdagBuilder) {
 		this.hdagBuilder = hdagBuilder;
 	}
 
@@ -54,6 +51,11 @@ public class TaskGraphNtro<T  extends Task<T,AT>,
 
 	public TaskGraphNtro() {
 	}
+	
+	public void initialize() {
+		hdagBuilder = InternalHierarchicalDagBuilder.newBuilder(taskClass, atomicTaskClass);
+	}
+	
 
 	@Override
 	public T findTask(TaskId id) {

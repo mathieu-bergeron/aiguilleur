@@ -2,11 +2,11 @@ package ca.ntro.core.graphs.graph;
 
 import ca.ntro.core.graphs.generics.graph.SearchOptionsNtro;
 
-public class GraphSearchOptionsBuilderNtro 
+public class GraphSearchOptionsNtro 
 
        extends SearchOptionsNtro
        
-       implements GraphSearchOptionsBuilder {
+       implements GraphSearchOptions {
 
 
 }

@@ -15,14 +15,12 @@ public class HierarchicalDagBuilderNtro<N extends HierarchicalDagNode<N,E>,
 
 	@Override
 	protected HierarchicalDag<N, E> newGraphInstance() {
-		// TODO Auto-generated method stub
-		return null;
+		return new HierarchicalDagNtro<>();
 	}
 
 	@Override
 	protected HierarchicalDagNodeBuilder<N, E> newNodeBuilderInstance() {
-		// TODO Auto-generated method stub
-		return null;
+		return new HierarchicalDagNodeBuilderNtro<>();
 	}
 
 }

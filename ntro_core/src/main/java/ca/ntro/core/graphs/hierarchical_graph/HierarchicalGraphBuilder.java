@@ -7,21 +7,35 @@ public interface HierarchicalGraphBuilder<N extends HierarchicalGraphNode<N,E>,
 
        extends GenericHierarchicalGraphBuilder<N,
                                                E,
-                                               HierarchicalGraphSearchOptionsBuilder,
+                                               HierarchicalGraphSearchOptions,
                                                HierarchicalGraphNodeBuilder<N,E>,
                                                HierarchicalGraph<N,E>> {
 
 	static <N extends HierarchicalGraphNodeNtro<N,E>, E extends HierarchicalGraphEdgeNtro<N,E>> 
 
-	      HierarchicalGraphBuilder<N,E> newBuilder(Class<N> nodeClass, Class<E> edgeClass) {
+	      HierarchicalGraphBuilder<N,E> newBuilder(HierarchicalNodeFactory<N,E> nodeFactory, HierarchicalEdgeFactory<N,E> edgeFactory) {
 		
 		HierarchicalGraphBuilderNtro<N,E> builder = new HierarchicalGraphBuilderNtro<N,E>();
 		
-		builder.setNodeClass(nodeClass);
-		builder.setEdgeClass(edgeClass);
+		builder.setNodeFactory(nodeFactory);
+		builder.setEdgeFactory(edgeFactory);
 		
 		builder.initialize();
 
 		return builder;
+	}
+
+	static <N extends HierarchicalGraphNodeNtro<N,E>, E extends HierarchicalGraphEdgeNtro<N,E>> 
+
+	      HierarchicalGraphBuilder<N,E> newBuilder(Class<N> nodeClass, Class<E> edgeClass) {
+
+	    
+		HierarchicalNodeFactoryNtro<N,E> nodeFactory = new HierarchicalNodeFactoryNtro<N, E>();
+		nodeFactory.setNodeClass(nodeClass);
+		
+		HierarchicalEdgeFactoryNtro<N,E> edgeFactory = new HierarchicalEdgeFactoryNtro<N,E>();
+		edgeFactory.setEdgeClass(edgeClass);
+
+		return newBuilder(nodeFactory, edgeFactory);
 	}
 }

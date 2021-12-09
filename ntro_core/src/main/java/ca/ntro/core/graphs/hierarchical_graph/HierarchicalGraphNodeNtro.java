@@ -6,7 +6,7 @@ import ca.ntro.core.graphs.generics.hierarchical_graph.GenericHierarchicalNodeNt
 public class      HierarchicalGraphNodeNtro<N extends HierarchicalGraphNode<N,E>,
                                             E extends HierarchicalGraphEdge<N,E>> 
 
-       extends    GenericHierarchicalNodeNtro<N,E,HierarchicalGraphSearchOptionsBuilder>
+       extends    GenericHierarchicalNodeNtro<N,E,HierarchicalGraphSearchOptions>
 
        implements HierarchicalGraphNode<N,E> {
 

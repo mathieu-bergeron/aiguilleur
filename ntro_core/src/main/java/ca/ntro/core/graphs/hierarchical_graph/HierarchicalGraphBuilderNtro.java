@@ -7,7 +7,7 @@ public class HierarchicalGraphBuilderNtro<N extends HierarchicalGraphNode<N,E>,
 
        extends GenericHierarchicalGraphBuilderNtro<N,
                                                    E,
-                                                   HierarchicalGraphSearchOptionsBuilder,
+                                                   HierarchicalGraphSearchOptions,
                                                    HierarchicalGraphNodeBuilder<N,E>,
                                                    HierarchicalGraph<N,E>>
 

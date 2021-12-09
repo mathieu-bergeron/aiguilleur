@@ -149,12 +149,12 @@ public class GraphTests {
 
 		GraphBuilder<MockNode,MockEdge> builder = buildSimpleGraph03();
 		
-		GraphSearchOptionsBuilderNtro oneStepOptions = new GraphSearchOptionsBuilderNtro();
+		GraphSearchOptionsNtro oneStepOptions = new GraphSearchOptionsNtro();
 		oneStepOptions.setSearchStrategy(SearchStrategy.DEPTH_FIRST_SEARCH);
 		oneStepOptions.internal().setDirections(new Direction[] {Direction.FORWARD});
 		oneStepOptions.setMaxDistance(1);
 		
-		List<DirectedEdgeTriple<MockNode, MockEdge, GraphSearchOptionsBuilder>> edges = new ArrayList<>();
+		List<DirectedEdgeTriple<MockNode, MockEdge, GraphSearchOptions>> edges = new ArrayList<>();
 		
 		MockNode nodeA = builder.graph().findNode("A");
 		MockNode nodeB = builder.graph().findNode("B");
@@ -167,7 +167,7 @@ public class GraphTests {
 		MockNode nodeI = builder.graph().findNode("I");
 
 		nodeA.forEachReachableEdge(oneStepOptions, (walkedEdges, edge) -> {
-			edges.add(new DirectedEdgeTriple<MockNode,MockEdge,GraphSearchOptionsBuilder>(edge.from(), edge.type(), edge.to()));
+			edges.add(new DirectedEdgeTriple<MockNode,MockEdge,GraphSearchOptions>(edge.from(), edge.type(), edge.to()));
 		});
 
 		Ntro.asserter().assertEquals(4, edges.size());

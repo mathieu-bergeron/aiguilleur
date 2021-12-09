@@ -2,11 +2,11 @@ package ca.ntro.core.graphs.hierarchical_graph;
 
 import ca.ntro.core.graphs.generics.graph.SearchOptionsNtro;
 
-public class      HierarchicalGraphSearchOptionsBuilderNtro 
+public class      HierarchicalGraphSearchOptionsNtro 
 
        extends    SearchOptionsNtro
 
-       implements HierarchicalGraphSearchOptionsBuilder {
+       implements HierarchicalGraphSearchOptions {
 
 
 }

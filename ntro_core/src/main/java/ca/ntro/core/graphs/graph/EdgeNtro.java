@@ -6,7 +6,7 @@ import ca.ntro.core.graphs.generics.graph.GenericEdgeNtro;
 public class      EdgeNtro<N extends Node<N,E>,
                                 E extends Edge<N,E>>
 
-       extends    GenericEdgeNtro<N,E, GraphSearchOptionsBuilder> 
+       extends    GenericEdgeNtro<N,E, GraphSearchOptions> 
 
        implements Edge<N,E> {
 

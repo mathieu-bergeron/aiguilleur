@@ -5,6 +5,6 @@ import ca.ntro.core.graphs.generics.hierarchical_graph.GenericHierarchicalNodeBu
 public interface HierarchicalGraphNodeBuilder<N extends HierarchicalGraphNode<N,E>,
                                               E extends HierarchicalGraphEdge<N,E>>
 
-       extends GenericHierarchicalNodeBuilder<N,E,HierarchicalGraphSearchOptionsBuilder,HierarchicalGraphNodeBuilder<N,E>> {
+       extends GenericHierarchicalNodeBuilder<N,E,HierarchicalGraphSearchOptions,HierarchicalGraphNodeBuilder<N,E>> {
 
 }

@@ -5,6 +5,6 @@ import ca.ntro.core.graphs.generics.graph.GenericEdge;
 public interface Edge<N extends Node<N,E>,
                            E extends Edge<N,E>>
 
-       extends GenericEdge<N,E, GraphSearchOptionsBuilder> {
+       extends GenericEdge<N,E, GraphSearchOptions> {
 
 }
