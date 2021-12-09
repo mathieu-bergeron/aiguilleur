@@ -85,6 +85,25 @@ public class StreamTests {
 
 	@Test
 	public void reduceToStream01() {
+		
+		Stream<Integer> intStream = createStream(new Integer[] {1,2});
+		
+		Stream<Integer> intStream2 = intStream.reduceToStream((result,reducer,item) -> {
+			for(int i = 0; i < item; i++) {
+				reducer._reduce(result, i);
+			}
+		});
+		
+		List<Integer> intList = intStream2.collect();
+
+		Ntro.asserter().assertEquals(intList.size(), 3);
+		Ntro.asserter().assertTrue("chars[0] == 0", intList.get(0).equals(0));
+		Ntro.asserter().assertTrue("chars[1] == 0", intList.get(1).equals(0));
+		Ntro.asserter().assertTrue("chars[2] == 1", intList.get(2).equals(1));
+	}
+
+	@Test
+	public void reduceToStream02() {
 		char[][] chars = new char[3][];
 		chars[0] = new char[] {'a','b'};
 		chars[1] = new char[] {'c'};
@@ -104,10 +123,12 @@ public class StreamTests {
 		List<Character> charList = charStream.collect();
 
 		Ntro.asserter().assertEquals(charList.size(), 6);
-
 		Ntro.asserter().assertTrue("chars[0] == a", charList.get(0).equals('a'));
 		Ntro.asserter().assertTrue("chars[1] == b", charList.get(1).equals('b'));
 		Ntro.asserter().assertTrue("chars[2] == c", charList.get(2).equals('c'));
+		Ntro.asserter().assertTrue("chars[3] == d", charList.get(3).equals('d'));
+		Ntro.asserter().assertTrue("chars[4] == e", charList.get(4).equals('e'));
+		Ntro.asserter().assertTrue("chars[5] == f", charList.get(5).equals('f'));
 	}
 	
 }

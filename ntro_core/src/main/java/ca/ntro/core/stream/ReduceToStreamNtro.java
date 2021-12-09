@@ -15,8 +15,12 @@ public class ReduceToStreamNtro<I,R> extends StreamNtro<R> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <RR> void reduceWithResult(ResultNtro<RR> result, Reducer<R, RR> _reducer) {
-		stream.reduceWithResult((ResultNtro<R>) result, (__, item) -> {
-			streamReducer.reduce((ResultNtro<R>) result, (Reducer<R,R>) _reducer, item);
+
+		// JSweet: to avoid typing errors
+		ResultNtro resultR = (ResultNtro) result;
+
+		stream.reduceWithResult(resultR, (__, item) -> {
+			streamReducer.reduce(resultR, (Reducer<R,R>) _reducer, item);
 		});
 	}
 }
