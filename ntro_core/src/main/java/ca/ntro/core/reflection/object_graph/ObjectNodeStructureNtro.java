@@ -80,18 +80,73 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 		}
 	}
 
-	@Override
-	public <R> void reduceEdgesByType(EdgeType edgeType, 
-			                          ResultNtro<R> result, 
-			                          EdgeReducer<ObjectNode, ReferenceEdge, DirectedSearchOptions, R> reducer) {
+	public <R> void reduceEdgesByTypeForList(EdgeType edgeType, 
+			                                 ResultNtro<R> result, 
+			                                 EdgeReducer<ObjectNode, ReferenceEdge, DirectedSearchOptions, R> reducer) {
 
-		if(result.hasException()) {
-			return;
-		}
+		List<?> currentObject = (List<?>) object();
+		
+		String indexName = edgeType.name().toString();
+		
+		Integer index = Integer.parseInt(indexName);
+		
+		try {
 
-		if(edgeType.direction() != Direction.FORWARD) {
-			return;
-		}
+			Object attributeValue = currentObject.get(index);
+			
+			Path attributePath = Path.fromRawPath(this.asNode().id().toKey().toString());
+			attributePath.addName(indexName);
+			
+			assert(getGraph() != null);
+			
+			ObjectGraphStructureNtro graphStructure = (ObjectGraphStructureNtro) getGraph().graphStructure();
+			
+			ObjectNode toNode = graphStructure.getLocalHeap().findOrCreateNode(getGraph(), attributePath, attributeValue, false);
+			ReferenceEdge edge = new ReferenceEdgeNtro(this.asNode(), indexName, toNode);
+			
+			result.registerValue(reducer.reduceEdge(result.value(), edge));
+			
+		} catch (Throwable t) {
+			
+			result.registerException(t);
+		} 
+
+	}
+
+	public <R> void reduceEdgesByTypeForMap(EdgeType edgeType, 
+			                                ResultNtro<R> result, 
+			                                EdgeReducer<ObjectNode, ReferenceEdge, DirectedSearchOptions, R> reducer) {
+
+		Map<String, ?> currentObject = (Map<String, ?>) object();
+		
+		String keyName = edgeType.name().toString();
+		
+		try {
+
+			Object attributeValue = currentObject.get(keyName);
+			
+			Path attributePath = Path.fromRawPath(this.asNode().id().toKey().toString());
+			attributePath.addName(keyName);
+			
+			assert(getGraph() != null);
+			
+			ObjectGraphStructureNtro graphStructure = (ObjectGraphStructureNtro) getGraph().graphStructure();
+			
+			ObjectNode toNode = graphStructure.getLocalHeap().findOrCreateNode(getGraph(), attributePath, attributeValue, false);
+			ReferenceEdge edge = new ReferenceEdgeNtro(this.asNode(), keyName, toNode);
+			
+			result.registerValue(reducer.reduceEdge(result.value(), edge));
+			
+		} catch (Throwable t) {
+			
+			result.registerException(t);
+		} 
+
+	}
+
+	public <R> void reduceEdgesByTypeForUserDefinedObject(EdgeType edgeType, 
+			                                              ResultNtro<R> result, 
+			                                              EdgeReducer<ObjectNode, ReferenceEdge, DirectedSearchOptions, R> reducer) {
 
 		Object currentObject = object();
 		
@@ -119,6 +174,40 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 			
 			result.registerException(t);
 		} 
+
+	}
+
+	@Override
+	public <R> void reduceEdgesByType(EdgeType edgeType, 
+			                          ResultNtro<R> result, 
+			                          EdgeReducer<ObjectNode, ReferenceEdge, DirectedSearchOptions, R> reducer) {
+
+		if(result.hasException()) {
+			return;
+		}
+
+		if(edgeType.direction() != Direction.FORWARD) {
+			return;
+		}
+
+		Object currentObject = object();
+		
+		if(currentObject instanceof List) {
+			
+			reduceEdgesByTypeForList(edgeType, result, reducer);
+
+			
+		} else if(currentObject instanceof Map) {
+
+			reduceEdgesByTypeForMap(edgeType, result, reducer);
+
+			
+		}else {
+
+			reduceEdgesByTypeForUserDefinedObject(edgeType, result, reducer);
+		}
+		
+		
 	}
 
 	private boolean isSimpleValue(Object object) {
@@ -196,4 +285,15 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 	public boolean isStartNode() {
 		return asNode().isStartNode();
 	}
+
+	/*
+	@Override
+	public String label() {
+		return getObject().getClass().getSimpleName();
+	}
+	*/
+
+	
+	
+	
 }
