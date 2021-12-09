@@ -12,7 +12,7 @@ public abstract class StreamNtro<I extends Object>
        implements     Stream<I> {
 	
 	@Override
-	public abstract <R> void applyReducer(ResultNtro<R> result, Reducer<I,R> _reducer);
+	public abstract <R> void applyReducer(ResultNtro<R> result, Reducer<I,R> reducer);
 
 	@Override
 	public boolean ifAll(Matcher<I> matcher) {

@@ -275,22 +275,16 @@ public abstract class GenericGraphNtro<N extends GenericNode<N,E,SO>,
 	}
 
 	public Stream<E> edges(){
-		/*
-		 * TODO: add a reduceStream
-		 * 
-		 * nodes().reduceStream(n -> n.edges())
-		 * 
-		 */
 		return new StreamNtro<E>() {
 			@Override
-			public <R> void applyReducer(ResultNtro<R> result, Reducer<E, R> _reducer) {
+			public <R> void applyReducer(ResultNtro<R> result, Reducer<E, R> reducer) {
 				
-				nodes().forEach(n -> {
+				nodes().forEach(node -> {
 
-					// JSweet: stream variable to make type explicit
-					Stream<E> edges = n.edges();
+					// JSweet: variable to avoid typing errors
+					Stream<E> edges = node.edges();
 
-					edges.applyReducer(result, _reducer);
+					edges.applyReducer(result, reducer);
 				});
 			}
 		};
