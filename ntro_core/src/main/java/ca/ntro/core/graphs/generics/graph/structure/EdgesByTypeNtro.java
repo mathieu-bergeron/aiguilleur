@@ -1,6 +1,5 @@
 package ca.ntro.core.graphs.generics.graph.structure;
 
-
 import java.util.Collection;
 import ca.ntro.core.graphs.common.Direction;
 import ca.ntro.core.graphs.common.EdgeType;
