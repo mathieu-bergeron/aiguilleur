@@ -1,7 +1,6 @@
 package ca.ntro.core.task_graphs.task_graph;
 
 import ca.ntro.core.graphs.graph_writer.GraphWriter;
-import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagBuilder;
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagNodeBuilder;
 import ca.ntro.core.initialization.Factory;
 
@@ -10,18 +9,18 @@ public class TaskGraphNtro<T  extends Task<T,AT>,
 
 	   implements TaskGraph<T,AT> {
 	
-	private InternalHierarchicalDagBuilder<T,AT> hdagBuilder;
+	private InternalHierarchicalDagBuilderNtro<T,AT> hdagBuilder = new InternalHierarchicalDagBuilderNtro<T,AT>();
 
 	private InternalTaskGraphWriter<T,AT> internalWriter = new InternalTaskGraphWriterNtro<>();
 	
 	private Class<T> taskClass;
 	private Class<AT> atomicTaskClass;
 	
-	public InternalHierarchicalDagBuilder<T, AT> getHdagBuilder() {
+	public InternalHierarchicalDagBuilderNtro<T, AT> getHdagBuilder() {
 		return hdagBuilder;
 	}
 
-	public void setHdagBuilder(InternalHierarchicalDagBuilder<T, AT> hdagBuilder) {
+	public void setHdagBuilder(InternalHierarchicalDagBuilderNtro<T, AT> hdagBuilder) {
 		this.hdagBuilder = hdagBuilder;
 	}
 
@@ -53,13 +52,21 @@ public class TaskGraphNtro<T  extends Task<T,AT>,
 	}
 	
 	public void initialize() {
-		hdagBuilder = InternalHierarchicalDagBuilder.newBuilder(taskClass, atomicTaskClass);
+		getHdagBuilder().setNodeFactory(() -> {
+			return new TaskGraphNodeNtro<>();
+		});
+
+		getHdagBuilder().setEdgeFactory(() -> {
+			return new TaskGraphEdgeNtro<>();
+		});
+		
+		getHdagBuilder().initialize();
 	}
 	
 
 	@Override
 	public T findTask(TaskId id) {
-		return hdagBuilder.graph().findNode(id).task();
+		return getHdagBuilder().graph().findNode(id).task();
 	}
 
 	@Override
@@ -69,7 +76,7 @@ public class TaskGraphNtro<T  extends Task<T,AT>,
 
 	@Override
 	public void setGraphName(String graphName) {
-		hdagBuilder.setGraphName(graphName);
+		getHdagBuilder().setGraphName(graphName);
 	}
 
 	@SuppressWarnings("unchecked")
