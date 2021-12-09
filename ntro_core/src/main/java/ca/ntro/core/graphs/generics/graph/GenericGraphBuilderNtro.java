@@ -239,7 +239,7 @@ public abstract class GenericGraphBuilderNtro<N extends GenericNode<N,E,SO>,
 		for(N node : getStartNodes().values()) {
 			try {
 
-				reducer._reduce(result, node);
+				reducer.reduce(result, node);
 
 			}catch(Throwable t) {
 				

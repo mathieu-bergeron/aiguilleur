@@ -67,6 +67,8 @@ public abstract class StreamNtro<I extends Object>
 				result.registerException(t);
 			}
 		});
+		
+		result.throwException();
 	}
 
 	@Override
@@ -98,7 +100,7 @@ public abstract class StreamNtro<I extends Object>
 					try {
 
 						if(matcher.matches(item)) {
-							_reducer._reduce(result, item);
+							_reducer.reduce(result, item);
 						}
 
 					}catch(Throwable t) {
@@ -112,7 +114,7 @@ public abstract class StreamNtro<I extends Object>
 	@Override
 	public <R> Stream<R> map(Mapper<I,R> mapper) {
 		return reduceToStream((result, reducer, item) -> {
-			reducer._reduce(result, mapper.map(item));
+			reducer.reduce(result, mapper.map(item));
 		});
 	}
 

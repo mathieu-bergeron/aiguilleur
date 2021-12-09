@@ -237,7 +237,7 @@ public class      TaskNtro<T  extends Task<T,AT>,
 				for(AT atomicTask : atomicTasks.values()) {
 					try {
 
-						_reducer._reduce(result, atomicTask);
+						_reducer.reduce(result, atomicTask);
 
 					} catch(Throwable t) {
 						

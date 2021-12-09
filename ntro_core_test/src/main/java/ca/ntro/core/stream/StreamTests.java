@@ -1,14 +1,15 @@
 package ca.ntro.core.stream;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import ca.ntro.core.exceptions.Break;
 import ca.ntro.core.initialization.InitializerTest;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.services.ExceptionThrowerMock;
-import ca.ntro.core.wrappers.result.ResultNtro;
 
 public class StreamTests {
 	
@@ -90,7 +91,7 @@ public class StreamTests {
 		
 		Stream<Integer> intStream2 = intStream.reduceToStream((result,reducer,item) -> {
 			for(int i = 0; i < item; i++) {
-				reducer._reduce(result, i);
+				reducer.reduce(result, i);
 			}
 		});
 		
@@ -116,7 +117,7 @@ public class StreamTests {
 			char[] insideChars = chars[item];
 
 			for(char insideChar : insideChars) {
-				reducer._reduce(result, insideChar);
+				reducer.reduce(result, insideChar);
 			}
 		});
 		
@@ -130,5 +131,44 @@ public class StreamTests {
 		Ntro.asserter().assertTrue("chars[4] == e", charList.get(4).equals('e'));
 		Ntro.asserter().assertTrue("chars[5] == f", charList.get(5).equals('f'));
 	}
+	
+	@Test
+	public void streamException() {
+		ExceptionThrowerMock exceptionThrower = registerMockExceptionThrower();
+
+		Stream<Integer> intStream = createStream(new Integer[] {0,1,2,3,4,5});
+		
+		List<Integer> visited = new ArrayList<>();
+		
+		intStream.forEach(i -> {
+			visited.add(i);
+			if(i == 2) {
+				throw new MockException();
+			}
+		});
+
+		Ntro.asserter().assertEquals(3,visited.size());
+		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrown(MockException.class));
+	}
+
+	@Test
+	public void streamBreak() {
+		ExceptionThrowerMock exceptionThrower = registerMockExceptionThrower();
+
+		Stream<Integer> intStream = createStream(new Integer[] {0,1,2,3,4,5});
+		
+		List<Integer> visited = new ArrayList<>();
+		
+		intStream.forEach(i -> {
+			visited.add(i);
+			if(i == 2) {
+				throw new Break();
+			}
+		});
+
+		Ntro.asserter().assertEquals(3, visited.size());
+		Ntro.asserter().assertTrue("Should not throw", !exceptionThrower.wasThrown(Break.class));
+	}
+	
 	
 }
