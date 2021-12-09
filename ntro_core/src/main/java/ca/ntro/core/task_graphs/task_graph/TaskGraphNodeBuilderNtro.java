@@ -4,7 +4,6 @@ import ca.ntro.core.graphs.common.NodeId;
 import ca.ntro.core.graphs.generics.graph.EdgeReducer;
 import ca.ntro.core.graphs.generics.graph.EdgeVisitor;
 import ca.ntro.core.graphs.generics.graph.GenericGraph;
-import ca.ntro.core.graphs.generics.graph.GenericGraphBuilder;
 import ca.ntro.core.graphs.generics.graph.GenericNodeStructure;
 import ca.ntro.core.graphs.generics.graph.ReachableEdgeReducer;
 import ca.ntro.core.graphs.generics.graph.ReachableEdgeVisitor;

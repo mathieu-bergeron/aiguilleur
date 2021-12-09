@@ -1,6 +1,5 @@
 package ca.aiguilleur;
 
-import ca.aiguilleur.AiguilleurApp;
 import ca.aiguilleur.backend.AiguilleurRemoteBackend;
 import ca.aiguilleur.frontend.AiguilleurFrontendFx;
 import ca.ntro.app.NtroAppFx;

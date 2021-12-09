@@ -1,6 +1,5 @@
 package ca.aiguilleur.frontend;
 
-import ca.aiguilleur.frontend.AiguilleurFrontend;
 import ca.aiguilleur.frontend.menu.MenuView;
 import ca.aiguilleur.frontend.pages.PagesView;
 import ca.aiguilleur.frontend.pong.PongView;

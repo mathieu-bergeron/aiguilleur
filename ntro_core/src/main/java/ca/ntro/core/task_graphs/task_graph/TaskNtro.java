@@ -5,7 +5,6 @@ import java.util.Map;
 
 import ca.ntro.core.stream.Reducer;
 import ca.ntro.core.graphs.common.Direction;
-import ca.ntro.core.graphs.generics.graph.InternalSearchOptionsNtro;
 import ca.ntro.core.graphs.generics.graph.SearchStrategy;
 import ca.ntro.core.graphs.generics.graph.VisitedNode;
 import ca.ntro.core.stream.Stream;

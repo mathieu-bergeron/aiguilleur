@@ -10,7 +10,6 @@ import ca.ntro.core.graphs.generics.graph.EdgeReducer;
 import ca.ntro.core.graphs.generics.graph.EdgeTypeReducer;
 import ca.ntro.core.graphs.generics.graph.GenericNode;
 import ca.ntro.core.graphs.generics.graph.SearchOptions;
-import ca.ntro.core.graphs.generics.graph.InternalSearchOptionsNtro;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public class EdgesByToIdNtro<N extends GenericNode<N,E,SO>, 

@@ -5,7 +5,6 @@ import ca.ntro.core.graphs.common.EdgeIdNtro;
 import ca.ntro.core.graphs.common.EdgeType;
 import ca.ntro.core.identifyers.Name;
 import ca.ntro.core.path.Filepath;
-import ca.ntro.core.path.Path;
 
 public class     GenericEdgeNtro<N extends GenericNode<N,E,SO>, 
                           E extends GenericEdge<N,E,SO>,

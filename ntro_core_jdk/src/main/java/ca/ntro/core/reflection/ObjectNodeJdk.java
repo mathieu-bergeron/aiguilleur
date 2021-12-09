@@ -10,7 +10,6 @@ import ca.ntro.core.reflection.object_graph.ObjectGraph;
 import ca.ntro.core.reflection.object_graph.ObjectGraphNtro;
 import ca.ntro.core.reflection.object_graph.ObjectNode;
 import ca.ntro.core.reflection.object_graph.ObjectNodeNtro;
-import ca.ntro.core.reflection.object_graph.ObjectNodeStructureNtro;
 import ca.ntro.core.reflection.object_graph.ReferenceEdge;
 
 public class ObjectNodeJdk extends ObjectNodeNtro {

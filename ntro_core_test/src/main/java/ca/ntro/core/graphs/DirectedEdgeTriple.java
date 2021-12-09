@@ -3,9 +3,7 @@ package ca.ntro.core.graphs;
 import ca.ntro.core.graphs.common.EdgeType;
 import ca.ntro.core.graphs.generics.graph.GenericEdge;
 import ca.ntro.core.graphs.generics.graph.GenericNode;
-import ca.ntro.core.graphs.generics.graph.InternalSearchOptionsNtro;
 import ca.ntro.core.graphs.generics.graph.SearchOptions;
-import ca.ntro.core.graphs.graph.GraphSearchOptionsBuilder;
 
 public class DirectedEdgeTriple<N extends GenericNode<N,E,SO>,
                                 E extends GenericEdge<N,E,SO>,

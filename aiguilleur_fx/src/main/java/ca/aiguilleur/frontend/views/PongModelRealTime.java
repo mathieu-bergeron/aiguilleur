@@ -1,7 +1,6 @@
 package ca.aiguilleur.frontend.views;
 
 import ca.aiguilleur.models.PongModel;
-import ca.aiguilleur.models.pong.Side;
 import ca.ntro.app.models.ModelUpdates;
 import ca.ntro.core.path.ValuePath;
 import javafx.scene.canvas.GraphicsContext;

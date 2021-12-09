@@ -2,14 +2,11 @@ package ca.ntro.core.graphs.generics.graph.structure;
 
 
 import java.util.Collection;
-import java.util.Set;
-
 import ca.ntro.core.graphs.common.Direction;
 import ca.ntro.core.graphs.common.EdgeType;
 import ca.ntro.core.graphs.generics.graph.GenericEdge;
 import ca.ntro.core.graphs.generics.graph.GenericNode;
 import ca.ntro.core.graphs.generics.graph.SearchOptions;
-import ca.ntro.core.graphs.generics.graph.InternalSearchOptionsNtro;
 
 public class   EdgesByTypeNtro <N extends GenericNode<N,E,SO>, 
                                 E extends GenericEdge<N,E,SO>,

@@ -1,8 +1,5 @@
 package ca.ntro.core.graphs.generics.graph;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import ca.ntro.core.exceptions.Break;
 import ca.ntro.core.graphs.common.Direction;
 import ca.ntro.core.graphs.common.EdgeType;
@@ -16,8 +13,8 @@ import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>, 
-                               E extends GenericEdge<N,E,SO>,
-                               SO extends SearchOptions> 
+                                      E extends GenericEdge<N,E,SO>,
+                                      SO extends SearchOptions> 
 
       implements      GenericNode<N,E,SO> {
 	

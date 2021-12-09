@@ -5,7 +5,6 @@ import ca.ntro.core.graphs.common.NodeId;
 import ca.ntro.core.graphs.directed_graph.DirectedNodeNtro;
 import ca.ntro.core.graphs.directed_graph.DirectedSearchOptions;
 import ca.ntro.core.graphs.generics.graph.GenericGraph;
-import ca.ntro.core.graphs.generics.graph.GenericNodeNtro;
 import ca.ntro.core.reflection.object_updates.ObjectUpdates;
 
 public abstract class ObjectNodeNtro 

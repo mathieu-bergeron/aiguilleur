@@ -1,6 +1,5 @@
 package ca.ntro.core.graphs.hierarchical_dag;
 
-import ca.ntro.core.graphs.generics.graph.InternalSearchOptions;
 import ca.ntro.core.graphs.generics.hierarchical_graph.HierarchicalSearchOptionsNtro;
 
 public class HierarchicalDagSearchOptionsBuilderNtro 

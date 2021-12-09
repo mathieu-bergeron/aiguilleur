@@ -1,6 +1,5 @@
 package ca.ntro.app;
 
-import ca.ntro.app.App;
 import ca.ntro.app.frontend.ViewRegistrarFx;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.static_imports.NtroJdk;
