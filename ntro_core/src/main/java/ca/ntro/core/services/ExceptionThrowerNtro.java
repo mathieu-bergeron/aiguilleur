@@ -1,5 +1,7 @@
 package ca.ntro.core.services;
 
+import ca.ntro.core.exceptions.Break;
+
 public class ExceptionThrowerNtro implements ExceptionThrower {
 	
 	private boolean catchingMode = false;
@@ -11,7 +13,7 @@ public class ExceptionThrowerNtro implements ExceptionThrower {
 
 			exception = t;
 
-		}else {
+		}else if(!(exception instanceof Break)){
 
 			throw new RuntimeException(t);
 		}
