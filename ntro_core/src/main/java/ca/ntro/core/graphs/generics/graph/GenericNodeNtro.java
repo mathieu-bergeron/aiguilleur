@@ -176,10 +176,8 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 			return;
 		}
 		
-		Set<String> visitedNodes = new HashSet<>();
-		
 		_forEachReachableEdge(options, (walked, edge) -> {
-			if(visitedNodes.contains(edge.to().id().toKey().toString())) {
+			if(options.visitedNodes().contains(edge.to().id().toKey().toString())) {
 				return;
 			}
 
@@ -193,7 +191,7 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 				throw new Break();
 			}
 
-			visitedNodes.add(edge.to().id().toKey().toString());
+			options.visitedNodes().add(edge.to().id().toKey().toString());
 		});
 	}
 
