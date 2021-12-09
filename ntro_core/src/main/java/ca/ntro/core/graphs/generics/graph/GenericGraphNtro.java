@@ -249,10 +249,10 @@ public abstract class GenericGraphNtro<N extends GenericNode<N,E,SO>,
 	public Stream<N> nodes(){
 		return new StreamNtro<N>() {
 			@Override
-			public <R> void applyReducer(ResultNtro<R> result, Reducer<N, R> _reducer) {
+			public <R> void applyReducer(ResultNtro<R> result, Reducer<N, R> reducer) {
 
 				Stream<N> startNodes = startNodes();
-				startNodes.applyReducer(result, _reducer);
+				startNodes.applyReducer(result, reducer);
 
 				Stream<String> startNodeIds = startNodes.map(sn -> sn.id().toKey().toString());
 				
@@ -268,7 +268,7 @@ public abstract class GenericGraphNtro<N extends GenericNode<N,E,SO>,
 
 					Stream<N> nodes = visitedNodes.map(vn -> vn.node());
 					
-					nodes.applyReducer(result, _reducer);
+					nodes.applyReducer(result, reducer);
 				});
 			}
 		};

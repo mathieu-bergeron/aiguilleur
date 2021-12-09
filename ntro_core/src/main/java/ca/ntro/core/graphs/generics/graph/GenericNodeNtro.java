@@ -205,10 +205,8 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 			return;
 		}
 		
-		Set<String> visitedNodes = new HashSet<>();
-		
 		_forEachReachableEdge(options, (walked, edge) -> {
-			if(visitedNodes.contains(edge.to().id().toKey().toString())) {
+			if(options.visitedNodes().contains(edge.to().id().toKey().toString())) {
 				return;
 			}
 
@@ -222,7 +220,7 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 				throw new Break();
 			}
 
-			visitedNodes.add(edge.to().id().toKey().toString());
+			options.visitedNodes().add(edge.to().id().toKey().toString());
 		});
 	}
 
@@ -267,12 +265,11 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 			                                 ResultNtro<R> result, 
 			                                 ReachableEdgeReducer<N,E,SO,R> reducer) {
 		
-		Set<String> visitedEdges = new HashSet<>();
 		Walk<N,E,SO> walked = new WalkNtro<>();
 		
 		if(options.searchStrategy() == SearchStrategy.DEPTH_FIRST_SEARCH) {
 
-			_reduceReachableEdgesDepthFirst(options, visitedEdges, walked, result, reducer);
+			_reduceReachableEdgesDepthFirst(options, walked, result, reducer);
 
 		}else {
 
@@ -281,13 +278,12 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 			oneStepOptions.setSearchStrategy(SearchStrategy.DEPTH_FIRST_SEARCH);
 			oneStepOptions.setMaxDistance(1);
  
-			_reduceReachableEdgesBreadthFirst(options, oneStepOptions, visitedEdges, walked, result, reducer);
+			_reduceReachableEdgesBreadthFirst(options, oneStepOptions, walked, result, reducer);
 		}
 	}
 
 	@SuppressWarnings("unchecked")
 	protected <R> void _reduceReachableEdgesDepthFirst(InternalSearchOptions options, 
-			                                           Set<String> visitedEdges,
 			                                           Walk<N,E,SO> walked,
 			                                           ResultNtro<R> result, 
 			                                           ReachableEdgeReducer<N,E,SO,R> reducer) {
@@ -301,7 +297,7 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 			nodeStructure().reduceEdgeTypesForDirection(direction, result, (__, edgeType) -> {
 
 				nodeStructure().reduceEdgesByType(edgeType, result, (___, edge) -> {
-					if(visitedEdges.contains(edge.id().toKey().toString())) {
+					if(options.visitedEdges().contains(edge.id().toKey().toString())) {
 						return result.value();
 					}
 					
@@ -318,7 +314,7 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 						return result.value();
 					}
 					
-					visitedEdges.add(edge.id().toKey().toString());
+					options.visitedEdges().add(edge.id().toKey().toString());
 
 					if(!(options.maxDistance().hasValue() 
 							&& newWalked.size() >= options.maxDistance().value())) {
@@ -327,7 +323,6 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 						GenericNodeNtro<N,E,SO> to = (GenericNodeNtro<N,E,SO>) edge.to();
 
 						to._reduceReachableEdgesDepthFirst(options, 
-													       visitedEdges, 
 														   newWalked,
 														   result, 
 														   reducer);
@@ -344,7 +339,6 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 	@SuppressWarnings("unchecked")
 	protected <R> void _reduceReachableEdgesBreadthFirst(InternalSearchOptions options, 
 			                                             InternalSearchOptions oneStepOptions,
-			                                             Set<String> visitedEdges,
 			                                             Walk<N,E,SO> walked,
 			                                             ResultNtro<R> result, 
 			                                             ReachableEdgeReducer<N,E,SO,R> reducer) {
@@ -354,9 +348,9 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 			return;
 		}
 
-		_reduceReachableEdgesDepthFirst(oneStepOptions, visitedEdges, new WalkNtro<>(), result, reducer);
+		_reduceReachableEdgesDepthFirst(oneStepOptions, new WalkNtro<>(), result, reducer);
 
-		_reduceReachableEdgesDepthFirst(oneStepOptions, visitedEdges, new WalkNtro<>(), result, (__, ___, edge) -> {
+		_reduceReachableEdgesDepthFirst(oneStepOptions, new WalkNtro<>(), result, (__, ___, edge) -> {
 			
 			Walk<N,E,SO> newWalked = new WalkNtro<>(walked);
 			newWalked.add(edge);
@@ -366,7 +360,6 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 
 			to._reduceReachableEdgesBreadthFirst(options, 
 					                             oneStepOptions, 
-					                             visitedEdges, 
 					                             newWalked, 
 					                             result, 
 					                             reducer);
@@ -483,8 +476,8 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 	public Stream<VisitedNode<N,E,SO>> reachableNodes(SO options){
 		return new StreamNtro<VisitedNode<N,E,SO>>() {
 			@Override
-			public <R> void applyReducer(ResultNtro<R> result, Reducer<VisitedNode<N, E, SO>, R> _reducer) {
-				__reduceReachableNodes(options.internal(), result, _reducer);
+			public <R> void applyReducer(ResultNtro<R> result, Reducer<VisitedNode<N, E, SO>, R> reducer) {
+				__reduceReachableNodes(options.internal(), result, reducer);
 			}
 		};
 	}
