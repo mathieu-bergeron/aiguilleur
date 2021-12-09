@@ -12,10 +12,10 @@ public class ArrayStream<V extends Object> extends StreamNtro<V> {
 
 	@Override
 	public <R> void applyReducer(ResultNtro<R> result, Reducer<V, R> reducer) {
+		if(result.hasException()) return;
+
 		for(V v : values) {
-			if(result.hasException()) {
-				break;
-			}
+			if(result.hasException()) return;
 
 			try {
 
