@@ -7,7 +7,7 @@ public abstract class TaskGraphNtro<T  extends Task<T,AT>,
 
 	   implements TaskGraph<T,AT> {
 	
-	private InternalHierarchicalDagBuilder<T,AT> hdagBuilder = new InternalHierarchicalDagBuilderNtro<>();
+	private InternalHierarchicalDagBuilderNtro<T,AT> hdagBuilder = new InternalHierarchicalDagBuilderNtro<>();
 
 	private InternalTaskGraphWriter<T,AT> internalWriter = new InternalTaskGraphWriterNtro<>();
 
@@ -17,14 +17,17 @@ public abstract class TaskGraphNtro<T  extends Task<T,AT>,
 
 	public TaskGraphNtro(String graphName) {
 		hdagBuilder = new InternalHierarchicalDagBuilderNtro<T,AT>();
+		hdagBuilder.initialize();
 		hdagBuilder.setGraphName(graphName);
+
+		throw new RuntimeException("FIXME: initialize with a Builder.newBuilder()");
 	}
 
-	public InternalHierarchicalDagBuilder<T, AT> getHdag() {
+	public InternalHierarchicalDagBuilderNtro<T, AT> getHdag() {
 		return hdagBuilder;
 	}
 
-	public void setHdag(InternalHierarchicalDagBuilder<T, AT> hdag) {
+	public void setHdag(InternalHierarchicalDagBuilderNtro<T, AT> hdag) {
 		this.hdagBuilder = hdag;
 	}
 
