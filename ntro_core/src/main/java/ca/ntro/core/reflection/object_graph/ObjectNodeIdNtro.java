@@ -20,6 +20,7 @@ public class ObjectNodeIdNtro
 
 	public ObjectNodeIdNtro(String key, String label) {
 		super(key);
+		setLabel(label);
 	}
 
 	@Override

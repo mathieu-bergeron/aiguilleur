@@ -36,14 +36,14 @@ public class NodeIdNtro implements NodeId {
 	public boolean equals(Object o) {
 		if(o == this) return true;
 		if(o == null) return false;
-		if(o instanceof NodeIdNtro) {
-			NodeIdNtro n = (NodeIdNtro) o;
+		if(o instanceof NodeId) {
+			NodeId n = (NodeId) o;
 			
-			if(n.key == null && key != null) {
+			if(n.toKey() == null && key != null) {
 				return false;
 			}
 
-			if(n.key != null && !n.key.equals(key)) {
+			if(n.toKey() != null && !n.toKey().equals(key)) {
 				return false;
 			}
 			

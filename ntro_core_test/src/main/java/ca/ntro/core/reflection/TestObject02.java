@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class TestObject02 {
 
-	private TestObject01 testObject01 = new TestObject01();
+	private TestObject01 testObject01 = new TestObject01(this);
 	private Map<String, Character> map = new HashMap<>();
 	
 	public TestObject02() {
