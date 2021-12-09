@@ -11,11 +11,21 @@ public class      TaskGraphNodeNtro<T  extends Task<T,AT>,
 	   implements TaskGraphNode<T,AT>
 
 {
+	
+	private T task;
+
+	public T getTask() {
+		return task;
+	}
+
+	public void setTask(T task) {
+		this.task = task;
+	}
+
 
 	@Override
 	public T task() {
-		// TODO Auto-generated method stub
-		return null;
+		return getTask();
 	}
 
 }

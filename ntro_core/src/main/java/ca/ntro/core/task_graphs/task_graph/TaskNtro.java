@@ -65,13 +65,12 @@ public class      TaskNtro<T  extends Task<T,AT>,
 		this.nodeBuilder = node;
 	}
 
-	public TaskNtro(TaskId id, 
-			        HierarchicalDagNodeBuilder<TaskGraphNode<T,AT>, 
-			        TaskGraphEdge<T,AT>> node, 
-			        TaskGraph<T,AT> graph) {
+	public TaskNtro(String id){
+		setId(new TaskIdNtro(id));
+	}
+
+	public TaskNtro(TaskId id){
 		setId(id);
-		setNodeBuilder(node);
-		setGraph(graph);
 	}
 
 	@Override

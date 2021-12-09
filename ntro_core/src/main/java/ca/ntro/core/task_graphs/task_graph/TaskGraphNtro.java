@@ -3,9 +3,10 @@ package ca.ntro.core.task_graphs.task_graph;
 import ca.ntro.core.graphs.graph_writer.GraphWriter;
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagBuilder;
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagNodeBuilder;
+import ca.ntro.core.initialization.Factory;
 
-public abstract class TaskGraphNtro<T  extends Task<T,AT>, 
-                                    AT extends AtomicTask<T,AT>>
+public class TaskGraphNtro<T  extends Task<T,AT>, 
+                           AT extends AtomicTask<T,AT>>
 
 	   implements TaskGraph<T,AT> {
 	
@@ -15,6 +16,9 @@ public abstract class TaskGraphNtro<T  extends Task<T,AT>,
 	                                		                                                                TaskGraphEdgeNtro.class);
 
 	private InternalTaskGraphWriter<T,AT> internalWriter = new InternalTaskGraphWriterNtro<>();
+	
+	private Class<T> taskClass;
+	private Class<AT> atomicTaskClass;
 
 	public HierarchicalDagBuilder<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>> getHdagBuilder() {
 		return hdagBuilder;
@@ -32,10 +36,23 @@ public abstract class TaskGraphNtro<T  extends Task<T,AT>,
 		this.internalWriter = internalWriter;
 	}
 
-	public TaskGraphNtro() {
+	public Class<T> getTaskClass() {
+		return taskClass;
 	}
 
-	public TaskGraphNtro(String graphName) {
+	public void setTaskClass(Class<T> taskClass) {
+		this.taskClass = taskClass;
+	}
+
+	public Class<AT> getAtomicTaskClass() {
+		return atomicTaskClass;
+	}
+
+	public void setAtomicTaskClass(Class<AT> atomicTaskClass) {
+		this.atomicTaskClass = atomicTaskClass;
+	}
+
+	public TaskGraphNtro() {
 	}
 
 	@Override
@@ -44,30 +61,34 @@ public abstract class TaskGraphNtro<T  extends Task<T,AT>,
 	}
 
 	@Override
-	public void addTask(T task) {
-
-		hdagBuilder.addNode(task.id());
+	public void write(GraphWriter writer) {
+		internalWriter.write(hdagBuilder.graph(), writer);
 	}
 
 	@Override
-	public T createTask(String id) {
-		return createTask(new TaskIdNtro(id));
+	public void setGraphName(String graphName) {
+		hdagBuilder.setGraphName(graphName);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public T createTask(TaskId id) {
-		HierarchicalDagNodeBuilder<TaskGraphNode<T,AT>,TaskGraphEdge<T,AT>> node = (HierarchicalDagNodeBuilder<TaskGraphNode<T,AT>, TaskGraphEdge<T,AT>>) getHdagBuilder().addNode(id);
+	public T addTask(TaskId id) {
+		HierarchicalDagNodeBuilder<TaskGraphNode<T,AT>,TaskGraphEdge<T,AT>> nodeBuilder = hdagBuilder.addNode(id);
+		
+		
+		TaskNtro<T,AT> task = (TaskNtro<T,AT>) Factory.newInstance(taskClass);
+		
+		task.setNodeBuilder(nodeBuilder);
 
-		T task = createTaskImpl(id, node, (TaskGraph<T,AT>) this);
+		TaskGraphNodeNtro<T,AT> node = (TaskGraphNodeNtro<T, AT>) nodeBuilder.node();
+		
+		node.setTask((T) task);
 		
 		return (T) task;
 	}
-	
-	// JSweet: createTaskImpl to avoid error: "supplied parameters do not match any signature of call target"
-	protected abstract T createTaskImpl(TaskId id, HierarchicalDagNodeBuilder<TaskGraphNode<T,AT>,TaskGraphEdge<T,AT>> node, TaskGraph<T,AT> graph);
 
 	@Override
-	public void write(GraphWriter writer) {
-		internalWriter.write(hdagBuilder.graph(), writer);
+	public T addTask(String id) {
+		return addTask(new TaskIdNtro(id));
 	}
 }

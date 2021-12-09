@@ -24,19 +24,17 @@ public class TaskGraphTests {
 	
 	@Test
 	public void simpleTaskGraph01() {
-		MockTaskGraph graph = new MockTaskGraph("simpleTaskGraph01");
+		
+		TaskGraph<MockTask, MockAtomicTask> graph = TaskGraph.newGraph(MockTask.class, MockAtomicTask.class);
+		graph.setGraphName("simpleTaskGraph01");
+		
+		MockTask taskA = graph.addTask("A");
+		MockTask taskAA = graph.addTask("AA");
 
-		MockTask taskA = graph.createTask("A");
-		MockTask taskAA = graph.createTask("AA");
-
-		MockTask taskB = graph.createTask("B");
+		MockTask taskB = graph.addTask("B");
 		
 		taskA.addSubTask(taskAA);
 		taskA.addNextTask(taskB);
-
-		graph.addTask(taskA);
-		graph.addTask(taskB);
-		graph.addTask(taskAA);
 
 		graph.write(Ntro.graphWriter());
 	}
