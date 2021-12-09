@@ -12,8 +12,8 @@ public class MockTaskGraph extends TaskGraphNtro<MockTask, MockAtomicTask> {
 
 	@Override
 	protected MockTask createTaskImpl(TaskId id, 
-			                      TaskGraphNodeBuilder<MockTask, MockAtomicTask> node, 
-			                      TaskGraph<MockTask, MockAtomicTask> graph) {
+			                          TaskGraphNodeBuilder<MockTask, MockAtomicTask> node, 
+			                          TaskGraph<MockTask, MockAtomicTask> graph) {
 		
 		return new MockTask(id,node,graph);
 	}

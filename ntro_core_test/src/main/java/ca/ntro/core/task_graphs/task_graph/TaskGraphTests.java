@@ -4,6 +4,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import ca.ntro.core.initialization.InitializerTest;
+import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.services.ExceptionThrowerMock;
 
 public class TaskGraphTests {
@@ -23,7 +24,6 @@ public class TaskGraphTests {
 	
 	@Test
 	public void simpleTaskGraph01() {
-		/*
 		MockTaskGraph graph = new MockTaskGraph("simpleTaskGraph01");
 
 		MockTask taskA = graph.createTask("A");
@@ -39,6 +39,5 @@ public class TaskGraphTests {
 		graph.addTask(taskAA);
 
 		graph.write(Ntro.graphWriter());
-		*/
 	}
 }

@@ -53,10 +53,8 @@ public abstract class TaskGraphNtro<T  extends Task<T,AT>,
 		return (T) task;
 	}
 	
-	// JSweet error: "supplied parameters do not match any signature of call target"
-	// if we keep name "createTask"
+	// JSweet: createTaskImpl to avoid error: "supplied parameters do not match any signature of call target"
 	protected abstract T createTaskImpl(TaskId id, TaskGraphNodeBuilder<T,AT> node, TaskGraph<T,AT> graph);
-	
 
 	@Override
 	public void write(GraphWriter writer) {
