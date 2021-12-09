@@ -2,7 +2,6 @@ package ca.ntro.core.task_graphs.task_graph;
 
 import ca.ntro.core.graphs.graph_writer.GraphWriter;
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagBuilder;
-import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagBuilderNtro;
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagNodeBuilder;
 
 public abstract class TaskGraphNtro<T  extends Task<T,AT>, 
@@ -10,17 +9,18 @@ public abstract class TaskGraphNtro<T  extends Task<T,AT>,
 
 	   implements TaskGraph<T,AT> {
 	
-	private HierarchicalDagBuilderNtro<TaskGraphNode<T,AT>,
-	                                   TaskGraphEdge<T,AT>> hdagBuilder = HierarchicalDagBuilder.newBuilder(TaskGraphNodeNtro.class,
+	@SuppressWarnings("unchecked")
+	private HierarchicalDagBuilder<TaskGraphNode<T,AT>,
+	                               TaskGraphEdge<T,AT>> hdagBuilder = HierarchicalDagBuilder.newBuilder(TaskGraphNodeNtro.class,
 	                                		                                                                TaskGraphEdgeNtro.class);
 
 	private InternalTaskGraphWriter<T,AT> internalWriter = new InternalTaskGraphWriterNtro<>();
 
-	public HierarchicalDagBuilderNtro<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>> getHdagBuilder() {
+	public HierarchicalDagBuilder<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>> getHdagBuilder() {
 		return hdagBuilder;
 	}
 
-	public void setHdagBuilder(HierarchicalDagBuilderNtro<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>> hdagBuilder) {
+	public void setHdagBuilder(HierarchicalDagBuilder<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>> hdagBuilder) {
 		this.hdagBuilder = hdagBuilder;
 	}
 

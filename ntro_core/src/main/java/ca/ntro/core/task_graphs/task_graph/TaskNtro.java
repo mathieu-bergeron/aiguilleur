@@ -20,7 +20,7 @@ public class      TaskNtro<T  extends Task<T,AT>,
 	
 	private TaskId id;
 	private TaskGraph<T,AT> graph;
-	private HierarchicalDagNodeBuilder<TaskGraphNode<T,AT>,TaskGraphEdge<T,AT>> node;
+	private HierarchicalDagNodeBuilder<TaskGraphNode<T,AT>,TaskGraphEdge<T,AT>> nodeBuilder;
 
 	private Map<String, AT> entryTasks = new HashMap<>();
 	private Map<String, AT> exitTasks = new HashMap<>();
@@ -57,12 +57,12 @@ public class      TaskNtro<T  extends Task<T,AT>,
 		this.exitTasks = exitTasks;
 	}
 
-	public HierarchicalDagNodeBuilder<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>> getNode() {
-		return node;
+	public HierarchicalDagNodeBuilder<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>> getNodeBuilder() {
+		return nodeBuilder;
 	}
 
-	public void setNode(HierarchicalDagNodeBuilder<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>> node) {
-		this.node = node;
+	public void setNodeBuilder(HierarchicalDagNodeBuilder<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>> node) {
+		this.nodeBuilder = node;
 	}
 
 	public TaskNtro(TaskId id, 
@@ -70,7 +70,7 @@ public class      TaskNtro<T  extends Task<T,AT>,
 			        TaskGraphEdge<T,AT>> node, 
 			        TaskGraph<T,AT> graph) {
 		setId(id);
-		setNode(node);
+		setNodeBuilder(node);
 		setGraph(graph);
 	}
 
@@ -88,8 +88,8 @@ public class      TaskNtro<T  extends Task<T,AT>,
 	public T parentTask() {
 		T parentTask = null;
 
-		if(getNode().hasParent()) {
-			parentTask = getNode().parent().task();
+		if(getNodeBuilder().node().hasParent()) {
+			parentTask = getNodeBuilder().node().parent().task();
 		}
 		
 		return parentTask;
@@ -97,7 +97,7 @@ public class      TaskNtro<T  extends Task<T,AT>,
 
 	@Override
 	public boolean hasParentTask() {
-		return getNode().hasParent();
+		return getNodeBuilder().node().hasParent();
 	}
 
 	@Override
@@ -173,14 +173,14 @@ public class      TaskNtro<T  extends Task<T,AT>,
 
 	@Override
 	public T addSubTask(T subTask) {
-		getNode().addSubNode(toNode(subTask));
+		getNodeBuilder().addSubNode(toNode(subTask));
 
 		return asTask();
 	}
 
 	@SuppressWarnings("unchecked")
-	private TaskGraphNodeBuilder<T,AT> toNode(T task) {
-		return ((TaskNtro<T,AT>) task).getNode();
+	private HierarchicalDagNodeBuilder<TaskGraphNode<T,AT>,TaskGraphEdge<T,AT>> toNode(T task) {
+		return ((TaskNtro<T,AT>) task).getNodeBuilder();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -190,14 +190,14 @@ public class      TaskNtro<T  extends Task<T,AT>,
 	
 	@Override
 	public T addPreviousTask(T previousTask) {
-		toNode(previousTask).addEdge("", getNode());
+		toNode(previousTask).addEdge("", getNodeBuilder());
 
 		return asTask();
 	}
 
 	@Override
 	public T addNextTask(T nextTask) {
-		getNode().addEdge("", toNode(nextTask));
+		getNodeBuilder().addEdge("", toNode(nextTask));
 
 		return asTask();
 	}
@@ -292,7 +292,7 @@ public class      TaskNtro<T  extends Task<T,AT>,
 				// JSweet: we need to explicitly declare intermediate streams
 				Stream<VisitedNode<TaskGraphNode<T,AT>, 
 				                   TaskGraphEdge<T,AT>,
-				                   HierarchicalDagSearchOptions>> visitedNodes = getNode().reachableNodes(options);
+				                   HierarchicalDagSearchOptions>> visitedNodes = getNodeBuilder().node().reachableNodes(options);
 				
 				Stream<T> visitedTasks = visitedNodes.map(rn -> rn.node().task());
 				
