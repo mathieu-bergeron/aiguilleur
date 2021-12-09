@@ -1,10 +1,10 @@
 package ca.ntro.core.task_graphs.task_graph;
 
-import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagSearchOptionsBuilderNtro;
+import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagSearchOptionsNtro;
 
 public class TaskGraphSearchOptionsBuilderNtro 
 
-       extends HierarchicalDagSearchOptionsBuilderNtro
+       extends HierarchicalDagSearchOptionsNtro
        
        implements TaskGraphSearchOptionsBuilder {
 

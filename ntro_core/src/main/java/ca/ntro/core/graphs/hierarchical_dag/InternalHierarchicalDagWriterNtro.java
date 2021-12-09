@@ -1,15 +1,12 @@
 package ca.ntro.core.graphs.hierarchical_dag;
 
-import ca.ntro.core.graphs.generics.graph.GenericEdge;
-import ca.ntro.core.graphs.generics.hierarchical_graph.GenericHierarchicalNode;
 import ca.ntro.core.graphs.generics.hierarchical_graph.InternalHierarchicalGraphWriterNtro;
 
-public class      InternalHierarchicalDagWriterNtro<N extends GenericHierarchicalNode<N,E,SO>,
-                                                      E extends GenericEdge<N,E,SO>,
-													  SO extends HierarchicalDagSearchOptionsBuilder>
+public class      InternalHierarchicalDagWriterNtro<N extends HierarchicalDagNode<N,E>,
+                                                    E extends HierarchicalDagEdge<N,E>>
 
-       extends    InternalHierarchicalGraphWriterNtro<N,E,SO>
+       extends    InternalHierarchicalGraphWriterNtro<N,E,HierarchicalDagSearchOptions>
 
-       implements InternalHierarchicalDagWriter<N,E,SO> {
+       implements InternalHierarchicalDagWriter<N,E> {
 
 }

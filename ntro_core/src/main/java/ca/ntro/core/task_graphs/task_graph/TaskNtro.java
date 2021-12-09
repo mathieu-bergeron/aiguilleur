@@ -7,6 +7,8 @@ import ca.ntro.core.stream.Reducer;
 import ca.ntro.core.graphs.common.Direction;
 import ca.ntro.core.graphs.generics.graph.SearchStrategy;
 import ca.ntro.core.graphs.generics.graph.VisitedNode;
+import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagNodeBuilder;
+import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagSearchOptions;
 import ca.ntro.core.stream.Stream;
 import ca.ntro.core.stream.StreamNtro;
 import ca.ntro.core.wrappers.result.ResultNtro;
@@ -18,7 +20,7 @@ public class      TaskNtro<T  extends Task<T,AT>,
 	
 	private TaskId id;
 	private TaskGraph<T,AT> graph;
-	private TaskGraphNodeBuilder<T,AT> node;
+	private HierarchicalDagNodeBuilder<TaskGraphNode<T,AT>,TaskGraphEdge<T,AT>> node;
 
 	private Map<String, AT> entryTasks = new HashMap<>();
 	private Map<String, AT> exitTasks = new HashMap<>();
@@ -38,14 +40,6 @@ public class      TaskNtro<T  extends Task<T,AT>,
 	public void setGraph(TaskGraph<T,AT> graph) {
 		this.graph = graph;
 	}
-	
-	public TaskGraphNodeBuilder<T, AT> getNode() {
-		return node;
-	}
-
-	public void setNode(TaskGraphNodeBuilder<T, AT> node) {
-		this.node = node;
-	}
 
 	public Map<String, AT> getEntryTasks() {
 		return entryTasks;
@@ -63,8 +57,18 @@ public class      TaskNtro<T  extends Task<T,AT>,
 		this.exitTasks = exitTasks;
 	}
 
+	public HierarchicalDagNodeBuilder<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>> getNode() {
+		return node;
+	}
 
-	public TaskNtro(TaskId id, TaskGraphNodeBuilder<T,AT> node, TaskGraph<T,AT> graph) {
+	public void setNode(HierarchicalDagNodeBuilder<TaskGraphNode<T, AT>, TaskGraphEdge<T, AT>> node) {
+		this.node = node;
+	}
+
+	public TaskNtro(TaskId id, 
+			        HierarchicalDagNodeBuilder<TaskGraphNode<T,AT>, 
+			        TaskGraphEdge<T,AT>> node, 
+			        TaskGraph<T,AT> graph) {
 		setId(id);
 		setNode(node);
 		setGraph(graph);
@@ -288,7 +292,7 @@ public class      TaskNtro<T  extends Task<T,AT>,
 				// JSweet: we need to explicitly declare intermediate streams
 				Stream<VisitedNode<TaskGraphNode<T,AT>, 
 				                   TaskGraphEdge<T,AT>,
-				                   TaskGraphSearchOptionsBuilder>> visitedNodes = getNode().reachableNodes(options);
+				                   HierarchicalDagSearchOptions>> visitedNodes = getNode().reachableNodes(options);
 				
 				Stream<T> visitedTasks = visitedNodes.map(rn -> rn.node().task());
 				

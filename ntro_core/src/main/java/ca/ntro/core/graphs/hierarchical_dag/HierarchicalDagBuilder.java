@@ -1,16 +1,33 @@
 package ca.ntro.core.graphs.hierarchical_dag;
 
-import ca.ntro.core.graphs.generics.graph.GenericEdge;
 import ca.ntro.core.graphs.generics.hierarchical_graph.GenericHierarchicalGraphBuilder;
-import ca.ntro.core.graphs.generics.hierarchical_graph.GenericHierarchicalNode;
-import ca.ntro.core.graphs.generics.hierarchical_graph.GenericHierarchicalNodeBuilder;
 
-public interface HierarchicalDagBuilder<N extends GenericHierarchicalNode<N,E,SO>,
-                                        E extends GenericEdge<N,E,SO>,
-                                        SO extends HierarchicalDagSearchOptionsBuilder,
-                                        NB extends GenericHierarchicalNodeBuilder<N,E,SO,NB>,
-                                        G extends HierarchicalDag<N,E,SO>>
+public interface HierarchicalDagBuilder<N extends HierarchicalDagNode<N,E>,
+                                        E extends HierarchicalDagEdge<N,E>>
 
-       extends   GenericHierarchicalGraphBuilder<N,E,SO,NB,G> {
+
+
+       extends   GenericHierarchicalGraphBuilder<N,
+                                                 E,
+                                                 HierarchicalDagSearchOptions,
+                                                 HierarchicalDagNodeBuilder<N,E>,
+                                                 HierarchicalDag<N,E>> {
+
+	static <N extends HierarchicalDagNodeNtro<N,E>, E extends HierarchicalDagEdge<N,E>> 
+
+	      HierarchicalDagBuilder<N,E> newBuilder(Class<N> nodeClass, Class<E> edgeClass) {
+		
+		HierarchicalDagBuilderNtro<N,E> builder = new HierarchicalDagBuilderNtro<N,E>();
+		
+		builder.setNodeClass(nodeClass);
+		builder.setEdgeClass(edgeClass);
+		
+		builder.initialize();
+
+		return builder;
+	}
+
+	
+	
 
 }

@@ -1,7 +1,7 @@
 package ca.ntro.core.task_graphs.task_graph;
 
-import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagSearchOptionsBuilder;
+import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagSearchOptions;
 
-public interface TaskGraphSearchOptionsBuilder extends HierarchicalDagSearchOptionsBuilder {
+public interface TaskGraphSearchOptionsBuilder extends HierarchicalDagSearchOptions {
 
 }

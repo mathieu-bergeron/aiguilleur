@@ -6,8 +6,7 @@ public class InternalTaskGraphWriterNtro<T  extends Task<T,AT>,
                                          AT extends AtomicTask<T,AT>>
 
        extends InternalHierarchicalDagWriterNtro<TaskGraphNode<T,AT>,
-	                                             TaskGraphEdge<T,AT>,
-	                                             TaskGraphSearchOptionsBuilder>
+	                                             TaskGraphEdge<T,AT>>
 
 	   implements InternalTaskGraphWriter<T,AT> {
 
