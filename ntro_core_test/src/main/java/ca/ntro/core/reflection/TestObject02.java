@@ -10,8 +10,8 @@ public class TestObject02 {
 	
 	public TestObject02() {
 		map.put("key01", 'a');
-		map.put("key02", 'b');
-		map.put("key03", 'c');
+		map.put("key02", 'a');
+		map.put("key03", 'a');
 	}
 	
 	public TestObject01 getTestObject01() {

@@ -55,8 +55,6 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 			return;
 		}
 		
-		assert(node() != null);
-
 		if(node().isList()) {
 			
 			_reduceEdgeTypesForList(result, reducer, node.asList());

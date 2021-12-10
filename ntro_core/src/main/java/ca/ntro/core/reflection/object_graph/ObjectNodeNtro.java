@@ -8,6 +8,7 @@ import ca.ntro.core.graphs.common.NodeId;
 import ca.ntro.core.graphs.directed_graph.DirectedNodeNtro;
 import ca.ntro.core.graphs.directed_graph.DirectedSearchOptions;
 import ca.ntro.core.graphs.generics.graph.GenericGraph;
+import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.reflection.object_updates.ObjectUpdates;
 
 public abstract class ObjectNodeNtro 
@@ -61,37 +62,36 @@ public abstract class ObjectNodeNtro
 
 	@Override
 	public String label() {
-		String label = "";
+		StringBuilder builder = new StringBuilder();
 		
 		if(isList()) {
 
-			label = "List";
+			builder.append("List");
 
 		}else if(isMap()) {
 
-			label = "Map";
+			builder.append("Map");
 
 		}else if(isUserDefinedObject()) {
 			
-			label = type().getSimpleName();
+			builder.append(type().getSimpleName());
 
 		}else if(isSimpleValue()) {
 
-			if(asSimpleValue().isNull()) {
+			if(asSimpleValue().isString()) {
 				
-				label = "null";
+				builder.append('"');
+				builder.append(getObject());
+				builder.append('"');
 
-			} else if(asSimpleValue().isString()) {
-				
-				label = "\"" + getObject().toString() + "\"";
 
-			}else {
-				
-				label = getObject().toString();
+			} else {
+
+				builder.append(getObject());
 			}
 		}
-		
-		return label;
+
+		return builder.toString();
 	}
 
 	@Override
@@ -105,7 +105,12 @@ public abstract class ObjectNodeNtro
 		Object currentObject = getObject();
 
 		if(currentObject != null) {
+
 			type = currentObject.getClass();
+
+		}else {
+
+			type = Void.class;
 		}
 		
 		return type;
@@ -113,119 +118,122 @@ public abstract class ObjectNodeNtro
 
 	@Override
 	public boolean isList() {
-		return getObject() instanceof List;
+		return Ntro.reflectionService().isList(getObject());
 	}
 
 
 	@Override
 	public boolean isMap() {
-		return getObject() instanceof Map;
+		return Ntro.reflectionService().isMap(getObject());
 	}
 
 
 	@Override
 	public boolean isUserDefinedObject() {
-		return !isList()
-				&& !isMap()
-				&& !isSimpleValue();
+		return Ntro.reflectionService().isUserDefinedObject(getObject());
 	}
-
 
 	@Override
 	public boolean isSimpleValue() {
-		return isNull()
-				|| isBoolean()
-				|| isNumber()
-				|| isString();
+		return Ntro.reflectionService().isSimpleValue(getObject());
 	}
 
 	@Override
 	public ObjectNodeSimpleValue asSimpleValue() {
 		return (ObjectNodeSimpleValue) this;
 	}
-	
 
 	@Override
 	public boolean isNull() {
-		return getObject() == null;
+		return Ntro.reflectionService().isNull(getObject());
 	}
-
 
 	@Override
 	public boolean isBoolean() {
-		return getObject() instanceof Boolean;
-	}
-
-
-	@Override
-	public boolean isNumber() {
-		Object currentObject = getObject();
-		return  currentObject instanceof Character
-				|| currentObject instanceof Integer
-				|| currentObject instanceof Long
-				|| currentObject instanceof Float
-				|| currentObject instanceof Double;
+		return Ntro.reflectionService().isBoolean(getObject());
 	}
 
 	@Override
 	public boolean isString() {
-		return getObject() instanceof String;
+		return Ntro.reflectionService().isString(getObject());
 	}
 
 	@Override
 	public boolean asBoolean() {
-		return (Boolean) getObject();
-	}
-
-	@Override
-	public double asNumber() {
-		return Double.parseDouble(getObject().toString());
+		return Ntro.reflectionService().asBoolean(getObject());
 	}
 
 	@Override
 	public String asString() {
-		return getObject().toString();
+		return Ntro.reflectionService().asString(getObject());
 	}
-	
+
+	@Override
+	public List<?> asList() {
+		return Ntro.reflectionService().asList(getObject());
+	}
+
+	@Override
+	public <I> List<I> asList(Class<I> itemClass) {
+		return Ntro.reflectionService().asList(getObject(), itemClass);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <V> Map<String, V> asMap(Class<V> valueClass) {
+		return Ntro.reflectionService().asMap(getObject(), valueClass);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Map<String, ?> asMap() {
+		return Ntro.reflectionService().asMap(getObject());
+	}
+
+	@Override
+	public Object asUserDefinedObject() {
+		return Ntro.reflectionService().asUserDefinedObject(getObject());
+	}
+
+	@Override
+	public <V> V asUserDefinedObject(Class<V> _class) {
+		return Ntro.reflectionService().asUserDefinedObject(getObject(), _class);
+	}
+
+	@Override
+	public boolean isNumber() {
+		return Ntro.reflectionService().isNumber(getObject());
+	}
+
+	@Override
+	public char asChar() {
+		return Ntro.reflectionService().asChar(getObject());
+	}
+
+	@Override
+	public int asInt() {
+		return Ntro.reflectionService().asInt(getObject());
+	}
+
+	@Override
+	public long asLong() {
+		return Ntro.reflectionService().asLong(getObject());
+	}
+
+	@Override
+	public float asFloat() {
+		return Ntro.reflectionService().asFloat(getObject());
+	}
+
+	@Override
+	public double asDouble() {
+		return Ntro.reflectionService().asDouble(getObject());
+	}
+
 	@Override
 	public ObjectUpdates asUpdates() {
 		// TODO: describe the object as a sequence
 		// of SET/INSERT/DELETE operations
 		return null;
 	}
-
-	@Override
-	public List<?> asList() {
-		return (List<?>) getObject();
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public <I> List<I> asList(Class<I> itemClass) {
-		return (List<I>) getObject();
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public <V> Map<String, V> asMap(Class<V> valueClass) {
-		return (Map<String,V>) getObject();
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public Map<String, ?> asMap() {
-		return (Map<String, ?>) getObject();
-	}
-
-	@Override
-	public Object asUserDefinedObject() {
-		return getObject();
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public <V> V asUserDefinedObject(Class<V> _class) {
-		return (V) getObject();
-	}
-
 }

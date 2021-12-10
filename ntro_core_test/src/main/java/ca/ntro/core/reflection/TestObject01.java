@@ -35,8 +35,8 @@ public class TestObject01 {
 
 	public TestObject01() {
 		getAttr02().add("listValue00");
-		getAttr02().add("listValue01");
-		getAttr02().add("listValue02");
+		getAttr02().add("listValue00");
+		getAttr02().add("listValue00");
 		setAttr03(new TestObject02());
 	}
 

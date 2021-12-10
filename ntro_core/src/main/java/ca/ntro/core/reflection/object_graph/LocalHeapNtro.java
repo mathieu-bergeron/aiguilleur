@@ -2,6 +2,7 @@ package ca.ntro.core.reflection.object_graph;
 
 import ca.ntro.core.graphs.common.NodeId;
 import ca.ntro.core.graphs.common.NodeIdNtro;
+import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.path.Path;
 
 public abstract class LocalHeapNtro implements LocalHeap {
@@ -11,7 +12,7 @@ public abstract class LocalHeapNtro implements LocalHeap {
 
 		ObjectNode node;
 		
-		if(object == null) {
+		if(Ntro.reflectionService().isSimpleValue(object)) {
 
 			node = createNode(graph, attributePath, object, isStartNode);
 

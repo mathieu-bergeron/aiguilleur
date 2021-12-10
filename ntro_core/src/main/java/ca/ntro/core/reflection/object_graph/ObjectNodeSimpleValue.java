@@ -8,7 +8,12 @@ public interface ObjectNodeSimpleValue extends GenericObjectNode {
 	boolean isString();
 	
 	boolean asBoolean();
-	double  asNumber();
 	String  asString();
+
+	char    asChar();
+	int     asInt();
+	long    asLong();
+	float   asFloat();
+	double  asDouble();
 
 }
