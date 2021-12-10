@@ -9,17 +9,33 @@ public abstract class LocalHeapNtro implements LocalHeap {
 	@Override
 	public ObjectNode findOrCreateNode(ObjectGraph graph, Path attributePath, Object object, boolean isStartNode) {
 
-		ObjectNode node = findNodeInHeap(object);
+		ObjectNode node;
+		
+		if(object == null) {
 
-		if(node == null) {
-			
-			NodeId nodeId = new NodeIdNtro(attributePath.toKey());
+			node = createNode(graph, attributePath, object, isStartNode);
 
-			node = createNode(graph, this, object, nodeId, isStartNode);
+		}else {
 
-			addNodeToHeap(node);
+			node = findNodeInHeap(object);
+
+			if(node == null) {
+
+			    node = createNode(graph, attributePath, object, isStartNode);
+
+				addNodeToHeap(node);
+			}
 		}
 		
+		return node;
+	}
+
+	private ObjectNode createNode(ObjectGraph graph, Path attributePath, Object object, boolean isStartNode) {
+		ObjectNode node;
+
+		NodeId nodeId = new NodeIdNtro(attributePath.toKey());
+		node = createNode(graph, this, object, nodeId, isStartNode);
+
 		return node;
 	}
 
