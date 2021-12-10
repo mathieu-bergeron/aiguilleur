@@ -1,0 +1,11 @@
+graph "simpleGraph01" {
+    graph ["rankdir"="LR"]
+
+    "A" ["label"="A"]
+
+    "B" [shape="record","label"="{attr01|3}|{attr02|\"sf\"}|{attr03|{<port01>0|<port02>1|{2|null}}}|{attr04|{{0|1.2}|{1|4.5}|{2|0.0}|{3|4.3}}}","style"="filled","fillcolor"="white"];
+
+
+    "B":"port01" -- "A"
+    "B":"port02" -- "C"
+}
