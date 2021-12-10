@@ -1,27 +1,27 @@
 package ca.ntro.core.reflection.object_graph;
 
+import java.util.List;
+import java.util.Map;
+
 import ca.ntro.core.graphs.directed_graph.DirectedNode;
-import ca.ntro.core.reflection.object_updates.ObjectUpdates;
 
-public interface ObjectNode extends DirectedNode<ObjectNode, ReferenceEdge> {
-
-	Class<?> type();
-
-	Object object();
-	<V> V object(Class<V> _class);
+public interface ObjectNode extends DirectedNode<ObjectNode, ReferenceEdge>, GenericObjectNode {
 
 	boolean isList();
 	boolean isMap();
 	boolean isUserDefinedObject();
 	boolean isSimpleValue();
 	
-	ObjectNodeList              asList();
-	ObjectNodeMap               asMap();
-	ObjectNodeUserDefinedObject asUserDefinedObject();
-	ObjectNodeSimpleValue       asSimpleValue();
+	ObjectNodeSimpleValue asSimpleValue();
 
-	// TODO: describe an object of the graph
-	//       as a sequence of UPDATE/INSERT/DELETE operations
-	ObjectUpdates asUpdates();
+	List<?>           asList();
+	<I> List<I>       asList(Class<I> itemClass);
+
+	Map<String,?>     asMap();
+	<V> Map<String,V> asMap(Class<V> valueClass);
+
+	Object            asUserDefinedObject();
+	<V> V             asUserDefinedObject(Class<V> _class);
 
 }
+

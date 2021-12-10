@@ -10,6 +10,8 @@ public interface GenericNode<N extends GenericNode<N,E,SO>,
                              SO extends SearchOptions> {
 
 	NodeId id();
+	String label();
+
 	GenericGraph<N,E,SO> parentGraph();
 
 	boolean isStartNode();

@@ -1,5 +1,7 @@
 package ca.ntro.core.reflection.object_graph;
 
+import ca.ntro.core.graphs.common.NodeId;
+import ca.ntro.core.graphs.common.NodeIdNtro;
 import ca.ntro.core.path.Path;
 
 public abstract class LocalHeapNtro implements LocalHeap {
@@ -11,17 +13,9 @@ public abstract class LocalHeapNtro implements LocalHeap {
 
 		if(node == null) {
 			
-			// FIXME: SimpleValue(null)
-			String className;
-			if(object != null) {
-				className = object.getClass().getSimpleName();
-			}else {
-				className = "null";
-			}
-			
-			ObjectNodeId objectNodeId = new ObjectNodeIdNtro(attributePath.toKey(), className);
+			NodeId nodeId = new NodeIdNtro(attributePath.toKey());
 
-			node = createNode(graph, this, object, objectNodeId, isStartNode);
+			node = createNode(graph, this, object, nodeId, isStartNode);
 
 			addNodeToHeap(node);
 		}
@@ -29,7 +23,7 @@ public abstract class LocalHeapNtro implements LocalHeap {
 		return node;
 	}
 
-	protected abstract ObjectNode createNode(ObjectGraph graph, LocalHeap localHeap, Object object, ObjectNodeId nodeId, boolean isStartNode);
+	protected abstract ObjectNode createNode(ObjectGraph graph, LocalHeap localHeap, Object object, NodeId nodeId, boolean isStartNode);
 
 	protected abstract ObjectNode findNodeInHeap(Object object);
 

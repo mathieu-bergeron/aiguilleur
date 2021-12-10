@@ -3,18 +3,18 @@ package ca.ntro.core.reflection;
 import java.util.HashMap;
 import java.util.Map;
 
+import ca.ntro.core.graphs.common.NodeId;
 import ca.ntro.core.reflection.object_graph.LocalHeap;
 import ca.ntro.core.reflection.object_graph.LocalHeapNtro;
 import ca.ntro.core.reflection.object_graph.ObjectGraph;
 import ca.ntro.core.reflection.object_graph.ObjectNode;
-import ca.ntro.core.reflection.object_graph.ObjectNodeId;
 
 public class LocalHeapJdk extends LocalHeapNtro {
 
 	private Map<Object, Map<ObjectNode, Object>> heap = new HashMap<>();
 
 	@Override
-	protected ObjectNode createNode(ObjectGraph graph, LocalHeap localHeap, Object object, ObjectNodeId nodeId, boolean isStartNode) {
+	protected ObjectNode createNode(ObjectGraph graph, LocalHeap localHeap, Object object, NodeId nodeId, boolean isStartNode) {
 		
 		return new ObjectNodeJdk(graph, localHeap, object, nodeId, isStartNode);
 	}

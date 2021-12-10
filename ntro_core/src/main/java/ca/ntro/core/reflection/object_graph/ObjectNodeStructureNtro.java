@@ -44,10 +44,6 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 
 	protected abstract <R> void _reduceMethodNames(Object object, ResultNtro<R> result, MethodNameReducer<R> reducer);
 	protected abstract Object invokeGetter(Object object, String getterName) throws Throwable;
-	
-	private Object object() {
-		return getNode().object();
-	}
 
 	@Override
 	public <R> void reduceEdgeTypesForDirection(Direction direction, ResultNtro<R> result, EdgeTypeReducer<R> reducer) {
@@ -59,54 +55,52 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 			return;
 		}
 		
-		if(isSimpleValue(object())) {
-			return;
-		}
+		assert(node() != null);
 
-		Object currentObject = object();
-		
-		if(currentObject == null) {
+		if(node().isList()) {
 			
-			// TODO: simpleValue(null)
-			
-		}else if(currentObject instanceof List) {
-			
-			_reduceEdgeTypesForList(result, reducer, (List<?>) currentObject);
+			_reduceEdgeTypesForList(result, reducer, node.asList());
 
 			
-		} else if(currentObject instanceof Map) {
+		} else if(node().isMap()) {
 
-			_reduceEdgeTypesForMap(result, reducer, (Map<String,?>) currentObject);
+			_reduceEdgeTypesForMap(result, reducer, (Map<String,?>) node.asMap());
 			
-		}else {
+		}else if(node().isUserDefinedObject()){
 			
-			_reduceEdgeTypesForUserDefinedObject(result, reducer, currentObject);
+			_reduceEdgeTypesForUserDefinedObject(result, reducer, node.asUserDefinedObject());
 		}
 	}
 
 	public <R> void reduceEdgesByTypeForList(EdgeType edgeType, 
 			                                 ResultNtro<R> result, 
-			                                 EdgeReducer<ObjectNode, ReferenceEdge, DirectedSearchOptions, R> reducer) {
+			                                 EdgeReducer<ObjectNode, ReferenceEdge, DirectedSearchOptions, R> reducer,
+			                                 List<?> list) {
 
-		List<?> currentObject = (List<?>) object();
+		String attributeName = edgeType.name().toString();
 		
-		String indexName = edgeType.name().toString();
+		Integer index = Integer.parseInt(attributeName);
+
+		Object attributeValue = list.get(index);
 		
-		Integer index = Integer.parseInt(indexName);
+		reduceAttributeEdge(result, reducer, attributeName, attributeValue);
+
+	}
+
+	public <R> void reduceAttributeEdge(ResultNtro<R> result, 
+			                            EdgeReducer<ObjectNode, ReferenceEdge, DirectedSearchOptions, R> reducer,
+			                            String attributeName,
+			                            Object attributeValue) {
+
+		Path attributePath = Path.fromRawPath(this.node().id().toKey().toString());
+		attributePath.addName(attributeName);
 		
+		ObjectGraphStructureNtro graphStructure = (ObjectGraphStructureNtro) getGraph().graphStructure();
+		
+		ObjectNode toNode = graphStructure.getLocalHeap().findOrCreateNode(getGraph(), attributePath, attributeValue, false);
+		ReferenceEdge edge = new ReferenceEdgeNtro(this.node(), attributeName, toNode);
+
 		try {
-
-			Object attributeValue = currentObject.get(index);
-			
-			Path attributePath = Path.fromRawPath(this.asNode().id().toKey().toString());
-			attributePath.addName(indexName);
-			
-			assert(getGraph() != null);
-			
-			ObjectGraphStructureNtro graphStructure = (ObjectGraphStructureNtro) getGraph().graphStructure();
-			
-			ObjectNode toNode = graphStructure.getLocalHeap().findOrCreateNode(getGraph(), attributePath, attributeValue, false);
-			ReferenceEdge edge = new ReferenceEdgeNtro(this.asNode(), indexName, toNode);
 			
 			result.registerValue(reducer.reduceEdge(result.value(), edge));
 			
@@ -116,69 +110,43 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 		} 
 
 	}
+	
+	
 
 	public <R> void reduceEdgesByTypeForMap(EdgeType edgeType, 
 			                                ResultNtro<R> result, 
-			                                EdgeReducer<ObjectNode, ReferenceEdge, DirectedSearchOptions, R> reducer) {
+			                                EdgeReducer<ObjectNode, ReferenceEdge, DirectedSearchOptions, R> reducer,
+			                                Map<String,?> map) {
 
-		Map<String, ?> currentObject = (Map<String, ?>) object();
-		
-		String keyName = edgeType.name().toString();
-		
-		try {
+		String attributeName = edgeType.name().toString();
 
-			Object attributeValue = currentObject.get(keyName);
-			
-			Path attributePath = Path.fromRawPath(this.asNode().id().toKey().toString());
-			attributePath.addName(keyName);
-			
-			assert(getGraph() != null);
-			
-			ObjectGraphStructureNtro graphStructure = (ObjectGraphStructureNtro) getGraph().graphStructure();
-			
-			ObjectNode toNode = graphStructure.getLocalHeap().findOrCreateNode(getGraph(), attributePath, attributeValue, false);
-			ReferenceEdge edge = new ReferenceEdgeNtro(this.asNode(), keyName, toNode);
-			
-			result.registerValue(reducer.reduceEdge(result.value(), edge));
-			
-		} catch (Throwable t) {
-			
-			result.registerException(t);
-		} 
+		Object attributeValue = map.get(attributeName);
+		
+		reduceAttributeEdge(result, reducer, attributeName, attributeValue);
 
 	}
 
 	public <R> void reduceEdgesByTypeForUserDefinedObject(EdgeType edgeType, 
 			                                              ResultNtro<R> result, 
-			                                              EdgeReducer<ObjectNode, ReferenceEdge, DirectedSearchOptions, R> reducer) {
+			                                              EdgeReducer<ObjectNode, ReferenceEdge, DirectedSearchOptions, R> reducer,
+			                                              Object currentObject) {
 
-		Object currentObject = object();
-		
 		String attributeName = edgeType.name().toString();
 		
 		String getterName = ReflectionUtils.getterNameFromAttributeName(attributeName);
-		
+
+		Object attributeValue;
+
 		try {
 
-			Object attributeValue = invokeGetter(currentObject, getterName);
-			
-			Path attributePath = Path.fromRawPath(this.asNode().id().toKey().toString());
-			attributePath.addName(attributeName);
-			
-			assert(getGraph() != null);
-			
-			ObjectGraphStructureNtro graphStructure = (ObjectGraphStructureNtro) getGraph().graphStructure();
-			
-			ObjectNode toNode = graphStructure.getLocalHeap().findOrCreateNode(getGraph(), attributePath, attributeValue, false);
-			ReferenceEdge edge = new ReferenceEdgeNtro(this.asNode(), attributeName, toNode);
-			
-			result.registerValue(reducer.reduceEdge(result.value(), edge));
-			
-		} catch (Throwable t) {
-			
-			result.registerException(t);
-		} 
+			attributeValue = invokeGetter(currentObject, getterName);
 
+			reduceAttributeEdge(result, reducer, attributeName, attributeValue);
+
+		} catch (Throwable e) {
+			
+			result.registerException(e);
+		}
 	}
 
 	@Override
@@ -194,38 +162,20 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 			return;
 		}
 
-		Object currentObject = object();
-
-		if(currentObject == null) {
+		if(node().isList()) {
 			
-			// TODO: simpleValue(null)
-		
-		} else if(currentObject instanceof List) {
-			
-			reduceEdgesByTypeForList(edgeType, result, reducer);
+			reduceEdgesByTypeForList(edgeType, result, reducer, node().asList());
 
 			
-		} else if(currentObject instanceof Map) {
+		} else if(node().isMap()) {
 
-			reduceEdgesByTypeForMap(edgeType, result, reducer);
+			reduceEdgesByTypeForMap(edgeType, result, reducer, node().asMap());
 
 			
-		}else {
+		}else if(node().isUserDefinedObject()){
 
-			reduceEdgesByTypeForUserDefinedObject(edgeType, result, reducer);
+			reduceEdgesByTypeForUserDefinedObject(edgeType, result, reducer, node().asUserDefinedObject());
 		}
-		
-		
-	}
-
-	private boolean isSimpleValue(Object object) {
-		return object instanceof String
-				|| object instanceof Character
-				|| object instanceof Integer
-				|| object instanceof Long
-				|| object instanceof Float
-				|| object instanceof Double
-				|| object instanceof Boolean;
 	}
 
 	protected <R> void _reduceEdgeTypesForList(ResultNtro<R> result, 
@@ -291,17 +241,18 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 
 	@Override
 	public boolean isStartNode() {
-		return asNode().isStartNode();
+		return node().isStartNode();
 	}
 
-	/*
+
 	@Override
-	public String label() {
-		return getObject().getClass().getSimpleName();
+	public ObjectNode node() {
+		return getNode();
 	}
-	*/
 
-	
-	
+	@Override
+	public ObjectGraph parentGraph() {
+		return getGraph();
+	}
 	
 }

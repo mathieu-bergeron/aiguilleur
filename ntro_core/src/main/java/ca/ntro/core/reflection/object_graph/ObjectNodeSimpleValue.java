@@ -1,6 +1,6 @@
 package ca.ntro.core.reflection.object_graph;
 
-public interface ObjectNodeSimpleValue extends ObjectNode {
+public interface ObjectNodeSimpleValue extends GenericObjectNode {
 
 	boolean isNull();
 	boolean isBoolean();
@@ -8,7 +8,7 @@ public interface ObjectNodeSimpleValue extends ObjectNode {
 	boolean isString();
 	
 	boolean asBoolean();
-	double  asDouble();
+	double  asNumber();
 	String  asString();
 
 }

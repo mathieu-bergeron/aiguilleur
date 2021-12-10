@@ -45,20 +45,5 @@ public class ObjectNodeStructureJdk extends ObjectNodeStructureNtro {
 		return returnValue;
 	}
 
-	@Override
-	public ObjectNode asNode() {
-		return this.getNode();
-	}
-
-	@Override
-	public ObjectGraph parentGraph() {
-		return getGraph();
-	}
-
-	@Override
-	public ObjectNode node() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

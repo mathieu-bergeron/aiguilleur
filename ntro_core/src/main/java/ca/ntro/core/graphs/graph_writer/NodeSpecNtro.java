@@ -43,7 +43,7 @@ public class NodeSpecNtro implements NodeSpec {
 
 	@Override
 	public String label() {
-		return node.id().label();
+		return node.label();
 	}
 
 	@Override

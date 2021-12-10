@@ -5,7 +5,7 @@ import ca.ntro.core.graphs.directed_graph.DirectedNodeStructure;
 public interface ObjectNodeStructure 
 	   extends   DirectedNodeStructure<ObjectNode, ReferenceEdge> {
 	
-	ObjectNode asNode();
+	ObjectNode node();
 	ObjectGraph parentGraph();
 
 }

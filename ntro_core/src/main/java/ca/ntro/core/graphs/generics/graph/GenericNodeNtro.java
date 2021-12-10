@@ -87,7 +87,11 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 	public NodeId id() {
 		return getNodeId();
 	}
-	
+
+	@Override
+	public String label() {
+		return id().toKey().toString();
+	}
 
 	@Override
 	public void forEachEdge(EdgeVisitor<N,E,SO> visitor) {

@@ -112,5 +112,4 @@ public class ObjectGraphNull implements ObjectGraph {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

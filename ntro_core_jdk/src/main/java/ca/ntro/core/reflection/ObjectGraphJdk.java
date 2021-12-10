@@ -6,6 +6,7 @@ import ca.ntro.core.graphs.generics.graph.InternalGraphWriter;
 import ca.ntro.core.reflection.object_graph.LocalHeap;
 import ca.ntro.core.reflection.object_graph.ObjectGraphNtro;
 import ca.ntro.core.reflection.object_graph.ObjectGraphStructureNtro;
+import ca.ntro.core.reflection.object_graph.GenericObjectNode;
 import ca.ntro.core.reflection.object_graph.ObjectNode;
 import ca.ntro.core.reflection.object_graph.ReferenceEdge;
 
