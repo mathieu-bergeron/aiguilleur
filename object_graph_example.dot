@@ -1,9 +1,10 @@
 graph "simpleGraph01" {
     graph ["rankdir"="LR"]
 
-    "A" ["label"="A"]
+    "A" [shape="record","label"="Test@1|{attr01|3}"]
+    "C" [shape="record","label"="Test@2|{attr01|4}"]
 
-    "B" [shape="record","label"="{attr01|3}|{attr02|\"sf\"}|{attr03|{<port01>0|<port02>1|{2|null}}}|{attr04|{{0|1.2}|{1|4.5}|{2|0.0}|{3|4.3}}}","style"="filled","fillcolor"="white"];
+    "B" [shape="record","label"="MyClass@1|{attr01|3}|{attr02|\"sf\"}|{attr03|{<port01>0|<port02>1|{2|null}}}|{attr04|{{0|1.2}|{1|4.5}|{2|0.0}|{3|4.3}}}","style"="filled","fillcolor"="white"];
 
 
     "B":"port01" -- "A"
