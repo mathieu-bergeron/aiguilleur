@@ -6,7 +6,8 @@ public interface GenericGraphBuilder<N extends GenericNode<N,E,SO>,
                                      E extends GenericEdge<N,E,SO>,
                                      SO extends SearchOptions,
 									 NB extends GenericNodeBuilder<N,E,SO,NB>,
-                                     G extends GenericGraph<N,E,SO>> 
+									 GO extends GraphWriterOptions,
+                                     G extends GenericGraph<N,E,SO,GO>> 
 
        extends GenericGraphStructure<N,E,SO> { 
 	

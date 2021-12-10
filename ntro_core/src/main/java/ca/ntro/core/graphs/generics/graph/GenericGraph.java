@@ -8,14 +8,17 @@ import ca.ntro.core.wrappers.result.Result;
 
 public interface GenericGraph<N extends GenericNode<N,E,SO>, 
                               E extends GenericEdge<N,E,SO>,
-                              SO extends SearchOptions> {
+                              SO extends SearchOptions,
+                              GO extends GraphWriterOptions> {
 
 	GraphId id();
 	String label();
 
 	void write(GraphWriter writer);
+	void write(GO options, GraphWriter writer);
 
 	SO defaultSearchOptions();
+	GO defaultGraphWriterOptions();
 
 	N findNode(String nodeId);
 	N findNode(NodeId nodeId);

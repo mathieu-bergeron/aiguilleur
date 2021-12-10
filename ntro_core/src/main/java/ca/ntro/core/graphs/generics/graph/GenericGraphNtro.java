@@ -16,27 +16,34 @@ import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class GenericGraphNtro<N extends GenericNode<N,E,SO>, 
                                        E extends GenericEdge<N,E,SO>,
-                                       SO extends SearchOptions> 
+                                       SO extends SearchOptions,
+                                       GO extends GraphWriterOptions> 
 
-       implements     GenericGraph<N,E,SO> {
+       implements     GenericGraph<N,E,SO,GO> {
 	
 	private GraphId id;
-	private InternalGraphWriter<N,E,SO> internalGraphWriter = newInternalGraphWriterInstance();
+	private InternalGraphWriter<N,E,SO,GO> internalGraphWriter = newInternalGraphWriterInstance();
 	private GenericGraphStructure<N,E,SO> graphStructure;
 
-	protected abstract InternalGraphWriter<N,E,SO> newInternalGraphWriterInstance();
+	protected abstract InternalGraphWriter<N,E,SO,GO> newInternalGraphWriterInstance();
 	protected abstract SO newDefaultSearchOptionsInstance();
+	protected abstract GO newDefaultGraphWriterOptionsInstance();
 
 	@Override
 	public SO defaultSearchOptions() {
 		return newDefaultSearchOptionsInstance();
 	}
 
-	public InternalGraphWriter<N, E, SO> getInternalGraphWriter() {
+	@Override
+	public GO defaultGraphWriterOptions () {
+		return newDefaultGraphWriterOptionsInstance();
+	}
+
+	public InternalGraphWriter<N,E,SO,GO> getInternalGraphWriter() {
 		return internalGraphWriter;
 	}
 
-	public void setInternalGraphWriter(InternalGraphWriter<N, E, SO> internalGraphWriter) {
+	public void setInternalGraphWriter(InternalGraphWriter<N,E,SO,GO> internalGraphWriter) {
 		this.internalGraphWriter = internalGraphWriter;
 	}
 
@@ -44,11 +51,11 @@ public abstract class GenericGraphNtro<N extends GenericNode<N,E,SO>,
 		return graphStructure;
 	}
 
-	public void setGraphStructure(GenericGraphStructure<N, E, SO> graphStructure) {
+	public void setGraphStructure(GenericGraphStructure<N,E,SO> graphStructure) {
 		this.graphStructure = graphStructure;
 	}
 
-	public InternalGraphWriter<N,E,SO> internalGraphWriter(){
+	public InternalGraphWriter<N,E,SO,GO> internalGraphWriter(){
 		return getInternalGraphWriter();
 	}
 
@@ -76,7 +83,12 @@ public abstract class GenericGraphNtro<N extends GenericNode<N,E,SO>,
 
 	@Override
 	public void write(GraphWriter writer) {
-		internalGraphWriter().write(this, writer);
+		internalGraphWriter().write(this, defaultGraphWriterOptions(), writer);
+	}
+
+	@Override
+	public void write(GO options, GraphWriter writer) {
+		internalGraphWriter().write(this, options, writer);
 	}
 
 	@Override

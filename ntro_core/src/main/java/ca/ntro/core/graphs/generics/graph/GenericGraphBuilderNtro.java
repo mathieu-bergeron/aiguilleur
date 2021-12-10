@@ -19,9 +19,10 @@ public abstract class GenericGraphBuilderNtro<N extends GenericNode<N,E,SO>,
                                               E extends GenericEdge<N,E,SO>,
                                               SO extends SearchOptions,
                                               NB extends GenericNodeBuilder<N,E,SO,NB>,
-                                              G extends GenericGraph<N,E,SO>> 
+                                              GO extends GraphWriterOptions,
+                                              G extends GenericGraph<N,E,SO,GO>> 
 
-       implements     GenericGraphBuilder<N,E,SO,NB,G> {
+       implements     GenericGraphBuilder<N,E,SO,NB,GO,G> {
 	
 	private GenericNodeFactory<N,E,SO> nodeFactory;
 	private GenericEdgeFactory<N,E,SO> edgeFactory;
@@ -250,8 +251,8 @@ public abstract class GenericGraphBuilderNtro<N extends GenericNode<N,E,SO>,
 	}
 	
 	@SuppressWarnings("unchecked")
-	private GenericGraphNtro<N,E,SO> graphNtro(G graph){
-		return (GenericGraphNtro<N,E,SO>) graph;
+	private GenericGraphNtro<N,E,SO,GO> graphNtro(G graph){
+		return (GenericGraphNtro<N,E,SO,GO>) graph;
 	}
 
 	@Override
