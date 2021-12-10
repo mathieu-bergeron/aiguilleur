@@ -11,7 +11,15 @@ public abstract class LocalHeapNtro implements LocalHeap {
 
 		if(node == null) {
 			
-			ObjectNodeId objectNodeId = new ObjectNodeIdNtro(attributePath.toKey(), object.getClass().getSimpleName());
+			// FIXME: SimpleValue(null)
+			String className;
+			if(object != null) {
+				className = object.getClass().getSimpleName();
+			}else {
+				className = "null";
+			}
+			
+			ObjectNodeId objectNodeId = new ObjectNodeIdNtro(attributePath.toKey(), className);
 
 			node = createNode(graph, this, object, objectNodeId, isStartNode);
 

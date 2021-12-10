@@ -60,6 +60,68 @@ public abstract class ObjectNodeNtro
 	}
 
 	@Override
+	public Class<?> type() {
+		return getObject().getClass();
+	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <V> V object(Class<V> _class) {
+		return (V) getObject();
+	}
+
+
+	@Override
+	public boolean isList() {
+		return false;
+	}
+
+
+	@Override
+	public boolean isMap() {
+		return false;
+	}
+
+
+	@Override
+	public boolean isUserDefinedObject() {
+		return true;
+	}
+
+
+	@Override
+	public boolean isSimpleValue() {
+		return false;
+	}
+
+
+	@Override
+	public ObjectNodeList asList() {
+		return null;
+	}
+
+
+	@Override
+	public ObjectNodeMap asMap() {
+		return null;
+	}
+
+
+	@Override
+	public ObjectNodeUserDefinedObject asUserDefinedObject() {
+		return null;
+	}
+
+
+	@Override
+	public ObjectNodeSimpleValue asSimpleValue() {
+		return null;
+	}
+
+	
+	
+	@Override
 	public ObjectUpdates asUpdates() {
 		// TODO: describe the object as a sequence
 		// of SET/INSERT/DELETE operations

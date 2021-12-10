@@ -8,6 +8,7 @@ import ca.ntro.core.path.Path;
 import ca.ntro.core.services.ExceptionThrowerMock;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 
 
 public class PathTests {
@@ -68,6 +69,7 @@ public class PathTests {
 		Ntro.asserter().assertEquals(path01.toString(), "/nom01");
 	}
 
+	@Ignore
 	@Test
 	public void testSingleNameViolation(){
 		exceptionThrower.clear();

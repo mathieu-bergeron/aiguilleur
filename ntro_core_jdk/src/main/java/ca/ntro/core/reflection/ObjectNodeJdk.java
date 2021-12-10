@@ -9,7 +9,11 @@ import ca.ntro.core.reflection.object_graph.ObjectGraph;
 import ca.ntro.core.reflection.object_graph.ObjectGraphNtro;
 import ca.ntro.core.reflection.object_graph.ObjectNode;
 import ca.ntro.core.reflection.object_graph.ObjectNodeId;
+import ca.ntro.core.reflection.object_graph.ObjectNodeList;
+import ca.ntro.core.reflection.object_graph.ObjectNodeMap;
 import ca.ntro.core.reflection.object_graph.ObjectNodeNtro;
+import ca.ntro.core.reflection.object_graph.ObjectNodeSimpleValue;
+import ca.ntro.core.reflection.object_graph.ObjectNodeUserDefinedObject;
 import ca.ntro.core.reflection.object_graph.ReferenceEdge;
 
 public class ObjectNodeJdk extends ObjectNodeNtro {

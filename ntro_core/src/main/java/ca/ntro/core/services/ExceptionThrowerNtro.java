@@ -13,8 +13,12 @@ public class ExceptionThrowerNtro implements ExceptionThrower {
 
 			exception = t;
 
-		}else if(!(exception instanceof Break)){
+		}else if(t instanceof RuntimeException) {
+			
+			throw ((RuntimeException) t);
 
+		}else if(!(t instanceof Break)){
+			
 			throw new RuntimeException(t);
 		}
 	}

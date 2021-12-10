@@ -4,7 +4,6 @@ package ca.ntro.core.graphs.graph;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import ca.ntro.core.graphs.DirectedEdgeTriple;
@@ -13,25 +12,11 @@ import ca.ntro.core.graphs.common.EdgeAlreadyAddedException;
 import ca.ntro.core.graphs.common.EdgeTypeNtro;
 import ca.ntro.core.graphs.common.NodeAlreadyAddedException;
 import ca.ntro.core.graphs.generics.graph.SearchStrategy;
-import ca.ntro.core.initialization.InitializerTest;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.services.ExceptionThrowerMock;
+import ca.ntro.core.tests.NtroTests;
 
-public class GraphTests {
-	
-	protected ExceptionThrowerMock registerMockExceptionThrower() {
-		ExceptionThrowerMock exceptionThrowerMock = new ExceptionThrowerMock();
-
-		InitializerTest.registerExceptionThrower(exceptionThrowerMock);
-
-		return exceptionThrowerMock;
-	}
-
-	@BeforeClass
-	public static void initialize() {
-		InitializerTest.initialize();
-	}
-	
+public class GraphTests extends NtroTests {
 
 	@Test
 	public void simpleGraph01() {

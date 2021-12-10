@@ -64,8 +64,12 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 		}
 
 		Object currentObject = object();
-
-		if(currentObject instanceof List) {
+		
+		if(currentObject == null) {
+			
+			// TODO: simpleValue(null)
+			
+		}else if(currentObject instanceof List) {
 			
 			_reduceEdgeTypesForList(result, reducer, (List<?>) currentObject);
 
@@ -191,8 +195,12 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 		}
 
 		Object currentObject = object();
+
+		if(currentObject == null) {
+			
+			// TODO: simpleValue(null)
 		
-		if(currentObject instanceof List) {
+		} else if(currentObject instanceof List) {
 			
 			reduceEdgesByTypeForList(edgeType, result, reducer);
 
