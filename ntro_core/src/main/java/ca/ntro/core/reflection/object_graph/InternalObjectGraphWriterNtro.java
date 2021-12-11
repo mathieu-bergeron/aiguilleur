@@ -36,20 +36,21 @@ public class InternalObjectGraphWriterNtro
 					
 					if(options.objectAsStructure()) {
 						
-						throw new RuntimeException("TODO");
 
 						n.forEachEdge(e -> {
 							
 							if(e.to().isSimpleValue()) {
 								
-								nodeSpec.addSimpleAttribute(e.name().toString(), e.to().asSimpleValue().asString());
+								//nodeSpec.addSimpleAttribute(e.name().toString(), e.to().asSimpleValue().asString());
 
 							}else if(e.to().isList()){
 								
-							}else if(e.to().isList()){
+							}else if(e.to().isMap()){
 								
 							}
 						});
+
+						throw new RuntimeException("TODO");
 						
 						
 					}else {
