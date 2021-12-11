@@ -195,9 +195,86 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 
 	@Override
 	public Stream<ReferenceEdge> edges(EdgeType edgeType) {
+		return new StreamNtro<ReferenceEdge>(){
 
-		return null;
+			@Override
+			protected void _forEach(Visitor<ReferenceEdge> visitor) throws Throwable {
+				if(edgeType.direction() != Direction.FORWARD) {
+					return;
+				}
+
+				if(node().isList()) {
+					
+					_forEachEdgeByTypeList(edgeType, node().asList(), visitor);
+
+					
+				} else if(node().isMap()) {
+
+					_forEachEdgeByTypeMap(edgeType, node().asMap(), visitor);
+
+					
+				}else if(node().isUserDefinedObject()){
+
+					_forEachEdgeByTypeUserDefined(edgeType, node().asUserDefinedObject(), visitor);
+				}
+				
+			}
+		};
 	}
+
+	protected void _forEachEdgeByTypeList(EdgeType edgeType, 
+			                              List<?> list, 
+			                              Visitor<ReferenceEdge> visitor) throws Throwable {
+
+		String attributeName = edgeType.name().toString();
+		
+		Integer index = Integer.parseInt(attributeName);
+
+		Object attributeValue = list.get(index);
+		
+		_visitAttributeEdge(attributeName, attributeValue, visitor);
+	}
+
+	protected void _visitAttributeEdge(String attributeName, Object attributeValue, Visitor<ReferenceEdge> visitor) throws Throwable {
+
+		Path attributePath = Path.fromRawPath(this.node().id().toKey().toString());
+		attributePath.addName(attributeName);
+		
+		ObjectGraphStructureNtro graphStructure = (ObjectGraphStructureNtro) getGraph().graphStructure();
+		
+		ObjectNode toNode = graphStructure.getLocalHeap().findOrCreateNode(getGraph(), attributePath, attributeValue, false);
+		ReferenceEdge edge = new ReferenceEdgeNtro(this.node(), attributeName, toNode);
+		
+		visitor.visit(edge);
+	}
+
+	protected void _forEachEdgeByTypeMap(EdgeType edgeType, 
+			                             Map<String, ?> map, 
+			                             Visitor<ReferenceEdge> visitor) throws Throwable {
+
+		String attributeName = edgeType.name().toString();
+		
+		Object attributeValue = map.get(attributeName);
+		
+		_visitAttributeEdge(attributeName, attributeValue, visitor);
+		
+	}
+
+	protected void _forEachEdgeByTypeUserDefined(EdgeType edgeType, 
+			                                     Object object, 
+			                                     Visitor<ReferenceEdge> visitor) throws Throwable {
+
+		String attributeName = edgeType.name().toString();
+		
+		String getterName = ReflectionUtils.getterNameFromAttributeName(attributeName);
+
+		Object attributeValue;
+
+		attributeValue = invokeGetter(object, getterName);
+
+		_visitAttributeEdge(attributeName, attributeValue, visitor);
+	}
+
 
 	@Override
 	public <R> void reduceEdgesByType(EdgeType edgeType, 

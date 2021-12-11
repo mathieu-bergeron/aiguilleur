@@ -29,7 +29,7 @@ public enum Direction {
 		return new StreamNtro<Direction>() {
 			@Override
 			protected void _forEach(Visitor<Direction> visitor) throws Throwable {
-				for(Direction direction : values()) {
+				for(Direction direction : Direction.values()) {
 					visitor.visit(direction);
 				}
 			}
