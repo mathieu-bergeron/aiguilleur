@@ -447,20 +447,43 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 		});
 		
 		return result.value();
+
+		//return reachableNodes(cycleSearchOptions()).ifSome(visitedNode -> visitedNode.node() == this);
+	}
+	
+	protected SO cycleSearchOptions() {
+
+		InternalSearchOptionsNtro options = new InternalSearchOptionsNtro();
+		options.setDirections(new Direction[] {Direction.FORWARD});
+		options.setSearchStrategy(SearchStrategy.DEPTH_FIRST_SEARCH);
+		options.setMaxDistance(Optionnal.none(Integer.class));
+		options.setSortEdgesByName(false);
+
+		SO cycleOptions = defaultSearchOptions();
+		cycleOptions.copyOptions(options);
+		
+		return cycleOptions;
 	}
 	
 	@Override
 	public Stream<E> edges(){
-		return Direction.asStream().reduceToStream((direction, edgeVisitor) -> {
+		return new StreamNtro<E>() {
 
-			nodeStructure().edgeTypes(direction).forEach(edgeType -> {
+			@Override
+			protected void _forEach(Visitor<E> visitor) throws Throwable {
 				
-				nodeStructure().edges(edgeType).forEach(edge -> { 
+				for(Direction direction : Direction.values()) {
 
-					edgeVisitor.visit(edge);
-				});
-			});
-		});
+					nodeStructure().edgeTypes(direction).forEach(edgeType -> {
+						
+						nodeStructure().edges(edgeType).forEach(edge -> { 
+
+							visitor.visit(edge);
+						});
+					});
+				}
+			}
+		};
 	}
 
 	@Override
