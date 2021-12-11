@@ -3,7 +3,6 @@ package ca.ntro.core.task_graphs.task_graph;
 import java.util.HashMap;
 import java.util.Map;
 
-import ca.ntro.core.stream.Reducer;
 import ca.ntro.core.graphs.common.Direction;
 import ca.ntro.core.graphs.generics.graph.SearchStrategy;
 import ca.ntro.core.graphs.generics.graph.VisitedNode;
@@ -12,7 +11,6 @@ import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagSearchOptions;
 import ca.ntro.core.stream.Stream;
 import ca.ntro.core.stream.StreamNtro;
 import ca.ntro.core.stream.Visitor;
-import ca.ntro.core.wrappers.result.ResultNtro;
 
 public class      TaskNtro<T  extends Task<T,AT>, 
                            AT extends AtomicTask<T,AT>>
@@ -280,22 +278,11 @@ public class      TaskNtro<T  extends Task<T,AT>,
 
 	@Override
 	public Stream<T> reachableTasks(TaskGraphSearchOptionsBuilder options) {
-		/*
-		return new StreamNtro<T>() {
-			@Override
-			public <R> void applyReducer(ResultNtro<R> result, Reducer<T, R> reducer) {
-				
-				// JSweet: we need to explicitly declare intermediate streams
-				Stream<VisitedNode<TaskGraphNode<T,AT>, 
-				                   TaskGraphEdge<T,AT>,
-				                   HierarchicalDagSearchOptions>> visitedNodes = getNodeBuilder().node().reachableNodes(options);
-				
-				Stream<T> visitedTasks = visitedNodes.map(rn -> rn.node().task());
-				
-				visitedTasks.applyReducer(result, reducer);
-			}
-		};*/
+		// JSweet: we need to explicitly declare intermediate streams
+		Stream<VisitedNode<TaskGraphNode<T,AT>, 
+						   TaskGraphEdge<T,AT>,
+						   HierarchicalDagSearchOptions>> visitedNodes = getNodeBuilder().node().reachableNodes(options);
 		
-		return null;
+		return visitedNodes.map(visitedNode -> visitedNode.node().task());
 	}
 }
