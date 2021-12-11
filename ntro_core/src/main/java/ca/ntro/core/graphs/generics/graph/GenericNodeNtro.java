@@ -467,23 +467,16 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 	
 	@Override
 	public Stream<E> edges(){
-		return new StreamNtro<E>() {
+		return Direction.asStream().reduceToStream((direction, edgeVisitor) -> {
 
-			@Override
-			protected void _forEach(Visitor<E> visitor) throws Throwable {
+			nodeStructure().edgeTypes(direction).forEach(edgeType -> {
 				
-				for(Direction direction : Direction.values()) {
+				nodeStructure().edges(edgeType).forEach(edge -> { 
 
-					nodeStructure().edgeTypes(direction).forEach(edgeType -> {
-						
-						nodeStructure().edges(edgeType).forEach(edge -> { 
-
-							visitor.visit(edge);
-						});
-					});
-				}
-			}
-		};
+					edgeVisitor.visit(edge);
+				});
+			});
+		});
 	}
 
 	@Override
