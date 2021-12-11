@@ -7,6 +7,7 @@ import ca.ntro.core.graphs.generics.directed_graph.GenericInternalDirectedGraphW
 import ca.ntro.core.graphs.generics.graph.GenericGraph;
 import ca.ntro.core.graphs.graph_writer.GraphWriter;
 import ca.ntro.core.graphs.graph_writer.GraphWriterException;
+import ca.ntro.core.graphs.graph_writer.NodeSpecNtro;
 import ca.ntro.core.initialization.Ntro;
 
 public class InternalObjectGraphWriterNtro       
@@ -30,14 +31,30 @@ public class InternalObjectGraphWriterNtro
 				
 				if(!writtenNodes.contains(n.id().toKey().toString())) {
 					writtenNodes.add(n.id().toKey().toString());
+
+					NodeSpecNtro nodeSpec = nodeSpec(n, options);
 					
 					if(options.objectAsStructure()) {
 						
 						throw new RuntimeException("TODO");
+
+						n.forEachEdge(e -> {
+							
+							if(e.to().isSimpleValue()) {
+								
+								nodeSpec.addSimpleAttribute(e.name().toString(), e.to().asSimpleValue().asString());
+
+							}else if(e.to().isList()){
+								
+							}else if(e.to().isList()){
+								
+							}
+						});
+						
 						
 					}else {
 
-						writer.addNode(nodeSpec(n, options));
+						writer.addNode(nodeSpec);
 					}
 				}
 
