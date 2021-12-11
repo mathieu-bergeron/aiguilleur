@@ -31,9 +31,14 @@ public class InternalObjectGraphWriterNtro
 				if(!writtenNodes.contains(n.id().toKey().toString())) {
 					writtenNodes.add(n.id().toKey().toString());
 					
-					
+					if(options.objectAsStructure()) {
+						
+						throw new RuntimeException("TODO");
+						
+					}else {
 
-					writer.addNode(nodeSpec(n, options));
+						writer.addNode(nodeSpec(n, options));
+					}
 				}
 
 			} catch (GraphWriterException e) {

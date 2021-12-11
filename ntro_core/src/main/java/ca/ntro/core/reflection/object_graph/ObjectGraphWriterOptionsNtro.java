@@ -8,10 +8,10 @@ public class      ObjectGraphWriterOptionsNtro
        
        implements ObjectGraphWriterOptions {
 	
-	private boolean objectAsStructure;
-	private boolean stringAsSimpleValue;
-	private boolean mapAsSimpleValue;
-	private boolean listAsSimpleValue;
+	private boolean objectAsStructure = true;
+	private boolean stringAsSimpleValue = true;
+	private boolean mapAsSimpleValue = true;
+	private boolean listAsSimpleValue = true;
 
 	public boolean getObjectAsStructure() {
 		return objectAsStructure;
