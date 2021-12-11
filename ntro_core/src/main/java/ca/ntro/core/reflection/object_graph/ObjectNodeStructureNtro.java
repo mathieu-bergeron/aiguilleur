@@ -7,7 +7,7 @@ import java.util.Map;
 import ca.ntro.core.graphs.common.Direction;
 import ca.ntro.core.graphs.common.EdgeType;
 import ca.ntro.core.graphs.common.EdgeTypeNtro;
-import ca.ntro.core.graphs.generics.directed_graph.DirectedSearchOptions;
+import ca.ntro.core.graphs.generics.directed_graph.DirectedGraphSearchOptions;
 import ca.ntro.core.graphs.generics.graph.EdgeReducer;
 import ca.ntro.core.graphs.generics.graph.EdgeTypeReducer;
 import ca.ntro.core.initialization.Ntro;
@@ -72,7 +72,7 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 
 	public <R> void reduceEdgesByTypeForList(EdgeType edgeType, 
 			                                 ResultNtro<R> result, 
-			                                 EdgeReducer<ObjectNode, ReferenceEdge, DirectedSearchOptions, R> reducer,
+			                                 EdgeReducer<ObjectNode, ReferenceEdge, ObjectGraphSearchOptions, R> reducer,
 			                                 List<?> list) {
 
 		String attributeName = edgeType.name().toString();
@@ -86,7 +86,7 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 	}
 
 	public <R> void reduceAttributeEdge(ResultNtro<R> result, 
-			                            EdgeReducer<ObjectNode, ReferenceEdge, DirectedSearchOptions, R> reducer,
+			                            EdgeReducer<ObjectNode, ReferenceEdge, ObjectGraphSearchOptions, R> reducer,
 			                            String attributeName,
 			                            Object attributeValue) {
 
@@ -113,7 +113,7 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 
 	public <R> void reduceEdgesByTypeForMap(EdgeType edgeType, 
 			                                ResultNtro<R> result, 
-			                                EdgeReducer<ObjectNode, ReferenceEdge, DirectedSearchOptions, R> reducer,
+			                                EdgeReducer<ObjectNode, ReferenceEdge, ObjectGraphSearchOptions, R> reducer,
 			                                Map<String,?> map) {
 
 		String attributeName = edgeType.name().toString();
@@ -126,7 +126,7 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 
 	public <R> void reduceEdgesByTypeForUserDefinedObject(EdgeType edgeType, 
 			                                              ResultNtro<R> result, 
-			                                              EdgeReducer<ObjectNode, ReferenceEdge, DirectedSearchOptions, R> reducer,
+			                                              EdgeReducer<ObjectNode, ReferenceEdge, ObjectGraphSearchOptions, R> reducer,
 			                                              Object currentObject) {
 
 		String attributeName = edgeType.name().toString();
@@ -150,7 +150,7 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 	@Override
 	public <R> void reduceEdgesByType(EdgeType edgeType, 
 			                          ResultNtro<R> result, 
-			                          EdgeReducer<ObjectNode, ReferenceEdge, DirectedSearchOptions, R> reducer) {
+			                          EdgeReducer<ObjectNode, ReferenceEdge, ObjectGraphSearchOptions, R> reducer) {
 
 		if(result.hasException()) {
 			return;

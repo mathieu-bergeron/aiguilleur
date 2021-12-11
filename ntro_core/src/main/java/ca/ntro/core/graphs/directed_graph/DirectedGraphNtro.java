@@ -2,27 +2,30 @@ package ca.ntro.core.graphs.directed_graph;
 
 import ca.ntro.core.graphs.generics.directed_graph.DirectedGraphWriterOptions;
 import ca.ntro.core.graphs.generics.directed_graph.DirectedGraphWriterOptionsNtro;
-import ca.ntro.core.graphs.generics.directed_graph.DirectedSearchOptions;
-import ca.ntro.core.graphs.generics.directed_graph.DirectedSearchOptionsNtro;
-import ca.ntro.core.graphs.generics.graph.GenericGraphNtro;
+import ca.ntro.core.graphs.generics.directed_graph.DirectedGraphSearchOptions;
+import ca.ntro.core.graphs.generics.directed_graph.DirectedGraphSearchOptionsNtro;
+import ca.ntro.core.graphs.generics.directed_graph.GenericDirectedGraphNtro;
 import ca.ntro.core.graphs.generics.graph.InternalGraphWriter;
 
 public class      DirectedGraphNtro<N extends  DirectedNode<N,E>, 
                                     E extends  DirectedEdge<N,E>>
 
-       extends    GenericGraphNtro<N,E,DirectedSearchOptions,DirectedGraphWriterOptions>
+       extends    GenericDirectedGraphNtro<N,
+                                           E,
+                                           DirectedGraphSearchOptions,
+                                           DirectedGraphWriterOptions>
 
 
        implements DirectedGraph<N,E> {
 
 	@Override
-	protected InternalGraphWriter<N,E,DirectedSearchOptions,DirectedGraphWriterOptions> newInternalGraphWriterInstance() {
+	protected InternalGraphWriter<N,E,DirectedGraphSearchOptions,DirectedGraphWriterOptions> newInternalGraphWriterInstance() {
 		return new InternalDirectedGraphWriterNtro<N,E>();
 	}
 
 	@Override
-	protected DirectedSearchOptions newDefaultSearchOptionsInstance() {
-		return new DirectedSearchOptionsNtro();
+	protected DirectedGraphSearchOptions newDefaultSearchOptionsInstance() {
+		return new DirectedGraphSearchOptionsNtro();
 	}
 
 	@Override

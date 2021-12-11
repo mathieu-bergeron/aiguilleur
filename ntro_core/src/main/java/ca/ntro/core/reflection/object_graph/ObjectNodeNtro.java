@@ -5,16 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 import ca.ntro.core.graphs.common.NodeId;
-import ca.ntro.core.graphs.directed_graph.DirectedNodeNtro;
-import ca.ntro.core.graphs.generics.directed_graph.DirectedGraphWriterOptions;
-import ca.ntro.core.graphs.generics.directed_graph.DirectedSearchOptions;
-import ca.ntro.core.graphs.generics.graph.GenericGraph;
+import ca.ntro.core.graphs.generics.directed_graph.GenericDirectedNodeNtro;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.reflection.object_updates.ObjectUpdates;
 
 public abstract class ObjectNodeNtro 
 
-	   extends        DirectedNodeNtro<ObjectNode, ReferenceEdge>
+	   extends        GenericDirectedNodeNtro<ObjectNode, ReferenceEdge, ObjectGraphSearchOptions>
 
 	   implements     GenericObjectNode, 
 	                  ObjectNode,
@@ -56,10 +53,6 @@ public abstract class ObjectNodeNtro
 	}
 
 
-	@Override
-	public GenericGraph<ObjectNode, ReferenceEdge, DirectedSearchOptions, DirectedGraphWriterOptions> parentGraph() {
-		return getGraph();
-	}
 
 	@Override
 	public String label() {

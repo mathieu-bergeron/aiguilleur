@@ -1,12 +1,16 @@
 package ca.ntro.core.reflection.object_graph;
 
-import ca.ntro.core.graphs.directed_graph.DirectedGraphNtro;
+import ca.ntro.core.graphs.generics.directed_graph.GenericDirectedGraphNtro;
 import ca.ntro.core.graphs.generics.graph.GraphId;
+import ca.ntro.core.graphs.generics.graph.InternalGraphWriter;
 import ca.ntro.core.reflection.object_updates.ObjectUpdates;
 
 public abstract class ObjectGraphNtro 
 
-       extends        DirectedGraphNtro<ObjectNode, ReferenceEdge> 
+       extends        GenericDirectedGraphNtro<ObjectNode, 
+                                               ReferenceEdge,
+                                               ObjectGraphSearchOptions,
+                                               ObjectGraphWriterOptions> 
 
        implements     ObjectGraph {
 
@@ -29,6 +33,21 @@ public abstract class ObjectGraphNtro
 		// TODO: describe an object of the graph
 		//       as a sequence of UPDATE/INSERT/DELETE operations
 		return null;
+	}
+
+	@Override
+	protected InternalGraphWriter<ObjectNode, ReferenceEdge, ObjectGraphSearchOptions, ObjectGraphWriterOptions> newInternalGraphWriterInstance() {
+		return new InternalObjectGraphWriterNtro();
+	}
+
+	@Override
+	protected ObjectGraphSearchOptions newDefaultSearchOptionsInstance() {
+		return new ObjectGraphSearchOptionsNtro();
+	}
+
+	@Override
+	protected ObjectGraphWriterOptions newDefaultGraphWriterOptionsInstance() {
+		return new ObjectGraphWriterOptionsNtro();
 	}
 
 }

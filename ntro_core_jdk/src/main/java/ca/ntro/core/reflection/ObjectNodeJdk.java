@@ -2,12 +2,14 @@ package ca.ntro.core.reflection;
 
 
 import ca.ntro.core.graphs.common.NodeId;
-import ca.ntro.core.graphs.generics.directed_graph.DirectedSearchOptions;
-import ca.ntro.core.graphs.generics.directed_graph.DirectedSearchOptionsNtro;
+import ca.ntro.core.graphs.generics.directed_graph.DirectedGraphSearchOptions;
+import ca.ntro.core.graphs.generics.directed_graph.DirectedGraphSearchOptionsNtro;
 import ca.ntro.core.graphs.generics.graph.GenericNodeStructure;
 import ca.ntro.core.reflection.object_graph.LocalHeap;
 import ca.ntro.core.reflection.object_graph.ObjectGraph;
 import ca.ntro.core.reflection.object_graph.ObjectGraphNtro;
+import ca.ntro.core.reflection.object_graph.ObjectGraphSearchOptions;
+import ca.ntro.core.reflection.object_graph.ObjectGraphSearchOptionsNtro;
 import ca.ntro.core.reflection.object_graph.GenericObjectNode;
 import ca.ntro.core.reflection.object_graph.ObjectNodeNtro;
 import ca.ntro.core.reflection.object_graph.ObjectNode;
@@ -26,8 +28,8 @@ public class ObjectNodeJdk extends ObjectNodeNtro {
 
 
 	@Override
-	protected DirectedSearchOptions defaultSearchOptions() {
-		return new DirectedSearchOptionsNtro();
+	protected ObjectGraphSearchOptions defaultSearchOptions() {
+		return new ObjectGraphSearchOptionsNtro();
 	}
 
 	@Override
@@ -36,7 +38,7 @@ public class ObjectNodeJdk extends ObjectNodeNtro {
 	}
 
 	@Override
-	protected GenericNodeStructure<ObjectNode, ReferenceEdge, DirectedSearchOptions> nodeStructure() {
+	protected GenericNodeStructure<ObjectNode, ReferenceEdge, ObjectGraphSearchOptions> nodeStructure() {
 		return new ObjectNodeStructureJdk((ObjectNodeNtro) this, (ObjectGraphNtro) getGraph());
 	}
 

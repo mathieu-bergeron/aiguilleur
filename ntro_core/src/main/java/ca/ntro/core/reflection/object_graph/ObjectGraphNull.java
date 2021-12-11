@@ -2,7 +2,7 @@ package ca.ntro.core.reflection.object_graph;
 
 import ca.ntro.core.graphs.common.NodeId;
 import ca.ntro.core.graphs.generics.directed_graph.DirectedGraphWriterOptions;
-import ca.ntro.core.graphs.generics.directed_graph.DirectedSearchOptions;
+import ca.ntro.core.graphs.generics.directed_graph.DirectedGraphSearchOptions;
 import ca.ntro.core.graphs.generics.graph.EdgeReducer;
 import ca.ntro.core.graphs.generics.graph.EdgeVisitor;
 import ca.ntro.core.graphs.generics.graph.GraphId;
@@ -34,19 +34,19 @@ public class ObjectGraphNull implements ObjectGraph {
 	}
 
 	@Override
-	public void write(DirectedGraphWriterOptions options, GraphWriter writer) {
+	public void write(ObjectGraphWriterOptions options, GraphWriter writer) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public DirectedSearchOptions defaultSearchOptions() {
+	public ObjectGraphSearchOptions defaultSearchOptions() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public DirectedGraphWriterOptions defaultGraphWriterOptions() {
+	public ObjectGraphWriterOptions defaultGraphWriterOptions() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -70,14 +70,14 @@ public class ObjectGraphNull implements ObjectGraph {
 	}
 
 	@Override
-	public void forEachStartNode(NodeVisitor<ObjectNode, ReferenceEdge, DirectedSearchOptions> visitor) {
+	public void forEachStartNode(NodeVisitor<ObjectNode, ReferenceEdge, ObjectGraphSearchOptions> visitor) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public <R> Result<R> reduceStartNodes(R initialValue,
-			NodeReducer<ObjectNode, ReferenceEdge, DirectedSearchOptions, R> reducer) {
+			NodeReducer<ObjectNode, ReferenceEdge, ObjectGraphSearchOptions, R> reducer) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -89,14 +89,14 @@ public class ObjectGraphNull implements ObjectGraph {
 	}
 
 	@Override
-	public void forEachNode(NodeVisitor<ObjectNode, ReferenceEdge, DirectedSearchOptions> visitor) {
+	public void forEachNode(NodeVisitor<ObjectNode, ReferenceEdge, ObjectGraphSearchOptions> visitor) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public <R> Result<R> reduceNodes(R initialValue,
-			NodeReducer<ObjectNode, ReferenceEdge, DirectedSearchOptions, R> reducer) {
+			NodeReducer<ObjectNode, ReferenceEdge, ObjectGraphSearchOptions, R> reducer) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -108,14 +108,14 @@ public class ObjectGraphNull implements ObjectGraph {
 	}
 
 	@Override
-	public void forEachEdge(EdgeVisitor<ObjectNode, ReferenceEdge, DirectedSearchOptions> visitor) {
+	public void forEachEdge(EdgeVisitor<ObjectNode, ReferenceEdge, ObjectGraphSearchOptions> visitor) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public <R> Result<R> reduceEdges(R initialValue,
-			EdgeReducer<ObjectNode, ReferenceEdge, DirectedSearchOptions, R> reducer) {
+			EdgeReducer<ObjectNode, ReferenceEdge, ObjectGraphSearchOptions, R> reducer) {
 		// TODO Auto-generated method stub
 		return null;
 	}

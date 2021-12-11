@@ -1,9 +1,11 @@
 package ca.ntro.core.reflection.object_graph;
 
-import ca.ntro.core.graphs.directed_graph.DirectedGraphStructure;
+import ca.ntro.core.graphs.generics.directed_graph.GenericDirectedGraphStructure;
 
 public interface ObjectGraphStructure 
-       extends   DirectedGraphStructure<ObjectNode, ReferenceEdge> {
+       extends   GenericDirectedGraphStructure<ObjectNode, 
+                                               ReferenceEdge,
+                                               ObjectGraphSearchOptions> {
 
 	String label();
 

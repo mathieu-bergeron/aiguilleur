@@ -1,13 +1,15 @@
 package ca.ntro.core.graphs.directed_graph;
 
 import ca.ntro.core.graphs.common.NodeId;
-import ca.ntro.core.graphs.generics.directed_graph.DirectedSearchOptions;
-import ca.ntro.core.graphs.generics.graph.GenericNodeNtro;
+import ca.ntro.core.graphs.generics.directed_graph.DirectedGraphSearchOptions;
+import ca.ntro.core.graphs.generics.directed_graph.GenericDirectedNodeNtro;
 
 public class DirectedNodeNtro<N extends  DirectedNode<N,E>, 
                               E extends  DirectedEdge<N,E>>
 
-       extends GenericNodeNtro<N,E,DirectedSearchOptions>
+       extends GenericDirectedNodeNtro<N,
+                                       E,
+                                       DirectedGraphSearchOptions>
 
 
 	   implements DirectedNode<N,E> {

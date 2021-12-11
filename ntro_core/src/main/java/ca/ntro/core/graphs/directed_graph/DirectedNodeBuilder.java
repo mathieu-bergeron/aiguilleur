@@ -1,11 +1,14 @@
 package ca.ntro.core.graphs.directed_graph;
 
-import ca.ntro.core.graphs.generics.directed_graph.DirectedSearchOptions;
-import ca.ntro.core.graphs.generics.graph.GenericNodeBuilder;
+import ca.ntro.core.graphs.generics.directed_graph.DirectedGraphSearchOptions;
+import ca.ntro.core.graphs.generics.directed_graph.GenericDirectedNodeBuilder;
 
 public interface DirectedNodeBuilder<N extends  DirectedNode<N,E>, 
                                      E extends  DirectedEdge<N,E>>
 
-       extends GenericNodeBuilder<N,E,DirectedSearchOptions,DirectedNodeBuilder<N,E>> {
+       extends GenericDirectedNodeBuilder<N,
+                                          E,
+                                          DirectedGraphSearchOptions,
+                                          DirectedNodeBuilder<N,E>> {
 
 }

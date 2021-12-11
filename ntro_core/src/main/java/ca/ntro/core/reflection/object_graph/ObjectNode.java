@@ -3,9 +3,15 @@ package ca.ntro.core.reflection.object_graph;
 import java.util.List;
 import java.util.Map;
 
-import ca.ntro.core.graphs.directed_graph.DirectedNode;
+import ca.ntro.core.graphs.generics.directed_graph.GenericDirectedNode;
 
-public interface ObjectNode extends DirectedNode<ObjectNode, ReferenceEdge>, GenericObjectNode {
+public interface ObjectNode 
+
+       extends   GenericDirectedNode<ObjectNode, 
+                                     ReferenceEdge,
+                                     ObjectGraphSearchOptions> ,
+
+                 GenericObjectNode {
 
 	boolean isList();
 	boolean isMap();

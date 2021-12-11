@@ -1,15 +1,8 @@
 package ca.ntro.core.reflection;
 
-import ca.ntro.core.graphs.directed_graph.InternalDirectedGraphWriterNtro;
-import ca.ntro.core.graphs.generics.directed_graph.DirectedGraphWriterOptions;
-import ca.ntro.core.graphs.generics.directed_graph.DirectedSearchOptions;
-import ca.ntro.core.graphs.generics.graph.InternalGraphWriter;
 import ca.ntro.core.reflection.object_graph.LocalHeap;
 import ca.ntro.core.reflection.object_graph.ObjectGraphNtro;
 import ca.ntro.core.reflection.object_graph.ObjectGraphStructureNtro;
-import ca.ntro.core.reflection.object_graph.GenericObjectNode;
-import ca.ntro.core.reflection.object_graph.ObjectNode;
-import ca.ntro.core.reflection.object_graph.ReferenceEdge;
 
 public class ObjectGraphJdk extends ObjectGraphNtro {
 	
@@ -25,12 +18,6 @@ public class ObjectGraphJdk extends ObjectGraphNtro {
 
 	protected LocalHeap createLocalHeap() {
 		return new LocalHeapJdk();
-	}
-
-
-	@Override
-	protected InternalGraphWriter<ObjectNode, ReferenceEdge, DirectedSearchOptions, DirectedGraphWriterOptions> newInternalGraphWriterInstance() {
-		return new InternalDirectedGraphWriterNtro<ObjectNode, ReferenceEdge>();
 	}
 
 }
