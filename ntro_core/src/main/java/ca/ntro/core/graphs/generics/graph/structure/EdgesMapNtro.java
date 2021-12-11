@@ -70,14 +70,13 @@ public abstract class EdgesMapNtro<N extends GenericNode<N,E,SO>,
 	public Stream<EdgeType> edgeTypes(Direction direction) {
 		return new StreamNtro<EdgeType>() {
 			@Override
-			protected void _forEach(Visitor<EdgeType> visitor) throws Throwable {
+			public void _forEach(Visitor<EdgeType> visitor) throws Throwable {
 
 				for(SUBMAP subMap : subMapsForDirection(direction)) {
 
 					if(subMap != null) {
 
-						subMap.edgeTypes(direction).forEach(visitor);
-
+						subMap.edgeTypes(direction)._forEach(visitor);
 					}
 				}
 			}
@@ -88,13 +87,13 @@ public abstract class EdgesMapNtro<N extends GenericNode<N,E,SO>,
 	public Stream<E> edges(EdgeType edgeType) {
 		return new StreamNtro<E>() {
 			@Override
-			protected void _forEach(Visitor<E> visitor) throws Throwable {
+			public void _forEach(Visitor<E> visitor) throws Throwable {
 
 				SUBMAP subMap = getEdgesMap().get(getSubMapKey(edgeType));
 				
 				if(subMap != null) {
 
-					subMap.edges(edgeType).forEach(visitor);
+					subMap.edges(edgeType)._forEach(visitor);
 				}
 			}
 		};

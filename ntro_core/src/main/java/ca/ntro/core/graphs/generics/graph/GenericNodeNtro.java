@@ -488,7 +488,7 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 	public Stream<VisitedNode<N,E,SO>> reachableNodes(SO options){
 		return new StreamNtro<VisitedNode<N,E,SO>>(){
 			@Override
-			protected void _forEach(Visitor<VisitedNode<N, E, SO>> visitor) throws Throwable {
+			public void _forEach(Visitor<VisitedNode<N, E, SO>> visitor) throws Throwable {
 				ResultNtro<?> result = new ResultNtro<>();
 
 				__reduceReachableNodes(options.internal(), result, (__, visitedNode) -> {

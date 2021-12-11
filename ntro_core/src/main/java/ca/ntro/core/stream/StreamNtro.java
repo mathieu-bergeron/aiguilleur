@@ -12,7 +12,8 @@ public abstract class StreamNtro<I extends Object>
 
        implements     Stream<I> {
 
-	protected abstract void _forEach(Visitor<I> visitor) throws Throwable;
+	@Override
+	public abstract void _forEach(Visitor<I> visitor) throws Throwable;
 	
 	@Override
 	public <R> void applyReducer(ResultNtro<R> result, Reducer<I,R> reducer) {

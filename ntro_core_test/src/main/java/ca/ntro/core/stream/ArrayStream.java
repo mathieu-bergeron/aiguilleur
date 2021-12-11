@@ -9,7 +9,7 @@ public class ArrayStream<V extends Object> extends StreamNtro<V> {
 	}
 
 	@Override
-	protected void _forEach(Visitor<V> visitor) throws Throwable {
+	public void _forEach(Visitor<V> visitor) throws Throwable {
 		for(V value : values) {
 			visitor.visit(value);
 		}

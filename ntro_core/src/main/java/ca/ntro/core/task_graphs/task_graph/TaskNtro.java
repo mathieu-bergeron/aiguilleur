@@ -238,7 +238,7 @@ public class      TaskNtro<T  extends Task<T,AT>,
 	protected Stream<AT> atomicTasks(Map<String, AT> atomicTasks){
 		return new StreamNtro<AT>() {
 			@Override
-			protected void _forEach(Visitor<AT> visitor) throws Throwable {
+			public void _forEach(Visitor<AT> visitor) throws Throwable {
 				for(AT atomicTask : atomicTasks.values()) {
 					visitor.visit(atomicTask);
 				}

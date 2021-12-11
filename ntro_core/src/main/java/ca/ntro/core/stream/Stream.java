@@ -2,6 +2,7 @@ package ca.ntro.core.stream;
 
 import java.util.List;
 
+import ca.ntro.core.exceptions.Break;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
@@ -12,6 +13,8 @@ public interface Stream<I extends Object> {
 	boolean ifSome(Matcher<I> matcher);
 
 	void forEach(Visitor<I> visitor);
+
+	void _forEach(Visitor<I> visitor) throws Throwable;
 	
 	I findFirst(Matcher<I> matcher);
 

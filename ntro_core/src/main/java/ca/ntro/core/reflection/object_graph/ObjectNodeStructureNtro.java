@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import ca.ntro.core.exceptions.Break;
 import ca.ntro.core.graphs.common.Direction;
 import ca.ntro.core.graphs.common.EdgeType;
 import ca.ntro.core.graphs.common.EdgeTypeNtro;
@@ -53,7 +54,7 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 	public Stream<EdgeType> edgeTypes(Direction direction) {
 		return new StreamNtro<EdgeType>() {
 			@Override
-			protected void _forEach(Visitor<EdgeType> visitor) throws Throwable {
+			public void _forEach(Visitor<EdgeType> visitor) throws Throwable {
 				if(direction != Direction.FORWARD) {
 					return;
 				}
@@ -88,8 +89,8 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 		
 	}
 	
-	protected void _forEachEdgeTypeUserDefinedObject(Visitor<EdgeType> visitor, Object object) {
-		methodNames(object).forEach(methodName -> {
+	protected void _forEachEdgeTypeUserDefinedObject(Visitor<EdgeType> visitor, Object object) throws Throwable {
+		methodNames(object)._forEach(methodName -> {
 
 			if(ReflectionUtils.isGetterName(methodName) 
 					&& ReflectionUtils.isUserDefinedMethod(object, methodName)) {
@@ -198,7 +199,7 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 		return new StreamNtro<ReferenceEdge>(){
 
 			@Override
-			protected void _forEach(Visitor<ReferenceEdge> visitor) throws Throwable {
+			public void _forEach(Visitor<ReferenceEdge> visitor) throws Throwable {
 				if(edgeType.direction() != Direction.FORWARD) {
 					return;
 				}
