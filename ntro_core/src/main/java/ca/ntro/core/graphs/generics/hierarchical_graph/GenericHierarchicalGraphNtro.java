@@ -2,7 +2,7 @@ package ca.ntro.core.graphs.generics.hierarchical_graph;
 
 import ca.ntro.core.graphs.generics.graph.GenericEdge;
 import ca.ntro.core.graphs.generics.graph.GenericGraphNtro;
-import ca.ntro.core.graphs.generics.graph.InternalGraphWriter;
+import ca.ntro.core.graphs.generics.graph.GenericInternalGraphWriter;
 
 public class GenericHierarchicalGraphNtro <N extends GenericHierarchicalNode<N,E,SO>,
 								           E extends GenericEdge<N,E,SO>,
@@ -14,7 +14,7 @@ public class GenericHierarchicalGraphNtro <N extends GenericHierarchicalNode<N,E
        implements GenericHierarchicalGraph<N,E,SO,GO>{
 
 	@Override
-	protected InternalGraphWriter<N,E,SO,GO> newInternalGraphWriterInstance() {
+	protected GenericInternalGraphWriter<N,E,SO,GO> newInternalGraphWriterInstance() {
 		return new InternalHierarchicalGraphWriterNtro<>();
 	}
 

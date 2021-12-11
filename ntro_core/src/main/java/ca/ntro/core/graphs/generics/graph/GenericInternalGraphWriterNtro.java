@@ -7,25 +7,28 @@ import ca.ntro.core.graphs.graph_writer.GraphWriterException;
 import ca.ntro.core.graphs.graph_writer.NodeSpecNtro;
 import ca.ntro.core.initialization.Ntro;
 
-public class      InternalGraphWriterNtro<N extends GenericNode<N,E,SO>,
+public class      GenericInternalGraphWriterNtro<N extends GenericNode<N,E,SO>,
                                           E extends GenericEdge<N,E,SO>,
                                           SO extends SearchOptions,
                                           GO extends GraphWriterOptions> 
 
-       implements InternalGraphWriter<N,E,SO,GO> {
+       implements GenericInternalGraphWriter<N,E,SO,GO> {
 
 	@Override
 	public void write(GenericGraph<N,E,SO,GO> graph, GO options, GraphWriter writer) {
 
 		writer.initialize(graph.id(), options);
 
-		writeAfterInitialization(graph, writer);
+		writeAfterInitialization(graph, options, writer);
 	}
 
-	protected void writeAfterInitialization(GenericGraph<N,E,SO,GO> graph, GraphWriter writer) {
-		writeNodes(graph, writer);
-		
-		writeEdges(graph, writer);
+	protected void writeAfterInitialization(GenericGraph<N,E,SO,GO> graph, 
+			                                GO options,
+			                                GraphWriter writer) {
+
+		writeNodes(graph, options, writer);
+
+		writeEdges(graph, options, writer);
 		
 		writeFiles(writer);
 	}
@@ -35,32 +38,37 @@ public class      InternalGraphWriterNtro<N extends GenericNode<N,E,SO>,
 		writer.writePng();
 	}
 	
-	protected void adjustNodeSpecAttributes(GenericNode<N,E,SO> node, NodeSpecNtro nodeSpec) {
+	protected void adjustNodeSpecAttributes(GenericNode<N,E,SO> node, 
+			                                GO options,
+			                                NodeSpecNtro nodeSpec) {
 		if(node.isStartNode()) {
 			nodeSpec.setColor("gray");
 		}
 	}
 	
 	
-	protected NodeSpecNtro nodeSpec(GenericNode<N,E,SO> node) {
+	protected NodeSpecNtro nodeSpec(GenericNode<N,E,SO> node, GO options) {
 		NodeSpecNtro nodeSpec = new NodeSpecNtro(node);
 		
-		adjustNodeSpecAttributes(node, nodeSpec);
+		adjustNodeSpecAttributes(node, options, nodeSpec);
 		
 		return nodeSpec;
 	}
 
-	protected EdgeSpecNtro edgeSpec(GenericEdge<N,E,SO> edge) {
+	protected EdgeSpecNtro edgeSpec(GenericEdge<N,E,SO> edge, GO options) {
 		EdgeSpecNtro edgeSpec = new EdgeSpecNtro(edge);
 
 		return edgeSpec;
 	}
 
-	protected void writeNodes(GenericGraph<N,E,SO,GO> graph, GraphWriter writer) {
+	protected void writeNodes(GenericGraph<N,E,SO,GO> graph, 
+			                  GO options,
+			                  GraphWriter writer) {
+
 		graph.forEachNode(n -> {
 			try {
 
-				writer.addNode(nodeSpec(n));
+				writer.addNode(nodeSpec(n, options));
 
 			} catch (GraphWriterException e) {
 				Ntro.exceptionThrower().throwException(e);
@@ -68,18 +76,23 @@ public class      InternalGraphWriterNtro<N extends GenericNode<N,E,SO>,
 		});
 	}
 
-	protected void writeEdges(GenericGraph<N,E,SO,GO> graph, GraphWriter writer) {
+	protected void writeEdges(GenericGraph<N,E,SO,GO> graph, 
+			                  GO options,
+			                  GraphWriter writer) {
+
 		graph.forEachEdge((edge) -> {
 			if(edge.type().direction() == Direction.FORWARD) {
-				writeEdge(writer, edge);
+				writeEdge(writer, options, edge);
 			}
 		});
 	}
 
-	protected void writeEdge(GraphWriter writer, E edge) {
+	protected void writeEdge(GraphWriter writer, 
+			                 GO options,
+			                 E edge) {
 		try {
 
-			writer.addEdge(nodeSpec(edge.from()), edgeSpec(edge), nodeSpec(edge.to()));
+			writer.addEdge(nodeSpec(edge.from(), options), edgeSpec(edge, options), nodeSpec(edge.to(), options));
 
 		} catch (GraphWriterException e) {
 			Ntro.exceptionThrower().throwException(e);

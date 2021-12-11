@@ -3,8 +3,8 @@ package ca.ntro.core.graphs.graph;
 import ca.ntro.core.graphs.generics.graph.GenericGraphNtro;
 import ca.ntro.core.graphs.generics.graph.GraphWriterOptions;
 import ca.ntro.core.graphs.generics.graph.GraphWriterOptionsNtro;
-import ca.ntro.core.graphs.generics.graph.InternalGraphWriter;
-import ca.ntro.core.graphs.generics.graph.InternalGraphWriterNtro;
+import ca.ntro.core.graphs.generics.graph.GenericInternalGraphWriter;
+import ca.ntro.core.graphs.generics.graph.GenericInternalGraphWriterNtro;
 
 public class GraphNtro<N extends Node<N,E>,
                        E extends Edge<N,E>> 
@@ -14,8 +14,8 @@ public class GraphNtro<N extends Node<N,E>,
 	   implements Graph<N,E> {
 	
 	@Override
-	protected InternalGraphWriter<N, E, GraphSearchOptions,GraphWriterOptions> newInternalGraphWriterInstance() {
-		return new InternalGraphWriterNtro<>();
+	protected GenericInternalGraphWriter<N, E, GraphSearchOptions,GraphWriterOptions> newInternalGraphWriterInstance() {
+		return new GenericInternalGraphWriterNtro<>();
 	}
 
 	@Override

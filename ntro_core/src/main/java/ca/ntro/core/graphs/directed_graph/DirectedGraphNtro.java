@@ -5,7 +5,7 @@ import ca.ntro.core.graphs.generics.directed_graph.DirectedGraphWriterOptionsNtr
 import ca.ntro.core.graphs.generics.directed_graph.DirectedGraphSearchOptions;
 import ca.ntro.core.graphs.generics.directed_graph.DirectedGraphSearchOptionsNtro;
 import ca.ntro.core.graphs.generics.directed_graph.GenericDirectedGraphNtro;
-import ca.ntro.core.graphs.generics.graph.InternalGraphWriter;
+import ca.ntro.core.graphs.generics.graph.GenericInternalGraphWriter;
 
 public class      DirectedGraphNtro<N extends  DirectedNode<N,E>, 
                                     E extends  DirectedEdge<N,E>>
@@ -19,7 +19,7 @@ public class      DirectedGraphNtro<N extends  DirectedNode<N,E>,
        implements DirectedGraph<N,E> {
 
 	@Override
-	protected InternalGraphWriter<N,E,DirectedGraphSearchOptions,DirectedGraphWriterOptions> newInternalGraphWriterInstance() {
+	protected GenericInternalGraphWriter<N,E,DirectedGraphSearchOptions,DirectedGraphWriterOptions> newInternalGraphWriterInstance() {
 		return new InternalDirectedGraphWriterNtro<N,E>();
 	}
 

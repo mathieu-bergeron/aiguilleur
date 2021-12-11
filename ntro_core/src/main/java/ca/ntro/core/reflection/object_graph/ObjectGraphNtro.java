@@ -2,7 +2,7 @@ package ca.ntro.core.reflection.object_graph;
 
 import ca.ntro.core.graphs.generics.directed_graph.GenericDirectedGraphNtro;
 import ca.ntro.core.graphs.generics.graph.GraphId;
-import ca.ntro.core.graphs.generics.graph.InternalGraphWriter;
+import ca.ntro.core.graphs.generics.graph.GenericInternalGraphWriter;
 import ca.ntro.core.reflection.object_updates.ObjectUpdates;
 
 public abstract class ObjectGraphNtro 
@@ -36,7 +36,7 @@ public abstract class ObjectGraphNtro
 	}
 
 	@Override
-	protected InternalGraphWriter<ObjectNode, ReferenceEdge, ObjectGraphSearchOptions, ObjectGraphWriterOptions> newInternalGraphWriterInstance() {
+	protected GenericInternalGraphWriter<ObjectNode, ReferenceEdge, ObjectGraphSearchOptions, ObjectGraphWriterOptions> newInternalGraphWriterInstance() {
 		return new InternalObjectGraphWriterNtro();
 	}
 
