@@ -7,6 +7,7 @@ import ca.ntro.core.graphs.generics.graph.EdgeReducer;
 import ca.ntro.core.graphs.generics.graph.EdgeTypeReducer;
 import ca.ntro.core.graphs.generics.graph.GenericNode;
 import ca.ntro.core.graphs.generics.graph.SearchOptions;
+import ca.ntro.core.stream.Stream;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public interface EdgesMap<N extends GenericNode<N,E,SO>, 
@@ -19,5 +20,8 @@ public interface EdgesMap<N extends GenericNode<N,E,SO>,
 
 	<R> void _reduceEdgeTypesForDirection(Direction direction, ResultNtro<R> result, EdgeTypeReducer<R> reducer);
 	<R> void _reduceEdgesByType(EdgeType edgeName, ResultNtro<R> result, EdgeReducer<N,E,SO,R> reducer);
+
+	Stream<EdgeType> edgeTypes(Direction direction);
+	Stream<E> edges(EdgeType edgeType);
 
 }

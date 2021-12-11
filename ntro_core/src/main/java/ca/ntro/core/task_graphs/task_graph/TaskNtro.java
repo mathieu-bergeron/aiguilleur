@@ -11,6 +11,7 @@ import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagNodeBuilder;
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagSearchOptions;
 import ca.ntro.core.stream.Stream;
 import ca.ntro.core.stream.StreamNtro;
+import ca.ntro.core.stream.Visitor;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public class      TaskNtro<T  extends Task<T,AT>, 
@@ -239,23 +240,13 @@ public class      TaskNtro<T  extends Task<T,AT>,
 	protected Stream<AT> atomicTasks(Map<String, AT> atomicTasks){
 		return new StreamNtro<AT>() {
 			@Override
-			public <R> void applyReducer(ResultNtro<R> result, Reducer<AT, R> reducer) {
+			protected void _forEach(Visitor<AT> visitor) throws Throwable {
 				for(AT atomicTask : atomicTasks.values()) {
-					if(result.hasException()) return;
-
-					try {
-
-						reducer.reduce(result, atomicTask);
-
-					} catch(Throwable t) {
-						
-						result.registerException(t);
-					}
+					visitor.visit(atomicTask);
 				}
 			}
 		};
 	}
-
 
 	@Override
 	public Stream<T> previousTasks() {
@@ -289,6 +280,7 @@ public class      TaskNtro<T  extends Task<T,AT>,
 
 	@Override
 	public Stream<T> reachableTasks(TaskGraphSearchOptionsBuilder options) {
+		/*
 		return new StreamNtro<T>() {
 			@Override
 			public <R> void applyReducer(ResultNtro<R> result, Reducer<T, R> reducer) {
@@ -302,6 +294,8 @@ public class      TaskNtro<T  extends Task<T,AT>,
 				
 				visitedTasks.applyReducer(result, reducer);
 			}
-		};
+		};*/
+		
+		return null;
 	}
 }

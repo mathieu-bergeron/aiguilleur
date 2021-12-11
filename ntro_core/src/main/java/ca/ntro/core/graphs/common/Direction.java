@@ -1,5 +1,8 @@
 package ca.ntro.core.graphs.common;
 
+import ca.ntro.core.stream.Stream;
+import ca.ntro.core.stream.StreamNtro;
+import ca.ntro.core.stream.Visitor;
 
 public enum Direction {
 
@@ -19,6 +22,18 @@ public enum Direction {
 		}
 		
 		return false;
+		
+	}
+	
+	public static Stream<Direction> asStream(){
+		return new StreamNtro<Direction>() {
+			@Override
+			protected void _forEach(Visitor<Direction> visitor) throws Throwable {
+				for(Direction direction : values()) {
+					visitor.visit(direction);
+				}
+			}
+		};
 		
 	}
 }

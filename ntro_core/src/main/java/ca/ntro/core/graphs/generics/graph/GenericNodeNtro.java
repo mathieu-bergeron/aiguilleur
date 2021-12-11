@@ -7,6 +7,7 @@ import ca.ntro.core.graphs.common.NodeId;
 import ca.ntro.core.graphs.common.NodeIdNtro;
 import ca.ntro.core.stream.Stream;
 import ca.ntro.core.stream.StreamNtro;
+import ca.ntro.core.stream.Visitor;
 import ca.ntro.core.stream.Reducer;
 import ca.ntro.core.wrappers.optionnal.Optionnal;
 import ca.ntro.core.wrappers.result.Result;
@@ -450,20 +451,16 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 	
 	@Override
 	public Stream<E> edges(){
-		return new StreamNtro<E>() {
-			@Override
-			public <R> void applyReducer(ResultNtro<R> result, Reducer<E, R> _reducer) {
-				if(result.hasException()) return;
-				
-				reduceEdges(result.value(), (__, edge) -> {
-					if(result.hasException()) return result.value();
+		return Direction.asStream().reduceToStream((direction, edgeVisitor) -> {
 
-					_reducer.reduce(result, edge);
-					
-					return result.value();
+			nodeStructure().edgeTypes(direction).forEach(edgeType -> {
+				
+				nodeStructure().edges(edgeType).forEach(edge -> { 
+
+					edgeVisitor.visit(edge);
 				});
-			}
-		};
+			});
+		});
 	}
 
 	@Override
@@ -473,10 +470,14 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 
 	@Override
 	public Stream<VisitedNode<N,E,SO>> reachableNodes(SO options){
-		return new StreamNtro<VisitedNode<N,E,SO>>() {
+		return new StreamNtro<VisitedNode<N,E,SO>>(){
 			@Override
-			public <R> void applyReducer(ResultNtro<R> result, Reducer<VisitedNode<N, E, SO>, R> reducer) {
-				__reduceReachableNodes(options.internal(), result, reducer);
+			protected void _forEach(Visitor<VisitedNode<N, E, SO>> visitor) throws Throwable {
+				ResultNtro<?> result = new ResultNtro<>();
+
+				__reduceReachableNodes(options.internal(), result, (__, visitedNode) -> {
+					visitor.visit(visitedNode);
+				});
 			}
 		};
 	}

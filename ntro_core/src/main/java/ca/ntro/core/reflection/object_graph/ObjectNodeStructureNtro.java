@@ -14,6 +14,9 @@ import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.path.Path;
 import ca.ntro.core.reflection.MethodNameReducer;
 import ca.ntro.core.reflection.ReflectionUtils;
+import ca.ntro.core.stream.Stream;
+import ca.ntro.core.stream.StreamNtro;
+import ca.ntro.core.stream.Visitor;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
@@ -43,7 +46,61 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 	}
 
 	protected abstract <R> void _reduceMethodNames(Object object, ResultNtro<R> result, MethodNameReducer<R> reducer);
+	protected abstract Stream<String> methodNames(Object object);
 	protected abstract Object invokeGetter(Object object, String getterName) throws Throwable;
+
+	@Override
+	public Stream<EdgeType> edgeTypes(Direction direction) {
+		return new StreamNtro<EdgeType>() {
+			@Override
+			protected void _forEach(Visitor<EdgeType> visitor) throws Throwable {
+				if(direction != Direction.FORWARD) {
+					return;
+				}
+				
+				if(node().isList()) {
+					
+					_forEachEdgeTypeList(visitor, node.asList());
+					
+				} else if(node().isMap()) {
+
+					_forEachEdgeTypeMap(visitor, (Map<String,?>) node.asMap());
+					
+				}else if(node().isUserDefinedObject()){
+					
+					_forEachEdgeTypeUserDefinedObject(visitor, node.asUserDefinedObject());
+				}
+			}
+
+		};
+	}
+
+	protected void _forEachEdgeTypeList(Visitor<EdgeType> visitor, List<?> list) throws Throwable {
+		for(int i = 0; i < list.size(); i++) {
+			visitor.visit(new EdgeTypeNtro(Direction.FORWARD, String.valueOf(i)));
+		}
+	}
+
+	protected void _forEachEdgeTypeMap(Visitor<EdgeType> visitor, Map<String, ?> map) throws Throwable {
+		for(String key : map.keySet()) {
+			visitor.visit(new EdgeTypeNtro(Direction.FORWARD, key));
+		}
+		
+	}
+	
+	protected void _forEachEdgeTypeUserDefinedObject(Visitor<EdgeType> visitor, Object object) {
+		methodNames(object).forEach(methodName -> {
+
+			if(ReflectionUtils.isGetterName(methodName) 
+					&& ReflectionUtils.isUserDefinedMethod(object, methodName)) {
+				
+				String attributeName = ReflectionUtils.attributeNameFromGetterName(methodName);
+
+				visitor.visit(new EdgeTypeNtro(Direction.FORWARD, attributeName));
+			}
+		});
+	}
+
 
 	@Override
 	public <R> void reduceEdgeTypesForDirection(Direction direction, ResultNtro<R> result, EdgeTypeReducer<R> reducer) {
@@ -67,6 +124,107 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 		}else if(node().isUserDefinedObject()){
 			
 			_reduceEdgeTypesForUserDefinedObject(result, reducer, node.asUserDefinedObject());
+		}
+	}
+
+
+	protected <R> void _reduceEdgeTypesForList(ResultNtro<R> result, 
+			                                   EdgeTypeReducer<R> reducer, 
+			                                   List<?> list) {
+		
+		for(int i = 0; i < list.size(); i++) {
+			try {
+				
+				result.registerValue(reducer.reduceEdgeType(result.value(), new EdgeTypeNtro(Direction.FORWARD, String.valueOf(i))));
+
+			} catch (Throwable t) {
+				
+				result.registerException(t);
+			}
+		}
+	}
+	
+
+
+	
+
+	protected <R> void _reduceEdgeTypesForMap(ResultNtro<R> result, 
+			                                  EdgeTypeReducer<R> reducer, 
+			                                  Map<String,?> map) {
+		
+		List<String> keys = new ArrayList<>(map.keySet());
+		
+		List<String> sortedKeys = Ntro.collections().sortList(keys);
+
+		for(String key : sortedKeys) {
+			try {
+				
+				result.registerValue(reducer.reduceEdgeType(result.value(), new EdgeTypeNtro(Direction.FORWARD, key)));
+
+			} catch (Throwable t) {
+				
+				result.registerException(t);
+			}
+		}
+	}
+
+	protected <R> void _reduceEdgeTypesForUserDefinedObject(ResultNtro<R> result, 
+			                                                EdgeTypeReducer<R> reducer, 
+			                                                Object currentObject) {
+
+		_reduceMethodNames(currentObject, result, (__, methodName) -> {
+
+			if(ReflectionUtils.isGetterName(methodName) 
+					&& ReflectionUtils.isUserDefinedMethod(currentObject, methodName)) {
+				
+				String attributeName = ReflectionUtils.attributeNameFromGetterName(methodName);
+
+				try {
+					
+					result.registerValue(reducer.reduceEdgeType(result.value(), new EdgeTypeNtro(Direction.FORWARD, attributeName)));
+
+				} catch (Throwable t) {
+					
+					result.registerException(t);
+				}
+			}
+
+			return result.value();
+		});
+	}
+
+	@Override
+	public Stream<ReferenceEdge> edges(EdgeType edgeType) {
+
+		return null;
+	}
+
+	@Override
+	public <R> void reduceEdgesByType(EdgeType edgeType, 
+			                          ResultNtro<R> result, 
+			                          EdgeReducer<ObjectNode, ReferenceEdge, ObjectGraphSearchOptions, R> reducer) {
+
+		if(result.hasException()) {
+			return;
+		}
+
+		if(edgeType.direction() != Direction.FORWARD) {
+			return;
+		}
+
+		if(node().isList()) {
+			
+			reduceEdgesByTypeForList(edgeType, result, reducer, node().asList());
+
+			
+		} else if(node().isMap()) {
+
+			reduceEdgesByTypeForMap(edgeType, result, reducer, node().asMap());
+
+			
+		}else if(node().isUserDefinedObject()){
+
+			reduceEdgesByTypeForUserDefinedObject(edgeType, result, reducer, node().asUserDefinedObject());
 		}
 	}
 
@@ -147,95 +305,6 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 		}
 	}
 
-	@Override
-	public <R> void reduceEdgesByType(EdgeType edgeType, 
-			                          ResultNtro<R> result, 
-			                          EdgeReducer<ObjectNode, ReferenceEdge, ObjectGraphSearchOptions, R> reducer) {
-
-		if(result.hasException()) {
-			return;
-		}
-
-		if(edgeType.direction() != Direction.FORWARD) {
-			return;
-		}
-
-		if(node().isList()) {
-			
-			reduceEdgesByTypeForList(edgeType, result, reducer, node().asList());
-
-			
-		} else if(node().isMap()) {
-
-			reduceEdgesByTypeForMap(edgeType, result, reducer, node().asMap());
-
-			
-		}else if(node().isUserDefinedObject()){
-
-			reduceEdgesByTypeForUserDefinedObject(edgeType, result, reducer, node().asUserDefinedObject());
-		}
-	}
-
-	protected <R> void _reduceEdgeTypesForList(ResultNtro<R> result, 
-			                                   EdgeTypeReducer<R> reducer, 
-			                                   List<?> list) {
-		
-		for(int i = 0; i < list.size(); i++) {
-			try {
-				
-				result.registerValue(reducer.reduceEdgeType(result.value(), new EdgeTypeNtro(Direction.FORWARD, String.valueOf(i))));
-
-			} catch (Throwable t) {
-				
-				result.registerException(t);
-			}
-		}
-	}
-
-	protected <R> void _reduceEdgeTypesForMap(ResultNtro<R> result, 
-			                                  EdgeTypeReducer<R> reducer, 
-			                                  Map<String,?> map) {
-		
-		List<String> keys = new ArrayList<>(map.keySet());
-		
-		List<String> sortedKeys = Ntro.collections().sortList(keys);
-
-		for(String key : sortedKeys) {
-			try {
-				
-				result.registerValue(reducer.reduceEdgeType(result.value(), new EdgeTypeNtro(Direction.FORWARD, key)));
-
-			} catch (Throwable t) {
-				
-				result.registerException(t);
-			}
-		}
-	}
-
-	protected <R> void _reduceEdgeTypesForUserDefinedObject(ResultNtro<R> result, 
-			                                                EdgeTypeReducer<R> reducer, 
-			                                                Object currentObject) {
-
-		_reduceMethodNames(currentObject, result, (__, methodName) -> {
-
-			if(ReflectionUtils.isGetterName(methodName) 
-					&& ReflectionUtils.isUserDefinedMethod(currentObject, methodName)) {
-				
-				String attributeName = ReflectionUtils.attributeNameFromGetterName(methodName);
-
-				try {
-					
-					result.registerValue(reducer.reduceEdgeType(result.value(), new EdgeTypeNtro(Direction.FORWARD, attributeName)));
-
-				} catch (Throwable t) {
-					
-					result.registerException(t);
-				}
-			}
-
-			return result.value();
-		});
-	}
 
 	@Override
 	public boolean isStartNode() {

@@ -2,11 +2,12 @@ package ca.ntro.core.reflection;
 
 import java.lang.reflect.Method;
 
-import ca.ntro.core.reflection.object_graph.ObjectGraph;
 import ca.ntro.core.reflection.object_graph.ObjectGraphNtro;
-import ca.ntro.core.reflection.object_graph.ObjectNode;
 import ca.ntro.core.reflection.object_graph.ObjectNodeNtro;
 import ca.ntro.core.reflection.object_graph.ObjectNodeStructureNtro;
+import ca.ntro.core.stream.Stream;
+import ca.ntro.core.stream.StreamNtro;
+import ca.ntro.core.stream.Visitor;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public class ObjectNodeStructureJdk extends ObjectNodeStructureNtro {
@@ -45,5 +46,18 @@ public class ObjectNodeStructureJdk extends ObjectNodeStructureNtro {
 		return returnValue;
 	}
 
+	@Override
+	protected Stream<String> methodNames(Object object) {
+		return new StreamNtro<String>() {
+
+			@Override
+			protected void _forEach(Visitor<String> visitor) throws Throwable {
+				for(Method method : object.getClass().getMethods()) {
+
+					visitor.visit(method.getName());
+				}
+			}
+		};
+	}
 
 }

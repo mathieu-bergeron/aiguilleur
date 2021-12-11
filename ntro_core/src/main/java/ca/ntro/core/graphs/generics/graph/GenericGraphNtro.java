@@ -10,6 +10,7 @@ import ca.ntro.core.graphs.common.NodeIdNtro;
 import ca.ntro.core.graphs.graph_writer.GraphWriter;
 import ca.ntro.core.stream.Stream;
 import ca.ntro.core.stream.StreamNtro;
+import ca.ntro.core.stream.Visitor;
 import ca.ntro.core.stream.Reducer;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
@@ -247,6 +248,7 @@ public abstract class GenericGraphNtro<N extends GenericNode<N,E,SO>,
 
 
 	public Stream<N> startNodes(){
+		/*
 		return new StreamNtro<N>(){
 			@Override
 			public <R> void applyReducer(ResultNtro<R> result, Reducer<N, R> _reducer) {
@@ -256,9 +258,12 @@ public abstract class GenericGraphNtro<N extends GenericNode<N,E,SO>,
 				graphStructure._reduceStartNodes(result, _reducer);
 			}
 		};
+		*/
+		return null;
 	}
 
 	public Stream<N> nodes(){
+		/*
 		return new StreamNtro<N>() {
 			@Override
 			public <R> void applyReducer(ResultNtro<R> result, Reducer<N, R> reducer) {
@@ -284,10 +289,46 @@ public abstract class GenericGraphNtro<N extends GenericNode<N,E,SO>,
 				});
 			}
 		};
+		*/
+		
+		return null;
 	}
 
 	public Stream<E> edges(){
+		return nodes().reduceToStream((node, edgeVisitor) -> {
+
+			Stream<E> edges = node.edges();
+
+			edges.forEach(e -> edgeVisitor.visit(e));
+		});
+				
+		
+		
+		/*
+		return nodes().reduceToStream((result, reducer, node) -> {
+
+			Stream<E> edges = node.edges();
+
+			edges.forEach(e -> reducer.reduce(result, e));
+		});
+		*/
+		
+		/*
+		
 		return new StreamNtro<E>() {
+
+			@Override
+			protected void _forEach(Visitor<E> visitor) throws Throwable {
+				nodes().forEach(node -> {
+
+					// JSweet: variable to avoid typing errors
+					Stream<E> edges = node.edges();
+
+					edges.forEach(e -> visitor.visit(e));
+				});
+				
+			}
+
 			@Override
 			public <R> void applyReducer(ResultNtro<R> result, Reducer<E, R> reducer) {
 				
@@ -299,6 +340,6 @@ public abstract class GenericGraphNtro<N extends GenericNode<N,E,SO>,
 					edges.applyReducer(result, reducer);
 				});
 			}
-		};
+		};*/
 	}
 }

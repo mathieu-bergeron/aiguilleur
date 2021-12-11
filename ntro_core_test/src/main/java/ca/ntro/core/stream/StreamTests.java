@@ -89,9 +89,9 @@ public class StreamTests {
 		
 		Stream<Integer> intStream = createStream(new Integer[] {1,2});
 		
-		Stream<Integer> intStream2 = intStream.reduceToStream((result,reducer,item) -> {
+		Stream<Integer> intStream2 = intStream.reduceToStream((item, visitor) -> {
 			for(int i = 0; i < item; i++) {
-				reducer.reduce(result, i);
+				visitor.visit(i);
 			}
 		});
 		
@@ -112,12 +112,12 @@ public class StreamTests {
 		
 		Stream<Integer> intStream = createStream(new Integer[] {0,1,2});
 		
-		Stream<Character> charStream = intStream.reduceToStream((result,reducer,item) -> {
+		Stream<Character> charStream = intStream.reduceToStream((item, visitor) -> {
 
 			char[] insideChars = chars[item];
 
 			for(char insideChar : insideChars) {
-				reducer.reduce(result, insideChar);
+				visitor.visit(insideChar);
 			}
 		});
 		

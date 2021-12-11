@@ -10,6 +10,9 @@ import ca.ntro.core.graphs.generics.graph.EdgeReducer;
 import ca.ntro.core.graphs.generics.graph.EdgeTypeReducer;
 import ca.ntro.core.graphs.generics.graph.GenericNode;
 import ca.ntro.core.graphs.generics.graph.SearchOptions;
+import ca.ntro.core.stream.Stream;
+import ca.ntro.core.stream.StreamNtro;
+import ca.ntro.core.stream.Visitor;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public class EdgesByToIdNtro<N extends GenericNode<N,E,SO>, 
@@ -78,5 +81,34 @@ public class EdgesByToIdNtro<N extends GenericNode<N,E,SO>,
 				return;
 			}
 		}
+	}
+
+	@Override
+	public Stream<EdgeType> edgeTypes(Direction direction) {
+		return new StreamNtro<EdgeType>() {
+
+			@Override
+			protected void _forEach(Visitor<EdgeType> visitor) throws Throwable {
+
+				for(E edge: edgesMap.values()) {
+
+					visitor.visit(edge.type());
+				}
+			}
+		};
+	}
+
+	@Override
+	public Stream<E> edges(EdgeType edgeType) {
+		return new StreamNtro<E>() {
+
+			@Override
+			protected void _forEach(Visitor<E> visitor) throws Throwable {
+				for(E edge: edgesMap.values()) {
+
+					visitor.visit(edge);
+				}
+			}
+		};
 	}
 }

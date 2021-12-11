@@ -4,117 +4,109 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.ntro.core.exceptions.Break;
+import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class StreamNtro<I extends Object> 
 
        implements     Stream<I> {
+
+	protected abstract void _forEach(Visitor<I> visitor) throws Throwable;
 	
 	@Override
-	public abstract <R> void applyReducer(ResultNtro<R> result, Reducer<I,R> reducer);
+	public <R> void applyReducer(ResultNtro<R> result, Reducer<I,R> reducer) {
+		try {
+
+			_forEach(i -> {
+
+				reducer.reduce(result, i);
+
+			});
+
+		}catch(Throwable t) {
+
+			result.registerException(t);
+
+		}
+	}
 
 	@Override
 	public boolean ifAll(Matcher<I> matcher) {
-		ResultNtro<Boolean> result = new ResultNtro<>(true);
+		return reduceToResult(true, (accumulator, item) -> {
 
-		applyReducer(result, (__, item) -> {
-			try {
-
-				if(!matcher.matches(item)) {
-					result.registerValue(false);
-					throw new Break();
-				}
-				
-			}catch(Throwable t) {
-				result.registerException(t);
+			if(accumulator == false) {
+				throw new Break();
 			}
-		});
+			
+			if(!matcher.matches(item)) {
+				accumulator = false;
+			}
 
-		return result.value();
+			return accumulator;
+
+		}).value();
 	}
 
 	@Override
 	public boolean ifSome(Matcher<I> matcher) {
-		ResultNtro<Boolean> result = new ResultNtro<>(false);
-
-		applyReducer(result, (__,item) -> {
-			try {
-
-				if(matcher.matches(item)) {
-					result.registerValue(true);
-					throw new Break();
-				}
-				
-			}catch(Throwable t) {
-				result.registerException(t);
+		return reduceToResult(false, (accumulator, item) -> {
+			if(accumulator == true) {
+				throw new Break();
 			}
-		});
-
-		return result.value();
+			
+			if(matcher.matches(item)) {
+				accumulator = true;
+			}
+			
+			return accumulator;
+			
+		}).value();
 	}
 
 	@Override
 	public void forEach(Visitor<I> visitor) {
-		ResultNtro<?> result = new ResultNtro<>();
+		try {
 
-		applyReducer(result, (__,item) -> {
-			try {
+			_forEach(visitor);
 
-				visitor.visit(item);
-				
-			}catch(Throwable t) {
-				result.registerException(t);
-			}
-		});
-		
-		result.throwException();
+		}catch(Throwable t) {
+
+			Ntro.exceptionThrower().throwException(t);
+
+		}
 	}
 
 	@Override
 	public I findFirst(Matcher<I> matcher) {
-		ResultNtro<I> result = new ResultNtro<>();
-
-		applyReducer(result, (__,item) -> {
-			try {
-
-				if(matcher.matches(item)) {
-					result.registerValue(item);
-					throw new Break();
-				}
-				
-			}catch(Throwable t) {
-				result.registerException(t);
+		return reduceToResult((I) null, (accumulator, item) -> {
+			if(accumulator != null) {
+				throw new Break();
 			}
-		});
-
-		return result.value();
+			
+			if(matcher.matches(item)) {
+				accumulator = item;
+			}
+			
+			return accumulator;
+			
+			
+		}).value();
 	}
 
 	@Override
 	public Stream<I> findAll(Matcher<I> matcher) {
-		return new StreamNtro<I>() {
-			@Override
-			public <R> void applyReducer(ResultNtro<R> result, Reducer<I, R> _reducer) {
-				StreamNtro.this.applyReducer(result, (__,item) -> {
-					try {
-
-						if(matcher.matches(item)) {
-							_reducer.reduce(result, item);
-						}
-
-					}catch(Throwable t) {
-						result.registerException(t);
-					}
-				});
+		return reduceToStream((item, visitor) -> {
+			if(matcher.matches(item)) {
+				visitor.visit(item);
 			}
-		};
+		});
 	}
 
 	@Override
 	public <R> Stream<R> map(Mapper<I,R> mapper) {
-		return reduceToStream((result, reducer, item) -> {
-			reducer.reduce(result, mapper.map(item));
+		return reduceToStream((item, visitor) -> {
+			visitor.visit(mapper.map(item));
 		});
 	}
 
@@ -123,13 +115,9 @@ public abstract class StreamNtro<I extends Object>
 		ResultNtro<R> result = new ResultNtro<>(initialValue);
 
 		applyReducer(result, (__, item) -> {
-			try {
 
-				result.registerValue(reducer.reduce(result.value(), item));
+			result.registerValue(reducer.reduce(result.value(), item));
 
-			}catch(Throwable t) {
-				result.registerException(t);
-			}
 		});
 
 		return result;

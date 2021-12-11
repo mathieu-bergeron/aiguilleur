@@ -3,6 +3,8 @@ package ca.ntro.core.services;
 import java.util.HashSet;
 import java.util.Set;
 
+import ca.ntro.core.exceptions.Break;
+
 public class ExceptionThrowerMock implements ExceptionThrower {
 	
 	private Set<String> thrown = new HashSet<>();
@@ -10,8 +12,10 @@ public class ExceptionThrowerMock implements ExceptionThrower {
 
 	@Override
 	public void throwException(Throwable t) {
-		thrown.add(t.getClass().getName());
-		lastException = t;
+		if(!(t instanceof Break)) {
+			thrown.add(t.getClass().getName());
+			lastException = t;
+		}
 	}
 	
 	public boolean wasThrown(Class<? extends Throwable> _class) {

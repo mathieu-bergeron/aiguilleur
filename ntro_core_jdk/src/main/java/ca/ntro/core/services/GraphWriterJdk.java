@@ -16,11 +16,13 @@ import ca.ntro.core.graphs.graph_writer.GraphWriter;
 import ca.ntro.core.graphs.graph_writer.NodeAlreadyAddedException;
 import ca.ntro.core.graphs.graph_writer.NodeNotFoundException;
 import ca.ntro.core.graphs.graph_writer.NodeSpec;
+import ca.ntro.core.graphs.graph_writer.StructureSpec;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.path.Filepath;
 
 import guru.nidi.graphviz.attribute.Label;
 import guru.nidi.graphviz.attribute.Rank;
+import guru.nidi.graphviz.attribute.Records;
 import guru.nidi.graphviz.attribute.Rank.RankDir;
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
@@ -28,8 +30,10 @@ import guru.nidi.graphviz.model.Link;
 import guru.nidi.graphviz.model.MutableAttributed;
 import guru.nidi.graphviz.model.MutableGraph;
 import guru.nidi.graphviz.model.MutableNode;
+import guru.nidi.graphviz.model.Port;
 
 import static guru.nidi.graphviz.model.Factory.*;
+import static guru.nidi.graphviz.attribute.Records.*;
 
 public class GraphWriterJdk implements GraphWriter {
 	
@@ -145,6 +149,9 @@ public class GraphWriterJdk implements GraphWriter {
 		// XXX: all edges are written to the top-level graph
 		MutableNode toNode = mutNode(toSpec.id());
 		MutableNode fromNode = mutNode(fromSpec.id());
+
+		// FIXME: nodeSpec should have a port attribute
+		Link test = Link.to(toNode.port("port01"));
 		
 		Link link = Link.to(toNode);
 		link.attrs().add("label", edgeSpec.label());
@@ -283,10 +290,15 @@ public class GraphWriterJdk implements GraphWriter {
 		attrs.add(Label.of(spec.label()));
 	}
 	
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void adjustNodeAttributes(MutableAttributed attrs, NodeSpec spec) {
 
 		adjustGraphItemAttributes(attrs, spec);
+		
+		// FIXME: if node is a structure
+		if(spec instanceof StructureSpec) {
+			attrs.add(Records.of(turn(rec("port01", "value01"),rec("port01", "value02"))));
+		}
 		
 		attrs.add("style", "filled");
 		if(spec.color() != null) {
@@ -302,12 +314,14 @@ public class GraphWriterJdk implements GraphWriter {
 	
 	private MutableNode createNode(NodeSpec nodeSpec) throws NodeAlreadyAddedException {
 		checkThatNodeDoesNotAlreadyExists(nodeSpec);
-
+		
+		
 		MutableNode node = mutNode(nodeSpec.id());
 
 		adjustNodeAttributes(node.attrs(), nodeSpec);
 		
 		nodes.put(nodeSpec.id(), node);
+		
 		
 		return node;
 	}

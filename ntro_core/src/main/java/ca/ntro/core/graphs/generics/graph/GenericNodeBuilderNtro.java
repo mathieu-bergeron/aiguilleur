@@ -6,6 +6,7 @@ import ca.ntro.core.graphs.common.EdgeType;
 import ca.ntro.core.graphs.generics.graph.structure.EdgesByDirection;
 import ca.ntro.core.graphs.generics.graph.structure.EdgesByDirectionNtro;
 import ca.ntro.core.initialization.Ntro;
+import ca.ntro.core.stream.Stream;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class GenericNodeBuilderNtro<N extends GenericNode<N,E,SO>, 
@@ -144,6 +145,16 @@ public abstract class GenericNodeBuilderNtro<N extends GenericNode<N,E,SO>,
 			                          EdgeReducer<N,E,SO,R> reducer) {
 
 		getEdgesByDirection()._reduceEdgesByType(edgeType, result, reducer);
+	}
+
+	@Override
+	public Stream<EdgeType> edgeTypes(Direction direction){
+		return getEdgesByDirection().edgeTypes(direction);
+	}
+	
+	@Override
+	public Stream<E> edges(EdgeType edgeType){
+		return getEdgesByDirection().edges(edgeType);
 	}
 
 	protected SO defaultSearchOptions() {

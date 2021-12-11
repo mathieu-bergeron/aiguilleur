@@ -11,6 +11,9 @@ import ca.ntro.core.graphs.generics.graph.EdgeReducer;
 import ca.ntro.core.graphs.generics.graph.EdgeTypeReducer;
 import ca.ntro.core.graphs.generics.graph.GenericNode;
 import ca.ntro.core.graphs.generics.graph.SearchOptions;
+import ca.ntro.core.stream.Stream;
+import ca.ntro.core.stream.StreamNtro;
+import ca.ntro.core.stream.Visitor;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class EdgesMapNtro<N extends GenericNode<N,E,SO>, 
@@ -64,6 +67,40 @@ public abstract class EdgesMapNtro<N extends GenericNode<N,E,SO>,
 	}
 
 	@Override
+	public Stream<EdgeType> edgeTypes(Direction direction) {
+		return new StreamNtro<EdgeType>() {
+			@Override
+			protected void _forEach(Visitor<EdgeType> visitor) throws Throwable {
+
+				for(SUBMAP subMap : subMapsForDirection(direction)) {
+
+					if(subMap != null) {
+
+						subMap.edgeTypes(direction).forEach(visitor);
+
+					}
+				}
+			}
+		};
+	}
+
+	@Override
+	public Stream<E> edges(EdgeType edgeType) {
+		return new StreamNtro<E>() {
+			@Override
+			protected void _forEach(Visitor<E> visitor) throws Throwable {
+
+				SUBMAP subMap = getEdgesMap().get(getSubMapKey(edgeType));
+				
+				if(subMap != null) {
+
+					subMap.edges(edgeType).forEach(visitor);
+				}
+			}
+		};
+	}
+
+	@Override
 	public <R> void _reduceEdgeTypesForDirection(Direction direction, ResultNtro<R> result, EdgeTypeReducer<R> reducer) {
 		if(result.hasException()) {
 			return;
@@ -81,17 +118,18 @@ public abstract class EdgesMapNtro<N extends GenericNode<N,E,SO>,
 	}
 
 	@Override
-	public <R> void _reduceEdgesByType(EdgeType edgeName, ResultNtro<R> result, EdgeReducer<N,E,SO,R> reducer) {
+	public <R> void _reduceEdgesByType(EdgeType edgeType, ResultNtro<R> result, EdgeReducer<N,E,SO,R> reducer) {
 		if(result.hasException()) {
 			return;
 		}
 		
-		SUBMAP subMap = getEdgesMap().get(getSubMapKey(edgeName));
+		SUBMAP subMap = getEdgesMap().get(getSubMapKey(edgeType));
 		
 		if(subMap != null) {
 
-			subMap._reduceEdgesByType(edgeName, result, reducer);
+			subMap._reduceEdgesByType(edgeType, result, reducer);
 			
 		}
 	}
+
 }
