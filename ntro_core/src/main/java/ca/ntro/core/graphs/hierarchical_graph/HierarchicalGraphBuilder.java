@@ -1,6 +1,7 @@
 package ca.ntro.core.graphs.hierarchical_graph;
 
 import ca.ntro.core.graphs.generics.hierarchical_graph.GenericHierarchicalGraphBuilder;
+import ca.ntro.core.graphs.generics.hierarchical_graph.HierarchicalGraphWriterOptions;
 
 public interface HierarchicalGraphBuilder<N extends HierarchicalGraphNode<N,E>,
                                           E extends HierarchicalGraphEdge<N,E>>
@@ -9,6 +10,7 @@ public interface HierarchicalGraphBuilder<N extends HierarchicalGraphNode<N,E>,
                                                E,
                                                HierarchicalGraphSearchOptions,
                                                HierarchicalGraphNodeBuilder<N,E>,
+                                               HierarchicalGraphWriterOptions,
                                                HierarchicalGraph<N,E>> {
 
 	static <N extends HierarchicalGraphNodeNtro<N,E>, E extends HierarchicalGraphEdgeNtro<N,E>> 

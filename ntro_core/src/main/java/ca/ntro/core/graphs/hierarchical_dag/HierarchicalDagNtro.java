@@ -7,7 +7,7 @@ public class      HierarchicalDagNtro<N extends HierarchicalDagNode<N,E>,
 
 
 
-       extends    GenericHierarchicalGraphNtro<N,E,HierarchicalDagSearchOptions>
+       extends    GenericHierarchicalGraphNtro<N,E,HierarchicalDagSearchOptions,HierarchicalDagWriterOptions>
 
        implements HierarchicalDag<N,E> {
 

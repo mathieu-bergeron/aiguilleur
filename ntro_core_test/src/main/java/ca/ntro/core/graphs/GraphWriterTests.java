@@ -8,6 +8,7 @@ import org.junit.Test;
 import ca.ntro.core.graphs.common.Direction;
 import ca.ntro.core.graphs.common.EdgeTypeNtro;
 import ca.ntro.core.graphs.generics.graph.GraphId;
+import ca.ntro.core.graphs.generics.graph.GraphWriterOptionsNtro;
 import ca.ntro.core.graphs.generics.graph.NodeNotFoundException;
 import ca.ntro.core.graphs.graph.MockEdge;
 import ca.ntro.core.graphs.graph.MockNode;
@@ -17,7 +18,6 @@ import ca.ntro.core.graphs.graph_writer.ClusterSpecNtro;
 import ca.ntro.core.graphs.graph_writer.EdgeSpecNtro;
 import ca.ntro.core.graphs.graph_writer.GraphWriter;
 import ca.ntro.core.graphs.graph_writer.GraphWriterException;
-import ca.ntro.core.graphs.graph_writer.GraphWriterOptionsNtro;
 import ca.ntro.core.graphs.graph_writer.NodeSpec;
 import ca.ntro.core.graphs.graph_writer.NodeSpecNtro;
 import ca.ntro.core.initialization.InitializerTest;
@@ -46,7 +46,6 @@ public class GraphWriterTests {
 		GraphWriter writer = Ntro.graphWriter();
 		GraphId id = GraphId.fromGraphName("graphWriter01");
 		GraphWriterOptionsNtro options = new GraphWriterOptionsNtro();
-		options.setDirected(true);
 		
 		writer.initialize(id, options);
 		

@@ -1,6 +1,7 @@
 package ca.ntro.core.graphs.graph_writer;
 
 import ca.ntro.core.graphs.generics.graph.GraphId;
+import ca.ntro.core.graphs.generics.graph.GraphWriterOptions;
 
 public class GraphWriterNull implements GraphWriter {
 

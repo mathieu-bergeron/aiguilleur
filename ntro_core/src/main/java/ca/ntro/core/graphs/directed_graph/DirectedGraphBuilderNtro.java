@@ -5,7 +5,12 @@ import ca.ntro.core.graphs.generics.graph.GenericGraphBuilderNtro;
 public class      DirectedGraphBuilderNtro<N extends  DirectedNode<N,E>, 
                                            E extends  DirectedEdge<N,E>>
 
-       extends    GenericGraphBuilderNtro<N,E,DirectedSearchOptions,DirectedNodeBuilder<N,E>,DirectedGraph<N,E>> 
+       extends    GenericGraphBuilderNtro<N,
+                                          E,
+                                          DirectedSearchOptions,
+                                          DirectedNodeBuilder<N,E>,
+                                          DirectedGraphWriterOptions, 
+                                          DirectedGraph<N,E>> 
 
        implements DirectedGraphBuilder<N,E> {
 
@@ -18,7 +23,5 @@ public class      DirectedGraphBuilderNtro<N extends  DirectedNode<N,E>,
 	protected DirectedNodeBuilder<N, E> newNodeBuilderInstance() {
 		return new DirectedNodeBuilderNtro<N,E>();
 	}
-
-
 
 }

@@ -7,9 +7,10 @@ public interface GenericHierarchicalGraphBuilder<N extends GenericHierarchicalNo
 										         E extends GenericEdge<N,E,SO>,
 										         SO extends HierarchicalSearchOptions,
 										         NB extends GenericHierarchicalNodeBuilder<N,E,SO,NB>,
-										         G extends GenericHierarchicalGraph<N,E,SO>>
+										         GO extends HierarchicalGraphWriterOptions,
+										         G extends GenericHierarchicalGraph<N,E,SO,GO>>
 
-       extends   GenericGraphBuilder<N,E,SO,NB,G> {
+       extends   GenericGraphBuilder<N,E,SO,NB,GO,G> {
 
 
 }

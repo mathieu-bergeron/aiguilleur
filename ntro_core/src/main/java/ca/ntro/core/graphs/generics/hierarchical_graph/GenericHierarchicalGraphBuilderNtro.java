@@ -7,10 +7,11 @@ public abstract class GenericHierarchicalGraphBuilderNtro<N extends GenericHiera
 											              E extends GenericEdge<N,E,SO>,
 											              SO extends HierarchicalSearchOptions,
 											              NB extends GenericHierarchicalNodeBuilder<N,E,SO,NB>,
-											              G extends GenericHierarchicalGraph<N,E,SO>>
+											              GO extends HierarchicalGraphWriterOptions,
+											              G extends GenericHierarchicalGraph<N,E,SO,GO>>
 
-       extends        GenericGraphBuilderNtro<N,E,SO,NB,G> 
+       extends        GenericGraphBuilderNtro<N,E,SO,NB,GO,G> 
 
-       implements     GenericHierarchicalGraphBuilder<N,E,SO,NB,G> {
+       implements     GenericHierarchicalGraphBuilder<N,E,SO,NB,GO,G> {
 
 }

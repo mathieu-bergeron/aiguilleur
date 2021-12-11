@@ -1,5 +1,6 @@
 package ca.ntro.core.reflection;
 
+import ca.ntro.core.graphs.directed_graph.DirectedGraphWriterOptions;
 import ca.ntro.core.graphs.directed_graph.DirectedSearchOptions;
 import ca.ntro.core.graphs.directed_graph.InternalDirectedGraphWriterNtro;
 import ca.ntro.core.graphs.generics.graph.InternalGraphWriter;
@@ -28,7 +29,7 @@ public class ObjectGraphJdk extends ObjectGraphNtro {
 
 
 	@Override
-	protected InternalGraphWriter<ObjectNode, ReferenceEdge, DirectedSearchOptions> newInternalGraphWriterInstance() {
+	protected InternalGraphWriter<ObjectNode, ReferenceEdge, DirectedSearchOptions, DirectedGraphWriterOptions> newInternalGraphWriterInstance() {
 		return new InternalDirectedGraphWriterNtro<ObjectNode, ReferenceEdge>();
 	}
 

@@ -11,6 +11,7 @@ public interface HierarchicalDagBuilder<N extends HierarchicalDagNode<N,E>,
                                                  E,
                                                  HierarchicalDagSearchOptions,
                                                  HierarchicalDagNodeBuilder<N,E>,
+                                                 HierarchicalDagWriterOptions,
                                                  HierarchicalDag<N,E>> {
 
 	static <N extends HierarchicalDagNodeNtro<N,E>, E extends HierarchicalDagEdge<N,E>> 

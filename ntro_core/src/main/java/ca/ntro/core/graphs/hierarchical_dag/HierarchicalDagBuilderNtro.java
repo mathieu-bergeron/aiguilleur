@@ -9,6 +9,7 @@ public class HierarchicalDagBuilderNtro<N extends HierarchicalDagNode<N,E>,
                                        E,
                                        HierarchicalDagSearchOptions,
                                        HierarchicalDagNodeBuilder<N,E>,
+                                       HierarchicalDagWriterOptions,
                                        HierarchicalDag<N,E>>
 
 	   implements HierarchicalDagBuilder<N,E> {

@@ -20,7 +20,7 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 	
 	private NodeId nodeId;
 	private GenericNodeStructure<N,E,SO> nodeStructure;
-	private GenericGraph<N,E,SO> graph;
+	private GenericGraph<N,E,SO,?> graph;
 
 	public NodeId getNodeId() {
 		return nodeId;
@@ -34,11 +34,11 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 		return nodeStructure;
 	}
 
-	public GenericGraph<N, E, SO> getGraph() {
+	public GenericGraph<N,E,SO,?> getGraph() {
 		return graph;
 	}
 
-	public void setGraph(GenericGraph<N, E, SO> graph) {
+	public void setGraph(GenericGraph<N,E,SO,?> graph) {
 		this.graph = graph;
 	}
 
@@ -503,7 +503,7 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 	}
 
 	@Override
-	public GenericGraph<N, E, SO> parentGraph() {
+	public GenericGraph<N,E,SO,?> parentGraph() {
 		return getGraph();
 	}
 

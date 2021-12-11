@@ -1,6 +1,7 @@
 package ca.ntro.core.reflection.object_graph;
 
 import ca.ntro.core.graphs.common.NodeId;
+import ca.ntro.core.graphs.directed_graph.DirectedGraphWriterOptions;
 import ca.ntro.core.graphs.directed_graph.DirectedSearchOptions;
 import ca.ntro.core.graphs.generics.graph.EdgeReducer;
 import ca.ntro.core.graphs.generics.graph.EdgeVisitor;
@@ -33,7 +34,19 @@ public class ObjectGraphNull implements ObjectGraph {
 	}
 
 	@Override
+	public void write(DirectedGraphWriterOptions options, GraphWriter writer) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
 	public DirectedSearchOptions defaultSearchOptions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DirectedGraphWriterOptions defaultGraphWriterOptions() {
 		// TODO Auto-generated method stub
 		return null;
 	}

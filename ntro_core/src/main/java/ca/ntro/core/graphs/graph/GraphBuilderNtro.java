@@ -1,11 +1,12 @@
 package ca.ntro.core.graphs.graph;
 
 import ca.ntro.core.graphs.generics.graph.GenericGraphBuilderNtro;
+import ca.ntro.core.graphs.generics.graph.GraphWriterOptions;
 
 public class      GraphBuilderNtro<N extends Node<N,E>,
                                    E extends Edge<N,E>>
 
-       extends    GenericGraphBuilderNtro<N,E, GraphSearchOptions, NodeBuilder<N,E>, Graph<N,E>> 
+       extends    GenericGraphBuilderNtro<N,E, GraphSearchOptions, NodeBuilder<N,E>, GraphWriterOptions, Graph<N,E>> 
 
        implements GraphBuilder<N,E> {
 

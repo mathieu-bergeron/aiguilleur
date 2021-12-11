@@ -12,7 +12,7 @@ public interface GenericNode<N extends GenericNode<N,E,SO>,
 	NodeId id();
 	String label();
 
-	GenericGraph<N,E,SO> parentGraph();
+	GenericGraph<N,E,SO,?> parentGraph();
 
 	boolean isStartNode();
 	boolean isPartOfCycle();

@@ -6,19 +6,25 @@ import ca.ntro.core.graphs.generics.graph.InternalGraphWriter;
 
 public class GenericHierarchicalGraphNtro <N extends GenericHierarchicalNode<N,E,SO>,
 								           E extends GenericEdge<N,E,SO>,
-								           SO extends HierarchicalSearchOptions> 
+								           SO extends HierarchicalSearchOptions,
+								           GO extends HierarchicalGraphWriterOptions> 
 
-       extends GenericGraphNtro<N,E,SO> 
+       extends GenericGraphNtro<N,E,SO,GO> 
 
-       implements GenericHierarchicalGraph<N,E,SO>{
+       implements GenericHierarchicalGraph<N,E,SO,GO>{
 
 	@Override
-	protected InternalGraphWriter<N, E, SO> newInternalGraphWriterInstance() {
+	protected InternalGraphWriter<N,E,SO,GO> newInternalGraphWriterInstance() {
 		return new InternalHierarchicalGraphWriterNtro<>();
 	}
 
 	@Override
 	protected SO newDefaultSearchOptionsInstance() {
 		return (SO) new HierarchicalSearchOptionsNtro();
+	}
+
+	@Override
+	protected GO newDefaultGraphWriterOptionsInstance() {
+		return (GO) new HierarchicalGraphWriterOptionsNtro();
 	}
 }

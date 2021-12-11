@@ -5,6 +5,6 @@ import ca.ntro.core.graphs.generics.hierarchical_graph.InternalHierarchicalGraph
 public interface InternalHierarchicalDagWriter<N extends HierarchicalDagNode<N,E>,
                                                E extends HierarchicalDagEdge<N,E>>
 
-       extends   InternalHierarchicalGraphWriter<N,E,HierarchicalDagSearchOptions> {
+       extends   InternalHierarchicalGraphWriter<N,E,HierarchicalDagSearchOptions,HierarchicalDagWriterOptions> {
 
 }

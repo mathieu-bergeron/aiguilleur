@@ -4,25 +4,25 @@ import ca.ntro.core.graphs.common.Direction;
 import ca.ntro.core.graphs.graph_writer.EdgeSpecNtro;
 import ca.ntro.core.graphs.graph_writer.GraphWriter;
 import ca.ntro.core.graphs.graph_writer.GraphWriterException;
-import ca.ntro.core.graphs.graph_writer.GraphWriterOptions;
 import ca.ntro.core.graphs.graph_writer.NodeSpecNtro;
 import ca.ntro.core.initialization.Ntro;
 
 public class      InternalGraphWriterNtro<N extends GenericNode<N,E,SO>,
                                           E extends GenericEdge<N,E,SO>,
-                                          SO extends SearchOptions> 
+                                          SO extends SearchOptions,
+                                          GO extends GraphWriterOptions> 
 
-       implements InternalGraphWriter<N,E,SO> {
+       implements InternalGraphWriter<N,E,SO,GO> {
 
 	@Override
-	public void write(GenericGraph<N,E,SO> graph, GraphWriter writer) {
+	public void write(GenericGraph<N,E,SO,GO> graph, GO options, GraphWriter writer) {
 
-		writer.initialize(graph.id(), defaultOptions());
+		writer.initialize(graph.id(), options);
 
 		writeAfterInitialization(graph, writer);
 	}
 
-	protected void writeAfterInitialization(GenericGraph<N, E, SO> graph, GraphWriter writer) {
+	protected void writeAfterInitialization(GenericGraph<N,E,SO,GO> graph, GraphWriter writer) {
 		writeNodes(graph, writer);
 		
 		writeEdges(graph, writer);
@@ -34,11 +34,6 @@ public class      InternalGraphWriterNtro<N extends GenericNode<N,E,SO>,
 		writer.writeDot();
 		writer.writePng();
 	}
-
-	protected GraphWriterOptions defaultOptions() {
-		return GraphWriterOptions.directed(false);
-	}
-	
 	
 	protected void adjustNodeSpecAttributes(GenericNode<N,E,SO> node, NodeSpecNtro nodeSpec) {
 		if(node.isStartNode()) {
@@ -61,7 +56,7 @@ public class      InternalGraphWriterNtro<N extends GenericNode<N,E,SO>,
 		return edgeSpec;
 	}
 
-	protected void writeNodes(GenericGraph<N,E,SO> graph, GraphWriter writer) {
+	protected void writeNodes(GenericGraph<N,E,SO,GO> graph, GraphWriter writer) {
 		graph.forEachNode(n -> {
 			try {
 
@@ -73,7 +68,7 @@ public class      InternalGraphWriterNtro<N extends GenericNode<N,E,SO>,
 		});
 	}
 
-	protected void writeEdges(GenericGraph<N,E,SO> graph, GraphWriter writer) {
+	protected void writeEdges(GenericGraph<N,E,SO,GO> graph, GraphWriter writer) {
 		graph.forEachEdge((edge) -> {
 			if(edge.type().direction() == Direction.FORWARD) {
 				writeEdge(writer, edge);

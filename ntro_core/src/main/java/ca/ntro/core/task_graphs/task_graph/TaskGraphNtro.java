@@ -2,6 +2,7 @@ package ca.ntro.core.task_graphs.task_graph;
 
 import ca.ntro.core.graphs.graph_writer.GraphWriter;
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagNodeBuilder;
+import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagWriterOptionsNtro;
 import ca.ntro.core.initialization.Factory;
 
 public class TaskGraphNtro<T  extends Task<T,AT>, 
@@ -71,7 +72,7 @@ public class TaskGraphNtro<T  extends Task<T,AT>,
 
 	@Override
 	public void write(GraphWriter writer) {
-		internalWriter.write(hdagBuilder.graph(), writer);
+		internalWriter.write(hdagBuilder.graph(), new HierarchicalDagWriterOptionsNtro(), writer);
 	}
 
 	@Override

@@ -12,11 +12,12 @@ import ca.ntro.core.initialization.Ntro;
 
 public class      InternalHierarchicalGraphWriterNtro<N extends GenericHierarchicalNode<N,E,SO>,
                                                       E extends GenericEdge<N,E,SO>,
-													  SO extends HierarchicalSearchOptions>
+													  SO extends HierarchicalSearchOptions,
+													  GO extends HierarchicalGraphWriterOptions>
 
-       extends    InternalGraphWriterNtro<N,E,SO>
+       extends    InternalGraphWriterNtro<N,E,SO,GO>
 
-       implements InternalHierarchicalGraphWriter<N,E,SO> {
+       implements InternalHierarchicalGraphWriter<N,E,SO,GO> {
 	
 	protected ClusterSpecNtro clusterSpec(GenericHierarchicalNode<N,E,SO> node) {
 		ClusterSpecNtro clusterSpec = new ClusterSpecNtro(node);
@@ -27,7 +28,7 @@ public class      InternalHierarchicalGraphWriterNtro<N extends GenericHierarchi
 	}
 
 	@Override
-	protected void writeNodes(GenericGraph<N,E,SO> graph, GraphWriter writer) {
+	protected void writeNodes(GenericGraph<N,E,SO,GO> graph, GraphWriter writer) {
 		SO downOptions = graph.defaultSearchOptions();
 		
 		InternalSearchOptionsNtro downOptionsNtro = new InternalSearchOptionsNtro();

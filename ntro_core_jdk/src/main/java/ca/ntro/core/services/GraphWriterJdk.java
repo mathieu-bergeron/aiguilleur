@@ -6,13 +6,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ca.ntro.core.graphs.generics.graph.GraphId;
+import ca.ntro.core.graphs.generics.graph.GraphWriterOptions;
 import ca.ntro.core.graphs.graph_writer.ClusterAlreadyAddedException;
 import ca.ntro.core.graphs.graph_writer.ClusterNotFoundException;
 import ca.ntro.core.graphs.graph_writer.ClusterSpec;
 import ca.ntro.core.graphs.graph_writer.EdgeSpec;
 import ca.ntro.core.graphs.graph_writer.GraphItemSpec;
 import ca.ntro.core.graphs.graph_writer.GraphWriter;
-import ca.ntro.core.graphs.graph_writer.GraphWriterOptions;
 import ca.ntro.core.graphs.graph_writer.NodeAlreadyAddedException;
 import ca.ntro.core.graphs.graph_writer.NodeNotFoundException;
 import ca.ntro.core.graphs.graph_writer.NodeSpec;

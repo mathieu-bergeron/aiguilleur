@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import ca.ntro.core.graphs.common.NodeId;
+import ca.ntro.core.graphs.directed_graph.DirectedGraphWriterOptions;
 import ca.ntro.core.graphs.directed_graph.DirectedNodeNtro;
 import ca.ntro.core.graphs.directed_graph.DirectedSearchOptions;
 import ca.ntro.core.graphs.generics.graph.GenericGraph;
@@ -56,7 +57,7 @@ public abstract class ObjectNodeNtro
 
 
 	@Override
-	public GenericGraph<ObjectNode, ReferenceEdge, DirectedSearchOptions> parentGraph() {
+	public GenericGraph<ObjectNode, ReferenceEdge, DirectedSearchOptions, DirectedGraphWriterOptions> parentGraph() {
 		return getGraph();
 	}
 
