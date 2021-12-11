@@ -1,8 +1,8 @@
 package ca.ntro.core.reflection.object_graph;
 
 import ca.ntro.core.graphs.common.NodeId;
-import ca.ntro.core.graphs.directed_graph.DirectedGraphWriterOptions;
-import ca.ntro.core.graphs.directed_graph.DirectedSearchOptions;
+import ca.ntro.core.graphs.generics.directed_graph.DirectedGraphWriterOptions;
+import ca.ntro.core.graphs.generics.directed_graph.DirectedSearchOptions;
 import ca.ntro.core.graphs.generics.graph.EdgeReducer;
 import ca.ntro.core.graphs.generics.graph.EdgeVisitor;
 import ca.ntro.core.graphs.generics.graph.GraphId;

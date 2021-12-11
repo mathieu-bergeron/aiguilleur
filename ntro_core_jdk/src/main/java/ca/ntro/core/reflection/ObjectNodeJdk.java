@@ -2,8 +2,8 @@ package ca.ntro.core.reflection;
 
 
 import ca.ntro.core.graphs.common.NodeId;
-import ca.ntro.core.graphs.directed_graph.DirectedSearchOptions;
-import ca.ntro.core.graphs.directed_graph.DirectedSearchOptionsNtro;
+import ca.ntro.core.graphs.generics.directed_graph.DirectedSearchOptions;
+import ca.ntro.core.graphs.generics.directed_graph.DirectedSearchOptionsNtro;
 import ca.ntro.core.graphs.generics.graph.GenericNodeStructure;
 import ca.ntro.core.reflection.object_graph.LocalHeap;
 import ca.ntro.core.reflection.object_graph.ObjectGraph;

@@ -7,7 +7,7 @@ import java.util.Map;
 import ca.ntro.core.graphs.common.Direction;
 import ca.ntro.core.graphs.common.EdgeType;
 import ca.ntro.core.graphs.common.EdgeTypeNtro;
-import ca.ntro.core.graphs.directed_graph.DirectedSearchOptions;
+import ca.ntro.core.graphs.generics.directed_graph.DirectedSearchOptions;
 import ca.ntro.core.graphs.generics.graph.EdgeReducer;
 import ca.ntro.core.graphs.generics.graph.EdgeTypeReducer;
 import ca.ntro.core.initialization.Ntro;

@@ -1,8 +1,8 @@
 package ca.ntro.core.reflection;
 
-import ca.ntro.core.graphs.directed_graph.DirectedGraphWriterOptions;
-import ca.ntro.core.graphs.directed_graph.DirectedSearchOptions;
 import ca.ntro.core.graphs.directed_graph.InternalDirectedGraphWriterNtro;
+import ca.ntro.core.graphs.generics.directed_graph.DirectedGraphWriterOptions;
+import ca.ntro.core.graphs.generics.directed_graph.DirectedSearchOptions;
 import ca.ntro.core.graphs.generics.graph.InternalGraphWriter;
 import ca.ntro.core.reflection.object_graph.LocalHeap;
 import ca.ntro.core.reflection.object_graph.ObjectGraphNtro;

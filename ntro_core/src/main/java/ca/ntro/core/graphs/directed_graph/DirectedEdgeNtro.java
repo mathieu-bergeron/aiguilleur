@@ -2,6 +2,7 @@ package ca.ntro.core.graphs.directed_graph;
 
 import ca.ntro.core.graphs.common.Direction;
 import ca.ntro.core.graphs.common.EdgeTypeNtro;
+import ca.ntro.core.graphs.generics.directed_graph.DirectedSearchOptions;
 import ca.ntro.core.graphs.generics.graph.GenericEdgeNtro;
 
 public class DirectedEdgeNtro<N extends  DirectedNode<N,E>, 

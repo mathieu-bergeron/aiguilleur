@@ -1,6 +1,6 @@
 package ca.ntro.core.reflection.object_graph;
 
-import ca.ntro.core.graphs.directed_graph.DirectedSearchOptions;
+import ca.ntro.core.graphs.generics.directed_graph.DirectedSearchOptions;
 import ca.ntro.core.graphs.generics.graph.NodeReducer;
 import ca.ntro.core.path.Path;
 import ca.ntro.core.stream.Reducer;

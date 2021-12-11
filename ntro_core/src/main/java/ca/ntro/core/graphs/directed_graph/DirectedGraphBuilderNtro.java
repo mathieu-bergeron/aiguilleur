@@ -1,5 +1,7 @@
 package ca.ntro.core.graphs.directed_graph;
 
+import ca.ntro.core.graphs.generics.directed_graph.DirectedGraphWriterOptions;
+import ca.ntro.core.graphs.generics.directed_graph.DirectedSearchOptions;
 import ca.ntro.core.graphs.generics.graph.GenericGraphBuilderNtro;
 
 public class      DirectedGraphBuilderNtro<N extends  DirectedNode<N,E>, 
