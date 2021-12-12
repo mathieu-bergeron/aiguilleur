@@ -3,7 +3,8 @@ package ca.ntro.core.reflection.object_graph;
 import ca.ntro.core.graphs.generics.directed_graph.GenericDirectedGraphNtro;
 import ca.ntro.core.graphs.generics.graph.GraphId;
 import ca.ntro.core.graphs.generics.graph.GenericInternalGraphWriter;
-import ca.ntro.core.reflection.object_updates.ObjectUpdates;
+import ca.ntro.core.reflection.object_updates.ObjectUpdate;
+import ca.ntro.core.stream.Stream;
 
 public abstract class ObjectGraphNtro 
 
@@ -29,7 +30,7 @@ public abstract class ObjectGraphNtro
 	protected abstract ObjectGraphStructureNtro newObjectGraphStructureInstance();
 
 	@Override
-	public ObjectUpdates objectAsUpdates(Object object) {
+	public Stream<ObjectUpdate> objectAsUpdates(Object object) {
 		// TODO: describe an object of the graph
 		//       as a sequence of UPDATE/INSERT/DELETE operations
 		return null;

@@ -1,6 +1,6 @@
 package ca.ntro.core.reflection.object_graph;
 
-import ca.ntro.core.reflection.object_updates.ObjectUpdates;
+import ca.ntro.core.reflection.object_updates.ObjectUpdate;
 
 public interface GenericObjectNode {
 
@@ -9,6 +9,6 @@ public interface GenericObjectNode {
 
 	// TODO: describe an object of the graph
 	//       as a sequence of UPDATE/INSERT/DELETE operations
-	ObjectUpdates asUpdates();
+	ObjectUpdate asUpdates();
 
 }

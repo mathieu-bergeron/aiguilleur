@@ -7,7 +7,7 @@ import java.util.Map;
 import ca.ntro.core.graphs.common.NodeId;
 import ca.ntro.core.graphs.generics.directed_graph.GenericDirectedNodeNtro;
 import ca.ntro.core.initialization.Ntro;
-import ca.ntro.core.reflection.object_updates.ObjectUpdates;
+import ca.ntro.core.reflection.object_updates.ObjectUpdate;
 
 public abstract class ObjectNodeNtro 
 
@@ -225,7 +225,7 @@ public abstract class ObjectNodeNtro
 	}
 
 	@Override
-	public ObjectUpdates asUpdates() {
+	public ObjectUpdate asUpdates() {
 		// TODO: describe the object as a sequence
 		// of SET/INSERT/DELETE operations
 		return null;
