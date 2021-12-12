@@ -7,14 +7,11 @@ import java.util.Map;
 import ca.ntro.core.graphs.generics.graph.GenericEdge;
 import ca.ntro.core.graphs.common.Direction;
 import ca.ntro.core.graphs.common.EdgeType;
-import ca.ntro.core.graphs.generics.graph.EdgeReducer;
-import ca.ntro.core.graphs.generics.graph.EdgeTypeReducer;
 import ca.ntro.core.graphs.generics.graph.GenericNode;
 import ca.ntro.core.graphs.generics.graph.SearchOptions;
 import ca.ntro.core.stream.Stream;
 import ca.ntro.core.stream.StreamNtro;
 import ca.ntro.core.stream.Visitor;
-import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class EdgesMapNtro<N extends GenericNode<N,E,SO>, 
                                    E extends GenericEdge<N,E,SO>,
@@ -98,37 +95,4 @@ public abstract class EdgesMapNtro<N extends GenericNode<N,E,SO>,
 			}
 		};
 	}
-
-	@Override
-	public <R> void _reduceEdgeTypesForDirection(Direction direction, ResultNtro<R> result, EdgeTypeReducer<R> reducer) {
-		if(result.hasException()) {
-			return;
-		}
-		
-		for(SUBMAP subMap : subMapsForDirection(direction)) {
-			if(result.hasException()) {
-				return;
-			}
-			
-			if(subMap != null) {
-				subMap._reduceEdgeTypesForDirection(direction, result, reducer);
-			}
-		}
-	}
-
-	@Override
-	public <R> void _reduceEdgesByType(EdgeType edgeType, ResultNtro<R> result, EdgeReducer<N,E,SO,R> reducer) {
-		if(result.hasException()) {
-			return;
-		}
-		
-		SUBMAP subMap = getEdgesMap().get(getSubMapKey(edgeType));
-		
-		if(subMap != null) {
-
-			subMap._reduceEdgesByType(edgeType, result, reducer);
-			
-		}
-	}
-
 }

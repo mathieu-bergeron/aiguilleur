@@ -135,19 +135,6 @@ public abstract class GenericNodeBuilderNtro<N extends GenericNode<N,E,SO>,
 	}
 
 	@Override
-	public <R> void reduceEdgeTypesForDirection(Direction direction, ResultNtro<R> result, EdgeTypeReducer<R> reducer) {
-		getEdgesByDirection()._reduceEdgeTypesForDirection(direction, result, reducer);
-	}
-
-	@Override
-	public <R> void reduceEdgesByType(EdgeType edgeType, 
-			                          ResultNtro<R> result,
-			                          EdgeReducer<N,E,SO,R> reducer) {
-
-		getEdgesByDirection()._reduceEdgesByType(edgeType, result, reducer);
-	}
-
-	@Override
 	public Stream<EdgeType> edgeTypes(Direction direction){
 		return getEdgesByDirection().edgeTypes(direction);
 	}

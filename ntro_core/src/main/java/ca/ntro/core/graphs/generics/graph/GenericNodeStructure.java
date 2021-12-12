@@ -11,9 +11,6 @@ public interface GenericNodeStructure<N extends GenericNode<N,E,SO>,
 	
 	boolean isStartNode();
 
-	<R> void reduceEdgeTypesForDirection(Direction direction, ResultNtro<R> result, EdgeTypeReducer<R> reducer);
-	<R> void reduceEdgesByType(EdgeType edgeType, ResultNtro<R> result, EdgeReducer<N,E,SO,R> reducer);
-	
 	Stream<EdgeType> edgeTypes(Direction direction);
 	Stream<E> edges(EdgeType edgeType);
 

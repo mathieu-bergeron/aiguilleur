@@ -2,8 +2,6 @@ package ca.ntro.core.graphs.generics.hierarchical_graph;
 
 import ca.ntro.core.graphs.generics.graph.GenericEdge;
 import ca.ntro.core.graphs.generics.graph.GenericNode;
-import ca.ntro.core.graphs.generics.graph.ReachableNodeReducer;
-import ca.ntro.core.graphs.generics.graph.ReachableNodeVisitor;
 import ca.ntro.core.graphs.generics.graph.VisitedNode;
 import ca.ntro.core.stream.Stream;
 import ca.ntro.core.wrappers.result.Result;

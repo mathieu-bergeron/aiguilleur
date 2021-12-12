@@ -56,7 +56,20 @@ public class     GenericEdgeNtro<N extends GenericNode<N,E,SO>,
 		if(o == null) return false;
 		if(o instanceof GenericEdge) {
 			GenericEdge<N,E,SO> e = (GenericEdge<N,E,SO>) o;
-			
+
+			if(!equals(e.from(), from())) {
+				return false;
+			}
+
+			if(!equals(e.type(), type())) {
+				return false;
+			}
+
+			if(!equals(e.to(), to())) {
+				return false;
+			}
+		
+			return true;
 		}
 		
 		return false;

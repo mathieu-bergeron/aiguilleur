@@ -198,46 +198,8 @@ public abstract class GenericGraphBuilderNtro<N extends GenericNode<N,E,SO>,
 	}
 
 	@Override
-	public <R> void reduceStartNodes(ResultNtro<R> result, NodeReducer<N, E, SO, R> reducer) {
-		if(result.hasException()) {
-			return;
-		}
-		
-		for(N node : startNodes.values()) {
-			try {
-
-				result.registerValue(reducer.reduceNode(result.value(), node));
-
-			}catch(Throwable t) {
-				
-				result.registerException(t);
-				return;
-			}
-		}
-	}
-
-	@Override
 	public G graph() {
 		return getGraph();
-	}
-
-	@Override
-	public <R> void _reduceStartNodes(ResultNtro<R> result, Reducer<N,R> reducer) {
-		if(result.hasException()) {
-			return;
-		}
-
-		for(N node : getStartNodes().values()) {
-			try {
-
-				reducer.reduce(result, node);
-
-			}catch(Throwable t) {
-				
-				result.registerException(t);
-				return;
-			}
-		}
 	}
 
 	@Override
