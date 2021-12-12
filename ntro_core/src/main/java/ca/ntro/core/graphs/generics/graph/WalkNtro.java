@@ -4,7 +4,7 @@ public class WalkNtro<N extends GenericNode<N,E,SO>,
                       E extends GenericEdge<N,E,SO>,
                       SO extends SearchOptions> 
 
-       extends GenericWalkNtro<E>
+       extends GenericWalkNtro<E,Walk<N,E,SO>>
 
        implements Walk<N,E,SO> {
 

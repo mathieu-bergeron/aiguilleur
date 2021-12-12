@@ -11,12 +11,28 @@ import ca.ntro.core.graphs.common.Direction;
 import ca.ntro.core.graphs.common.EdgeAlreadyAddedException;
 import ca.ntro.core.graphs.common.EdgeTypeNtro;
 import ca.ntro.core.graphs.common.NodeAlreadyAddedException;
+import ca.ntro.core.graphs.generics.graph.InternalSearchOptionsNtro;
 import ca.ntro.core.graphs.generics.graph.SearchStrategy;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.services.ExceptionThrowerMock;
 import ca.ntro.core.tests.NtroTests;
+import ca.ntro.core.wrappers.optionnal.Optionnal;
 
 public class GraphTests extends NtroTests {
+
+	@Test
+	public void searchOptions() {
+		
+		InternalSearchOptionsNtro internalOptions = new InternalSearchOptionsNtro();
+		internalOptions.setDirections(new Direction[] {Direction.FORWARD, Direction.BACKWARD, Direction.UP, Direction.DOWN});
+		internalOptions.setMaxDistance(Optionnal.fromValue(10));
+		
+		GraphSearchOptionsNtro options = new GraphSearchOptionsNtro();
+		options.copyOptions(internalOptions);
+		
+		Ntro.asserter().assertArrayEquals(options.internal().directions(), new Direction[] {Direction.FORWARD, Direction.BACKWARD, Direction.UP, Direction.DOWN});
+		Ntro.asserter().assertEquals(10, options.internal().getMaxDistance().value());
+	}
 
 	@Test
 	public void simpleGraph00() {
@@ -45,6 +61,10 @@ public class GraphTests extends NtroTests {
 		Graph<MockNode, MockEdge> graph = builder.graph();
 
 		List<MockNode> reachableNodes = nodeA.reachableNodes().map(vn -> vn.node()).collect();
+		List<MockEdge> reachableEdges = nodeA.reachableEdges().map(ve -> ve.edge()).collect();
+
+		Ntro.asserter().assertEquals(3, nodeA.reachableNodes().size());
+		Ntro.asserter().assertEquals(3, nodeA.reachableEdges().size());
 		
 		Ntro.asserter().assertTrue("Reaches B", nodeA.reachableNodes().ifSome(vn -> vn.node().equals(nodeB)));
 		Ntro.asserter().assertTrue("Reaches C", nodeA.reachableNodes().ifSome(vn -> vn.node().equals(nodeC)));

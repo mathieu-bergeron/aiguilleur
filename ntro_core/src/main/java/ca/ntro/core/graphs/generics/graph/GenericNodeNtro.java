@@ -343,66 +343,6 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 		});
 	}
 
-	@Override
-	public void visitWalk(WalkId walk, WalkVisitor<N, E, SO> visitor) {
-		reduceWalk(walk, null, (accumulator, walked, remainingWalk, n) -> {
-			
-			visitor.visitStep(walked, remainingWalk, n);
-			
-			return null;
-
-		}).throwException();
-	}
-
-	@Override
-	public <R> Result<R> reduceWalk(WalkId walk, R initialValue, WalkReducer<N,E,SO,R> reducer) {
-		ResultNtro<R> result = new ResultNtro<R>(initialValue);
-		
-		_reduceWalk(new WalkNtro<>(), walk, result, reducer);
-
-		return result;
-	}
-
-	@SuppressWarnings("unchecked")
-	protected <R> void _reduceWalk(Walk<N,E,SO> walked,
-			                       WalkId walk,
-			                       ResultNtro<R> result, 
-			                       WalkReducer<N,E,SO,R> reducer) {
-		
-		if(result.hasException()) {
-			return;
-		}
-		
-		if(walk.isEmpty()) {
-			return;
-		}
-		
-		EdgeType edgeType = walk.get(0);
-		WalkId remainingWalk = (WalkId) walk.subWalk(1);
-		
-		nodeStructure().reduceEdgesByType(edgeType, result, (__, edge) -> {
-
-			try {
-				
-				Walk<N,E,SO> newWalked = new WalkNtro<>(walked);
-				newWalked.add(edge);
-
-				result.registerValue(reducer.reduceStep(result.value(), newWalked, remainingWalk, edge.to()));
-
-				// JSweet: typing error on casting w/o creating a local var
-				GenericNodeNtro<N,E,SO> to = (GenericNodeNtro<N,E,SO>) edge.to();
-
-				to._reduceWalk(newWalked, remainingWalk, result, reducer);
-
-			}catch(Throwable t) {
-				
-				result.registerException(t);
-				
-			}
-			
-			return result.value();
-		});
-	}
 
 	@Override
 	public boolean isPartOfCycle() {
@@ -559,12 +499,25 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 		return reachableEdges(defaultSearchOptions());
 	}
 
+
+	protected SO forwardOptions(SO options) {
+
+		InternalSearchOptionsNtro forwardOptions = new InternalSearchOptionsNtro();
+
+		forwardOptions.copyOptions(options.internal());
+		forwardOptions.setDirections(new Direction[] {Direction.FORWARD});
+		
+		options.copyOptions(forwardOptions);
+		
+		return options;
+	}
+
 	@Override
 	public Stream<VisitedEdge<N,E,SO>> reachableEdges(SO options){
+		
 		return reachableNodes().reduceToStream((visitedNode, edgeVisitor) -> {
 
-			visitedNode.node().edges().forEach(e -> {
-				
+			visitedNode.node().edges(forwardOptions(options)).forEach(e -> {
 				VisitedEdgeNtro<N,E,SO> visitedEdge = new VisitedEdgeNtro<N,E,SO>((WalkNtro<N,E,SO>) visitedNode.walked(), e);
 				
 				edgeVisitor.visit(visitedEdge);
@@ -573,15 +526,95 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 	}
 
 	@Override
-	public Stream<WalkInProgress<N,E,SO>> walk(){
-		return null;
+	public Stream<WalkInProgress<N,E,SO>> walk(WalkId walk){
+		return walk(walk, defaultSearchOptions());
 	}
 
 	@Override
-	public Stream<WalkInProgress<N,E,SO>> walk(SO options){
-		return null;
-		
+	public Stream<WalkInProgress<N,E,SO>> walk(WalkId walk, SO options){
+		return new StreamNtro<WalkInProgress<N,E,SO>>(){
+
+			@Override
+			public void _forEach(Visitor<WalkInProgress<N, E, SO>> visitor) throws Throwable {
+				
+				visitWalk(new WalkNtro<N,E,SO>(), walk, options, visitor);
+				
+			}
+		};
 	}
+
+	protected void visitWalk(WalkNtro<N, E, SO> walked, 
+			                 WalkId remainingWalk, 
+			                 SO options,
+			                 Visitor<WalkInProgress<N, E, SO>> visitor) throws Throwable {
+		
+		if(remainingWalk.size() <= 0) {
+			return;
+		}
+
+		if(options.internal().maxDistance().hasValue()
+				&& (walked.size()+1) >= options.internal().maxDistance().value()) {
+			return;
+		}
+		
+		EdgeType nextEdgeType = remainingWalk.get(0);
+
+		E nextEdge = edges(forwardOptions(options)).findFirst(e -> e.type().equals(nextEdgeType));
+		
+		if(nextEdge != null) {
+
+			WalkNtro<N,E,SO> newWalked = new WalkNtro<>(walked);
+			newWalked.add(nextEdge);
+			
+			remainingWalk = remainingWalk.subWalk(1);
+			
+			WalkInProgressNtro<N,E,SO> walkInProgress = new WalkInProgressNtro<N,E,SO>(newWalked, remainingWalk, nextEdge.to());
+			
+			visitor.visit(walkInProgress);
+		}
+	}
+
+	protected <R> void _reduceWalk(Walk<N,E,SO> walked,
+			                       WalkId walk,
+			                       ResultNtro<R> result, 
+			                       WalkReducer<N,E,SO,R> reducer) {
+		
+		if(result.hasException()) {
+			return;
+		}
+		
+		if(walk.isEmpty()) {
+			return;
+		}
+		
+		EdgeType edgeType = walk.get(0);
+		WalkId remainingWalk = (WalkId) walk.subWalk(1);
+		
+		nodeStructure().reduceEdgesByType(edgeType, result, (__, edge) -> {
+
+			try {
+				
+				Walk<N,E,SO> newWalked = new WalkNtro<>(walked);
+				newWalked.add(edge);
+
+				result.registerValue(reducer.reduceStep(result.value(), newWalked, remainingWalk, edge.to()));
+
+				// JSweet: typing error on casting w/o creating a local var
+				GenericNodeNtro<N,E,SO> to = (GenericNodeNtro<N,E,SO>) edge.to();
+
+				to._reduceWalk(newWalked, remainingWalk, result, reducer);
+
+			}catch(Throwable t) {
+				
+				result.registerException(t);
+				
+			}
+			
+			return result.value();
+		});
+	}
+	
+	
 
 	@Override
 	public GenericGraph<N,E,SO,?> parentGraph() {

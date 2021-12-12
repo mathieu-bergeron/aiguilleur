@@ -4,46 +4,46 @@ public class      SearchOptionsNtro
 
        implements SearchOptions {
 	
-	private InternalSearchOptionsNtro searchOptions = new InternalSearchOptionsNtro();
+	private InternalSearchOptionsNtro internalSearchOptions = new InternalSearchOptionsNtro();
+
+	public InternalSearchOptionsNtro getInternalSearchOptions() {
+		return internalSearchOptions;
+	}
+
+	public void setInternalSearchOptions(InternalSearchOptionsNtro internalSearchOptions) {
+		this.internalSearchOptions = internalSearchOptions;
+	}
 
 	public SearchOptionsNtro() {
 	}
 
 	public SearchOptionsNtro(InternalSearchOptions options) {
-			setSearchOptions(new InternalSearchOptionsNtro());
+			setInternalSearchOptions(new InternalSearchOptionsNtro());
 			copyOptions(options);
-	}
-
-	public InternalSearchOptionsNtro getSearchOptions() {
-		return searchOptions;
-	}
-
-	public void setSearchOptions(InternalSearchOptionsNtro searchOptions) {
-		this.searchOptions = searchOptions;
 	}
 
 	@Override
 	public void setSearchStrategy(SearchStrategy searchStrategy) {
-		getSearchOptions().setSearchStrategy(searchStrategy);
+		getInternalSearchOptions().setSearchStrategy(searchStrategy);
 	}
 
 	@Override
 	public void setMaxDistance(int maxDistance) {
-		getSearchOptions().setMaxDistance(maxDistance);
+		getInternalSearchOptions().setMaxDistance(maxDistance);
 	}
 
 	@Override
 	public void setSortEdgesByName(boolean sortEdgesByName) {
-		getSearchOptions().setSortEdgesByName(sortEdgesByName);
+		getInternalSearchOptions().setSortEdgesByName(sortEdgesByName);
 	}
 
 	@Override
 	public void copyOptions(InternalSearchOptions searchOptions) {
-		searchOptions.copyOptions(searchOptions);
+		getInternalSearchOptions().copyOptions(searchOptions);
 	}
 
 	@Override
 	public InternalSearchOptionsNtro internal() {
-		return getSearchOptions();
+		return getInternalSearchOptions();
 	}
 }

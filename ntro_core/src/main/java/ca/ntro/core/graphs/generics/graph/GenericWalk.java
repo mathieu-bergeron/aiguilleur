@@ -2,7 +2,7 @@ package ca.ntro.core.graphs.generics.graph;
 
 import ca.ntro.core.identifyers.Key;
 
-public interface GenericWalk<E extends GenericStep> {
+public interface GenericWalk<E extends GenericStep, W extends GenericWalk<E,W>> {
 
 	boolean isEmpty();
 
@@ -14,6 +14,6 @@ public interface GenericWalk<E extends GenericStep> {
 
 	void add(E edge);
 	
-	GenericWalk<E> subWalk(int fromIndex);
+	W subWalk(int fromIndex);
 
 }

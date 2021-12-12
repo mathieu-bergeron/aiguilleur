@@ -6,14 +6,14 @@ import java.util.List;
 import ca.ntro.core.identifyers.Key;
 import ca.ntro.core.path.Path;
 
-public class GenericWalkNtro<E extends GenericStep> implements GenericWalk<E> {
+public class GenericWalkNtro<E extends GenericStep, W extends GenericWalk<E,W>> implements GenericWalk<E,W> {
 	
 	private List<E> edges = new ArrayList<>();
 
 	public GenericWalkNtro(){
 	}
 	
-	public GenericWalkNtro(GenericWalk<E> walk){
+	public GenericWalkNtro(W walk){
 		for(int i = 0; i < walk.size(); i++) {
 			add(walk.get(i));
 		}
@@ -55,8 +55,8 @@ public class GenericWalkNtro<E extends GenericStep> implements GenericWalk<E> {
 	}
 
 	@Override
-	public GenericWalk<E> subWalk(int fromIndex) {
-		return new GenericWalkNtro<E>(edges.subList(fromIndex, edges.size()-1));
+	public W subWalk(int fromIndex) {
+		return (W) new GenericWalkNtro<E,W>(edges.subList(fromIndex, edges.size()-1));
 	}
 
 }

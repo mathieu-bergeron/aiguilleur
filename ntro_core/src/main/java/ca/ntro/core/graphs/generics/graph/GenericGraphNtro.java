@@ -1,12 +1,11 @@
 package ca.ntro.core.graphs.generics.graph;
 
 
-import ca.ntro.core.exceptions.Break;
+import ca.ntro.core.graphs.common.Direction;
 import ca.ntro.core.graphs.common.NodeId;
 import ca.ntro.core.graphs.common.NodeIdNtro;
 import ca.ntro.core.graphs.graph_writer.GraphWriter;
 import ca.ntro.core.stream.Stream;
-import ca.ntro.core.wrappers.result.Result;
 
 public abstract class GenericGraphNtro<N extends GenericNode<N,E,SO>, 
                                        E extends GenericEdge<N,E,SO>,
@@ -117,10 +116,24 @@ public abstract class GenericGraphNtro<N extends GenericNode<N,E,SO>,
 		});
 	}
 
+	protected SO forwardOptions() {
+		
+		SO options = defaultSearchOptions();
+
+		InternalSearchOptionsNtro forwardOptions = new InternalSearchOptionsNtro();
+
+		forwardOptions.copyOptions(options.internal());
+		forwardOptions.setDirections(new Direction[] {Direction.FORWARD});
+		
+		options.copyOptions(forwardOptions);
+		
+		return options;
+	}
+
 	public Stream<E> edges(){
 		return nodes().reduceToStream((node, edgeVisitor) -> {
 
-			Stream<E> edges = node.edges();
+			Stream<E> edges = node.edges(forwardOptions());
 
 			edges.forEach(e -> edgeVisitor.visit(e));
 		});
