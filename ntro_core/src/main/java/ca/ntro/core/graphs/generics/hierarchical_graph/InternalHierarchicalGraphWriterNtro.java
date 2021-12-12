@@ -36,7 +36,7 @@ public class      InternalHierarchicalGraphWriterNtro<N extends GenericHierarchi
 
 		downOptions.copyOptions(downOptionsNtro);
 		
-		graph.forEachNode(n -> {
+		graph.nodes().forEach(n -> {
 
 			try {
 

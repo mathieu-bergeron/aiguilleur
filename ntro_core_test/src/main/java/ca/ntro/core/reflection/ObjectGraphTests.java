@@ -35,7 +35,7 @@ public class ObjectGraphTests extends NtroTests {
 		
 		List<Object> rootValues = new ArrayList<>();
 
-		graph.forEachStartNode(n -> {
+		graph.startNodes().forEach(n -> {
 			rootValues.add(n.object());
 		});
 		
@@ -44,7 +44,7 @@ public class ObjectGraphTests extends NtroTests {
 		
 		List<Object> subValues = new ArrayList<>();
 
-		graph.forEachNode(n -> {
+		graph.nodes().forEach(n -> {
 			subValues.add(n.object());
 		});
 		
@@ -62,7 +62,7 @@ public class ObjectGraphTests extends NtroTests {
 		
 		List<Object> subValues = new ArrayList<>();
 
-		graph.forEachNode(n -> {
+		graph.nodes().forEach(n -> {
 			subValues.add(n.object());
 		});
 
@@ -82,7 +82,7 @@ public class ObjectGraphTests extends NtroTests {
 		
 		List<Object> subValues = new ArrayList<>();
 
-		graph.forEachNode(n -> {
+		graph.nodes().forEach(n -> {
 			subValues.add(n.object());
 		});
 		

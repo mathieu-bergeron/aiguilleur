@@ -94,6 +94,7 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 		return id().toKey().toString();
 	}
 
+	/*
 	@Override
 	public void forEachEdge(EdgeVisitor<N,E,SO> visitor) {
 		reduceEdges(null, (__, e) -> {
@@ -103,8 +104,9 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 			return null;
 
 		}).throwException();
-	}
+	}*/
 
+	/*
 	@Override
 	public <R> Result<R> reduceEdges(R initialValue, EdgeReducer<N, E, SO, R> reducer) {
 		ResultNtro<R> result = new ResultNtro<R>(initialValue);
@@ -120,17 +122,19 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 		}
 		
 		return result;
-	}
+	}*/
 
 	protected SO defaultSearchOptions() {
 		return parentGraph().defaultSearchOptions();
 	}
 
+	/*
 	@Override
 	public void forEachReachableNode(ReachableNodeVisitor<N,E,SO> visitor) {
 		forEachReachableNode(defaultSearchOptions(), visitor);
-	}
+	}*/
 
+	/*
 	@Override
 	public void forEachReachableNode(SO options, ReachableNodeVisitor<N,E,SO> visitor) {
 		reduceReachableNodes(options, null, (accumulator, walkedSteps, n) -> {
@@ -140,7 +144,7 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 			return null;
 
 		}).throwException();
-	}
+	}*/
 
 	protected void _forEachReachableNode(InternalSearchOptions options, ReachableNodeVisitor<N,E,SO> visitor) {
 		ResultNtro<?> result = new ResultNtro<>();
@@ -153,21 +157,6 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 		});
 
 		result.throwException();
-	}
-
-	@Override
-	public <R> Result<R> reduceReachableNodes(R initialValue, ReachableNodeReducer<N,E,SO,R> reducer) {
-		return reduceReachableNodes(defaultSearchOptions(), initialValue, reducer);
-	}
-
-	@Override
-	public <R> Result<R> reduceReachableNodes(SO options, R initialValue, ReachableNodeReducer<N,E,SO,R> reducer) {
-
-		ResultNtro<R> result = new ResultNtro<R>(initialValue);
-		
-		_reduceReachableNodes(options.internal(), result, reducer);
-		
-		return result;
 	}
 
 	protected <R> void _reduceReachableNodes(InternalSearchOptions options, 
@@ -224,16 +213,6 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 		});
 	}
 
-	@Override
-	public void forEachReachableEdge(ReachableEdgeVisitor<N,E,SO> visitor) {
-		forEachReachableEdge(defaultSearchOptions(), visitor);
-	}
-
-	@Override
-	public void forEachReachableEdge(SO options, ReachableEdgeVisitor<N,E,SO> visitor) {
-		_forEachReachableEdge(options.internal(), visitor);
-	}
-
 	protected <R> void _forEachReachableEdge(InternalSearchOptions options, ReachableEdgeVisitor<N,E,SO> visitor) {
 		ResultNtro<R> result = new ResultNtro<R>(null);
 
@@ -245,20 +224,6 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 		});
 		
 		result.throwException();
-	}
-
-	@Override
-	public <R> Result<R> reduceReachableEdges(R initialValue, ReachableEdgeReducer<N,E,SO,R> reducer) {
-		return reduceReachableEdges(defaultSearchOptions(), initialValue, reducer);
-	}
-
-	@Override
-	public <R> Result<R> reduceReachableEdges(SO options, R initialValue, ReachableEdgeReducer<N,E,SO,R> reducer) {
-		ResultNtro<R> result = new ResultNtro<R>(initialValue);
-
-		_reduceReachableEdges(options.internal(), result, reducer);
-		
-		return result;
 	}
 
 	protected <R> void _reduceReachableEdges(InternalSearchOptions options, 

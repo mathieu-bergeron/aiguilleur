@@ -31,7 +31,7 @@ public class InternalObjectGraphWriterNtro
 			ObjectGraphSearchOptions oneStepOptions = new ObjectGraphSearchOptionsNtro();
 			oneStepOptions.setMaxDistance(1);
 			
-			graph.forEachStartNode(n -> {
+			graph.startNodes().forEach(n -> {
 				
 				try {
 

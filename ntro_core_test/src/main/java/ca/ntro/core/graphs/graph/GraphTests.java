@@ -168,7 +168,7 @@ public class GraphTests extends NtroTests {
 		MockNode nodeH = builder.graph().findNode("H");
 		MockNode nodeI = builder.graph().findNode("I");
 
-		nodeA.forEachReachableEdge(oneStepOptions, (walkedEdges, edge) -> {
+		nodeA.edges(oneStepOptions).forEach(edge -> {
 			edges.add(new DirectedEdgeTriple<MockNode,MockEdge,GraphSearchOptions>(edge.from(), edge.type(), edge.to()));
 		});
 

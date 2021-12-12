@@ -196,7 +196,7 @@ public abstract class GenericGraphBuilderNtro<N extends GenericNode<N,E,SO>,
 	}
 
 	protected boolean ifNodeAlreadyExists(N node) {
-		return graph().reduceNodes(false, (accumulator, reachableNode) -> {
+		return graph().nodes().reduceToResult(false, (accumulator, reachableNode) -> {
 			
 			if(accumulator == true) {
 				throw new Break();
