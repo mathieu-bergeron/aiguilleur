@@ -5,7 +5,6 @@ import java.util.List;
 
 import ca.ntro.core.exceptions.Break;
 import ca.ntro.core.initialization.Ntro;
-import ca.ntro.core.wrappers.Pair;
 import ca.ntro.core.wrappers.PairNtro;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
@@ -68,7 +67,7 @@ public abstract class StreamNtro<I extends Object>
 		}).value();
 		
 		if(result.right() == null) {
-			Ntro.exceptionThrower().throwException(new IndexOutOfBoundsException("Index out of bounds: " + index));
+			Ntro.exceptionThrower().throwException(new IndexOutOfStreamException("Index out stream: " + index));
 		}
 		
 		return result.right();

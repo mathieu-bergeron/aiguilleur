@@ -4,6 +4,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import ca.ntro.core.graphs.common.Direction;
+import ca.ntro.core.stream.Stream;
+import ca.ntro.core.stream.StreamNtro;
+import ca.ntro.core.stream.Visitor;
 import ca.ntro.core.wrappers.optionnal.Optionnal;
 
 public class InternalSearchOptionsNtro implements InternalSearchOptions {
@@ -104,5 +107,18 @@ public class InternalSearchOptionsNtro implements InternalSearchOptions {
 	@Override
 	public Set<String> visitedEdges() {
 		return getVisitedEdges();
+	}
+
+	@Override
+	public Stream<Direction> directionStream() {
+		return new StreamNtro<Direction>() {
+			@Override
+			public void _forEach(Visitor<Direction> visitor) throws Throwable {
+				
+				for(Direction direction : directions()) {
+					visitor.visit(direction);
+				}
+			}
+		};
 	}
 }

@@ -131,29 +131,21 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 	
 	@Override
 	public Stream<E> edges(SO options){
-		Stream<E> stream = new StreamNtro<E>() {
-			@Override
-			public void _forEach(Visitor<E> visitor) throws Throwable {
+		return options.internal().directionStream().reduceToStream((direction, edgeVisitor) -> {
 
-				for(Direction direction : options.internal().directions()){
+			// JSweet: explicit Stream variable to avoid typing error
+			Stream<EdgeType> edgeTypes = nodeStructure().edgeTypes(direction);
 
-					// JSweet: explicit Stream variable to avoid typing error
-					Stream<EdgeType> edgeTypes = nodeStructure().edgeTypes(direction);
+			edgeTypes.forEach(edgeType -> {
+				
+				Stream<E> edges = nodeStructure().edges(edgeType);
+				
+				edges.forEach(edge -> { 
 
-					edgeTypes.forEach(edgeType -> {
-						
-						Stream<E> edges = nodeStructure().edges(edgeType);
-						
-						edges.forEach(edge -> { 
-
-							visitor.visit(edge);
-						});
-					});
-				}
-			}
-		};
-		
-		return stream;
+					edgeVisitor.visit(edge);
+				});
+			});
+		});
 	}
 
 	@Override
@@ -163,23 +155,8 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 
 	@Override
 	public Stream<VisitedNode<N,E,SO>> reachableNodes(SO options){
-		if(options.internal().searchStrategy() == SearchStrategy.DEPTH_FIRST_SEARCH) {
-			
-			return reachableNodesDepthFirst(options);
-			
-		} else {
-
-			return reachableNodesBreadthFirst(options);
-		}
-	}
-
-	protected Stream<VisitedNode<N, E, SO>> reachableNodesDepthFirst(SO options) {
-		return new StreamNtro<VisitedNode<N,E,SO>>(){
-			@Override
-			public void _forEach(Visitor<VisitedNode<N, E, SO>> visitor) throws Throwable {
-				visitReachableNodesDepthFirst(options, new WalkNtro<N,E,SO>(), visitor);
-			}
-		};
+		// JSweet: explicit class to avoid typing errors
+		return new ReachableNodesStreamNtro<N,E,SO>(this, options);
 	}
 
 	protected void visitReachableNodesDepthFirst(SO options, 
@@ -212,18 +189,6 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 	@SuppressWarnings("unchecked")
 	protected GenericNodeNtro<N,E,SO> genericNodeNtro(N node){
 		return (GenericNodeNtro<N, E, SO>) node;
-	}
-
-	protected Stream<VisitedNode<N, E, SO>> reachableNodesBreadthFirst(SO options) {
-		return new StreamNtro<VisitedNode<N,E,SO>>(){
-			@Override
-			public void _forEach(Visitor<VisitedNode<N, E, SO>> visitor) throws Throwable {
-				visitReachableNodesBreadthFirst(options, 
-												oneStepOptions(),
-						                        new WalkNtro<N,E,SO>(), 
-						                        visitor);
-			}
-		};
 	}
 
 	protected void visitReachableNodesBreadthFirst(SO options, 
@@ -281,9 +246,14 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 	@Override
 	public Stream<VisitedEdge<N,E,SO>> reachableEdges(SO options){
 		
-		return reachableNodes().reduceToStream((visitedNode, edgeVisitor) -> {
-
-			visitedNode.node().edges(forwardOptions(options)).forEach(e -> {
+		// JSWeet: local variables to avoid typing errors
+		Stream<VisitedNode<N,E,SO>> reachableNodes = reachableNodes();
+				
+		return reachableNodes.reduceToStream((visitedNode, edgeVisitor) -> {
+			
+			Stream<E> edges = visitedNode.node().edges(forwardOptions(options));
+			
+			edges.forEach(e -> {
 				VisitedEdgeNtro<N,E,SO> visitedEdge = new VisitedEdgeNtro<N,E,SO>((WalkNtro<N,E,SO>) visitedNode.walked(), e);
 				
 				edgeVisitor.visit(visitedEdge);

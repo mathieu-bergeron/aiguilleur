@@ -95,7 +95,7 @@ public class StreamTests {
 		
 		stream.get(-1);
 
-		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrown(IndexOutOfBoundsException.class));
+		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrown(IndexOutOfStreamException.class));
 	}
 
 	@Test
@@ -106,7 +106,7 @@ public class StreamTests {
 		
 		stream.get(stream.size());
 
-		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrown(IndexOutOfBoundsException.class));
+		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrown(IndexOutOfStreamException.class));
 	}
 
 	@Test

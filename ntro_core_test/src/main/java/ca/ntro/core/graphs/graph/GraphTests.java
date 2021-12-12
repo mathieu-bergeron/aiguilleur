@@ -13,8 +13,11 @@ import ca.ntro.core.graphs.common.EdgeTypeNtro;
 import ca.ntro.core.graphs.common.NodeAlreadyAddedException;
 import ca.ntro.core.graphs.generics.graph.InternalSearchOptionsNtro;
 import ca.ntro.core.graphs.generics.graph.SearchStrategy;
+import ca.ntro.core.graphs.generics.graph.VisitedEdge;
+import ca.ntro.core.graphs.generics.graph.VisitedNode;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.services.ExceptionThrowerMock;
+import ca.ntro.core.stream.Stream;
 import ca.ntro.core.tests.NtroTests;
 import ca.ntro.core.wrappers.optionnal.Optionnal;
 
@@ -60,8 +63,12 @@ public class GraphTests extends NtroTests {
 
 		Graph<MockNode, MockEdge> graph = builder.graph();
 
-		List<MockNode> reachableNodes = nodeA.reachableNodes().map(vn -> vn.node()).collect();
-		List<MockEdge> reachableEdges = nodeA.reachableEdges().map(ve -> ve.edge()).collect();
+		// JSweet: local variables to avoid typing error
+		Stream<VisitedNode<MockNode, MockEdge, GraphSearchOptions>> reachableNodesStream = nodeA.reachableNodes();
+		Stream<VisitedEdge<MockNode, MockEdge, GraphSearchOptions>> reachableEdgesStream = nodeA.reachableEdges();
+
+		List<MockNode> reachableNodes = reachableNodesStream.map(vn -> vn.node()).collect();
+		List<MockEdge> reachableEdges = reachableEdgesStream.map(ve -> ve.edge()).collect();
 
 		Ntro.asserter().assertEquals(3, nodeA.reachableNodes().size());
 		Ntro.asserter().assertEquals(3, nodeA.reachableEdges().size());
