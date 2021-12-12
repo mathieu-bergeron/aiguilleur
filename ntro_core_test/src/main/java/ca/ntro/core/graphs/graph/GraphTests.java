@@ -47,15 +47,9 @@ public class GraphTests extends NtroTests {
 		NodeBuilder<MockNode, MockEdge> nodeBuilderB = builder.addNode(new MockNode("B"));
 		NodeBuilder<MockNode, MockEdge> nodeBuilderC = builder.addNode("C");
 		
-		/*
 		MockNode nodeA = builder.graph().findNode("A");
 		MockNode nodeB = builder.graph().findNode("B");
 		MockNode nodeC = builder.graph().findNode("B");
-		*/
-		
-		MockNode nodeA = nodeBuilderA.node();
-		MockNode nodeB = nodeBuilderB.node();
-		MockNode nodeC = nodeBuilderC.node();
 		
 		builder.addEdge(nodeBuilderA, "AA", nodeBuilderA);
 		MockEdge edgeAB = builder.addEdge(nodeBuilderA, "AB", nodeBuilderB);
@@ -151,10 +145,10 @@ public class GraphTests extends NtroTests {
 		builder.addEdge(nodeA, "AD", nodeD);
 		builder.addEdge(nodeA, "AE", nodeE);
 
-		builder.addEdge(nodeE, "EF", nodeF);
-		builder.addEdge(nodeE, "EG", nodeG);
-		builder.addEdge(nodeE, "EH", nodeH);
-		builder.addEdge(nodeE, "EI", nodeI);
+		builder.addEdge(nodeB, "BF", nodeF);
+		builder.addEdge(nodeB, "BG", nodeG);
+		builder.addEdge(nodeB, "BH", nodeH);
+		builder.addEdge(nodeB, "BI", nodeI);
 
 		Graph<MockNode, MockEdge> graph = builder.graph();
 		graph.write(Ntro.graphWriter());
@@ -237,6 +231,39 @@ public class GraphTests extends NtroTests {
 		Ntro.asserter().assertFalse("Should not contain", edges.contains(new DirectedEdgeTriple<>(nodeE, new EdgeTypeNtro(Direction.FORWARD, "EG"), nodeG)));
 		Ntro.asserter().assertFalse("Should not contain", edges.contains(new DirectedEdgeTriple<>(nodeE, new EdgeTypeNtro(Direction.FORWARD, "EH"), nodeH)));
 		Ntro.asserter().assertFalse("Should not contain", edges.contains(new DirectedEdgeTriple<>(nodeE, new EdgeTypeNtro(Direction.FORWARD, "EI"), nodeI)));
+	}
+
+	@Test
+	public void reachableEdgesBreadthFirst01() throws Throwable {
+
+		GraphBuilder<MockNode,MockEdge> builder = buildSimpleGraph03();
+		
+		GraphSearchOptionsNtro oneStepOptions = new GraphSearchOptionsNtro();
+		oneStepOptions.setSearchStrategy(SearchStrategy.BREADTH_FIRST_SEARCH);
+		oneStepOptions.internal().setDirections(new Direction[] {Direction.FORWARD});
+		oneStepOptions.internal().setSortEdgesByName(true);
+		
+		List<DirectedEdgeTriple<MockNode, MockEdge, GraphSearchOptions>> edges = new ArrayList<>();
+		
+		MockNode nodeA = builder.graph().findNode("A");
+		MockNode nodeB = builder.graph().findNode("B");
+		MockNode nodeC = builder.graph().findNode("C");
+		MockNode nodeD = builder.graph().findNode("D");
+		MockNode nodeE = builder.graph().findNode("E");
+		MockNode nodeF = builder.graph().findNode("F");
+		MockNode nodeG = builder.graph().findNode("G");
+		MockNode nodeH = builder.graph().findNode("H");
+		MockNode nodeI = builder.graph().findNode("I");
+		
+		Stream<VisitedNode<MockNode, MockEdge, GraphSearchOptions>> visitedNodesStream = nodeA.reachableNodes(oneStepOptions);
+		List<MockNode> visitedNodes = visitedNodesStream.map(vn -> vn.node()).collect();
+
+		//Ntro.asserter().assertEquals(8, visitedNodes.size());
+		Ntro.asserter().assertTrue("visitedNode.get(0) == B", visitedNodes.get(0) == nodeB);
+		Ntro.asserter().assertTrue("visitedNode.get(1) == C", visitedNodes.get(1) == nodeC);
+		Ntro.asserter().assertTrue("visitedNode.get(2) == D", visitedNodes.get(2) == nodeD);
+		Ntro.asserter().assertTrue("visitedNode.get(3) == E", visitedNodes.get(3) == nodeE);
+		//Ntro.asserter().assertTrue("visitedNode.get(4) == F", visitedNodes.get(4) == nodeF);
 	}
 
 
