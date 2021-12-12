@@ -11,6 +11,8 @@ public interface Stream<I extends Object> {
 
 	int size();
 
+	I get(int index);
+
 	boolean ifAll(Matcher<I> matcher);
 
 	boolean ifSome(Matcher<I> matcher);

@@ -60,6 +60,56 @@ public class StreamTests {
 	}
 
 	@Test
+	public void get01() {
+		Stream<Integer> stream = createStream(new Integer[] {1,2,3,4,5});
+		
+		Ntro.asserter().assertEquals(1, stream.get(0));
+		Ntro.asserter().assertEquals(2, stream.get(1));
+		Ntro.asserter().assertEquals(3, stream.get(2));
+		Ntro.asserter().assertEquals(4, stream.get(3));
+		Ntro.asserter().assertEquals(5, stream.get(4));
+	}
+
+	@Test
+	public void manualCollect() {
+		Stream<Integer> stream = createStream(new Integer[] {1,2,3,4,5});
+		
+		List<Integer> collected = new ArrayList<>();
+		
+		for(int i = 0; i < stream.size(); i++) {
+			collected.add(stream.get(i));
+		}
+		
+		Ntro.asserter().assertEquals(1, collected.get(0));
+		Ntro.asserter().assertEquals(2, collected.get(1));
+		Ntro.asserter().assertEquals(3, collected.get(2));
+		Ntro.asserter().assertEquals(4, collected.get(3));
+		Ntro.asserter().assertEquals(5, collected.get(4));
+	}
+
+	@Test
+	public void indexOutOfBounds01() {
+		ExceptionThrowerMock exceptionThrower = registerMockExceptionThrower();
+
+		Stream<Integer> stream = createStream(new Integer[] {1,2,3,4,5});
+		
+		stream.get(-1);
+
+		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrown(IndexOutOfBoundsException.class));
+	}
+
+	@Test
+	public void indexOutOfBounds02() {
+		ExceptionThrowerMock exceptionThrower = registerMockExceptionThrower();
+
+		Stream<Integer> stream = createStream(new Integer[] {1,2,3,4,5});
+		
+		stream.get(stream.size());
+
+		Ntro.asserter().assertTrue("Should throw", exceptionThrower.wasThrown(IndexOutOfBoundsException.class));
+	}
+
+	@Test
 	public void map01() {
 		Stream<Integer> stream = createStream(new Integer[] {1,2,3});
 		
