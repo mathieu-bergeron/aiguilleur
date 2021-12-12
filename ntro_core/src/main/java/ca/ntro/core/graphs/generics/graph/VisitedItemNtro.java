@@ -6,20 +6,20 @@ public class VisitedItemNtro<N extends GenericNode<N,E,SO>,
 
 	   implements VisitedItem<N,E,SO> {
 
-	private Walk<N,E,SO> walked;
+	private WalkNtro<N,E,SO> walked;
 
-	public Walk<N, E, SO> getWalked() {
+	public WalkNtro<N, E, SO> getWalked() {
 		return walked;
 	}
 
-	public void setWalked(Walk<N, E, SO> walked) {
+	public void setWalked(WalkNtro<N, E, SO> walked) {
 		this.walked = walked;
 	}
 
 	public VisitedItemNtro() {
 	}
 	
-	public VisitedItemNtro(Walk<N,E,SO> walked) {
+	public VisitedItemNtro(WalkNtro<N,E,SO> walked) {
 		setWalked(walked);
 	}
 	

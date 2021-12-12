@@ -212,7 +212,7 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 
 			try {
 				
-				_reducer.reduce(result, new VisitedNodeNtro<N,E,SO>(walked, edge.to()));
+				_reducer.reduce(result, new VisitedNodeNtro<N,E,SO>((WalkNtro<N,E,SO>) walked, (GenericNodeNtro<N,E,SO>) edge.to()));
 
 			} catch(Throwable t) {
 				
@@ -280,6 +280,17 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
  
 			_reduceReachableEdgesBreadthFirst(options, oneStepOptions, walked, result, reducer);
 		}
+	}
+	
+	protected SO oneStepOptions() {
+		InternalSearchOptionsNtro oneStepOptions = new InternalSearchOptionsNtro();
+		oneStepOptions.setSearchStrategy(SearchStrategy.DEPTH_FIRST_SEARCH);
+		oneStepOptions.setMaxDistance(1);
+		
+		SO options = defaultSearchOptions();
+		options.copyOptions(oneStepOptions);
+		
+		return options;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -464,19 +475,29 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 		
 		return cycleOptions;
 	}
-	
+
 	@Override
 	public Stream<E> edges(){
-		return Direction.asStream().reduceToStream((direction, edgeVisitor) -> {
+		return edges(defaultSearchOptions());
+	}
+	
+	@Override
+	public Stream<E> edges(SO options){
+		return new StreamNtro<E>() {
+			@Override
+			public void _forEach(Visitor<E> visitor) throws Throwable {
 
-			nodeStructure().edgeTypes(direction).forEach(edgeType -> {
-				
-				nodeStructure().edges(edgeType).forEach(edge -> { 
+				for(Direction direction : options.internal().directions())
 
-					edgeVisitor.visit(edge);
-				});
-			});
-		});
+					nodeStructure().edgeTypes(direction).forEach(edgeType -> {
+						
+						nodeStructure().edges(edgeType).forEach(edge -> { 
+
+							visitor.visit(edge);
+						});
+					});
+			}
+		};
 	}
 
 	@Override
@@ -486,26 +507,113 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 
 	@Override
 	public Stream<VisitedNode<N,E,SO>> reachableNodes(SO options){
+		if(options.internal().searchStrategy() == SearchStrategy.DEPTH_FIRST_SEARCH) {
+			
+			return reachableNodesDepthFirst(options);
+			
+		} else {
+			
+			return reachableNodesBreadthFirst(options);
+		}
+	}
+
+	protected Stream<VisitedNode<N, E, SO>> reachableNodesDepthFirst(SO options) {
 		return new StreamNtro<VisitedNode<N,E,SO>>(){
 			@Override
 			public void _forEach(Visitor<VisitedNode<N, E, SO>> visitor) throws Throwable {
-				ResultNtro<?> result = new ResultNtro<>();
-
-				__reduceReachableNodes(options.internal(), result, (__, visitedNode) -> {
-					visitor.visit(visitedNode);
-				});
+				visitReachableNodesDepthFirst(options, new WalkNtro<N,E,SO>(), visitor);
 			}
 		};
 	}
 
+	protected void visitReachableNodesDepthFirst(SO options, 
+			                                     WalkNtro<N,E,SO> walked,
+			                                     Visitor<VisitedNode<N, E, SO>> visitor) throws Throwable {
+
+		if(options.internal().visitedNodes().contains(this.id().toKey().toString())) {
+			return;
+		}
+		
+		if(options.internal().maxDistance().hasValue()
+				&& walked.size() >= options.internal().maxDistance().value()) {
+			return;
+		}
+
+		options.internal().visitedNodes().add(this.id().toKey().toString());
+		
+		VisitedNodeNtro<N,E,SO> visitedNode = new VisitedNodeNtro<N,E,SO>(walked, this);
+
+		visitor.visit(visitedNode);
+		
+		edges(options)._forEach(e -> {
+			
+			WalkNtro<N,E,SO> newWalked = new WalkNtro<N,E,SO>(walked);
+			newWalked.add(e);
+
+			((GenericNodeNtro<N,E,SO>) e.to()).visitReachableNodesDepthFirst(options, newWalked, visitor);
+		});
+	}
+
+	protected Stream<VisitedNode<N, E, SO>> reachableNodesBreadthFirst(SO options) {
+		return new StreamNtro<VisitedNode<N,E,SO>>(){
+			@Override
+			public void _forEach(Visitor<VisitedNode<N, E, SO>> visitor) throws Throwable {
+				visitReachableNodesBreadthFirst(options, 
+												oneStepOptions(),
+						                        new WalkNtro<N,E,SO>(), 
+						                        visitor);
+			}
+		};
+	}
+
+	protected void visitReachableNodesBreadthFirst(SO options, 
+												   SO oneStepOptions,
+			                                       WalkNtro<N,E,SO> walked,
+			                                       Visitor<VisitedNode<N, E, SO>> visitor) throws Throwable {
+
+		if(options.internal().visitedNodes().contains(this.id().toKey().toString())) {
+			return;
+		}
+
+		if(options.internal().maxDistance().hasValue()
+				&& walked.size() >= options.internal().maxDistance().value()) {
+			return;
+		}
+
+		options.internal().visitedNodes().add(this.id().toKey().toString());
+
+		VisitedNodeNtro<N,E,SO> visitedNode = new VisitedNodeNtro<N,E,SO>(walked, this);
+
+		visitor.visit(visitedNode);
+		
+		visitReachableNodesDepthFirst(oneStepOptions, walked, visitor);
+
+		edges(options)._forEach(e -> {
+
+			WalkNtro<N,E,SO> newWalked = new WalkNtro<N,E,SO>(walked);
+			newWalked.add(e);
+
+			((GenericNodeNtro<N,E,SO>)e.to()).visitReachableNodesBreadthFirst(options, oneStepOptions, newWalked, visitor);
+		});
+	}
+	
+
 	@Override
 	public Stream<VisitedEdge<N,E,SO>> reachableEdges(){
-		return null;
+		return reachableEdges(defaultSearchOptions());
 	}
 
 	@Override
 	public Stream<VisitedEdge<N,E,SO>> reachableEdges(SO options){
-		return null;
+		return reachableNodes().reduceToStream((visitedNode, edgeVisitor) -> {
+
+			visitedNode.node().edges().forEach(e -> {
+				
+				VisitedEdgeNtro<N,E,SO> visitedEdge = new VisitedEdgeNtro<N,E,SO>((WalkNtro<N,E,SO>) visitedNode.walked(), e);
+				
+				edgeVisitor.visit(visitedEdge);
+			});
+		});
 	}
 
 	@Override

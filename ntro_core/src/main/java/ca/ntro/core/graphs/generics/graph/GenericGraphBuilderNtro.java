@@ -13,6 +13,9 @@ import ca.ntro.core.graphs.common.NodeIdNtro;
 import ca.ntro.core.initialization.Factory;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.stream.Reducer;
+import ca.ntro.core.stream.Stream;
+import ca.ntro.core.stream.StreamNtro;
+import ca.ntro.core.stream.Visitor;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class GenericGraphBuilderNtro<N extends GenericNode<N,E,SO>,
@@ -103,7 +106,8 @@ public abstract class GenericGraphBuilderNtro<N extends GenericNode<N,E,SO>,
 		nodeBuilderNtro(builder).setNode(node);
 		
 		nodeNtro(node).setNodeStructure(builder);
-		
+		nodeNtro(node).setGraph(getGraph());
+
 		memorizeNode(node);
 
 		return builder;
@@ -248,6 +252,20 @@ public abstract class GenericGraphBuilderNtro<N extends GenericNode<N,E,SO>,
 				return;
 			}
 		}
+	}
+
+	@Override
+	public Stream<N> startNodes(){
+		return new StreamNtro<N>() {
+
+			@Override
+			public void _forEach(Visitor<N> visitor) throws Throwable {
+				for(N node : getStartNodes().values()) {
+
+					visitor.visit(node);
+				}
+			}
+		};
 	}
 	
 	@SuppressWarnings("unchecked")

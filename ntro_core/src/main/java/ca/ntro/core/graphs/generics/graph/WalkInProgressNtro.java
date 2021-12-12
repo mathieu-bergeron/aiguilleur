@@ -30,7 +30,7 @@ public class      WalkInProgressNtro<N extends GenericNode<N,E,SO>,
 	public WalkInProgressNtro() {
 	}
 
-	public WalkInProgressNtro(Walk<N,E,SO> walked, WalkId remainingWalk, N currentNode) {
+	public WalkInProgressNtro(WalkNtro<N,E,SO> walked, WalkId remainingWalk, N currentNode) {
 		super(walked);
 		setRemainingWalk(remainingWalk);
 		setCurrentNode(currentNode);

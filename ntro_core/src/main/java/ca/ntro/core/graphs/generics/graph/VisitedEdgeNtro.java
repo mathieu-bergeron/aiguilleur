@@ -21,7 +21,7 @@ public class VisitedEdgeNtro<N extends GenericNode<N,E,SO>,
 	public VisitedEdgeNtro() {
 	}
 
-	public VisitedEdgeNtro(Walk<N,E,SO> walked, E edge) {
+	public VisitedEdgeNtro(WalkNtro<N,E,SO> walked, E edge) {
 		super(walked);
 		setEdge(edge);
 	}

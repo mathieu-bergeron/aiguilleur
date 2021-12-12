@@ -18,6 +18,7 @@ public interface GenericNode<N extends GenericNode<N,E,SO>,
 	boolean isPartOfCycle();
 	
 	Stream<E> edges();
+	Stream<E> edges(SO options);
 
 	void forEachEdge(EdgeVisitor<N,E,SO> visitor);
 	<R extends Object> Result<R> reduceEdges(R initialValue, EdgeReducer<N,E,SO,R> reducer);

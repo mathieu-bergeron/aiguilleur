@@ -9,9 +9,6 @@ import ca.ntro.core.graphs.common.NodeId;
 import ca.ntro.core.graphs.common.NodeIdNtro;
 import ca.ntro.core.graphs.graph_writer.GraphWriter;
 import ca.ntro.core.stream.Stream;
-import ca.ntro.core.stream.StreamNtro;
-import ca.ntro.core.stream.Visitor;
-import ca.ntro.core.stream.Reducer;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
@@ -246,52 +243,20 @@ public abstract class GenericGraphNtro<N extends GenericNode<N,E,SO>,
 		});
 	}
 
-
 	public Stream<N> startNodes(){
-		/*
-		return new StreamNtro<N>(){
-			@Override
-			public <R> void applyReducer(ResultNtro<R> result, Reducer<N, R> _reducer) {
-
-				// JSweet: we need explicit variables to avoid typing errors
-				GenericGraphStructure<N,E,SO> graphStructure = graphStructure();
-				graphStructure._reduceStartNodes(result, _reducer);
-			}
-		};
-		*/
-		return null;
+		return graphStructure().startNodes();
 	}
 
 	public Stream<N> nodes(){
-		/*
-		return new StreamNtro<N>() {
-			@Override
-			public <R> void applyReducer(ResultNtro<R> result, Reducer<N, R> reducer) {
+		SO options = defaultSearchOptions();
 
-				Stream<N> startNodes = startNodes();
-				startNodes.applyReducer(result, reducer);
+		return startNodes().reduceToStream((startNode, nodeVisitor) -> {
 
-				Stream<String> startNodeIds = startNodes.map(sn -> sn.id().toKey().toString());
+			startNode.reachableNodes(options).forEach(visitedNode -> {
 				
-				SO options = defaultSearchOptions();
-
-				options.internal()
-				       .visitedNodes()
-				       .addAll(startNodeIds.collect());
-
-				startNodes.forEach(startNode -> {
-
-					Stream<VisitedNode<N,E,SO>> visitedNodes = startNode.reachableNodes(options);
-
-					Stream<N> nodes = visitedNodes.map(vn -> vn.node());
-					
-					nodes.applyReducer(result, reducer);
-				});
-			}
-		};
-		*/
-		
-		return null;
+				nodeVisitor.visit(visitedNode.node());
+			});
+		});
 	}
 
 	public Stream<E> edges(){
@@ -301,45 +266,5 @@ public abstract class GenericGraphNtro<N extends GenericNode<N,E,SO>,
 
 			edges.forEach(e -> edgeVisitor.visit(e));
 		});
-				
-		
-		
-		/*
-		return nodes().reduceToStream((result, reducer, node) -> {
-
-			Stream<E> edges = node.edges();
-
-			edges.forEach(e -> reducer.reduce(result, e));
-		});
-		*/
-		
-		/*
-		
-		return new StreamNtro<E>() {
-
-			@Override
-			protected void _forEach(Visitor<E> visitor) throws Throwable {
-				nodes().forEach(node -> {
-
-					// JSweet: variable to avoid typing errors
-					Stream<E> edges = node.edges();
-
-					edges.forEach(e -> visitor.visit(e));
-				});
-				
-			}
-
-			@Override
-			public <R> void applyReducer(ResultNtro<R> result, Reducer<E, R> reducer) {
-				
-				nodes().forEach(node -> {
-
-					// JSweet: variable to avoid typing errors
-					Stream<E> edges = node.edges();
-
-					edges.applyReducer(result, reducer);
-				});
-			}
-		};*/
 	}
 }

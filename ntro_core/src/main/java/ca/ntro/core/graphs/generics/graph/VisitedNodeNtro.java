@@ -8,26 +8,27 @@ public class VisitedNodeNtro <N extends GenericNode<N,E,SO>,
 
        implements VisitedNode<N,E,SO> {
 	
-	private N node;
+	private GenericNodeNtro<N,E,SO> node;
 
-	public N getNode() {
+	public GenericNodeNtro<N,E,SO> getNode() {
 		return node;
 	}
 
-	public void setNode(N node) {
+	public void setNode(GenericNodeNtro<N,E,SO> node) {
 		this.node = node;
 	}
 	
 	public VisitedNodeNtro() {
 	}
 	
-	public VisitedNodeNtro(Walk<N,E,SO> walked, N node) {
+	public VisitedNodeNtro(WalkNtro<N,E,SO> walked, GenericNodeNtro<N,E,SO> node) {
 		super(walked);
 		setNode(node);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public N node() {
-		return getNode();
+		return (N) getNode();
 	}
 }

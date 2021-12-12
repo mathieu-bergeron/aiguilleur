@@ -64,8 +64,8 @@ public class      GenericInternalGraphWriterNtro<N extends GenericNode<N,E,SO>,
 	protected void writeNodes(GenericGraph<N,E,SO,GO> graph, 
 			                  GO options,
 			                  GraphWriter writer) {
-
-		graph.forEachNode(n -> {
+		
+		graph.nodes().forEach(n -> {
 			try {
 
 				writer.addNode(nodeSpec(n, options));
@@ -79,8 +79,8 @@ public class      GenericInternalGraphWriterNtro<N extends GenericNode<N,E,SO>,
 	protected void writeEdges(GenericGraph<N,E,SO,GO> graph, 
 			                  GO options,
 			                  GraphWriter writer) {
-
-		graph.forEachEdge((edge) -> {
+		
+		graph.edges().forEach(edge -> {
 			if(edge.type().direction() == Direction.FORWARD) {
 				writeEdge(writer, options, edge);
 			}

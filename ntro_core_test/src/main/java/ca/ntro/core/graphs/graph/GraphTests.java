@@ -19,6 +19,23 @@ import ca.ntro.core.tests.NtroTests;
 public class GraphTests extends NtroTests {
 
 	@Test
+	public void simpleGraph00() {
+		
+		GraphBuilder<MockNode, MockEdge> builder = GraphBuilder.newBuilder(MockNode.class, MockEdge.class);
+		builder.setGraphName("simpleGraph00");
+		
+		NodeBuilder<MockNode, MockEdge> nodeA = builder.addNode("A");
+		NodeBuilder<MockNode, MockEdge> nodeB = builder.addNode(new MockNode("B"));
+
+		//builder.addEdge(nodeA, "AA", nodeA);
+		builder.addEdge(nodeA, "AB", nodeB);
+
+		Graph<MockNode, MockEdge> graph = builder.graph();
+
+		graph.write(Ntro.graphWriter());
+	}
+
+	@Test
 	public void simpleGraph01() {
 		
 		GraphBuilder<MockNode, MockEdge> builder = GraphBuilder.newBuilder(MockNode.class, MockEdge.class);
