@@ -4,10 +4,14 @@ import java.util.List;
 import java.util.Map;
 
 import ca.ntro.core.reflection.object_graph.ObjectGraph;
+import ca.ntro.core.reflection.object_updates.ObjectUpdate;
+import ca.ntro.core.stream.Stream;
 
 public interface ReflectionService {
 	
 	ObjectGraph objectGraph(Object o);
+	
+	Stream<ObjectUpdate> objectDiff(Object o1, Object o2);
 
 	boolean isList(Object object);
 	boolean isMap(Object object);

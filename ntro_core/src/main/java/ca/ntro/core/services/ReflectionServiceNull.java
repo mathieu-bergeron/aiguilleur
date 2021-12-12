@@ -5,6 +5,8 @@ import java.util.Map;
 
 import ca.ntro.core.reflection.object_graph.ObjectGraph;
 import ca.ntro.core.reflection.object_graph.ObjectGraphNull;
+import ca.ntro.core.reflection.object_updates.ObjectUpdate;
+import ca.ntro.core.stream.Stream;
 
 public class ReflectionServiceNull implements ReflectionService {
 
@@ -135,6 +137,12 @@ public class ReflectionServiceNull implements ReflectionService {
 
 	@Override
 	public <V> Map<String, V> asMap(Object object, Class<V> valueClass) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Stream<ObjectUpdate> objectDiff(Object o1, Object o2) {
 		// TODO Auto-generated method stub
 		return null;
 	}

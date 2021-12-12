@@ -3,6 +3,8 @@ package ca.ntro.core.services;
 
 import ca.ntro.core.reflection.ObjectGraphJdk;
 import ca.ntro.core.reflection.object_graph.ObjectGraph;
+import ca.ntro.core.reflection.object_updates.ObjectUpdate;
+import ca.ntro.core.stream.Stream;
 
 public class ReflectionServiceJdk extends ReflectionServiceNtro { 
 
@@ -53,5 +55,11 @@ public class ReflectionServiceJdk extends ReflectionServiceNtro {
 		if(object == null) return 0;
 
 		return Double.parseDouble(object.toString());
+	}
+
+	@Override
+	public Stream<ObjectUpdate> objectDiff(Object o1, Object o2) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
