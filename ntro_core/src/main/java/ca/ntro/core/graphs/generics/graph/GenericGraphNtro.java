@@ -92,21 +92,7 @@ public abstract class GenericGraphNtro<N extends GenericNode<N,E,SO>,
 
 	@Override
 	public N findNode(NodeId nodeId) {
-		Result<N> result = nodes().reduceToResult(null, (accumulator, n) -> {
-			if(accumulator != null) {
-				throw new Break();
-			}
-
-			if(n.id().equals(nodeId)) {
-				accumulator = n;
-			}
-
-			return accumulator;
-		});
-
-		result.throwException();
-
-		return result.value();
+		return nodes().findFirst(n -> n.id().equals(nodeId));
 	}
 
 	public Stream<N> startNodes(){
@@ -117,6 +103,8 @@ public abstract class GenericGraphNtro<N extends GenericNode<N,E,SO>,
 		SO options = defaultSearchOptions();
 
 		return startNodes().reduceToStream((startNode, nodeVisitor) -> {
+			
+			nodeVisitor.visit(startNode);
 
 			startNode.reachableNodes(options).forEach(visitedNode -> {
 				

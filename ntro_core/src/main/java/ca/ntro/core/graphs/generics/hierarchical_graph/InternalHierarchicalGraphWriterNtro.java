@@ -44,7 +44,9 @@ public class      InternalHierarchicalGraphWriterNtro<N extends GenericHierarchi
 
 					writer.addCluster(clusterSpec(n, options));
 					
-					n.forEachSubNode((walked, subNode) -> {
+					n.subNodes().forEach(visitedSubNode -> {
+						
+						N subNode = visitedSubNode.node();
 
 						if(subNode.hasSubNodes() && subNode.hasParent()) {
 

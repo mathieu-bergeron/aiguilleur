@@ -33,6 +33,11 @@ public abstract class StreamNtro<I extends Object>
 	}
 
 	@Override
+	public boolean isEmpty() {
+		return !ifSome(v -> true);
+	}
+
+	@Override
 	public boolean ifAll(Matcher<I> matcher) {
 		return reduceToResult(true, (accumulator, item) -> {
 

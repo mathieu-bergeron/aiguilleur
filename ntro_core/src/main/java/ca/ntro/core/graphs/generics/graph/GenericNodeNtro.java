@@ -498,24 +498,27 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 		if(options.internal().visitedNodes().contains(this.id().toKey().toString())) {
 			return;
 		}
-		
+
 		if(options.internal().maxDistance().hasValue()
 				&& walked.size() >= options.internal().maxDistance().value()) {
 			return;
 		}
-
-		options.internal().visitedNodes().add(this.id().toKey().toString());
-		
-		VisitedNodeNtro<N,E,SO> visitedNode = new VisitedNodeNtro<N,E,SO>(walked, this);
-
-		visitor.visit(visitedNode);
 		
 		edges(options)._forEach(e -> {
+				if(options.internal().visitedNodes().contains(e.to().id().toKey().toString())) {
+					return;
+				}
 			
-			WalkNtro<N,E,SO> newWalked = new WalkNtro<N,E,SO>(walked);
-			newWalked.add(e);
+				WalkNtro<N,E,SO> newWalked = new WalkNtro<N,E,SO>(walked);
+				newWalked.add(e);
 
-			((GenericNodeNtro<N,E,SO>) e.to()).visitReachableNodesDepthFirst(options, newWalked, visitor);
+				options.internal().visitedNodes().add(e.to().id().toKey().toString());
+
+				VisitedNodeNtro<N,E,SO> visitedNode = new VisitedNodeNtro<N,E,SO>(newWalked, (GenericNodeNtro<N,E,SO>) e.to());
+
+				visitor.visit(visitedNode);
+
+				((GenericNodeNtro<N,E,SO>) e.to()).visitReachableNodesDepthFirst(options, newWalked, visitor);
 		});
 	}
 
@@ -545,18 +548,20 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 			return;
 		}
 
-		options.internal().visitedNodes().add(this.id().toKey().toString());
-
-		VisitedNodeNtro<N,E,SO> visitedNode = new VisitedNodeNtro<N,E,SO>(walked, this);
-
-		visitor.visit(visitedNode);
-		
 		visitReachableNodesDepthFirst(oneStepOptions, walked, visitor);
 
 		edges(options)._forEach(e -> {
 
+			if(options.internal().visitedNodes().contains(e.to().id().toKey().toString())) {
+				return;
+			}
+
 			WalkNtro<N,E,SO> newWalked = new WalkNtro<N,E,SO>(walked);
 			newWalked.add(e);
+
+			VisitedNodeNtro<N,E,SO> visitedNode = new VisitedNodeNtro<N,E,SO>(newWalked, (GenericNodeNtro<N,E,SO>) e.to());
+
+			visitor.visit(visitedNode);
 
 			((GenericNodeNtro<N,E,SO>)e.to()).visitReachableNodesBreadthFirst(options, oneStepOptions, newWalked, visitor);
 		});

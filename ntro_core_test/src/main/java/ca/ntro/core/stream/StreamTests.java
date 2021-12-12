@@ -39,6 +39,20 @@ public class StreamTests {
 	}
 
 	@Test
+	public void streamEmpty() {
+		Stream<Character> stream = createStream(new Character[] {});
+		
+		Ntro.asserter().assertTrue("Is emtpy", stream.isEmpty());
+	}
+
+	@Test
+	public void streamNotEmpty() {
+		Stream<Character> stream = createStream(new Character[] {'a','b'});
+		
+		Ntro.asserter().assertFalse("Is not emtpy", stream.isEmpty());
+	}
+
+	@Test
 	public void ifAll01() {
 		Stream<Integer> stream = createStream(new Integer[] {1,2,3,4,5});
 		

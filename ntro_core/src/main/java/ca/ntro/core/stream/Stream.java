@@ -2,11 +2,12 @@ package ca.ntro.core.stream;
 
 import java.util.List;
 
-import ca.ntro.core.exceptions.Break;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public interface Stream<I extends Object> {
+	
+	boolean isEmpty();
 
 	boolean ifAll(Matcher<I> matcher);
 

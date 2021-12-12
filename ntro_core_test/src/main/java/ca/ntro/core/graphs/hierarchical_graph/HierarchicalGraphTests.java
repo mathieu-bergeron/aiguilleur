@@ -66,6 +66,32 @@ public class HierarchicalGraphTests {
 		builder.addEdge(node0, "0A", nodeA);
 		builder.addEdge(node0, "00", node0);
 	}
+
+	@Test
+	public void subNodes() throws Throwable {
+		HierarchicalGraphBuilder<MockHierarchicalNode, MockHierarchicalEdge> builder = newBuilder();
+
+		HierarchicalGraphNodeBuilder<MockHierarchicalNode, MockHierarchicalEdge> nodeBuilderA = builder.addNode("A");
+		HierarchicalGraphNodeBuilder<MockHierarchicalNode, MockHierarchicalEdge> nodeBuilderAA = builder.addNode("AA");
+		HierarchicalGraphNodeBuilder<MockHierarchicalNode, MockHierarchicalEdge> nodeBuilderAAA = builder.addNode("AAA");
+		
+		nodeBuilderA.addSubNode(nodeBuilderAA);
+		nodeBuilderAA.addSubNode(nodeBuilderAAA);
+		
+		Ntro.asserter().assertFalse("Not empty", nodeBuilderA.node().subNodes().isEmpty());
+		Ntro.asserter().assertFalse("A has no parents", nodeBuilderA.node().hasParent());
+		Ntro.asserter().assertTrue("A is a cluster", nodeBuilderA.node().hasSubNodes());
+		Ntro.asserter().assertTrue("AA has a parent", nodeBuilderAA.node().hasParent());
+		Ntro.asserter().assertTrue("AA is a cluster", nodeBuilderAA.node().hasSubNodes());
+
+
+		Ntro.asserter().assertTrue("Contains AA", nodeBuilderA.node().subNodes().ifSome(visitedNode -> visitedNode.node() == nodeBuilderAA.node()));
+		Ntro.asserter().assertTrue("Contains AAA", nodeBuilderA.node().subNodes().ifSome(visitedNode -> visitedNode.node() == nodeBuilderAAA.node()));
+
+		
+		builder.setGraphName("subNodes");
+		builder.graph().write(Ntro.graphWriter());
+	}
 	
 	@Test
 	public void hierarchicalGraph00() throws Throwable {

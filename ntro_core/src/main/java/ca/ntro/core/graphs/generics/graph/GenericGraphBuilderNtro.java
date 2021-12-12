@@ -3,14 +3,12 @@ package ca.ntro.core.graphs.generics.graph;
 import java.util.HashMap;
 import java.util.Map;
 
-import ca.ntro.core.exceptions.Break;
 import ca.ntro.core.graphs.common.Direction;
 import ca.ntro.core.graphs.common.EdgeType;
 import ca.ntro.core.graphs.common.EdgeTypeNtro;
 import ca.ntro.core.graphs.common.NodeAlreadyAddedException;
 import ca.ntro.core.graphs.common.NodeId;
 import ca.ntro.core.graphs.common.NodeIdNtro;
-import ca.ntro.core.initialization.Factory;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.stream.Reducer;
 import ca.ntro.core.stream.Stream;
@@ -196,19 +194,7 @@ public abstract class GenericGraphBuilderNtro<N extends GenericNode<N,E,SO>,
 	}
 
 	protected boolean ifNodeAlreadyExists(N node) {
-		return graph().nodes().reduceToResult(false, (accumulator, reachableNode) -> {
-			
-			if(accumulator == true) {
-				throw new Break();
-			}
-			
-			if(reachableNode.id().equals(node.id())) {
-				accumulator = true;
-			}
-			
-			return accumulator;
-
-		}).value();
+		return graph().nodes().ifSome(n -> n.id().equals(node.id()));
 	}
 
 	@Override
