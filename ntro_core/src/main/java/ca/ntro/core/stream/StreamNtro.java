@@ -38,6 +38,15 @@ public abstract class StreamNtro<I extends Object>
 	}
 
 	@Override
+	public int size() {
+		return reduceToResult(0, (accumulator, item) ->{
+
+			return accumulator + 1;
+
+		}).value();
+	}
+
+	@Override
 	public boolean ifAll(Matcher<I> matcher) {
 		return reduceToResult(true, (accumulator, item) -> {
 

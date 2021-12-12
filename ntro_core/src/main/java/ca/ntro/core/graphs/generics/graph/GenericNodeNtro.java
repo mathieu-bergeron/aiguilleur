@@ -57,19 +57,19 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 		if(o == this) return true;
 		if(o == null) return false;
 		if(o instanceof GenericNodeNtro) {
-			GenericNodeNtro n = (GenericNodeNtro) o;
+			GenericNode n = (GenericNode) o;
 			
-			if(n.nodeId == null && nodeId != null) {
+			if(n.id() == null && nodeId != null) {
 				return false;
 			}
 
-			if(n.nodeId != null && !n.nodeId.equals(nodeId)) {
+			if(n.id() != null && !n.id().equals(nodeId)) {
 				return false;
 			}
 			
 			return true;
 		}
-		
+
 		return false;
 	}
 	
@@ -406,28 +406,10 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 
 	@Override
 	public boolean isPartOfCycle() {
-		ResultNtro<Boolean> result = new ResultNtro<>(false);
-		
-		InternalSearchOptionsNtro options = new InternalSearchOptionsNtro();
-		options.setDirections(new Direction[] {Direction.FORWARD});
-		options.setSearchStrategy(SearchStrategy.DEPTH_FIRST_SEARCH);
-		options.setMaxDistance(Optionnal.none(Integer.class));
-		options.setSortEdgesByName(false);
-		
-		_forEachReachableNode(options, (walked, reachableNode) -> {
-
-			if(reachableNode == this) {
-				result.registerValue(true);
-				throw new Break();
-			}
-		});
-		
-		return result.value();
-
-		//return reachableNodes(cycleSearchOptions()).ifSome(visitedNode -> visitedNode.node() == this);
+		return reachableNodes(cycleOptions()).ifSome(visitedNode -> visitedNode.node().equals(this));
 	}
-	
-	protected SO cycleSearchOptions() {
+
+	protected SO cycleOptions() {
 
 		InternalSearchOptionsNtro options = new InternalSearchOptionsNtro();
 		options.setDirections(new Direction[] {Direction.FORWARD});
@@ -485,7 +467,7 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 			return reachableNodesDepthFirst(options);
 			
 		} else {
-			
+
 			return reachableNodesBreadthFirst(options);
 		}
 	}
@@ -503,12 +485,8 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 			                                     WalkNtro<N,E,SO> walked,
 			                                     Visitor<VisitedNode<N, E, SO>> visitor) throws Throwable {
 
-		if(options.internal().visitedNodes().contains(this.id().toKey().toString())) {
-			return;
-		}
-
 		if(options.internal().maxDistance().hasValue()
-				&& walked.size() >= options.internal().maxDistance().value()) {
+				&& (walked.size()+1) > options.internal().maxDistance().value()) {
 			return;
 		}
 		

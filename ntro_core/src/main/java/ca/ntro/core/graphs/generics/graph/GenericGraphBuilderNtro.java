@@ -194,7 +194,7 @@ public abstract class GenericGraphBuilderNtro<N extends GenericNode<N,E,SO>,
 	}
 
 	protected boolean ifNodeAlreadyExists(N node) {
-		return graph().nodes().ifSome(n -> n.id().equals(node.id()));
+		return graph().nodes().ifSome(n -> n.equals(node));
 	}
 
 	@Override

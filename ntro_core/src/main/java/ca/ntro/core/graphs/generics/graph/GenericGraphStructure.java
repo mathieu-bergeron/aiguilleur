@@ -13,5 +13,4 @@ public interface GenericGraphStructure <N extends GenericNode<N,E,SO>,
 	<R> void _reduceStartNodes(ResultNtro<R> result, Reducer<N,R> reducer);
 	
 	Stream<N> startNodes();
-
 }

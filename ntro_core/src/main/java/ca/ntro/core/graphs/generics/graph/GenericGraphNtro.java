@@ -103,13 +103,17 @@ public abstract class GenericGraphNtro<N extends GenericNode<N,E,SO>,
 		SO options = defaultSearchOptions();
 
 		return startNodes().reduceToStream((startNode, nodeVisitor) -> {
-			
-			nodeVisitor.visit(startNode);
 
-			startNode.reachableNodes(options).forEach(visitedNode -> {
-				
-				nodeVisitor.visit(visitedNode.node());
-			});
+			if(!options.internal().visitedNodes().contains(startNode.id().toKey().toString())) {
+				options.internal().visitedNodes().add(startNode.id().toKey().toString());
+
+				nodeVisitor.visit(startNode);
+
+				startNode.reachableNodes(options).forEach(visitedNode -> {
+
+					nodeVisitor.visit(visitedNode.node());
+				});
+			}
 		});
 	}
 

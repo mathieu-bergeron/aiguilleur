@@ -24,13 +24,41 @@ public class GraphTests extends NtroTests {
 		GraphBuilder<MockNode, MockEdge> builder = GraphBuilder.newBuilder(MockNode.class, MockEdge.class);
 		builder.setGraphName("simpleGraph00");
 		
-		NodeBuilder<MockNode, MockEdge> nodeA = builder.addNode("A");
-		NodeBuilder<MockNode, MockEdge> nodeB = builder.addNode(new MockNode("B"));
-
-		//builder.addEdge(nodeA, "AA", nodeA);
-		builder.addEdge(nodeA, "AB", nodeB);
+		NodeBuilder<MockNode, MockEdge> nodeBuilderA = builder.addNode("A");
+		NodeBuilder<MockNode, MockEdge> nodeBuilderB = builder.addNode(new MockNode("B"));
+		NodeBuilder<MockNode, MockEdge> nodeBuilderC = builder.addNode("C");
+		
+		/*
+		MockNode nodeA = builder.graph().findNode("A");
+		MockNode nodeB = builder.graph().findNode("B");
+		MockNode nodeC = builder.graph().findNode("B");
+		*/
+		
+		MockNode nodeA = nodeBuilderA.node();
+		MockNode nodeB = nodeBuilderB.node();
+		MockNode nodeC = nodeBuilderC.node();
+		
+		builder.addEdge(nodeBuilderA, "AA", nodeBuilderA);
+		MockEdge edgeAB = builder.addEdge(nodeBuilderA, "AB", nodeBuilderB);
+		MockEdge edgeBC = builder.addEdge(nodeBuilderB, "BC", nodeBuilderC);
 
 		Graph<MockNode, MockEdge> graph = builder.graph();
+
+		List<MockNode> reachableNodes = nodeA.reachableNodes().map(vn -> vn.node()).collect();
+		
+		Ntro.asserter().assertTrue("Reaches B", nodeA.reachableNodes().ifSome(vn -> vn.node().equals(nodeB)));
+		Ntro.asserter().assertTrue("Reaches C", nodeA.reachableNodes().ifSome(vn -> vn.node().equals(nodeC)));
+		Ntro.asserter().assertTrue("Reaches AB", nodeA.reachableEdges().ifSome(vn -> vn.edge().equals(edgeAB)));
+		Ntro.asserter().assertTrue("Reaches BC", nodeA.reachableEdges().ifSome(vn -> vn.edge().equals(edgeBC)));
+		
+		List<MockNode> nodes = graph.nodes().collect();
+		List<MockEdge> edges = graph.edges().collect();
+
+		Ntro.asserter().assertTrue("Contains B", graph.nodes().ifSome(n -> n.equals(nodeB)));
+		Ntro.asserter().assertTrue("Conatins AB", graph.edges().ifSome(e -> e.equals(edgeAB)));
+
+		Ntro.asserter().assertEquals(3, graph.nodes().size());
+		Ntro.asserter().assertEquals(3, graph.edges().size());
 
 		graph.write(Ntro.graphWriter());
 	}

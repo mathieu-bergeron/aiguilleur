@@ -9,6 +9,8 @@ public interface Stream<I extends Object> {
 	
 	boolean isEmpty();
 
+	int size();
+
 	boolean ifAll(Matcher<I> matcher);
 
 	boolean ifSome(Matcher<I> matcher);
