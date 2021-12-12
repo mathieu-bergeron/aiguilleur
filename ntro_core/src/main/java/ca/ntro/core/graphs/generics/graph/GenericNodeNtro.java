@@ -1,6 +1,5 @@
 package ca.ntro.core.graphs.generics.graph;
 
-import ca.ntro.core.exceptions.Break;
 import ca.ntro.core.graphs.common.Direction;
 import ca.ntro.core.graphs.common.EdgeType;
 import ca.ntro.core.graphs.common.NodeId;
@@ -8,10 +7,7 @@ import ca.ntro.core.graphs.common.NodeIdNtro;
 import ca.ntro.core.stream.Stream;
 import ca.ntro.core.stream.StreamNtro;
 import ca.ntro.core.stream.Visitor;
-import ca.ntro.core.stream.Reducer;
 import ca.ntro.core.wrappers.optionnal.Optionnal;
-import ca.ntro.core.wrappers.result.Result;
-import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>, 
                                       E extends GenericEdge<N,E,SO>,
@@ -93,36 +89,6 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 	public String label() {
 		return id().toKey().toString();
 	}
-
-	/*
-	@Override
-	public void forEachEdge(EdgeVisitor<N,E,SO> visitor) {
-		reduceEdges(null, (__, e) -> {
-			
-			visitor.visitEdge(e);
-			
-			return null;
-
-		}).throwException();
-	}*/
-
-	/*
-	@Override
-	public <R> Result<R> reduceEdges(R initialValue, EdgeReducer<N, E, SO, R> reducer) {
-		ResultNtro<R> result = new ResultNtro<R>(initialValue);
-		
-		for(Direction direction : Direction.values()) {
-
-			nodeStructure().reduceEdgeTypesForDirection(direction, result, (__, edgeType) -> {
-
-				nodeStructure().reduceEdgesByType(edgeType, result, reducer);
-				
-				return result.value();
-			});
-		}
-		
-		return result;
-	}*/
 
 	protected SO defaultSearchOptions() {
 		return parentGraph().defaultSearchOptions();
@@ -235,12 +201,17 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 
 				options.internal().visitedNodes().add(e.to().id().toKey().toString());
 
-				VisitedNodeNtro<N,E,SO> visitedNode = new VisitedNodeNtro<N,E,SO>(newWalked, (GenericNodeNtro<N,E,SO>) e.to());
+				VisitedNodeNtro<N,E,SO> visitedNode = new VisitedNodeNtro<N,E,SO>(newWalked, genericNodeNtro(e.to()));
 
 				visitor.visit(visitedNode);
 
-				((GenericNodeNtro<N,E,SO>) e.to()).visitReachableNodesDepthFirst(options, newWalked, visitor);
+				genericNodeNtro(e.to()).visitReachableNodesDepthFirst(options, newWalked, visitor);
 		});
+	}
+	
+	@SuppressWarnings("unchecked")
+	protected GenericNodeNtro<N,E,SO> genericNodeNtro(N node){
+		return (GenericNodeNtro<N, E, SO>) node;
 	}
 
 	protected Stream<VisitedNode<N, E, SO>> reachableNodesBreadthFirst(SO options) {
@@ -280,11 +251,11 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 			WalkNtro<N,E,SO> newWalked = new WalkNtro<N,E,SO>(walked);
 			newWalked.add(e);
 
-			VisitedNodeNtro<N,E,SO> visitedNode = new VisitedNodeNtro<N,E,SO>(newWalked, (GenericNodeNtro<N,E,SO>) e.to());
+			VisitedNodeNtro<N,E,SO> visitedNode = new VisitedNodeNtro<N,E,SO>(newWalked, genericNodeNtro(e.to()));
 
 			visitor.visit(visitedNode);
 
-			((GenericNodeNtro<N,E,SO>)e.to()).visitReachableNodesBreadthFirst(options, oneStepOptions, newWalked, visitor);
+			genericNodeNtro(e.to()).visitReachableNodesBreadthFirst(options, oneStepOptions, newWalked, visitor);
 		});
 	}
 	

@@ -55,35 +55,35 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 				
 				if(node().isList()) {
 					
-					_forEachEdgeTypeList(visitor, node.asList());
+					_visitEdgeTypesForList(visitor, node.asList());
 					
 				} else if(node().isMap()) {
 
-					_forEachEdgeTypeMap(visitor, (Map<String,?>) node.asMap());
+					_visitEdgeTypesForMap(visitor, (Map<String,?>) node.asMap());
 					
 				}else if(node().isUserDefinedObject()){
 					
-					_forEachEdgeTypeUserDefinedObject(visitor, node.asUserDefinedObject());
+					_visitEdgeTypesForUserDefinedObject(visitor, node.asUserDefinedObject());
 				}
 			}
 
 		};
 	}
 
-	protected void _forEachEdgeTypeList(Visitor<EdgeType> visitor, List<?> list) throws Throwable {
+	protected void _visitEdgeTypesForList(Visitor<EdgeType> visitor, List<?> list) throws Throwable {
 		for(int i = 0; i < list.size(); i++) {
 			visitor.visit(new EdgeTypeNtro(Direction.FORWARD, String.valueOf(i)));
 		}
 	}
 
-	protected void _forEachEdgeTypeMap(Visitor<EdgeType> visitor, Map<String, ?> map) throws Throwable {
+	protected void _visitEdgeTypesForMap(Visitor<EdgeType> visitor, Map<String, ?> map) throws Throwable {
 		for(String key : map.keySet()) {
 			visitor.visit(new EdgeTypeNtro(Direction.FORWARD, key));
 		}
 		
 	}
 	
-	protected void _forEachEdgeTypeUserDefinedObject(Visitor<EdgeType> visitor, Object object) throws Throwable {
+	protected void _visitEdgeTypesForUserDefinedObject(Visitor<EdgeType> visitor, Object object) throws Throwable {
 		methodNames(object)._forEach(methodName -> {
 
 			if(ReflectionUtils.isGetterName(methodName) 
@@ -108,24 +108,24 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 
 				if(node().isList()) {
 					
-					_forEachEdgeByTypeList(edgeType, node().asList(), visitor);
+					_visitEdgesByTypeForList(edgeType, node().asList(), visitor);
 
 					
 				} else if(node().isMap()) {
 
-					_forEachEdgeByTypeMap(edgeType, node().asMap(), visitor);
+					_visitEdgesByTypeForMap(edgeType, node().asMap(), visitor);
 
 					
 				}else if(node().isUserDefinedObject()){
 
-					_forEachEdgeByTypeUserDefined(edgeType, node().asUserDefinedObject(), visitor);
+					_visitEdgesByTypeForUserDefinedObject(edgeType, node().asUserDefinedObject(), visitor);
 				}
 				
 			}
 		};
 	}
 
-	protected void _forEachEdgeByTypeList(EdgeType edgeType, 
+	protected void _visitEdgesByTypeForList(EdgeType edgeType, 
 			                              List<?> list, 
 			                              Visitor<ReferenceEdge> visitor) throws Throwable {
 
@@ -151,7 +151,7 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 		visitor.visit(edge);
 	}
 
-	protected void _forEachEdgeByTypeMap(EdgeType edgeType, 
+	protected void _visitEdgesByTypeForMap(EdgeType edgeType, 
 			                             Map<String, ?> map, 
 			                             Visitor<ReferenceEdge> visitor) throws Throwable {
 
@@ -163,7 +163,7 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 		
 	}
 
-	protected void _forEachEdgeByTypeUserDefined(EdgeType edgeType, 
+	protected void _visitEdgesByTypeForUserDefinedObject(EdgeType edgeType, 
 			                                     Object object, 
 			                                     Visitor<ReferenceEdge> visitor) throws Throwable {
 

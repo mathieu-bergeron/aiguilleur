@@ -2,11 +2,9 @@ package ca.ntro.core.reflection.object_graph;
 
 
 import ca.ntro.core.path.Path;
-import ca.ntro.core.stream.Reducer;
 import ca.ntro.core.stream.Stream;
 import ca.ntro.core.stream.StreamNtro;
 import ca.ntro.core.stream.Visitor;
-import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class ObjectGraphStructureNtro implements ObjectGraphStructure {
 

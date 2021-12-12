@@ -16,6 +16,7 @@ public class   EdgesByTypeNtro <N extends GenericNode<N,E,SO>,
 
        implements EdgesByType<N,E,SO> {
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected SUBMAP createSubMap() {
 		return (SUBMAP) new EdgesByToIdNtro<N,E,SO>();

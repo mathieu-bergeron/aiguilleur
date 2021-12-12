@@ -7,7 +7,6 @@ import ca.ntro.core.graphs.generics.graph.structure.EdgesByDirection;
 import ca.ntro.core.graphs.generics.graph.structure.EdgesByDirectionNtro;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.stream.Stream;
-import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class GenericNodeBuilderNtro<N extends GenericNode<N,E,SO>, 
                                              E extends GenericEdge<N,E,SO>,

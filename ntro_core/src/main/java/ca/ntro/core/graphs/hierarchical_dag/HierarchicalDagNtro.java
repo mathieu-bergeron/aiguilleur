@@ -11,5 +11,15 @@ public class      HierarchicalDagNtro<N extends HierarchicalDagNode<N,E>,
 
        implements HierarchicalDag<N,E> {
 
+	@Override
+	protected HierarchicalDagSearchOptions newDefaultSearchOptionsInstance() {
+		return new HierarchicalDagSearchOptionsNtro();
+	}
+
+	@Override
+	protected HierarchicalDagWriterOptions newDefaultGraphWriterOptionsInstance() {
+		return new HierarchicalDagWriterOptionsNtro();
+	}
+
 
 }

@@ -3,7 +3,6 @@ package ca.ntro.core.graphs.generics.graph;
 import ca.ntro.core.graphs.common.Direction;
 import ca.ntro.core.graphs.common.EdgeType;
 import ca.ntro.core.stream.Stream;
-import ca.ntro.core.wrappers.result.ResultNtro;
 
 public interface GenericNodeStructure<N extends GenericNode<N,E,SO>, 
                                       E extends GenericEdge<N,E,SO>,

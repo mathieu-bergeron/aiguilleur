@@ -11,7 +11,6 @@ import ca.ntro.core.graphs.generics.graph.SearchOptions;
 import ca.ntro.core.stream.Stream;
 import ca.ntro.core.stream.StreamNtro;
 import ca.ntro.core.stream.Visitor;
-import ca.ntro.core.wrappers.result.ResultNtro;
 
 public class EdgesByToIdNtro<N extends GenericNode<N,E,SO>, 
                              E extends GenericEdge<N,E,SO>,

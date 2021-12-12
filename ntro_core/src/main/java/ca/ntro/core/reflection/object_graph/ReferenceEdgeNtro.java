@@ -1,6 +1,5 @@
 package ca.ntro.core.reflection.object_graph;
 
-import ca.ntro.core.graphs.directed_graph.DirectedEdgeNtro;
 import ca.ntro.core.graphs.generics.directed_graph.GenericDirectedEdgeNtro;
 
 public class ReferenceEdgeNtro 
