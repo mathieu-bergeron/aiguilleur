@@ -448,21 +448,29 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 	
 	@Override
 	public Stream<E> edges(SO options){
-		return new StreamNtro<E>() {
+		Stream<E> stream = new StreamNtro<E>() {
 			@Override
 			public void _forEach(Visitor<E> visitor) throws Throwable {
 
-				for(Direction direction : options.internal().directions())
+				for(Direction direction : options.internal().directions()){
 
-					nodeStructure().edgeTypes(direction).forEach(edgeType -> {
+					// JSweet: explicit Stream variable to avoid typing error
+					Stream<EdgeType> edgeTypes = nodeStructure().edgeTypes(direction);
+
+					edgeTypes.forEach(edgeType -> {
 						
-						nodeStructure().edges(edgeType).forEach(edge -> { 
+						Stream<E> edges = nodeStructure().edges(edgeType);
+						
+						edges.forEach(edge -> { 
 
 							visitor.visit(edge);
 						});
 					});
+				}
 			}
 		};
+		
+		return stream;
 	}
 
 	@Override
