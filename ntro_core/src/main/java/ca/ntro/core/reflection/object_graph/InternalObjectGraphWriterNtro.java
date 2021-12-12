@@ -1,10 +1,15 @@
 package ca.ntro.core.reflection.object_graph;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ca.ntro.core.graphs.generics.directed_graph.GenericInternalDirectedGraphWriterNtro;
 import ca.ntro.core.graphs.generics.graph.GenericGraph;
+import ca.ntro.core.graphs.graph_writer.EdgeSpecNtro;
 import ca.ntro.core.graphs.graph_writer.GraphWriter;
 import ca.ntro.core.graphs.graph_writer.GraphWriterException;
+import ca.ntro.core.graphs.graph_writer.NodeSpecNtro;
 import ca.ntro.core.graphs.graph_writer.StructureSpecNtro;
 import ca.ntro.core.initialization.Ntro;
 
@@ -16,6 +21,8 @@ public class InternalObjectGraphWriterNtro
                                                        ObjectGraphWriterOptions> 
 
       implements InternalObjectGraphWriter {
+	
+	private List<StructureEdgeSpec> edges = new ArrayList<>();
 
 	@Override
 	protected void writeNodes(GenericGraph<ObjectNode,ReferenceEdge,ObjectGraphSearchOptions,ObjectGraphWriterOptions> graph, 
@@ -59,37 +66,35 @@ public class InternalObjectGraphWriterNtro
 			                            ObjectGraphWriterOptions options,
 			                            GraphWriter writer) throws GraphWriterException {
 
-			StructureSpecNtro nodeSpec = structureSpec(node, options);
-			/*
-			
-			node.forEachEdge(e -> {
+			StructureSpecNtro fromSpec = structureSpec(node, options);
+
+			node.edges().forEach(e -> {
 				
 				if(e.to().isSimpleValue()) {
 					
-					nodeSpec.addAttribute(e.name().toString(), e.to().asSimpleValue().asString());
+					fromSpec.addAttribute(e.name().toString(), e.to().asSimpleValue().asString());
 
 				}else if(e.to().isList()){
 					
-					e.to().forEachEdge(ee -> {
+					e.to().edges().forEach(ee -> {
 						
-						String portName = nodeSpec.addToList(e.name().toString(), e.to());
+						String portName = fromSpec.addToList(e.name().toString(), e.to());
 						
 						if(!ee.to().isSimpleValue()) {
 							
 							// TODO: how to specify port
-							writer.addEdge(nodeSpec, new EdgeSpecNtro(e), new NodeSpecNtro(ee.to()));
+							writer.addEdge(fromSpec, new EdgeSpecNtro(e), new NodeSpecNtro(ee.to()));
 						}
 					});
-					
 
 					
 				}else if(e.to().isMap()){
 					
-					nodeSpec.addToMap(e.name().toString(), e.to());
+					fromSpec.addToMap(e.name().toString(), e.to());
 				}
-			});*/
+			});
 
-			writer.addNode(nodeSpec);
+			writer.addNode(fromSpec);
 	}
 
 	@Override
@@ -98,7 +103,22 @@ public class InternalObjectGraphWriterNtro
 			                  GraphWriter writer) {
 		
 		if(!options.objectAsStructure()) {
+
 			super.writeEdges(graph, options, writer);
+
+		}else {
+			
+			for(StructureEdgeSpec edge : edges) {
+				
+				try {
+				
+					writer.addEdge(edge.from(), edge, edge.to());
+
+				}catch(GraphWriterException e) {
+					
+					Ntro.exceptionThrower().throwException(e);
+				}
+			}
 		}
 	}
 }

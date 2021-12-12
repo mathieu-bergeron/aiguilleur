@@ -15,10 +15,13 @@ public class EdgeSpecNtro implements EdgeSpec {
 		this.edge = edge;
 	}
 	
+	public EdgeSpecNtro() {
+
+	}
+
 	public EdgeSpecNtro(GenericEdge<?,?,?> edge) {
 		setEdge(edge);
 	}
-	
 
 	@Override
 	public String id() {
