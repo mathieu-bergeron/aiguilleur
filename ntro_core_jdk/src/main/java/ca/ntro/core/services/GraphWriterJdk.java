@@ -5,18 +5,18 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import ca.ntro.core.graph_writer.ClusterAlreadyAddedException;
+import ca.ntro.core.graph_writer.ClusterNotFoundException;
+import ca.ntro.core.graph_writer.EdgeSpec;
+import ca.ntro.core.graph_writer.GraphItemSpec;
+import ca.ntro.core.graph_writer.GraphWriter;
+import ca.ntro.core.graph_writer.GraphWriterException;
+import ca.ntro.core.graph_writer.NodeAlreadyAddedException;
+import ca.ntro.core.graph_writer.NodeNotFoundException;
+import ca.ntro.core.graph_writer.NodeSpec;
+import ca.ntro.core.graph_writer.RecordSpec;
 import ca.ntro.core.graphs.generics.graph.GraphId;
 import ca.ntro.core.graphs.generics.graph.GraphWriterOptions;
-import ca.ntro.core.graphs.graph_writer.ClusterAlreadyAddedException;
-import ca.ntro.core.graphs.graph_writer.ClusterNotFoundException;
-import ca.ntro.core.graphs.graph_writer.ClusterSpec;
-import ca.ntro.core.graphs.graph_writer.EdgeSpec;
-import ca.ntro.core.graphs.graph_writer.GraphItemSpec;
-import ca.ntro.core.graphs.graph_writer.GraphWriter;
-import ca.ntro.core.graphs.graph_writer.NodeAlreadyAddedException;
-import ca.ntro.core.graphs.graph_writer.NodeNotFoundException;
-import ca.ntro.core.graphs.graph_writer.NodeSpec;
-import ca.ntro.core.graphs.graph_writer.StructureSpec;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.path.Filepath;
 
@@ -30,10 +30,8 @@ import guru.nidi.graphviz.model.Link;
 import guru.nidi.graphviz.model.MutableAttributed;
 import guru.nidi.graphviz.model.MutableGraph;
 import guru.nidi.graphviz.model.MutableNode;
-import guru.nidi.graphviz.model.Port;
 
 import static guru.nidi.graphviz.model.Factory.*;
-import static guru.nidi.graphviz.attribute.Records.*;
 
 public class GraphWriterJdk implements GraphWriter {
 	
@@ -119,13 +117,13 @@ public class GraphWriterJdk implements GraphWriter {
 	}
 
 	@Override
-	public void addCluster(ClusterSpec clusterSpec) throws ClusterAlreadyAddedException {
+	public void addCluster(NodeSpec clusterSpec) throws ClusterAlreadyAddedException {
 		MutableGraph cluster = createCluster(clusterSpec);
 		graph.add(cluster);
 	}
 
 	@Override
-	public void addSubCluster(ClusterSpec clusterSpec, ClusterSpec subClusterSpec) throws ClusterNotFoundException, ClusterAlreadyAddedException {
+	public void addSubCluster(NodeSpec clusterSpec, NodeSpec subClusterSpec) throws ClusterNotFoundException, ClusterAlreadyAddedException {
 		MutableGraph cluster = findCluster(clusterSpec);
 		MutableGraph subCluster = createCluster(subClusterSpec);
 		
@@ -133,96 +131,82 @@ public class GraphWriterJdk implements GraphWriter {
 	}
 
 	@Override
-	public void addSubNode(ClusterSpec clusterSpec, NodeSpec nodeSpec) throws ClusterNotFoundException, NodeAlreadyAddedException {
+	public void addSubNode(NodeSpec clusterSpec, NodeSpec nodeSpec) throws ClusterNotFoundException, NodeAlreadyAddedException {
 		MutableGraph cluster = findCluster(clusterSpec);
 		MutableNode subNode = createNode(nodeSpec);
 
 		cluster.add(subNode);
 	}
 
-
 	@Override
-	public void addEdge(NodeSpec fromSpec, EdgeSpec edgeSpec, NodeSpec toSpec) throws NodeNotFoundException {
-		checkThatNodeExists(fromSpec);
-		checkThatNodeExists(toSpec);
-		
+	public void addEdge(EdgeSpec edgeSpec) throws GraphWriterException {
+		checkThatNodeExists(edgeSpec.from());
+		checkThatNodeExists(edgeSpec.to());
+
 		// XXX: all edges are written to the top-level graph
-		MutableNode toNode = mutNode(toSpec.id());
-		MutableNode fromNode = mutNode(fromSpec.id());
+		MutableNode fromNode = null;
+		if(edgeSpec.from().isCluster()) {
+			
+			fromNode = mutNode(invisibleNodeId(edgeSpec.from()));
+			
+		}else {
 
-		// FIXME: nodeSpec should have a port attribute
-		Link test = Link.to(toNode.port("port01"));
+			fromNode = mutNode(edgeSpec.from().id());
+		}
 		
-		Link link = Link.to(toNode);
+		MutableNode toNode = null; 
+		if(edgeSpec.to().isCluster()) {
+
+			toNode = mutNode(invisibleNodeId(edgeSpec.to()));
+			
+		}else {
+			
+			toNode = mutNode(edgeSpec.to().id());
+		}
+		
+		Link link;
+		
+		if(edgeSpec.hasToPort()) {
+
+			link = Link.to(toNode.port(edgeSpec.toPort()));
+
+		}else {
+			
+			link = Link.to(toNode);
+		}
+
 		link.attrs().add("label", edgeSpec.label());
+		
+		if(edgeSpec.from().isCluster()) {
+			link.attrs().add("ltail","cluster_" + edgeSpec.from().id());
+		}
+		
+		if(edgeSpec.to().isCluster()) {
+			link.attrs().add("lhead","cluster_" + edgeSpec.to().id());
+		}
+		
+		if(edgeSpec.hasFromPort()) {
 
-		fromNode.links().add(link);
-		fromNode.attrs().add("label", fromSpec.label());
+			// FIXME: c (centered) added by default
+			fromNode.port(edgeSpec.fromPort()).port("c").links().add(link);
+			
+		}else {
+			
+			fromNode.links().add(link);
+		}
 
 		graph.add(fromNode);
+		
 	}
 
-	@Override
-	public void addEdge(ClusterSpec fromSpec, EdgeSpec edgeSpec, NodeSpec toSpec) throws NodeNotFoundException, ClusterNotFoundException {
-		checkThatClusterExists(fromSpec);
-		checkThatNodeExists(toSpec);
-		
-		MutableNode fromNode = mutNode(invisibleNodeId(fromSpec));
-		MutableNode toNode = mutNode(toSpec.id());
-
-		Link link = Link.to(toNode);
-		link.attrs().add("label",edgeSpec.label());
-		link.attrs().add("ltail","cluster_" + fromSpec.id());
-
-		fromNode.links().add(link);
-		
-		graph.add(fromNode);
-	}
-
-	@Override
-	public void addEdge(NodeSpec fromSpec, EdgeSpec edgeSpec, ClusterSpec toSpec) throws NodeNotFoundException, ClusterNotFoundException {
-		checkThatNodeExists(fromSpec);
-		checkThatClusterExists(toSpec);
-
-		MutableNode fromNode = mutNode(fromSpec.id());
-		MutableNode toNode = mutNode(invisibleNodeId(toSpec));
-
-		Link link = Link.to(toNode);
-		link.attrs().add("lhead","cluster_" + toSpec.id());
-		link.attrs().add("label",edgeSpec.label());
-
-		fromNode.links().add(link);
-		fromNode.attrs().add("label", fromSpec.label());
-		
-		graph.add(fromNode);
-	}
-
-	@Override
-	public void addEdge(ClusterSpec fromSpec, EdgeSpec edgeSpec, ClusterSpec toSpec) throws ClusterNotFoundException {
-		checkThatClusterExists(fromSpec);
-		checkThatClusterExists(toSpec);
-
-		MutableNode fromNode = mutNode(invisibleNodeId(fromSpec));
-		MutableNode toNode = mutNode(invisibleNodeId(toSpec));
 	
-		Link link = Link.to(toNode);
-		link.attrs().add("lhead","cluster_" + toSpec.id());
-		link.attrs().add("label",edgeSpec.label());
-
-		link.attrs().add("ltail","cluster_" + fromSpec.id());
-
-		fromNode.links().add(link);
-
-		graph.add(fromNode);
-	}
-	
-	private void checkThatClusterDoesNotAlreadyExists(ClusterSpec clusterSpec) throws ClusterAlreadyAddedException {
+	private void checkThatClusterDoesNotAlreadyExists(NodeSpec clusterSpec) throws ClusterAlreadyAddedException {
 		if(clusters.containsKey(clusterSpec.id())) {
 			throw new ClusterAlreadyAddedException("Cluster already added: " + clusterSpec.id());
 		}
 	}
 
-	private MutableGraph createCluster(ClusterSpec clusterSpec) throws ClusterAlreadyAddedException {
+	private MutableGraph createCluster(NodeSpec clusterSpec) throws ClusterAlreadyAddedException {
 		checkThatClusterDoesNotAlreadyExists(clusterSpec);
 		
 		MutableGraph cluster = mutGraph(clusterSpec.id());
@@ -240,23 +224,23 @@ public class GraphWriterJdk implements GraphWriter {
 		return cluster;
 	}
 	
-	private void checkThatClusterExists(ClusterSpec clusterSpec) throws ClusterNotFoundException {
+	private void checkThatClusterExists(NodeSpec clusterSpec) throws ClusterNotFoundException {
 		if(!clusters.containsKey(clusterSpec.id())) {
 			throw new ClusterNotFoundException("Cluster not found: " + clusterSpec.id());
 		}
 	}
 
-	private MutableGraph findCluster(ClusterSpec clusterSpec) throws ClusterNotFoundException {
+	private MutableGraph findCluster(NodeSpec clusterSpec) throws ClusterNotFoundException {
 		checkThatClusterExists(clusterSpec);
 
 		return clusters.get(clusterSpec.id());
 	}
 	
-	private String invisibleNodeId(ClusterSpec clusterSpec) {
+	private String invisibleNodeId(NodeSpec clusterSpec) {
 		return "__" + clusterSpec.id() + "__";
 	}
 
-	private MutableNode createClusterInvisibleNode(ClusterSpec clusterSpec) {
+	private MutableNode createClusterInvisibleNode(NodeSpec clusterSpec) {
 		if(clusterInvisibleNodes.containsKey(clusterSpec.id())) {
 			return clusterInvisibleNodes.get(clusterSpec.id());
 		}
@@ -273,9 +257,18 @@ public class GraphWriterJdk implements GraphWriter {
 		return invisibleNode;
 	}
 	
-	private void checkThatNodeExists(NodeSpec nodeSpec) throws NodeNotFoundException {
-		if(!nodes.containsKey(nodeSpec.id())) {
-			throw new NodeNotFoundException("Node not found: " + nodeSpec.id());
+	private void checkThatNodeExists(NodeSpec nodeSpec) throws GraphWriterException {
+		if(nodeSpec.isCluster()) {
+
+			if(!clusters.containsKey(nodeSpec.id())) {
+				throw new ClusterNotFoundException("Cluster not found: " + nodeSpec.id());
+			}
+
+		}else {
+			
+			if(!nodes.containsKey(nodeSpec.id())) {
+				throw new NodeNotFoundException("Node not found: " + nodeSpec.id());
+			}
 		}
 	}
 
@@ -291,27 +284,57 @@ public class GraphWriterJdk implements GraphWriter {
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private void adjustNodeAttributes(MutableAttributed attrs, NodeSpec spec) {
+	private void adjustNodeAttributes(MutableAttributed attrs, NodeSpec nodeSpec) {
+		
+		if(nodeSpec.isRecord()) {
 
-		adjustGraphItemAttributes(attrs, spec);
-		
-		// FIXME: if node is a structure
-		if(spec instanceof StructureSpec) {
-			attrs.add(Records.of(turn(rec("port01", "value01"),rec("port01", "value02"))));
+			attrs.add(Records.of(labelFromRecordSpec(nodeSpec.asRecord())));
+			
+		}else {
+
+			adjustGraphItemAttributes(attrs, nodeSpec);
 		}
-		
+
 		attrs.add("style", "filled");
-		if(spec.color() != null) {
-			attrs.add("fillcolor", spec.color());
+		if(nodeSpec.color() != null) {
+			attrs.add("fillcolor", nodeSpec.color());
 		}else {
 			attrs.add("fillcolor", "white");
 		}
 
-		if(spec.shape() != null) {
-			attrs.add("shape", spec.shape());
+		if(nodeSpec.shape() != null) {
+			attrs.add("shape", nodeSpec.shape());
 		}
 	}
 	
+	private String labelFromRecordSpec(RecordSpec recordSpec) {
+			return recordSpec.items().reduceToResult(new StringBuilder(), (accumulator, item) -> {
+				if(accumulator.length() > 0) {
+					accumulator.append("|");
+				}
+				
+				if(item.hasPort()) {
+					accumulator.append('<');
+					accumulator.append(item.port());
+					accumulator.append('>');
+				}
+				
+				if(item.hasValue()) {
+					accumulator.append(item.value());
+				}
+
+				if(item.isRecord()) {
+					accumulator.append('{');
+					accumulator.append(labelFromRecordSpec(item.asRecord()));
+					accumulator.append('}');
+				}
+
+				return accumulator;
+
+			}).value().toString();
+	}
+	
+
 	private MutableNode createNode(NodeSpec nodeSpec) throws NodeAlreadyAddedException {
 		checkThatNodeDoesNotAlreadyExists(nodeSpec);
 		

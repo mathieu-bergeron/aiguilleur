@@ -1,10 +1,10 @@
 package ca.ntro.core.graphs.generics.graph;
 
+import ca.ntro.core.graph_writer.EdgeSpecNtro;
+import ca.ntro.core.graph_writer.GraphWriter;
+import ca.ntro.core.graph_writer.GraphWriterException;
+import ca.ntro.core.graph_writer.NodeSpecNtro;
 import ca.ntro.core.graphs.common.Direction;
-import ca.ntro.core.graphs.graph_writer.EdgeSpecNtro;
-import ca.ntro.core.graphs.graph_writer.GraphWriter;
-import ca.ntro.core.graphs.graph_writer.GraphWriterException;
-import ca.ntro.core.graphs.graph_writer.NodeSpecNtro;
 import ca.ntro.core.initialization.Ntro;
 
 public class      GenericInternalGraphWriterNtro<N extends GenericNode<N,E,SO>,
@@ -56,7 +56,7 @@ public class      GenericInternalGraphWriterNtro<N extends GenericNode<N,E,SO>,
 	}
 
 	protected EdgeSpecNtro edgeSpec(GenericEdge<N,E,SO> edge, GO options) {
-		EdgeSpecNtro edgeSpec = new EdgeSpecNtro(edge);
+		EdgeSpecNtro edgeSpec = new EdgeSpecNtro(nodeSpec(edge.from(), options), edge, nodeSpec(edge.to(), options));
 
 		return edgeSpec;
 	}
@@ -92,7 +92,7 @@ public class      GenericInternalGraphWriterNtro<N extends GenericNode<N,E,SO>,
 			                 E edge) {
 		try {
 
-			writer.addEdge(nodeSpec(edge.from(), options), edgeSpec(edge, options), nodeSpec(edge.to(), options));
+			writer.addEdge(edgeSpec(edge, options));
 
 		} catch (GraphWriterException e) {
 			Ntro.exceptionThrower().throwException(e);

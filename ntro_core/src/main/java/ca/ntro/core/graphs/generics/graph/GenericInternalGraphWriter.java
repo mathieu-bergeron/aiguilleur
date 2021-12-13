@@ -1,6 +1,6 @@
 package ca.ntro.core.graphs.generics.graph;
 
-import ca.ntro.core.graphs.graph_writer.GraphWriter;
+import ca.ntro.core.graph_writer.GraphWriter;
 
 public interface GenericInternalGraphWriter<N extends GenericNode<N,E,SO>,
                                      E extends GenericEdge<N,E,SO>,

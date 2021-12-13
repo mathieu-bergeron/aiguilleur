@@ -1,13 +1,13 @@
 package ca.ntro.core.graphs.generics.hierarchical_graph;
 
+import ca.ntro.core.graph_writer.EdgeSpecNtro;
+import ca.ntro.core.graph_writer.GraphWriter;
+import ca.ntro.core.graph_writer.GraphWriterException;
 import ca.ntro.core.graphs.common.Direction;
 import ca.ntro.core.graphs.generics.graph.GenericEdge;
 import ca.ntro.core.graphs.generics.graph.GenericGraph;
 import ca.ntro.core.graphs.generics.graph.GenericInternalGraphWriterNtro;
 import ca.ntro.core.graphs.generics.graph.InternalSearchOptionsNtro;
-import ca.ntro.core.graphs.graph_writer.ClusterSpecNtro;
-import ca.ntro.core.graphs.graph_writer.GraphWriter;
-import ca.ntro.core.graphs.graph_writer.GraphWriterException;
 import ca.ntro.core.initialization.Ntro;
 
 public class      InternalHierarchicalGraphWriterNtro<N extends GenericHierarchicalNode<N,E,SO>,
@@ -18,14 +18,6 @@ public class      InternalHierarchicalGraphWriterNtro<N extends GenericHierarchi
        extends    GenericInternalGraphWriterNtro<N,E,SO,GO>
 
        implements InternalHierarchicalGraphWriter<N,E,SO,GO> {
-	
-	protected ClusterSpecNtro clusterSpec(GenericHierarchicalNode<N,E,SO> node, GO options) {
-		ClusterSpecNtro clusterSpec = new ClusterSpecNtro(node);
-		
-		adjustNodeSpecAttributes(node, options, clusterSpec);
-		
-		return clusterSpec;
-	}
 
 	@Override
 	protected void writeNodes(GenericGraph<N,E,SO,GO> graph, GO options, GraphWriter writer) {
@@ -42,7 +34,7 @@ public class      InternalHierarchicalGraphWriterNtro<N extends GenericHierarchi
 
 				if(n.hasSubNodes() && !n.hasParent()) {
 
-					writer.addCluster(clusterSpec(n, options));
+					writer.addCluster(nodeSpec(n, options));
 					
 					n.subNodes().forEach(visitedSubNode -> {
 						
@@ -50,11 +42,11 @@ public class      InternalHierarchicalGraphWriterNtro<N extends GenericHierarchi
 
 						if(subNode.hasSubNodes() && subNode.hasParent()) {
 
-							writer.addSubCluster(clusterSpec(subNode.parent(), options), clusterSpec(subNode, options));
+							writer.addSubCluster(nodeSpec(subNode.parent(), options), nodeSpec(subNode, options));
 
 						} else if(!subNode.hasSubNodes() && subNode.hasParent()) {
 
-							writer.addSubNode(clusterSpec(subNode.parent(), options), nodeSpec(subNode, options));
+							writer.addSubNode(nodeSpec(subNode.parent(), options), nodeSpec(subNode, options));
 						}
 					});
 
@@ -73,6 +65,11 @@ public class      InternalHierarchicalGraphWriterNtro<N extends GenericHierarchi
 	}
 
 	@Override
+	protected EdgeSpecNtro edgeSpec(GenericEdge<N,E,SO> edge, GO options) {
+		return new EdgeSpecNtro(nodeSpec(edge.from(), options), edge, nodeSpec(edge.to(), options));
+	}
+
+	@Override
 	protected void writeEdge(GraphWriter writer, GO options, E edge) {
 		if(edge.type().direction() == Direction.DOWN
 				|| edge.type().direction() == Direction.UP) {
@@ -80,25 +77,8 @@ public class      InternalHierarchicalGraphWriterNtro<N extends GenericHierarchi
 		}
 
 		try {
-
-			if(edge.from().hasSubNodes()
-					&& edge.to().hasSubNodes()) {
-				
-				writer.addEdge(clusterSpec(edge.from(), options), edgeSpec(edge, options), clusterSpec(edge.to(), options));
-				
-			}else if(edge.from().hasSubNodes()) {
-
-				writer.addEdge(clusterSpec(edge.from(), options), edgeSpec(edge, options), nodeSpec(edge.to(), options));
-				
-			}else if(edge.to().hasSubNodes()) {
-
-				writer.addEdge(nodeSpec(edge.from(), options), edgeSpec(edge, options), clusterSpec(edge.to(), options));
-				
-			}else {
-
-				writer.addEdge(nodeSpec(edge.from(), options), edgeSpec(edge, options), nodeSpec(edge.to(), options));
-
-			}
+			
+			writer.addEdge(edgeSpec(edge, options));
 
 		} catch (GraphWriterException e) {
 			Ntro.exceptionThrower().throwException(e);

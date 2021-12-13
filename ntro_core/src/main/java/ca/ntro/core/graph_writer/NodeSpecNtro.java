@@ -1,6 +1,7 @@
-package ca.ntro.core.graphs.graph_writer;
+package ca.ntro.core.graph_writer;
 
 import ca.ntro.core.graphs.generics.graph.GenericNode;
+import ca.ntro.core.graphs.generics.hierarchical_graph.GenericHierarchicalNode;
 
 public class NodeSpecNtro implements NodeSpec {
 	
@@ -54,6 +55,27 @@ public class NodeSpecNtro implements NodeSpec {
 	@Override
 	public String shape() {
 		return getShape();
+	}
+
+	@Override
+	public boolean isCluster() {
+		boolean isCluster = false;
+		
+		if(getNode() instanceof GenericHierarchicalNode<?,?,?>) {
+			isCluster = ((GenericHierarchicalNode<?,?,?>) getNode()).hasSubNodes();
+		}
+
+		return isCluster;
+	}
+
+	@Override
+	public boolean isRecord() {
+		return false;
+	}
+
+	@Override
+	public RecordSpec asRecord() {
+		return (RecordSpec) this;
 	}
 
 }

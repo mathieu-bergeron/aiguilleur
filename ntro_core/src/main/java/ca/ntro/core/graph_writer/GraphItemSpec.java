@@ -1,4 +1,4 @@
-package ca.ntro.core.graphs.graph_writer;
+package ca.ntro.core.graph_writer;
 
 public interface GraphItemSpec {
 

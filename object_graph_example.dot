@@ -1,16 +1,16 @@
 digraph "MockLinkedList" {
     graph ["rankdir"="LR","compound"="true"]
 
-    "B" [shape="record","label"="<Test@1>Test|{attr01|3}"];
-    "C" [shape="record","label"="<Test@2>Test|{attr01|4}"];
-    "D" [shape="record","label"="<Test@3>Test|{attr01|9}"];
+    "B" [shape="record","label"="<_C>Test|{attr01|3}"];
+    "C" [shape="record","label"="<_C>Test|{attr01|4}"];
+    "D" [shape="record","label"="<_C>Test|{attr01|9}"];
 
     "A" [shape="record","label"="MyClass|{attr00|<A-attr_0>}|{attr01|3}|{attr02|\"sf\"}|{attr03|{{0|<port01>}|{1|<port02>}|{2|null}}}|{attr04|{{\"key01\"|1.2}|{\"key02\"|4.5}|{\"key03\"|0.0}|{\"key04\"|4.3}}}","style"="filled","fillcolor"="white"];
 
 
 
-    "A":"A-attr_0":c -> "B":"Test@1" ["tailclip"="false", "arrowtail"="dot", "dir"="both"];
-    "A":"port01":c -> "C":"Test@2" ["tailclip"="false", "arrowtail"="dot", "dir"="both"];
-    "A":"port02":c -> "D":"Test@3" ["tailclip"="false", "arrowtail"="dot", "dir"="both"];
+    "A":"A-attr_0":c -> "B":"_C" ["tailclip"="false", "arrowtail"="dot", "dir"="both"];
+    "A":"port01":c -> "C":"_C" ["tailclip"="false", "arrowtail"="dot", "dir"="both"];
+    "A":"port02":c -> "D":"_C" ["tailclip"="false", "arrowtail"="dot", "dir"="both"];
 
 }
