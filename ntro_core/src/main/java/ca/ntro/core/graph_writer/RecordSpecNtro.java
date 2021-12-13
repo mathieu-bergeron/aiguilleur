@@ -38,9 +38,6 @@ public class      RecordSpecNtro
 		super(parent);
 	}
 	
-	
-	
-
 
 	@Override
 	public boolean isRecord() {

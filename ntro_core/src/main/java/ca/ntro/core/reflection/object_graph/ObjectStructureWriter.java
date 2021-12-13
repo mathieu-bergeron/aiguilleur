@@ -97,13 +97,19 @@ public class ObjectStructureWriter {
 
 	public void writeNodes() {
 		getGraph().visitNodes().forEach(visitedNode -> {
+			
+			ObjectNode node = visitedNode.node();
 
-			processNode(visitedNode.node());
+			processNode(node);
 
-			visitedNode.node().edges().forEach(edge -> {
+			node.edges().forEach(edge -> {
 				
 				processEdge(edge);
 			});
+			
+			if(node.isUserDefinedObject()) {
+				writeNode(node);
+			}
 		});
 	}
 
@@ -120,25 +126,30 @@ public class ObjectStructureWriter {
 			RecordItemSpecNtro nodeLabelItem = record.addItem();
 			nodeLabelItem.setValue(node.label());
 			nodeLabelItem.setPortName(RecordNodeSpec.MAIN_PORT_NAME);
+		}
+	}
+
+	private void writeNode(ObjectNode node) {
+
+		RecordNodeSpecNtro nodeSpec = nodeSpecByNodeId.get(node.id().toKey().toString());
+		
+		try {
+
+			writer.addNode(nodeSpec);
+
+		} catch (GraphWriterException e) {
 			
-			try {
-
-				writer.addNode(nodeSpec);
-
-			} catch (GraphWriterException e) {
-				
-				Ntro.exceptionThrower().throwException(e);
-			}
+			Ntro.exceptionThrower().throwException(e);
 		}
 	}
 
 	private void processEdge(ReferenceEdge edge) {
 		RecordNodeSpecNtro fromSpec = nodeSpecByNodeId.get(edge.from().id().toKey().toString());
 		RecordSpecNtro fromRecord = recordByNodeId.get(edge.from().id().toKey().toString());
+
 		String attributeName = edge.name().toString();
 
 		RecordSpecNtro subRecord = fromRecord.addSubRecord();
-		subRecord.setPortName(attributeName);
 
 		RecordItemSpecNtro nameItem = subRecord.addItem();
 		nameItem.setValue(attributeName);
