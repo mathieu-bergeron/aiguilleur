@@ -3,9 +3,10 @@ package ca.ntro.core.reflection.object_graph;
 import ca.ntro.core.graph_writer.GraphWriter;
 import ca.ntro.core.graphs.common.NodeId;
 import ca.ntro.core.graphs.generics.graph.GraphId;
+import ca.ntro.core.graphs.generics.graph.VisitedEdge;
+import ca.ntro.core.graphs.generics.graph.VisitedNode;
 import ca.ntro.core.reflection.object_updates.ObjectUpdate;
 import ca.ntro.core.stream.Stream;
-import ca.ntro.core.wrappers.result.Result;
 
 public class ObjectGraphNull implements ObjectGraph {
 
@@ -71,6 +72,32 @@ public class ObjectGraphNull implements ObjectGraph {
 
 	@Override
 	public Stream<ReferenceEdge> edges() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Stream<VisitedNode<ObjectNode, ReferenceEdge, ObjectGraphSearchOptions>> visitNodes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Stream<VisitedNode<ObjectNode, ReferenceEdge, ObjectGraphSearchOptions>> visitNodes(
+			ObjectGraphSearchOptions options) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Stream<VisitedEdge<ObjectNode, ReferenceEdge, ObjectGraphSearchOptions>> visitEdges() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Stream<VisitedEdge<ObjectNode, ReferenceEdge, ObjectGraphSearchOptions>> visitEdges(
+			ObjectGraphSearchOptions options) {
 		// TODO Auto-generated method stub
 		return null;
 	}

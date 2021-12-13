@@ -23,7 +23,14 @@ public interface GenericGraph<N extends GenericNode<N,E,SO>,
 	N findNode(NodeId nodeId);
 
 	Stream<N> startNodes();
+
 	Stream<N> nodes();
 	Stream<E> edges();
+
+	Stream<VisitedNode<N,E,SO>> visitNodes();
+	Stream<VisitedNode<N,E,SO>> visitNodes(SO options);
+
+	Stream<VisitedEdge<N,E,SO>> visitEdges();
+	Stream<VisitedEdge<N,E,SO>> visitEdges(SO options);
 
 }

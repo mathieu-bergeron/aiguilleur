@@ -30,29 +30,22 @@ public class RecordItemSpecNtro implements RecordItemSpec {
 	public void setValue(String value) {
 		this.value = value;
 	}
+	
+	
+	
+	
 
 	public RecordItemSpecNtro() {
 	}
 	
-	public RecordItemSpecNtro(String portName) {
-		setPortName(portName);
-	}
-
-	public RecordItemSpecNtro(String portName, String value) {
-		setPortName(portName);
-		setValue(value);
-	}
-
-	public RecordItemSpecNtro(String portNAme, RecordSpecNtro parent) {
-		setPortName(portNAme);
+	public RecordItemSpecNtro(RecordSpecNtro parent) {
 		setParent(parent);
 	}
+	
+	
+	
 
-	public RecordItemSpecNtro(String portName, String value, RecordSpecNtro parent) {
-		setPortName(portName);
-		setValue(value);
-		setParent(parent);
-	}
+
 
 	public boolean hasParent() {
 		return getParent() != null;
@@ -71,7 +64,8 @@ public class RecordItemSpecNtro implements RecordItemSpec {
 	public String port() {
 		String port;
 		
-		if(hasParent()) {
+		if(hasParent()
+				&& parent().hasPort()) {
 
 			port = parent().port() + "_" + getPortName();
 

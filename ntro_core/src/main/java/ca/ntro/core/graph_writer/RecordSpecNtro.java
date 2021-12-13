@@ -34,12 +34,8 @@ public class      RecordSpecNtro
 		super();
 	}
 
-	public RecordSpecNtro(String portName) {
-		super(portName);
-	}
-	
-	public RecordSpecNtro(String portName, RecordSpecNtro recordSpecNtro) {
-		super(portName, recordSpecNtro);
+	public RecordSpecNtro(RecordSpecNtro parent) {
+		super(parent);
 	}
 	
 	
@@ -63,24 +59,16 @@ public class      RecordSpecNtro
 		};
 	}
 
-	public RecordSpecNtro addSubRecord(String attributeName) {
-		RecordSpecNtro subRecord = new RecordSpecNtro(attributeName, this);
+	public RecordSpecNtro addSubRecord() {
+		RecordSpecNtro subRecord = new RecordSpecNtro(this);
 		
 		getItems().add(subRecord);
 		
 		return subRecord;
 	}
 
-	public RecordItemSpecNtro addItem(String attributeName) {
-		RecordItemSpecNtro newItem = new RecordItemSpecNtro(attributeName, this);
-		
-		getItems().add(newItem);
-		
-		return newItem;
-	}
-
-	public RecordItemSpecNtro addItem(String attributeName, String value) {
-		RecordItemSpecNtro newItem = new RecordItemSpecNtro(attributeName, value, this);
+	public RecordItemSpecNtro addItem() {
+		RecordItemSpecNtro newItem = new RecordItemSpecNtro(this);
 		
 		getItems().add(newItem);
 		

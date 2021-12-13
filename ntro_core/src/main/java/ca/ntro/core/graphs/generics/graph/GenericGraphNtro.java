@@ -99,18 +99,27 @@ public abstract class GenericGraphNtro<N extends GenericNode<N,E,SO>,
 	}
 
 	public Stream<N> nodes(){
-		SO options = defaultSearchOptions();
+		return visitNodes().map(vn -> vn.node());
+	}
+
+	@Override
+	public Stream<VisitedNode<N,E,SO>> visitNodes(){
+		return visitNodes(defaultSearchOptions());
+	}
+
+	@Override
+	public Stream<VisitedNode<N,E,SO>> visitNodes(SO options){
 
 		return startNodes().reduceToStream((startNode, nodeVisitor) -> {
 
 			if(!options.internal().visitedNodes().contains(startNode.id().toKey().toString())) {
 				options.internal().visitedNodes().add(startNode.id().toKey().toString());
 
-				nodeVisitor.visit(startNode);
+				nodeVisitor.visit(new VisitedNodeNtro<N,E,SO>(new WalkNtro<N,E,SO>(), (GenericNodeNtro<N,E,SO>) startNode));
 
 				startNode.reachableNodes(options).forEach(visitedNode -> {
 
-					nodeVisitor.visit(visitedNode.node());
+					nodeVisitor.visit(visitedNode);
 				});
 			}
 		});
@@ -131,11 +140,22 @@ public abstract class GenericGraphNtro<N extends GenericNode<N,E,SO>,
 	}
 
 	public Stream<E> edges(){
-		return nodes().reduceToStream((node, edgeVisitor) -> {
+		return visitEdges().map(ve -> ve.edge());
+	}
 
-			Stream<E> edges = node.edges(forwardOptions());
+	@Override
+	public Stream<VisitedEdge<N,E,SO>> visitEdges(SO options){
+		return visitNodes(options).reduceToStream((visitedNode, edgeVisitor) -> {
 
-			edges.forEach(e -> edgeVisitor.visit(e));
+			visitedNode.node().edges().forEach(e -> {
+
+				edgeVisitor.visit(new VisitedEdgeNtro<N,E,SO>((WalkNtro<N,E,SO>) visitedNode.walked(), e));
+			});
 		});
+	}
+
+	@Override
+	public Stream<VisitedEdge<N,E,SO>> visitEdges(){
+		return visitEdges(defaultSearchOptions());
 	}
 }
