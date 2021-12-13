@@ -30,6 +30,7 @@ import guru.nidi.graphviz.model.Link;
 import guru.nidi.graphviz.model.MutableAttributed;
 import guru.nidi.graphviz.model.MutableGraph;
 import guru.nidi.graphviz.model.MutableNode;
+import guru.nidi.graphviz.model.PortNode;
 
 import static guru.nidi.graphviz.model.Factory.*;
 
@@ -223,14 +224,18 @@ public class GraphWriterJdk implements GraphWriter {
 		if(edgeSpec.hasFromPort()) {
 
 			// FIXME: c (centered) added by default
-			fromNode.port(edgeSpec.fromPort()).port("c").links().add(link);
+			//PortNode fromPort = fromNode.port(edgeSpec.fromPort()).port("c");
+			PortNode fromPort = fromNode.port(edgeSpec.fromPort());
+			fromPort.links().add(link);
+			graph.add(fromNode);
+			graph.add(fromPort);
 			
 		}else {
 			
 			fromNode.links().add(link);
+			graph.add(fromNode);
 		}
 
-		graph.add(fromNode);
 		
 	}
 
