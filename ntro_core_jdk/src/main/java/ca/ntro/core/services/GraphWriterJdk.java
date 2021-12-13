@@ -14,6 +14,7 @@ import ca.ntro.core.graph_writer.GraphWriterException;
 import ca.ntro.core.graph_writer.NodeAlreadyAddedException;
 import ca.ntro.core.graph_writer.NodeNotFoundException;
 import ca.ntro.core.graph_writer.NodeSpec;
+import ca.ntro.core.graph_writer.RecordNodeSpec;
 import ca.ntro.core.graph_writer.RecordSpec;
 import ca.ntro.core.graphs.generics.graph.GraphId;
 import ca.ntro.core.graphs.generics.graph.GraphWriterOptions;
@@ -337,9 +338,9 @@ public class GraphWriterJdk implements GraphWriter {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void adjustNodeAttributes(MutableAttributed attrs, NodeSpec nodeSpec) {
 		
-		if(nodeSpec.isRecord()) {
+		if(nodeSpec.isRecordNode()) {
 
-			attrs.add(Records.of(labelFromRecordSpec(nodeSpec.asRecord())));
+			attrs.add(Records.of(labelFromRecordSpec(nodeSpec.asRecordNode().record())));
 			
 		}else {
 

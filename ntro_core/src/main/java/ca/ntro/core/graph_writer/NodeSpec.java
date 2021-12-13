@@ -4,8 +4,8 @@ public interface NodeSpec extends GraphItemSpec {
 	
 	boolean isCluster();
 
-	boolean isRecord();
-	RecordSpec asRecord();
+	boolean isRecordNode();
+	RecordNodeSpec asRecordNode();
 	
 	String color();
 	String shape();

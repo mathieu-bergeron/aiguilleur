@@ -9,6 +9,8 @@ import ca.ntro.core.graph_writer.EdgeSpecNtro;
 import ca.ntro.core.graph_writer.GraphWriter;
 import ca.ntro.core.graph_writer.GraphWriterException;
 import ca.ntro.core.graph_writer.NodeSpecNtro;
+import ca.ntro.core.graph_writer.RecordItemSpecNtro;
+import ca.ntro.core.graph_writer.RecordNodeSpecNtro;
 import ca.ntro.core.graph_writer.RecordSpecNtro;
 import ca.ntro.core.graphs.generics.directed_graph.GenericInternalDirectedGraphWriterNtro;
 import ca.ntro.core.graphs.generics.graph.GenericGraph;
@@ -54,20 +56,21 @@ public class InternalObjectGraphWriterNtro
 		
 	}
 
-	protected RecordSpecNtro recordSpec(ObjectNode node, ObjectGraphWriterOptions options) {
-		RecordSpecNtro recordSpec = new RecordSpecNtro(node);
+	protected RecordNodeSpecNtro recordNodeSpec(ObjectNode node, ObjectGraphWriterOptions options) {
+		RecordNodeSpecNtro recordSpec = new RecordNodeSpecNtro(node);
 		
 		adjustNodeSpecAttributes(node, options, recordSpec);
 		
 		return recordSpec;
 	}
-
+	
 	protected void writeNodeAsStructure(ObjectNode node,
 						                ObjectGraphSearchOptions oneStepOptions,
 			                            ObjectGraphWriterOptions options,
 			                            GraphWriter writer) throws GraphWriterException {
 
-			RecordSpecNtro fromSpec = recordSpec(node, options);
+			RecordNodeSpecNtro fromSpec = recordNodeSpec(node, options);
+			RecordSpecNtro mainRecord = fromSpec.getRecord();
 
 			node.edges().forEach(e -> {
 				
@@ -75,9 +78,13 @@ public class InternalObjectGraphWriterNtro
 				
 				if(e.to().isSimpleValue()) {
 					
-					//fromSpec.addAttribute(attributeName, e.to().asSimpleValue().asString());
+					RecordItemSpecNtro item = new RecordItemSpecNtro(attributeName, e.to().asSimpleValue().asString());
+
+					mainRecord.addItem(item);
 
 				}else if(e.to().isList()){
+					
+					RecordSpecNtro subRecord = new RecordSpecNtro();
 					
 					e.to().edges().forEach(ee -> {
 						
@@ -92,7 +99,8 @@ public class InternalObjectGraphWriterNtro
 							//writer.addEdge(fromSpec, new EdgeSpecNtro(e), new NodeSpecNtro(ee.to()));
 						}
 					});
-
+					
+					mainRecord.addItem(subRecord);
 					
 				}else if(e.to().isMap()){
 					

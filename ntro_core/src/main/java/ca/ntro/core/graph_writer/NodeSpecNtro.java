@@ -33,9 +33,16 @@ public class NodeSpecNtro implements NodeSpec {
 		this.shape = shape;
 	}
 
+	
+
+	public NodeSpecNtro() {
+	}
+
 	public NodeSpecNtro(GenericNode<?,?,?> node) {
 		setNode(node);
 	}
+
+
 
 	@Override
 	public String id() {
@@ -69,13 +76,13 @@ public class NodeSpecNtro implements NodeSpec {
 	}
 
 	@Override
-	public boolean isRecord() {
+	public boolean isRecordNode() {
 		return false;
 	}
 
 	@Override
-	public RecordSpec asRecord() {
-		return (RecordSpec) this;
+	public RecordNodeSpec asRecordNode() {
+		return (RecordNodeSpec) this;
 	}
 
 }
