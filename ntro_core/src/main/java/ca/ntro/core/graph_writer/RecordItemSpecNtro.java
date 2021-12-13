@@ -34,7 +34,10 @@ public class RecordItemSpecNtro implements RecordItemSpec {
 	public RecordItemSpecNtro() {
 	}
 	
-	
+	public RecordItemSpecNtro(String portName) {
+		setPortName(portName);
+	}
+
 	public RecordItemSpecNtro(String portName, String value) {
 		setPortName(portName);
 		setValue(value);

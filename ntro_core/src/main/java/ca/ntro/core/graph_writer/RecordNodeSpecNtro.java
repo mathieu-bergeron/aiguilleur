@@ -10,7 +10,7 @@ public class RecordNodeSpecNtro
        implements RecordNodeSpec {
 	
 
-	private RecordSpecNtro record = new RecordSpecNtro();
+	private RecordSpecNtro record = new RecordSpecNtro("");
 
 	public RecordSpecNtro getRecord() {
 		return record;
@@ -26,6 +26,11 @@ public class RecordNodeSpecNtro
 
 	public RecordNodeSpecNtro(GenericNode<?, ?, ?> node) {
 		super(node);
+	}
+
+	@Override
+	public boolean isRecordNode() {
+		return true;
 	}
 
 	@Override

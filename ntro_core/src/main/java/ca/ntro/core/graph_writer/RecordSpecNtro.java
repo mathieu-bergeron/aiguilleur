@@ -16,7 +16,6 @@ public class      RecordSpecNtro
 	private List<RecordItemSpec> items = new ArrayList<>();
 
 
-
 	public List<RecordItemSpec> getItems() {
 		return items;
 	}
@@ -34,13 +33,18 @@ public class      RecordSpecNtro
 	public RecordSpecNtro() {
 		super();
 	}
+
+	public RecordSpecNtro(String portName) {
+		super(portName);
+	}
 	
-	public RecordSpecNtro(String attributeName, RecordSpecNtro recordSpecNtro) {
-		super(attributeName, recordSpecNtro);
+	public RecordSpecNtro(String portName, RecordSpecNtro recordSpecNtro) {
+		super(portName, recordSpecNtro);
 	}
 	
 	
 	
+
 
 	@Override
 	public boolean isRecord() {

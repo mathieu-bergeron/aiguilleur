@@ -2,7 +2,9 @@ package ca.ntro.core.reflection.object_graph;
 
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import ca.ntro.core.graph_writer.EdgeSpec;
 import ca.ntro.core.graph_writer.EdgeSpecNtro;
@@ -38,12 +40,14 @@ public class InternalObjectGraphWriterNtro
 			super.writeNodes(graph, options, writer);
 
 		}else {
+			
+			Set<String> writtenNodes = new HashSet<>();
 
 			graph.startNodes().forEach(n -> {
 				
 				try {
 
-					writeNodeAsStructure(n, options, writer);
+					writeNodeAsStructure(writtenNodes, n, options, writer);
 
 				} catch (GraphWriterException e) {
 
@@ -62,21 +66,27 @@ public class InternalObjectGraphWriterNtro
 		return recordSpec;
 	}
 	
-	protected void writeNodeAsStructure(ObjectNode node,
+	protected void writeNodeAsStructure(Set<String> writtenNodes,
+			                            ObjectNode node,
 			                            ObjectGraphWriterOptions options,
 			                            GraphWriter writer) throws GraphWriterException {
+		
+		if(!writtenNodes.contains(node.id().toKey().toString())) {
+			writtenNodes.add(node.id().toKey().toString());
 
 			RecordNodeSpecNtro fromSpec = recordNodeSpec(node, options);
 			RecordSpecNtro mainRecord = fromSpec.getRecord();
 			
 			mainRecord.addItem(new RecordItemSpecNtro(RecordNodeSpec.MAIN_PORT_NAME, node.label()));
 			
-			writeNodeAsStructure(fromSpec, node, mainRecord, options, writer);
+			writeNodeAsStructure(writtenNodes, fromSpec, node, mainRecord, options, writer);
 
 			writer.addNode(fromSpec);
+		}
 	}
 
-	protected void writeNodeAsStructure(RecordNodeSpecNtro fromSpec,
+	protected void writeNodeAsStructure(Set<String> writtenNodes,
+			                            RecordNodeSpecNtro fromSpec,
 										ObjectNode currentNode,
 			                            RecordSpecNtro currentRecord,
 			                            ObjectGraphWriterOptions options,
@@ -97,7 +107,7 @@ public class InternalObjectGraphWriterNtro
 					
 					e.to().edges().forEach(ee -> {
 
-						writeNodeAsStructure(fromSpec, ee.to(), subRecord, options, writer);
+						writeNodeAsStructure(writtenNodes, fromSpec, ee.to(), subRecord, options, writer);
 
 					});
 					
@@ -111,7 +121,7 @@ public class InternalObjectGraphWriterNtro
 							                         nodeSpec(e.to(), options),
 							                         RecordNodeSpec.MAIN_PORT_NAME));
 
-					writeNodeAsStructure(e.to(), options, writer);
+					writeNodeAsStructure(writtenNodes, e.to(), options, writer);
 				}
 			});
 	}
