@@ -39,7 +39,8 @@ public class GraphWriterJdk implements GraphWriter {
 
 	private MutableGraph graph;
 	private Map<String, MutableGraph> clusters = new HashMap<>();
-	private Map<String, MutableNode> clusterInvisibleNodes = new HashMap<>();
+	private Map<String, String> parentCluster = new HashMap<>();
+	private Map<String, MutableNode> clusterAnchorNodes = new HashMap<>();
 	private Map<String, MutableNode> nodes = new HashMap<>();
 	private GraphWriterOptions options;
 
@@ -54,6 +55,12 @@ public class GraphWriterJdk implements GraphWriter {
 		graph = mutGraph(basepath.filename()).setDirected(options.isDirected())
 				.graphAttrs().add(Rank.dir(RankDir.LEFT_TO_RIGHT))
 				.graphAttrs().add("compound", "true");
+	}
+
+	protected void prepareToWrite() {
+		for(String clusterId : clusters.keySet()) {
+			createClusterAnchorNodeIfNeeded(clusterId);
+		}
 	}
 	
 	private File createFile(String extension) {
@@ -70,6 +77,8 @@ public class GraphWriterJdk implements GraphWriter {
 
 	@Override
 	public void writePng() {
+		prepareToWrite();
+
 		try {
 
 			Graphviz.fromGraph(graph).render(Format.PNG).toFile(createFile(".png"));
@@ -83,6 +92,8 @@ public class GraphWriterJdk implements GraphWriter {
 
 	@Override
 	public void writeSvg() {
+		prepareToWrite();
+
 		try {
 
 			Graphviz.fromGraph(graph).render(Format.SVG).toFile(createFile(".svg"));
@@ -98,6 +109,8 @@ public class GraphWriterJdk implements GraphWriter {
 
 	@Override
 	public void writeDot() {
+		prepareToWrite();
+
 		try {
 
 			Graphviz.fromGraph(graph).render(Format.DOT).toFile(createFile(".dot"));
@@ -127,6 +140,8 @@ public class GraphWriterJdk implements GraphWriter {
 		MutableGraph cluster = findCluster(clusterSpec);
 		MutableGraph subCluster = createCluster(subClusterSpec);
 		
+		parentCluster.put(subClusterSpec.id(), clusterSpec.id());
+		
 		cluster.add(subCluster);
 	}
 
@@ -134,9 +149,29 @@ public class GraphWriterJdk implements GraphWriter {
 	public void addSubNode(NodeSpec clusterSpec, NodeSpec nodeSpec) throws ClusterNotFoundException, NodeAlreadyAddedException {
 		MutableGraph cluster = findCluster(clusterSpec);
 		MutableNode subNode = createNode(nodeSpec);
+		
+
+		parentCluster.put(nodeSpec.id(), clusterSpec.id());
+		
+		registerPossibleAnchorNode(clusterSpec.id(), subNode);
 
 		cluster.add(subNode);
 	}
+	
+	private void registerPossibleAnchorNode(String clusterId, MutableNode subNode) {
+
+		if(!clusterAnchorNodes.containsKey(clusterId)) {
+			clusterAnchorNodes.put(clusterId, subNode);
+		}
+		
+		String parentId = parentCluster.get(clusterId);
+
+		if(parentId != null) {
+			registerPossibleAnchorNode(parentId, subNode);
+		}
+	}
+	
+	
 
 	@Override
 	public void addEdge(EdgeSpec edgeSpec) throws GraphWriterException {
@@ -147,7 +182,7 @@ public class GraphWriterJdk implements GraphWriter {
 		MutableNode fromNode = null;
 		if(edgeSpec.from().isCluster()) {
 			
-			fromNode = mutNode(invisibleNodeId(edgeSpec.from()));
+			fromNode = mutNode(findOrCreateClusterAnchorNode(edgeSpec.from()).name());
 			
 		}else {
 
@@ -157,7 +192,7 @@ public class GraphWriterJdk implements GraphWriter {
 		MutableNode toNode = null; 
 		if(edgeSpec.to().isCluster()) {
 
-			toNode = mutNode(invisibleNodeId(edgeSpec.to()));
+			toNode = mutNode(findOrCreateClusterAnchorNode(edgeSpec.to()).name());
 			
 		}else {
 			
@@ -216,13 +251,42 @@ public class GraphWriterJdk implements GraphWriter {
 		
 		adjustNodeAttributes(cluster.graphAttrs(), clusterSpec);
 		
-		MutableNode invisibleNode = createClusterInvisibleNode(clusterSpec);
-		cluster.add(invisibleNode);
-		
 		clusters.put(clusterSpec.id(), cluster);
 		
 		return cluster;
 	}
+
+	private void createClusterAnchorNodeIfNeeded(String clusterId) {
+		findOrCreateClusterAnchorNode(clusterId);
+	}
+	
+	private MutableNode findOrCreateClusterAnchorNode(String clusterId) {
+		MutableNode anchorNode = clusterAnchorNodes.get(clusterId);
+
+		if(anchorNode == null) {
+
+			anchorNode = mutNode(anchorNodeId(clusterId));
+			anchorNode.attrs().add("shape", "none");
+			anchorNode.attrs().add("style", "invis");
+			anchorNode.attrs().add("label", "");
+			
+			clusterAnchorNodes.put(clusterId, anchorNode);
+
+			MutableGraph cluster = clusters.get(clusterId);
+			cluster.add(anchorNode);
+		}
+
+		return anchorNode;
+	}
+
+	
+	private MutableNode findOrCreateClusterAnchorNode(NodeSpec clusterSpec) throws GraphWriterException {
+		checkThatNodeExists(clusterSpec);
+		
+		return findOrCreateClusterAnchorNode(clusterSpec.id());
+	}
+	
+	
 	
 	private void checkThatClusterExists(NodeSpec clusterSpec) throws ClusterNotFoundException {
 		if(!clusters.containsKey(clusterSpec.id())) {
@@ -236,27 +300,14 @@ public class GraphWriterJdk implements GraphWriter {
 		return clusters.get(clusterSpec.id());
 	}
 	
-	private String invisibleNodeId(NodeSpec clusterSpec) {
-		return "__" + clusterSpec.id() + "__";
+	private String anchorNodeId(NodeSpec clusterSpec) {
+		return anchorNodeId(clusterSpec.id());
 	}
 
-	private MutableNode createClusterInvisibleNode(NodeSpec clusterSpec) {
-		if(clusterInvisibleNodes.containsKey(clusterSpec.id())) {
-			return clusterInvisibleNodes.get(clusterSpec.id());
-		}
-
-		String invisibleNodeId = invisibleNodeId(clusterSpec);
-
-		MutableNode invisibleNode = mutNode(invisibleNodeId);
-		invisibleNode.attrs().add("shape", "none");
-		invisibleNode.attrs().add("style", "invis");
-		invisibleNode.attrs().add("label", "");
-		
-		clusterInvisibleNodes.put(clusterSpec.id(), invisibleNode);
-		
-		return invisibleNode;
+	private String anchorNodeId(String clusterId) {
+		return "__" + clusterId + "__";
 	}
-	
+
 	private void checkThatNodeExists(NodeSpec nodeSpec) throws GraphWriterException {
 		if(nodeSpec.isCluster()) {
 
