@@ -1,12 +1,17 @@
-graph "simpleGraph01" {
-    graph ["rankdir"="LR"]
+digraph "MockLinkedList" {
+    //graph ["rankdir"="LR","compound"="true"]
+    graph []
 
-    "A" [shape="record","label"="Test@1|{attr01|3}"]
-    "C" [shape="record","label"="Test@2|{attr01|4}"]
+    "B" [shape="record","label"="<Test@1>Test|{attr01|3}"];
+    "C" [shape="record","label"="<Test@2>Test|{attr01|4}"];
+    "D" [shape="record","label"="<Test@3>Test|{attr01|9}"];
 
-    "B" [shape="record","label"="MyClass@1|{attr01|3}|{attr02|\"sf\"}|{attr03|{<port01>0|<port02>1|{2|null}}}|{attr04|{{0|1.2}|{1|4.5}|{2|0.0}|{3|4.3}}}","style"="filled","fillcolor"="white"];
+    "A" [shape="record","label"="MyClass|{attr0|<A-attr_0>}|{attr01|3}|{attr02|\"sf\"}|{attr03|{{0|<port01>}|{1|<port02>}|{2|null}}}|{attr04|{{0|1.2}|{1|4.5}|{2|0.0}|{3|4.3}}}","style"="filled","fillcolor"="white"];
 
 
-    "B":"port01" -- "A"
-    "B":"port02" -- "C"
+
+    "A":"A-attr_0":c -> "B":"Test@1" ["tailclip"="false", "arrowtail"="dot", "dir"="both"];
+    "A":"port01":c -> "C":"Test@2" ["tailclip"="false", "arrowtail"="dot", "dir"="both"];
+    "A":"port02":c -> "D":"Test@3" ["tailclip"="false", "arrowtail"="dot", "dir"="both"];
+
 }
