@@ -10,6 +10,7 @@ import ca.ntro.core.graph_writer.GraphWriter;
 import ca.ntro.core.graph_writer.GraphWriterException;
 import ca.ntro.core.graph_writer.NodeSpecNtro;
 import ca.ntro.core.graph_writer.RecordItemSpecNtro;
+import ca.ntro.core.graph_writer.RecordNodeSpec;
 import ca.ntro.core.graph_writer.RecordNodeSpecNtro;
 import ca.ntro.core.graph_writer.RecordSpecNtro;
 import ca.ntro.core.graphs.generics.directed_graph.GenericInternalDirectedGraphWriterNtro;
@@ -38,14 +39,11 @@ public class InternalObjectGraphWriterNtro
 
 		}else {
 
-			ObjectGraphSearchOptions oneStepOptions = new ObjectGraphSearchOptionsNtro();
-			oneStepOptions.setMaxDistance(1);
-			
 			graph.startNodes().forEach(n -> {
 				
 				try {
 
-					writeNodeAsStructure(n, oneStepOptions, options, writer);
+					writeNodeAsStructure(n, options, writer);
 
 				} catch (GraphWriterException e) {
 
@@ -65,51 +63,59 @@ public class InternalObjectGraphWriterNtro
 	}
 	
 	protected void writeNodeAsStructure(ObjectNode node,
-						                ObjectGraphSearchOptions oneStepOptions,
 			                            ObjectGraphWriterOptions options,
 			                            GraphWriter writer) throws GraphWriterException {
 
 			RecordNodeSpecNtro fromSpec = recordNodeSpec(node, options);
 			RecordSpecNtro mainRecord = fromSpec.getRecord();
+			
+			mainRecord.addItem(new RecordItemSpecNtro(RecordNodeSpec.MAIN_PORT_NAME, node.label()));
+			
+			writeNodeAsStructure(fromSpec, node, mainRecord, options, writer);
 
-			node.edges().forEach(e -> {
+			writer.addNode(fromSpec);
+	}
+
+	protected void writeNodeAsStructure(RecordNodeSpecNtro fromSpec,
+										ObjectNode currentNode,
+			                            RecordSpecNtro currentRecord,
+			                            ObjectGraphWriterOptions options,
+			                            GraphWriter writer) throws GraphWriterException {
+
+			currentNode.edges().forEach(e -> {
 				
 				String attributeName = e.name().toString();
 				
 				if(e.to().isSimpleValue()) {
 					
-					RecordItemSpecNtro item = new RecordItemSpecNtro(attributeName, e.to().asSimpleValue().asString());
+					currentRecord.addItem(attributeName, e.to().asSimpleValue().asString());
 
-					mainRecord.addItem(item);
-
-				}else if(e.to().isList()){
+				}else if(e.to().isList() 
+						|| e.to().isMap()){
 					
-					RecordSpecNtro subRecord = new RecordSpecNtro();
+					RecordSpecNtro subRecord = currentRecord.addSubRecord(attributeName);
 					
 					e.to().edges().forEach(ee -> {
-						
-						String indexName = ee.name().toString();
-						String portName = attributeName + "_" + indexName;
-						
-						//fromSpec.addToList(e.name().toString(), e.to());
-						
-						if(!ee.to().isSimpleValue()) {
-							
-							// TODO: how to specify port
-							//writer.addEdge(fromSpec, new EdgeSpecNtro(e), new NodeSpecNtro(ee.to()));
-						}
+
+						writeNodeAsStructure(fromSpec, ee.to(), subRecord, options, writer);
+
 					});
 					
-					mainRecord.addItem(subRecord);
+				}else if(e.to().isUserDefinedObject()){
+
+					RecordItemSpecNtro item = currentRecord.addItem(attributeName);
 					
-				}else if(e.to().isMap()){
-					
-					//fromSpec.addToMap(e.name().toString(), e.to());
+					recordEdges.add(new EdgeSpecNtro(fromSpec, 
+							                         item.port(),
+							                         e,
+							                         nodeSpec(e.to(), options),
+							                         RecordNodeSpec.MAIN_PORT_NAME));
+
+					writeNodeAsStructure(e.to(), options, writer);
 				}
 			});
-
-			writer.addNode(fromSpec);
 	}
+	
 
 	@Override
 	protected void writeEdges(GenericGraph<ObjectNode,ReferenceEdge,ObjectGraphSearchOptions,ObjectGraphWriterOptions> graph, 

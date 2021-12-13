@@ -15,6 +15,8 @@ public class      RecordSpecNtro
 
 	private List<RecordItemSpec> items = new ArrayList<>();
 
+
+
 	public List<RecordItemSpec> getItems() {
 		return items;
 	}
@@ -27,15 +29,57 @@ public class      RecordSpecNtro
 		getItems().add(item);
 	}
 	
+	
+	
+	public RecordSpecNtro() {
+		super();
+	}
+	
+	public RecordSpecNtro(String attributeName, RecordSpecNtro recordSpecNtro) {
+		super(attributeName, recordSpecNtro);
+	}
+	
+	
+	
+
+	@Override
+	public boolean isRecord() {
+		return true;
+	}
+	
 	@Override
 	public Stream<RecordItemSpec> items() {
 		return new StreamNtro<RecordItemSpec>() {
 			@Override
 			public void _forEach(Visitor<RecordItemSpec> visitor) throws Throwable {
-				for(RecordItemSpec item : items) {
+				for(RecordItemSpec item : getItems()) {
 					visitor.visit(item);
 				}
 			}
 		};
+	}
+
+	public RecordSpecNtro addSubRecord(String attributeName) {
+		RecordSpecNtro subRecord = new RecordSpecNtro(attributeName, this);
+		
+		getItems().add(subRecord);
+		
+		return subRecord;
+	}
+
+	public RecordItemSpecNtro addItem(String attributeName) {
+		RecordItemSpecNtro newItem = new RecordItemSpecNtro(attributeName, this);
+		
+		getItems().add(newItem);
+		
+		return newItem;
+	}
+
+	public RecordItemSpecNtro addItem(String attributeName, String value) {
+		RecordItemSpecNtro newItem = new RecordItemSpecNtro(attributeName, value, this);
+		
+		getItems().add(newItem);
+		
+		return newItem;
 	}
 }

@@ -5,7 +5,7 @@ digraph "MockLinkedList" {
     "C" [shape="record","label"="<_C>Test|{attr01|4}"];
     "D" [shape="record","label"="<_C>Test|{attr01|9}"];
 
-    "A" [shape="record","label"="MyClass|{attr00|<A-attr_0>}|{attr01|3}|{attr02|\"sf\"}|{attr03|{{0|<port01>}|{1|<port02>}|{2|null}}}|{attr04|{{\"key01\"|1.2}|{\"key02\"|4.5}|{\"key03\"|0.0}|{\"key04\"|4.3}}}","style"="filled","fillcolor"="white"];
+    "A" [shape="record","label"="MyClass|{attr00|<A-attr_0>}|{attr01|3}|{attr02|\"sf\"}|{attr03|{{0|<port01>}|{1|<port02>}|{2|{{0|null}|{1|null}|{2|null}}}}}|{attr04|{{\"key01\"|1.2}|{\"key02\"|4.5}|{\"key03\"|0.0}|{\"key04\"|4.3}}}","style"="filled","fillcolor"="white"];
 
 
 
