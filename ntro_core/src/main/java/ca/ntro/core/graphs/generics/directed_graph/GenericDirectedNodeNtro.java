@@ -18,4 +18,8 @@ public class GenericDirectedNodeNtro<N extends GenericDirectedNode<N,E,SO>,
 	public GenericDirectedNodeNtro(NodeId nodeId) {
 		super(nodeId);
 	}
+
+	public GenericDirectedNodeNtro(String nodeId) {
+		super(nodeId);
+	}
 }

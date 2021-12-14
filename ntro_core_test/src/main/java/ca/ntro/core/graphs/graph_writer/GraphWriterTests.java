@@ -30,7 +30,6 @@ public class GraphWriterTests {
 	}
 	
 	
-	
 	@Test
 	public void graphWriter01() throws NodeNotFoundException, ClusterNotFoundException {
 		GraphWriter writer = Ntro.graphWriter();

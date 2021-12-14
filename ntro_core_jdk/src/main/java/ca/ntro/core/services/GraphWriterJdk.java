@@ -33,6 +33,7 @@ import guru.nidi.graphviz.model.MutableNode;
 import guru.nidi.graphviz.model.PortNode;
 
 import static guru.nidi.graphviz.model.Factory.*;
+import static guru.nidi.graphviz.model.Compass.*;
 
 public class GraphWriterJdk implements GraphWriter {
 	
@@ -225,16 +226,19 @@ public class GraphWriterJdk implements GraphWriter {
 
 			// FIXME: c (centered) added by default
 			//PortNode fromPort = fromNode.port(edgeSpec.fromPort()).port("c");
-			PortNode fromPort = fromNode.port(edgeSpec.fromPort());
-			fromPort.links().add(link);
-			graph.add(fromNode);
-			graph.add(fromPort);
-			
+
+			link = between(port(edgeSpec.fromPort(), CENTER), toNode.port(edgeSpec.toPort()));
+			link.attrs().add("tailclip","false");
+			link.attrs().add("arrowtail","dot");
+			link.attrs().add("dir","both");
+			fromNode.links().add(link);
+
 		}else {
 			
 			fromNode.links().add(link);
-			graph.add(fromNode);
 		}
+
+		graph.add(fromNode);
 
 		
 	}

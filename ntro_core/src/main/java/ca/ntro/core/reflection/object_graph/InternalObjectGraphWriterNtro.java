@@ -3,9 +3,11 @@ package ca.ntro.core.reflection.object_graph;
 
 
 import ca.ntro.core.graph_writer.GraphWriter;
+import ca.ntro.core.graph_writer.NodeSpecNtro;
 import ca.ntro.core.graph_writer.RecordNodeSpecNtro;
 import ca.ntro.core.graphs.generics.directed_graph.GenericInternalDirectedGraphWriterNtro;
 import ca.ntro.core.graphs.generics.graph.GenericGraph;
+import ca.ntro.core.graphs.generics.graph.GenericNode;
 
 public class InternalObjectGraphWriterNtro       
 
@@ -15,6 +17,16 @@ public class InternalObjectGraphWriterNtro
                                                        ObjectGraphWriterOptions> 
 
       implements InternalObjectGraphWriter {
+
+	@Override
+	protected void adjustNodeSpecAttributes(GenericNode<ObjectNode, ReferenceEdge, ObjectGraphSearchOptions> node, 
+			                                ObjectGraphWriterOptions options,
+			                                NodeSpecNtro nodeSpec) {
+		
+		if(!options.objectAsStructure()) {
+			super.adjustNodeSpecAttributes(node, options, nodeSpec);
+		}
+	}
 	
 	@Override
 	protected void writeNodes(GenericGraph<ObjectNode,ReferenceEdge,ObjectGraphSearchOptions,ObjectGraphWriterOptions> graph, 

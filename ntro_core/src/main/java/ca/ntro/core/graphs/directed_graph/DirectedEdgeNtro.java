@@ -12,8 +12,11 @@ public class DirectedEdgeNtro<N extends  DirectedNode<N,E>,
   
        implements DirectedEdge<N,E> {
 
+	public DirectedEdgeNtro() {
+		super();
+	}
+
 	public DirectedEdgeNtro(N fromNode, String edgeName, N toNode) {
 		super(fromNode, new EdgeTypeNtro(Direction.FORWARD, edgeName), toNode);
 	}
-
 }

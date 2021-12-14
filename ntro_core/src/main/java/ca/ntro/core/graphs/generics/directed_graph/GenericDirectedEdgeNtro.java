@@ -12,6 +12,9 @@ public class      GenericDirectedEdgeNtro<N extends GenericDirectedNode<N,E,SO>,
 
        implements GenericDirectedEdge<N,E,SO> {
 
+	public GenericDirectedEdgeNtro() {
+	}
+
 	public GenericDirectedEdgeNtro(N fromNode, EdgeTypeNtro edgeType, N toNode) {
 		super(fromNode, edgeType, toNode);
 	}
@@ -19,5 +22,6 @@ public class      GenericDirectedEdgeNtro<N extends GenericDirectedNode<N,E,SO>,
 	public GenericDirectedEdgeNtro(N fromNode, String edgeName, N toNode) {
 		super(fromNode, new EdgeTypeNtro(Direction.FORWARD, edgeName), toNode);
 	}
+
 
 }

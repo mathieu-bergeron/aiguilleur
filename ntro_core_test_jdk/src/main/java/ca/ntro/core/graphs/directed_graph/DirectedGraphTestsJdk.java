@@ -1,11 +1,10 @@
-package ca.ntro.core.graphs;
+package ca.ntro.core.graphs.directed_graph;
 
 import org.junit.BeforeClass;
 
-import ca.ntro.core.graphs.graph_writer.GraphWriterTests;
 import ca.ntro.core.initialization.InitializerTestJdk;
 
-public class GraphWriterTestsJdk extends GraphWriterTests {
+public class DirectedGraphTestsJdk extends DirectedGraphTests {
 
 	@BeforeClass
 	public static void initializeJdk() {

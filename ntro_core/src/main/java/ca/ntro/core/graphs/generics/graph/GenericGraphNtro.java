@@ -147,7 +147,7 @@ public abstract class GenericGraphNtro<N extends GenericNode<N,E,SO>,
 	public Stream<VisitedEdge<N,E,SO>> visitEdges(SO options){
 		return visitNodes(options).reduceToStream((visitedNode, edgeVisitor) -> {
 
-			visitedNode.node().edges().forEach(e -> {
+			visitedNode.node().edges(forwardOptions()).forEach(e -> {
 
 				edgeVisitor.visit(new VisitedEdgeNtro<N,E,SO>((WalkNtro<N,E,SO>) visitedNode.walked(), e));
 			});

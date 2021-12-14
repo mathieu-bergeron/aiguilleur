@@ -21,5 +21,9 @@ public class DirectedNodeNtro<N extends  DirectedNode<N,E>,
 		super(nodeId);
 	}
 
+	public DirectedNodeNtro(String nodeId) {
+		super(nodeId);
+	}
+
 
 }

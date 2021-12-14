@@ -247,7 +247,7 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 	public Stream<VisitedEdge<N,E,SO>> reachableEdges(SO options){
 		
 		// JSWeet: local variables to avoid typing errors
-		Stream<VisitedNode<N,E,SO>> reachableNodes = reachableNodes();
+		Stream<VisitedNode<N,E,SO>> reachableNodes = reachableNodes(options);
 				
 		return reachableNodes.reduceToStream((visitedNode, edgeVisitor) -> {
 			

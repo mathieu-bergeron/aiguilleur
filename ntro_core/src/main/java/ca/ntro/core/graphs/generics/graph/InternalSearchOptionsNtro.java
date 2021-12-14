@@ -97,6 +97,8 @@ public class InternalSearchOptionsNtro implements InternalSearchOptions {
 		setMaxDistance(searchOptions.maxDistance());
 		setDirections(searchOptions.directions());
 		setSortEdgesByName(searchOptions.sortEdgesByName());
+		setVisitedNodes(searchOptions.visitedNodes());
+		setVisitedEdges(searchOptions.visitedEdges());
 	}
 
 	@Override

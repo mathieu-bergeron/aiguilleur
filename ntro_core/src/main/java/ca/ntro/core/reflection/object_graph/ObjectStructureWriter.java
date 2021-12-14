@@ -157,7 +157,7 @@ public class ObjectStructureWriter {
 		if(edge.to().isSimpleValue()) {
 
 			RecordItemSpecNtro valueItem = subRecord.addItem();
-			valueItem.setValue(edge.to().asSimpleValue().asString());
+			valueItem.setValue(edge.to().asSimpleValue().toString());
 			
 		}else if(edge.to().isList()
 				|| edge.to().isMap()) {

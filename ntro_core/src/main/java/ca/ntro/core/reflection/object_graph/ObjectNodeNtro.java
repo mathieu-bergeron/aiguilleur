@@ -223,6 +223,27 @@ public abstract class ObjectNodeNtro
 	public double asDouble() {
 		return Ntro.reflectionService().asDouble(getObject());
 	}
+	
+	@Override 
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		
+		if(isString()) {
+			builder.append('"');
+		}
+		
+		builder.append(asSimpleValue().asString());
+
+		if(isString()) {
+			builder.append('"');
+		}
+		
+		
+		return builder.toString();
+		
+	}
+	
+	
 
 	@Override
 	public ObjectUpdate asUpdates() {
