@@ -57,9 +57,9 @@ public class TestObject01 {
 		subList02.add("e");
 
 		subList03.add("f");
+		subList03.add(null);
 		subList03.add("g");
 		subList03.add("h");
-		subList03.add("i");
 
 		getAttr02().add(subList01);
 		getAttr02().add(subList02);

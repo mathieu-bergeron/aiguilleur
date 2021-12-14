@@ -139,6 +139,7 @@ public class ObjectStructureWriter {
 		String attributeName = edge.name().toString();
 
 		RecordSpecNtro subRecord = fromRecord.addSubRecord();
+		subRecord.setPortName(attributeName);
 
 		RecordItemSpecNtro nameItem = subRecord.addItem();
 		nameItem.setValue(attributeName);
@@ -151,26 +152,57 @@ public class ObjectStructureWriter {
 		}else if(edge.to().isList()
 				|| edge.to().isMap()) {
 			
-			RecordSpecNtro valuesRecord = subRecord.addSubRecord();
-
-			recordByNodeId.put(edge.to().id().toKey().toString(), valuesRecord);
-			nodeSpecByNodeId.put(edge.to().id().toKey().toString(), fromSpec);    // propagate that we are in the same node
+			processEdgeToMapOrList(edge, fromSpec, subRecord);
 			
 		}else if(edge.to().isUserDefinedObject()) {
 			
-			RecordItemSpecNtro referenceItem = subRecord.addItem();
-			referenceItem.setPortName(attributeName);
-
-			processNode(edge.to());
-
-			RecordNodeSpecNtro toSpec = nodeSpecByNodeId.get(edge.to().id().toKey().toString());
-
-			getRecordEdges().add(new RecordEdgeSpecNtro(fromSpec, 
-											            referenceItem.port(),
-											            edge,
-											            toSpec,
-											            RecordNodeSpec.MAIN_PORT_NAME));
+			processEdgeToUserDefinedObject(edge, fromSpec, attributeName, subRecord);
 		}
+	}
+
+	private void processEdgeToMapOrList(ReferenceEdge edge, 
+			                            RecordNodeSpecNtro fromSpec, 
+			                            RecordSpecNtro subRecord) {
+
+		if(edge.to().edges().isEmpty()) {
+
+			RecordItemSpecNtro valueItem = subRecord.addItem();
+			if(edge.to().isList()) {
+
+				valueItem.setValue("[]");
+
+			}else if(edge.to().isMap()){
+
+				valueItem.setValue("{}");
+			}
+			
+		}else {
+
+			RecordSpecNtro valuesRecord = subRecord.addSubRecord();
+			valuesRecord.setPortName("_V");
+
+			recordByNodeId.put(edge.to().id().toKey().toString(), valuesRecord);
+			nodeSpecByNodeId.put(edge.to().id().toKey().toString(), fromSpec);    // propagate that we are in the same node
+		}
+	}
+
+	private void processEdgeToUserDefinedObject(ReferenceEdge edge, 
+			                                    RecordNodeSpecNtro fromSpec, 
+			                                    String attributeName, 
+			                                    RecordSpecNtro subRecord) {
+
+		RecordItemSpecNtro referenceItem = subRecord.addItem();
+		referenceItem.setPortName(attributeName);
+
+		processNode(edge.to());
+
+		RecordNodeSpecNtro toSpec = nodeSpecByNodeId.get(edge.to().id().toKey().toString());
+
+		getRecordEdges().add(new RecordEdgeSpecNtro(fromSpec, 
+										            referenceItem.port(),
+										            edge,
+										            toSpec,
+										            RecordNodeSpec.MAIN_PORT_NAME));
 	}
 
 	private void writeRecordNodeSpecsForUserDefinedObjects() {
