@@ -1,4 +1,4 @@
-package ca.ntro.core.reflection;
+package ca.ntro.core.reflection.mock.linked_list;
 
 public interface LinkedListElement<E extends Object> {
 

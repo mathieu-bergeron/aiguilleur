@@ -78,7 +78,6 @@ public abstract class ObjectNodeNtro
 				builder.append(getObject());
 				builder.append('"');
 
-
 			} else {
 
 				builder.append(getObject());

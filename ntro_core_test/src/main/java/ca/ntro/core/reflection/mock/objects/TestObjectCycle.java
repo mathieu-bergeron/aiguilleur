@@ -1,4 +1,4 @@
-package ca.ntro.core.reflection;
+package ca.ntro.core.reflection.mock.objects;
 
 public class TestObjectCycle {
 

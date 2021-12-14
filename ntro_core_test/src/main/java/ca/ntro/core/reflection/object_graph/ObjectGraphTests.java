@@ -1,4 +1,4 @@
-package ca.ntro.core.reflection;
+package ca.ntro.core.reflection.object_graph;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,11 @@ import java.util.List;
 import org.junit.Test;
 
 import ca.ntro.core.initialization.Ntro;
+import ca.ntro.core.reflection.mock.linked_list.LinkedList;
+import ca.ntro.core.reflection.mock.linked_list.MockLinkedList;
+import ca.ntro.core.reflection.mock.objects.TestObject01;
+import ca.ntro.core.reflection.mock.objects.TestObject02;
+import ca.ntro.core.reflection.mock.objects.TestObjectCycle;
 import ca.ntro.core.reflection.object_graph.ObjectGraph;
 import ca.ntro.core.tests.NtroTests;
 

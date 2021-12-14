@@ -1,4 +1,4 @@
-package ca.ntro.core.reflection;
+package ca.ntro.core.reflection.mock.linked_list;
 
 public class MockLinkedListElement<E extends Object> 
 
@@ -56,6 +56,20 @@ public class MockLinkedListElement<E extends Object>
 		}else {
 
 			setNext(newNext);
+		}
+		
+	}
+
+	public void removeAfter() {
+		if(hasNext()
+				&& next().hasNext()) {
+			
+			MockLinkedListElement<E> newNext = getNext().getNext();
+			setNext(newNext);
+
+		}else {
+
+			setNext(null);
 		}
 		
 	}
