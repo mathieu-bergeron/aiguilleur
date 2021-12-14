@@ -134,8 +134,9 @@ public class MockLinkedList<I extends Object> implements LinkedList<I> {
 
 	@Override
 	public void removeValue(Object o) {
-		if(contains(o)) {
-			remove(indexOf(o));
+		int index = indexOf(o);
+		if(index != -1) {
+			remove(index);
 		}
 	}
 
