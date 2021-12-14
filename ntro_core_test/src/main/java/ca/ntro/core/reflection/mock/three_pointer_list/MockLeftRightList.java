@@ -6,8 +6,10 @@ public class MockLeftRightList<I extends Object>
 	
 	private MockLeftRightListElement<I> left = null;;
 	private MockLeftRightListElement<I> right = null;;
-	private int size = 0;
-	
+
+	private int sizeLeft = 0;
+	private int sizeRight = 0;
+
 	public MockLeftRightListElement<I> getLeft() {
 		return left;
 	}
@@ -24,15 +26,21 @@ public class MockLeftRightList<I extends Object>
 		this.right = right;
 	}
 
-	public int getSize() {
-		return size;
+	public int getSizeLeft() {
+		return sizeLeft;
 	}
 
-	public void setSize(int size) {
-		this.size = size;
+	public void setSizeLeft(int sizeLeft) {
+		this.sizeLeft = sizeLeft;
 	}
-	
-	
+
+	public int getSizeRight() {
+		return sizeRight;
+	}
+
+	public void setSizeRight(int sizeRight) {
+		this.sizeRight = sizeRight;
+	}
 	
 	
 	
@@ -49,7 +57,7 @@ public class MockLeftRightList<I extends Object>
 		}
 	}
 	
-	private void shiftLeft() {
+	public void shiftLeft() {
 		MockLeftRightListElement<I> oldLeft = left;
 		MockLeftRightListElement<I> oldRight = right;
 		
@@ -62,6 +70,9 @@ public class MockLeftRightList<I extends Object>
 		if(right != null) {
 			right.setNext(oldRight);
 		}
+		
+		sizeLeft--;
+		sizeRight++;
 	}
 
 	private void shiftRight() {
@@ -73,10 +84,13 @@ public class MockLeftRightList<I extends Object>
 		}
 		
 		left = oldRight;
-	
+		
 		if(left != null) {
 			left.setNext(oldLeft);
 		}
+		
+		sizeRight--;
+		sizeLeft++;
 	}
 
 	private MockLeftRightListElement<I> reachFrom(MockLeftRightListElement<I> from, int steps){
@@ -124,18 +138,25 @@ public class MockLeftRightList<I extends Object>
 		
 		MockLeftRightListElement<I> newItem = new MockLeftRightListElement<I>(value);
 		
-		if(index <= size/2) {
+		if(index <= size()/2) {
 
-			insertLeft(size/2 - index, newItem);
-			shiftLeft();
+			insertLeft(size()/2 - index, newItem);
+			sizeLeft++;
 
 		}else {
 
-			insertRight(index - size/2 - 1, newItem);
-			shiftRight();
+			insertRight(index - size()/2, newItem);
+			sizeRight++;
 		}
 		
-		size++;
+		if((sizeLeft - sizeRight) >= 2) {
+
+			shiftLeft();
+
+		}else if((sizeRight - sizeLeft) >= 2) {
+
+			shiftRight();
+		}
 	}
 	
 	
@@ -161,7 +182,7 @@ public class MockLeftRightList<I extends Object>
 
 	@Override
 	public int size() {
-		return size;
+		return sizeLeft + sizeRight;
 	}
 
 	@Override

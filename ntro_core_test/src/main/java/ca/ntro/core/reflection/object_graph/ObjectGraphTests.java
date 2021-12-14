@@ -23,44 +23,54 @@ public class ObjectGraphTests extends NtroTests {
 	@Test
 	public void testThreePointerList01() throws Throwable {
 		
-		LeftRightList<String> list = new MockLeftRightList<>();
+		MockLeftRightList<String> list = new MockLeftRightList<>();
 
-		ObjectGraph graph = Ntro.reflectionService().objectGraph(list, "threePointerList00");
+		ObjectGraph graph = Ntro.reflectionService().objectGraph(list, "leftRightList00");
 		graph.write(Ntro.graphWriter());
 		
 		list.add("1");
 
-		graph = Ntro.reflectionService().objectGraph(list, "threePointerList01");
+		graph = Ntro.reflectionService().objectGraph(list, "leftRightList01");
 		graph.write(Ntro.graphWriter());
 		
 		list.add("2");
 
-		graph = Ntro.reflectionService().objectGraph(list, "threePointerList02");
+		graph = Ntro.reflectionService().objectGraph(list, "leftRightList02");
 		graph.write(Ntro.graphWriter());
 
 		list.add("3");
 
-		graph = Ntro.reflectionService().objectGraph(list, "threePointerList03");
+		graph = Ntro.reflectionService().objectGraph(list, "leftRightList03");
 		graph.write(Ntro.graphWriter());
 
 		list.add("4");
 
-		graph = Ntro.reflectionService().objectGraph(list, "threePointerList04");
+		graph = Ntro.reflectionService().objectGraph(list, "leftRightList04");
 		graph.write(Ntro.graphWriter());
 
 		list.add("5");
 
-		graph = Ntro.reflectionService().objectGraph(list, "threePointerList05");
+		graph = Ntro.reflectionService().objectGraph(list, "leftRightList05");
 		graph.write(Ntro.graphWriter());
 
 		list.add("6");
 
-		graph = Ntro.reflectionService().objectGraph(list, "threePointerList06");
+		graph = Ntro.reflectionService().objectGraph(list, "leftRightList06");
 		graph.write(Ntro.graphWriter());
 
 		list.add("7");
 
-		graph = Ntro.reflectionService().objectGraph(list, "threePointerList07");
+		graph = Ntro.reflectionService().objectGraph(list, "leftRightList07");
+		graph.write(Ntro.graphWriter());
+
+		list.add("8");
+
+		graph = Ntro.reflectionService().objectGraph(list, "leftRightList08");
+		graph.write(Ntro.graphWriter());
+
+		list.add("9");
+
+		graph = Ntro.reflectionService().objectGraph(list, "leftRightList09");
 		graph.write(Ntro.graphWriter());
 	}
 
