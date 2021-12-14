@@ -6,8 +6,19 @@ import java.util.List;
 public class TestObject01 {
 	
 	private String attr01 = "asdf";
-	private List<String> attr02 = new ArrayList<>();
+	private List<List<String>> attr02 = new ArrayList<>();
+
 	private TestObject02 attr03 = null;
+
+	private List<List<TestObject02>> attr04 = new ArrayList<>();
+
+	public List<List<TestObject02>> getAttr04() {
+		return attr04;
+	}
+
+	public void setAttr04(List<List<TestObject02>> attr04) {
+		this.attr04 = attr04;
+	}
 
 	public String getAttr01() {
 		return attr01;
@@ -17,11 +28,11 @@ public class TestObject01 {
 		this.attr01 = attr01;
 	}
 
-	public List<String> getAttr02() {
+	public List<List<String>> getAttr02() {
 		return attr02;
 	}
 
-	public void setAttr02(List<String> attr02) {
+	public void setAttr02(List<List<String>> attr02) {
 		this.attr02 = attr02;
 	}
 
@@ -34,10 +45,38 @@ public class TestObject01 {
 	}
 
 	public TestObject01() {
-		getAttr02().add("listValue00");
-		getAttr02().add("listValue00");
-		getAttr02().add("listValue00");
+		List<String> subList01 = new ArrayList<>();
+		List<String> subList02 = new ArrayList<>();
+		List<String> subList03 = new ArrayList<>();
+		
+		subList01.add("a");
+		subList01.add("b");
+		subList01.add("c");
+
+		subList02.add("d");
+		subList02.add("e");
+
+		subList03.add("f");
+		subList03.add("g");
+		subList03.add("h");
+		subList03.add("i");
+
+		getAttr02().add(subList01);
+		getAttr02().add(subList02);
+		getAttr02().add(subList03);
 		setAttr03(new TestObject02());
+
+		List<TestObject02> objectList01 = new ArrayList<>();
+		List<TestObject02> objectList02 = new ArrayList<>();
+		
+		objectList01.add(new TestObject02());
+		objectList01.add(new TestObject02());
+
+		objectList02.add(new TestObject02());
+		
+		getAttr04().add(objectList01);
+		getAttr04().add(objectList02);
+
 	}
 
 

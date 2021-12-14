@@ -203,9 +203,18 @@ public class GraphWriterJdk implements GraphWriter {
 		
 		Link link;
 		
-		if(edgeSpec.hasToPort()) {
+		if(edgeSpec.hasToPort()
+				&& !edgeSpec.hasFromPort()) {
 
 			link = Link.to(toNode.port(edgeSpec.toPort()));
+
+		} else if(edgeSpec.hasToPort()
+				&& edgeSpec.hasFromPort()) {
+
+			link = between(port(edgeSpec.fromPort(), CENTER), toNode.port(edgeSpec.toPort()));
+			link.attrs().add("tailclip","false");
+			link.attrs().add("arrowtail","dot");
+			link.attrs().add("dir","both");
 
 		}else {
 			
@@ -221,26 +230,9 @@ public class GraphWriterJdk implements GraphWriter {
 		if(edgeSpec.to().isCluster()) {
 			link.attrs().add("lhead","cluster_" + edgeSpec.to().id());
 		}
-		
-		if(edgeSpec.hasFromPort()) {
 
-			// FIXME: c (centered) added by default
-			//PortNode fromPort = fromNode.port(edgeSpec.fromPort()).port("c");
-
-			link = between(port(edgeSpec.fromPort(), CENTER), toNode.port(edgeSpec.toPort()));
-			link.attrs().add("tailclip","false");
-			link.attrs().add("arrowtail","dot");
-			link.attrs().add("dir","both");
-			fromNode.links().add(link);
-
-		}else {
-			
-			fromNode.links().add(link);
-		}
-
+		fromNode.links().add(link);
 		graph.add(fromNode);
-
-		
 	}
 
 	
@@ -366,34 +358,34 @@ public class GraphWriterJdk implements GraphWriter {
 			attrs.add("shape", nodeSpec.shape());
 		}
 	}
-	
+
 	private String labelFromRecordSpec(RecordSpec recordSpec) {
-			return recordSpec.items().reduceToResult(new StringBuilder(), (accumulator, item) -> {
-				if(accumulator.length() > 0) {
-					accumulator.append("|");
-				}
-				
-				if(item.hasPort()) {
-					accumulator.append('<');
-					accumulator.append(item.port());
-					accumulator.append('>');
-				}
-				
-				if(item.hasValue()) {
-					accumulator.append(item.value());
-				}
+		StringBuilder builder = new StringBuilder();
 
-				if(item.isRecord()) {
-					accumulator.append('{');
-					accumulator.append(labelFromRecordSpec(item.asRecord()));
-					accumulator.append('}');
-				}
+		recordSpec.items().forEach(item -> {
+			if(builder.length() > 0) {
+				builder.append("|");
+			}
+			
+			if(item.hasPort()) {
+				builder.append('<');
+				builder.append(item.port());
+				builder.append('>');
+			}
+			
+			if(item.hasValue()) {
+				builder.append(item.value());
+			}
 
-				return accumulator;
+			if(item.isRecord()) {
+				builder.append('{');
+				builder.append(labelFromRecordSpec(item.asRecord()));
+				builder.append('}');
+			}
+		});
 
-			}).value().toString();
+		return builder.toString();
 	}
-	
 
 	private MutableNode createNode(NodeSpec nodeSpec) throws NodeAlreadyAddedException {
 		checkThatNodeDoesNotAlreadyExists(nodeSpec);

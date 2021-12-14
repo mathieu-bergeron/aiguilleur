@@ -96,6 +96,13 @@ public class ObjectStructureWriter {
 	}
 
 	public void writeNodes() {
+
+		processNodesAndCreateRecordNodeSpecs();
+
+		writeRecordNodeSpecsForUserDefinedObjects();
+	}
+
+	private void processNodesAndCreateRecordNodeSpecs() {
 		getGraph().visitNodes().forEach(visitedNode -> {
 			
 			ObjectNode node = visitedNode.node();
@@ -106,10 +113,6 @@ public class ObjectStructureWriter {
 				
 				processEdge(edge);
 			});
-			
-			if(node.isUserDefinedObject()) {
-				writeNode(node);
-			}
 		});
 	}
 
@@ -126,20 +129,6 @@ public class ObjectStructureWriter {
 			RecordItemSpecNtro nodeLabelItem = record.addItem();
 			nodeLabelItem.setValue(node.label());
 			nodeLabelItem.setPortName(RecordNodeSpec.MAIN_PORT_NAME);
-		}
-	}
-
-	private void writeNode(ObjectNode node) {
-
-		RecordNodeSpecNtro nodeSpec = nodeSpecByNodeId.get(node.id().toKey().toString());
-		
-		try {
-
-			writer.addNode(nodeSpec);
-
-		} catch (GraphWriterException e) {
-			
-			Ntro.exceptionThrower().throwException(e);
 		}
 	}
 
@@ -165,7 +154,7 @@ public class ObjectStructureWriter {
 			RecordSpecNtro valuesRecord = subRecord.addSubRecord();
 
 			recordByNodeId.put(edge.to().id().toKey().toString(), valuesRecord);
-			nodeSpecByNodeId.put(edge.to().id().toKey().toString(), fromSpec);
+			nodeSpecByNodeId.put(edge.to().id().toKey().toString(), fromSpec);    // propagate that we are in the same node
 			
 		}else if(edge.to().isUserDefinedObject()) {
 			
@@ -181,6 +170,29 @@ public class ObjectStructureWriter {
 											            edge,
 											            toSpec,
 											            RecordNodeSpec.MAIN_PORT_NAME));
+		}
+	}
+
+	private void writeRecordNodeSpecsForUserDefinedObjects() {
+		getGraph().nodes().findAll(n -> n.isUserDefinedObject()).forEach(node -> {
+
+			writeNode(node);
+
+		});
+	}
+
+
+	private void writeNode(ObjectNode node) {
+
+		RecordNodeSpecNtro nodeSpec = nodeSpecByNodeId.get(node.id().toKey().toString());
+		
+		try {
+
+			writer.addNode(nodeSpec);
+
+		} catch (GraphWriterException e) {
+			
+			Ntro.exceptionThrower().throwException(e);
 		}
 	}
 
