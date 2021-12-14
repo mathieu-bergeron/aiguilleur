@@ -13,8 +13,8 @@ import ca.ntro.core.reflection.mock.linked_list.MockLinkedList;
 import ca.ntro.core.reflection.mock.objects.TestObject01;
 import ca.ntro.core.reflection.mock.objects.TestObject02;
 import ca.ntro.core.reflection.mock.objects.TestObjectCycle;
-import ca.ntro.core.reflection.mock.three_pointer_list.MockThreePointerList;
-import ca.ntro.core.reflection.mock.three_pointer_list.ThreePointerList;
+import ca.ntro.core.reflection.mock.three_pointer_list.MockLeftRightList;
+import ca.ntro.core.reflection.mock.three_pointer_list.LeftRightList;
 import ca.ntro.core.reflection.object_graph.ObjectGraph;
 import ca.ntro.core.tests.NtroTests;
 
@@ -23,7 +23,7 @@ public class ObjectGraphTests extends NtroTests {
 	@Test
 	public void testThreePointerList01() throws Throwable {
 		
-		ThreePointerList<String> list = new MockThreePointerList<>();
+		LeftRightList<String> list = new MockLeftRightList<>();
 
 		ObjectGraph graph = Ntro.reflectionService().objectGraph(list, "threePointerList00");
 		graph.write(Ntro.graphWriter());

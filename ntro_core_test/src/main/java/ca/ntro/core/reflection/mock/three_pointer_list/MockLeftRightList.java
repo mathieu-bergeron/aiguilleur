@@ -1,8 +1,8 @@
 package ca.ntro.core.reflection.mock.three_pointer_list;
 
-public class MockThreePointerList<I extends Object>
+public class MockLeftRightList<I extends Object>
         
-       implements ThreePointerList<I> {
+       implements LeftRightList<I> {
 	
 	private MockLeftRightListElement<I> left = null;;
 	private MockLeftRightListElement<I> right = null;;
@@ -131,7 +131,7 @@ public class MockThreePointerList<I extends Object>
 
 		}else {
 
-			insertRight(index - size/2, newItem);
+			insertRight(index - size/2 - 1, newItem);
 			shiftRight();
 		}
 		

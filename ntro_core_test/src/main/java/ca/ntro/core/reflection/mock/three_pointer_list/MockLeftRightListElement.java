@@ -2,7 +2,7 @@ package ca.ntro.core.reflection.mock.three_pointer_list;
 
 public class MockLeftRightListElement<I extends Object> 
 
-       implements ThreePointerListElement<I> {
+       implements LeftRightListElement<I> {
 	
 	private I value;
 	private MockLeftRightListElement<I> next;
@@ -59,7 +59,7 @@ public class MockLeftRightListElement<I extends Object>
 	}
 
 	@Override
-	public ThreePointerListElement<I> next() {
+	public LeftRightListElement<I> next() {
 		return getNext();
 	}
 

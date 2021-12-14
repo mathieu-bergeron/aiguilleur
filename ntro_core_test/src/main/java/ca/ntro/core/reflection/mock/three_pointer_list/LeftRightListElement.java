@@ -1,10 +1,10 @@
 package ca.ntro.core.reflection.mock.three_pointer_list;
 
-public interface ThreePointerListElement<E extends Object> {
+public interface LeftRightListElement<E extends Object> {
 	
 	boolean hasNext();
 	
-	ThreePointerListElement<E> next();
+	LeftRightListElement<E> next();
 
 	E value();
 
