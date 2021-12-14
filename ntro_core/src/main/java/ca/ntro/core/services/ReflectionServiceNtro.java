@@ -93,8 +93,8 @@ public abstract class ReflectionServiceNtro implements ReflectionService {
 	}
 
 	@Override
-	public List<?> asList(Object object) {
-		return (List<?>) object;
+	public List<Object> asList(Object object) {
+		return (List<Object>) object;
 	}
 
 	@SuppressWarnings("unchecked")

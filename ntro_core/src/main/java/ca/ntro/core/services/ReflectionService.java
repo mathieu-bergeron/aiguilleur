@@ -37,7 +37,7 @@ public interface ReflectionService {
 	Object asUserDefinedObject(Object object);
 	<V> V asUserDefinedObject(Object object, Class<V> _class);
 	
-	List<?> asList(Object object);
+	List<Object> asList(Object object);
 	<I> List<I> asList(Object object, Class<I> itemClass);
 
 	Map<String,?> asMap(Object object);

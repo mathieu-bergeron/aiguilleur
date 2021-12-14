@@ -118,7 +118,7 @@ public class ReflectionServiceNull implements ReflectionService {
 	}
 
 	@Override
-	public List<?> asList(Object object) {
+	public List<Object> asList(Object object) {
 		// TODO Auto-generated method stub
 		return null;
 	}

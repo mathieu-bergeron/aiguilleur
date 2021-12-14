@@ -1,6 +1,10 @@
 package ca.ntro.core.services;
 
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 import ca.ntro.core.reflection.ObjectGraphJdk;
 import ca.ntro.core.reflection.object_graph.ObjectGraph;
 import ca.ntro.core.reflection.object_updates.ObjectUpdate;
@@ -61,5 +65,55 @@ public class ReflectionServiceJdk extends ReflectionServiceNtro {
 	public Stream<ObjectUpdate> objectDiff(Object o1, Object o2) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean isList(Object object) {
+		return object instanceof List 
+				|| (object != null && object.getClass().isArray());
+	}
+
+	@Override
+	public List<Object> asList(Object object) {
+		List<Object> list;
+		
+		if(object != null 
+				&& object.getClass().isArray()) {
+
+			list = new ArrayList<>();
+			
+			for(int i = 0; i < Array.getLength(object); i++) {
+				list.add(Array.get(object, i));
+			}
+			
+		}else {
+			
+			list = (List<Object>) object;
+		}
+		
+		
+		return list;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <I> List<I> asList(Object object, Class<I> itemClass) {
+		List<I> list;
+		
+		if(object != null
+				&& object.getClass().isArray()) {
+
+			list = new ArrayList<>();
+			
+			for(int i = 0; i < Array.getLength(object); i++) {
+				list.add((I) Array.get(object, i));
+			}
+			
+		}else {
+			
+			list = (List<I>) object;
+		}
+		
+		return list;
 	}
 }

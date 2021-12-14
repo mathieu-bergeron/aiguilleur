@@ -11,6 +11,27 @@ public class TestObject01 {
 	private TestObject02 attr03 = null;
 
 	private List<List<TestObject02>> attr04 = new ArrayList<>();
+	
+	private TestObject02[] attr05 = new TestObject02[4];
+
+	private String[][] attr06 = new String[2][4];
+	
+	
+	public String[][] getAttr06() {
+		return attr06;
+	}
+
+	public void setAttr06(String[][] attr06) {
+		this.attr06 = attr06;
+	}
+
+	public TestObject02[] getAttr05() {
+		return attr05;
+	}
+
+	public void setAttr05(TestObject02[] attr05) {
+		this.attr05 = attr05;
+	}
 
 	public List<List<TestObject02>> getAttr04() {
 		return attr04;
@@ -76,6 +97,17 @@ public class TestObject01 {
 		
 		getAttr04().add(objectList01);
 		getAttr04().add(objectList02);
+		
+		for(int i = 0; i < 4; i++) {
+			getAttr05()[i] = new TestObject02();
+		}
+		
+		for(int i = 0; i < getAttr06().length; i++) {
+			for(int j = 0; j < getAttr06()[i].length; j++) {
+				
+				getAttr06()[i][j] = String.valueOf('a' + i + j);
+			}
+		}
 
 	}
 
