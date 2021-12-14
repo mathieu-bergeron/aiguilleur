@@ -50,6 +50,20 @@ public class MockLeftRightListElement<I extends Object>
 		
 	}
 
+	public void removeAfter() {
+		if(hasNext()
+				&& next().hasNext()) {
+			
+			MockLeftRightListElement<I> newNext = getNext().getNext();
+			setNext(newNext);
+
+		}else {
+
+			setNext(null);
+		}
+		
+	}
+
 	
 	
 	

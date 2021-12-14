@@ -4,11 +4,11 @@ public class MockLeftRightList<I extends Object>
         
        implements LeftRightList<I> {
 	
-	private MockLeftRightListElement<I> left = null;;
-	private MockLeftRightListElement<I> right = null;;
+	protected MockLeftRightListElement<I> left = null;;
+	protected MockLeftRightListElement<I> right = null;;
 
-	private int sizeLeft = 0;
-	private int sizeRight = 0;
+	protected int sizeLeft = 0;
+	protected int sizeRight = 0;
 
 	public MockLeftRightListElement<I> getLeft() {
 		return left;
@@ -75,7 +75,7 @@ public class MockLeftRightList<I extends Object>
 		sizeRight++;
 	}
 
-	private void shiftRight() {
+	protected void shiftRight() {
 		MockLeftRightListElement<I> oldLeft = left;
 		MockLeftRightListElement<I> oldRight = right;
 		
@@ -93,7 +93,20 @@ public class MockLeftRightList<I extends Object>
 		sizeLeft++;
 	}
 
-	private MockLeftRightListElement<I> reachFrom(MockLeftRightListElement<I> from, int steps){
+	private MockLeftRightListElement<I> reachItem(int index) {
+		MockLeftRightListElement<I> cursor = null;
+
+		if(shouldGoLeft(index)) {
+			cursor = reachFrom(left, toLeftIndex(index));
+
+		}else {
+
+			cursor = reachFrom(right, toRightIndex(index));
+		}
+		return cursor;
+	}
+
+	protected MockLeftRightListElement<I> reachFrom(MockLeftRightListElement<I> from, int steps){
 		MockLeftRightListElement<I> cursor = from;
 		
 		for(int i = 0; i<steps; i++) {
@@ -104,8 +117,25 @@ public class MockLeftRightList<I extends Object>
 		
 		return cursor;
 	}
+
+	protected int indexFrom(MockLeftRightListElement<I> from, int size, Object o){
+		int index = -1;
+
+		MockLeftRightListElement<I> cursor = from;
+		
+		for(int i = 0; i < size; i++) {
+			if(cursor.getValue().equals(o)) {
+				index = i;
+				break;
+			}
+
+			cursor = cursor.getNext();
+		}
+
+		return index;
+	}
 	
-	private void insertLeft(int steps, MockLeftRightListElement<I>  newItem) {
+	protected void insertLeft(int steps, MockLeftRightListElement<I>  newItem) {
 		MockLeftRightListElement<I> elementBefore = reachFrom(left, steps-1);
 
 		if(elementBefore != null) {
@@ -119,7 +149,7 @@ public class MockLeftRightList<I extends Object>
 		}
 	}
 
-	private void insertRight(int steps, MockLeftRightListElement<I>  newItem) {
+	protected void insertRight(int steps, MockLeftRightListElement<I>  newItem) {
 		MockLeftRightListElement<I> previousElement = reachFrom(right, steps-1);
 
 		if(previousElement != null) {
@@ -134,49 +164,91 @@ public class MockLeftRightList<I extends Object>
 	}
 
 	@Override
-	public void insert(int index, I value) {
+	public void insert(int listIndex, I value) {
 		
 		MockLeftRightListElement<I> newItem = new MockLeftRightListElement<I>(value);
 		
-		if(index <= size()/2) {
+		if(shouldGoLeft(listIndex)) {
 
-			insertLeft(size()/2 - index, newItem);
+			insertLeft(toLeftIndex(listIndex), newItem);
 			sizeLeft++;
 
 		}else {
 
-			insertRight(index - size()/2, newItem);
+			insertRight(toRightIndex(listIndex), newItem);
 			sizeRight++;
 		}
 		
-		if((sizeLeft - sizeRight) >= 2) {
+		balance();
+	}
+
+	private void balance() {
+		if(shouldShiftLeft()) {
 
 			shiftLeft();
 
-		}else if((sizeRight - sizeLeft) >= 2) {
+		}else if(shouldShiftRight()) {
 
 			shiftRight();
 		}
 	}
-	
-	
-	
 
-	@Override
-	public void set(int index, I item) {
-		// TODO Auto-generated method stub
-		
+	protected boolean shouldShiftRight() {
+		return (sizeRight - sizeLeft) >= 2;
+	}
+
+	protected boolean shouldShiftLeft() {
+		return (sizeLeft - sizeRight) >= 2;
+	}
+
+	protected int toRightIndex(int listIndex) {
+		return listIndex - sizeLeft;
+	}
+
+	protected int toLeftIndex(int listIndex) {
+		return sizeLeft - listIndex;
+	}
+
+	protected int listIndexFromRightIndex(int indexRight) {
+		return sizeLeft + indexRight;
+	}
+
+	protected int listIndexFromLeftIndex(int indexLeft) {
+		return sizeLeft - indexLeft;
+	}
+
+	protected boolean shouldGoLeft(int index) {
+		return index <= sizeLeft;
 	}
 
 	@Override
+	public void set(int index, I item) {
+		MockLeftRightListElement<I> cursor = reachItem(index);
+		
+		if(cursor != null) {
+			cursor.setValue(item);
+		}
+	}
+
+
+	@Override
 	public I get(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		I result = null;
+		MockLeftRightListElement<I> cursor = reachItem(index);
+		
+		if(cursor != null) {
+			result = cursor.getValue();
+		}
+
+		return result;
 	}
 
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
+		left = null;
+		right = null;
+		sizeLeft = 0;
+		sizeRight = 0;
 		
 	}
 
@@ -197,8 +269,24 @@ public class MockLeftRightList<I extends Object>
 
 	@Override
 	public int indexOf(Object o) {
-		// TODO Auto-generated method stub
-		return 0;
+		int index = -1;
+		
+		index = indexFrom(left, sizeLeft, o);
+		
+		if(index != -1) {
+			
+			index = indexFrom(right, sizeRight, o);
+			
+			if(index != -1) {
+				index = listIndexFromRightIndex(index);
+			}
+			
+		}else {
+			
+			index = listIndexFromLeftIndex(index);
+		}
+
+		return index;
 	}
 
 	@Override
@@ -212,6 +300,48 @@ public class MockLeftRightList<I extends Object>
 
 	@Override
 	public void remove(int index) {
+		if(shouldGoLeft(index)) {
+
+			removeLeft(toLeftIndex(index));
+			sizeLeft--;
+
+		}else {
+
+			removeRight(toRightIndex(index));
+			sizeRight--;
+		}
+		
+		balance();
+		
+	}
+
+	protected void removeRight(int rightIndex) {
+		MockLeftRightListElement<I> elementBefore = reachFrom(right, rightIndex-1);
+
+		if(elementBefore != null) {
+
+			elementBefore.removeAfter();
+
+		}else {
+			if(left != null) {
+				left = left.getNext();
+			}
+		}
+		
+	}
+
+	protected void removeLeft(int leftIndex) {
+		MockLeftRightListElement<I> elementBefore = reachFrom(left, leftIndex-1);
+
+		if(elementBefore != null) {
+
+			elementBefore.removeAfter();
+
+		}else {
+			if(right != null) {
+				right = right.getNext();
+			}
+		}
 		
 	} 
 }
