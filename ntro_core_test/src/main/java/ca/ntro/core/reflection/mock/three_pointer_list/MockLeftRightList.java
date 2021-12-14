@@ -206,7 +206,7 @@ public class MockLeftRightList<I extends Object>
 	}
 
 	protected int toLeftIndex(int listIndex) {
-		return sizeLeft - listIndex;
+		return sizeLeft - listIndex - 1;
 	}
 
 	protected int listIndexFromRightIndex(int indexRight) {
@@ -218,7 +218,7 @@ public class MockLeftRightList<I extends Object>
 	}
 
 	protected boolean shouldGoLeft(int index) {
-		return index <= sizeLeft;
+		return index <= sizeLeft - 1;
 	}
 
 	@Override
