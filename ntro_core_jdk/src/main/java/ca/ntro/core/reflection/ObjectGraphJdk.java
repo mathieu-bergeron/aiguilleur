@@ -11,6 +11,10 @@ public class ObjectGraphJdk extends ObjectGraphNtro {
 		super(o);
 	}
 
+	public ObjectGraphJdk(Object o, String graphName) {
+		super(o, graphName);
+	}
+
 	@Override
 	protected ObjectGraphStructureNtro newObjectGraphStructureInstance() {
 		return new ObjectGraphStructureJdk();

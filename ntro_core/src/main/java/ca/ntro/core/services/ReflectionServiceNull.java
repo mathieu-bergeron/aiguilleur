@@ -147,4 +147,10 @@ public class ReflectionServiceNull implements ReflectionService {
 		return null;
 	}
 
+	@Override
+	public ObjectGraph objectGraph(Object o, String graphName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

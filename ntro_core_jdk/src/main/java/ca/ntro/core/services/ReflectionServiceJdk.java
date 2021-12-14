@@ -18,6 +18,11 @@ public class ReflectionServiceJdk extends ReflectionServiceNtro {
 	}
 
 	@Override
+	public ObjectGraph objectGraph(Object o, String graphName) {
+		return new ObjectGraphJdk(o, graphName);
+	}
+
+	@Override
 	public char asChar(Object object) {
 		if(object == null) return 0;
 		

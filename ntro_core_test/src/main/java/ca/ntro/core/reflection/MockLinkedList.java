@@ -23,7 +23,7 @@ public class MockLinkedList<I extends Object> implements LinkedList<I> {
 	
 	@Override
 	public void add(I item) {
-		insert(0, item);
+		insert(size(), item);
 	}
 
 	@Override

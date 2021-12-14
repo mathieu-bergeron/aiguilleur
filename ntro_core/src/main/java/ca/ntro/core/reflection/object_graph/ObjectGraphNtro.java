@@ -18,11 +18,22 @@ public abstract class ObjectGraphNtro
 	public ObjectGraphNtro(Object o) {
 		super();
 
+		initialize(o, o.getClass().getSimpleName());
+	}
+
+	public ObjectGraphNtro(Object o, String graphName) {
+		super();
+
+		initialize(o, graphName);
+	}
+
+	private void initialize(Object o, String graphName) {
+
 		ObjectGraphStructureNtro graphStructure = newObjectGraphStructureInstance();
 		graphStructure.setStartObjects(new Object[] {o});
 		graphStructure.setGraph(this);
 		
-		setId(GraphId.fromGraphName(o.getClass().getSimpleName()));
+		setId(GraphId.fromGraphName(graphName));
 
 		setGraphStructure(graphStructure);
 	}

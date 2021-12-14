@@ -10,6 +10,7 @@ import ca.ntro.core.stream.Stream;
 public interface ReflectionService {
 	
 	ObjectGraph objectGraph(Object o);
+	ObjectGraph objectGraph(Object o, String graphName);
 	
 	Stream<ObjectUpdate> objectDiff(Object o1, Object o2);
 

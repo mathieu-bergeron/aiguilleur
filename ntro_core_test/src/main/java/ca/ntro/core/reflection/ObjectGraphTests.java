@@ -15,13 +15,25 @@ public class ObjectGraphTests extends NtroTests {
 	public void testObjectGraphLinkedList01() throws Throwable {
 		
 		LinkedList<String> linkedList = new MockLinkedList<>();
+
+		ObjectGraph graph = Ntro.reflectionService().objectGraph(linkedList, "linkedList00");
+		graph.write(Ntro.graphWriter());
 		
 		linkedList.add("i01");
-		linkedList.add("i02");
-		linkedList.add("i03");
-		
-		ObjectGraph graph = Ntro.reflectionService().objectGraph(linkedList);
+
+		graph = Ntro.reflectionService().objectGraph(linkedList, "linkedList01");
 		graph.write(Ntro.graphWriter());
+		
+		linkedList.add("i02");
+
+		graph = Ntro.reflectionService().objectGraph(linkedList, "linkedList02");
+		graph.write(Ntro.graphWriter());
+
+		linkedList.add("i03");
+
+		graph = Ntro.reflectionService().objectGraph(linkedList, "linkedList03");
+		graph.write(Ntro.graphWriter());
+		
 	}
 
 
