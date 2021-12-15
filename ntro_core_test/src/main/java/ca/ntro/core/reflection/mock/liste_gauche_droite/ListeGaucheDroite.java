@@ -5,6 +5,14 @@ import ca.ntro.core.reflection.mock.SimpleList;
 public class ListeGaucheDroite<V extends Object>
         
        implements SimpleList<V> {
+	
+	/* class specific options
+	public static ClassOptions classOptions() {
+	
+		attributeOrdering = new String{}["gauche","tailleGauche","tailleDroite","droite"];
+	
+		
+	}*/
 
 	private ElementListeGaucheDroite<V> gauche = null;;
 	private ElementListeGaucheDroite<V> droite = null;;
