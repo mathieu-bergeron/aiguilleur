@@ -7,10 +7,12 @@ public class ListeGaucheDroite<V extends Object>
        implements SimpleList<V> {
 	
 	/* class specific options
-	public static ClassOptions classOptions() {
-	
-		attributeOrdering = new String{}["gauche","tailleGauche","tailleDroite","droite"];
-	
+	public static ClassOptions _options() {
+	    ClassOptions options = new ClassOptions();
+
+		fieldOrder = new String{}["gauche","tailleGauche","tailleDroite","droite"];
+		
+		options.objectGraphWriterOptions().referenceDirection("gauche", Direction.BACKWARD);
 		
 	}*/
 
