@@ -96,7 +96,7 @@ public class MockLeftRightList<I extends Object>
 	private MockLeftRightListElement<I> reachItem(int index) {
 		MockLeftRightListElement<I> cursor = null;
 
-		if(shouldGoLeft(index)) {
+		if(shouldReachLeft(index)) {
 			cursor = reachFrom(left, toLeftIndex(index));
 
 		}else {
@@ -107,7 +107,11 @@ public class MockLeftRightList<I extends Object>
 	}
 
 	protected MockLeftRightListElement<I> reachFrom(MockLeftRightListElement<I> from, int steps){
-		MockLeftRightListElement<I> cursor = from;
+		MockLeftRightListElement<I> cursor = null;
+		
+		if(steps >= 0) {
+			cursor = from;
+		}
 		
 		for(int i = 0; i<steps; i++) {
 			if(cursor != null) {
@@ -136,7 +140,7 @@ public class MockLeftRightList<I extends Object>
 	}
 	
 	protected void insertLeft(int steps, MockLeftRightListElement<I>  newItem) {
-		MockLeftRightListElement<I> elementBefore = reachFrom(left, steps-1);
+		MockLeftRightListElement<I> elementBefore = reachFrom(left, steps);
 
 		if(elementBefore != null) {
 
@@ -168,7 +172,7 @@ public class MockLeftRightList<I extends Object>
 		
 		MockLeftRightListElement<I> newItem = new MockLeftRightListElement<I>(value);
 		
-		if(shouldGoLeft(listIndex)) {
+		if(shouldInsertLeft(listIndex)) {
 
 			insertLeft(toLeftIndex(listIndex), newItem);
 			sizeLeft++;
@@ -206,7 +210,7 @@ public class MockLeftRightList<I extends Object>
 	}
 
 	protected int toLeftIndex(int listIndex) {
-		return sizeLeft - listIndex - 1;
+		return (sizeLeft - 1 ) - listIndex;
 	}
 
 	protected int listIndexFromRightIndex(int indexRight) {
@@ -214,12 +218,18 @@ public class MockLeftRightList<I extends Object>
 	}
 
 	protected int listIndexFromLeftIndex(int indexLeft) {
-		return sizeLeft - indexLeft;
+		return (sizeLeft - 1)  - indexLeft;
 	}
 
-	protected boolean shouldGoLeft(int index) {
-		return index <= sizeLeft - 1;
+	protected boolean shouldReachLeft(int index) {
+		return index < sizeLeft;
 	}
+
+	protected boolean shouldInsertLeft(int index) {
+		return index < sizeLeft;
+		//return index <= size() / 2;
+	}
+
 
 	@Override
 	public void set(int index, I item) {
@@ -300,7 +310,7 @@ public class MockLeftRightList<I extends Object>
 
 	@Override
 	public void remove(int index) {
-		if(shouldGoLeft(index)) {
+		if(shouldReachLeft(index)) {
 
 			removeLeft(toLeftIndex(index));
 			sizeLeft--;
@@ -323,8 +333,8 @@ public class MockLeftRightList<I extends Object>
 			elementBefore.removeAfter();
 
 		}else {
-			if(left != null) {
-				left = left.getNext();
+			if(right != null) {
+				right = right.getNext();
 			}
 		}
 		
@@ -338,8 +348,8 @@ public class MockLeftRightList<I extends Object>
 			elementBefore.removeAfter();
 
 		}else {
-			if(right != null) {
-				right = right.getNext();
+			if(left != null) {
+				left = left.getNext();
 			}
 		}
 		

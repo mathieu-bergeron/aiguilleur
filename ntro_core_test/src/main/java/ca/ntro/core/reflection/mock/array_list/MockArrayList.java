@@ -97,28 +97,14 @@ public class      MockArrayList<I extends Object>
 	}
 	
 	public void shiftLeft(int startIndex, int endIndex) {
-
 		for(int i = startIndex; i <= endIndex; i++) {
 			table[i-1] = table[i];
-		}
-
-		firstIndex--;
-		
-		if(endIndex == lastIndex) {
-			lastIndex--;
 		}
 	}
 
 	public void shiftRight(int startIndex, int endIndex) {
-
 		for(int i = endIndex; i >= startIndex; i--) {
 			table[i+1] = table[i];
-		}
-
-		lastIndex++;
-		
-		if(startIndex == firstIndex) {
-			firstIndex++;
 		}
 	}
 	
@@ -144,24 +130,25 @@ public class      MockArrayList<I extends Object>
 			growTable();
 		}
 		
-		if(size() == 0) {
+		int oldSize = size();
+		int newSize = oldSize + 1;
 
-			firstIndex--;
-			table[tableIndex(listIndex)] = item;
-			
-		}else if(size() == 1) {
-
-			lastIndex++;
-			table[tableIndex(listIndex)] = item;
-
-		}else if(listIndexBeforeListMiddle(listIndex)) {
+		if(listIndexBeforeListMiddle(listIndex)) {
 			
 			shiftLeft(firstIndex, tableIndex(listIndex) - 1);
+			
+			firstIndex--;
+			lastIndex = (newSize-1) + firstIndex;
+
 			table[tableIndex(listIndex)] = item;
 			
 		}else {
-			
+
 			shiftRight(tableIndex(listIndex), lastIndex);
+			
+			lastIndex++;
+			firstIndex = lastIndex - (newSize-1);
+
 			table[tableIndex(listIndex)] = item;
 		}
 	}
@@ -213,7 +200,11 @@ public class      MockArrayList<I extends Object>
 	@Override
 	public void removeValue(Object o) {
 		int index = indexOf(o);
-		remove(index);
+		
+		if(index != -1) {
+
+			remove(index);
+		}
 	}
 
 	@Override
@@ -221,11 +212,15 @@ public class      MockArrayList<I extends Object>
 		
 		if(listIndexBeforeListMiddle(listIndex)) {
 			
-			shiftRight(firstIndex, tableIndex(listIndex));
+			shiftRight(firstIndex, tableIndex(listIndex) - 1);
 			
+			firstIndex++;
+
 		}else {
 
-			shiftLeft(tableIndex(listIndex), lastIndex);
+			shiftLeft(tableIndex(listIndex) + 1, lastIndex);
+			
+			lastIndex--;
 
 		}
 	}
