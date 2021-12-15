@@ -6,12 +6,11 @@ public class ListeGaucheDroite<V extends Object>
         
        implements SimpleList<V> {
 
+	private ElementListeGaucheDroite<V> gauche = null;;
+	private ElementListeGaucheDroite<V> droite = null;;
 
-	protected ElementListeGaucheDroite<V> gauche = null;;
-	protected ElementListeGaucheDroite<V> droite = null;;
-
-	protected int tailleGauche = 0;
-	protected int tailleDroite = 0;
+	private int tailleGauche = 0;
+	private int tailleDroite = 0;
 
 	public ElementListeGaucheDroite<V> getGauche() {
 		return gauche;
@@ -76,7 +75,7 @@ public class ListeGaucheDroite<V extends Object>
 		
 	}
 
-	protected void deplacerUnElementAGauche() {
+	private void deplacerUnElementAGauche() {
 		ElementListeGaucheDroite<V> ancienneGauche = gauche;
 		ElementListeGaucheDroite<V> ancienneDroite = droite;
 		
@@ -109,7 +108,7 @@ public class ListeGaucheDroite<V extends Object>
 		return curseur;
 	}
 
-	protected ElementListeGaucheDroite<V> atteindreAPartirDe(ElementListeGaucheDroite<V> debut, int nombreDePas){
+	private ElementListeGaucheDroite<V> atteindreAPartirDe(ElementListeGaucheDroite<V> debut, int nombreDePas){
 		ElementListeGaucheDroite<V> curseur = null;
 		
 		if(nombreDePas >= 0) {
@@ -128,7 +127,7 @@ public class ListeGaucheDroite<V extends Object>
 		return curseur;
 	}
 
-	protected int indiceAPartirDe(ElementListeGaucheDroite<V> debut, int tailleChaine, Object o){
+	private int indiceAPartirDe(ElementListeGaucheDroite<V> debut, int tailleChaine, Object o){
 		int index = -1;
 
 		ElementListeGaucheDroite<V> curseur = debut;
@@ -146,7 +145,7 @@ public class ListeGaucheDroite<V extends Object>
 		return index;
 	}
 	
-	protected void insererAGauche(int indiceGauche, ElementListeGaucheDroite<V>  nouvelElement) {
+	private void insererAGauche(int indiceGauche, ElementListeGaucheDroite<V>  nouvelElement) {
 		ElementListeGaucheDroite<V> elementAvant = atteindreAPartirDe(gauche, indiceGauche);
 
 		if(elementAvant != null) {
@@ -160,7 +159,7 @@ public class ListeGaucheDroite<V extends Object>
 		}
 	}
 
-	protected void insererADroite(int indiceDroite, ElementListeGaucheDroite<V>  nouvelElement) {
+	private void insererADroite(int indiceDroite, ElementListeGaucheDroite<V>  nouvelElement) {
 		ElementListeGaucheDroite<V> elementAvant = atteindreAPartirDe(droite, indiceDroite-1);
 
 		if(elementAvant != null) {
@@ -193,7 +192,7 @@ public class ListeGaucheDroite<V extends Object>
 		equilibrer();
 	}
 
-	protected void equilibrer() {
+	private void equilibrer() {
 		if(plusLourdAGauche()) {
 
 			deplacerUnElementADroite();
@@ -204,31 +203,31 @@ public class ListeGaucheDroite<V extends Object>
 		}
 	}
 
-	protected boolean plusLourdADroite() {
+	private boolean plusLourdADroite() {
 		return (tailleDroite - tailleGauche) >= 2;
 	}
 
-	protected boolean plusLourdAGauche() {
+	private boolean plusLourdAGauche() {
 		return (tailleGauche - tailleDroite) >= 2;
 	}
 
-	protected int versIndiceDroite(int listIndex) {
+	private int versIndiceDroite(int listIndex) {
 		return listIndex - tailleGauche;
 	}
 
-	protected int versIndiceGauche(int listIndex) {
+	private int versIndiceGauche(int listIndex) {
 		return (tailleGauche - 1) - listIndex;
 	}
 
-	protected int indiceListeAPartirDeIndiceDroite(int indiceDroite) {
+	private int indiceListeAPartirDeIndiceDroite(int indiceDroite) {
 		return tailleGauche + indiceDroite;
 	}
 
-	protected int indiceListeAPartirDeIndiceGauche(int indiceGauche) {
+	private int indiceListeAPartirDeIndiceGauche(int indiceGauche) {
 		return (tailleGauche - 1) - indiceGauche;
 	}
 
-	protected boolean doitAllerAGauche(int listIndex) {
+	private boolean doitAllerAGauche(int listIndex) {
 		return listIndex < tailleGauche;
 	}
 
@@ -327,7 +326,7 @@ public class ListeGaucheDroite<V extends Object>
 		
 	}
 
-	protected void retirerADroite(int indiceDroite) {
+	private void retirerADroite(int indiceDroite) {
 		ElementListeGaucheDroite<V> elementBefore = atteindreAPartirDe(droite, indiceDroite-1);
 
 		if(elementBefore != null) {
@@ -342,7 +341,7 @@ public class ListeGaucheDroite<V extends Object>
 		
 	}
 
-	protected void retirerAGauche(int indiceGauche) {
+	private void retirerAGauche(int indiceGauche) {
 		ElementListeGaucheDroite<V> elementBefore = atteindreAPartirDe(gauche, indiceGauche-1);
 
 		if(elementBefore != null) {

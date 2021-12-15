@@ -106,17 +106,17 @@ public class      ListeArray<V extends Object>
 	}
 	
 	
-	protected int indiceGrosTableau(int indiceListe) {
+	private int indiceGrosTableau(int indiceListe) {
 		return indicePremierElement + indiceListe;
 		
 	}
 
-	protected int indiceListe(int indiceGrosTableau) {
+	private int indiceListe(int indiceGrosTableau) {
 		return indiceGrosTableau - indicePremierElement;
 		
 	}
 
-	protected boolean doitAllerAGauche(int indiceListe) {
+	private boolean doitAllerAGauche(int indiceListe) {
 		return indiceListe <= (size() / 2);
 	}
 
