@@ -10,10 +10,9 @@ public class ListeGaucheDroite<V extends Object>
 	public static ClassOptions _options() {
 	    ClassOptions options = new ClassOptions();
 
-		fieldOrder = new String{}["gauche","tailleGauche","tailleDroite","droite"];
-		
+		options.fieldOrdering(new String{}["gauche","tailleGauche","droite","tailleDroite"]);
 		options.objectGraphWriterOptions().referenceDirection("gauche", Direction.BACKWARD);
-		
+
 	}*/
 
 	private ElementListeGaucheDroite<V> gauche = null;;
