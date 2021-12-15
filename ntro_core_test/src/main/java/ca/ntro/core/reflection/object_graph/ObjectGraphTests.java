@@ -6,14 +6,13 @@ import java.util.List;
 import org.junit.Test;
 
 import ca.ntro.core.initialization.Ntro;
-import ca.ntro.core.reflection.mock.array_list.SimpleArrayList;
-import ca.ntro.core.reflection.mock.array_list.MockArrayList;
 import ca.ntro.core.reflection.mock.linked_list.LinkedList;
 import ca.ntro.core.reflection.mock.linked_list.MockLinkedList;
+import ca.ntro.core.reflection.mock.liste_array.ListeArray;
+import ca.ntro.core.reflection.mock.liste_gauche_droite.ListeGaucheDroite;
 import ca.ntro.core.reflection.mock.objects.TestObject01;
 import ca.ntro.core.reflection.mock.objects.TestObject02;
 import ca.ntro.core.reflection.mock.objects.TestObjectCycle;
-import ca.ntro.core.reflection.mock.three_pointer_list.MockLeftRightList;
 import ca.ntro.core.reflection.object_graph.ObjectGraph;
 import ca.ntro.core.tests.NtroTests;
 
@@ -22,28 +21,29 @@ public class ObjectGraphTests extends NtroTests {
 	@Test
 	public void leftRightList() throws Throwable {
 		
-		MockLeftRightList<String> list = new MockLeftRightList<>();
+		ListeGaucheDroite<String> list = new ListeGaucheDroite<>();
 
 		ObjectGraph graph = Ntro.reflectionService().objectGraph(list, "leftRightList00");
 		graph.write(Ntro.graphWriter());
 		
-		list.insert(0,"2");
-
+		list.insert(0,"3");
+		
 		graph = Ntro.reflectionService().objectGraph(list, "leftRightList01");
 		graph.write(Ntro.graphWriter());
-		
-		list.insert(0,"1");
+
+		list.insert(0,"2");
 
 		graph = Ntro.reflectionService().objectGraph(list, "leftRightList02");
 		graph.write(Ntro.graphWriter());
 
-		list.insert(0,"0");
+
+		list.insert(0,"1");
 
 		graph = Ntro.reflectionService().objectGraph(list, "leftRightList03");
 		graph.write(Ntro.graphWriter());
 
-		list.add("3");
-
+		list.insert(0,"0");
+		
 		graph = Ntro.reflectionService().objectGraph(list, "leftRightList04");
 		graph.write(Ntro.graphWriter());
 
@@ -51,7 +51,7 @@ public class ObjectGraphTests extends NtroTests {
 
 		graph = Ntro.reflectionService().objectGraph(list, "leftRightList05");
 		graph.write(Ntro.graphWriter());
-
+		
 		list.add("5");
 
 		graph = Ntro.reflectionService().objectGraph(list, "leftRightList06");
@@ -99,48 +99,16 @@ public class ObjectGraphTests extends NtroTests {
 	}
 
 	@Test
-	public void testObjectGraphArrayList00() throws Throwable {
-		
-		SimpleArrayList<String> list = new MockArrayList<String>(size -> {
-			return new String[size];
-		});
-
-		ObjectGraph graph = Ntro.reflectionService().objectGraph(list, "00_arrayList");
-		graph.write(Ntro.graphWriter());
-
-		list.insert(0,"1");
-
-		graph = Ntro.reflectionService().objectGraph(list, "01_arrayList");
-		graph.write(Ntro.graphWriter());
-
-		list.insert(0,"0");
-		
-		graph = Ntro.reflectionService().objectGraph(list, "02_arrayList");
-		graph.write(Ntro.graphWriter());
-
-		list.add("2");
-		
-		graph = Ntro.reflectionService().objectGraph(list, "03_arrayList");
-		graph.write(Ntro.graphWriter());
-
-		list.add("3");
-		
-		graph = Ntro.reflectionService().objectGraph(list, "04_arrayList");
-		graph.write(Ntro.graphWriter());
-
-	}
-
-	@Test
 	public void testObjectGraphArrayList() throws Throwable {
 		
-		SimpleArrayList<String> list = new MockArrayList<String>(size -> {
+		ListeArray<String> list = new ListeArray<String>(size -> {
 			return new String[size];
 		});
 
 		ObjectGraph graph = Ntro.reflectionService().objectGraph(list, "arrayList00");
 		graph.write(Ntro.graphWriter());
 		
-		list.add("1");
+		list.add("2");
 
 		graph = Ntro.reflectionService().objectGraph(list, "arrayList01");
 		graph.write(Ntro.graphWriter());
@@ -150,46 +118,27 @@ public class ObjectGraphTests extends NtroTests {
 		graph = Ntro.reflectionService().objectGraph(list, "arrayList02");
 		graph.write(Ntro.graphWriter());
 
-		list.insert(1,"2");
+		list.insert(0,"1");
 
 		graph = Ntro.reflectionService().objectGraph(list, "arrayList03");
 		graph.write(Ntro.graphWriter());
 
-		list.add("5");
+		list.insert(0,"0");
+
 
 		graph = Ntro.reflectionService().objectGraph(list, "arrayList04");
 		graph.write(Ntro.graphWriter());
 
-		list.insert(3,"4");
+		list.add("4");
+
 
 		graph = Ntro.reflectionService().objectGraph(list, "arrayList05");
 		graph.write(Ntro.graphWriter());
 
-		list.add("6");
+		list.add("5");
 
 		graph = Ntro.reflectionService().objectGraph(list, "arrayList06");
 		graph.write(Ntro.graphWriter());
-
-		list.add("7");
-
-		graph = Ntro.reflectionService().objectGraph(list, "arrayList07");
-		graph.write(Ntro.graphWriter());
-
-		list.add("8");
-
-		graph = Ntro.reflectionService().objectGraph(list, "arrayList08");
-		graph.write(Ntro.graphWriter());
-
-		list.insert(0,"0");
-
-		graph = Ntro.reflectionService().objectGraph(list, "arrayList09");
-		graph.write(Ntro.graphWriter());
-
-		list.insert(0,"-1");
-
-		graph = Ntro.reflectionService().objectGraph(list, "arrayList10");
-		graph.write(Ntro.graphWriter());
-
 		
 	}
 
