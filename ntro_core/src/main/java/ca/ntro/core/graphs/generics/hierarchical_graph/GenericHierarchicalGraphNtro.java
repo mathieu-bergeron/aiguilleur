@@ -15,6 +15,6 @@ public abstract class GenericHierarchicalGraphNtro <N extends GenericHierarchica
 
 	@Override
 	protected GenericInternalGraphWriter<N,E,SO,GO> newInternalGraphWriterInstance() {
-		return new InternalHierarchicalGraphWriterNtro<>();
+		return new GenericInternalHierarchicalGraphWriterNtro<>();
 	}
 }

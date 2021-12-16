@@ -74,15 +74,4 @@ public class NodeSpecNtro implements NodeSpec {
 
 		return isCluster;
 	}
-
-	@Override
-	public boolean isRecordNode() {
-		return false;
-	}
-
-	@Override
-	public RecordNodeSpec asRecordNode() {
-		return (RecordNodeSpec) this;
-	}
-
 }

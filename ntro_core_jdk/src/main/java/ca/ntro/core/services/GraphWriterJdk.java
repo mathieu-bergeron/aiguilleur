@@ -335,17 +335,10 @@ public class GraphWriterJdk implements GraphWriter {
 		attrs.add(Label.of(spec.label()));
 	}
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings("rawtypes")
 	private void adjustNodeAttributes(MutableAttributed attrs, NodeSpec nodeSpec) {
 		
-		if(nodeSpec.isRecordNode()) {
-
-			attrs.add(Records.of(labelFromRecordSpec(nodeSpec.asRecordNode().record())));
-			
-		}else {
-
-			adjustGraphItemAttributes(attrs, nodeSpec);
-		}
+		adjustGraphItemAttributes(attrs, nodeSpec);
 
 		attrs.add("style", "filled");
 		if(nodeSpec.color() != null) {
@@ -357,35 +350,6 @@ public class GraphWriterJdk implements GraphWriter {
 		if(nodeSpec.shape() != null) {
 			attrs.add("shape", nodeSpec.shape());
 		}
-	}
-
-	private String labelFromRecordSpec(RecordSpec recordSpec) {
-		StringBuilder builder = new StringBuilder();
-
-		recordSpec.items().forEach(item -> {
-			if(builder.length() > 0) {
-				builder.append("|");
-			}
-
-			if(item.isRecord()) {
-				builder.append('{');
-				builder.append(labelFromRecordSpec(item.asRecord()));
-				builder.append('}');
-
-			}else {
-				if(item.hasPort()) {
-					builder.append('<');
-					builder.append(item.port());
-					builder.append('>');
-				}
-				
-				if(item.hasValue()) {
-					builder.append(item.value());
-				}
-			}
-		});
-
-		return builder.toString();
 	}
 
 	private MutableNode createNode(NodeSpec nodeSpec) throws NodeAlreadyAddedException {

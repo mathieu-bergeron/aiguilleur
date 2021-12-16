@@ -4,6 +4,8 @@ import ca.ntro.core.graph_writer.GraphWriter;
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagNodeBuilder;
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagWriterOptionsNtro;
 import ca.ntro.core.initialization.Factory;
+import ca.ntro.core.task_graphs.task_graph_writer.InternalTaskGraphWriter;
+import ca.ntro.core.task_graphs.task_graph_writer.InternalTaskGraphWriterNtro;
 
 public class TaskGraphNtro<T  extends Task<T,AT>, 
                            AT extends AtomicTask<T,AT>>
