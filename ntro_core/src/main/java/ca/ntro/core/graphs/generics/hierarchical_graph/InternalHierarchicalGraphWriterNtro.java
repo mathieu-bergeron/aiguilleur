@@ -3,12 +3,15 @@ package ca.ntro.core.graphs.generics.hierarchical_graph;
 import ca.ntro.core.graph_writer.EdgeSpecNtro;
 import ca.ntro.core.graph_writer.GraphWriter;
 import ca.ntro.core.graph_writer.GraphWriterException;
+import ca.ntro.core.graph_writer.NodeSpecNtro;
 import ca.ntro.core.graphs.common.Direction;
 import ca.ntro.core.graphs.generics.graph.GenericEdge;
 import ca.ntro.core.graphs.generics.graph.GenericGraph;
 import ca.ntro.core.graphs.generics.graph.GenericInternalGraphWriterNtro;
 import ca.ntro.core.graphs.generics.graph.InternalSearchOptionsNtro;
+import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagWriterOptions;
 import ca.ntro.core.initialization.Ntro;
+import ca.ntro.core.task_graphs.task_graph.TaskGraphNode;
 
 public class      InternalHierarchicalGraphWriterNtro<N extends GenericHierarchicalNode<N,E,SO>,
                                                       E extends GenericEdge<N,E,SO>,

@@ -142,26 +142,15 @@ public class      TaskNtro<T  extends Task<T,AT>,
 	}
 	
 	protected boolean areEntryTasksDone() {
-		return entryTasks().ifAll(entryTask -> {
-			return isAtomicTaskDone(entryTask);
-		}); 
-	}
-
-	private boolean isAtomicTaskDone(AT atomicTask) {
-		return atomicTask.result().hasValue()
-				&& !atomicTask.result().hasException();
+		return entryTasks().ifAll(entryTask -> entryTask.isDone());
 	}
 
 	protected boolean areExitTasksDone() {
-		return exitTasks().ifAll(exitTask -> {
-			return isAtomicTaskDone(exitTask);
-		}); 
+		return exitTasks().ifAll(exitTask -> exitTask.isDone());
 	}
 
 	protected boolean areSubTasksDone() {
-		return subTasks().ifAll(subTask -> {
-			return subTask.isDone();
-		});
+		return subTasks().ifAll(subTask -> subTask.isDone());
 	}
 
 	@Override
@@ -263,7 +252,7 @@ public class      TaskNtro<T  extends Task<T,AT>,
 
 	@Override
 	public Stream<AT> exitTasks() {
-		return atomicTasks(getEntryTasks());
+		return atomicTasks(getExitTasks());
 	}
 
 	@Override

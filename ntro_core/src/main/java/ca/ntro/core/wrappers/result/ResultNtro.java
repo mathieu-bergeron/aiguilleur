@@ -13,7 +13,7 @@ public class ResultNtro<R extends Object> implements Result<R> {
 	}
 
 	public ResultNtro(R value) {
-		this.value = value;
+		registerValue(value);
 	}
 
 	public void registerValue(R value) {

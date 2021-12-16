@@ -38,7 +38,7 @@ public class      GenericInternalGraphWriterNtro<N extends GenericNode<N,E,SO>,
 		writer.writePng();
 	}
 	
-	protected void adjustNodeSpecAttributes(GenericNode<N,E,SO> node, 
+	protected void adjustNodeSpecAttributes(N node, 
 			                                GO options,
 			                                NodeSpecNtro nodeSpec) {
 		if(node.isStartNode()) {
@@ -47,7 +47,7 @@ public class      GenericInternalGraphWriterNtro<N extends GenericNode<N,E,SO>,
 	}
 	
 	
-	protected NodeSpecNtro nodeSpec(GenericNode<N,E,SO> node, GO options) {
+	protected NodeSpecNtro nodeSpec(N node, GO options) {
 		NodeSpecNtro nodeSpec = new NodeSpecNtro(node);
 		
 		adjustNodeSpecAttributes(node, options, nodeSpec);

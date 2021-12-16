@@ -1,5 +1,6 @@
 package ca.ntro.core.task_graphs.task_graph;
 
+import ca.ntro.core.identifyers.Key;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
@@ -11,6 +12,7 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 	private AtomicTaskId id;
 	private T parentTask;
 	private Result<?> result = new ResultNtro<>();
+
 
 	public AtomicTaskId getId() {
 		return id;
@@ -35,6 +37,15 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 	public void setResult(Result<?> result) {
 		this.result = result;
 	}
+	
+	
+	public AtomicTaskNtro() {
+	}
+	
+	public AtomicTaskNtro(String atomicTaskId) {
+		setId(AtomicTaskId.fromKey(new Key(atomicTaskId)));
+	}
+	
 
 	@Override
 	public AtomicTaskId id() {
