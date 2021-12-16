@@ -14,13 +14,30 @@ public interface Task<T  extends Task<T,AT>,
 	T parentTask();
 
 	AT findEntryTask(AtomicTaskId id);
+	AT findEntryTask(String id);
+
 	AT findExitTask(AtomicTaskId id);
+	AT findExitTask(String id);
 	
-	T addSubTask(T subTask);
-	T addPreviousTask(T previousTask);
-	T addNextTask(T nextTask);
-	T addEntryTask(AT entryTask);
-	T addExitTask(AT exitTask);
+	T addSubTask(TaskId id);
+	T addSubTask(String id);
+	void addSubTask(T subTask);
+
+	T addPreviousTask(TaskId id);
+	T addPreviousTask(String id);
+	void addPreviousTask(T previousTask);
+
+	T addNextTask(TaskId id);
+	T addNextTask(String id);
+	void addNextTask(T nextTask);
+
+	AT addEntryTask(AtomicTaskId id);
+	AT addEntryTask(String id);
+	void addEntryTask(AT entryTask);
+
+	AT addExitTask(AtomicTaskId id);
+	AT addExitTask(String id);
+	void addExitTask(AT exitTask);
 	
 	Stream<T>  previousTasks();
 	Stream<AT> entryTasks();
@@ -29,5 +46,5 @@ public interface Task<T  extends Task<T,AT>,
 	Stream<T>  nextTasks();
 
 	Stream<T> reachableTasks();
-	Stream<T> reachableTasks(TaskGraphSearchOptionsBuilder options);
+	Stream<T> reachableTasks(TaskGraphSearchOptions options);
 }

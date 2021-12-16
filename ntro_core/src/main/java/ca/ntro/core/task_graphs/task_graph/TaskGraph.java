@@ -8,6 +8,7 @@ public interface TaskGraph<T  extends Task<T,AT>,
 	void setGraphName(String graphName);
 
 	T findTask(TaskId id);
+	T findTask(String id);
 
 	T addTask(TaskId id);
 	T addTask(String id);

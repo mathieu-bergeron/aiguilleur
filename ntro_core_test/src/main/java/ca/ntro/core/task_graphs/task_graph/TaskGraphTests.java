@@ -3,6 +3,7 @@ package ca.ntro.core.task_graphs.task_graph;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import ca.ntro.core.graph_writer.NodeNotFoundException;
 import ca.ntro.core.identifyers.Key;
 import ca.ntro.core.initialization.InitializerTest;
 import ca.ntro.core.initialization.Ntro;
@@ -30,30 +31,18 @@ public class TaskGraphTests {
 		TaskGraph<MockTask, MockAtomicTask> graph = TaskGraph.newGraph(MockTask.class, MockAtomicTask.class);
 		
 		MockTask taskA = graph.addTask("A");
-		MockTask taskAA = graph.addTask("AA");
-		MockTask taskAB = graph.addTask("AB");
 
-		MockTask taskB = graph.addTask("B");
-
-		MockTask task0 = graph.addTask("0");
+		MockTask taskAA = taskA.addSubTask("AA");
 		
-		taskA.addSubTask(taskAA);
+		MockTask taskAB = taskAA.addNextTask("AB");
 		taskA.addSubTask(taskAB);
-		taskA.addNextTask(taskB);
-		
-		taskA.addPreviousTask(task0);
-		
-		taskAA.addNextTask(taskAB);
-		
-		taskA.addEntryTask(new MockAtomicTask("a_entry"));
 
-		taskAA.addEntryTask(new MockAtomicTask("aa_entry"));
+		MockTask taskB = taskA.addNextTask("B");
 
-		taskA.addExitTask(new MockAtomicTask("a_exit"));
+		MockAtomicTask a_entry = taskA.addEntryTask("a_entry");
+		MockAtomicTask a_exit = taskA.addExitTask("a_exit");
 
-		MockAtomicTask a_entry = taskA.findEntryTask(AtomicTaskId.fromKey(new Key("a_entry")));
-		MockAtomicTask aa_entry = taskAA.findEntryTask(AtomicTaskId.fromKey(new Key("aa_entry")));
-		MockAtomicTask a_exit = taskA.findExitTask(AtomicTaskId.fromKey(new Key("a_exit")));
+		MockAtomicTask aa_entry = taskAA.addEntryTask("aa_entry");
 
 		graph.setGraphName("simpleTaskGraph01_00");
 		graph.write(Ntro.graphWriter());
@@ -68,11 +57,16 @@ public class TaskGraphTests {
 		graph.setGraphName("simpleTaskGraph01_02");
 		graph.write(Ntro.graphWriter());
 
-		a_exit.registerResult(new ResultNtro<Integer>(1));
-
+		ResultNtro<Integer> a_result = new ResultNtro<Integer>(1);
+		a_exit.registerResult(a_result);
+		
 		graph.setGraphName("simpleTaskGraph01_03");
 		graph.write(Ntro.graphWriter());
 
+		a_result.registerException(new NodeNotFoundException("test"));
+		
+		graph.setGraphName("simpleTaskGraph01_04");
+		graph.write(Ntro.graphWriter());
 		
 		
 	}

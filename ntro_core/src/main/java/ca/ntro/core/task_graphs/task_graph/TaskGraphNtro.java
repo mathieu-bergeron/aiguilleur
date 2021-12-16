@@ -64,6 +64,10 @@ public class TaskGraphNtro<T  extends Task<T,AT>,
 		getHdagBuilder().initialize();
 	}
 	
+	@Override
+	public T findTask(String id) {
+		return findTask(new TaskIdNtro(id));
+	}
 
 	@Override
 	public T findTask(TaskId id) {
@@ -85,10 +89,11 @@ public class TaskGraphNtro<T  extends Task<T,AT>,
 	public T addTask(TaskId id) {
 		HierarchicalDagNodeBuilder<TaskGraphNode<T,AT>,TaskGraphEdge<T,AT>> nodeBuilder = hdagBuilder.addNode(id);
 		
-		
-		TaskNtro<T,AT> task = (TaskNtro<T,AT>) Factory.newInstance(taskClass);
+		TaskNtro<T,AT> task = newTaskInstance();
 		
 		task.setNodeBuilder(nodeBuilder);
+		
+		task.setGraph(this);
 
 		TaskGraphNodeNtro<T,AT> node = (TaskGraphNodeNtro<T, AT>) nodeBuilder.node();
 		
@@ -100,5 +105,15 @@ public class TaskGraphNtro<T  extends Task<T,AT>,
 	@Override
 	public T addTask(String id) {
 		return addTask(new TaskIdNtro(id));
+	}
+
+	@SuppressWarnings("unchecked")
+	private TaskNtro<T,AT> newTaskInstance() {
+		return (TaskNtro<T,AT>) Factory.newInstance(taskClass);
+	}
+
+	@SuppressWarnings("unchecked")
+	public AtomicTaskNtro<T, AT> newAtomicTaskInstance() {
+		return (AtomicTaskNtro<T,AT>) Factory.newInstance(atomicTaskClass);
 	}
 }

@@ -8,17 +8,18 @@ import ca.ntro.core.graphs.generics.graph.SearchStrategy;
 import ca.ntro.core.graphs.generics.graph.VisitedNode;
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagNodeBuilder;
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagSearchOptions;
+import ca.ntro.core.identifyers.Key;
 import ca.ntro.core.stream.Stream;
 import ca.ntro.core.stream.StreamNtro;
 import ca.ntro.core.stream.Visitor;
 
-public class      TaskNtro<T  extends Task<T,AT>, 
-                           AT extends AtomicTask<T,AT>>
+public abstract class TaskNtro<T  extends Task<T,AT>, 
+                               AT extends AtomicTask<T,AT>>
 
-	   implements Task<T,AT> {
+	   implements     Task<T,AT> {
 	
 	private TaskId id;
-	private TaskGraph<T,AT> graph;
+	private TaskGraphNtro<T,AT> graph;
 	private HierarchicalDagNodeBuilder<TaskGraphNode<T,AT>,TaskGraphEdge<T,AT>> nodeBuilder;
 
 	private Map<String, AT> entryTasks = new HashMap<>();
@@ -32,11 +33,11 @@ public class      TaskNtro<T  extends Task<T,AT>,
 		this.id = id;
 	}
 
-	public TaskGraph<T,AT> getGraph() {
+	public TaskGraphNtro<T,AT> getGraph() {
 		return graph;
 	}
 
-	public void setGraph(TaskGraph<T,AT> graph) {
+	public void setGraph(TaskGraphNtro<T,AT> graph) {
 		this.graph = graph;
 	}
 
@@ -67,7 +68,6 @@ public class      TaskNtro<T  extends Task<T,AT>,
 	public TaskNtro(){
 		super();
 	}
-
 
 	public TaskNtro(String id){
 		setId(new TaskIdNtro(id));
@@ -154,8 +154,18 @@ public class      TaskNtro<T  extends Task<T,AT>,
 	}
 
 	@Override
+	public AT findEntryTask(String id) {
+		return findEntryTask(AtomicTaskId.fromKey(new Key(id)));
+	}
+
+	@Override
 	public AT findEntryTask(AtomicTaskId id) {
 		return getEntryTasks().get(id.toKey().toString());
+	}
+
+	@Override
+	public AT findExitTask(String id) {
+		return findExitTask(AtomicTaskId.fromKey(new Key(id)));
 	}
 
 	@Override
@@ -164,10 +174,22 @@ public class      TaskNtro<T  extends Task<T,AT>,
 	}
 
 	@Override
-	public T addSubTask(T subTask) {
-		getNodeBuilder().addSubNode(toNode(subTask));
+	public T addSubTask(String id) {
+		return addSubTask(new TaskIdNtro(id));
+	}
 
-		return asTask();
+	@Override
+	public T addSubTask(TaskId id) {
+		T subTask = getGraph().addTask(id);
+
+		addSubTask(subTask);
+
+		return subTask;
+	}
+
+	@Override
+	public void addSubTask(T subTask) {
+		getNodeBuilder().addSubNode(toNode(subTask));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -175,37 +197,92 @@ public class      TaskNtro<T  extends Task<T,AT>,
 		return ((TaskNtro<T,AT>) task).getNodeBuilder();
 	}
 
-	@SuppressWarnings("unchecked")
-	private T asTask() {
-		return (T) this;
+	@Override
+	public T addPreviousTask(String id) {
+		return addPreviousTask(new TaskIdNtro(id));
+	}
+
+	@Override
+	public T addPreviousTask(TaskId id) {
+		T previousTask = getGraph().addTask(id);
+		
+		addPreviousTask(previousTask);
+
+		return previousTask;
+	}
+
+	@Override
+	public void addPreviousTask(T previousTask) {
+		toNode(previousTask).addEdge("", getNodeBuilder());
 	}
 	
+	
 	@Override
-	public T addPreviousTask(T previousTask) {
-		toNode(previousTask).addEdge("", getNodeBuilder());
-
-		return asTask();
+	public T addNextTask(String id) {
+		return addNextTask(new TaskIdNtro(id));
 	}
 
 	@Override
-	public T addNextTask(T nextTask) {
+	public T addNextTask(TaskId id) {
+		T nextTask = getGraph().addTask(id);
+		
+		addNextTask(nextTask);
+
+		return nextTask;
+	}
+
+	@Override
+	public void addNextTask(T nextTask) {
 		getNodeBuilder().addEdge("", toNode(nextTask));
-
-		return asTask();
+	}
+	
+	@SuppressWarnings("unchecked")
+	private AT toAtomicTask(AtomicTaskNtro<T,AT> atomicTaskNtro) {
+		return (AT) atomicTaskNtro;
 	}
 
 	@Override
-	public T addEntryTask(AT entryTask) {
+	public AT addEntryTask(String id) {
+		return addEntryTask(AtomicTaskId.fromKey(new Key(id)));
+	}
+
+	@Override
+	public AT addEntryTask(AtomicTaskId id) {
+		AtomicTaskNtro<T,AT> entryTaskNtro = getGraph().newAtomicTaskInstance();
+		entryTaskNtro.setId(id);
+		
+		AT entryTask = toAtomicTask(entryTaskNtro);
+		
+		addEntryTask(entryTask);
+
+		return entryTask;
+	}
+
+	@Override
+	public void addEntryTask(AT entryTask) {
 		getEntryTasks().put(entryTask.id().toKey().toString(), entryTask);
-
-		return asTask();
 	}
 
 	@Override
-	public T addExitTask(AT exitTask) {
-		getExitTasks().put(exitTask.id().toKey().toString(), exitTask);
+	public AT addExitTask(String id) {
+		return addExitTask(AtomicTaskId.fromKey(new Key(id)));
+	}
 
-		return asTask();
+	@Override
+	public AT addExitTask(AtomicTaskId id) {
+		AtomicTaskNtro<T,AT> exitTaskNtro = getGraph().newAtomicTaskInstance();
+		exitTaskNtro.setId(id);
+		
+		AT exitTask = toAtomicTask(exitTaskNtro);
+		
+		addExitTask(exitTask);
+
+		return exitTask;
+	}
+
+	@Override
+	public void addExitTask(AT exitTask) {
+		getExitTasks().put(exitTask.id().toKey().toString(), exitTask);
 	}
 
 	protected TaskGraphSearchOptionsBuilderNtro neighborSearchOptions(Direction direction) {
@@ -220,7 +297,7 @@ public class      TaskNtro<T  extends Task<T,AT>,
 		return neighborOptions;
 	}
 
-	protected TaskGraphSearchOptionsBuilder defaultSearchOptions() {
+	protected TaskGraphSearchOptions defaultSearchOptions() {
 		return new TaskGraphSearchOptionsBuilderNtro();
 	}
 
@@ -266,7 +343,7 @@ public class      TaskNtro<T  extends Task<T,AT>,
 	}
 
 	@Override
-	public Stream<T> reachableTasks(TaskGraphSearchOptionsBuilder options) {
+	public Stream<T> reachableTasks(TaskGraphSearchOptions options) {
 		// JSweet: we need to explicitly declare intermediate streams
 		Stream<VisitedNode<TaskGraphNode<T,AT>, 
 						   TaskGraphEdge<T,AT>,

@@ -6,6 +6,6 @@ public class TaskGraphSearchOptionsBuilderNtro
 
        extends HierarchicalDagSearchOptionsNtro
        
-       implements TaskGraphSearchOptionsBuilder {
+       implements TaskGraphSearchOptions {
 
 }
