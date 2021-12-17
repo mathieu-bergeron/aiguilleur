@@ -5,6 +5,6 @@ import ca.ntro.core.wrappers.result.Result;
 
 public interface OnSuspendHandler {
 
-	void suspend(Result<ObjectMap> currentResults);
+	void suspend(Result<ObjectMap> currentResults) throws Throwable;
 
 }

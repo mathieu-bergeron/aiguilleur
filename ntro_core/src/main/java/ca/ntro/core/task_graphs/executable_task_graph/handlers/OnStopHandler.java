@@ -5,6 +5,6 @@ import ca.ntro.core.wrappers.result.Result;
 
 public interface OnStopHandler {
 
-	void stop(Result<ObjectMap> currentResults);
+	void stop(Result<ObjectMap> currentResults) throws Throwable;
 
 }

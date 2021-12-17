@@ -57,4 +57,26 @@ public class ExecutableTaskGraphTests {
 		Ntro.asserter().assertEquals(1, a_entry_result);
 
 	}
+
+	@Test
+	public void executableTaskGraphException01() {
+
+		ExecutableTaskGraph graph = ExecutableTaskGraph.newExecutableGraph();
+		
+		ExecutableTask taskA = graph.addTask("A");
+		ExecutableAtomicTask a_entry = taskA.addEntryTask("a_entry");
+		
+		a_entry.onStart((currentResults, notifyer) -> {
+			String[] array = new String[] {"a","b"};
+			
+			String outOfBounds = array[2];
+		});
+
+		Result<ObjectMap> result = graph.executeBlocking(10);
+		
+		Ntro.asserter().assertTrue("should have exception", result.hasException());
+
+		Ntro.asserter().assertTrue("should have OutOfBounds", result.exception() instanceof IndexOutOfBoundsException);
+
+	}
 }

@@ -4,6 +4,6 @@ import ca.ntro.core.values.ObjectMap;
 
 public interface OnResumeHandler {
 	
-	void resume(ObjectMap currentResults, Notifyer notifyer);
+	void resume(ObjectMap currentResults, Notifyer notifyer) throws Throwable;
 
 }

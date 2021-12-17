@@ -4,6 +4,6 @@ import ca.ntro.core.values.ObjectMap;
 
 public interface OnStartHandler {
 	
-	void start(ObjectMap currentResults, Notifyer notifyer);
+	void start(ObjectMap currentResults, Notifyer notifyer) throws Throwable;
 
 }

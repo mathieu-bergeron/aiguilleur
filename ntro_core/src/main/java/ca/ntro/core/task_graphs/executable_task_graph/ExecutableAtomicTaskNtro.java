@@ -91,22 +91,18 @@ public class      ExecutableAtomicTaskNtro
 
 	@Override
 	public void start() {
-		getOnStartHandler().start((ObjectMap) parentTask().parentGraph(), new Notifyer() {
+		try {
 
-			@Override
-			public void registerResult(Object value) {
+			getOnStartHandler().start((ObjectMap) parentTask().parentGraph(), value -> {
+
 				ExecutableAtomicTaskNtro.this.registerResult(value);
-				
 				((ExecutableTaskGraphNtro) ExecutableAtomicTaskNtro.this.parentTask().parentGraph()).notifyOfNewResult();
-			}
+			});
 
-			@Override
-			public void registerException(Throwable t) {
-				ExecutableAtomicTaskNtro.this.registerException(t);
-
-				((ExecutableTaskGraphNtro) ExecutableAtomicTaskNtro.this.parentTask().parentGraph()).notifyOfException(t);
-			}
-		});
+		}catch(Throwable t) {
+			ExecutableAtomicTaskNtro.this.registerException(t); 
+			((ExecutableTaskGraphNtro) ExecutableAtomicTaskNtro.this.parentTask().parentGraph()).notifyOfException(t);
+		}
 	}
 
 	@Override
