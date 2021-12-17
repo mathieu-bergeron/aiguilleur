@@ -101,7 +101,7 @@ public abstract class GenericNodeBuilderNtro<N extends GenericNode<N,E,SO>,
 
 		if(ifEdgeAlreadyExists(edge)) {
 
-			Ntro.exceptionThrower().throwException(new EdgeAlreadyAddedException("Edge already added: " +  edge.id().toKey()));
+			Ntro.exceptions().throwException(new EdgeAlreadyAddedException("Edge already added: " +  edge.id().toKey()));
 			
 		}else {
 

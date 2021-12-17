@@ -11,7 +11,7 @@ public class Factory {
 
 		} catch (InstantiationException | IllegalAccessException e) {
 
-			Ntro.exceptionThrower().throwException(e);
+			Ntro.exceptions().throwException(e);
 
 		}
 		

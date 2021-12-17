@@ -49,7 +49,7 @@ public class ResultNtro<R extends Object> implements Result<R> {
 	@Override
 	public void throwException() {
 		if(exception != null && !(exception instanceof Break)) {
-			Ntro.exceptionThrower().throwException(this.exception);
+			Ntro.exceptions().throwException(this.exception);
 		}
 	}
 }

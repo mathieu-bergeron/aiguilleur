@@ -38,11 +38,11 @@ public class StorageIdMatcherNtro implements StorageIdMatcher {
 			if(categoryPathResult.exception() instanceof InvalidCharacterException) {
 
 				InvalidCharacterException e = (InvalidCharacterException) categoryPathResult.exception();
-				Ntro.exceptionThrower().throwException(new RuntimeException("rawPattern must not contain character " + e.invalidCharacter()));
+				Ntro.exceptions().throwException(new RuntimeException("rawPattern must not contain character " + e.invalidCharacter()));
 				
 			}else {
 
-				Ntro.exceptionThrower().throwException(categoryPathResult.exception());
+				Ntro.exceptions().throwException(categoryPathResult.exception());
 
 			}
 			

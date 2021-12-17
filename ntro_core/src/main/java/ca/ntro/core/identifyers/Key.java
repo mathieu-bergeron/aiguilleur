@@ -26,7 +26,7 @@ public final class Key {
 
 		} catch (InvalidCharacterException e) {
 			
-			Ntro.exceptionThrower().throwException(new RuntimeException("Key cannot contain character " + e.invalidCharacter()));
+			Ntro.exceptions().throwException(new RuntimeException("Key cannot contain character " + e.invalidCharacter()));
 		}
 		
 		this.key = key;

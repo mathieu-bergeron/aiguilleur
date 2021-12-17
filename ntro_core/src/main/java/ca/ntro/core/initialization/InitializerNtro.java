@@ -11,13 +11,18 @@ import ca.ntro.core.identifyers.ServiceId;
 import ca.ntro.core.services.TracerNtro;
 import ca.ntro.core.task_graphs.executable_task_graph.ExecutableTask;
 import ca.ntro.core.task_graphs.executable_task_graph.ExecutableTaskGraph;
+import ca.ntro.core.task_graphs.executable_task_graph.ExecutableTaskGraphNtro;
 import ca.ntro.core.values.ObjectMap;
 import ca.ntro.core.values.ObjectMapNtro;
 import ca.ntro.core.wrappers.future.Future;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
-public abstract class InitializerNtro implements Initializer {
+public abstract class InitializerNtro 
+
+       extends        ExecutableTaskGraphNtro
+
+       implements Initializer {
 	
 	private InitializerOptions options = new InitializerOptionsNtro();
 	

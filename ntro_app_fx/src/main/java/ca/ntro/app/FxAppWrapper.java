@@ -19,7 +19,7 @@ public class FxAppWrapper extends Application {
 
 		} catch (InstantiationException | IllegalAccessException e) {
 			
-			Ntro.exceptionThrower().throwException(e);
+			Ntro.exceptions().throwException(e);
 		}
 
 		FrontendRegistrarFx frontendRegistrar = new FrontendRegistrarFx();

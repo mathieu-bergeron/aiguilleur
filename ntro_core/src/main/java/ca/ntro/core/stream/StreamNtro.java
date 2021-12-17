@@ -67,7 +67,7 @@ public abstract class StreamNtro<I extends Object>
 		}).value();
 		
 		if(result.right() == null) {
-			Ntro.exceptionThrower().throwException(new IndexOutOfStreamException("Index out stream: " + index));
+			Ntro.exceptions().throwException(new IndexOutOfStreamException("Index out stream: " + index));
 		}
 		
 		return result.right();
@@ -114,7 +114,7 @@ public abstract class StreamNtro<I extends Object>
 
 		}catch(Throwable t) {
 
-			Ntro.exceptionThrower().throwException(t);
+			Ntro.exceptions().throwException(t);
 
 		}
 	}

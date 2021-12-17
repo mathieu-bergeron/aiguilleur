@@ -2,7 +2,7 @@ package ca.ntro.core.identifyers;
 
 import ca.ntro.core.path.Path;
 
-public class ClassId<O extends Object> extends IdNtro {
+public class ClassId<O extends Object> extends IdPathNtro {
 	
 	private Class<O> _class;
 	

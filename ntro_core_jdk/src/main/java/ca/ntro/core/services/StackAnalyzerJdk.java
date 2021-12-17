@@ -27,7 +27,7 @@ public class StackAnalyzerJdk extends StackAnalyzer {
 
 		} catch (ClassNotFoundException e) {
 			
-			Ntro.exceptionThrower().throwException(e);
+			Ntro.exceptions().throwException(e);
 		}
 		
 		return callerClass;

@@ -87,7 +87,7 @@ public class GraphWriterJdk implements GraphWriter {
 
 		} catch (IOException e) {
 
-			Ntro.exceptionThrower().throwException(e);
+			Ntro.exceptions().throwException(e);
 
 		}
 	}
@@ -102,7 +102,7 @@ public class GraphWriterJdk implements GraphWriter {
 
 		} catch (IOException e) {
 
-			Ntro.exceptionThrower().throwException(e);
+			Ntro.exceptions().throwException(e);
 
 		}
 		
@@ -119,7 +119,7 @@ public class GraphWriterJdk implements GraphWriter {
 
 		} catch (IOException e) {
 
-			Ntro.exceptionThrower().throwException(e);
+			Ntro.exceptions().throwException(e);
 
 		}
 		

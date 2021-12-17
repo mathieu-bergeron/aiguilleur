@@ -58,7 +58,7 @@ public class      GenericInternalHierarchicalGraphWriterNtro<N extends GenericHi
 
 			}catch(GraphWriterException e) {
 
-				Ntro.exceptionThrower().throwException(e);
+				Ntro.exceptions().throwException(e);
 
 			}
 		});
@@ -81,7 +81,7 @@ public class      GenericInternalHierarchicalGraphWriterNtro<N extends GenericHi
 			writer.addEdge(edgeSpec(edge, options));
 
 		} catch (GraphWriterException e) {
-			Ntro.exceptionThrower().throwException(e);
+			Ntro.exceptions().throwException(e);
 		}
 	}
 

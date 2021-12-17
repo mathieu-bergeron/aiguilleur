@@ -4,6 +4,7 @@ import ca.ntro.core.graph_writer.GraphWriter;
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagNodeBuilder;
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagWriterOptionsNtro;
 import ca.ntro.core.initialization.Factory;
+import ca.ntro.core.stream.Stream;
 import ca.ntro.core.task_graphs.task_graph_writer.InternalTaskGraphWriter;
 import ca.ntro.core.task_graphs.task_graph_writer.InternalTaskGraphWriterNtro;
 
@@ -92,7 +93,7 @@ public class TaskGraphNtro<T  extends Task<T,AT>,
 		HierarchicalDagNodeBuilder<TaskGraphNode<T,AT>,TaskGraphEdge<T,AT>> nodeBuilder = hdagBuilder.addNode(id);
 		
 		TaskNtro<T,AT> task = newTaskInstance();
-		
+
 		task.setNodeBuilder(nodeBuilder);
 		
 		task.setGraph(this);
@@ -117,5 +118,10 @@ public class TaskGraphNtro<T  extends Task<T,AT>,
 	@SuppressWarnings("unchecked")
 	public AtomicTaskNtro<T, AT> newAtomicTaskInstance() {
 		return (AtomicTaskNtro<T,AT>) Factory.newInstance(atomicTaskClass);
+	}
+
+	@Override
+	public Stream<T> tasks() {
+		return hdagBuilder.graph().nodes().map(node -> node.task());
 	}
 }

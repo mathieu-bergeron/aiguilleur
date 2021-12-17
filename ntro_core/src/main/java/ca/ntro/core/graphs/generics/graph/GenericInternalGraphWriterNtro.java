@@ -71,7 +71,7 @@ public class      GenericInternalGraphWriterNtro<N extends GenericNode<N,E,SO>,
 				writer.addNode(nodeSpec(n, options));
 
 			} catch (GraphWriterException e) {
-				Ntro.exceptionThrower().throwException(e);
+				Ntro.exceptions().throwException(e);
 			}
 		});
 	}
@@ -95,7 +95,7 @@ public class      GenericInternalGraphWriterNtro<N extends GenericNode<N,E,SO>,
 			writer.addEdge(edgeSpec(edge, options));
 
 		} catch (GraphWriterException e) {
-			Ntro.exceptionThrower().throwException(e);
+			Ntro.exceptions().throwException(e);
 		}
 	}
 }

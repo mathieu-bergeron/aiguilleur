@@ -224,7 +224,7 @@ public class ObjectStructureWriter {
 
 		} catch (GraphWriterException e) {
 			
-			Ntro.exceptionThrower().throwException(e);
+			Ntro.exceptions().throwException(e);
 		}
 	}
 
@@ -236,7 +236,7 @@ public class ObjectStructureWriter {
 
 			} catch (GraphWriterException e) {
 				
-				Ntro.exceptionThrower().throwException(e);
+				Ntro.exceptions().throwException(e);
 			}
 		}
 	}

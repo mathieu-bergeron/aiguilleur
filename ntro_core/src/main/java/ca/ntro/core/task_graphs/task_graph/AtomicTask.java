@@ -10,7 +10,8 @@ public interface AtomicTask<T  extends Task<T,AT>,
 	AtomicTaskId id();
 	T parentTask();
 
-	<R> void registerResult(Result<R> result);
+	void registerResult(Object value);
+	void registerException(Throwable t);
 
 	<R> Result<R> result();
 }

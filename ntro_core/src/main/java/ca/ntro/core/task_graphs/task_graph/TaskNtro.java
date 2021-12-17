@@ -18,21 +18,12 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 
 	   implements     Task<T,AT> {
 	
-	private TaskId id;
 	private TaskGraphNtro<T,AT> graph;
 	private HierarchicalDagNodeBuilder<TaskGraphNode<T,AT>,TaskGraphEdge<T,AT>> nodeBuilder;
 
 	private Map<String, AT> entryTasks = new HashMap<>();
 	private Map<String, AT> exitTasks = new HashMap<>();
 	
-	public TaskId getId() {
-		return id;
-	}
-
-	public void setId(TaskId id) {
-		this.id = id;
-	}
-
 	public TaskGraphNtro<T,AT> getGraph() {
 		return graph;
 	}
@@ -69,17 +60,9 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 		super();
 	}
 
-	public TaskNtro(String id){
-		setId(new TaskIdNtro(id));
-	}
-
-	public TaskNtro(TaskId id){
-		setId(id);
-	}
-
 	@Override
 	public TaskId id() {
-		return getId();
+		return (TaskId) getNodeBuilder().node().id();
 	}
 
 	@Override

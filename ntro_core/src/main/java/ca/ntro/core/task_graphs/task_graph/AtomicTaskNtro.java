@@ -11,7 +11,7 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 	
 	private AtomicTaskId id;
 	private T parentTask;
-	private Result<?> result = new ResultNtro<>();
+	private ResultNtro<Object> result = new ResultNtro<>();
 
 
 	public AtomicTaskId getId() {
@@ -30,11 +30,11 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 		this.parentTask = parentTask;
 	}
 
-	public Result<?> getResult() {
+	public ResultNtro<Object> getResult() {
 		return result;
 	}
 
-	public void setResult(Result<?> result) {
+	public void setResult(ResultNtro<Object> result) {
 		this.result = result;
 	}
 	
@@ -58,8 +58,13 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 	}
 
 	@Override
-	public <R> void registerResult(Result<R> result) {
-		setResult(result);
+	public void registerResult(Object value) {
+		getResult().registerValue(value);
+	}
+
+	@Override
+	public void registerException(Throwable t) {
+		getResult().registerException(t);
 	}
 
 	@SuppressWarnings("unchecked")

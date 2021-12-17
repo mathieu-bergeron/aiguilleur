@@ -182,7 +182,7 @@ public abstract class GenericGraphBuilderNtro<N extends GenericNode<N,E,SO>,
 	protected void memorizeNode(N node) {
 		if(ifNodeAlreadyExists(node)) {
 
-			Ntro.exceptionThrower().throwException(new NodeAlreadyAddedException("Node already added: " + node.id().toKey()));
+			Ntro.exceptions().throwException(new NodeAlreadyAddedException("Node already added: " + node.id().toKey()));
 
 		}else {
 			

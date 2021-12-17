@@ -48,7 +48,7 @@ public final class Name {
 
 		} catch (InvalidCharacterException e) {
 			
-			Ntro.exceptionThrower().throwException(new RuntimeException("Name cannot contain character " + e.invalidCharacter()));
+			Ntro.exceptions().throwException(new RuntimeException("Name cannot contain character " + e.invalidCharacter()));
 		}
 		
 		this.name = name;

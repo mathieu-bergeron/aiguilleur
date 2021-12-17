@@ -10,6 +10,8 @@ import ca.ntro.core.services.ExceptionThrower;
 import ca.ntro.core.services.ExceptionThrowerNull;
 import ca.ntro.core.services.ReflectionService;
 import ca.ntro.core.services.ReflectionServiceNull;
+import ca.ntro.core.services.Time;
+import ca.ntro.core.services.TimeNull;
 import ca.ntro.core.services.StackAnalyzer;
 import ca.ntro.core.services.StackAnalyzerNull;
 
@@ -23,7 +25,7 @@ public class Ntro {
 		Ntro.exceptionThrower = exceptionThrower;
 	}
 
-	public static ExceptionThrower exceptionThrower(){
+	public static ExceptionThrower exceptions(){
 		return Ntro.exceptionThrower;
 	}
 
@@ -115,4 +117,20 @@ public class Ntro {
 
 	/* </Collections> */
 
+	
+	
+	
+	/* <Sleeper> */
+	
+	private static Time time = new TimeNull();
+
+	static void registerTime(Time time){
+		Ntro.time = time;
+	}
+
+	public static Time time(){
+		return Ntro.time;
+	}
+
+	/* </Sleeper> */
 }

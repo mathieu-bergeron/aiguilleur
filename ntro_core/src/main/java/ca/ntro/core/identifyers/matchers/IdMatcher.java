@@ -1,7 +1,7 @@
 package ca.ntro.core.identifyers.matchers;
 
-import ca.ntro.core.identifyers.IdNtro;
+import ca.ntro.core.identifyers.IdPathNtro;
 
-public interface IdMatcher extends Matcher<IdNtro> {
+public interface IdMatcher extends Matcher<IdPathNtro> {
 
 }

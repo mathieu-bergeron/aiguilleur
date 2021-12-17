@@ -1,6 +1,7 @@
 package ca.ntro.core.task_graphs.task_graph;
 
 import ca.ntro.core.graph_writer.GraphWriter;
+import ca.ntro.core.stream.Stream;
 
 public interface TaskGraph<T  extends Task<T,AT>, 
                            AT extends AtomicTask<T,AT>> {
@@ -12,6 +13,8 @@ public interface TaskGraph<T  extends Task<T,AT>,
 
 	T addTask(TaskId id);
 	T addTask(String id);
+	
+	Stream<T> tasks();
 	
 	void write(GraphWriter writer);
 

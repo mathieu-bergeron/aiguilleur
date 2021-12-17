@@ -72,7 +72,7 @@ public abstract class GenericPathNtro<I extends GenericPath<I>, IMPL extends Gen
 
 		} catch(InvalidCharacterException e) {
 
-			Ntro.exceptionThrower().throwException(new RuntimeException("A path name must not contain " + e.invalidCharacter()));
+			Ntro.exceptions().throwException(new RuntimeException("A path name must not contain " + e.invalidCharacter()));
 		}
 
 		addValidName(name);

@@ -12,20 +12,20 @@ public class ExceptionCatcher {
 		
 		try {
 			
-			Ntro.exceptionThrower().enterCatchingMode();
+			Ntro.exceptions().enterCatchingMode();
 
 			result.registerValue(task.run());
 
-			Ntro.exceptionThrower().exitCatchingMode();
+			Ntro.exceptions().exitCatchingMode();
 
 		} catch(Throwable t) {
 			
 			result.registerException(t);
 		}
 
-		if(Ntro.exceptionThrower().hasException()) {
+		if(Ntro.exceptions().hasException()) {
 			
-			result.registerException(Ntro.exceptionThrower().exception());
+			result.registerException(Ntro.exceptions().exception());
 		}
 		
 		return result;
