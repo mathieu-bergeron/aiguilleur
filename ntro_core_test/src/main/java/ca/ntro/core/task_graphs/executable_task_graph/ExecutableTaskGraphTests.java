@@ -38,10 +38,9 @@ public class ExecutableTaskGraphTests {
 		graph.write(Ntro.graphWriter());
 		
 		a_entry.onStart((currentResults, notifyer) -> {
-			
-			Ntro.time().sleep(1);
-
-			notifyer.registerResult(1);
+			Ntro.time().runAfterDelay(1, () -> {
+				notifyer.registerResult(1);
+			});
 		});
 
 		a_entry.onSuspend(currentResults -> {
@@ -78,10 +77,9 @@ public class ExecutableTaskGraphTests {
 		graph.write(Ntro.graphWriter());
 		
 		a_entry.onStart((currentResults, notifyer) -> {
-			
-			Ntro.time().sleep(1);
-
-			notifyer.registerResult(1);
+			Ntro.time().runAfterDelay(1, () -> {
+				notifyer.registerResult(1);
+			});
 		});
 
 		a_entry.onSuspend(currentResults -> {
@@ -90,14 +88,16 @@ public class ExecutableTaskGraphTests {
 
 		Future<ObjectMap> future = graph.execute();
 		
+		// FIXME: better to have future.get() rather than executeBlocking()??
+		//Result<ObjectMap> result = future.get();
+		
+		// FIXME: find a way to test futures in JUnit
 		future.handleValue(objectMap -> {
 
 			graph.setGraphName("executeAsync01_01");
 			graph.write(Ntro.graphWriter());
-			
-			Integer a_entry_result = null;
 
-			a_entry_result = objectMap.getObject(Integer.class, "a_entry");
+			Integer a_entry_result = objectMap.getObject(Integer.class, "a_entry");
 
 			Ntro.asserter().assertEquals(1, a_entry_result);
 		});

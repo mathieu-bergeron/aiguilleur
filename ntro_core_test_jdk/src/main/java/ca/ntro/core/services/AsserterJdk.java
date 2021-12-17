@@ -22,6 +22,7 @@ public class AsserterJdk implements Asserter {
 	@Override
 	public void assertFalse(String string, boolean b) {
 		Assert.assertFalse(string, b);
+		
 	}
 
 }
