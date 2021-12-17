@@ -49,7 +49,7 @@ public class ExecutableTaskGraphTests {
 
 		Result<ObjectMap> result = graph.executeBlocking();
 
-		graph.setGraphName("executeBlocking01_00");
+		graph.setGraphName("executeBlocking01_01");
 		graph.write(Ntro.graphWriter());
 		
 		Integer a_entry_result = null;

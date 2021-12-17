@@ -5,8 +5,10 @@ import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 import ca.ntro.core.exceptions.Break;
+import ca.ntro.core.identifyers.Id;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.task_graphs.task_graph.TaskGraphNtro;
+import ca.ntro.core.values.MutableObjectMap;
 import ca.ntro.core.values.ObjectMap;
 import ca.ntro.core.values.ObjectMapNtro;
 import ca.ntro.core.wrappers.future.Future;
@@ -18,7 +20,7 @@ public class ExecutableTaskGraphNtro
 
        extends TaskGraphNtro<ExecutableTaskNtro, ExecutableAtomicTaskNtro>
 
-       implements ExecutableTaskGraph {
+       implements ExecutableTaskGraph, MutableObjectMap {
 	
 	public static final long EXECUTABLE_TASK_GRAPH_SLEEP_TIME_MILISECONDS = 10; // FIXME
 	public static final long EXECUTABLE_TASK_GRAPH_TIMEOUT_MILISECONDS = 300;   // FIXME
@@ -193,6 +195,30 @@ public class ExecutableTaskGraphNtro
 		}
 		
 		return new ResultNtro<ObjectMap>(result.value());
+	}
+
+	@Override
+	public <O> O getObject(Class<O> _class, Id id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <O> O getObject(Class<O> _class, String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void registerObject(String id, Object object) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void registerObject(Id id, Object object) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
