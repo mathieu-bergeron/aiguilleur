@@ -10,8 +10,11 @@ public interface ExecutableAtomicTask extends AtomicTask<ExecutableTaskNtro, Exe
 	
 
 	void onStart(OnStartHandler onStartHandler);
+
 	void onSuspend(OnSuspendHandler onSuspendHandler);
+
 	void onResume(OnResumeHandler onResumeHandler);
+
 	void onStop(OnStopHandler onStopHandler);
 
 }
