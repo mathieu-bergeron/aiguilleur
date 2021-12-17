@@ -7,7 +7,6 @@ import ca.ntro.core.initialization.InitializerTest;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.services.ExceptionThrowerMock;
 import ca.ntro.core.values.ObjectMap;
-import ca.ntro.core.wrappers.future.Future;
 import ca.ntro.core.wrappers.result.Result;
 
 public class ExecutableTaskGraphTests {
@@ -26,7 +25,7 @@ public class ExecutableTaskGraphTests {
 	}
 	
 	@Test
-	public void executeBlocking01() {
+	public void executableTaskGraph01() {
 
 		ExecutableTaskGraph graph = ExecutableTaskGraph.newExecutableGraph();
 		
@@ -34,12 +33,16 @@ public class ExecutableTaskGraphTests {
 		
 		ExecutableAtomicTask a_entry = taskA.addEntryTask("a_entry");
 
-		graph.setGraphName("executeBlocking01_00");
+		graph.setGraphName("executableTaskGraph01_00");
 		graph.write(Ntro.graphWriter());
 		
 		a_entry.onStart((currentResults, notifyer) -> {
-			Ntro.time().runAfterDelay(1, () -> {
+			
+			// FIXME: this consumes the exceptions
+			Ntro.time().runAfterDelay(5, () -> {
+
 				notifyer.registerResult(1);
+
 			});
 		});
 
@@ -49,62 +52,12 @@ public class ExecutableTaskGraphTests {
 
 		Result<ObjectMap> result = graph.executeBlocking(10);
 
-		graph.setGraphName("executeBlocking01_01");
+		graph.setGraphName("executableTaskGraph01_01");
 		graph.write(Ntro.graphWriter());
 		
-		Integer a_entry_result = null;
-
-		Ntro.asserter().assertTrue("should have value", result.hasValue());
-		
-		if(result.hasValue()) {
-			a_entry_result = result.value().getObject(Integer.class, "a_entry");
-		}
+		Integer a_entry_result = result.value().getObject(Integer.class, "a_entry");
 
 		Ntro.asserter().assertEquals(1, a_entry_result);
 
-	}
-
-	@Test
-	public void executeAsync01() {
-
-		ExecutableTaskGraph graph = ExecutableTaskGraph.newExecutableGraph();
-		
-		ExecutableTask taskA = graph.addTask("A");
-		
-		ExecutableAtomicTask a_entry = taskA.addEntryTask("a_entry");
-
-		graph.setGraphName("executeAsync01_00");
-		graph.write(Ntro.graphWriter());
-		
-		a_entry.onStart((currentResults, notifyer) -> {
-			Ntro.time().runAfterDelay(1, () -> {
-				notifyer.registerResult(1);
-			});
-		});
-
-		a_entry.onSuspend(currentResults -> {
-			
-		});
-
-		Future<ObjectMap> future = graph.execute(5);
-		
-		Ntro.asserter().assertFuture(10,() -> {
-
-			future.handleValue(objectMap -> {
-
-				graph.setGraphName("executeAsync01_01");
-				graph.write(Ntro.graphWriter());
-
-				Integer a_entry_result = objectMap.getObject(Integer.class, "a_entry");
-
-				Ntro.asserter().assertEquals(1, a_entry_result);
-			});
-		});
-		
-		
-		
-		// FIXME: better to have future.get() rather than executeBlocking()??
-		//Result<ObjectMap> result = future.get();
-		
 	}
 }

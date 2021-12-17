@@ -1,15 +1,15 @@
 package ca.ntro.core.wrappers.future;
 
+import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.wrappers.result.Result;
+import ca.ntro.core.wrappers.result.ResultNtro;
 
 public class FutureNtro<O extends Object> implements Future<O> {
 	
-	private enum State {
-		VALUE, NO_VALUE;
-	}
+	public static final long FUTURE_GET_SLEEP_TIME_MILLIS = 200;
+	public static final long FUTURE_GET_DEFAULT_MAX_DELAY_MILLIS = 30 * 1000;
 	
-	private State state = State.NO_VALUE;
-
+	private boolean hasValue = false;
 	private O value = null;
 	private Throwable exception = null;
 	
@@ -18,7 +18,7 @@ public class FutureNtro<O extends Object> implements Future<O> {
 	
 	public void registerValue(O value) {
 		this.value = value;
-		state = State.VALUE;
+		this.hasValue = true;
 		
 		if(resultHandler != null) {
 			resultHandler.handle(value);
@@ -37,7 +37,7 @@ public class FutureNtro<O extends Object> implements Future<O> {
 	public Future<O> handleValue(ValueHandler<O> resultHandler) {
 		this.resultHandler = resultHandler;
 
-		if(state == State.VALUE && resultHandler != null) {
+		if(hasValue() && resultHandler != null) {
 			resultHandler.handle(value);
 		}
 
@@ -54,15 +54,49 @@ public class FutureNtro<O extends Object> implements Future<O> {
 
 		return this;
 	}
+	
+	public boolean hasException() {
+		return exception != null;
+	}
 
-	@Override
-	public Result<O> get() {
-		throw new RuntimeException("TODO");
+	public boolean hasValue() {
+		return hasValue;
 	}
 
 	@Override
-	public Result<O> get(long maxDelay) {
-		throw new RuntimeException("TODO");
+	public Result<O> get() {
+		return get(FUTURE_GET_DEFAULT_MAX_DELAY_MILLIS);
+	}
+
+	@Override
+	public Result<O> get(long maxDelayMillis) {
+		ResultNtro<O> result = new ResultNtro<>();
+		
+		long start = Ntro.time().nowMillis();
+		long delayMillis = 0;
+		
+		while(delayMillis < maxDelayMillis) {
+			
+			if(hasValue() || hasException()) {
+				break;
+			}
+			
+			Ntro.time().sleep(FUTURE_GET_SLEEP_TIME_MILLIS);
+			
+			delayMillis = Ntro.time().nowMillis() - start;
+		}
+		
+		if(hasException()) {
+
+			result.registerException(exception);
+
+		}else if(hasValue()) {
+
+			result.registerValue(value);
+
+		}
+
+		return result;
 	}
 
 }

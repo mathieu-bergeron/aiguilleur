@@ -11,6 +11,6 @@ public interface Future<R extends Object> extends ExceptionCatcher<Future<R>> {
 
 	Result<R> get();
 
-	Result<R> get(long maxDelay);
+	Result<R> get(long maxDelayMillis);
 	
 }

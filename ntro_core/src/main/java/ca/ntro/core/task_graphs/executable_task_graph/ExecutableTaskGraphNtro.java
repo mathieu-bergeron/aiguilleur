@@ -2,7 +2,6 @@ package ca.ntro.core.task_graphs.executable_task_graph;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeoutException;
 
 import ca.ntro.core.exceptions.Break;
 import ca.ntro.core.identifyers.Id;
@@ -46,33 +45,32 @@ public class ExecutableTaskGraphNtro
 	public Future<ObjectMap> execute() {
 		return execute(DEFAULT_MAX_DELAY_MILLIS);
 	}
+
+	public void notifyOfException(Throwable t) {
+		future.registerException(t);
+	}
 	
-	public void notifyOfChange() {
+	public void notifyOfNewResult() {
 		lastChange = Ntro.time().nowMillis();
-
-		resumeExecuting();
 		
-		if(future != null
-				&& hasException()) {
+		try {
 
-			future.registerException(exception());
+			resumeExecuting();
+			
+			if(inProgress.isEmpty()) {
 
-		} else if(future != null
-				&& timeout()) {
+				future.registerValue((ObjectMap) this);
+			}
 
-			// FIXME: timeout here? or in the Future?
-			future.registerException(new TimeoutException());
+		}catch(Throwable t) {
 
-		}else if(future != null
-				&& inProgress.isEmpty()) {
-
-			future.registerValue((ObjectMap) this);
+			future.registerException(t);
 		}
 	}
 	
 	private void startExecuting() {
 		tasks().forEach(task -> {
-			if(hasException()) {
+			if(future.hasException()) {
 				throw new Break();
 			}
 
@@ -222,24 +220,6 @@ public class ExecutableTaskGraphNtro
 		return t;
 	}
 	
-	
-	private boolean hasException() {
-		return tasks().ifSome(task -> taskHasException(task));
-	}
-
-	private Throwable exception() {
-		return tasks().reduceToResult((Throwable) null, (accumulator, task) -> {
-			if(accumulator != null) {
-				throw new Break();
-			}
-			
-			accumulator = findFirstException(task);
-			
-			return accumulator;
-					
-		}).value();
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public <O> O getObject(Class<O> _class, Id id) {

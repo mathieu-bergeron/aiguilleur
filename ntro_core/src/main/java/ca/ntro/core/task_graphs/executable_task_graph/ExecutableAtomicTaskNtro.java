@@ -97,14 +97,14 @@ public class      ExecutableAtomicTaskNtro
 			public void registerResult(Object value) {
 				ExecutableAtomicTaskNtro.this.registerResult(value);
 				
-				((ExecutableTaskGraphNtro) ExecutableAtomicTaskNtro.this.parentTask().parentGraph()).notifyOfChange();
+				((ExecutableTaskGraphNtro) ExecutableAtomicTaskNtro.this.parentTask().parentGraph()).notifyOfNewResult();
 			}
 
 			@Override
 			public void registerException(Throwable t) {
 				ExecutableAtomicTaskNtro.this.registerException(t);
 
-				((ExecutableTaskGraphNtro) ExecutableAtomicTaskNtro.this.parentTask().parentGraph()).notifyOfChange();
+				((ExecutableTaskGraphNtro) ExecutableAtomicTaskNtro.this.parentTask().parentGraph()).notifyOfException(t);
 			}
 		});
 	}
