@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ca.ntro.core.graph_writer.GraphWriter;
 import ca.ntro.core.identifyers.ClassId;
 import ca.ntro.core.identifyers.ObjectId;
 import ca.ntro.core.identifyers.ServiceId;
@@ -156,5 +157,18 @@ public abstract class InitializerNtro
 		this.options = options;
 
 		return this;
+	}
+
+	@Override
+	public Future<ObjectMap> execute(long maxDelayMillis, GraphWriter writer) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Result<ObjectMap> executeBlocking(long maxDelayMillis, GraphWriter writer) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

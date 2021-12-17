@@ -247,11 +247,7 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 
 	@Override
 	public AT addEntryTask(AtomicTaskId id) {
-		AtomicTaskNtro<T,AT> entryTaskNtro = getGraph().newAtomicTaskInstance();
-		entryTaskNtro.setId(id);
-		entryTaskNtro.setParentTask((T) this);
-		
-		AT entryTask = toAtomicTask(entryTaskNtro);
+		AT entryTask = getGraph().addAtomicTask(id, this);
 		
 		addEntryTask(entryTask);
 
@@ -272,7 +268,7 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 	public AT addExitTask(AtomicTaskId id) {
 		AtomicTaskNtro<T,AT> exitTaskNtro = getGraph().newAtomicTaskInstance();
 		exitTaskNtro.setId(id);
-		exitTaskNtro.setParentTask((T) this);
+		exitTaskNtro.setParentTask(this);
 		
 		AT exitTask = toAtomicTask(exitTaskNtro);
 		

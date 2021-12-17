@@ -48,12 +48,12 @@ public class      ExecutableTaskNtro
 
 	@Override
 	public void suspend() {
-		throw new RuntimeException("TODO");
+		//throw new RuntimeException("TODO");
 	}
 
 	@Override
 	public void stop() {
-		throw new RuntimeException("TODO");
+		//throw new RuntimeException("TODO");
 	}
 
 }

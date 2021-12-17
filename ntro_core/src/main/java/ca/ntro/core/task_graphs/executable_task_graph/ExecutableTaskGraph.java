@@ -1,5 +1,6 @@
 package ca.ntro.core.task_graphs.executable_task_graph;
 
+import ca.ntro.core.graph_writer.GraphWriter;
 import ca.ntro.core.task_graphs.task_graph.TaskGraph;
 import ca.ntro.core.values.ObjectMap;
 import ca.ntro.core.wrappers.future.Future;
@@ -9,9 +10,11 @@ public interface ExecutableTaskGraph extends TaskGraph<ExecutableTaskNtro, Execu
 
 	Future<ObjectMap> execute();
 	Future<ObjectMap> execute(long maxDelayMillis);
+	Future<ObjectMap> execute(long maxDelayMillis, GraphWriter writer);
 
 	Result<ObjectMap> executeBlocking();
 	Result<ObjectMap> executeBlocking(long maxDelayMillis);
+	Result<ObjectMap> executeBlocking(long maxDelayMillis, GraphWriter writer);
 
 	// JSweet: name clash with TaskGraph.newGraph
 	public static ExecutableTaskGraph newExecutableGraph() {

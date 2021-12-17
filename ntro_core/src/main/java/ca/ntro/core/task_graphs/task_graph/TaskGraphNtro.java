@@ -1,15 +1,16 @@
 package ca.ntro.core.task_graphs.task_graph;
 
+
+import java.util.HashMap;
 import java.util.Map;
 
-import ca.ntro.core.exceptions.Break;
 import ca.ntro.core.graph_writer.GraphWriter;
+import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagBuilderNtro;
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagNodeBuilder;
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagWriterOptionsNtro;
 import ca.ntro.core.identifyers.Key;
 import ca.ntro.core.initialization.Factory;
 import ca.ntro.core.stream.Stream;
-import ca.ntro.core.task_graphs.task_graph_writer.InternalTaskGraphWriter;
 import ca.ntro.core.task_graphs.task_graph_writer.InternalTaskGraphWriterNtro;
 
 public class TaskGraphNtro<T  extends Task<T,AT>, 
@@ -19,10 +20,12 @@ public class TaskGraphNtro<T  extends Task<T,AT>,
 	
 	private InternalHierarchicalDagBuilderNtro<T,AT> hdagBuilder = new InternalHierarchicalDagBuilderNtro<T,AT>();
 
-	private InternalTaskGraphWriter<T,AT> internalWriter = new InternalTaskGraphWriterNtro<>();
+	private InternalTaskGraphWriterNtro<T,AT> internalWriter = new InternalTaskGraphWriterNtro<>();
 	
 	private Class<T> taskClass;
 	private Class<AT> atomicTaskClass;
+	
+	private Map<String, AtomicTaskNtro<T,AT>> atomicTasks = new HashMap<>();
 	
 	public InternalHierarchicalDagBuilderNtro<T, AT> getHdagBuilder() {
 		return hdagBuilder;
@@ -32,11 +35,11 @@ public class TaskGraphNtro<T  extends Task<T,AT>,
 		this.hdagBuilder = hdagBuilder;
 	}
 
-	public InternalTaskGraphWriter<T, AT> getInternalWriter() {
+	public InternalTaskGraphWriterNtro<T, AT> getInternalWriter() {
 		return internalWriter;
 	}
 
-	public void setInternalWriter(InternalTaskGraphWriter<T, AT> internalWriter) {
+	public void setInternalWriter(InternalTaskGraphWriterNtro<T, AT> internalWriter) {
 		this.internalWriter = internalWriter;
 	}
 
@@ -56,8 +59,22 @@ public class TaskGraphNtro<T  extends Task<T,AT>,
 		this.atomicTaskClass = atomicTaskClass;
 	}
 
+	public Map<String, AtomicTaskNtro<T, AT>> getAtomicTasks() {
+		return atomicTasks;
+	}
+
+	public void setAtomicTasks(Map<String, AtomicTaskNtro<T, AT>> atomicTasks) {
+		this.atomicTasks = atomicTasks;
+	}
+	
+	
+	
+
 	public TaskGraphNtro() {
 	}
+	
+	
+	
 	
 	public void initialize() {
 		getHdagBuilder().setNodeFactory(() -> {
@@ -88,23 +105,15 @@ public class TaskGraphNtro<T  extends Task<T,AT>,
 
 	@Override
 	public AT findAtomicTask(AtomicTaskId id) {
-
-		return tasks().reduceToResult((AT) null, (accumulator, task) -> {
-
-			if(accumulator != null) {
-				throw new Break();
-			}
-
-			accumulator = task.findAtomicTask(id);
-			
-			return accumulator;
-
-		}).value();
+		return (AT) getAtomicTasks().get(id.toKey().toString());
 	}
 
 	@Override
 	public void write(GraphWriter writer) {
-		internalWriter.write(hdagBuilder.graph(), new HierarchicalDagWriterOptionsNtro(), writer);
+		HierarchicalDagWriterOptionsNtro options = new HierarchicalDagWriterOptionsNtro();
+
+		writer.initialize(getHdagBuilder().getGraph().id(), options);
+		internalWriter.write(hdagBuilder.graph(), options, writer);
 	}
 
 	@Override
@@ -143,6 +152,18 @@ public class TaskGraphNtro<T  extends Task<T,AT>,
 	@SuppressWarnings("unchecked")
 	public AtomicTaskNtro<T, AT> newAtomicTaskInstance() {
 		return (AtomicTaskNtro<T,AT>) Factory.newInstance(atomicTaskClass);
+	}
+
+	@SuppressWarnings("unchecked")
+	public AT addAtomicTask(AtomicTaskId id, TaskNtro<T,AT> parentTask) {
+		AtomicTaskNtro<T,AT> atomicTask =  (AtomicTaskNtro<T, AT>) Factory.newInstance(atomicTaskClass);
+
+		atomicTask.setId(id);
+		atomicTask.setParentTask(parentTask);
+		
+		getAtomicTasks().put(id.toKey().toString(), atomicTask);
+		
+		return (AT) atomicTask;
 	}
 
 	@Override

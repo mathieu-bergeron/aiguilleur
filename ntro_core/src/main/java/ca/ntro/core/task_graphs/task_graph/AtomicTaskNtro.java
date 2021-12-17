@@ -10,7 +10,7 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
        implements AtomicTask<T,AT> {
 	
 	private AtomicTaskId id;
-	private T parentTask;
+	private TaskNtro<T,AT> parentTask;
 	private ResultNtro<Object> result = new ResultNtro<>();
 
 
@@ -22,11 +22,11 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 		this.id = id;
 	}
 
-	public T getParentTask() {
+	public TaskNtro<T,AT> getParentTask() {
 		return parentTask;
 	}
 
-	public void setParentTask(T parentTask) {
+	public void setParentTask(TaskNtro<T,AT> parentTask) {
 		this.parentTask = parentTask;
 	}
 
@@ -52,9 +52,10 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 		return getId();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public T parentTask() {
-		return getParentTask();
+		return (T) getParentTask();
 	}
 
 	@Override

@@ -5,6 +5,9 @@ import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 import ca.ntro.core.exceptions.Break;
+import ca.ntro.core.graph_writer.GraphWriter;
+import ca.ntro.core.graph_writer.GraphWriterNull;
+import ca.ntro.core.graphs.generics.graph.GraphId;
 import ca.ntro.core.identifyers.Id;
 import ca.ntro.core.identifyers.IdNtro;
 import ca.ntro.core.initialization.Ntro;
@@ -30,9 +33,18 @@ public class ExecutableTaskGraphNtro
 	private boolean executionInProgress = false;
 	
 	private FutureNtro<ObjectMap> future;
+	
+	private GraphWriter writer;
+	private String baseGraphName;
+	private long executionStep;
 
 	@Override
 	public Future<ObjectMap> execute(long maxDelayMillis) {
+		return execute(maxDelayMillis, new GraphWriterNull());
+	}
+
+	@Override
+	public Future<ObjectMap> execute(long maxDelayMillis, GraphWriter writer) {
 		if(executionInProgress()) {
 			Ntro.exceptions().throwException(new IllegalStateException("We are already executing"));
 		}
@@ -42,16 +54,32 @@ public class ExecutableTaskGraphNtro
 	    done = new HashMap<>();
 
 	    setExecutionInProgress(true);
+
 		this.future = new FutureNtro<>();
+		this.writer = writer;
+		this.executionStep = 0;
+		GraphId id = getHdagBuilder().getGraph().id();
+		if(id == null) {
+			id = GraphId.newGraphId();
+		}
+		this.baseGraphName = id.toKey().toString();
+		
+		startExecution();
 		
 		Ntro.time().runAfterDelay(maxDelayMillis, () -> {
 			future.registerException(new TimeoutException());
 			halt();
 		});
-		
-		startExecution();
-		
+
 		return future;
+	}
+	
+	private void writeGraph() {
+		getHdagBuilder().setGraphName(baseGraphName + "_" +  executionStep);
+		
+		write(writer);
+		
+		executionStep++;
 	}
 	
 	private synchronized boolean executionInProgress() {
@@ -63,11 +91,11 @@ public class ExecutableTaskGraphNtro
 	}
 	
 	private synchronized void halt() {
+		setExecutionInProgress(false);
+
 		if(!future.hasException()) {
 			future.registerValue((ObjectMap) this);
 		}
-		
-		setExecutionInProgress(false);
 	}
 
 	@Override
@@ -94,6 +122,8 @@ public class ExecutableTaskGraphNtro
 	
 	private void startExecution() {
 		if(!executionInProgress()) return;
+
+		writeGraph();
 		
 		tasks().forEach(task -> {
 			if(future.hasException()) {
@@ -115,14 +145,17 @@ public class ExecutableTaskGraphNtro
 			}
 		});
 
+		writeGraph();
+
 		if(inProgress.isEmpty()) {
 			halt();
-			return;
 		}
 	}
 
 	private void continueExecution() {
 		if(!executionInProgress()) return;
+
+		writeGraph();
 		
 		Map<String, ExecutableTaskNtro> newBlocked = new HashMap<>();
 		Map<String, ExecutableTaskNtro> newInProgress = new HashMap<>();
@@ -135,10 +168,16 @@ public class ExecutableTaskGraphNtro
 		blocked = newBlocked;
 		inProgress = newInProgress;
 		done = newDone;
-		
+
+
 		if(inProgress.isEmpty()) {
+
 			halt();
-			return;
+
+		}else {
+			
+			writeGraph();
+			
 		}
 	}
 
@@ -225,8 +264,13 @@ public class ExecutableTaskGraphNtro
 	}
 
 	@Override
-	public Result<ObjectMap> executeBlocking(long maxDelay) {
-		return execute().get(maxDelay);
+	public Result<ObjectMap> executeBlocking(long maxDelayMillis) {
+		return executeBlocking(maxDelayMillis, new GraphWriterNull());
+	}
+
+	@Override
+	public Result<ObjectMap> executeBlocking(long maxDelayMillis, GraphWriter writer) {
+		return execute(maxDelayMillis, writer).get(maxDelayMillis);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -247,4 +291,6 @@ public class ExecutableTaskGraphNtro
 	public <O> O getObject(Class<O> _class, String id) {
 		return getObject(_class, new IdNtro(id));
 	}
+
+
 }

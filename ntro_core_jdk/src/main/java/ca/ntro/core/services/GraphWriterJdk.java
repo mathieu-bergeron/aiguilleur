@@ -14,7 +14,6 @@ import ca.ntro.core.graph_writer.GraphWriterException;
 import ca.ntro.core.graph_writer.NodeAlreadyAddedException;
 import ca.ntro.core.graph_writer.NodeNotFoundException;
 import ca.ntro.core.graph_writer.NodeSpec;
-import ca.ntro.core.graph_writer.RecordSpec;
 import ca.ntro.core.graphs.generics.graph.GraphId;
 import ca.ntro.core.graphs.generics.graph.GraphWriterOptions;
 import ca.ntro.core.initialization.Ntro;
@@ -22,7 +21,6 @@ import ca.ntro.core.path.Filepath;
 
 import guru.nidi.graphviz.attribute.Label;
 import guru.nidi.graphviz.attribute.Rank;
-import guru.nidi.graphviz.attribute.Records;
 import guru.nidi.graphviz.attribute.Rank.RankDir;
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
@@ -30,7 +28,6 @@ import guru.nidi.graphviz.model.Link;
 import guru.nidi.graphviz.model.MutableAttributed;
 import guru.nidi.graphviz.model.MutableGraph;
 import guru.nidi.graphviz.model.MutableNode;
-import guru.nidi.graphviz.model.PortNode;
 
 import static guru.nidi.graphviz.model.Factory.*;
 import static guru.nidi.graphviz.model.Compass.*;
@@ -53,10 +50,15 @@ public class GraphWriterJdk implements GraphWriter {
 	public void initialize(GraphId id, GraphWriterOptions options) {
 		this.options = options;
 		this.basepath = id.toFilepath();
-
+		
 		graph = mutGraph(basepath.filename()).setDirected(options.isDirected())
 				.graphAttrs().add(Rank.dir(RankDir.LEFT_TO_RIGHT))
 				.graphAttrs().add("compound", "true");
+
+		clusters = new HashMap<>();
+		parentCluster = new HashMap<>();
+		clusterAnchorNodes = new HashMap<>();
+		nodes = new HashMap<>();
 	}
 
 	protected void prepareToWrite() {
