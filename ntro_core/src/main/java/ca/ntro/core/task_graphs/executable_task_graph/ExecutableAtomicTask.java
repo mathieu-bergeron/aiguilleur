@@ -8,10 +8,6 @@ import ca.ntro.core.task_graphs.task_graph.AtomicTask;
 
 public interface ExecutableAtomicTask extends AtomicTask<ExecutableTaskNtro, ExecutableAtomicTaskNtro> {
 	
-	void start();
-	void suspend();
-	void resume();
-	void stop();
 
 	void onStart(OnStartHandler onStartHandler);
 	void onSuspend(OnSuspendHandler onSuspendHandler);

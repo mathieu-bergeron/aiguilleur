@@ -67,8 +67,8 @@ public class ExecutableTaskGraphTests {
 		ExecutableAtomicTask a_entry = taskA.addEntryTask("a_entry");
 		
 		a_entry.onStart((currentResults, notifyer) -> {
+
 			String[] array = new String[] {"a","b"};
-			
 			String outOfBounds = array[2];
 		});
 
