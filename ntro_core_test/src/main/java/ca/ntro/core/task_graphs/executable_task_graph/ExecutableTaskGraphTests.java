@@ -37,12 +37,9 @@ public class ExecutableTaskGraphTests {
 		graph.write(Ntro.graphWriter());
 		
 		a_entry.onStart((currentResults, notifyer) -> {
-			
-			// FIXME: this consumes the exceptions
+
 			Ntro.time().runAfterDelay(5, () -> {
-
 				notifyer.registerResult(1);
-
 			});
 		});
 

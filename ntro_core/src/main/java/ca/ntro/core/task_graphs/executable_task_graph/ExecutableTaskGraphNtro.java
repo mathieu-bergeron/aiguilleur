@@ -2,6 +2,7 @@ package ca.ntro.core.task_graphs.executable_task_graph;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeoutException;
 
 import ca.ntro.core.exceptions.Break;
 import ca.ntro.core.identifyers.Id;
@@ -22,23 +23,51 @@ public class ExecutableTaskGraphNtro
 	
 	public static final long DEFAULT_MAX_DELAY_MILLIS = 30 * 1000;
 
-	private Map<String, ExecutableTaskNtro> blocked = new HashMap<>();
-	private Map<String, ExecutableTaskNtro> inProgress = new HashMap<>();
-	private Map<String, ExecutableTaskNtro> done = new HashMap<>();
+	private Map<String, ExecutableTaskNtro> blocked;
+	private Map<String, ExecutableTaskNtro> inProgress;
+	private Map<String, ExecutableTaskNtro> done;
 	
-	private long maxDelayMillis;
-	private long lastChange = 0;
+	private boolean executionInProgress = false;
 	
 	private FutureNtro<ObjectMap> future;
 
 	@Override
 	public Future<ObjectMap> execute(long maxDelayMillis) {
-		this.maxDelayMillis = maxDelayMillis;
+		if(executionInProgress()) {
+			Ntro.exceptions().throwException(new IllegalStateException("We are already executing"));
+		}
+
+		blocked = new HashMap<>();
+		inProgress = new HashMap<>();
+	    done = new HashMap<>();
+
+	    setExecutionInProgress(true);
 		this.future = new FutureNtro<>();
 		
-		startExecuting();
+		Ntro.time().runAfterDelay(maxDelayMillis, () -> {
+			future.registerException(new TimeoutException());
+			halt();
+		});
+		
+		startExecution();
 		
 		return future;
+	}
+	
+	private synchronized boolean executionInProgress() {
+		return executionInProgress;
+	}
+
+	private synchronized void setExecutionInProgress(boolean executionInProgress) {
+		this.executionInProgress = executionInProgress;
+	}
+	
+	private synchronized void halt() {
+		if(!future.hasException()) {
+			future.registerValue((ObjectMap) this);
+		}
+		
+		setExecutionInProgress(false);
 	}
 
 	@Override
@@ -48,27 +77,24 @@ public class ExecutableTaskGraphNtro
 
 	public void notifyOfException(Throwable t) {
 		future.registerException(t);
+		halt();
 	}
 	
 	public void notifyOfNewResult() {
-		lastChange = Ntro.time().nowMillis();
-		
 		try {
 
-			resumeExecuting();
-			
-			if(inProgress.isEmpty()) {
-
-				future.registerValue((ObjectMap) this);
-			}
+			continueExecution();
 
 		}catch(Throwable t) {
 
 			future.registerException(t);
+			halt();
 		}
 	}
 	
-	private void startExecuting() {
+	private void startExecution() {
+		if(!executionInProgress()) return;
+		
 		tasks().forEach(task -> {
 			if(future.hasException()) {
 				throw new Break();
@@ -88,15 +114,16 @@ public class ExecutableTaskGraphNtro
 				done.put(task.id().toKey().toString(), task);
 			}
 		});
-		
-		lastChange = Ntro.time().nowMillis();
-	}
-	
-	private boolean timeout() {
-		return (Ntro.time().nowMillis() - lastChange) > maxDelayMillis;
+
+		if(inProgress.isEmpty()) {
+			halt();
+			return;
+		}
 	}
 
-	private void resumeExecuting() {
+	private void continueExecution() {
+		if(!executionInProgress()) return;
+		
 		Map<String, ExecutableTaskNtro> newBlocked = new HashMap<>();
 		Map<String, ExecutableTaskNtro> newInProgress = new HashMap<>();
 		Map<String, ExecutableTaskNtro> newDone = new HashMap<>();
@@ -108,6 +135,11 @@ public class ExecutableTaskGraphNtro
 		blocked = newBlocked;
 		inProgress = newInProgress;
 		done = newDone;
+		
+		if(inProgress.isEmpty()) {
+			halt();
+			return;
+		}
 	}
 
 	private void processBlockedTasks(Map<String, ExecutableTaskNtro> newBlocked, 
@@ -189,35 +221,12 @@ public class ExecutableTaskGraphNtro
 	
 	@Override
 	public Result<ObjectMap> executeBlocking() {
-		return execute().get();
+		return executeBlocking(DEFAULT_MAX_DELAY_MILLIS);
 	}
 
 	@Override
 	public Result<ObjectMap> executeBlocking(long maxDelay) {
 		return execute().get(maxDelay);
-	}
-	
-	private boolean taskHasException(ExecutableTask task) {
-		return findFirstException(task) != null;
-	}
-
-	private Throwable findFirstException(ExecutableTask task) {
-		Throwable t = null;
-
-		ExecutableAtomicTask withException = task.entryTasks().findFirst(entryTask -> entryTask.result().hasException());
-		
-		if(withException == null) {
-			
-			withException = task.exitTasks().findFirst(exitTask -> exitTask.result().hasException());
-		}
-		
-		if(withException != null) {
-			
-			t = withException.result().exception();
-
-		}
-		
-		return t;
 	}
 	
 	@SuppressWarnings("unchecked")
