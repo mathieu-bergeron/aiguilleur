@@ -10,10 +10,10 @@ import ca.ntro.core.wrappers.result.ResultNtro;
 
 public interface ExecutableAtomicTask extends AtomicTask<ExecutableTaskNtro, ExecutableAtomicTaskNtro> {
 	
-	boolean start(ResultNtro<ObjectMapNtro> result);
-	boolean suspend(ResultNtro<ObjectMapNtro> result);
-	boolean resume(ResultNtro<ObjectMapNtro> result);
-	boolean stop(ResultNtro<ObjectMapNtro> result);
+	boolean start();
+	boolean suspend();
+	boolean resume();
+	boolean stop();
 
 	void onStart(OnStartHandler onStartHandler);
 

@@ -6,9 +6,10 @@ import java.util.concurrent.TimeoutException;
 
 import ca.ntro.core.exceptions.Break;
 import ca.ntro.core.identifyers.Id;
+import ca.ntro.core.identifyers.IdNtro;
 import ca.ntro.core.initialization.Ntro;
+import ca.ntro.core.task_graphs.task_graph.AtomicTaskId;
 import ca.ntro.core.task_graphs.task_graph.TaskGraphNtro;
-import ca.ntro.core.values.MutableObjectMap;
 import ca.ntro.core.values.ObjectMap;
 import ca.ntro.core.values.ObjectMapNtro;
 import ca.ntro.core.wrappers.future.Future;
@@ -20,7 +21,7 @@ public class ExecutableTaskGraphNtro
 
        extends TaskGraphNtro<ExecutableTaskNtro, ExecutableAtomicTaskNtro>
 
-       implements ExecutableTaskGraph, MutableObjectMap {
+       implements ExecutableTaskGraph, ObjectMap {
 	
 	public static final long EXECUTABLE_TASK_GRAPH_SLEEP_TIME_MILISECONDS = 10; // FIXME
 	public static final long EXECUTABLE_TASK_GRAPH_TIMEOUT_MILISECONDS = 300;   // FIXME
@@ -37,9 +38,9 @@ public class ExecutableTaskGraphNtro
 		return new FutureNtro<>();
 	}
 	
-	private void startExecuting(ResultNtro<ObjectMapNtro> result) {
+	private void startExecuting() {
 		tasks().forEach(task -> {
-			if(result.hasException()) {
+			if(hasException()) {
 				throw new Break();
 			}
 
@@ -50,7 +51,7 @@ public class ExecutableTaskGraphNtro
 			}else if(task.isInProgress()) {
 				
 				inProgress.put(task.id().toKey().toString(), task);
-				task.execute(result);
+				task.execute();
 				
 			}else if(task.isDone()) {
 				
@@ -65,14 +66,14 @@ public class ExecutableTaskGraphNtro
 		return (Ntro.time().nowMilliseconds() - lastChange) > EXECUTABLE_TASK_GRAPH_TIMEOUT_MILISECONDS;
 	}
 
-	private void resumeExecuting(ResultNtro<ObjectMapNtro> result) {
+	private void resumeExecuting() {
 		Map<String, ExecutableTaskNtro> newBlocked = new HashMap<>();
 		Map<String, ExecutableTaskNtro> newInProgress = new HashMap<>();
 		Map<String, ExecutableTaskNtro> newDone = new HashMap<>();
 		
-		boolean hasChanged = processBlockedTasks(result, newBlocked, newInProgress, newDone);
-		hasChanged = hasChanged || processInProgressTasks(result, newBlocked, newInProgress, newDone);
-		hasChanged = hasChanged || processDoneTasks(result, newBlocked, newInProgress, newDone);
+		boolean hasChanged = processBlockedTasks(newBlocked, newInProgress, newDone);
+		hasChanged = hasChanged || processInProgressTasks(newBlocked, newInProgress, newDone);
+		hasChanged = hasChanged || processDoneTasks(newBlocked, newInProgress, newDone);
 		
 		if(hasChanged) {
 			lastChange = Ntro.time().nowMilliseconds();
@@ -83,8 +84,7 @@ public class ExecutableTaskGraphNtro
 		done = newDone;
 	}
 
-	private boolean processBlockedTasks(ResultNtro<ObjectMapNtro> result, 
-			                            Map<String, ExecutableTaskNtro> newBlocked, 
+	private boolean processBlockedTasks(Map<String, ExecutableTaskNtro> newBlocked, 
 			                            Map<String, ExecutableTaskNtro> newInProgress, 
 			                            Map<String, ExecutableTaskNtro> newDone) {
 		
@@ -102,20 +102,19 @@ public class ExecutableTaskGraphNtro
 			}else if(task.isInProgress()) {
 				
 				newInProgress.put(taskId, task);
-				hasChanged = hasChanged || task.execute(result);
+				hasChanged = hasChanged || task.execute();
 				
 			}else if(task.isDone()) {
 
 				newDone.put(taskId, task);
-				hasChanged = hasChanged || task.stop(result);
+				hasChanged = hasChanged || task.stop();
 			}
 		}
 		
 		return hasChanged;
 	}
 
-	private boolean processInProgressTasks(ResultNtro<ObjectMapNtro> result, 
-			                               Map<String, ExecutableTaskNtro> newBlocked, 
+	private boolean processInProgressTasks(Map<String, ExecutableTaskNtro> newBlocked, 
 			                               Map<String, ExecutableTaskNtro> newInProgress, 
 			                               Map<String, ExecutableTaskNtro> newDone) {
 		
@@ -129,7 +128,7 @@ public class ExecutableTaskGraphNtro
 			if(task.isBlocked()) {
 				
 				newBlocked.put(taskId, task);
-				hasChanged = hasChanged || task.suspend(result);
+				hasChanged = hasChanged || task.suspend();
 				
 			}else if(task.isInProgress()) {
 				
@@ -138,15 +137,14 @@ public class ExecutableTaskGraphNtro
 			}else if(task.isDone()) {
 
 				newDone.put(taskId, task);
-				hasChanged = hasChanged || task.stop(result);
+				hasChanged = hasChanged || task.stop();
 			}
 		}
 		
 		return hasChanged;
 	}
 
-	private boolean processDoneTasks(ResultNtro<ObjectMapNtro> result, 
-			                         Map<String, ExecutableTaskNtro> newBlocked, 
+	private boolean processDoneTasks(Map<String, ExecutableTaskNtro> newBlocked, 
 			                         Map<String, ExecutableTaskNtro> newInProgress, 
 			                         Map<String, ExecutableTaskNtro> newDone) {
 		
@@ -164,7 +162,7 @@ public class ExecutableTaskGraphNtro
 			}else if(task.isInProgress()) {
 				
 				newInProgress.put(taskId, task);
-				hasChanged = hasChanged || task.execute(result);
+				hasChanged = hasChanged || task.execute();
 				
 			}else if(task.isDone()) {
 
@@ -177,48 +175,94 @@ public class ExecutableTaskGraphNtro
 	
 	@Override
 	public Result<ObjectMap> executeBlocking() {
-		ResultNtro<ObjectMapNtro> result = new ResultNtro<>(new ObjectMapNtro());
+		ResultNtro<ObjectMap> result = new ResultNtro<>();
 		
-		startExecuting(result);
+		startExecuting();
 
 		while(!inProgress.isEmpty()
 				&& !timeout()
-				&& !result.hasException()) {
+				&& !hasException()) {
 			
-			resumeExecuting(result);
+			resumeExecuting();
 
 			Ntro.time().sleep(EXECUTABLE_TASK_GRAPH_SLEEP_TIME_MILISECONDS);
 		}
 		
 		if(timeout()) {
+
 			result.registerException(new TimeoutException());
+
+		}else if(hasException()) {
+
+			result.registerException(exception());
+
+		}else {
+			
+			result.registerValue((ObjectMap) this);
+			
 		}
-		
-		return new ResultNtro<ObjectMap>(result.value());
+
+		return result;
+	}
+	
+	
+	private boolean taskHasException(ExecutableTask task) {
+		return findFirstException(task) != null;
 	}
 
+	private Throwable findFirstException(ExecutableTask task) {
+		Throwable t = null;
+
+		ExecutableAtomicTask withException = task.entryTasks().findFirst(entryTask -> entryTask.result().hasException());
+		
+		if(withException == null) {
+			
+			withException = task.exitTasks().findFirst(exitTask -> exitTask.result().hasException());
+		}
+		
+		if(withException != null) {
+			
+			t = withException.result().exception();
+
+		}
+		
+		return t;
+	}
+	
+	
+	private boolean hasException() {
+		return tasks().ifSome(task -> taskHasException(task));
+	}
+
+	private Throwable exception() {
+		return tasks().reduceToResult((Throwable) null, (accumulator, task) -> {
+			if(accumulator != null) {
+				throw new Break();
+			}
+			
+			accumulator = findFirstException(task);
+			
+			return accumulator;
+					
+		}).value();
+	}
+
+	@SuppressWarnings("unchecked")
 	@Override
 	public <O> O getObject(Class<O> _class, Id id) {
-		// TODO Auto-generated method stub
-		return null;
+		O result = null;
+		
+		ExecutableAtomicTaskNtro atomicTask = findAtomicTask(AtomicTaskId.fromKey(id.toKey()));
+		
+		if(atomicTask.result().hasValue()) {
+			result = (O) atomicTask.result().value();
+		}
+
+		return result;
 	}
 
 	@Override
 	public <O> O getObject(Class<O> _class, String id) {
-		// TODO Auto-generated method stub
-		return null;
+		return getObject(_class, new IdNtro(id));
 	}
-
-	@Override
-	public void registerObject(String id, Object object) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void registerObject(Id id, Object object) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

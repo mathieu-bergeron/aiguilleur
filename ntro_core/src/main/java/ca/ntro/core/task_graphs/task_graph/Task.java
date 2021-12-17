@@ -18,6 +18,9 @@ public interface Task<T  extends Task<T,AT>,
 
 	AT findExitTask(AtomicTaskId id);
 	AT findExitTask(String id);
+
+	AT findAtomicTask(AtomicTaskId id);
+	AT findAtomicTask(String id);
 	
 	T addSubTask(TaskId id);
 	T addSubTask(String id);

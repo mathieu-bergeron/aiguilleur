@@ -11,6 +11,9 @@ public interface TaskGraph<T  extends Task<T,AT>,
 	T findTask(TaskId id);
 	T findTask(String id);
 
+	AT findAtomicTask(AtomicTaskId id);
+	AT findAtomicTask(String id);
+
 	T addTask(TaskId id);
 	T addTask(String id);
 	

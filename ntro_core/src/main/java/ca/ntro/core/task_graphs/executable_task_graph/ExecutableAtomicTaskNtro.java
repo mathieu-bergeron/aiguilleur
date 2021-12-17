@@ -90,22 +90,20 @@ public class      ExecutableAtomicTaskNtro
 	}
 
 	@Override
-	public boolean start(ResultNtro<ObjectMapNtro> result) {
+	public boolean start() {
 		OptionnalNtro<Boolean> hasChanged = new OptionnalNtro<>(false);
 
-		getOnStartHandler().start(result.value(), new Notifyer() {
+		getOnStartHandler().start((ObjectMap) parentTask().parentGraph(), new Notifyer() {
 
 			@Override
 			public void registerResult(Object value) {
 				ExecutableAtomicTaskNtro.this.registerResult(value);
-				result.value().registerObject(ExecutableAtomicTaskNtro.this.id(), value);
 				hasChanged.registerValue(true);
 			}
 
 			@Override
 			public void registerException(Throwable t) {
 				ExecutableAtomicTaskNtro.this.registerException(t);
-				result.registerException(t);
 			}
 		});
 
@@ -113,19 +111,19 @@ public class      ExecutableAtomicTaskNtro
 	}
 
 	@Override
-	public boolean suspend(ResultNtro<ObjectMapNtro> result) {
+	public boolean suspend() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean resume(ResultNtro<ObjectMapNtro> result) {
+	public boolean resume() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean stop(ResultNtro<ObjectMapNtro> result) {
+	public boolean stop() {
 		// TODO Auto-generated method stub
 		return false;
 	}

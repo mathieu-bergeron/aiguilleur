@@ -1,8 +1,12 @@
 package ca.ntro.core.task_graphs.task_graph;
 
+import java.util.Map;
+
+import ca.ntro.core.exceptions.Break;
 import ca.ntro.core.graph_writer.GraphWriter;
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagNodeBuilder;
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagWriterOptionsNtro;
+import ca.ntro.core.identifyers.Key;
 import ca.ntro.core.initialization.Factory;
 import ca.ntro.core.stream.Stream;
 import ca.ntro.core.task_graphs.task_graph_writer.InternalTaskGraphWriter;
@@ -75,6 +79,27 @@ public class TaskGraphNtro<T  extends Task<T,AT>,
 	@Override
 	public T findTask(TaskId id) {
 		return getHdagBuilder().graph().findNode(id).task();
+	}
+
+	@Override
+	public AT findAtomicTask(String id) {
+		return findAtomicTask(AtomicTaskId.fromKey(new Key(id)));
+	}
+
+	@Override
+	public AT findAtomicTask(AtomicTaskId id) {
+
+		return tasks().reduceToResult((AT) null, (accumulator, task) -> {
+
+			if(accumulator != null) {
+				throw new Break();
+			}
+
+			accumulator = task.findAtomicTask(id);
+			
+			return accumulator;
+
+		}).value();
 	}
 
 	@Override

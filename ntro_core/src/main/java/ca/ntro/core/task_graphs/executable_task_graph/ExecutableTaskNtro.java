@@ -23,7 +23,7 @@ public class      ExecutableTaskNtro
 	
 
 	@Override
-	public boolean execute(ResultNtro<ObjectMapNtro> result) {
+	public boolean execute() {
 		boolean hasChanged = false;
 		
 		if(!areEntryTasksDone()) {
@@ -34,7 +34,7 @@ public class      ExecutableTaskNtro
 					
 					started.put(entryTask.id().toKey().toString(), entryTask);
 
-					accumulator = accumulator || entryTask.start(result);
+					accumulator = accumulator || entryTask.start();
 				}
 				
 				return accumulator;
@@ -53,12 +53,12 @@ public class      ExecutableTaskNtro
 	}
 
 	@Override
-	public boolean suspend(ResultNtro<ObjectMapNtro> result) {
+	public boolean suspend() {
 		return false;
 	}
 
 	@Override
-	public boolean stop(ResultNtro<ObjectMapNtro> result) {
+	public boolean stop() {
 		return false;
 	}
 
