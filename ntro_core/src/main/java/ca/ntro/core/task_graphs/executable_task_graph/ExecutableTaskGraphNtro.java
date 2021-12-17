@@ -11,7 +11,6 @@ import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.task_graphs.task_graph.AtomicTaskId;
 import ca.ntro.core.task_graphs.task_graph.TaskGraphNtro;
 import ca.ntro.core.values.ObjectMap;
-import ca.ntro.core.values.ObjectMapNtro;
 import ca.ntro.core.wrappers.future.Future;
 import ca.ntro.core.wrappers.future.FutureNtro;
 import ca.ntro.core.wrappers.result.Result;
@@ -31,11 +30,31 @@ public class ExecutableTaskGraphNtro
 	private Map<String, ExecutableTaskNtro> done = new HashMap<>();
 	
 	private long lastChange = 0;
+	
+	private FutureNtro<ObjectMap> future;
 
 	@Override
 	public Future<ObjectMap> execute() {
+		future = new FutureNtro<>();
+		
+		startExecuting();
+		
+		return future;
+	}
+	
+	public void notifyOfChange() {
+		resumeExecuting();
+		
+		if(future != null
+				&& hasException()) {
 
-		return new FutureNtro<>();
+			future.registerException(exception());
+
+		}else if(future != null
+				&& inProgress.isEmpty()) {
+
+			future.registerValue((ObjectMap) this);
+		}
 	}
 	
 	private void startExecuting() {

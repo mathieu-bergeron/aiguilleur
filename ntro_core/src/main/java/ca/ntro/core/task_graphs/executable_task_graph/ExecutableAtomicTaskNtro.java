@@ -99,11 +99,15 @@ public class      ExecutableAtomicTaskNtro
 			public void registerResult(Object value) {
 				ExecutableAtomicTaskNtro.this.registerResult(value);
 				hasChanged.registerValue(true);
+				
+				((ExecutableTaskGraphNtro) ExecutableAtomicTaskNtro.this.parentTask().parentGraph()).notifyOfChange();
 			}
 
 			@Override
 			public void registerException(Throwable t) {
 				ExecutableAtomicTaskNtro.this.registerException(t);
+
+				((ExecutableTaskGraphNtro) ExecutableAtomicTaskNtro.this.parentTask().parentGraph()).notifyOfChange();
 			}
 		});
 

@@ -250,7 +250,6 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 		AtomicTaskNtro<T,AT> entryTaskNtro = getGraph().newAtomicTaskInstance();
 		entryTaskNtro.setId(id);
 		entryTaskNtro.setParentTask((T) this);
-
 		
 		AT entryTask = toAtomicTask(entryTaskNtro);
 		
