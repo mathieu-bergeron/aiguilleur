@@ -18,4 +18,12 @@ public class AsserterNull implements Asserter {
 	public void assertFalse(String string, boolean b) {
 	}
 
+	@Override
+	public void assertFuture(Runnable runnable) {
+	}
+
+	@Override
+	public void assertFuture(long maxDelay, Runnable runnable) {
+	}
+
 }

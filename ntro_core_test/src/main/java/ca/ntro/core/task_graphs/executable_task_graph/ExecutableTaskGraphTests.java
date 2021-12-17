@@ -47,7 +47,7 @@ public class ExecutableTaskGraphTests {
 			
 		});
 
-		Result<ObjectMap> result = graph.executeBlocking();
+		Result<ObjectMap> result = graph.executeBlocking(10);
 
 		graph.setGraphName("executeBlocking01_01");
 		graph.write(Ntro.graphWriter());
@@ -86,20 +86,25 @@ public class ExecutableTaskGraphTests {
 			
 		});
 
-		Future<ObjectMap> future = graph.execute();
+		Future<ObjectMap> future = graph.execute(5);
+		
+		Ntro.asserter().assertFuture(10,() -> {
+
+			future.handleValue(objectMap -> {
+
+				graph.setGraphName("executeAsync01_01");
+				graph.write(Ntro.graphWriter());
+
+				Integer a_entry_result = objectMap.getObject(Integer.class, "a_entry");
+
+				Ntro.asserter().assertEquals(1, a_entry_result);
+			});
+		});
+		
+		
 		
 		// FIXME: better to have future.get() rather than executeBlocking()??
 		//Result<ObjectMap> result = future.get();
 		
-		// FIXME: find a way to test futures in JUnit
-		future.handleValue(objectMap -> {
-
-			graph.setGraphName("executeAsync01_01");
-			graph.write(Ntro.graphWriter());
-
-			Integer a_entry_result = objectMap.getObject(Integer.class, "a_entry");
-
-			Ntro.asserter().assertEquals(1, a_entry_result);
-		});
 	}
 }

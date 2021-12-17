@@ -6,5 +6,8 @@ public interface Asserter {
 	void assertTrue(String message, boolean b);
 	void assertFalse(String string, boolean b);
 	void assertArrayEquals(Object[] array1, Object[] array2);
+	
+	void assertFuture(Runnable runnable);
+	void assertFuture(long maxDelay, Runnable runnable);
 
 }

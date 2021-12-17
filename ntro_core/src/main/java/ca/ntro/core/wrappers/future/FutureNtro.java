@@ -1,5 +1,7 @@
 package ca.ntro.core.wrappers.future;
 
+import ca.ntro.core.wrappers.result.Result;
+
 public class FutureNtro<O extends Object> implements Future<O> {
 	
 	private enum State {
@@ -51,6 +53,16 @@ public class FutureNtro<O extends Object> implements Future<O> {
 		}
 
 		return this;
+	}
+
+	@Override
+	public Result<O> get() {
+		throw new RuntimeException("TODO");
+	}
+
+	@Override
+	public Result<O> get(long maxDelay) {
+		throw new RuntimeException("TODO");
 	}
 
 }

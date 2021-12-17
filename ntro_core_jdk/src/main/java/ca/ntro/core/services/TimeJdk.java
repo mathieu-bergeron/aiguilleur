@@ -20,7 +20,7 @@ public class TimeJdk implements Time {
 	}
 
 	@Override
-	public long nowMilliseconds() {
+	public long nowMillis() {
 		return System.currentTimeMillis();
 	}
 

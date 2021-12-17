@@ -7,7 +7,7 @@ public class TimeNull implements Time {
 	}
 
 	@Override
-	public long nowMilliseconds() {
+	public long nowMillis() {
 		return 0;
 	}
 

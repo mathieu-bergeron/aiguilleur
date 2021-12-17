@@ -90,15 +90,12 @@ public class      ExecutableAtomicTaskNtro
 	}
 
 	@Override
-	public boolean start() {
-		OptionnalNtro<Boolean> hasChanged = new OptionnalNtro<>(false);
-
+	public void start() {
 		getOnStartHandler().start((ObjectMap) parentTask().parentGraph(), new Notifyer() {
 
 			@Override
 			public void registerResult(Object value) {
 				ExecutableAtomicTaskNtro.this.registerResult(value);
-				hasChanged.registerValue(true);
 				
 				((ExecutableTaskGraphNtro) ExecutableAtomicTaskNtro.this.parentTask().parentGraph()).notifyOfChange();
 			}
@@ -110,25 +107,20 @@ public class      ExecutableAtomicTaskNtro
 				((ExecutableTaskGraphNtro) ExecutableAtomicTaskNtro.this.parentTask().parentGraph()).notifyOfChange();
 			}
 		});
-
-		return hasChanged.value();
 	}
 
 	@Override
-	public boolean suspend() {
-		// TODO Auto-generated method stub
-		return false;
+	public void suspend() {
+		throw new RuntimeException("TODO");
 	}
 
 	@Override
-	public boolean resume() {
-		// TODO Auto-generated method stub
-		return false;
+	public void resume() {
+		throw new RuntimeException("TODO");
 	}
 
 	@Override
-	public boolean stop() {
-		// TODO Auto-generated method stub
-		return false;
+	public void stop() {
+		throw new RuntimeException("TODO");
 	}
 }

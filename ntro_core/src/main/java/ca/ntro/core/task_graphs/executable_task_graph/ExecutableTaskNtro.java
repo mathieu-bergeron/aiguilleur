@@ -4,10 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ca.ntro.core.task_graphs.task_graph.TaskNtro;
-import ca.ntro.core.values.ObjectMap;
-import ca.ntro.core.values.ObjectMapNtro;
-import ca.ntro.core.wrappers.result.Result;
-import ca.ntro.core.wrappers.result.ResultNtro;
 
 public class      ExecutableTaskNtro 
 
@@ -23,43 +19,41 @@ public class      ExecutableTaskNtro
 	
 
 	@Override
-	public boolean execute() {
-		boolean hasChanged = false;
+	public void execute() {
 		
 		if(!areEntryTasksDone()) {
 			
-			hasChanged = hasChanged || entryTasks().reduceToResult(false, (accumulator, entryTask) -> {
-
+			entryTasks().forEach(entryTask -> {
+				
 				if(!started.containsKey(entryTask.id().toKey().toString())) {
-					
 					started.put(entryTask.id().toKey().toString(), entryTask);
 
-					accumulator = accumulator || entryTask.start();
+					entryTask.start();
 				}
-				
-				return accumulator;
-				
-			}).value();
+			});
 					
-		}else {
+		}else if(areSubTasksDone()
+				&& !areExitTasksDone()) {
 
-			exitTasks().forEach(entryTask -> {
-				
-				
+			exitTasks().forEach(exitTask -> {
+
+				if(!started.containsKey(exitTask.id().toKey().toString())) {
+					started.put(exitTask.id().toKey().toString(), exitTask);
+
+					exitTask.start();
+				}
 			});
 		}
-
-		return hasChanged;
 	}
 
 	@Override
-	public boolean suspend() {
-		return false;
+	public void suspend() {
+		throw new RuntimeException("TODO");
 	}
 
 	@Override
-	public boolean stop() {
-		return false;
+	public void stop() {
+		throw new RuntimeException("TODO");
 	}
 
 }
