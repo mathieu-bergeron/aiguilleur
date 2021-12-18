@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ca.ntro.core.task_graphs.TaskObjectMap;
 import ca.ntro.core.task_graphs.task_graph.TaskNtro;
 import ca.ntro.core.values.ObjectMap;
 
@@ -14,7 +15,7 @@ public class      ExecutableTaskNtro
 
        implements ExecutableTask {
 	
-	private List<ObjectMap> queuedResults = new ArrayList<>();
+	private List<TaskObjectMap> queuedResults = new ArrayList<>();
 	
 	
 	private Map<String, ExecutableAtomicTaskNtro> started = new HashMap<>();
@@ -24,14 +25,25 @@ public class      ExecutableTaskNtro
 
 	@Override
 	public boolean isInProgress() {
-		/* TODO: for an executable Task,
-		 *       we keep a queue of results.
-		 *       as long as the queue is
-		 *       not empty, we are not done
+		/* TODO: we keep a queue of results.
+		 *       every previous tasks contributes to it.
+		 *       we are ready to execute when
+		 *       we have at least one "Stack" of results
+		 *       for which every previousTask (and the parentTask)
+		 *       has contributed.
 		 */
-		return isBlocked() && !queuedResults.isEmpty();
+		return isBlocked() && !queuedResults.isEmpty()
+				&& isComplete(queuedResults.get(0));
 	}
 	
+
+	/* isComplete if every previousTask (and the parentTask)
+	 * has contributed its result to this ObjectMap
+	 */
+	private boolean isComplete(ObjectMap objectMap) {
+		return false;
+	}
+
 
 	@Override
 	public void execute() {
