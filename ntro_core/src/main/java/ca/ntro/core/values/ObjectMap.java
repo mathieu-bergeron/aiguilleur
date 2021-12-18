@@ -6,6 +6,9 @@ public interface ObjectMap {
 	
 	<O extends Object> O getObject(Class<O> _class, Id id);
 	<O extends Object> O getObject(Class<O> _class, String id);
+	
+	void merge(ObjectMap other);
+	
 
 	/*
 	<O extends Object> O getSingleton(ClassId<O> classId);

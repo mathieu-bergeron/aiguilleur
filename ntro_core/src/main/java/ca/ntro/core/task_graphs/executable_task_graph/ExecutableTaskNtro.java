@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ca.ntro.core.task_graphs.ObjectMapReader;
 import ca.ntro.core.task_graphs.TaskObjectMap;
 import ca.ntro.core.task_graphs.task_graph.TaskNtro;
 import ca.ntro.core.values.ObjectMap;
@@ -15,8 +16,13 @@ public class      ExecutableTaskNtro
 
        implements ExecutableTask {
 	
-	private List<TaskObjectMap> queuedResults = new ArrayList<>();
-	
+	/* TODO: keeping a ObjectMapReader for every previousTask and for the parentTask (if any)
+	 *       we can execute if previousResults.forAll(pr -> pr.hasNext());
+	 *       
+	 *       we execute on the objectMap = mergeAll(previousResults);
+	 * 
+	 */
+	private Map<String, ObjectMapReader> previousResults = new HashMap<>();
 	
 	private Map<String, ExecutableAtomicTaskNtro> started = new HashMap<>();
 	private Map<String, ExecutableAtomicTaskNtro> suspended = new HashMap<>();
@@ -25,27 +31,12 @@ public class      ExecutableTaskNtro
 
 	@Override
 	public boolean isInProgress() {
-		/* TODO: we keep a queue of results.
-		 *       every previous tasks contributes to it.
-		 *       we are ready to execute when
-		 *       we have at least one "Stack" of results
-		 *       for which every previousTask (and the parentTask)
-		 *       has contributed.
-		 */
-		return isBlocked() && !queuedResults.isEmpty()
-				&& isComplete(queuedResults.get(0));
+		return !isBlocked() 
+				&& previousResults.ifAll(pr -> pr.hasNext());
 	}
 	
 
-	/* isComplete if every previousTask (and the parentTask)
-	 * has contributed its result to this ObjectMap
-	 */
-	private boolean isComplete(ObjectMap objectMap) {
-		return false;
-	}
 
-
-	@Override
 	public void execute() {
 		
 		if(!areEntryTasksDone()) {
@@ -73,12 +64,10 @@ public class      ExecutableTaskNtro
 		}
 	}
 
-	@Override
 	public void suspend() {
 		//throw new RuntimeException("TODO");
 	}
 
-	@Override
 	public void stop() {
 		//throw new RuntimeException("TODO");
 	}
