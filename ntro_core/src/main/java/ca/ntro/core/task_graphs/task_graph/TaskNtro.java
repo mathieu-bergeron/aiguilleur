@@ -112,16 +112,8 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 
 	@Override
 	public boolean isInProgress() {
-		throw new RuntimeException("TODO: this must refer to a ResultProvider specific to"
-				+ "the parent task and each previoustask."
-				+ "each task needs to consume messages differently");
-				
-
-
-		/*
 		return !isBlocked()
 				&& !isDone();
-				*/
 	}
 
 	@Override

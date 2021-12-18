@@ -1,9 +1,12 @@
 package ca.ntro.core.task_graphs.executable_task_graph;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import ca.ntro.core.task_graphs.task_graph.TaskNtro;
+import ca.ntro.core.values.ObjectMap;
 
 public class      ExecutableTaskNtro 
 
@@ -11,11 +14,23 @@ public class      ExecutableTaskNtro
 
        implements ExecutableTask {
 	
+	private List<ObjectMap> queuedResults = new ArrayList<>();
+	
 	
 	private Map<String, ExecutableAtomicTaskNtro> started = new HashMap<>();
 	private Map<String, ExecutableAtomicTaskNtro> suspended = new HashMap<>();
 	private Map<String, ExecutableAtomicTaskNtro> resumed = new HashMap<>();
 	private Map<String, ExecutableAtomicTaskNtro> stopped = new HashMap<>();
+
+	@Override
+	public boolean isInProgress() {
+		/* TODO: for an executable Task,
+		 *       we keep a queue of results.
+		 *       as long as the queue is
+		 *       not empty, we are not done
+		 */
+		return isBlocked() && !queuedResults.isEmpty();
+	}
 	
 
 	@Override
