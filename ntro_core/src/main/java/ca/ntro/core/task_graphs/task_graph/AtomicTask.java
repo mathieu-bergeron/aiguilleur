@@ -13,5 +13,7 @@ public interface AtomicTask<T  extends Task<T,AT>,
 	void registerResult(Object value);
 	void registerException(Throwable t);
 
+	void clear();
+
 	<R> Result<R> result();
 }
