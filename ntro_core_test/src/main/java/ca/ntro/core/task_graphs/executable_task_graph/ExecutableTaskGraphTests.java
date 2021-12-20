@@ -41,18 +41,13 @@ public class ExecutableTaskGraphTests {
 		// inProgress until we have a result
 		//
 		// then Done
-		a_entry.onResultsChanged((currentResults, notifyer) -> {
-			if(currentResults.contains("a_entry")) {
+		a_entry.onResultsChanged((previousResults, notifyer) -> {
+			notifyer.notifyTaskInProgress();
 
+			Ntro.time().runAfterDelay(5, () -> {
+				notifyer.addResult(1);
 				notifyer.notifyTaskDone();
-
-			}else {
-				notifyer.notifyTaskInProgress();
-
-				Ntro.time().runAfterDelay(5, () -> {
-					notifyer.addResult(1);
-				});
-			}
+			});
 		});
 
 		a_entry.handleException(exception -> {
@@ -61,17 +56,12 @@ public class ExecutableTaskGraphTests {
 		
 		// MsgReceiver: never inProgress, blocked then done
 		b_entry.onResultsChanged((currentResults, notifyer) -> {
-			if(currentResults.contains("b_entry")) {
+			notifyer.notifyTaskBlocked();
 
+			Ntro.time().runAfterDelay(5, () -> {
+				notifyer.addResult(1);
 				notifyer.notifyTaskDone();
-
-			}else {
-				notifyer.notifyTaskBlocked();
-
-				Ntro.time().runAfterDelay(5, () -> {
-					notifyer.addResult(1);
-				});
-			}
+			});
 		});
 
 		Result<ObjectMap> result = graph.executeBlocking(1000, Ntro.graphWriter());
