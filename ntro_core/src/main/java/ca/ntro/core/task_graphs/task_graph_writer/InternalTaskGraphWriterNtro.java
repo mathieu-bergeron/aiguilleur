@@ -23,11 +23,11 @@ public class InternalTaskGraphWriterNtro<T  extends Task<T,AT>,
 
 		//  FIXME: should ask the node for its attribute
 
-		if(node.task().isBlocked()) {
+		if(node.task().isWaiting()) {
 
 			nodeSpec.setColor("red");
 
-		}else if(node.task().isInProgress()) {
+		}else if(node.task().isRunning()) {
 			
 			nodeSpec.setColor("yellow");
 			

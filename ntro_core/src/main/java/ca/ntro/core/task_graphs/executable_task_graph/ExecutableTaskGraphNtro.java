@@ -130,11 +130,11 @@ public class ExecutableTaskGraphNtro
 				throw new Break();
 			}
 
-			if(task.isBlocked()) {
+			if(task.isWaiting()) {
 				
 				blocked.put(task.id().toKey().toString(), task);
 				
-			}else if(task.isInProgress()) {
+			}else if(task.isRunning()) {
 				
 				inProgress.put(task.id().toKey().toString(), task);
 				task.execute();
@@ -190,11 +190,11 @@ public class ExecutableTaskGraphNtro
 			String taskId = entry.getKey();
 			ExecutableTaskNtro task = entry.getValue();
 
-			if(task.isBlocked()) {
+			if(task.isWaiting()) {
 				
 				newBlocked.put(taskId, task);
 				
-			}else if(task.isInProgress()) {
+			}else if(task.isRunning()) {
 				
 				newInProgress.put(taskId, task);
 				task.execute();
@@ -216,12 +216,12 @@ public class ExecutableTaskGraphNtro
 			String taskId = entry.getKey();
 			ExecutableTaskNtro task = entry.getValue();
 
-			if(task.isBlocked()) {
+			if(task.isWaiting()) {
 				
 				newBlocked.put(taskId, task);
 				task.suspend();
 				
-			}else if(task.isInProgress()) {
+			}else if(task.isRunning()) {
 				
 				newInProgress.put(taskId, task);
 				
@@ -242,11 +242,11 @@ public class ExecutableTaskGraphNtro
 			String taskId = entry.getKey();
 			ExecutableTaskNtro task = entry.getValue();
 
-			if(task.isBlocked()) {
+			if(task.isWaiting()) {
 				
 				newBlocked.put(taskId, task);
 				
-			}else if(task.isInProgress()) {
+			}else if(task.isRunning()) {
 				
 				newInProgress.put(taskId, task);
 				task.execute();

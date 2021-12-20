@@ -105,7 +105,7 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 	}
 
 	@Override
-	public boolean isBlocked() {
+	public boolean isWaiting() {
 		return !arePreviousTasksDone()
 				|| !areParentEntryTasksDone();
 	}
@@ -129,14 +129,14 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 	}
 
 	@Override
-	public boolean isInProgress() {
-		return !isBlocked()
+	public boolean isRunning() {
+		return !isWaiting()
 				&& !isDone();
 	}
 
 	@Override
 	public boolean isDone() {
-		return !isBlocked()
+		return !isWaiting()
 				&& areEntryTasksDone()
 				&& areSubTasksDone()
 				&& areExitTasksDone();

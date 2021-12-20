@@ -75,19 +75,19 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 	}
 
 	@Override
-	public boolean isBlocked() {
+	public boolean isWaiting() {
 		return getResult().hasException();
 	}
 
 	@Override
-	public boolean isInProgress() {
-		return !isBlocked()
+	public boolean isRunning() {
+		return !isWaiting()
 				&& !isDone();
 	}
 
 	@Override
 	public boolean isDone() {
-		return !isBlocked()
+		return !isWaiting()
 				&& getResult().hasValue();
 	}
 }

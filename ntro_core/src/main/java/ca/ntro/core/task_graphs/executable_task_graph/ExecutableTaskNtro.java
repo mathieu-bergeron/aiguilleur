@@ -30,8 +30,8 @@ public class      ExecutableTaskNtro
 	private Map<String, ExecutableAtomicTaskNtro> stopped = new HashMap<>();
 
 	@Override
-	public boolean isInProgress() {
-		return !isBlocked() 
+	public boolean isRunning() {
+		return !isWaiting() 
 				&& previousResults.ifAll(pr -> pr.hasNext());
 	}
 	
