@@ -3,7 +3,7 @@ package ca.ntro.core.task_graphs.executable_task_graph;
 import ca.ntro.core.task_graphs.executable_task_graph.handlers.Notifyer;
 import ca.ntro.core.task_graphs.executable_task_graph.handlers.OnResumeHandler;
 import ca.ntro.core.task_graphs.executable_task_graph.handlers.OnResumeHandlerNull;
-import ca.ntro.core.task_graphs.executable_task_graph.handlers.OnStartHandler;
+import ca.ntro.core.task_graphs.executable_task_graph.handlers.OnNewResultsHandler;
 import ca.ntro.core.task_graphs.executable_task_graph.handlers.OnStartHandlerNull;
 import ca.ntro.core.task_graphs.executable_task_graph.handlers.OnStopHandler;
 import ca.ntro.core.task_graphs.executable_task_graph.handlers.OnStopHandlerNull;
@@ -24,16 +24,16 @@ public class      ExecutableAtomicTaskNtro
        implements ExecutableAtomicTask {
 	
 	
-	private OnStartHandler   onStartHandler   = new OnStartHandlerNull();
+	private OnNewResultsHandler   onStartHandler   = new OnStartHandlerNull();
 	private OnSuspendHandler onSuspendHandler = new OnSuspendHandlerNull();
 	private OnResumeHandler  onResumeHandler  = new OnResumeHandlerNull();
 	private OnStopHandler    onStopHandler    = new OnStopHandlerNull();
 
-	public OnStartHandler getOnStartHandler() {
+	public OnNewResultsHandler getOnStartHandler() {
 		return onStartHandler;
 	}
 
-	public void setOnStartHandler(OnStartHandler onStartHandler) {
+	public void setOnStartHandler(OnNewResultsHandler onStartHandler) {
 		this.onStartHandler = onStartHandler;
 	}
 
@@ -70,7 +70,7 @@ public class      ExecutableAtomicTaskNtro
 	
 
 	@Override
-	public void start(OnStartHandler onStartHandler) {
+	public void onNewResults(OnNewResultsHandler onStartHandler) {
 		setOnStartHandler(onStartHandler);
 	}
 
@@ -85,7 +85,7 @@ public class      ExecutableAtomicTaskNtro
 	}
 
 	@Override
-	public void stop(OnStopHandler onStopHandler) {
+	public void onStop(OnStopHandler onStopHandler) {
 		setOnStopHandler(onStopHandler);
 	}
 
