@@ -41,7 +41,7 @@ public class ExecutableTaskGraphTests {
 		// inProgress until we have a result
 		//
 		// then Done
-		a_entry.onResultsChanged((previousResults, notifyer) -> {
+		a_entry.execute((previousResults, notifyer) -> {
 			notifyer.notifyTaskInProgress();
 
 			Ntro.time().runAfterDelay(5, () -> {
@@ -50,18 +50,26 @@ public class ExecutableTaskGraphTests {
 			});
 		});
 
+		a_entry.cancel((previousResults, notifyer) -> {
+			notifyer.notifyTaskBlocked();
+		});
+
 		a_entry.handleException(exception -> {
 			
 		});
 		
 		// MsgReceiver: never inProgress, blocked then done
-		b_entry.onResultsChanged((currentResults, notifyer) -> {
+		b_entry.execute((previousResults, notifyer) -> {
 			notifyer.notifyTaskBlocked();
 
 			Ntro.time().runAfterDelay(5, () -> {
 				notifyer.addResult(1);
 				notifyer.notifyTaskDone();
 			});
+		});
+		
+		b_entry.cancel((previousResults, notifyer) -> {
+			notifyer.notifyTaskBlocked();
 		});
 
 		Result<ObjectMap> result = graph.executeBlocking(1000, Ntro.graphWriter());
@@ -83,7 +91,7 @@ public class ExecutableTaskGraphTests {
 		ExecutableTask taskA = graph.addTask("A");
 		ExecutableAtomicTask a_entry = taskA.addEntryTask("a_entry");
 		
-		a_entry.onResultsChanged((currentResults, notifyer) -> {
+		a_entry.execute((currentResults, notifyer) -> {
 
 			String[] array = new String[] {"a","b"};
 			String outOfBounds = array[2];

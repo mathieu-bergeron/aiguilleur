@@ -1,11 +1,6 @@
 package ca.ntro.core.task_graphs.executable_task_graph;
 
-import ca.ntro.core.task_graphs.executable_task_graph.handlers.OnResumeHandler;
-import ca.ntro.core.task_graphs.executable_task_graph.handlers.OnResumeHandlerNull;
-import ca.ntro.core.task_graphs.executable_task_graph.handlers.OnStopHandler;
-import ca.ntro.core.task_graphs.executable_task_graph.handlers.OnStopHandlerNull;
-import ca.ntro.core.task_graphs.executable_task_graph.handlers.OnSuspendHandler;
-import ca.ntro.core.task_graphs.executable_task_graph.handlers.OnSuspendHandlerNull;
+import ca.ntro.core.task_graphs.task_graph.AtomicTaskNotifyer;
 import ca.ntro.core.task_graphs.task_graph.AtomicTaskNtro;
 import ca.ntro.core.values.ObjectMap;
 import ca.ntro.core.values.ObjectMapNtro;
@@ -22,40 +17,64 @@ public class      ExecutableAtomicTaskNtro
        implements ExecutableAtomicTask {
 	
 	
-	private OnResultsChangedHandler onResultsChangedHandler = new OnResultsChangedNull();
-	private ExceptionHandler        exceptionHandler        = new ExceptionHandlerDefault();
-	
-	
-	
-	public ExecutableAtomicTaskNtro() {
+	private ExecuteHandler   executeHandler   = new ExecuteHandlerDefault();
+	private CancelHandler    cancelHandler  = new CancelHandlerDefault();
+	private ExceptionHandler exceptionHandler = new ExceptionHandlerDefault();
 
+	public ExecuteHandler getExecuteHandler() {
+		return executeHandler;
+	}
+
+	public void setExecuteHandler(ExecuteHandler executeHandler) {
+		this.executeHandler = executeHandler;
+	}
+
+	public CancelHandler getCancelHandler() {
+		return cancelHandler;
+	}
+
+	public void setCancelHandler(CancelHandler cancelHandler) {
+		this.cancelHandler = cancelHandler;
+	}
+
+	public ExceptionHandler getExceptionHandler() {
+		return exceptionHandler;
+	}
+
+	public void setExceptionHandler(ExceptionHandler exceptionHandler) {
+		this.exceptionHandler = exceptionHandler;
 	}
 
 
-	public void start() {
+
+
+	public ExecutableAtomicTaskNtro() {
+	}
+	
+	
+
+
+	public void execute() {
 		try {
 
-			getOnStartHandler().start((ObjectMap) parentTask().parentGraph(), value -> {
-
-				ExecutableAtomicTaskNtro.this.registerNewResult(value);
-				((ExecutableTaskGraphNtro) ExecutableAtomicTaskNtro.this.parentTask().parentGraph()).notifyOfNewResult();
-			});
+			getExecuteHandler().execute((ObjectMap) parentTask().parentGraph(), this);
 
 		}catch(Throwable t) {
+
 			ExecutableAtomicTaskNtro.this.notifyTaskFailed(t); 
 			((ExecutableTaskGraphNtro) ExecutableAtomicTaskNtro.this.parentTask().parentGraph()).notifyOfException(t);
 		}
 	}
 
-	public void suspend() {
-		throw new RuntimeException("TODO");
-	}
+	public void cancel() {
+		try {
 
-	public void resume() {
-		throw new RuntimeException("TODO");
-	}
+			getCancelHandler().cancel((ObjectMap) parentTask().parentGraph(), this);
 
-	public void notifyTaskIsDone() {
-		throw new RuntimeException("TODO");
+		}catch(Throwable t) {
+
+			ExecutableAtomicTaskNtro.this.notifyTaskFailed(t); 
+			((ExecutableTaskGraphNtro) ExecutableAtomicTaskNtro.this.parentTask().parentGraph()).notifyOfException(t);
+		}
 	}
 }

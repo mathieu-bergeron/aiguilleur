@@ -46,7 +46,7 @@ public class      ExecutableTaskNtro
 				if(!started.containsKey(entryTask.id().toKey().toString())) {
 					started.put(entryTask.id().toKey().toString(), entryTask);
 
-					entryTask.start();
+					entryTask.execute();
 				}
 			});
 					
@@ -58,7 +58,7 @@ public class      ExecutableTaskNtro
 				if(!started.containsKey(exitTask.id().toKey().toString())) {
 					started.put(exitTask.id().toKey().toString(), exitTask);
 
-					exitTask.start();
+					exitTask.execute();
 				}
 			});
 		}
