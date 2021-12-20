@@ -28,8 +28,6 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 	private Map<String, AT> entryTasks = new HashMap<>();
 	private Map<String, AT> exitTasks = new HashMap<>();
 	
-	private PreviousResultsAcceptor previousResultsAcceptor = new PreviousResultsAcceptorDefault();
-	
 	/* TODO: 
 	 * 
 	 * When a previousTask has a new result
@@ -76,20 +74,14 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 		this.nodeBuilder = node;
 	}
 
-	public PreviousResultsAcceptor getPreviousResultsAcceptor() {
-		return previousResultsAcceptor;
-	}
-
-	public void setPreviousResultsAcceptor(PreviousResultsAcceptor previousResultsAcceptor) {
-		this.previousResultsAcceptor = previousResultsAcceptor;
-	}
-	
-	
 	
 
 	public TaskNtro(){
 		super();
 	}
+	
+	
+	
 
 	@Override
 	public TaskId id() {
@@ -117,17 +109,10 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 		return getNodeBuilder().node().hasParent();
 	}
 
-
-	@Override
-	public void registerResultsLock(PreviousResultsAcceptor accepter) {
-		setResultsAccepter(accepter);
-	}
-
 	@Override
 	public boolean isBlocked() {
 		return !arePreviousTasksDone()
-				|| !areParentEntryTasksDone()
-				|| !previousResultsAcceptor.acceptPreviousResults(results);
+				|| !areParentEntryTasksDone();
 	}
 
 	protected boolean arePreviousTasksDone() {
@@ -150,13 +135,13 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 
 	@Override
 	public boolean isInProgress() {
-		return !isWaiting()
+		return !isBlocked()
 				&& !isDone();
 	}
 
 	@Override
 	public boolean isDone() {
-		return !isWaiting()
+		return !isBlocked()
 				&& areEntryTasksDone()
 				&& areSubTasksDone()
 				&& areExitTasksDone();

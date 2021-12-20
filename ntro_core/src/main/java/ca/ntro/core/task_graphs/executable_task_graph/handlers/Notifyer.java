@@ -5,9 +5,8 @@ public interface Notifyer {
 	void addResult(Object value);
 	void clearResults();
 
-	void notifyThatNotWaitingForNewResults();
-
-	void notifyOfNewResult(Object value);
-	void notifyOfNoResult();
+	void notifyTaskBlocked();
+	void notifyTaskInProgress();
+	void notifyTaskDone();
 
 }

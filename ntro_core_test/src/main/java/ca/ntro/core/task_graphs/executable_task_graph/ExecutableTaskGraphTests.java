@@ -37,9 +37,11 @@ public class ExecutableTaskGraphTests {
 		ExecutableAtomicTask b_entry = taskB.addEntryTask("b_entry");
 		
 		a_entry.start((currentResults, notifyer) -> {
+			notifyer.notifyTaskInProgress();
 
 			Ntro.time().runAfterDelay(5, () -> {
-				notifyer.notifyOfNewResult(1);
+				notifyer.addResult(1);
+				notifyer.notifyTaskDone();
 			});
 
 		});
@@ -54,10 +56,13 @@ public class ExecutableTaskGraphTests {
 		});
 
 		
+		// MsgReceiver: never inProgress. Blocked, then Done
 		b_entry.start((currentResults, notifyer) -> {
+			notifyer.notifyTaskBlocked();
 
 			Ntro.time().runAfterDelay(5, () -> {
-				notifyer.notifyOfNewResult(1);
+				notifyer.addResult(1);
+				notifyer.notifyTaskDone();
 			});
 		});
 

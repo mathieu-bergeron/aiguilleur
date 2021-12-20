@@ -130,7 +130,7 @@ public class ExecutableTaskGraphNtro
 				throw new Break();
 			}
 
-			if(task.isWaiting()) {
+			if(task.isBlocked()) {
 				
 				blocked.put(task.id().toKey().toString(), task);
 				
@@ -147,7 +147,7 @@ public class ExecutableTaskGraphNtro
 
 		writeGraph();
 
-		if(hasValidResults()) {
+		if(inProgress.isEmpty()) {
 			halt();
 		}
 	}
@@ -170,7 +170,7 @@ public class ExecutableTaskGraphNtro
 		done = newDone;
 
 
-		if(hasValidResults()) {
+		if(inProgress.isEmpty()) {
 
 			halt();
 

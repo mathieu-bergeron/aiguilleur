@@ -12,6 +12,8 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 	private AtomicTaskId id;
 	private TaskNtro<T,AT> parentTask;
 	private ResultNtro<Object> result = new ResultNtro<>();
+	
+	private AtomicTaskState state = AtomicTaskState.BLOCKED;
 
 
 	public AtomicTaskId getId() {

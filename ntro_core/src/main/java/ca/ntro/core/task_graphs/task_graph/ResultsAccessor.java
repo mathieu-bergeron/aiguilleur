@@ -5,9 +5,6 @@ import ca.ntro.core.values.ObjectMap;
 public interface ResultsAccessor {
 	
 	boolean hasResults();
-
-	boolean hasValidResults();
-
 	ObjectMap results();
 
 }
