@@ -59,7 +59,7 @@ public class ExecutableTaskGraphTests {
 			
 		});
 		
-		// MsgReceiver: never inProgress. Blocked, then Done
+		// MsgReceiver: never inProgress, blocked then done
 		b_entry.onResultsChanged((currentResults, notifyer) -> {
 			if(currentResults.contains("b_entry")) {
 
