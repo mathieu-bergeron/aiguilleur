@@ -1,6 +1,8 @@
 package ca.ntro.core.task_graphs.task_graph;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import ca.ntro.core.graphs.common.Direction;
@@ -12,6 +14,8 @@ import ca.ntro.core.identifyers.Key;
 import ca.ntro.core.stream.Stream;
 import ca.ntro.core.stream.StreamNtro;
 import ca.ntro.core.stream.Visitor;
+import ca.ntro.core.values.ObjectMap;
+import ca.ntro.core.values.ObjectMapNtro;
 
 public abstract class TaskNtro<T  extends Task<T,AT>, 
                                AT extends AtomicTask<T,AT>>
@@ -23,6 +27,24 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 
 	private Map<String, AT> entryTasks = new HashMap<>();
 	private Map<String, AT> exitTasks = new HashMap<>();
+	
+	/* TODO: 
+	 * when current results is complete, we are done
+	 * and ready to provide results to the next tasks/parent task
+	 * 
+	 * (we know it is done as it contains every atomic tasks
+	 * of previous tasks and entry tasks of parent task)
+	 * 
+	 * when we read a new result, we create a new stack of results
+	 * and update it (a kind of copy-on-write)
+	 * 
+	 * I.E. if we have 2 previous tasks and one has a new result,
+	 * we create an ObjectMap by copying history and updating for that
+	 * single new result
+	 * 
+	 */
+	private ObjectMap currentResults = new ObjectMapNtro();
+	private List<ObjectMap> resultsHistory = new LinkedList<>();
 	
 	public TaskGraphNtro<T,AT> getGraph() {
 		return graph;
