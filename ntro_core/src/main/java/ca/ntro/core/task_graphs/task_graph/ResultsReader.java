@@ -4,6 +4,9 @@ import ca.ntro.core.values.ObjectMap;
 
 public interface ResultsReader {
 
+	boolean hasResults();
+	ObjectMap results();
+
 	boolean hasNext();
 	ObjectMap next();
 
