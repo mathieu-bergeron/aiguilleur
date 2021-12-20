@@ -34,6 +34,14 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 	 * 
 	 * (we know it is done as it contains every atomic tasks
 	 * of previous tasks and entry tasks of parent task)
+	 * 
+	 * when we read a new result, we create a new stack of results
+	 * and update it (a kind of copy-on-write)
+	 * 
+	 * I.E. if we have 2 previous tasks and one has a new result,
+	 * we create an ObjectMap by copying history and updating for that
+	 * single new result
+	 * 
 	 */
 	private ObjectMap currentResults = new ObjectMapNtro();
 	private List<ObjectMap> resultsHistory = new LinkedList<>();
