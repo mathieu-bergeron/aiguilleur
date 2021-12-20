@@ -36,34 +36,42 @@ public class ExecutableTaskGraphTests {
 		ExecutableAtomicTask a_entry = taskA.addEntryTask("a_entry");
 		ExecutableAtomicTask b_entry = taskB.addEntryTask("b_entry");
 		
+		// «normal» task:
+		//  
+		// inProgress until we have a result
+		//
+		// then Done
 		a_entry.onResultsChanged((currentResults, notifyer) -> {
-			notifyer.notifyTaskInProgress();
+			if(currentResults.contains("a_entry")) {
 
-			Ntro.time().runAfterDelay(5, () -> {
-				notifyer.addResult(1);
 				notifyer.notifyTaskDone();
-			});
 
+			}else {
+				notifyer.notifyTaskInProgress();
+
+				Ntro.time().runAfterDelay(5, () -> {
+					notifyer.addResult(1);
+				});
+			}
 		});
 
-		a_entry.onStop(currentResults -> {
-			
-			
-		});
-		
 		a_entry.handleException(exception -> {
 			
 		});
-
 		
 		// MsgReceiver: never inProgress. Blocked, then Done
 		b_entry.onResultsChanged((currentResults, notifyer) -> {
-			notifyer.notifyTaskBlocked();
+			if(currentResults.contains("b_entry")) {
 
-			Ntro.time().runAfterDelay(5, () -> {
-				notifyer.addResult(1);
 				notifyer.notifyTaskDone();
-			});
+
+			}else {
+				notifyer.notifyTaskBlocked();
+
+				Ntro.time().runAfterDelay(5, () -> {
+					notifyer.addResult(1);
+				});
+			}
 		});
 
 		Result<ObjectMap> result = graph.executeBlocking(1000, Ntro.graphWriter());
