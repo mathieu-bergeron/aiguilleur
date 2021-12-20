@@ -29,18 +29,14 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 	private Map<String, AT> exitTasks = new HashMap<>();
 	
 	/* TODO: 
-	 * when current results is complete, we are done
-	 * and ready to provide results to the next tasks/parent task
 	 * 
-	 * (we know it is done as it contains every atomic tasks
-	 * of previous tasks and entry tasks of parent task)
+	 * When a previousTask has a new result
+	 * we push it in currentResults
 	 * 
-	 * when we read a new result, we create a new stack of results
-	 * and update it (a kind of copy-on-write)
+	 * (if currentResults was complete, we store it in history)
 	 * 
-	 * I.E. if we have 2 previous tasks and one has a new result,
-	 * we create an ObjectMap by copying history and updating for that
-	 * single new result
+	 * 
+	 * 
 	 * 
 	 */
 	private ObjectMap currentResults = new ObjectMapNtro();
