@@ -28,7 +28,7 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 	private Map<String, AT> entryTasks = new HashMap<>();
 	private Map<String, AT> exitTasks = new HashMap<>();
 	
-	private ResultsLock resultsAccepter = new ResultsLockDefault();
+	private PreviousResultsAcceptor previousResultsAcceptor = new PreviousResultsAcceptorDefault();
 	
 	/* TODO: 
 	 * 
@@ -76,12 +76,12 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 		this.nodeBuilder = node;
 	}
 
-	public ResultsLock getResultsAccepter() {
-		return resultsAccepter;
+	public PreviousResultsAcceptor getPreviousResultsAcceptor() {
+		return previousResultsAcceptor;
 	}
 
-	public void setResultsAccepter(ResultsLock resultsAccepter) {
-		this.resultsAccepter = resultsAccepter;
+	public void setPreviousResultsAcceptor(PreviousResultsAcceptor previousResultsAcceptor) {
+		this.previousResultsAcceptor = previousResultsAcceptor;
 	}
 	
 	
@@ -119,14 +119,15 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 
 
 	@Override
-	public void registerResultsLock(ResultsLock accepter) {
+	public void registerResultsLock(PreviousResultsAcceptor accepter) {
 		setResultsAccepter(accepter);
 	}
 
 	@Override
-	public boolean isWaiting() {
+	public boolean isBlocked() {
 		return !arePreviousTasksDone()
-				|| !areParentEntryTasksDone();
+				|| !areParentEntryTasksDone()
+				|| !previousResultsAcceptor.acceptPreviousResults(results);
 	}
 
 	protected boolean arePreviousTasksDone() {

@@ -42,7 +42,7 @@ public interface Task<T  extends Task<T,AT>,
 	AT addExitTask(String id);
 	void addExitTask(AT exitTask);
 
-	void registerResultsLock(ResultsLock resultsLock);
+	void registerResultsLock(PreviousResultsAcceptor resultsLock);
 
 	Stream<T>  previousTasks();
 	Stream<AT> entryTasks();
