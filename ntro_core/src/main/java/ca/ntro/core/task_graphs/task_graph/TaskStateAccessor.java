@@ -1,9 +1,9 @@
 package ca.ntro.core.task_graphs.task_graph;
 
 public interface TaskStateAccessor {
-
-	boolean isWaiting();
-	boolean isRunning();
+	
+	boolean isBlocked();
+	boolean isInProgress();
 	boolean isDone();
 
 }

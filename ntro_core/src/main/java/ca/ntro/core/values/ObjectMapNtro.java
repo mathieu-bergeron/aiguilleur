@@ -26,13 +26,13 @@ public class ObjectMapNtro implements ObjectMap {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <O> O getObject(Class<O> _class, Id id) {
+	public <O> O get(Class<O> _class, Id id) {
 		return (O) getObjects().get(id.toKey().toString());
 	}
 
 	@Override
-	public <O> O getObject(Class<O> _class, String id) {
-		return getObject(_class, new IdNtro(id));
+	public <O> O get(Class<O> _class, String id) {
+		return get(_class, new IdNtro(id));
 	}
 
 

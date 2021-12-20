@@ -59,12 +59,12 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 	}
 
 	@Override
-	public void registerResult(Object value) {
+	public void registerNewResult(Object value) {
 		getResult().registerValue(value);
 	}
 
 	@Override
-	public void registerException(Throwable t) {
+	public void notifyTaskFailed(Throwable t) {
 		getResult().registerException(t);
 	}
 
@@ -80,7 +80,7 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 	}
 
 	@Override
-	public boolean isRunning() {
+	public boolean isInProgress() {
 		return !isWaiting()
 				&& !isDone();
 	}

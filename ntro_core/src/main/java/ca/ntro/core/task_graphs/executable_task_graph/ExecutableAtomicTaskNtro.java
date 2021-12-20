@@ -70,7 +70,7 @@ public class      ExecutableAtomicTaskNtro
 	
 
 	@Override
-	public void onStart(OnStartHandler onStartHandler) {
+	public void start(OnStartHandler onStartHandler) {
 		setOnStartHandler(onStartHandler);
 	}
 
@@ -85,7 +85,7 @@ public class      ExecutableAtomicTaskNtro
 	}
 
 	@Override
-	public void onStop(OnStopHandler onStopHandler) {
+	public void stop(OnStopHandler onStopHandler) {
 		setOnStopHandler(onStopHandler);
 	}
 
@@ -94,12 +94,12 @@ public class      ExecutableAtomicTaskNtro
 
 			getOnStartHandler().start((ObjectMap) parentTask().parentGraph(), value -> {
 
-				ExecutableAtomicTaskNtro.this.registerResult(value);
+				ExecutableAtomicTaskNtro.this.registerNewResult(value);
 				((ExecutableTaskGraphNtro) ExecutableAtomicTaskNtro.this.parentTask().parentGraph()).notifyOfNewResult();
 			});
 
 		}catch(Throwable t) {
-			ExecutableAtomicTaskNtro.this.registerException(t); 
+			ExecutableAtomicTaskNtro.this.notifyTaskFailed(t); 
 			((ExecutableTaskGraphNtro) ExecutableAtomicTaskNtro.this.parentTask().parentGraph()).notifyOfException(t);
 		}
 	}
@@ -112,7 +112,7 @@ public class      ExecutableAtomicTaskNtro
 		throw new RuntimeException("TODO");
 	}
 
-	public void stop() {
+	public void notifyTaskIsDone() {
 		throw new RuntimeException("TODO");
 	}
 }

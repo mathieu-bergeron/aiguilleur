@@ -5,7 +5,7 @@ import ca.ntro.core.stream.Stream;
 public interface Task<T  extends Task<T,AT>, 
                       AT extends AtomicTask<T,AT>> 
 
-       extends TaskStateAccessor {
+       extends ResultsAccessor, TaskStateAccessor {
 
 	TaskId id();
 	TaskGraph<T,AT> parentGraph();
@@ -41,7 +41,9 @@ public interface Task<T  extends Task<T,AT>,
 	AT addExitTask(AtomicTaskId id);
 	AT addExitTask(String id);
 	void addExitTask(AT exitTask);
-	
+
+	void registerResultsLock(ResultsLock resultsLock);
+
 	Stream<T>  previousTasks();
 	Stream<AT> entryTasks();
 	Stream<T>  subTasks();

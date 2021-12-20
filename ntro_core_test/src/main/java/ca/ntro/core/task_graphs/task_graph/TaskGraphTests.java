@@ -46,18 +46,18 @@ public class TaskGraphTests {
 		graph.setGraphName("simpleTaskGraph01_00");
 		graph.write(Ntro.graphWriter());
 		
-		a_entry.registerResult(new ResultNtro<Integer>(1));
+		a_entry.registerNewResult(new ResultNtro<Integer>(1));
 
 		graph.setGraphName("simpleTaskGraph01_01");
 		graph.write(Ntro.graphWriter());
 
-		aa_entry.registerResult(new ResultNtro<Integer>(1));
+		aa_entry.registerNewResult(new ResultNtro<Integer>(1));
 
 		graph.setGraphName("simpleTaskGraph01_02");
 		graph.write(Ntro.graphWriter());
 
 		ResultNtro<Integer> a_result = new ResultNtro<Integer>(1);
-		a_exit.registerResult(a_result);
+		a_exit.registerNewResult(a_result);
 		
 		graph.setGraphName("simpleTaskGraph01_03");
 		graph.write(Ntro.graphWriter());

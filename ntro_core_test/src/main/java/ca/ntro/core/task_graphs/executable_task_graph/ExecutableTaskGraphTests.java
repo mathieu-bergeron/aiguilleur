@@ -36,29 +36,36 @@ public class ExecutableTaskGraphTests {
 		ExecutableAtomicTask a_entry = taskA.addEntryTask("a_entry");
 		ExecutableAtomicTask b_entry = taskB.addEntryTask("b_entry");
 		
-		a_entry.onStart((currentResults, notifyer) -> {
+		a_entry.start((currentResults, notifyer) -> {
 
 			Ntro.time().runAfterDelay(5, () -> {
-				notifyer.registerResult(1);
+				notifyer.notifyOfNewResult(1);
 			});
+
 		});
 
-		a_entry.onSuspend(currentResults -> {
+		a_entry.stop(currentResults -> {
+			
 			
 		});
 		
-		b_entry.onStart((currentResults, notifyer) -> {
+		a_entry.handleException(exception -> {
+			
+		});
+
+		
+		b_entry.start((currentResults, notifyer) -> {
 
 			Ntro.time().runAfterDelay(5, () -> {
-				notifyer.registerResult(1);
+				notifyer.notifyOfNewResult(1);
 			});
 		});
 
 		Result<ObjectMap> result = graph.executeBlocking(1000, Ntro.graphWriter());
 		//Result<ObjectMap> result = graph.executeBlocking(1000);
 		
-		Integer a_entry_result = result.value().getObject(Integer.class, "a_entry");
-		Integer b_entry_result = result.value().getObject(Integer.class, "b_entry");
+		Integer a_entry_result = result.value().get(Integer.class, "a_entry");
+		Integer b_entry_result = result.value().get(Integer.class, "b_entry");
 
 		Ntro.asserter().assertEquals(1, a_entry_result);
 		Ntro.asserter().assertEquals(1, b_entry_result);
@@ -73,7 +80,7 @@ public class ExecutableTaskGraphTests {
 		ExecutableTask taskA = graph.addTask("A");
 		ExecutableAtomicTask a_entry = taskA.addEntryTask("a_entry");
 		
-		a_entry.onStart((currentResults, notifyer) -> {
+		a_entry.start((currentResults, notifyer) -> {
 
 			String[] array = new String[] {"a","b"};
 			String outOfBounds = array[2];

@@ -21,20 +21,20 @@ public class InternalTaskGraphWriterNtro<T  extends Task<T,AT>,
 			                                HierarchicalDagWriterOptions options,
 			                                NodeSpecNtro nodeSpec) {
 
-		//  FIXME: should ask the node for its attribute
-
-		if(node.task().isWaiting()) {
+		//  FIXME: should ask the nodeSpec for its attribute
+		if(node.task().isBlocked()) {
 
 			nodeSpec.setColor("red");
 
-		}else if(node.task().isRunning()) {
-			
+		} else if(node.task().isInProgress()) {
+
 			nodeSpec.setColor("yellow");
-			
-		}else if(node.task().isDone()) {
-			
+
+		} else if(node.task().isDone()) {
+
 			nodeSpec.setColor("green");
-			
+
 		}
+
 	}
 }

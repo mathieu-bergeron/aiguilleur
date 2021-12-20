@@ -20,13 +20,15 @@ import ca.ntro.core.values.ObjectMapNtro;
 public abstract class TaskNtro<T  extends Task<T,AT>, 
                                AT extends AtomicTask<T,AT>>
 
-	   implements     Task<T,AT> {
+	   implements     Task<T,AT>, ResultsAccessor {
 	
 	private TaskGraphNtro<T,AT> graph;
 	private HierarchicalDagNodeBuilder<TaskGraphNode<T,AT>,TaskGraphEdge<T,AT>> nodeBuilder;
 
 	private Map<String, AT> entryTasks = new HashMap<>();
 	private Map<String, AT> exitTasks = new HashMap<>();
+	
+	private ResultsLock resultsAccepter = new ResultsLockDefault();
 	
 	/* TODO: 
 	 * 
@@ -74,6 +76,17 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 		this.nodeBuilder = node;
 	}
 
+	public ResultsLock getResultsAccepter() {
+		return resultsAccepter;
+	}
+
+	public void setResultsAccepter(ResultsLock resultsAccepter) {
+		this.resultsAccepter = resultsAccepter;
+	}
+	
+	
+	
+
 	public TaskNtro(){
 		super();
 	}
@@ -104,6 +117,12 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 		return getNodeBuilder().node().hasParent();
 	}
 
+
+	@Override
+	public void registerResultsLock(ResultsLock accepter) {
+		setResultsAccepter(accepter);
+	}
+
 	@Override
 	public boolean isWaiting() {
 		return !arePreviousTasksDone()
@@ -129,7 +148,7 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 	}
 
 	@Override
-	public boolean isRunning() {
+	public boolean isInProgress() {
 		return !isWaiting()
 				&& !isDone();
 	}

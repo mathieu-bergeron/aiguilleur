@@ -134,7 +134,7 @@ public class ExecutableTaskGraphNtro
 				
 				blocked.put(task.id().toKey().toString(), task);
 				
-			}else if(task.isRunning()) {
+			}else if(task.isInProgress()) {
 				
 				inProgress.put(task.id().toKey().toString(), task);
 				task.execute();
@@ -147,7 +147,7 @@ public class ExecutableTaskGraphNtro
 
 		writeGraph();
 
-		if(inProgress.isEmpty()) {
+		if(hasValidResults()) {
 			halt();
 		}
 	}
@@ -170,7 +170,7 @@ public class ExecutableTaskGraphNtro
 		done = newDone;
 
 
-		if(inProgress.isEmpty()) {
+		if(hasValidResults()) {
 
 			halt();
 
@@ -194,7 +194,7 @@ public class ExecutableTaskGraphNtro
 				
 				newBlocked.put(taskId, task);
 				
-			}else if(task.isRunning()) {
+			}else if(task.isInProgress()) {
 				
 				newInProgress.put(taskId, task);
 				task.execute();
@@ -221,7 +221,7 @@ public class ExecutableTaskGraphNtro
 				newBlocked.put(taskId, task);
 				task.suspend();
 				
-			}else if(task.isRunning()) {
+			}else if(task.isInProgress()) {
 				
 				newInProgress.put(taskId, task);
 				
@@ -246,7 +246,7 @@ public class ExecutableTaskGraphNtro
 				
 				newBlocked.put(taskId, task);
 				
-			}else if(task.isRunning()) {
+			}else if(task.isInProgress()) {
 				
 				newInProgress.put(taskId, task);
 				task.execute();
@@ -275,7 +275,7 @@ public class ExecutableTaskGraphNtro
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public <O> O getObject(Class<O> _class, Id id) {
+	public <O> O get(Class<O> _class, Id id) {
 		O result = null;
 		
 		ExecutableAtomicTaskNtro atomicTask = findAtomicTask(AtomicTaskId.fromKey(id.toKey()));
@@ -288,8 +288,8 @@ public class ExecutableTaskGraphNtro
 	}
 
 	@Override
-	public <O> O getObject(Class<O> _class, String id) {
-		return getObject(_class, new IdNtro(id));
+	public <O> O get(Class<O> _class, String id) {
+		return get(_class, new IdNtro(id));
 	}
 
 

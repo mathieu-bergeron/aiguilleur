@@ -2,12 +2,12 @@ package ca.ntro.core.task_graphs.task_graph;
 
 import ca.ntro.core.values.ObjectMap;
 
-public interface ResultsReader {
-
+public interface ResultsAccessor {
+	
 	boolean hasResults();
-	ObjectMap results();
 
-	boolean hasNext();
-	ObjectMap next();
+	boolean hasValidResults();
+
+	ObjectMap results();
 
 }
