@@ -1,10 +1,7 @@
 package ca.ntro.core.task_graphs.executable_task_graph;
 
-import ca.ntro.core.task_graphs.executable_task_graph.handlers.Notifyer;
 import ca.ntro.core.task_graphs.executable_task_graph.handlers.OnResumeHandler;
 import ca.ntro.core.task_graphs.executable_task_graph.handlers.OnResumeHandlerNull;
-import ca.ntro.core.task_graphs.executable_task_graph.handlers.OnNewResultsHandler;
-import ca.ntro.core.task_graphs.executable_task_graph.handlers.OnStartHandlerNull;
 import ca.ntro.core.task_graphs.executable_task_graph.handlers.OnStopHandler;
 import ca.ntro.core.task_graphs.executable_task_graph.handlers.OnStopHandlerNull;
 import ca.ntro.core.task_graphs.executable_task_graph.handlers.OnSuspendHandler;
@@ -12,6 +9,7 @@ import ca.ntro.core.task_graphs.executable_task_graph.handlers.OnSuspendHandlerN
 import ca.ntro.core.task_graphs.task_graph.AtomicTaskNtro;
 import ca.ntro.core.values.ObjectMap;
 import ca.ntro.core.values.ObjectMapNtro;
+import ca.ntro.core.wrappers.future.ExceptionHandler;
 import ca.ntro.core.wrappers.optionnal.Optionnal;
 import ca.ntro.core.wrappers.optionnal.OptionnalNtro;
 import ca.ntro.core.wrappers.result.Result;
@@ -24,70 +22,15 @@ public class      ExecutableAtomicTaskNtro
        implements ExecutableAtomicTask {
 	
 	
-	private OnNewResultsHandler   onStartHandler   = new OnStartHandlerNull();
-	private OnSuspendHandler onSuspendHandler = new OnSuspendHandlerNull();
-	private OnResumeHandler  onResumeHandler  = new OnResumeHandlerNull();
-	private OnStopHandler    onStopHandler    = new OnStopHandlerNull();
-
-	public OnNewResultsHandler getOnStartHandler() {
-		return onStartHandler;
-	}
-
-	public void setOnStartHandler(OnNewResultsHandler onStartHandler) {
-		this.onStartHandler = onStartHandler;
-	}
-
-	public OnSuspendHandler getOnSuspendHandler() {
-		return onSuspendHandler;
-	}
-
-	public void setOnSuspendHandler(OnSuspendHandler onSuspendHandler) {
-		this.onSuspendHandler = onSuspendHandler;
-	}
-
-	public OnResumeHandler getOnResumeHandler() {
-		return onResumeHandler;
-	}
-
-	public void setOnResumeHandler(OnResumeHandler onResumeHandler) {
-		this.onResumeHandler = onResumeHandler;
-	}
-
-	public OnStopHandler getOnStopHandler() {
-		return onStopHandler;
-	}
-
-	public void setOnStopHandler(OnStopHandler onStopHandler) {
-		this.onStopHandler = onStopHandler;
-	}
-	
+	private OnResultsChangedHandler onResultsChangedHandler = new OnResultsChangedNull();
+	private ExceptionHandler        exceptionHandler        = new ExceptionHandlerDefault();
 	
 	
 	
 	public ExecutableAtomicTaskNtro() {
+
 	}
 
-	
-
-	@Override
-	public void onNewResults(OnNewResultsHandler onStartHandler) {
-		setOnStartHandler(onStartHandler);
-	}
-
-	@Override
-	public void onSuspend(OnSuspendHandler onSuspendHandler) {
-		setOnSuspendHandler(onSuspendHandler);
-	}
-
-	@Override
-	public void onResume(OnResumeHandler onResumeHandler) {
-		setOnResumeHandler(onResumeHandler);
-	}
-
-	@Override
-	public void onStop(OnStopHandler onStopHandler) {
-		setOnStopHandler(onStopHandler);
-	}
 
 	public void start() {
 		try {

@@ -36,7 +36,7 @@ public class ExecutableTaskGraphTests {
 		ExecutableAtomicTask a_entry = taskA.addEntryTask("a_entry");
 		ExecutableAtomicTask b_entry = taskB.addEntryTask("b_entry");
 		
-		a_entry.onNewResults((currentResults, notifyer) -> {
+		a_entry.onResultsChanged((currentResults, notifyer) -> {
 			notifyer.notifyTaskInProgress();
 
 			Ntro.time().runAfterDelay(5, () -> {
@@ -57,7 +57,7 @@ public class ExecutableTaskGraphTests {
 
 		
 		// MsgReceiver: never inProgress. Blocked, then Done
-		b_entry.onNewResults((currentResults, notifyer) -> {
+		b_entry.onResultsChanged((currentResults, notifyer) -> {
 			notifyer.notifyTaskBlocked();
 
 			Ntro.time().runAfterDelay(5, () -> {
@@ -85,7 +85,7 @@ public class ExecutableTaskGraphTests {
 		ExecutableTask taskA = graph.addTask("A");
 		ExecutableAtomicTask a_entry = taskA.addEntryTask("a_entry");
 		
-		a_entry.onNewResults((currentResults, notifyer) -> {
+		a_entry.onResultsChanged((currentResults, notifyer) -> {
 
 			String[] array = new String[] {"a","b"};
 			String outOfBounds = array[2];

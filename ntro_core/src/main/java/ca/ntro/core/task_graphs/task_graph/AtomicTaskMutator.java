@@ -1,6 +1,6 @@
-package ca.ntro.core.task_graphs.executable_task_graph.handlers;
+package ca.ntro.core.task_graphs.task_graph;
 
-public interface Notifyer {
+public interface AtomicTaskMutator {
 
 	void addResult(Object value);
 	void clearResults();
