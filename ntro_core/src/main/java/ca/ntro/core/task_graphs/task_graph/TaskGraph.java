@@ -16,6 +16,9 @@ public interface TaskGraph<T  extends Task<T,AT>,
 
 	T addTask(TaskId id);
 	T addTask(String id);
+
+	T addTask(TaskId id, Class<ResultAccumulator> accumulatorType);
+	T addTask(String id, Class<ResultAccumulator> accumulatorType);
 	
 	Stream<T> tasks();
 	
