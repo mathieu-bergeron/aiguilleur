@@ -11,7 +11,7 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 	private AtomicTaskId id;
 	private TaskNtro<T,AT> parentTask;
 	private ResultsAccumulator resultsAccumulator = new ResultsAccumulatorNtro();
-	private AtomicTaskState state = AtomicTaskState.BLOCKED;
+	private boolean isBlocked = false;
 
 	public AtomicTaskId getId() {
 		return id;
@@ -37,17 +37,15 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 		this.resultsAccumulator = resultsAccumulator;
 	}
 
-	public AtomicTaskState getState() {
-		return state;
+	public boolean getIsBlocked() {
+		return isBlocked;
 	}
 
-	public void setState(AtomicTaskState state) {
-		this.state = state;
+	public void setIsBlocked(boolean isBlocked) {
+		this.isBlocked = isBlocked;
 	}
 	
-	
-	
-	
+
 	public AtomicTaskNtro() {
 	}
 
@@ -71,17 +69,7 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 
 	@Override
 	public boolean isBlocked() {
-		return getState() == AtomicTaskState.BLOCKED;
-	}
-
-	@Override
-	public boolean isInProgress() {
-		return getState() == AtomicTaskState.IN_PROGRESS;
-	}
-
-	@Override
-	public boolean isDone() {
-		return getState() == AtomicTaskState.DONE;
+		return getIsBlocked();
 	}
 
 	@Override
@@ -98,8 +86,8 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 
 	@Override
 	public void addResult(Object value) {
-		// TODO Auto-generated method stub
-		
+		setIsBlocked(false);
+
 	}
 
 	@Override
@@ -110,17 +98,6 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 
 	@Override
 	public void notifyTaskBlocked() {
-		setState(AtomicTaskState.BLOCKED);
-		
-	}
-
-	@Override
-	public void notifyTaskInProgress() {
-		setState(AtomicTaskState.IN_PROGRESS);
-	}
-
-	@Override
-	public void notifyTaskDone() {
-		setState(AtomicTaskState.DONE);
+		setIsBlocked(true);
 	}
 }

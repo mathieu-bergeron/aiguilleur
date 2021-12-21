@@ -6,7 +6,5 @@ public interface AtomicTaskNotifyer {
 	void clearResults();
 
 	void notifyTaskBlocked();
-	void notifyTaskInProgress();
-	void notifyTaskDone();
 
 }
