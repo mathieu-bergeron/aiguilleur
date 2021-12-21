@@ -25,6 +25,8 @@ public interface Stream<I extends Object> {
 
 	Stream<I> findAll(Matcher<I> matcher);
 
+	Stream<I> append(Stream<I> other);
+
 	<R> Stream<R> map(Mapper<I,R> mapper);
 
 	List<I> collect();

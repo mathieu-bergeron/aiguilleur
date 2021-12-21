@@ -332,6 +332,10 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 		};
 	}
 
+	protected Stream<AT> atomicTasks(){
+		return atomicTasks(getEntryTasks()).append(atomicTasks(getExitTasks()));
+	}
+
 	@Override
 	public Stream<T> previousTasks() {
 		return reachableTasks(neighborSearchOptions(Direction.BACKWARD));
@@ -372,17 +376,24 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 		return visitedNodes.map(visitedNode -> visitedNode.node().task());
 	}
 	
-	
 
 	@Override
 	public boolean hasResults() {
-		// TODO Auto-generated method stub
-		return false;
+		return isDone();
 	}
 
 	@Override
 	public ObjectMap results() {
-		// TODO Auto-generated method stub
-		return null;
+		ObjectMapNtro objectMap = new ObjectMapNtro();
+		
+		atomicTasks().forEach(atomicTask -> {
+
+			if(atomicTask.hasResult()) {
+				
+				objectMap.registerObject(TaskNtro.this.id(), atomicTask.result());
+			}
+		});
+
+		return objectMap;
 	}
 }

@@ -1,6 +1,8 @@
 package ca.ntro.core.values;
 
+
 import ca.ntro.core.identifyers.Id;
+import ca.ntro.core.stream.Stream;
 
 public interface ObjectMap {
 
@@ -10,8 +12,11 @@ public interface ObjectMap {
 	<O extends Object> O get(Class<O> _class, Id id);
 	<O extends Object> O get(Class<O> _class, String id);
 
-	void merge(ObjectMap other);
-	
+	Object get(Id id);
+    Object get(String id);
+
+	void addAll(ObjectMap other);
+	Stream<String> keys();
 
 	/*
 	<O extends Object> O getSingleton(ClassId<O> classId);

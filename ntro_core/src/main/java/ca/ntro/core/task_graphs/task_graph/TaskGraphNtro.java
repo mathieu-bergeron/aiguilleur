@@ -12,6 +12,7 @@ import ca.ntro.core.initialization.Factory;
 import ca.ntro.core.stream.Stream;
 import ca.ntro.core.task_graphs.task_graph_writer.InternalTaskGraphWriterNtro;
 import ca.ntro.core.values.ObjectMap;
+import ca.ntro.core.values.ObjectMapNtro;
 
 public class TaskGraphNtro<T  extends Task<T,AT>, 
                            AT extends AtomicTask<T,AT>>
@@ -173,13 +174,20 @@ public class TaskGraphNtro<T  extends Task<T,AT>,
 
 	@Override
 	public boolean hasResults() {
-		// TODO Auto-generated method stub
-		return false;
+		return tasks().ifSome(task -> task.hasResults());
 	}
 
 	@Override
 	public ObjectMap results() {
-		// TODO Auto-generated method stub
-		return null;
+		ObjectMapNtro objectMap = new ObjectMapNtro();
+
+		tasks().forEach(task -> {
+
+			if(task.hasResults()) {
+				objectMap.addAll(task.results());
+			}
+		});
+
+		return objectMap;
 	}
 }

@@ -144,6 +144,19 @@ public abstract class StreamNtro<I extends Object>
 			}
 		});
 	}
+	
+	@Override
+	public Stream<I> append(Stream<I> other){
+		return new StreamNtro<I>() {
+
+			@Override
+			public void _forEach(Visitor<I> visitor) throws Throwable {
+				StreamNtro.this._forEach(visitor);
+
+				other._forEach(visitor);
+			}
+		};
+	}
 
 	@Override
 	public <R> Stream<R> map(Mapper<I,R> mapper) {
@@ -180,5 +193,6 @@ public abstract class StreamNtro<I extends Object>
 
 		return result;
 	}
+
 
 }

@@ -5,6 +5,9 @@ import java.util.Map;
 
 import ca.ntro.core.identifyers.Id;
 import ca.ntro.core.identifyers.IdNtro;
+import ca.ntro.core.stream.Stream;
+import ca.ntro.core.stream.StreamNtro;
+import ca.ntro.core.stream.Visitor;
 
 public class ObjectMapNtro implements ObjectMap {
 	
@@ -35,12 +38,21 @@ public class ObjectMapNtro implements ObjectMap {
 		return get(_class, new IdNtro(id));
 	}
 
+	public Object get(Id id) {
+		return getObjects().get(id.toKey().toString());
+	}
+
+	@Override
+	public Object get(String id) {
+		return get(new IdNtro(id));
+	}
+
 	public void registerObject(Id id, Object object) {
-		registerObject(id.toKey().toString(), object);
+		getObjects().put(id.toKey().toString(), object);
 	}
 
 	public void registerObject(String id, Object object) {
-		getObjects().put(id, object);
+		registerObject(new IdNtro(id), object);
 	}
 
 	@Override
@@ -54,11 +66,22 @@ public class ObjectMapNtro implements ObjectMap {
 	}
 
 	@Override
-	public void merge(ObjectMap other) {
-		// TODO Auto-generated method stub
-		
+	public void addAll(ObjectMap other) {
+		other.keys().forEach(id -> {
+			getObjects().put(id, other.get(id));
+		});
 	}
-	
 
+	@Override
+	public Stream<String> keys() {
+		return new StreamNtro<String>() {
+			@Override
+			public void _forEach(Visitor<String> visitor) throws Throwable {
+				for(String key : objects.keySet()) {
+					visitor.visit(key);
+				}
+			}
+		};
+	}
 
 }

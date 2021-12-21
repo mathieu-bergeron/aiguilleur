@@ -2,8 +2,6 @@ package ca.ntro.core.task_graphs.task_graph;
 
 import ca.ntro.core.identifyers.Key;
 import ca.ntro.core.values.ObjectMap;
-import ca.ntro.core.wrappers.result.Result;
-import ca.ntro.core.wrappers.result.ResultNtro;
 
 public class      AtomicTaskNtro<T  extends Task<T,AT>, 
                                  AT extends AtomicTask<T,AT>>
@@ -87,13 +85,13 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 	}
 
 	@Override
-	public boolean hasResults() {
+	public boolean hasResult() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public ObjectMap results() {
+	public ObjectMap result() {
 		// TODO Auto-generated method stub
 		return null;
 	}
