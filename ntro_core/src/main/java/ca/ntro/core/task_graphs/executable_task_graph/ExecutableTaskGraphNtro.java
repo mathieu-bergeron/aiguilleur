@@ -22,7 +22,7 @@ public class ExecutableTaskGraphNtro
 
        extends TaskGraphNtro<ExecutableTaskNtro, ExecutableAtomicTaskNtro>
 
-       implements ExecutableTaskGraph, ObjectMap {
+       implements ExecutableTaskGraph {
 	
 	public static final long DEFAULT_MAX_DELAY_MILLIS = 30 * 1000;
 
@@ -190,7 +190,7 @@ public class ExecutableTaskGraphNtro
 			String taskId = entry.getKey();
 			ExecutableTaskNtro task = entry.getValue();
 
-			if(task.isWaiting()) {
+			if(task.isBlocked()) {
 				
 				newBlocked.put(taskId, task);
 				
@@ -216,10 +216,10 @@ public class ExecutableTaskGraphNtro
 			String taskId = entry.getKey();
 			ExecutableTaskNtro task = entry.getValue();
 
-			if(task.isWaiting()) {
+			if(task.isBlocked()) {
 				
 				newBlocked.put(taskId, task);
-				task.suspend();
+				task.execute();
 				
 			}else if(task.isInProgress()) {
 				
@@ -242,7 +242,7 @@ public class ExecutableTaskGraphNtro
 			String taskId = entry.getKey();
 			ExecutableTaskNtro task = entry.getValue();
 
-			if(task.isWaiting()) {
+			if(task.isBlocked()) {
 				
 				newBlocked.put(taskId, task);
 				
@@ -272,24 +272,18 @@ public class ExecutableTaskGraphNtro
 	public Result<ObjectMap> executeBlocking(long maxDelayMillis, GraphWriter writer) {
 		return execute(maxDelayMillis, writer).get(maxDelayMillis);
 	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public <O> O get(Class<O> _class, Id id) {
-		O result = null;
-		
-		ExecutableAtomicTaskNtro atomicTask = findAtomicTask(AtomicTaskId.fromKey(id.toKey()));
-		
-		if(atomicTask.result().hasValue()) {
-			result = (O) atomicTask.result().value();
-		}
 
-		return result;
+	@Override
+	public boolean hasResults() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
+
 	@Override
-	public <O> O get(Class<O> _class, String id) {
-		return get(_class, new IdNtro(id));
+	public ObjectMap results() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

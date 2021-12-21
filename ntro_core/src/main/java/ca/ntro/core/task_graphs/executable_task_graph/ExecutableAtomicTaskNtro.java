@@ -68,8 +68,8 @@ public class      ExecutableAtomicTaskNtro
 			getExecuteHandler().execute((ObjectMap) parentTask().parentGraph(), this);
 
 		}catch(Throwable t) {
-
-			ExecutableAtomicTaskNtro.this.notifyTaskFailed(t); 
+			
+			getExceptionHandler().handle(t);
 			((ExecutableTaskGraphNtro) ExecutableAtomicTaskNtro.this.parentTask().parentGraph()).notifyOfException(t);
 		}
 	}
@@ -81,7 +81,7 @@ public class      ExecutableAtomicTaskNtro
 
 		}catch(Throwable t) {
 
-			ExecutableAtomicTaskNtro.this.notifyTaskFailed(t); 
+			getExceptionHandler().handle(t);
 			((ExecutableTaskGraphNtro) ExecutableAtomicTaskNtro.this.parentTask().parentGraph()).notifyOfException(t);
 		}
 	}

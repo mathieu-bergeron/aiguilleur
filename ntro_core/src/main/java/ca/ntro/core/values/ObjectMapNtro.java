@@ -35,23 +35,30 @@ public class ObjectMapNtro implements ObjectMap {
 		return get(_class, new IdNtro(id));
 	}
 
-
 	public void registerObject(Id id, Object object) {
-		getObjects().put(id.toKey().toString(), object);
+		registerObject(id.toKey().toString(), object);
+	}
+
+	public void registerObject(String id, Object object) {
+		getObjects().put(id, object);
+	}
+
+	@Override
+	public boolean contains(Id id) {
+		return contains(id.toKey().toString());
+	}
+
+	@Override
+	public boolean contains(String id) {
+		return getObjects().containsKey(id);
+	}
+
+	@Override
+	public void merge(ObjectMap other) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 
-	/*
-	@Override
-	public <O> O getSingleton(ClassId<O> classId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public <O> O getObject(ObjectId<O> objectId) {
-		// TODO Auto-generated method stub
-		return null;
-	}*/
 
 }

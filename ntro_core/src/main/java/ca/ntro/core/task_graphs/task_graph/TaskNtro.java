@@ -371,4 +371,18 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 		
 		return visitedNodes.map(visitedNode -> visitedNode.node().task());
 	}
+	
+	
+
+	@Override
+	public boolean hasResults() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public ObjectMap results() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -5,13 +5,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ca.ntro.core.graph_writer.GraphWriter;
-import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagBuilderNtro;
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagNodeBuilder;
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagWriterOptionsNtro;
 import ca.ntro.core.identifyers.Key;
 import ca.ntro.core.initialization.Factory;
 import ca.ntro.core.stream.Stream;
 import ca.ntro.core.task_graphs.task_graph_writer.InternalTaskGraphWriterNtro;
+import ca.ntro.core.values.ObjectMap;
 
 public class TaskGraphNtro<T  extends Task<T,AT>, 
                            AT extends AtomicTask<T,AT>>
@@ -169,5 +169,17 @@ public class TaskGraphNtro<T  extends Task<T,AT>,
 	@Override
 	public Stream<T> tasks() {
 		return hdagBuilder.graph().nodes().map(node -> node.task());
+	}
+
+	@Override
+	public boolean hasResults() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public ObjectMap results() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

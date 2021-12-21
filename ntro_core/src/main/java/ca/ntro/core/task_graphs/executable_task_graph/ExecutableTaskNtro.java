@@ -16,23 +16,8 @@ public class      ExecutableTaskNtro
 
        implements ExecutableTask {
 	
-	/* TODO: keeping a ObjectMapReader for every previousTask and for the parentTask (if any)
-	 *       we can execute if previousResults.forAll(pr -> pr.hasNext());
-	 *       
-	 *       we execute on the objectMap = mergeAll(previousResults);
-	 * 
-	 */
-	private Map<String, ObjectMapReader> previousResults = new HashMap<>();
-	
 	private Map<String, ExecutableAtomicTaskNtro> blocked = new HashMap<>();
 	private Map<String, ExecutableAtomicTaskNtro> inProgress = new HashMap<>();
-
-	@Override
-	public boolean isInProgress() {
-		return !isWaiting() 
-				&& previousResults.ifAll(pr -> pr.hasNext());
-	}
-
 
 	public void execute() {
 		
@@ -64,6 +49,27 @@ public class      ExecutableTaskNtro
 
 	public void cancel() {
 		//throw new RuntimeException("TODO");
+	}
+
+
+	@Override
+	public boolean hasResults() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public ObjectMap results() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public ObjectMapReader newResultsReader() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
