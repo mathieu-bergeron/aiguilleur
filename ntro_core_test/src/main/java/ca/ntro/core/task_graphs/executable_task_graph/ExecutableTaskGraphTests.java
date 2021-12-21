@@ -24,7 +24,6 @@ public class ExecutableTaskGraphTests extends NtroTests {
 		a_entry.execute((previousResults, notifyer) -> {
 			notifyer.addResult(1);
 			notifyer.addResult(2);
-			notifyer.addResult(3);
 		});
 
 		a_entry.handleException(exception -> {
@@ -51,7 +50,7 @@ public class ExecutableTaskGraphTests extends NtroTests {
 		Integer b_entry_result = result.value().get(Integer.class, "b_entry");
 
 
-		Ntro.asserter().assertEquals(3, a_entry_result);
+		Ntro.asserter().assertEquals(2, a_entry_result);
 		Ntro.asserter().assertEquals(1, b_entry_result);
 
 	}
@@ -93,7 +92,9 @@ public class ExecutableTaskGraphTests extends NtroTests {
 		});
 
 		c_entry.execute((previousResults, notifyer) -> {
-			notifyer.addResult(1);
+			Integer a_entry_result = previousResults.get(Integer.class, "a_entry");
+
+			notifyer.addResult(a_entry_result + 1);
 		});
 
 		d_entry.execute((previousResults, notifyer) -> {
@@ -106,8 +107,10 @@ public class ExecutableTaskGraphTests extends NtroTests {
 		Result<ObjectMap> result = graph.executeBlocking(1000, true);
 		
 		Integer a_entry_result = result.value().get(Integer.class, "a_entry");
+		Integer c_entry_result = result.value().get(Integer.class, "c_entry");
 
-		Ntro.asserter().assertEquals(1, a_entry_result);
+		Ntro.asserter().assertEquals(2, a_entry_result);
+		Ntro.asserter().assertEquals(3, c_entry_result);
 	}
 
 	@Test

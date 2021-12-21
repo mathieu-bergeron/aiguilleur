@@ -8,6 +8,7 @@ import ca.ntro.core.task_graphs.task_graph.TaskGraphNtro;
 import ca.ntro.core.values.ObjectMap;
 import ca.ntro.core.wrappers.future.Future;
 import ca.ntro.core.wrappers.future.FutureNtro;
+import ca.ntro.core.wrappers.optionnal.Optionnal;
 import ca.ntro.core.wrappers.result.Result;
 
 public class ExecutableTaskGraphNtro
@@ -27,12 +28,21 @@ public class ExecutableTaskGraphNtro
 	private long executionStep;
 
 	@Override
+	public Future<ObjectMap> execute() {
+		return execute(Optionnal.none(Long.class), false);
+	}
+
+	@Override
 	public Future<ObjectMap> execute(long maxDelayMillis) {
 		return execute(maxDelayMillis, false);
 	}
 
 	@Override
 	public Future<ObjectMap> execute(long maxDelayMillis, boolean writeGraph) {
+		return execute(Optionnal.fromValue(maxDelayMillis), writeGraph);
+	}
+
+	public Future<ObjectMap> execute(Optionnal<Long> maxDelayMillis, boolean writeGraph) {
 		if(executionInProgress()) {
 			Ntro.exceptions().throwException(new IllegalStateException("We are already executing"));
 		}
@@ -51,11 +61,13 @@ public class ExecutableTaskGraphNtro
 		this.baseGraphName = id.toKey().toString();
 		
 		startExecution();
-
-		Ntro.time().runAfterDelay(maxDelayMillis, () -> {
-			future.registerException(new TimeoutException());
-			halt();
-		});
+		
+		if(maxDelayMillis.hasValue()) {
+			Ntro.time().runAfterDelay(maxDelayMillis.value(), () -> {
+				future.registerException(new TimeoutException());
+				halt();
+			});
+		}
 
 		return future;
 	}
@@ -85,11 +97,6 @@ public class ExecutableTaskGraphNtro
 		if(!future.hasException()) {
 			future.registerValue(results());
 		}
-	}
-
-	@Override
-	public Future<ObjectMap> execute() {
-		return execute(DEFAULT_MAX_DELAY_MILLIS);
 	}
 
 	public void notifyOfException(Throwable t) {
@@ -163,7 +170,7 @@ public class ExecutableTaskGraphNtro
 
 	@Override
 	public Result<ObjectMap> executeBlocking() {
-		return executeBlocking(DEFAULT_MAX_DELAY_MILLIS);
+		return execute(Optionnal.none(Long.class), writeGraph).get();
 	}
 
 	@Override
@@ -173,7 +180,7 @@ public class ExecutableTaskGraphNtro
 
 	@Override
 	public Result<ObjectMap> executeBlocking(long maxDelayMillis, boolean writeGraph) {
-		return execute(maxDelayMillis, writeGraph).get(maxDelayMillis);
+		return execute(Optionnal.none(Long.class), writeGraph).get(maxDelayMillis);
 	}
 
 
