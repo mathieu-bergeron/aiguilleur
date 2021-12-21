@@ -8,8 +8,7 @@ import ca.ntro.core.wrappers.result.Result;
 public interface ExecutableTaskGraph extends TaskGraph<ExecutableTaskNtro, ExecutableAtomicTaskNtro> {
 
 	Future<ObjectMap> execute();
-	Future<ObjectMap> execute(long maxDelayMillis);
-	Future<ObjectMap> execute(long maxDelayMillis, boolean writeGraph);
+	Future<ObjectMap> execute(boolean writeGraph);
 
 	Result<ObjectMap> executeBlocking();
 	Result<ObjectMap> executeBlocking(long maxDelayMillis);

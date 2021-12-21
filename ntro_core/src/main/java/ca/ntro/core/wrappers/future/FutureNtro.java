@@ -1,5 +1,7 @@
 package ca.ntro.core.wrappers.future;
 
+import java.util.concurrent.TimeoutException;
+
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
@@ -7,6 +9,7 @@ import ca.ntro.core.wrappers.result.ResultNtro;
 public class FutureNtro<O extends Object> implements Future<O> {
 	
 	public static final long FUTURE_GET_SLEEP_TIME_MILLIS = 200;
+	public static final long MIN_DELAY_MILLIS = FUTURE_GET_SLEEP_TIME_MILLIS * 5 / 4;
 	public static final long FUTURE_GET_DEFAULT_MAX_DELAY_MILLIS = 30 * 1000;
 	
 	private boolean hasValue = false;
@@ -73,6 +76,7 @@ public class FutureNtro<O extends Object> implements Future<O> {
 		ResultNtro<O> result = new ResultNtro<>();
 		
 		long start = Ntro.time().nowMillis();
+		maxDelayMillis = maxDelayMillis >= MIN_DELAY_MILLIS ? maxDelayMillis : MIN_DELAY_MILLIS;
 		long delayMillis = 0;
 		
 		while(delayMillis < maxDelayMillis) {
@@ -89,11 +93,14 @@ public class FutureNtro<O extends Object> implements Future<O> {
 		if(hasException()) {
 
 			result.registerException(exception);
+			
+		} else if(delayMillis >= maxDelayMillis) {
 
+			result.registerException(new TimeoutException());
+			
 		}else if(hasValue()) {
 
 			result.registerValue(value);
-
 		}
 
 		return result;
