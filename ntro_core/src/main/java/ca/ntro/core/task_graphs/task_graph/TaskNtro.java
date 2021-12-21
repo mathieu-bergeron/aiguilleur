@@ -1,8 +1,6 @@
 package ca.ntro.core.task_graphs.task_graph;
 
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import ca.ntro.core.graphs.common.Direction;
@@ -28,19 +26,7 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 	private Map<String, AT> entryTasks = new HashMap<>();
 	private Map<String, AT> exitTasks = new HashMap<>();
 	
-	/* TODO: 
-	 * 
-	 * When a previousTask has a new result
-	 * we push it in currentResults
-	 * 
-	 * (if currentResults was complete, we store it in history)
-	 * 
-	 * 
-	 * 
-	 * 
-	 */
-	private ObjectMap currentResults = new ObjectMapNtro();
-	private List<ObjectMap> resultsHistory = new LinkedList<>();
+	private ResultsAccumulatorNtro results = new ResultsAccumulatorNtro();
 	
 	public TaskGraphNtro<T,AT> getGraph() {
 		return graph;
@@ -74,11 +60,25 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 		this.nodeBuilder = node;
 	}
 
+	public ResultsAccumulatorNtro getResults() {
+		return results;
+	}
+
+	public void setResults(ResultsAccumulatorNtro results) {
+		this.results = results;
+	}
+	
+	
+	
+	
+	
 	
 
 	public TaskNtro(){
 		super();
 	}
+	
+	
 	
 	
 	
@@ -126,7 +126,7 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 
 		if(hasParentTask()) {
 			done = parentTask().entryTasks().ifAll(entryTask -> {
-				return entryTask.isDone();
+				return entryTask.hasResult();
 			});
 		}
 
@@ -148,11 +148,11 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 	}
 	
 	protected boolean areEntryTasksDone() {
-		return entryTasks().ifAll(entryTask -> entryTask.isDone());
+		return entryTasks().ifAll(entryTask -> entryTask.hasResult());
 	}
 
 	protected boolean areExitTasksDone() {
-		return exitTasks().ifAll(exitTask -> exitTask.isDone());
+		return exitTasks().ifAll(exitTask -> exitTask.hasResult());
 	}
 
 	protected boolean areSubTasksDone() {

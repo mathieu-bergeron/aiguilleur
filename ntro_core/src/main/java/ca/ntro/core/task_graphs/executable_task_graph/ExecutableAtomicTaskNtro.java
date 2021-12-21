@@ -11,7 +11,7 @@ public class      ExecutableAtomicTaskNtro
        implements ExecutableAtomicTask {
 	
 	
-	private ExecuteHandler   executeHandler   = new ExecuteHandlerDefault();
+	private ExecuteHandler   executeHandler   = new ExecuteHandlerNull();
 	private CancelHandler    cancelHandler  = new CancelHandlerDefault();
 	private ExceptionHandler exceptionHandler = new ExceptionHandlerDefault();
 
