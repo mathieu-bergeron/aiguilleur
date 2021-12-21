@@ -3,7 +3,7 @@ package ca.ntro.core.task_graphs.task_graph;
 public interface AtomicTask<T  extends Task<T,AT>, 
                             AT extends AtomicTask<T,AT>> 
 
-       extends ResultAccessor, AtomicTaskNotifyer {
+       extends ResultAccumulator, AtomicTaskNotifyer {
 	
 	AtomicTaskId id();
 	T parentTask();

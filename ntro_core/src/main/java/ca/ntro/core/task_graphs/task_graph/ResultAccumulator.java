@@ -1,9 +1,10 @@
 package ca.ntro.core.task_graphs.task_graph;
 
-public interface ResultAccumulator {
+public interface ResultAccumulator extends ResultAccessor {
 
-	void pushResult(Object result);
+	void addResult(Object result);
+	void clearResults();
 
-	ResultsIterator resultsIterator();
+	ResultIterator resultIterator();
 
 }

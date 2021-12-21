@@ -1,7 +1,6 @@
 package ca.ntro.core.task_graphs.task_graph;
 
 import ca.ntro.core.identifyers.Key;
-import ca.ntro.core.values.ObjectMap;
 
 public class      AtomicTaskNtro<T  extends Task<T,AT>, 
                                  AT extends AtomicTask<T,AT>>
@@ -10,7 +9,7 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 	
 	private AtomicTaskId id;
 	private TaskNtro<T,AT> parentTask;
-	private ResultsAccumulator resultsAccumulator = new ResultsAccumulatorNtro();
+	private ResultAccumulator resultAccumulator = new ResultAccumulatorNtro();
 	private boolean isBlocked = false;
 
 	public AtomicTaskId getId() {
@@ -29,14 +28,6 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 		this.parentTask = parentTask;
 	}
 
-	public ResultsAccumulator getResultsAccumulator() {
-		return resultsAccumulator;
-	}
-
-	public void setResultsAccumulator(ResultsAccumulator resultsAccumulator) {
-		this.resultsAccumulator = resultsAccumulator;
-	}
-
 	public boolean getIsBlocked() {
 		return isBlocked;
 	}
@@ -44,6 +35,18 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 	public void setIsBlocked(boolean isBlocked) {
 		this.isBlocked = isBlocked;
 	}
+
+	public ResultAccumulator getResultAccumulator() {
+		return resultAccumulator;
+	}
+
+	public void setResultAccumulator(ResultAccumulator resultAccumulator) {
+		this.resultAccumulator = resultAccumulator;
+	}
+	
+	
+	
+	
 	
 
 	public AtomicTaskNtro() {
@@ -74,30 +77,33 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 
 	@Override
 	public boolean hasResult() {
-		// TODO Auto-generated method stub
-		return false;
+		return getResultAccumulator().hasResult();
 	}
 
 	@Override
-	public ObjectMap result() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void addResult(Object value) {
+	public void addResult(Object result) {
 		setIsBlocked(false);
-
+		getResultAccumulator().addResult(result);
 	}
 
 	@Override
 	public void clearResults() {
-		// TODO Auto-generated method stub
-		
+		getResultAccumulator().clearResults();
 	}
 
 	@Override
 	public void notifyTaskBlocked() {
 		setIsBlocked(true);
+	}
+
+	@Override
+	public ResultIterator resultIterator() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object result() {
+		return getResultAccumulator().result();
 	}
 }

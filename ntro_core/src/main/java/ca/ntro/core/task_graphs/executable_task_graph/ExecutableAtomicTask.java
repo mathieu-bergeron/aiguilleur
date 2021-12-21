@@ -5,9 +5,9 @@ import ca.ntro.core.wrappers.future.ExceptionHandler;
 
 public interface ExecutableAtomicTask extends AtomicTask<ExecutableTaskNtro, ExecutableAtomicTaskNtro> {
 
-	void execute(ExecuteHandler onStartHandler);
+	void execute(ExecuteHandler executeHandler);
 
-	void cancel(CancelHandler onCancelHandler);
+	void cancel(CancelHandler cancelHandler);
 
 	void handleException(ExceptionHandler exceptionHandler);
 
