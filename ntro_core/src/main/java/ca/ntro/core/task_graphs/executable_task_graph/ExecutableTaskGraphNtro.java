@@ -1,7 +1,5 @@
 package ca.ntro.core.task_graphs.executable_task_graph;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 import ca.ntro.core.graphs.generics.graph.GraphId;
@@ -52,8 +50,8 @@ public class ExecutableTaskGraphNtro
 		}
 		this.baseGraphName = id.toKey().toString();
 		
-		prepareExecution();
-		
+		startExecution();
+
 		Ntro.time().runAfterDelay(maxDelayMillis, () -> {
 			future.registerException(new TimeoutException());
 			halt();
@@ -85,10 +83,7 @@ public class ExecutableTaskGraphNtro
 		setExecutionInProgress(false);
 
 		if(!future.hasException()) {
-
 			future.registerValue(results());
-
-			throw new RuntimeException("FIXME");
 		}
 	}
 
@@ -114,40 +109,54 @@ public class ExecutableTaskGraphNtro
 		}
 	}
 	
-	private void prepareExecution() {
-		tasks().forEach(task -> {
-			
-			toTaskNtro(task).prepareExecution();
-
-		});
-	}
-	
 	private ExecutableTaskNtro toTaskNtro(ExecutableTask task) {
 		return (ExecutableTaskNtro) task;
 	}
-	
 
-	private void continueExecution() {
+	private void startExecution() {
 		if(!executionInProgress()) return;
 
 		writeGraph();
+			
+		ObjectMap currentResults = results();
 		
-		if(hasResults()) {
+		tasks().forEach(task -> {
 			
-			ObjectMap currentResults = results();
+			toTaskNtro(task).continueExecution(currentResults);
 			
+		});
+		
+		writeGraph();
+		
+		if(!isInProgress()) {
+			halt();
+		}
+	}
+
+
+	private boolean isInProgress() {
+		return tasks().ifSome(task -> task.isInProgress());
+	}
+
+	private void continueExecution() {
+		if(!executionInProgress()) return;
+		
+		if(hasNextResults()) {
+
+			ObjectMap currentResults = nextResults();
+
+			writeGraph();
+
 			tasks().forEach(task -> {
 				
 				toTaskNtro(task).continueExecution(currentResults);
 				
 			});
-			
-			writeGraph();
-			
-			nextResults();
-			
-		}else {
 
+			writeGraph();
+		}
+
+		if(!isInProgress()) {
 			halt();
 		}
 	}
