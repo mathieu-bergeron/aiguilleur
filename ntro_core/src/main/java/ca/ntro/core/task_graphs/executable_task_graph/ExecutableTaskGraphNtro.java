@@ -28,20 +28,20 @@ public class ExecutableTaskGraphNtro
 	private Map<String, ExecutableTaskNtro> done;
 	
 	private boolean executionInProgress = false;
+	private boolean writeGraph = false;
 	
 	private FutureNtro<ObjectMap> future;
 	
-	private GraphWriter writer;
 	private String baseGraphName;
 	private long executionStep;
 
 	@Override
 	public Future<ObjectMap> execute(long maxDelayMillis) {
-		return execute(maxDelayMillis, new GraphWriterNull());
+		return execute(maxDelayMillis, false);
 	}
 
 	@Override
-	public Future<ObjectMap> execute(long maxDelayMillis, GraphWriter writer) {
+	public Future<ObjectMap> execute(long maxDelayMillis, boolean writeGraph) {
 		if(executionInProgress()) {
 			Ntro.exceptions().throwException(new IllegalStateException("We are already executing"));
 		}
@@ -51,9 +51,10 @@ public class ExecutableTaskGraphNtro
 	    done = new HashMap<>();
 
 	    setExecutionInProgress(true);
+	    
+	    this.writeGraph = writeGraph;
 
 		this.future = new FutureNtro<>();
-		this.writer = writer;
 		this.executionStep = 0;
 		GraphId id = getHdagBuilder().getGraph().id();
 		if(id == null) {
@@ -72,11 +73,14 @@ public class ExecutableTaskGraphNtro
 	}
 	
 	private void writeGraph() {
-		getHdagBuilder().setGraphName(baseGraphName + "_" +  executionStep);
-		
-		write(writer);
-		
-		executionStep++;
+		if(writeGraph) {
+
+			getHdagBuilder().setGraphName(baseGraphName + "_" +  executionStep);
+			
+			write(Ntro.graphWriter());
+			
+			executionStep++;
+		}
 	}
 	
 	private synchronized boolean executionInProgress() {
@@ -262,12 +266,12 @@ public class ExecutableTaskGraphNtro
 
 	@Override
 	public Result<ObjectMap> executeBlocking(long maxDelayMillis) {
-		return executeBlocking(maxDelayMillis, new GraphWriterNull());
+		return executeBlocking(maxDelayMillis, false);
 	}
 
 	@Override
-	public Result<ObjectMap> executeBlocking(long maxDelayMillis, GraphWriter writer) {
-		return execute(maxDelayMillis, writer).get(maxDelayMillis);
+	public Result<ObjectMap> executeBlocking(long maxDelayMillis, boolean writeGraph) {
+		return execute(maxDelayMillis, writeGraph).get(maxDelayMillis);
 	}
 
 

@@ -1,13 +1,13 @@
 package ca.ntro.core.task_graphs.executable_task_graph;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 
 import ca.ntro.core.initialization.InitializerTestJdk;
 
 public class ExecutableTaskGraphTestsJdk extends ExecutableTaskGraphTests {
 
-	@BeforeClass
-	public static void initializeJdk() {
+	@Before
+	public void initializeJdk() {
 		InitializerTestJdk.initialize();
 	}
 

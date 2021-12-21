@@ -13,7 +13,6 @@ import ca.ntro.core.graphs.common.EdgeTypeNtro;
 import ca.ntro.core.graphs.common.NodeAlreadyAddedException;
 import ca.ntro.core.graphs.generics.graph.InternalSearchOptionsNtro;
 import ca.ntro.core.graphs.generics.graph.SearchStrategy;
-import ca.ntro.core.graphs.generics.graph.VisitedEdge;
 import ca.ntro.core.graphs.generics.graph.VisitedNode;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.services.ExceptionThrowerMock;

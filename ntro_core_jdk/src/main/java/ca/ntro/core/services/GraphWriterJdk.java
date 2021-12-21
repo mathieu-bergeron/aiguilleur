@@ -82,11 +82,9 @@ public class GraphWriterJdk implements GraphWriter {
 	}
 
 	protected void writeLater(Format format, String extension) {
-		/*
 		new Timer().schedule(new TimerTask() {
 			@Override
 			public void run() {
-			*/
 
 				try {
 
@@ -97,11 +95,9 @@ public class GraphWriterJdk implements GraphWriter {
 					Ntro.exceptions().throwException(e);
 
 				}
-	/*
 			}
 
 		}, 1);
-		*/
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 package ca.ntro.core.tests;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 
 import ca.ntro.core.initialization.InitializerTest;
 import ca.ntro.core.services.ExceptionThrowerMock;
@@ -15,8 +15,8 @@ public class NtroTests {
 		return exceptionThrowerMock;
 	}
 
-	@BeforeClass
-	public static void initialize() {
+	@Before
+	public void initialize() {
 		InitializerTest.initialize();
 	}
 

@@ -1,33 +1,18 @@
 package ca.ntro.core.task_graphs.executable_task_graph;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import ca.ntro.core.initialization.InitializerTest;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.services.ExceptionThrowerMock;
+import ca.ntro.core.tests.NtroTests;
 import ca.ntro.core.values.ObjectMap;
 import ca.ntro.core.wrappers.optionnal.OptionnalNtro;
 import ca.ntro.core.wrappers.result.Result;
 
-public class ExecutableTaskGraphTests {
-	
-	protected ExceptionThrowerMock registerMockExceptionThrower() {
-		ExceptionThrowerMock exceptionThrowerMock = new ExceptionThrowerMock();
-
-		InitializerTest.registerExceptionThrower(exceptionThrowerMock);
-
-		return exceptionThrowerMock;
-	}
-
-	@BeforeClass
-	public static void initialize() {
-		InitializerTest.initialize();
-	}
+public class ExecutableTaskGraphTests extends NtroTests {
 	
 	@Test
 	public void executableTaskGraph01() {
-
 		ExecutableTaskGraph graph = ExecutableTaskGraph.newExecutableGraph();
 		graph.setGraphName("executableTaskGraph01");
 		
@@ -68,9 +53,11 @@ public class ExecutableTaskGraphTests {
 		});
 
 		// XXX: must allow more time if we write graph
-		Result<ObjectMap> result = graph.executeBlocking(1000, Ntro.graphWriter());
+		Result<ObjectMap> result = graph.executeBlocking(1000, true);
 		
 		Ntro.asserter().assertTrue("a_entry ran", a_entry_ran.value());
+
+		//Ntro.asserter().assertFalse("should not throw", result.hasException());
 
 		Integer a_entry_result = result.value().get(Integer.class, "a_entry");
 		Integer b_entry_result = result.value().get(Integer.class, "b_entry");
@@ -88,11 +75,9 @@ public class ExecutableTaskGraphTests {
 		
 		ExecutableTask taskA = graph.addTask("A");
 		ExecutableTask taskB = taskA.addNextTask("B");
-		ExecutableTaskNtro taskC = taskA.addNextTask("C");
+		ExecutableTask taskC = taskA.addNextTask("C");
+		ExecutableTask taskD = taskC.addPreviousTask("D");
 
-		ExecutableTask taskD = graph.addTask("D");
-		taskD.addNextTask(taskC);
-		
 		ExecutableAtomicTask a_entry = taskA.addEntryTask("a_entry");
 		ExecutableAtomicTask b_entry = taskB.addEntryTask("b_entry");
 		ExecutableAtomicTask c_entry = taskC.addEntryTask("c_entry");
@@ -105,14 +90,23 @@ public class ExecutableTaskGraphTests {
 			Ntro.time().runAfterDelay(5, () -> {
 				notifyer.addResult(1);
 				notifyer.addResult(2);
-				notifyer.addResult(3);
-				notifyer.addResult(4);
 			});
 		});
 
-		
+		b_entry.execute((previousResults, notifyer) -> {
+			notifyer.addResult(1);
+		});
+
+		c_entry.execute((previousResults, notifyer) -> {
+			notifyer.addResult(1);
+		});
+
+		d_entry.execute((previousResults, notifyer) -> {
+			notifyer.addResult(1);
+		});
+
 		// XXX: must allow more time if we write graph
-		Result<ObjectMap> result = graph.executeBlocking(1000, Ntro.graphWriter());
+		Result<ObjectMap> result = graph.executeBlocking(1000, true);
 		
 		Integer a_entry_result = result.value().get(Integer.class, "a_entry");
 

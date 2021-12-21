@@ -158,17 +158,4 @@ public abstract class InitializerNtro
 
 		return this;
 	}
-
-	@Override
-	public Future<ObjectMap> execute(long maxDelayMillis, GraphWriter writer) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public Result<ObjectMap> executeBlocking(long maxDelayMillis, GraphWriter writer) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

@@ -10,11 +10,11 @@ public interface ExecutableTaskGraph extends TaskGraph<ExecutableTaskNtro, Execu
 
 	Future<ObjectMap> execute();
 	Future<ObjectMap> execute(long maxDelayMillis);
-	Future<ObjectMap> execute(long maxDelayMillis, GraphWriter writer);
+	Future<ObjectMap> execute(long maxDelayMillis, boolean writeGraph);
 
 	Result<ObjectMap> executeBlocking();
 	Result<ObjectMap> executeBlocking(long maxDelayMillis);
-	Result<ObjectMap> executeBlocking(long maxDelayMillis, GraphWriter writer);
+	Result<ObjectMap> executeBlocking(long maxDelayMillis, boolean writeGraph);
 
 	// JSweet: name clash with TaskGraph.newGraph
 	public static ExecutableTaskGraph newExecutableGraph() {
