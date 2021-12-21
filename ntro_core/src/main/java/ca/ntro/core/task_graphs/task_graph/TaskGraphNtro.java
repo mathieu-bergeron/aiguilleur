@@ -190,4 +190,29 @@ public class TaskGraphNtro<T  extends Task<T,AT>,
 
 		return objectMap;
 	}
+
+	@Override
+	public boolean hasNextResults() {
+		return tasks().ifSome(task -> task.hasNextResults());
+	}
+
+	@Override
+	public ObjectMap nextResults() {
+		ObjectMapNtro objectMap = new ObjectMapNtro();
+
+		tasks().forEach(task -> {
+
+			if(task.hasNextResults()) {
+
+				objectMap.addAll(task.nextResults());
+
+			}else if(task.hasResults()) {
+
+				objectMap.addAll(task.results());
+
+			}
+		});
+
+		return objectMap;
+	}
 }

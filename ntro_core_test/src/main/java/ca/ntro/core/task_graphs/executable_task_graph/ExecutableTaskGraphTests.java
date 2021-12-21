@@ -27,6 +27,8 @@ public class ExecutableTaskGraphTests extends NtroTests {
 		a_entry.execute((previousResults, notifyer) -> {
 			Ntro.time().runAfterDelay(5, () -> {
 				notifyer.addResult(1);
+				notifyer.addResult(2);
+				notifyer.addResult(3);
 				a_entry_ran.registerValue(true);
 			});
 		});

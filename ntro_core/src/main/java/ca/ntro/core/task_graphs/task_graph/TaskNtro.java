@@ -126,7 +126,7 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 
 		if(hasParentTask()) {
 			done = parentTask().entryTasks().ifAll(entryTask -> {
-				return entryTask.hasResult();
+				return entryTask.isDone();
 			});
 		}
 
@@ -148,11 +148,11 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 	}
 	
 	protected boolean areEntryTasksDone() {
-		return entryTasks().ifAll(entryTask -> entryTask.hasResult());
+		return entryTasks().ifAll(entryTask -> entryTask.isDone());
 	}
 
 	protected boolean areExitTasksDone() {
-		return exitTasks().ifAll(exitTask -> exitTask.hasResult());
+		return exitTasks().ifAll(exitTask -> exitTask.isDone());
 	}
 
 	protected boolean areSubTasksDone() {
@@ -379,7 +379,7 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 
 	@Override
 	public boolean hasResults() {
-		return isDone();
+		return atomicTasks().ifSome(task -> task.hasResult());
 	}
 
 	@Override
@@ -389,6 +389,31 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 		atomicTasks().forEach(atomicTask -> {
 
 			if(atomicTask.hasResult()) {
+				
+				objectMap.registerObject(atomicTask.id(), atomicTask.result());
+			}
+		});
+
+		return objectMap;
+	}
+
+	@Override
+	public boolean hasNextResults() {
+		return atomicTasks().ifSome(task -> task.hasNextResult());
+	}
+
+
+	@Override
+	public ObjectMap nextResults() {
+		ObjectMapNtro objectMap = new ObjectMapNtro();
+		
+		atomicTasks().forEach(atomicTask -> {
+
+			if(atomicTask.hasNextResult()) {
+				
+				objectMap.registerObject(atomicTask.id(), atomicTask.nextResult());
+
+			} else if(atomicTask.hasResult()) {
 				
 				objectMap.registerObject(atomicTask.id(), atomicTask.result());
 			}

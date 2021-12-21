@@ -45,9 +45,6 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 	}
 	
 	
-	
-	
-	
 
 	public AtomicTaskNtro() {
 	}
@@ -74,6 +71,18 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 	public boolean isBlocked() {
 		return getIsBlocked();
 	}
+	
+	@Override
+	public boolean isInProgress() {
+		return !isBlocked()
+				&& !isDone();
+	}
+
+	@Override
+	public boolean isDone() {
+		return hasResult() 
+				&& !getResultAccumulator().hasNextResult();
+	}
 
 	@Override
 	public boolean hasResult() {
@@ -97,13 +106,18 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 	}
 
 	@Override
-	public ResultIterator resultIterator() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Object result() {
 		return getResultAccumulator().result();
 	}
+
+	@Override
+	public boolean hasNextResult() {
+		return getResultAccumulator().hasNextResult();
+	}
+
+	@Override
+	public Object nextResult() {
+		return getResultAccumulator().nextResult();
+	}
+
 }

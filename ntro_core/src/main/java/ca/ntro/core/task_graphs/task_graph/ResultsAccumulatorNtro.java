@@ -54,7 +54,7 @@ public class ResultsAccumulatorNtro implements ResultsAccumulator {
 	}
 
 	private void forgetUnusedResults(int smallestIndex) {
-		results = results.subList(smallestIndex, results.size() - 1);
+		results = results.subList(smallestIndex, results.size());
 	}
 
 }

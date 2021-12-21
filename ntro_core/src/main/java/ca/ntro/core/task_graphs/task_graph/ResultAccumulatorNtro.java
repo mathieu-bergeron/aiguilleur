@@ -48,9 +48,24 @@ public class ResultAccumulatorNtro implements ResultAccumulator {
 	}
 
 	@Override
-	public ResultIterator resultIterator() {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean hasNextResult() {
+		return getResults().size() > 1;
 	}
 
+	@Override
+	public Object nextResult() {
+		Object result = null;
+		
+		if(!results.isEmpty()) {
+			result = results.get(0);
+		}
+		
+		forgetFirstResult();
+		
+		return result;
+	}
+
+	private void forgetFirstResult() {
+		results = results.subList(1, results.size());
+	}
 }
