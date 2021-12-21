@@ -39,7 +39,22 @@ public class ResultAccumulatorNtro implements ResultAccumulator {
 
 	@Override
 	public boolean hasNextResult() {
-		return !getResults().isEmpty();
+		boolean hasNextResult = false;
+		
+		if(getOptions().consumeFirstResult()
+				&& getResults().size() > 0) {
+			
+			hasNextResult = true;
+
+		}else if(!getOptions().consumeFirstResult()
+				&& getResults().size() > 1) {
+			
+			hasNextResult = false;
+			
+			
+		}
+
+		return hasNextResult;
 	}
 
 	@Override
@@ -51,7 +66,7 @@ public class ResultAccumulatorNtro implements ResultAccumulator {
 			result = getResults().get(0);
 			
 			if(getResults().size() > 1
-					|| !getOptions().keepLastResult()) {
+					|| getOptions().consumeFirstResult()) {
 
 				consumeFirstResult();
 			}
@@ -68,13 +83,6 @@ public class ResultAccumulatorNtro implements ResultAccumulator {
 	@Override
 	public void clearResults() {
 		getResults().clear();
-	}
-
-	@Override
-	public Object nextResult() {
-		consumeFirstResult();
-		
-		return result();
 	}
 
 	private void consumeFirstResult() {

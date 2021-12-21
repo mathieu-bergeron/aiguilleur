@@ -28,6 +28,8 @@ public class TaskGraphNtro<T  extends Task<T,AT>,
 	
 	private Map<String, AtomicTaskNtro<T,AT>> atomicTasks = new HashMap<>();
 	
+	private ObjectMapNtro currentResults = new ObjectMapNtro();
+	
 	public InternalHierarchicalDagBuilderNtro<T, AT> getHdagBuilder() {
 		return hdagBuilder;
 	}
@@ -173,46 +175,20 @@ public class TaskGraphNtro<T  extends Task<T,AT>,
 	}
 
 	@Override
-	public boolean hasResults() {
-		return tasks().ifSome(task -> task.hasResults());
-	}
-
-	@Override
-	public ObjectMap results() {
-		ObjectMapNtro objectMap = new ObjectMapNtro();
-
-		tasks().forEach(task -> {
-
-			if(task.hasResults()) {
-				objectMap.addAll(task.results());
-			}
-		});
-
-		return objectMap;
-	}
-
-	@Override
 	public boolean hasNextResults() {
 		return tasks().ifSome(task -> task.hasNextResults());
 	}
 
 	@Override
 	public ObjectMap nextResults() {
-		ObjectMapNtro objectMap = new ObjectMapNtro();
-
 		tasks().forEach(task -> {
 
 			if(task.hasNextResults()) {
 
-				objectMap.addAll(task.nextResults());
-
-			}else if(task.hasResults()) {
-
-				objectMap.addAll(task.results());
-
+				currentResults.addAll(task.nextResults());
 			}
 		});
 
-		return objectMap;
+		return currentResults;
 	}
 }

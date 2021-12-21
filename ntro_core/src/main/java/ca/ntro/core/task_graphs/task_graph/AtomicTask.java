@@ -4,7 +4,6 @@ public interface AtomicTask<T  extends Task<T,AT>,
                             AT extends AtomicTask<T,AT>> 
 
        extends TaskStateAccessor, 
-               ResultAccessor, 
                ResultIterator, 
                AtomicTaskNotifyer {
 	

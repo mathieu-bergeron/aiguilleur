@@ -19,6 +19,7 @@ public class ExecutableTaskGraphNtro
 	private boolean writeGraph = false;
 	
 	private FutureNtro<ObjectMap> future;
+	private ObjectMap currentResults;
 	
 	private String baseGraphName;
 	private long executionStep;
@@ -75,7 +76,7 @@ public class ExecutableTaskGraphNtro
 		setExecutionInProgress(false);
 
 		if(!future.hasException()) {
-			future.registerValue(results());
+			future.registerValue(currentResults);
 		}
 	}
 
@@ -105,8 +106,8 @@ public class ExecutableTaskGraphNtro
 
 		writeGraph();
 			
-		ObjectMap currentResults = results();
-		
+		currentResults = nextResults();
+
 		tasks().forEach(task -> {
 			
 			toTaskNtro(task).continueExecution(currentResults);
@@ -130,7 +131,7 @@ public class ExecutableTaskGraphNtro
 		
 		if(hasNextResults()) {
 
-			ObjectMap currentResults = nextResults();
+			currentResults = nextResults();
 
 			writeGraph();
 

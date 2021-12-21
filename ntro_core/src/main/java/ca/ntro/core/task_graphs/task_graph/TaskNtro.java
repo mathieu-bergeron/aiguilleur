@@ -18,7 +18,7 @@ import ca.ntro.core.values.ObjectMapNtro;
 public abstract class TaskNtro<T  extends Task<T,AT>, 
                                AT extends AtomicTask<T,AT>>
 
-	   implements     Task<T,AT>, ResultsAccessor {
+	   implements     Task<T,AT> {
 	
 	private TaskGraphNtro<T,AT> graph;
 	private HierarchicalDagNodeBuilder<TaskGraphNode<T,AT>,TaskGraphEdge<T,AT>> nodeBuilder;
@@ -27,6 +27,8 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 	private Map<String, AT> exitTasks = new HashMap<>();
 	
 	private ResultsAccumulatorNtro results = new ResultsAccumulatorNtro();
+	
+	private ObjectMapNtro currentResults = new ObjectMapNtro();
 	
 	public TaskGraphNtro<T,AT> getGraph() {
 		return graph;
@@ -383,26 +385,6 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 	
 
 	@Override
-	public boolean hasResults() {
-		return atomicTasks().ifSome(task -> task.hasResult());
-	}
-
-	@Override
-	public ObjectMap results() {
-		ObjectMapNtro objectMap = new ObjectMapNtro();
-		
-		atomicTasks().forEach(atomicTask -> {
-
-			if(atomicTask.hasResult()) {
-				
-				objectMap.registerObject(atomicTask.id(), atomicTask.result());
-			}
-		});
-
-		return objectMap;
-	}
-
-	@Override
 	public boolean hasNextResults() {
 		return atomicTasks().ifSome(task -> task.hasNextResult());
 	}
@@ -410,20 +392,13 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 
 	@Override
 	public ObjectMap nextResults() {
-		ObjectMapNtro objectMap = new ObjectMapNtro();
-		
 		atomicTasks().forEach(atomicTask -> {
 
 			if(atomicTask.hasNextResult()) {
-				
-				objectMap.registerObject(atomicTask.id(), atomicTask.nextResult());
-
-			} else if(atomicTask.hasResult()) {
-				
-				objectMap.registerObject(atomicTask.id(), atomicTask.result());
+				currentResults.registerObject(atomicTask.id(), atomicTask.nextResult());
 			}
 		});
 
-		return objectMap;
+		return currentResults;
 	}
 }

@@ -6,7 +6,7 @@ import ca.ntro.core.stream.Stream;
 public interface TaskGraph<T  extends Task<T,AT>, 
                            AT extends AtomicTask<T,AT>>
 
-       extends ResultsAccessor, ResultsIterator {
+       extends ResultsIterator {
 	
 	void setGraphName(String graphName);
 

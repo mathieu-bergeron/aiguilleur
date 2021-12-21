@@ -85,13 +85,7 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 
 	@Override
 	public boolean isDone() {
-		return hasResult() 
-				&& !getResultAccumulator().hasNextResult();
-	}
-
-	@Override
-	public boolean hasResult() {
-		return getResultAccumulator().hasResult();
+		return !getResultAccumulator().hasNextResult();
 	}
 
 	@Override
@@ -111,11 +105,6 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 	}
 
 	@Override
-	public Object result() {
-		return getResultAccumulator().result();
-	}
-
-	@Override
 	public boolean hasNextResult() {
 		return getResultAccumulator().hasNextResult();
 	}
@@ -129,5 +118,4 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 	public void registerOptions(AtomicTaskOptions options) {
 		getResultAccumulator().registerOptions(options);
 	}
-
 }

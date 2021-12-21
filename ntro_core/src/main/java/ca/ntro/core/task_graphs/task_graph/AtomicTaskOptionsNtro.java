@@ -14,7 +14,7 @@ public class AtomicTaskOptionsNtro implements AtomicTaskOptions {
 
 
 	@Override
-	public boolean keepLastResult() {
+	public boolean consumeFirstResult() {
 		return getConsumeResult();
 	}
 
