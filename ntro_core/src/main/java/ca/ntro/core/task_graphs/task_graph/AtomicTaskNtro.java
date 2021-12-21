@@ -1,6 +1,7 @@
 package ca.ntro.core.task_graphs.task_graph;
 
 import ca.ntro.core.identifyers.Key;
+import ca.ntro.core.values.ObjectMap;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
@@ -11,10 +12,8 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 	
 	private AtomicTaskId id;
 	private TaskNtro<T,AT> parentTask;
-	private ResultNtro<Object> result = new ResultNtro<>();
-	
+	private ResultsAccumulator resultsAccumulator = new ResultsAccumulatorNtro();
 	private AtomicTaskState state = AtomicTaskState.BLOCKED;
-
 
 	public AtomicTaskId getId() {
 		return id;
@@ -24,31 +23,43 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 		this.id = id;
 	}
 
-	public TaskNtro<T,AT> getParentTask() {
+	public TaskNtro<T, AT> getParentTask() {
 		return parentTask;
 	}
 
-	public void setParentTask(TaskNtro<T,AT> parentTask) {
+	public void setParentTask(TaskNtro<T, AT> parentTask) {
 		this.parentTask = parentTask;
 	}
 
-	public ResultNtro<Object> getResult() {
-		return result;
+	public ResultsAccumulator getResultsAccumulator() {
+		return resultsAccumulator;
 	}
 
-	public void setResult(ResultNtro<Object> result) {
-		this.result = result;
+	public void setResultsAccumulator(ResultsAccumulator resultsAccumulator) {
+		this.resultsAccumulator = resultsAccumulator;
 	}
+
+	public AtomicTaskState getState() {
+		return state;
+	}
+
+	public void setState(AtomicTaskState state) {
+		this.state = state;
+	}
+	
+	
 	
 	
 	public AtomicTaskNtro() {
 	}
-	
+
 	public AtomicTaskNtro(String atomicTaskId) {
 		setId(AtomicTaskId.fromKey(new Key(atomicTaskId)));
 	}
 	
-
+	
+	
+	
 	@Override
 	public AtomicTaskId id() {
 		return getId();
@@ -61,35 +72,57 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 	}
 
 	@Override
-	public void registerNewResult(Object value) {
-		getResult().registerValue(value);
-	}
-
-	@Override
-	public void notifyTaskFailed(Throwable t) {
-		getResult().registerException(t);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public <R> Result<R> result() {
-		return (Result<R>) getResult();
-	}
-
-	@Override
-	public boolean isWaiting() {
-		return getResult().hasException();
+	public boolean isBlocked() {
+		return getState() == AtomicTaskState.BLOCKED;
 	}
 
 	@Override
 	public boolean isInProgress() {
-		return !isWaiting()
-				&& !isDone();
+		return getState() == AtomicTaskState.IN_PROGRESS;
 	}
 
 	@Override
 	public boolean isDone() {
-		return !isWaiting()
-				&& getResult().hasValue();
+		return getState() == AtomicTaskState.DONE;
+	}
+
+	@Override
+	public boolean hasResults() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public ObjectMap results() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void addResult(Object value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void clearResults() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void notifyTaskBlocked() {
+		setState(AtomicTaskState.BLOCKED);
+		
+	}
+
+	@Override
+	public void notifyTaskInProgress() {
+		setState(AtomicTaskState.IN_PROGRESS);
+	}
+
+	@Override
+	public void notifyTaskDone() {
+		setState(AtomicTaskState.DONE);
 	}
 }

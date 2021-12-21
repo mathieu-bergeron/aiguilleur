@@ -202,7 +202,7 @@ public class ExecutableTaskGraphNtro
 			}else if(task.isDone()) {
 
 				newDone.put(taskId, task);
-				task.stop();
+				task.cancel();
 			}
 		}
 	}
@@ -228,7 +228,7 @@ public class ExecutableTaskGraphNtro
 			}else if(task.isDone()) {
 
 				newDone.put(taskId, task);
-				task.stop();
+				task.cancel();
 			}
 		}
 	}

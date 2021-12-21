@@ -1,14 +1,8 @@
 package ca.ntro.core.task_graphs.executable_task_graph;
 
-import ca.ntro.core.task_graphs.task_graph.AtomicTaskNotifyer;
 import ca.ntro.core.task_graphs.task_graph.AtomicTaskNtro;
 import ca.ntro.core.values.ObjectMap;
-import ca.ntro.core.values.ObjectMapNtro;
 import ca.ntro.core.wrappers.future.ExceptionHandler;
-import ca.ntro.core.wrappers.optionnal.Optionnal;
-import ca.ntro.core.wrappers.optionnal.OptionnalNtro;
-import ca.ntro.core.wrappers.result.Result;
-import ca.ntro.core.wrappers.result.ResultNtro;
 
 public class      ExecutableAtomicTaskNtro 
 
@@ -53,6 +47,20 @@ public class      ExecutableAtomicTaskNtro
 	
 	
 
+	@Override
+	public void execute(ExecuteHandler onStartHandler) {
+		setExecuteHandler(onStartHandler);
+	}
+
+	@Override
+	public void cancel(CancelHandler onCancelHandler) {
+		setCancelHandler(onCancelHandler);
+	}
+
+	@Override
+	public void handleException(ExceptionHandler exceptionHandler) {
+		setExceptionHandler(exceptionHandler);
+	}
 
 	public void execute() {
 		try {
