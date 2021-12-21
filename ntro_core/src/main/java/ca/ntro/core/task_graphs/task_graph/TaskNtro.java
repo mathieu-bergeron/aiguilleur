@@ -257,7 +257,7 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 	public void addNextTask(T nextTask) {
 		getNodeBuilder().addEdge("", toNode(nextTask));
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private AT toAtomicTask(AtomicTaskNtro<T,AT> atomicTaskNtro) {
 		return (AT) atomicTaskNtro;

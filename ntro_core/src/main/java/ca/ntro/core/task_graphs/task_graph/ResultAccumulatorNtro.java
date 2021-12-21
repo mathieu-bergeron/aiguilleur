@@ -54,15 +54,9 @@ public class ResultAccumulatorNtro implements ResultAccumulator {
 
 	@Override
 	public Object nextResult() {
-		Object result = null;
-		
-		if(!results.isEmpty()) {
-			result = results.get(0);
-		}
-		
 		forgetFirstResult();
 		
-		return result;
+		return result();
 	}
 
 	private void forgetFirstResult() {

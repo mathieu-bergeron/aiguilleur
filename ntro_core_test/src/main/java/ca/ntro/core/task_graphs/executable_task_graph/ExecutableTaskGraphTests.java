@@ -6,7 +6,6 @@ import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.services.ExceptionThrowerMock;
 import ca.ntro.core.tests.NtroTests;
 import ca.ntro.core.values.ObjectMap;
-import ca.ntro.core.wrappers.optionnal.OptionnalNtro;
 import ca.ntro.core.wrappers.result.Result;
 
 public class ExecutableTaskGraphTests extends NtroTests {
@@ -16,25 +15,16 @@ public class ExecutableTaskGraphTests extends NtroTests {
 		ExecutableTaskGraph graph = ExecutableTaskGraph.newExecutableGraph();
 		graph.setGraphName("executableTaskGraph01");
 		
-		ExecutableTask taskA = graph.addTask("A");
-		ExecutableTask taskB = taskA.addNextTask("B");
+		ExecutableTask taskB = graph.addTask("B");
+		ExecutableTask taskA = taskB.addPreviousTask("A");
 		
 		ExecutableAtomicTask a_entry = taskA.addEntryTask("a_entry");
 		ExecutableAtomicTask b_entry = taskB.addEntryTask("b_entry");
 		
-		OptionnalNtro<Boolean> a_entry_ran = new OptionnalNtro<Boolean>();
-		
 		a_entry.execute((previousResults, notifyer) -> {
 			Ntro.time().runAfterDelay(5, () -> {
 				notifyer.addResult(1);
-				notifyer.addResult(2);
-				notifyer.addResult(3);
-				a_entry_ran.registerValue(true);
 			});
-		});
-
-		a_entry.cancel((previousResults, notifyer) -> {
-			notifyer.notifyTaskBlocked();
 		});
 
 		a_entry.handleException(exception -> {
@@ -45,7 +35,7 @@ public class ExecutableTaskGraphTests extends NtroTests {
 		b_entry.execute((previousResults, notifyer) -> {
 			notifyer.notifyTaskBlocked();
 
-			Ntro.time().runAfterDelay(5, () -> {
+			Ntro.time().runAfterDelay(10, () -> {
 				notifyer.addResult(1);
 			});
 		});
@@ -57,12 +47,9 @@ public class ExecutableTaskGraphTests extends NtroTests {
 		// XXX: must allow more time if we write graph
 		Result<ObjectMap> result = graph.executeBlocking(1000, true);
 		
-		Ntro.asserter().assertTrue("a_entry ran", a_entry_ran.value());
-
-		//Ntro.asserter().assertFalse("should not throw", result.hasException());
-
 		Integer a_entry_result = result.value().get(Integer.class, "a_entry");
 		Integer b_entry_result = result.value().get(Integer.class, "b_entry");
+
 
 		Ntro.asserter().assertEquals(1, a_entry_result);
 		Ntro.asserter().assertEquals(1, b_entry_result);
@@ -89,14 +76,20 @@ public class ExecutableTaskGraphTests extends NtroTests {
 		a_entry.execute((previousResults, notifyer) -> {
 			notifyer.notifyTaskBlocked();
 
-			Ntro.time().runAfterDelay(5, () -> {
-				notifyer.addResult(1);
-				notifyer.addResult(2);
-			});
+			notifyer.addResult(1);
+			notifyer.addResult(2);
+		});
+		
+		// MsgReceiver: blocked when no results
+		a_entry.cancel((previousResults, notifyer) -> {
+			notifyer.notifyTaskBlocked();
 		});
 
+
 		b_entry.execute((previousResults, notifyer) -> {
-			notifyer.addResult(1);
+			Ntro.time().runAfterDelay(10, () -> {
+				notifyer.addResult(1);
+			});
 		});
 
 		c_entry.execute((previousResults, notifyer) -> {
