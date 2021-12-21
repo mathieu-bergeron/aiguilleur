@@ -5,6 +5,7 @@ import java.util.List;
 
 public class ResultAccumulatorNtro implements ResultAccumulator {
 	
+	private AtomicTaskOptions options = new AtomicTaskOptionsDefault();
 	private List<Object> results = new ArrayList<>();
 
 	public List<Object> getResults() {
@@ -15,23 +16,45 @@ public class ResultAccumulatorNtro implements ResultAccumulator {
 		this.results = results;
 	}
 
+	public AtomicTaskOptions getOptions() {
+		return options;
+	}
+
+	public void setOptions(AtomicTaskOptions options) {
+		this.options = options;
+	}
 	
+	
+	
+	
+	
+
 	public ResultAccumulatorNtro() {
 	}
 
 	
+	
+	
+	
 
 	@Override
-	public boolean hasResult() {
+	public boolean hasNextResult() {
 		return !getResults().isEmpty();
 	}
 
 	@Override
-	public Object result() {
+	public Object nextResult() {
 		Object result = null;
 		
-		if(hasResult()) {
+		if(hasNextResult()) {
+
 			result = getResults().get(0);
+			
+			if(getResults().size() > 1
+					|| !getOptions().keepLastResult()) {
+
+				consumeFirstResult();
+			}
 		}
 		
 		return result;
@@ -48,18 +71,17 @@ public class ResultAccumulatorNtro implements ResultAccumulator {
 	}
 
 	@Override
-	public boolean hasNextResult() {
-		return getResults().size() > 1;
-	}
-
-	@Override
 	public Object nextResult() {
-		forgetFirstResult();
+		consumeFirstResult();
 		
 		return result();
 	}
 
-	private void forgetFirstResult() {
+	private void consumeFirstResult() {
 		results = results.subList(1, results.size());
+	}
+
+	public void registerOptions(AtomicTaskOptions options) {
+		setOptions(options);
 	}
 }

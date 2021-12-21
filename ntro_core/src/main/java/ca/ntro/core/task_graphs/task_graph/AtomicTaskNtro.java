@@ -9,7 +9,7 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 	
 	private AtomicTaskId id;
 	private TaskNtro<T,AT> parentTask;
-	private ResultAccumulator resultAccumulator = new ResultAccumulatorNtro();
+	private ResultAccumulatorNtro resultAccumulator = new ResultAccumulatorNtro();
 	private boolean isBlocked = false;
 
 	public AtomicTaskId getId() {
@@ -36,13 +36,18 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 		this.isBlocked = isBlocked;
 	}
 
-	public ResultAccumulator getResultAccumulator() {
+	public ResultAccumulatorNtro getResultAccumulator() {
 		return resultAccumulator;
 	}
 
-	public void setResultAccumulator(ResultAccumulator resultAccumulator) {
+	public void setResultAccumulator(ResultAccumulatorNtro resultAccumulator) {
 		this.resultAccumulator = resultAccumulator;
 	}
+	
+	
+	
+	
+	
 	
 	
 
@@ -118,6 +123,11 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 	@Override
 	public Object nextResult() {
 		return getResultAccumulator().nextResult();
+	}
+
+	@Override
+	public void registerOptions(AtomicTaskOptions options) {
+		getResultAccumulator().registerOptions(options);
 	}
 
 }

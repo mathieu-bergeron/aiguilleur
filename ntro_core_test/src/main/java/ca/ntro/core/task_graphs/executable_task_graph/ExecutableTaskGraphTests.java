@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.services.ExceptionThrowerMock;
+import ca.ntro.core.task_graphs.task_graph.AtomicTaskOptions;
 import ca.ntro.core.tests.NtroTests;
 import ca.ntro.core.values.ObjectMap;
 import ca.ntro.core.wrappers.result.Result;
@@ -30,12 +31,21 @@ public class ExecutableTaskGraphTests extends NtroTests {
 			Ntro.exceptions().throwException(exception);
 		});
 		
-		// Server-side MsgReceiver: task is blocked until we have results
+		// MsgReceiver: consumes result
+		b_entry.registerOptions(AtomicTaskOptions.consumeResult(true));
+		
+		// MsgReceiver: server-side must not stay inProgress
 		b_entry.execute((previousResults, notifyer) -> {
 			notifyer.notifyTaskBlocked();
 
+			notifyer.addResult(0);
+
 			Ntro.time().runAfterDelay(10, () -> {
 				notifyer.addResult(1);
+			});
+
+			Ntro.time().runAfterDelay(20, () -> {
+				notifyer.addResult(2);
 			});
 		});
 		
@@ -51,8 +61,7 @@ public class ExecutableTaskGraphTests extends NtroTests {
 
 
 		Ntro.asserter().assertEquals(2, a_entry_result);
-		Ntro.asserter().assertEquals(1, b_entry_result);
-
+		Ntro.asserter().assertEquals(null, b_entry_result);
 	}
 
 	@Test
