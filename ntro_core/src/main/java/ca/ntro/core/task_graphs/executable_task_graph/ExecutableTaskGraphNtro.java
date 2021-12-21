@@ -4,9 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
-import ca.ntro.core.exceptions.Break;
-import ca.ntro.core.graph_writer.GraphWriter;
-import ca.ntro.core.graph_writer.GraphWriterNull;
 import ca.ntro.core.graphs.generics.graph.GraphId;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.task_graphs.task_graph.TaskGraphNtro;
@@ -23,10 +20,6 @@ public class ExecutableTaskGraphNtro
 	
 	public static final long DEFAULT_MAX_DELAY_MILLIS = 30 * 1000;
 
-	private Map<String, ExecutableTaskNtro> blocked;
-	private Map<String, ExecutableTaskNtro> inProgress;
-	private Map<String, ExecutableTaskNtro> done;
-	
 	private boolean executionInProgress = false;
 	private boolean writeGraph = false;
 	
@@ -46,23 +39,20 @@ public class ExecutableTaskGraphNtro
 			Ntro.exceptions().throwException(new IllegalStateException("We are already executing"));
 		}
 
-		blocked = new HashMap<>();
-		inProgress = new HashMap<>();
-	    done = new HashMap<>();
-
 	    setExecutionInProgress(true);
 	    
 	    this.writeGraph = writeGraph;
 
 		this.future = new FutureNtro<>();
 		this.executionStep = 0;
+
 		GraphId id = getHdagBuilder().getGraph().id();
 		if(id == null) {
 			id = GraphId.newGraphId();
 		}
 		this.baseGraphName = id.toKey().toString();
 		
-		startExecution();
+		prepareExecution();
 		
 		Ntro.time().runAfterDelay(maxDelayMillis, () -> {
 			future.registerException(new TimeoutException());
@@ -95,16 +85,7 @@ public class ExecutableTaskGraphNtro
 		setExecutionInProgress(false);
 
 		if(!future.hasException()) {
-			
-			/* FIXME: we need
-			 * 
-			 * 
-			 */
 
-			while(hasNextResults()) {
-				nextResults();
-			}
-			
 			future.registerValue(results());
 
 			throw new RuntimeException("FIXME");
@@ -133,144 +114,44 @@ public class ExecutableTaskGraphNtro
 		}
 	}
 	
-	private void startExecution() {
-		if(!executionInProgress()) return;
-
-		writeGraph();
-		
+	private void prepareExecution() {
 		tasks().forEach(task -> {
-			if(future.hasException()) {
-				throw new Break();
-			}
+			
+			toTaskNtro(task).prepareExecution();
 
-			if(task.isBlocked()) {
-				
-				blocked.put(task.id().toKey().toString(), task);
-				
-			}else if(task.isInProgress()) {
-				
-				inProgress.put(task.id().toKey().toString(), task);
-				task.execute();
-				
-			}else if(task.isDone()) {
-				
-				done.put(task.id().toKey().toString(), task);
-			}
 		});
-
-		writeGraph();
-
-		if(inProgress.isEmpty()) {
-			halt();
-		}
 	}
+	
+	private ExecutableTaskNtro toTaskNtro(ExecutableTask task) {
+		return (ExecutableTaskNtro) task;
+	}
+	
 
 	private void continueExecution() {
 		if(!executionInProgress()) return;
 
 		writeGraph();
 		
-		Map<String, ExecutableTaskNtro> newBlocked = new HashMap<>();
-		Map<String, ExecutableTaskNtro> newInProgress = new HashMap<>();
-		Map<String, ExecutableTaskNtro> newDone = new HashMap<>();
-		
-		processBlockedTasks(newBlocked, newInProgress, newDone);
-		processInProgressTasks(newBlocked, newInProgress, newDone);
-		processDoneTasks(newBlocked, newInProgress, newDone);
-		
-		blocked = newBlocked;
-		inProgress = newInProgress;
-		done = newDone;
-
-
-		if(inProgress.isEmpty()) {
-
-			halt();
-
-		}else {
+		if(hasResults()) {
+			
+			ObjectMap currentResults = results();
+			
+			tasks().forEach(task -> {
+				
+				toTaskNtro(task).continueExecution(currentResults);
+				
+			});
 			
 			writeGraph();
 			
-		}
-	}
-
-	private void processBlockedTasks(Map<String, ExecutableTaskNtro> newBlocked, 
-			                         Map<String, ExecutableTaskNtro> newInProgress, 
-			                         Map<String, ExecutableTaskNtro> newDone) {
-		
-		for(Map.Entry<String, ExecutableTaskNtro> entry : blocked.entrySet()) {
+			nextResults();
 			
-			String taskId = entry.getKey();
-			ExecutableTaskNtro task = entry.getValue();
+		}else {
 
-			if(task.isBlocked()) {
-				
-				newBlocked.put(taskId, task);
-				
-			}else if(task.isInProgress()) {
-				
-				newInProgress.put(taskId, task);
-				task.execute();
-				
-			}else if(task.isDone()) {
-
-				newDone.put(taskId, task);
-				task.cancel();
-			}
+			halt();
 		}
 	}
 
-	private void processInProgressTasks(Map<String, ExecutableTaskNtro> newBlocked, 
-			                            Map<String, ExecutableTaskNtro> newInProgress, 
-			                            Map<String, ExecutableTaskNtro> newDone) {
-		
-		for(Map.Entry<String, ExecutableTaskNtro> entry : inProgress.entrySet()) {
-			
-			String taskId = entry.getKey();
-			ExecutableTaskNtro task = entry.getValue();
-
-			if(task.isBlocked()) {
-				
-				newBlocked.put(taskId, task);
-				task.execute();
-				
-			}else if(task.isInProgress()) {
-				
-				newInProgress.put(taskId, task);
-				
-			}else if(task.isDone()) {
-
-				newDone.put(taskId, task);
-				task.cancel();
-			}
-		}
-	}
-
-	private void processDoneTasks(Map<String, ExecutableTaskNtro> newBlocked, 
-			                      Map<String, ExecutableTaskNtro> newInProgress, 
-			                      Map<String, ExecutableTaskNtro> newDone) {
-
-		for(Map.Entry<String, ExecutableTaskNtro> entry : done.entrySet()) {
-			
-			String taskId = entry.getKey();
-			ExecutableTaskNtro task = entry.getValue();
-
-			if(task.isBlocked()) {
-				
-				newBlocked.put(taskId, task);
-				
-			}else if(task.isInProgress()) {
-				
-				newInProgress.put(taskId, task);
-				task.execute();
-				
-			}else if(task.isDone()) {
-
-				newDone.put(taskId, task);
-			}
-		}
-	}
-	
 	@Override
 	public Result<ObjectMap> executeBlocking() {
 		return executeBlocking(DEFAULT_MAX_DELAY_MILLIS);

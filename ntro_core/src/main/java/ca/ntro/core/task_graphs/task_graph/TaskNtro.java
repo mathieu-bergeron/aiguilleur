@@ -72,7 +72,6 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 	
 	
 	
-	
 
 	public TaskNtro(){
 		super();
@@ -212,6 +211,12 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 	@Override
 	public void addSubTask(T subTask) {
 		getNodeBuilder().addSubNode(toNode(subTask));
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	private TaskNtro<T,AT> toTaskNtro(T task){
+		return (TaskNtro<T,AT>) task;
 	}
 
 	@SuppressWarnings("unchecked")
