@@ -62,10 +62,10 @@ public class      ExecutableAtomicTaskNtro
 		setExceptionHandler(exceptionHandler);
 	}
 
-	public void execute() {
+	public void execute(ObjectMap results) {
 		try {
 
-			getExecuteHandler().execute((ObjectMap) parentTask().parentGraph(), this);
+			getExecuteHandler().execute(results, this);
 
 		}catch(Throwable t) {
 			
@@ -74,10 +74,10 @@ public class      ExecutableAtomicTaskNtro
 		}
 	}
 
-	public void cancel() {
+	public void cancel(ObjectMap results) {
 		try {
 
-			getCancelHandler().cancel((ObjectMap) parentTask().parentGraph(), this);
+			getCancelHandler().cancel(results, this);
 
 		}catch(Throwable t) {
 

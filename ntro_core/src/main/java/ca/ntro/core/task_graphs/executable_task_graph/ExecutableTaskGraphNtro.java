@@ -8,10 +8,7 @@ import ca.ntro.core.exceptions.Break;
 import ca.ntro.core.graph_writer.GraphWriter;
 import ca.ntro.core.graph_writer.GraphWriterNull;
 import ca.ntro.core.graphs.generics.graph.GraphId;
-import ca.ntro.core.identifyers.Id;
-import ca.ntro.core.identifyers.IdNtro;
 import ca.ntro.core.initialization.Ntro;
-import ca.ntro.core.task_graphs.task_graph.AtomicTaskId;
 import ca.ntro.core.task_graphs.task_graph.TaskGraphNtro;
 import ca.ntro.core.values.ObjectMap;
 import ca.ntro.core.wrappers.future.Future;
@@ -94,7 +91,7 @@ public class ExecutableTaskGraphNtro
 		setExecutionInProgress(false);
 
 		if(!future.hasException()) {
-			future.registerValue((ObjectMap) this);
+			future.registerValue(results());
 		}
 	}
 
@@ -271,19 +268,6 @@ public class ExecutableTaskGraphNtro
 	@Override
 	public Result<ObjectMap> executeBlocking(long maxDelayMillis, GraphWriter writer) {
 		return execute(maxDelayMillis, writer).get(maxDelayMillis);
-	}
-
-	@Override
-	public boolean hasResults() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-
-	@Override
-	public ObjectMap results() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 

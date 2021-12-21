@@ -55,7 +55,7 @@ public class ExecutableTaskGraphTests {
 		});
 
 		a_entry.handleException(exception -> {
-			
+			Ntro.exceptions().throwException(exception);
 		});
 		
 		// MsgReceiver: never inProgress, blocked then done
@@ -72,7 +72,7 @@ public class ExecutableTaskGraphTests {
 			notifyer.notifyTaskBlocked();
 		});
 
-		Result<ObjectMap> result = graph.executeBlocking(1000, Ntro.graphWriter());
+		Result<ObjectMap> result = graph.executeBlocking(100000, Ntro.graphWriter());
 		//Result<ObjectMap> result = graph.executeBlocking(1000);
 		
 		Integer a_entry_result = result.value().get(Integer.class, "a_entry");
