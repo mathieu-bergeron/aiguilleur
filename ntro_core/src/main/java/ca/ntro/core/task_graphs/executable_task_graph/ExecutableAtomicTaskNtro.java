@@ -61,6 +61,13 @@ public class      ExecutableAtomicTaskNtro
 	public void handleException(ExceptionHandler exceptionHandler) {
 		setExceptionHandler(exceptionHandler);
 	}
+	
+	@Override
+	public void addResult(Object result){
+		super.addResult(result);
+
+		((ExecutableTaskGraphNtro) ExecutableAtomicTaskNtro.this.parentTask().parentGraph()).notifyOfNewResult();
+	}
 
 	public void execute(ObjectMap results) {
 		try {

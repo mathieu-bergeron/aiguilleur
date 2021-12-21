@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import ca.ntro.core.graph_writer.ClusterAlreadyAddedException;
 import ca.ntro.core.graph_writer.ClusterNotFoundException;
@@ -79,35 +81,37 @@ public class GraphWriterJdk implements GraphWriter {
 		return file;
 	}
 
+	protected void writeLater(Format format, String extension) {
+		new Timer().schedule(new TimerTask() {
+			@Override
+			public void run() {
+
+				try {
+
+					Graphviz.fromGraph(graph).render(format).toFile(createFile(extension));
+
+				} catch (IOException e) {
+
+					Ntro.exceptions().throwException(e);
+
+				}
+			}
+
+		}, 1);
+	}
+
 	@Override
 	public void writePng() {
 		prepareToWrite();
-
-		try {
-
-			Graphviz.fromGraph(graph).render(Format.PNG).toFile(createFile(".png"));
-
-		} catch (IOException e) {
-
-			Ntro.exceptions().throwException(e);
-
-		}
+	
+		writeLater(Format.PNG, ".png");
 	}
 
 	@Override
 	public void writeSvg() {
 		prepareToWrite();
 
-		try {
-
-			Graphviz.fromGraph(graph).render(Format.SVG).toFile(createFile(".svg"));
-
-		} catch (IOException e) {
-
-			Ntro.exceptions().throwException(e);
-
-		}
-		
+		writeLater(Format.SVG, ".svg");
 	}
 
 
@@ -115,16 +119,7 @@ public class GraphWriterJdk implements GraphWriter {
 	public void writeDot() {
 		prepareToWrite();
 
-		try {
-
-			Graphviz.fromGraph(graph).render(Format.DOT).toFile(createFile(".dot"));
-
-		} catch (IOException e) {
-
-			Ntro.exceptions().throwException(e);
-
-		}
-		
+		writeLater(Format.DOT, ".dot");
 	}
 
 	@Override

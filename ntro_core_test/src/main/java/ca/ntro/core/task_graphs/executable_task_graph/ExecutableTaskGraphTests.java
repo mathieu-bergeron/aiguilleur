@@ -7,6 +7,7 @@ import ca.ntro.core.initialization.InitializerTest;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.services.ExceptionThrowerMock;
 import ca.ntro.core.values.ObjectMap;
+import ca.ntro.core.wrappers.optionnal.OptionnalNtro;
 import ca.ntro.core.wrappers.result.Result;
 
 public class ExecutableTaskGraphTests {
@@ -36,14 +37,15 @@ public class ExecutableTaskGraphTests {
 		ExecutableAtomicTask a_entry = taskA.addEntryTask("a_entry");
 		ExecutableAtomicTask b_entry = taskB.addEntryTask("b_entry");
 		
-		// «normal» task:
-		//  
-		// inProgress until we have a result
-		//
-		// then Done
+		OptionnalNtro<Boolean> a_entry_ran = new OptionnalNtro<Boolean>();
+		
 		a_entry.execute((previousResults, notifyer) -> {
 			Ntro.time().runAfterDelay(5, () -> {
 				notifyer.addResult(1);
+				notifyer.addResult(2);
+				notifyer.addResult(3);
+				notifyer.addResult(4);
+				a_entry_ran.registerValue(true);
 			});
 		});
 
@@ -68,9 +70,11 @@ public class ExecutableTaskGraphTests {
 			notifyer.notifyTaskBlocked();
 		});
 
+		// XXX: must allow more time if we write graph
 		Result<ObjectMap> result = graph.executeBlocking(1000, Ntro.graphWriter());
-		//Result<ObjectMap> result = graph.executeBlocking(1000);
 		
+		Ntro.asserter().assertTrue("a_entry ran", a_entry_ran.value());
+
 		Integer a_entry_result = result.value().get(Integer.class, "a_entry");
 		Integer b_entry_result = result.value().get(Integer.class, "b_entry");
 
@@ -81,6 +85,7 @@ public class ExecutableTaskGraphTests {
 
 	@Test
 	public void executableTaskGraphException01() {
+		ExceptionThrowerMock exceptionThrower = registerMockExceptionThrower();
 
 		ExecutableTaskGraph graph = ExecutableTaskGraph.newExecutableGraph();
 		
@@ -93,11 +98,10 @@ public class ExecutableTaskGraphTests {
 			String outOfBounds = array[2];
 		});
 
+
 		Result<ObjectMap> result = graph.executeBlocking(10);
-		
-		Ntro.asserter().assertTrue("should have exception", result.hasException());
 
-		Ntro.asserter().assertTrue("should have OutOfBounds", result.exception() instanceof IndexOutOfBoundsException);
-
+		Ntro.asserter().assertTrue("Should throw", exceptionThrower.hasThrown());
+		Ntro.asserter().assertTrue("Has thrown OutOfBounds", exceptionThrower.wasThrown(ArrayIndexOutOfBoundsException.class));
 	}
 }

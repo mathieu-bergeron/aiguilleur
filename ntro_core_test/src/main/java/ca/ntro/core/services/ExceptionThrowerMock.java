@@ -13,8 +13,14 @@ public class ExceptionThrowerMock implements ExceptionThrower {
 	@Override
 	public void throwException(Throwable t) {
 		if(!(t instanceof Break)) {
-			thrown.add(t.getClass().getName());
-			lastException = t;
+			
+			Throwable cause = t.getCause();
+			if(cause == null) {
+				cause = t;
+			}
+			
+			thrown.add(cause.getClass().getName());
+			lastException = cause;
 		}
 	}
 	

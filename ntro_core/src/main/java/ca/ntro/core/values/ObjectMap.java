@@ -16,6 +16,7 @@ public interface ObjectMap {
     Object get(String id);
 
 	void addAll(ObjectMap other);
+
 	Stream<String> keys();
 
 	/*

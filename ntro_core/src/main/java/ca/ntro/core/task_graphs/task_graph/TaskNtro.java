@@ -390,7 +390,7 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 
 			if(atomicTask.hasResult()) {
 				
-				objectMap.registerObject(TaskNtro.this.id(), atomicTask.result());
+				objectMap.registerObject(atomicTask.id(), atomicTask.result());
 			}
 		});
 
