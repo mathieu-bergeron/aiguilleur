@@ -102,7 +102,9 @@ public class ExecutableTaskGraphTests extends NtroTests {
 		});
 
 		d_entry.execute((previousResults, notifyer) -> {
-			notifyer.addResult(1);
+			Ntro.time().runAfterDelay(300, () -> {
+				notifyer.addResult(1);
+			});
 		});
 
 		// XXX: must allow more time if we write graph
