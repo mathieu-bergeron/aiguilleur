@@ -31,7 +31,12 @@ public interface TaskCreator {
 	TaskCreator when(ControllerEvent task);
 	TaskCreator and(ControllerEvent task);
 
-	Task execute(TaskExecutor executor);
+	TaskCreator execute(TaskExecutor executor);
+	TaskCreator onCancel();
+	TaskCreator onFailure(Throwable t);
+	TaskCreator setTaskName(String taskName);
+
+	Task<?,?> toTask();
 
 	<M extends Model> void removeModelObservers(Class<M> modelClass);
 	void removeModelObserver(ModelId modelId);

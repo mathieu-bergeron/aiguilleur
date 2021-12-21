@@ -19,7 +19,8 @@ public class PagesController implements Controller {
 
 		    	   QueueView queueView = results.getViewLoader(QueueView.class).createView();
 		    	   results.registerView(QueueView.class, queueView);
-		       });
+		       })
+		       .setTaskName("Charger la vue Queue");
 
 		creator.when(viewLoaded(PongView.class))
 		       .execute(results -> {
