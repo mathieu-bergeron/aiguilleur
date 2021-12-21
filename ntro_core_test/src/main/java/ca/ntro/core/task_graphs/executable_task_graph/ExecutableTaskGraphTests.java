@@ -42,9 +42,6 @@ public class ExecutableTaskGraphTests {
 		a_entry.execute((previousResults, notifyer) -> {
 			Ntro.time().runAfterDelay(5, () -> {
 				notifyer.addResult(1);
-				notifyer.addResult(2);
-				notifyer.addResult(3);
-				notifyer.addResult(4);
 				a_entry_ran.registerValue(true);
 			});
 		});
@@ -81,6 +78,45 @@ public class ExecutableTaskGraphTests {
 		Ntro.asserter().assertEquals(1, a_entry_result);
 		Ntro.asserter().assertEquals(1, b_entry_result);
 
+	}
+
+	@Test
+	public void executableTaskGraph02() {
+
+		ExecutableTaskGraph graph = ExecutableTaskGraph.newExecutableGraph();
+		graph.setGraphName("executableTaskGraph02");
+		
+		ExecutableTask taskA = graph.addTask("A");
+		ExecutableTask taskB = taskA.addNextTask("B");
+		ExecutableTaskNtro taskC = taskA.addNextTask("C");
+
+		ExecutableTask taskD = graph.addTask("D");
+		taskD.addNextTask(taskC);
+		
+		ExecutableAtomicTask a_entry = taskA.addEntryTask("a_entry");
+		ExecutableAtomicTask b_entry = taskB.addEntryTask("b_entry");
+		ExecutableAtomicTask c_entry = taskC.addEntryTask("c_entry");
+		ExecutableAtomicTask d_entry = taskD.addEntryTask("d_entry");
+		
+		// MsgReceiver: blocked until it has results
+		a_entry.execute((previousResults, notifyer) -> {
+			notifyer.notifyTaskBlocked();
+
+			Ntro.time().runAfterDelay(5, () -> {
+				notifyer.addResult(1);
+				notifyer.addResult(2);
+				notifyer.addResult(3);
+				notifyer.addResult(4);
+			});
+		});
+
+		
+		// XXX: must allow more time if we write graph
+		Result<ObjectMap> result = graph.executeBlocking(1000, Ntro.graphWriter());
+		
+		Integer a_entry_result = result.value().get(Integer.class, "a_entry");
+
+		Ntro.asserter().assertEquals(1, a_entry_result);
 	}
 
 	@Test
