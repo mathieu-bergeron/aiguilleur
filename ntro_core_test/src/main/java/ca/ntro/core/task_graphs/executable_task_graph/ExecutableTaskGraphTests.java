@@ -22,9 +22,9 @@ public class ExecutableTaskGraphTests extends NtroTests {
 		ExecutableAtomicTask b_entry = taskB.addEntryTask("b_entry");
 		
 		a_entry.execute((previousResults, notifyer) -> {
-			Ntro.time().runAfterDelay(5, () -> {
-				notifyer.addResult(1);
-			});
+			notifyer.addResult(1);
+			notifyer.addResult(2);
+			notifyer.addResult(3);
 		});
 
 		a_entry.handleException(exception -> {
@@ -51,7 +51,7 @@ public class ExecutableTaskGraphTests extends NtroTests {
 		Integer b_entry_result = result.value().get(Integer.class, "b_entry");
 
 
-		Ntro.asserter().assertEquals(1, a_entry_result);
+		Ntro.asserter().assertEquals(3, a_entry_result);
 		Ntro.asserter().assertEquals(1, b_entry_result);
 
 	}

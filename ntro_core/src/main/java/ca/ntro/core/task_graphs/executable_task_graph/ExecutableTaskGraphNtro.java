@@ -95,7 +95,19 @@ public class ExecutableTaskGraphNtro
 		setExecutionInProgress(false);
 
 		if(!future.hasException()) {
+			
+			/* FIXME: we need
+			 * 
+			 * 
+			 */
+
+			while(hasNextResults()) {
+				nextResults();
+			}
+			
 			future.registerValue(results());
+
+			throw new RuntimeException("FIXME");
 		}
 	}
 
