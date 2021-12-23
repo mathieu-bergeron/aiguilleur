@@ -56,6 +56,5 @@ public interface Task<T  extends Task<T,AT>,
 	Stream<T> reachableTasks();
 	Stream<T> reachableTasks(TaskGraphSearchOptions options);
 
-	TaskTrace newEntryTasksTrace();
 	TaskTrace newTrace();
 }

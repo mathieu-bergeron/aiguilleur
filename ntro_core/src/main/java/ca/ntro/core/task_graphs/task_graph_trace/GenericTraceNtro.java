@@ -1,6 +1,6 @@
 package ca.ntro.core.task_graphs.task_graph_trace;
 
-public class GenericTraceNtro<V extends Object> implements GenericTrace<V> {
+public abstract class GenericTraceNtro<V extends Object> implements GenericTrace<V> {
 	
 	
 	@Override

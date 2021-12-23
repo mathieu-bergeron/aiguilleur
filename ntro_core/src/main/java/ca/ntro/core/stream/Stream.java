@@ -1,6 +1,7 @@
 package ca.ntro.core.stream;
 
 import java.util.List;
+import java.util.Set;
 
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
@@ -38,5 +39,16 @@ public interface Stream<I extends Object> {
 	<R> Stream<R> reduceToStream(StreamReducer<I,R> reducer);
 
 	<R> void applyReducer(ResultNtro<R> result, Reducer<I,R> reducer);
+	
+	public static <V> Stream<V> fromSet(Set<V> set){
+		return new StreamNtro<V>() {
+			@Override
+			public void _forEach(Visitor<V> visitor) throws Throwable {
+				for(V value : set) {
+					visitor.visit(value);
+				}
+			}
+		};
+	}
 
 }

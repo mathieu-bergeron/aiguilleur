@@ -407,17 +407,6 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 	
 	
 	@Override
-	public TaskTrace newEntryTasksTrace() {
-		/*  TODO: create a TaskResultsIterator
-		 * 
-		 *        that refers to a TaskResultsIterator for each previousTask (and for the parentTask)
-		 *        
-		 *        AND that fetches from AtomicTask
-		 */
-		throw new RuntimeException("TODO");
-	}
-
-	@Override
 	public TaskTrace newTrace() {
 		/*  TODO: create a TaskResultsIterator
 		 * 
