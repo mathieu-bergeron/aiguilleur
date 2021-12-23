@@ -27,4 +27,10 @@ public class ResultsIteratorNtro implements ResultsIterator {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public boolean isWaitingForResults() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

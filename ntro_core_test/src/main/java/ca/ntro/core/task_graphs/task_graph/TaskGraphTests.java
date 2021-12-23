@@ -24,9 +24,37 @@ public class TaskGraphTests {
 	public static void initialize() {
 		InitializerTest.initialize();
 	}
+
+	@Test
+	public void simpleTaskGraph00() {
+
+		/* In fact, the state of the TaskGraph
+		 * 
+		 * depends entirely on the state of the
+		 * resultsIterator
+		 * 
+		 * when calling graph.resultsIterator()
+		 * 
+		 * it creates a structure that mimmick the
+		 * structure of the taskGraph but
+		 * also contains results
+		 * 
+		 * so the state of the TaskGraph changes when
+		 * 
+		 * iterator.advanceToNextResult(); is called
+		 * 
+		 * (some tasks could have empty results)
+		 * 
+		 * 
+		 * 
+		 */
+		throw new RuntimeException("TODO");
+
+	}
 	
 	@Test
 	public void simpleTaskGraph01() {
+		
 		
 		TaskGraph<MockTask, MockAtomicTask> graph = TaskGraph.newGraph(MockTask.class, MockAtomicTask.class);
 		

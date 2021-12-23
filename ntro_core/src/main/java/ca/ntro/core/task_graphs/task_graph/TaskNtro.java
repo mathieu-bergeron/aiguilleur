@@ -402,8 +402,13 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 	}
 	
 	public void initializeResultsAccumulator() {
-		
-		
+		/*  TODO: create a TaskResultsIterator
+		 * 
+		 *        that refers to a TaskResultsIterator for each previousTask (and for the parentTask)
+		 *        
+		 *        AND that fetches from AtomicTask
+		 */
+		throw new RuntimeException("TODO");
 	}
 
 	
@@ -415,8 +420,6 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 		 *        
 		 *        AND that fetches from AtomicTask
 		 */
-		
-		
-		return getResultsAccumulator().resultsIterator();
+		throw new RuntimeException("TODO");
 	}
 }
