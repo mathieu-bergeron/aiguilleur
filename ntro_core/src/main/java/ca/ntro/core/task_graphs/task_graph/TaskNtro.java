@@ -12,6 +12,8 @@ import ca.ntro.core.identifyers.Key;
 import ca.ntro.core.stream.Stream;
 import ca.ntro.core.stream.StreamNtro;
 import ca.ntro.core.stream.Visitor;
+import ca.ntro.core.task_graphs.task_graph_trace.ResultsAccumulatorNtro;
+import ca.ntro.core.task_graphs.task_graph_trace.TaskTrace;
 
 public abstract class TaskNtro<T  extends Task<T,AT>, 
                                AT extends AtomicTask<T,AT>>
@@ -121,7 +123,7 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 
 		if(hasParentTask()) {
 			done = parentTask().entryTasks().ifAll(entryTask -> {
-				return entryTask.isDone();
+				throw new RuntimeException("FIXME: task state is in Trace now");
 			});
 		}
 
@@ -143,11 +145,13 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 	}
 	
 	protected boolean areEntryTasksDone() {
-		return entryTasks().ifAll(entryTask -> entryTask.isDone());
+		throw new RuntimeException("FIXME: task state is in GraphTrace now");
+		//return entryTasks().ifAll(entryTask -> entryTask.isDone());
 	}
 
 	protected boolean areExitTasksDone() {
-		return exitTasks().ifAll(exitTask -> exitTask.isDone());
+		throw new RuntimeException("FIXME: task state is in GraphTrace now");
+		//return exitTasks().ifAll(exitTask -> exitTask.isDone());
 	}
 
 	protected boolean areSubTasksDone() {
@@ -401,7 +405,9 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 		return visitedNodes.map(visitedNode -> visitedNode.node().task());
 	}
 	
-	public void initializeResultsAccumulator() {
+	
+	@Override
+	public TaskTrace newEntryTasksTrace() {
 		/*  TODO: create a TaskResultsIterator
 		 * 
 		 *        that refers to a TaskResultsIterator for each previousTask (and for the parentTask)
@@ -411,9 +417,8 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 		throw new RuntimeException("TODO");
 	}
 
-	
 	@Override
-	public ResultsIterator resultsIterator() {
+	public TaskTrace newTrace() {
 		/*  TODO: create a TaskResultsIterator
 		 * 
 		 *        that refers to a TaskResultsIterator for each previousTask (and for the parentTask)

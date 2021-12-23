@@ -1,5 +1,7 @@
 package ca.ntro.core.task_graphs.task_graph;
 
+import ca.ntro.core.task_graphs.task_graph_trace.AtomicTaskTrace;
+
 public class MockAtomicTask extends AtomicTaskNtro<MockTask, MockAtomicTask> {
 
 	public MockAtomicTask() {
@@ -12,8 +14,8 @@ public class MockAtomicTask extends AtomicTaskNtro<MockTask, MockAtomicTask> {
 	
 
 	@Override
-	public ResultIterator resultIterator() {
-		// XXX: different type of tasks have different resultsIterator();
+	public AtomicTaskTrace newTrace() {
+		// XXX: different type of tasks have different traces
 		throw new RuntimeException("TODO");
 	}
 

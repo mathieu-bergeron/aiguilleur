@@ -1,4 +1,4 @@
-package ca.ntro.core.task_graphs.task_graph;
+package ca.ntro.core.task_graphs.task_graph_trace;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -11,7 +11,7 @@ import ca.ntro.core.wrappers.optionnal.OptionnalNtro;
 public class ResultsAccumulatorNtro implements ResultsAccumulator {
 	
 	private List<ObjectMap> results = new ArrayList<>();
-	private Set<ResultsIteratorNtro> iterators = new HashSet<>();
+	private Set<TaskTraceNtro> iterators = new HashSet<>();
 	private OptionnalNtro<Integer> smallestIndex = new OptionnalNtro<Integer>();
 
 	@Override
@@ -20,7 +20,7 @@ public class ResultsAccumulatorNtro implements ResultsAccumulator {
 	}
 
 	@Override
-	public ResultsIterator resultsIterator() {
+	public TaskTrace resultsIterator() {
 		return null;
 	}
 
@@ -47,7 +47,7 @@ public class ResultsAccumulatorNtro implements ResultsAccumulator {
 
 			forgetUnusedResults(currentIndex);
 			
-			for(ResultsIteratorNtro iterator : iterators) {
+			for(TaskTraceNtro iterator : iterators) {
 				//iterator.decrementIndex(currentIndex);
 			}
 		}

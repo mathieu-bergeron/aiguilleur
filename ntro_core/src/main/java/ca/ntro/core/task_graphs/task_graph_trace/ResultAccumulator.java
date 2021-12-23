@@ -1,8 +1,8 @@
-package ca.ntro.core.task_graphs.task_graph;
+package ca.ntro.core.task_graphs.task_graph_trace;
 
 public interface ResultAccumulator 
 
-       extends ResultIterator {
+       extends AtomicTaskTrace {
 
 	void addResult(Object result);
 	void clearResults();

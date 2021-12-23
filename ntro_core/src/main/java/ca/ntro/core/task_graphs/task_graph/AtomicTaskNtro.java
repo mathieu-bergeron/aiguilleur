@@ -1,6 +1,10 @@
 package ca.ntro.core.task_graphs.task_graph;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import ca.ntro.core.identifyers.Key;
+import ca.ntro.core.task_graphs.task_graph_trace.AtomicTaskTraceNtro;
 
 public abstract class AtomicTaskNtro<T  extends Task<T,AT>, 
                       AT extends AtomicTask<T,AT>>
@@ -9,8 +13,9 @@ public abstract class AtomicTaskNtro<T  extends Task<T,AT>,
 	
 	private AtomicTaskId id;
 	private TaskNtro<T,AT> parentTask;
-	private ResultAccumulatorDefault resultAccumulator = new ResultAccumulatorDefault();
 	private boolean isBlocked = false;
+	
+	private Set<AtomicTaskTraceNtro> traces = new HashSet<>();
 
 	public AtomicTaskId getId() {
 		return id;
@@ -36,12 +41,12 @@ public abstract class AtomicTaskNtro<T  extends Task<T,AT>,
 		this.isBlocked = isBlocked;
 	}
 
-	public ResultAccumulatorDefault getResultAccumulator() {
-		return resultAccumulator;
+	public Set<AtomicTaskTraceNtro> getTraces() {
+		return traces;
 	}
 
-	public void setResultAccumulator(ResultAccumulatorDefault resultAccumulator) {
-		this.resultAccumulator = resultAccumulator;
+	public void setTraces(Set<AtomicTaskTraceNtro> traces) {
+		this.traces = traces;
 	}
 	
 	
@@ -76,27 +81,20 @@ public abstract class AtomicTaskNtro<T  extends Task<T,AT>,
 	public boolean isBlocked() {
 		return getIsBlocked();
 	}
-	
-	@Override
-	public boolean isInProgress() {
-		return !isBlocked()
-				&& !isDone();
-	}
-
-	@Override
-	public boolean isDone() {
-		return !getResultAccumulator().hasNextResult();
-	}
 
 	@Override
 	public void addResult(Object result) {
 		setIsBlocked(false);
-		getResultAccumulator().addResult(result);
+		for(AtomicTaskTraceNtro trace : getTraces()) {
+			trace.addResult(result);
+		}
 	}
 
 	@Override
 	public void clearResults() {
-		getResultAccumulator().clearResults();
+		for(AtomicTaskTraceNtro trace : getTraces()) {
+			trace.clearResults();
+		}
 	}
 
 	@Override
