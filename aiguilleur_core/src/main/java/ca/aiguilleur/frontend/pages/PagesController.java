@@ -14,20 +14,31 @@ public class PagesController implements Controller {
 	@Override
 	public void createTasks(TaskCreator creator) {
 
-		creator.when(viewLoaded(QueueView.class))
+		creator.to("creerVueQueue")
+
 		       .execute(results -> {
 
 		    	   QueueView queueView = results.getViewLoader(QueueView.class).createView();
 		    	   results.registerView(QueueView.class, queueView);
-		       })
-		       .setTaskName("Créer la vue Queue");
 
-		creator.when(viewLoaded(PongView.class))
+		       })
+
+		       .when(viewLoaded(QueueView.class));
+		
+		
+
+		creator.to("creerVuePong")
+
 		       .execute(results -> {
 
 		    	   PongView pongView = results.getViewLoader(PongView.class).createView();
 		    	   results.registerView(PongView.class, pongView);
-		       });
+
+		       })
+		
+		       .when(viewLoaded(PongView.class));
+		
+		
 
 		creator.when(viewDisplayed(PagesView.class))
 		       .and(viewCreated(QueueView.class))

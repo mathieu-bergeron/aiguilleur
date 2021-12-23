@@ -40,4 +40,6 @@ public interface TaskCreator {
 
 	<M extends Model> void removeModelObservers(Class<M> modelClass);
 	void removeModelObserver(ModelId modelId);
+
+	TaskCreator to(String taskId);
 }

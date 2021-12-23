@@ -8,11 +8,10 @@ import ca.ntro.core.wrappers.result.Result;
 public interface ExecutableTaskGraph extends TaskGraph<ExecutableTaskNtro, ExecutableAtomicTaskNtro> {
 
 	Future<ObjectMap> execute();
-	Future<ObjectMap> execute(boolean writeGraph);
+	Future<ObjectMap> execute(ExecutableTaskGraphOptions options);
 
 	Result<ObjectMap> executeBlocking();
-	Result<ObjectMap> executeBlocking(long maxDelayMillis);
-	Result<ObjectMap> executeBlocking(long maxDelayMillis, boolean writeGraph);
+	Result<ObjectMap> executeBlocking(ExecutableTaskGraphOptions options);
 
 	// JSweet: name clash with TaskGraph.newGraph
 	public static ExecutableTaskGraph newExecutableGraph() {

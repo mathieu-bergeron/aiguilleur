@@ -12,6 +12,4 @@ public interface AtomicTask<T  extends Task<T,AT>,
 	
 	boolean isBlocked();
 
-	void registerOptions(AtomicTaskOptions options);
-
 }
