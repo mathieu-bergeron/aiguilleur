@@ -19,9 +19,9 @@ public interface TaskGraph<T  extends Task<T,AT>,
 	
 	Stream<T> tasks();
 	
-	void write(GraphWriter writer);
+	void write(GraphWriter writer);      // XXX: writing w/o an iterator only writes the structure
 	
-	ResultsIterator resultsIterator();
+	TaskGraphResultsIterator iterator();
 
 	static <T extends Task<T,AT>, AT extends AtomicTask<T,AT>> TaskGraph<T,AT> newGraph(Class<T> taskClass, Class<AT> atomicTaskClass) {
 		

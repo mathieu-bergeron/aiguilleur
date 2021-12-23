@@ -173,16 +173,21 @@ public class TaskGraphNtro<T  extends Task<T,AT>,
 	}
 
 	@Override
-	public ResultsIterator resultsIterator() {
+	public TaskGraphResultsIterator iterator() {
 		/* TODO: create a GraphResultsIterator
 		 * 
-		 *       that contains a resultsIterator for each task
-		 * 
-		 * 
+		 *       this mimmicks the graph structure
+		 *       
+		 *       and determines the state of each task
+		 *       
+		 *       when printing the state of the graph,
+		 *       we need an iterator
+		 *       
+		 *       XXX: we should probably push results
+		 *            only to the iterator copy
 		 */
-		
-		
-		return null;
+
+		return new TaskGraphResultsIterator(this);
 	}
 	
 }

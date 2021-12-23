@@ -97,7 +97,7 @@ public class TaskGraphTests {
 		graph.setGraphName("simpleTaskGraph01_04");
 		graph.write(Ntro.graphWriter());
 		
-		ResultsIterator iterator = graph.resultsIterator();
+		ResultsIterator iterator = graph.iterator();
 		
 		Ntro.asserter().assertTrue("has results", iterator.hasResults());
 
