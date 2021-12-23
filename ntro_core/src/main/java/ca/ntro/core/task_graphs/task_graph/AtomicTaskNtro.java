@@ -2,14 +2,14 @@ package ca.ntro.core.task_graphs.task_graph;
 
 import ca.ntro.core.identifyers.Key;
 
-public class      AtomicTaskNtro<T  extends Task<T,AT>, 
-                                 AT extends AtomicTask<T,AT>>
+public abstract class AtomicTaskNtro<T  extends Task<T,AT>, 
+                      AT extends AtomicTask<T,AT>>
 
-       implements AtomicTask<T,AT> {
+       implements     AtomicTask<T,AT> {
 	
 	private AtomicTaskId id;
 	private TaskNtro<T,AT> parentTask;
-	private ResultAccumulatorNtro resultAccumulator = new ResultAccumulatorNtro();
+	private ResultAccumulatorDefault resultAccumulator = new ResultAccumulatorDefault();
 	private boolean isBlocked = false;
 
 	public AtomicTaskId getId() {
@@ -36,11 +36,11 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 		this.isBlocked = isBlocked;
 	}
 
-	public ResultAccumulatorNtro getResultAccumulator() {
+	public ResultAccumulatorDefault getResultAccumulator() {
 		return resultAccumulator;
 	}
 
-	public void setResultAccumulator(ResultAccumulatorNtro resultAccumulator) {
+	public void setResultAccumulator(ResultAccumulatorDefault resultAccumulator) {
 		this.resultAccumulator = resultAccumulator;
 	}
 	
@@ -102,20 +102,5 @@ public class      AtomicTaskNtro<T  extends Task<T,AT>,
 	@Override
 	public void notifyTaskBlocked() {
 		setIsBlocked(true);
-	}
-
-	@Override
-	public boolean hasNextResult() {
-		return getResultAccumulator().hasNextResult();
-	}
-
-	@Override
-	public Object nextResult() {
-		return getResultAccumulator().nextResult();
-	}
-
-	@Override
-	public void registerOptions(AtomicTaskOptions options) {
-		getResultAccumulator().registerOptions(options);
 	}
 }

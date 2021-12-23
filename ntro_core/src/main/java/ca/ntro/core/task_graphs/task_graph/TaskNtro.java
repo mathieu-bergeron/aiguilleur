@@ -12,8 +12,6 @@ import ca.ntro.core.identifyers.Key;
 import ca.ntro.core.stream.Stream;
 import ca.ntro.core.stream.StreamNtro;
 import ca.ntro.core.stream.Visitor;
-import ca.ntro.core.values.ObjectMap;
-import ca.ntro.core.values.ObjectMapNtro;
 
 public abstract class TaskNtro<T  extends Task<T,AT>, 
                                AT extends AtomicTask<T,AT>>
@@ -26,9 +24,7 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 	private Map<String, AT> entryTasks = new HashMap<>();
 	private Map<String, AT> exitTasks = new HashMap<>();
 	
-	private ResultsAccumulatorNtro results = new ResultsAccumulatorNtro();
-	
-	private ObjectMapNtro currentResults = new ObjectMapNtro();
+	private ResultsAccumulatorNtro resultsAccumulator = new ResultsAccumulatorNtro();
 	
 	public TaskGraphNtro<T,AT> getGraph() {
 		return graph;
@@ -62,15 +58,13 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 		this.nodeBuilder = node;
 	}
 
-	public ResultsAccumulatorNtro getResults() {
-		return results;
+	public ResultsAccumulatorNtro getResultsAccumulator() {
+		return resultsAccumulator;
 	}
 
-	public void setResults(ResultsAccumulatorNtro results) {
-		this.results = results;
+	public void setResultsAccumulator(ResultsAccumulatorNtro resultsAccumulator) {
+		this.resultsAccumulator = resultsAccumulator;
 	}
-	
-	
 	
 	
 	
@@ -272,44 +266,68 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 
 	@Override
 	public AT addEntryTask(String id) {
-		return addEntryTask(AtomicTaskId.fromKey(new Key(id)));
+		return addEntryTask(AtomicTaskId.fromKey(id));
 	}
 
 	@Override
 	public AT addEntryTask(AtomicTaskId id) {
-		AT entryTask = getGraph().addAtomicTask(id, this);
-		
-		addEntryTask(entryTask);
+		return addEntryTask(id, getGraph().getDefaultAtomicTaskClass());
+	}
 
-		return entryTask;
+	@Override
+	public AT addEntryTask(String id, Class<? extends AT> atomicTaskClass) {
+		return addEntryTask(AtomicTaskId.fromKey(id), atomicTaskClass);
+	}
+
+	@Override
+	public AT addEntryTask(AtomicTaskId id, Class<? extends AT> atomicTaskClass) {
+		return addAtomicTaskTo(getEntryTasks(), id, atomicTaskClass);
 	}
 
 	@Override
 	public void addEntryTask(AT entryTask) {
-		getEntryTasks().put(entryTask.id().toKey().toString(), entryTask);
+		addAtomicTaskTo(getEntryTasks(), entryTask);
 	}
 
 	@Override
 	public AT addExitTask(String id) {
-		return addExitTask(AtomicTaskId.fromKey(new Key(id)));
+		return addExitTask(AtomicTaskId.fromKey(id));
 	}
 
 	@Override
 	public AT addExitTask(AtomicTaskId id) {
-		AtomicTaskNtro<T,AT> exitTaskNtro = getGraph().newAtomicTaskInstance();
-		exitTaskNtro.setId(id);
-		exitTaskNtro.setParentTask(this);
-		
-		AT exitTask = toAtomicTask(exitTaskNtro);
-		
-		addExitTask(exitTask);
+		return addAtomicTaskTo(getExitTasks(), id, getGraph().getDefaultAtomicTaskClass());
+	}
 
-		return exitTask;
+	@Override
+	public AT addExitTask(String id, Class<? extends AT> atomicTaskClass) {
+		return addExitTask(AtomicTaskId.fromKey(id), atomicTaskClass);
+	}
+
+	@Override
+	public AT addExitTask(AtomicTaskId id, Class<? extends AT> atomicTaskClass) {
+		return addAtomicTaskTo(getExitTasks(), id, atomicTaskClass);
 	}
 
 	@Override
 	public void addExitTask(AT exitTask) {
-		getExitTasks().put(exitTask.id().toKey().toString(), exitTask);
+		addAtomicTaskTo(getExitTasks(), exitTask);
+	}
+
+	protected AT addAtomicTaskTo(Map<String,AT> atomicTasks, AtomicTaskId id, Class<? extends AT> atomicTaskClass) {
+		AtomicTaskNtro<T,AT> atmoicTaskNtro = getGraph().newAtomicTaskInstance(atomicTaskClass);
+		atmoicTaskNtro.setId(id);
+		atmoicTaskNtro.setParentTask(this);
+		
+		AT atomicTask = toAtomicTask(atmoicTaskNtro);
+		
+		addAtomicTaskTo(atomicTasks, atomicTask);
+
+		return atomicTask;
+	}
+
+	protected void addAtomicTaskTo(Map<String, AT> atomicTasks, AT atomicTask) {
+		atomicTasks.put(atomicTask.id().toKey().toString(), atomicTask);
 	}
 
 	protected TaskGraphSearchOptionsBuilderNtro neighborSearchOptions(Direction direction) {
@@ -383,22 +401,22 @@ public abstract class TaskNtro<T  extends Task<T,AT>,
 		return visitedNodes.map(visitedNode -> visitedNode.node().task());
 	}
 	
-
-	@Override
-	public boolean hasNextResults() {
-		return atomicTasks().ifSome(task -> task.hasNextResult());
+	public void initializeResultsAccumulator() {
+		
+		
 	}
 
-
+	
 	@Override
-	public ObjectMap nextResults() {
-		atomicTasks().forEach(atomicTask -> {
-
-			if(atomicTask.hasNextResult()) {
-				currentResults.registerObject(atomicTask.id(), atomicTask.nextResult());
-			}
-		});
-
-		return currentResults;
+	public ResultsIterator resultsIterator() {
+		/*  TODO: create a TaskResultsIterator
+		 * 
+		 *        that refers to a TaskResultsIterator for each previousTask (and for the parentTask)
+		 *        
+		 *        AND that fetches from AtomicTask
+		 */
+		
+		
+		return getResultsAccumulator().resultsIterator();
 	}
 }

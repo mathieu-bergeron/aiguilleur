@@ -23,6 +23,10 @@ public class AtomicTaskId implements Id {
 		return id;
 	}
 
+	public static AtomicTaskId fromKey(String key) {
+		return fromKey(new Key(key));
+	}
+
 	@Override
 	public Key toKey() {
 		return getKey();

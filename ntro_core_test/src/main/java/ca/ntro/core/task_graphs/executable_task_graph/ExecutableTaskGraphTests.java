@@ -4,7 +4,6 @@ import org.junit.Test;
 
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.services.ExceptionThrowerMock;
-import ca.ntro.core.task_graphs.task_graph.AtomicTaskOptions;
 import ca.ntro.core.tests.NtroTests;
 import ca.ntro.core.values.ObjectMap;
 import ca.ntro.core.wrappers.result.Result;
@@ -31,9 +30,6 @@ public class ExecutableTaskGraphTests extends NtroTests {
 			Ntro.exceptions().throwException(exception);
 		});
 		
-		// MsgReceiver: consumes result
-		b_entry.registerOptions(AtomicTaskOptions.consumeResult(true));
-		
 		// MsgReceiver: server-side must not stay inProgress
 		b_entry.execute((previousResults, notifyer) -> {
 			notifyer.notifyTaskBlocked();
@@ -54,7 +50,7 @@ public class ExecutableTaskGraphTests extends NtroTests {
 		});
 
 		// XXX: must allow more time if we write graph
-		Result<ObjectMap> result = graph.executeBlocking(100, true);
+		Result<ObjectMap> result = graph.executeBlocking();
 		
 		Integer a_entry_result = result.value().get(Integer.class, "a_entry");
 		Integer b_entry_result = result.value().get(Integer.class, "b_entry");
@@ -113,7 +109,7 @@ public class ExecutableTaskGraphTests extends NtroTests {
 		});
 
 		// XXX: must allow more time if we write graph
-		Result<ObjectMap> result = graph.executeBlocking(1000, true);
+		Result<ObjectMap> result = graph.executeBlocking();
 		
 		Integer a_entry_result = result.value().get(Integer.class, "a_entry");
 		Integer c_entry_result = result.value().get(Integer.class, "c_entry");
@@ -138,7 +134,7 @@ public class ExecutableTaskGraphTests extends NtroTests {
 		});
 
 
-		Result<ObjectMap> result = graph.executeBlocking(10);
+		Result<ObjectMap> result = graph.executeBlocking();
 
 		Ntro.asserter().assertTrue("Should throw", exceptionThrower.hasThrown());
 		Ntro.asserter().assertTrue("Has thrown OutOfBounds", exceptionThrower.wasThrown(ArrayIndexOutOfBoundsException.class));

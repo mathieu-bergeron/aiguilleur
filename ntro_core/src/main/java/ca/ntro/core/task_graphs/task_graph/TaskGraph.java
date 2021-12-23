@@ -4,9 +4,7 @@ import ca.ntro.core.graph_writer.GraphWriter;
 import ca.ntro.core.stream.Stream;
 
 public interface TaskGraph<T  extends Task<T,AT>, 
-                           AT extends AtomicTask<T,AT>>
-
-       extends ResultsIterator {
+                           AT extends AtomicTask<T,AT>> {
 	
 	void setGraphName(String graphName);
 
@@ -22,13 +20,15 @@ public interface TaskGraph<T  extends Task<T,AT>,
 	Stream<T> tasks();
 	
 	void write(GraphWriter writer);
+	
+	ResultsIterator resultsIterator();
 
 	static <T extends Task<T,AT>, AT extends AtomicTask<T,AT>> TaskGraph<T,AT> newGraph(Class<T> taskClass, Class<AT> atomicTaskClass) {
 		
 		TaskGraphNtro<T,AT> graph = new TaskGraphNtro<>();
 		
 		graph.setTaskClass(taskClass);
-		graph.setAtomicTaskClass(atomicTaskClass);
+		graph.setDefaultAtomicTaskClass(atomicTaskClass);
 		
 		graph.initialize();
 		

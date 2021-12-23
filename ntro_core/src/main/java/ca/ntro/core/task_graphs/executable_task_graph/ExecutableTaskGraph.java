@@ -19,7 +19,7 @@ public interface ExecutableTaskGraph extends TaskGraph<ExecutableTaskNtro, Execu
 		ExecutableTaskGraphNtro graph = new ExecutableTaskGraphNtro();
 
 		graph.setTaskClass(ExecutableTaskNtro.class);
-		graph.setAtomicTaskClass(ExecutableAtomicTaskNtro.class);
+		graph.setDefaultAtomicTaskClass(ExecutableAtomicTaskNtro.class);
 		
 		graph.initialize();
 

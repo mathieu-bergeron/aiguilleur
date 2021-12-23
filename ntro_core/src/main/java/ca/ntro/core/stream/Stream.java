@@ -17,6 +17,8 @@ public interface Stream<I extends Object> {
 
 	boolean ifSome(Matcher<I> matcher);
 
+	boolean ifNone(Matcher<I> matcher);
+
 	void forEach(Visitor<I> visitor);
 
 	void _forEach(Visitor<I> visitor) throws Throwable;

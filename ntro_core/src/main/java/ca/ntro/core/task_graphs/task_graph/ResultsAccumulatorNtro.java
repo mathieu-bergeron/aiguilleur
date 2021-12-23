@@ -21,7 +21,7 @@ public class ResultsAccumulatorNtro implements ResultsAccumulator {
 
 	@Override
 	public ResultsIterator resultsIterator() {
-		return new ResultsIteratorNtro(this);
+		return null;
 	}
 
 	public boolean hasResults(int index) {
@@ -48,7 +48,7 @@ public class ResultsAccumulatorNtro implements ResultsAccumulator {
 			forgetUnusedResults(currentIndex);
 			
 			for(ResultsIteratorNtro iterator : iterators) {
-				iterator.decrementIndex(currentIndex);
+				//iterator.decrementIndex(currentIndex);
 			}
 		}
 	}

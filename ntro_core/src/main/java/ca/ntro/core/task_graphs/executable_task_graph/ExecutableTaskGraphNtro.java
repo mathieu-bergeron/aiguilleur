@@ -16,7 +16,8 @@ public class ExecutableTaskGraphNtro
        implements ExecutableTaskGraph {
 	
 	private boolean executionInProgress = false;
-	private boolean writeGraph = false;
+	
+	private ExecutableTaskGraphOptions options = new ExecutableTaskGraphOptionsDefault();
 	
 	private FutureNtro<ObjectMap> future;
 	private ObjectMap currentResults;
@@ -25,20 +26,19 @@ public class ExecutableTaskGraphNtro
 	private long executionStep;
 
 	@Override
-	public Future<ObjectMap> execute() {
-		return execute(false);
+	public Future<ObjectMap> execute(ExecutableTaskGraphOptions options) {
+		this.options = options;
+		return execute();
 	}
 
 	@Override
-	public Future<ObjectMap> execute(boolean writeGraph) {
+	public Future<ObjectMap> execute() {
 		if(executionInProgress()) {
 			Ntro.exceptions().throwException(new IllegalStateException("We are already executing"));
 		}
 
 	    setExecutionInProgress(true);
 	    
-	    this.writeGraph = writeGraph;
-
 		this.future = new FutureNtro<>();
 		this.executionStep = 0;
 
@@ -54,7 +54,7 @@ public class ExecutableTaskGraphNtro
 	}
 	
 	private void writeGraph() {
-		if(writeGraph) {
+		if(options.shouldWriteGraph()) {
 
 			getHdagBuilder().setGraphName(baseGraphName + "_" +  executionStep);
 			
@@ -116,14 +116,9 @@ public class ExecutableTaskGraphNtro
 		
 		writeGraph();
 		
-		if(!isInProgress()) {
+		if(options.shouldHalt(this)) {
 			halt();
 		}
-	}
-
-
-	private boolean isInProgress() {
-		return tasks().ifSome(task -> task.isInProgress());
 	}
 
 	private void continueExecution() {
@@ -144,9 +139,19 @@ public class ExecutableTaskGraphNtro
 			writeGraph();
 		}
 
-		if(!isInProgress()) {
+		if(options.shouldHalt(this)) {
 			halt();
 		}
+	}
+
+	private ObjectMap nextResults() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private boolean hasNextResults() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override
@@ -155,13 +160,8 @@ public class ExecutableTaskGraphNtro
 	}
 
 	@Override
-	public Result<ObjectMap> executeBlocking(long maxDelayMillis) {
-		return executeBlocking(maxDelayMillis, false);
-	}
-
-	@Override
-	public Result<ObjectMap> executeBlocking(long maxDelayMillis, boolean writeGraph) {
-		return execute(writeGraph).get(maxDelayMillis);
+	public Result<ObjectMap> executeBlocking(ExecutableTaskGraphOptions options) {
+		return execute(options).get(options.maxDelayMillis());
 	}
 
 

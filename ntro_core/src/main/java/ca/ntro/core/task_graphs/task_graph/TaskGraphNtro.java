@@ -24,12 +24,10 @@ public class TaskGraphNtro<T  extends Task<T,AT>,
 	private InternalTaskGraphWriterNtro<T,AT> internalWriter = new InternalTaskGraphWriterNtro<>();
 	
 	private Class<T> taskClass;
-	private Class<AT> atomicTaskClass;
+	private Class<AT> defaultAtomicTaskClass;
 	
 	private Map<String, AtomicTaskNtro<T,AT>> atomicTasks = new HashMap<>();
-	
-	private ObjectMapNtro currentResults = new ObjectMapNtro();
-	
+
 	public InternalHierarchicalDagBuilderNtro<T, AT> getHdagBuilder() {
 		return hdagBuilder;
 	}
@@ -54,12 +52,12 @@ public class TaskGraphNtro<T  extends Task<T,AT>,
 		this.taskClass = taskClass;
 	}
 
-	public Class<AT> getAtomicTaskClass() {
-		return atomicTaskClass;
+	public Class<AT> getDefaultAtomicTaskClass() {
+		return defaultAtomicTaskClass;
 	}
 
-	public void setAtomicTaskClass(Class<AT> atomicTaskClass) {
-		this.atomicTaskClass = atomicTaskClass;
+	public void setDefaultAtomicTaskClass(Class<AT> defaultAtomicTaskClass) {
+		this.defaultAtomicTaskClass = defaultAtomicTaskClass;
 	}
 
 	public Map<String, AtomicTaskNtro<T, AT>> getAtomicTasks() {
@@ -153,13 +151,13 @@ public class TaskGraphNtro<T  extends Task<T,AT>,
 	}
 
 	@SuppressWarnings("unchecked")
-	public AtomicTaskNtro<T, AT> newAtomicTaskInstance() {
+	public AtomicTaskNtro<T, AT> newAtomicTaskInstance(Class<? extends AT> atomicTaskClass) {
 		return (AtomicTaskNtro<T,AT>) Factory.newInstance(atomicTaskClass);
 	}
 
 	@SuppressWarnings("unchecked")
 	public AT addAtomicTask(AtomicTaskId id, TaskNtro<T,AT> parentTask) {
-		AtomicTaskNtro<T,AT> atomicTask =  (AtomicTaskNtro<T, AT>) Factory.newInstance(atomicTaskClass);
+		AtomicTaskNtro<T,AT> atomicTask =  (AtomicTaskNtro<T, AT>) Factory.newInstance(defaultAtomicTaskClass);
 
 		atomicTask.setId(id);
 		atomicTask.setParentTask(parentTask);
@@ -175,20 +173,16 @@ public class TaskGraphNtro<T  extends Task<T,AT>,
 	}
 
 	@Override
-	public boolean hasNextResults() {
-		return tasks().ifSome(task -> task.hasNextResults());
+	public ResultsIterator resultsIterator() {
+		/* TODO: create a GraphResultsIterator
+		 * 
+		 *       that contains a resultsIterator for each task
+		 * 
+		 * 
+		 */
+		
+		
+		return null;
 	}
-
-	@Override
-	public ObjectMap nextResults() {
-		tasks().forEach(task -> {
-
-			if(task.hasNextResults()) {
-
-				currentResults.addAll(task.nextResults());
-			}
-		});
-
-		return currentResults;
-	}
+	
 }

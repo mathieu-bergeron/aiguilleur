@@ -5,7 +5,7 @@ import ca.ntro.core.stream.Stream;
 public interface Task<T  extends Task<T,AT>, 
                       AT extends AtomicTask<T,AT>> 
 
-       extends TaskStateAccessor, ResultsIterator {
+       extends TaskStateAccessor {
 
 	TaskId id();
 	TaskGraph<T,AT> parentGraph();
@@ -36,10 +36,14 @@ public interface Task<T  extends Task<T,AT>,
 
 	AT addEntryTask(AtomicTaskId id);
 	AT addEntryTask(String id);
+	AT addEntryTask(AtomicTaskId id, Class<? extends AT> atomicTaskClass);
+	AT addEntryTask(String id, Class<? extends AT> atomicTaskClass);
 	void addEntryTask(AT entryTask);
 
 	AT addExitTask(AtomicTaskId id);
 	AT addExitTask(String id);
+	AT addExitTask(AtomicTaskId id, Class<? extends AT> atomicTaskClass);
+	AT addExitTask(String id, Class<? extends AT> atomicTaskClass);
 	void addExitTask(AT exitTask);
 
 	Stream<T>  previousTasks();
@@ -50,4 +54,6 @@ public interface Task<T  extends Task<T,AT>,
 
 	Stream<T> reachableTasks();
 	Stream<T> reachableTasks(TaskGraphSearchOptions options);
+	
+	ResultsIterator resultsIterator();
 }

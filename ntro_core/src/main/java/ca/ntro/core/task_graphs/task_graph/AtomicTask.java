@@ -4,12 +4,13 @@ public interface AtomicTask<T  extends Task<T,AT>,
                             AT extends AtomicTask<T,AT>> 
 
        extends TaskStateAccessor, 
-               ResultIterator, 
                AtomicTaskNotifyer {
 	
 	AtomicTaskId id();
 	T parentTask();
 	
 	boolean isBlocked();
+	
+	ResultIterator resultIterator();
 
 }

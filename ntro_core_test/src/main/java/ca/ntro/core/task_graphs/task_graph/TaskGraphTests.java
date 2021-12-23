@@ -69,10 +69,14 @@ public class TaskGraphTests {
 		graph.setGraphName("simpleTaskGraph01_04");
 		graph.write(Ntro.graphWriter());
 		
-		Ntro.asserter().assertTrue("has results", graph.hasNextResults());
+		ResultsIterator iterator = graph.resultsIterator();
 		
-		ObjectMap results = graph.nextResults();
-		ObjectMap nextResults = graph.nextResults();
+		Ntro.asserter().assertTrue("has results", iterator.hasResults());
+
+		ObjectMap results = iterator.results();
+		
+		iterator.advanceToNextResults();
+		ObjectMap nextResults = iterator.results();
 
 		graph.setGraphName("simpleTaskGraph01_05");
 		graph.write(Ntro.graphWriter());

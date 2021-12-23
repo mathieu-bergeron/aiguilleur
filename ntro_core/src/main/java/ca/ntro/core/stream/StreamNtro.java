@@ -75,19 +75,7 @@ public abstract class StreamNtro<I extends Object>
 
 	@Override
 	public boolean ifAll(Matcher<I> matcher) {
-		return reduceToResult(true, (accumulator, item) -> {
-
-			if(accumulator == false) {
-				throw new Break();
-			}
-			
-			if(!matcher.matches(item)) {
-				accumulator = false;
-			}
-
-			return accumulator;
-
-		}).value();
+		return ifNone(item -> !matcher.matches(item));
 	}
 
 	@Override
@@ -99,6 +87,22 @@ public abstract class StreamNtro<I extends Object>
 			
 			if(matcher.matches(item)) {
 				accumulator = true;
+			}
+			
+			return accumulator;
+			
+		}).value();
+	}
+
+	@Override
+	public boolean ifNone(Matcher<I> matcher) {
+		return reduceToResult(true, (accumulator, item) -> {
+			if(accumulator == false) {
+				throw new Break();
+			}
+			
+			if(matcher.matches(item)) {
+				accumulator = false;
 			}
 			
 			return accumulator;

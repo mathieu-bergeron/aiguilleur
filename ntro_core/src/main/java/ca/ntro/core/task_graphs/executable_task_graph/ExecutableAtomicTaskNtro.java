@@ -4,11 +4,11 @@ import ca.ntro.core.task_graphs.task_graph.AtomicTaskNtro;
 import ca.ntro.core.values.ObjectMap;
 import ca.ntro.core.wrappers.future.ExceptionHandler;
 
-public class      ExecutableAtomicTaskNtro 
+public abstract class ExecutableAtomicTaskNtro 
 
-       extends    AtomicTaskNtro<ExecutableTaskNtro, ExecutableAtomicTaskNtro>
+       extends        AtomicTaskNtro<ExecutableTaskNtro, ExecutableAtomicTaskNtro>
 
-       implements ExecutableAtomicTask {
+       implements     ExecutableAtomicTask {
 	
 	
 	

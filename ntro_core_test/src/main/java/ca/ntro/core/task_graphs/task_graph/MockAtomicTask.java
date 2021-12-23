@@ -9,5 +9,12 @@ public class MockAtomicTask extends AtomicTaskNtro<MockTask, MockAtomicTask> {
 	public MockAtomicTask(String atomicTaskId) {
 		super(atomicTaskId);
 	}
+	
+
+	@Override
+	public ResultIterator resultIterator() {
+		// XXX: different type of tasks have different resultsIterator();
+		throw new RuntimeException("TODO");
+	}
 
 }
