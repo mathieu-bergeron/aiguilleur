@@ -7,7 +7,8 @@ import ca.ntro.core.graph_writer.NodeNotFoundException;
 import ca.ntro.core.initialization.InitializerTest;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.services.ExceptionThrowerMock;
-import ca.ntro.core.task_graphs.task_graph_trace.TaskGraphTrace;
+import ca.ntro.core.task_graphs.generic_task_graph.TaskGraph;
+import ca.ntro.core.task_graphs.generic_task_graph_trace.TaskGraphTrace;
 import ca.ntro.core.values.ObjectMap;
 import ca.ntro.core.wrappers.result.ResultNtro;
 

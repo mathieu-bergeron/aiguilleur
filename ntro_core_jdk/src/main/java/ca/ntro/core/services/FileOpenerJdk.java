@@ -5,7 +5,7 @@ import java.io.File;
 import ca.ntro.core.files.LocalTextFile;
 import ca.ntro.core.files.LocalTextFileJdk;
 import ca.ntro.core.path.Path;
-import ca.ntro.core.task_graphs.task_graph.Task;
+import ca.ntro.core.task_graphs.generic_task_graph.GenericTask;
 
 public class FileOpenerJdk extends FileOpener {
 
@@ -17,7 +17,7 @@ public class FileOpenerJdk extends FileOpener {
 		return new LocalTextFileJdk(file);
 	}
 
-	public static Task initialisationTask() {
+	public static GenericTask initialisationTask() {
 
 		return null;
 	}

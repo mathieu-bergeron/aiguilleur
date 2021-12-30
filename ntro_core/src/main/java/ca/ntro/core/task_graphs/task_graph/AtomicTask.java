@@ -1,17 +1,8 @@
 package ca.ntro.core.task_graphs.task_graph;
 
-import ca.ntro.core.task_graphs.task_graph_trace.AtomicTaskTrace;
+import ca.ntro.core.task_graphs.generic_task_graph.GenericAtomicTask;
 
-public interface AtomicTask<T  extends Task<T,AT>, 
-                            AT extends AtomicTask<T,AT>> 
+public interface AtomicTask extends GenericAtomicTask<TaskNtro, AtomicTaskNtro> {
 
-       extends AtomicTaskNotifyer {
-	
-	AtomicTaskId id();
-	T parentTask();
-	
-	boolean isBlocked();
-	
-	AtomicTaskTrace newTrace();
 
 }

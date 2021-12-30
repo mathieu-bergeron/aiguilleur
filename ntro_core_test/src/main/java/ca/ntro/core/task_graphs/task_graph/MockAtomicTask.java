@@ -1,8 +1,9 @@
 package ca.ntro.core.task_graphs.task_graph;
 
-import ca.ntro.core.task_graphs.task_graph_trace.AtomicTaskTrace;
+import ca.ntro.core.task_graphs.generic_task_graph.GenericAtomicTaskNtro;
+import ca.ntro.core.task_graphs.generic_task_graph_trace.AtomicTaskTrace;
 
-public class MockAtomicTask extends AtomicTaskNtro<MockTask, MockAtomicTask> {
+public class MockAtomicTask extends GenericAtomicTaskNtro<MockTask, MockAtomicTask> {
 
 	public MockAtomicTask() {
 		super();

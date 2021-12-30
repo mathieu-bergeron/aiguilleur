@@ -10,9 +10,9 @@ import ca.ntro.core.identifyers.ClassId;
 import ca.ntro.core.identifyers.ObjectId;
 import ca.ntro.core.identifyers.ServiceId;
 import ca.ntro.core.services.TracerNtro;
-import ca.ntro.core.task_graphs.executable_task_graph.ExecutableTask;
-import ca.ntro.core.task_graphs.executable_task_graph.ExecutableTaskGraph;
-import ca.ntro.core.task_graphs.executable_task_graph.ExecutableTaskGraphNtro;
+import ca.ntro.core.task_graphs.task_graph.Task;
+import ca.ntro.core.task_graphs.task_graph.ExecutableTaskGraph;
+import ca.ntro.core.task_graphs.task_graph.ExecutableTaskGraphNtro;
 import ca.ntro.core.values.ObjectMap;
 import ca.ntro.core.values.ObjectMapNtro;
 import ca.ntro.core.wrappers.future.Future;
@@ -27,7 +27,7 @@ public abstract class InitializerNtro
 	
 	private InitializerOptions options = new InitializerOptionsNtro();
 	
-	private Map<ServiceId<?>, ExecutableTask> serviceTasks = new HashMap<>();
+	private Map<ServiceId<?>, Task> serviceTasks = new HashMap<>();
 	
 	private List<Service<?>> services(){
 
@@ -92,7 +92,7 @@ public abstract class InitializerNtro
 		return graph;
 	}
 	
-	private ExecutableTask createServiceTask(ServiceId<?> serviceId) {
+	private Task createServiceTask(ServiceId<?> serviceId) {
 		
 		/*
 
@@ -116,8 +116,8 @@ public abstract class InitializerNtro
 		return null;
 	}
 
-	protected abstract ExecutableTask provideInitializationTask(ObjectId objectId);
-	protected abstract ExecutableTask provideInitializationTask(ClassId<? extends Object> classId);
+	protected abstract Task provideInitializationTask(ObjectId objectId);
+	protected abstract Task provideInitializationTask(ClassId<? extends Object> classId);
 	
 	private void initializeStaticImports(ObjectMap objectMap) {
 		

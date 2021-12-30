@@ -1,27 +1,27 @@
 package ca.ntro.core.task_graphs.task_graph_writer;
 
 import ca.ntro.core.stream.Stream;
-import ca.ntro.core.task_graphs.task_graph.AtomicTask;
+import ca.ntro.core.task_graphs.generic_task_graph.GenericAtomicTask;
 
 public class AtomicTasksNodeSpecNtro 
 
        implements AtomicTasksNodeSpec {
 	
-	private Stream<AtomicTask<?,?>> atomicTasks;
+	private Stream<GenericAtomicTask<?,?>> atomicTasks;
 
 
-	public Stream<AtomicTask<?, ?>> getAtomicTasks() {
+	public Stream<GenericAtomicTask<?, ?>> getAtomicTasks() {
 		return atomicTasks;
 	}
 
-	public void setAtomicTasks(Stream<AtomicTask<?, ?>> atomicTasks) {
+	public void setAtomicTasks(Stream<GenericAtomicTask<?, ?>> atomicTasks) {
 		this.atomicTasks = atomicTasks;
 	}
 
 	public AtomicTasksNodeSpecNtro() {
 	}
 
-	public AtomicTasksNodeSpecNtro(Stream<AtomicTask<?,?>> atomicTasks) {
+	public AtomicTasksNodeSpecNtro(Stream<GenericAtomicTask<?,?>> atomicTasks) {
 		setAtomicTasks(atomicTasks);
 	}
 

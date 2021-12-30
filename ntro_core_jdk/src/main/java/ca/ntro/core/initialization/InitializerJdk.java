@@ -4,7 +4,7 @@ import ca.ntro.core.graph_writer.GraphWriter;
 import ca.ntro.core.identifyers.ClassId;
 import ca.ntro.core.identifyers.ObjectId;
 import ca.ntro.core.services.StackAnalyzerJdk;
-import ca.ntro.core.task_graphs.executable_task_graph.ExecutableTask;
+import ca.ntro.core.task_graphs.task_graph.Task;
 import ca.ntro.core.values.ObjectMap;
 import ca.ntro.core.wrappers.future.Future;
 import ca.ntro.core.wrappers.result.Result;
@@ -24,15 +24,15 @@ public class InitializerJdk extends InitializerNtro {
 
 
 	@Override
-	protected ExecutableTask provideInitializationTask(ObjectId objectId) {
+	protected Task provideInitializationTask(ObjectId objectId) {
 
-		ExecutableTask task = null;
+		Task task = null;
 		
 		return task;
 	}
 
 	@Override
-	protected ExecutableTask provideInitializationTask(ClassId<? extends Object> classId) {
+	protected Task provideInitializationTask(ClassId<? extends Object> classId) {
 
 		return null;
 	}

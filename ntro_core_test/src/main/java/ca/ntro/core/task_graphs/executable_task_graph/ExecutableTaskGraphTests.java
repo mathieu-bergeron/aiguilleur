@@ -4,6 +4,9 @@ import org.junit.Test;
 
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.services.ExceptionThrowerMock;
+import ca.ntro.core.task_graphs.task_graph.AtomicTask;
+import ca.ntro.core.task_graphs.task_graph.Task;
+import ca.ntro.core.task_graphs.task_graph.ExecutableTaskGraph;
 import ca.ntro.core.tests.NtroTests;
 import ca.ntro.core.values.ObjectMap;
 import ca.ntro.core.wrappers.result.Result;
@@ -15,11 +18,11 @@ public class ExecutableTaskGraphTests extends NtroTests {
 		ExecutableTaskGraph graph = ExecutableTaskGraph.newExecutableGraph();
 		graph.setGraphName("executableTaskGraph01");
 		
-		ExecutableTask taskB = graph.addTask("B");
-		ExecutableTask taskA = taskB.addPreviousTask("A");
+		Task taskB = graph.addTask("B");
+		Task taskA = taskB.addPreviousTask("A");
 		
-		ExecutableAtomicTask a_entry = taskA.addEntryTask("a_entry");
-		ExecutableAtomicTask b_entry = taskB.addEntryTask("b_entry");
+		AtomicTask a_entry = taskA.addEntryTask("a_entry");
+		AtomicTask b_entry = taskB.addEntryTask("b_entry");
 		
 		a_entry.execute((previousResults, notifyer) -> {
 			notifyer.addResult(1);
@@ -66,15 +69,15 @@ public class ExecutableTaskGraphTests extends NtroTests {
 		ExecutableTaskGraph graph = ExecutableTaskGraph.newExecutableGraph();
 		graph.setGraphName("executableTaskGraph02");
 		
-		ExecutableTask taskA = graph.addTask("A");
-		ExecutableTask taskB = taskA.addNextTask("B");
-		ExecutableTask taskC = taskA.addNextTask("C");
-		ExecutableTask taskD = taskC.addPreviousTask("D");
+		Task taskA = graph.addTask("A");
+		Task taskB = taskA.addNextTask("B");
+		Task taskC = taskA.addNextTask("C");
+		Task taskD = taskC.addPreviousTask("D");
 
-		ExecutableAtomicTask a_entry = taskA.addEntryTask("a_entry");
-		ExecutableAtomicTask b_entry = taskB.addEntryTask("b_entry");
-		ExecutableAtomicTask c_entry = taskC.addEntryTask("c_entry");
-		ExecutableAtomicTask d_entry = taskD.addEntryTask("d_entry");
+		AtomicTask a_entry = taskA.addEntryTask("a_entry");
+		AtomicTask b_entry = taskB.addEntryTask("b_entry");
+		AtomicTask c_entry = taskC.addEntryTask("c_entry");
+		AtomicTask d_entry = taskD.addEntryTask("d_entry");
 		
 		// MsgReceiver: blocked until it has results
 		a_entry.execute((previousResults, notifyer) -> {
@@ -124,8 +127,8 @@ public class ExecutableTaskGraphTests extends NtroTests {
 
 		ExecutableTaskGraph graph = ExecutableTaskGraph.newExecutableGraph();
 		
-		ExecutableTask taskA = graph.addTask("A");
-		ExecutableAtomicTask a_entry = taskA.addEntryTask("a_entry");
+		Task taskA = graph.addTask("A");
+		AtomicTask a_entry = taskA.addEntryTask("a_entry");
 		
 		a_entry.execute((currentResults, notifyer) -> {
 
