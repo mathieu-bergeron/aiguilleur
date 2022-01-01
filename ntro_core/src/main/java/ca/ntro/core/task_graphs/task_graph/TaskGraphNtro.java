@@ -4,6 +4,7 @@ package ca.ntro.core.task_graphs.task_graph;
 import ca.ntro.core.graphs.generics.graph.GraphId;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.task_graphs.generic_task_graph.GenericTaskGraphNtro;
+import ca.ntro.core.task_graphs.generic_task_graph_trace.GenericTaskGraphTrace;
 import ca.ntro.core.values.ObjectMap;
 import ca.ntro.core.wrappers.future.Future;
 import ca.ntro.core.wrappers.future.FutureNtro;
@@ -18,6 +19,8 @@ public class TaskGraphNtro
 	private boolean executionInProgress = false;
 	
 	private TaskGraphOptions options = new TaskGraphOptionsDefault();
+
+	private GenericTaskGraphTrace trace;
 	
 	private FutureNtro<ObjectMap> future;
 	private ObjectMap currentResults;
@@ -47,6 +50,8 @@ public class TaskGraphNtro
 			id = GraphId.newGraphId();
 		}
 		this.baseGraphName = id.toKey().toString();
+		
+		this.trace = newTrace();
 		
 		startExecution();
 
@@ -116,7 +121,7 @@ public class TaskGraphNtro
 		
 		writeGraph();
 		
-		if(options.shouldHalt(this)) {
+		if(options.shouldHalt(this, this.trace)) {
 			halt();
 		}
 	}
@@ -139,7 +144,7 @@ public class TaskGraphNtro
 			writeGraph();
 		}
 
-		if(options.shouldHalt(this)) {
+		if(options.shouldHalt(this, this.trace)) {
 			halt();
 		}
 	}

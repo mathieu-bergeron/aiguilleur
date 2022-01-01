@@ -14,10 +14,10 @@ public class InternalTaskGraphTraceWriterNtro<T  extends GenericTask<T,AT>,
 
        implements InternalTaskGraphTraceWriter<T,AT> {
 
-	private GenericTaskGraphTraceNtro genericTaskGraphTraceNtro;
+	private GenericTaskGraphTraceNtro trace;
 
-	public InternalTaskGraphTraceWriterNtro(GenericTaskGraphTraceNtro genericTaskGraphTraceNtro) {
-		this.genericTaskGraphTraceNtro = genericTaskGraphTraceNtro;
+	public InternalTaskGraphTraceWriterNtro(GenericTaskGraphTraceNtro trace) {
+		this.trace = trace;
 	}
 
 	@Override
@@ -28,15 +28,15 @@ public class InternalTaskGraphTraceWriterNtro<T  extends GenericTask<T,AT>,
 		// FIXME: we should be able to access the task state
 		//        according to the current trace
 
-		if(node.task().isBlocked()) {
+		if(node.task().isBlocked(trace)) {
 
 			nodeSpec.setColor("red");
 
-		} else if(node.task().isInProgress()) {
+		} else if(node.task().isInProgress(trace)) {
 
 			nodeSpec.setColor("yellow");
 
-		} else if(node.task().isDone()) {
+		} else if(node.task().isDone(trace)) {
 
 			nodeSpec.setColor("green");
 

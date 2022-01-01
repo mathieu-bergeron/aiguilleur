@@ -13,6 +13,7 @@ import ca.ntro.core.stream.Stream;
 import ca.ntro.core.stream.StreamNtro;
 import ca.ntro.core.stream.Visitor;
 import ca.ntro.core.task_graphs.generic_task_graph_trace.ResultsAccumulatorNtro;
+import ca.ntro.core.task_graphs.generic_task_graph_trace.GenericTaskGraphTrace;
 import ca.ntro.core.task_graphs.generic_task_graph_trace.GenericTaskTrace;
 
 public abstract class GenericTaskNtro<T  extends GenericTask<T,AT>, 
@@ -107,55 +108,51 @@ public abstract class GenericTaskNtro<T  extends GenericTask<T,AT>,
 	}
 
 	@Override
-	public boolean isBlocked() {
-		return !arePreviousTasksDone()
-				|| !areParentEntryTasksDone();
+	public boolean isBlocked(GenericTaskGraphTrace trace) {
+		return !arePreviousTasksDone(trace)
+				|| !areParentEntryTasksDone(trace);
 	}
 
-	protected boolean arePreviousTasksDone() {
+	protected boolean arePreviousTasksDone(GenericTaskGraphTrace trace) {
 		return previousTasks().ifAll(previousTask -> {
-			return previousTask.isDone();
+			return previousTask.isDone(trace);
 		});
 	}
 	
-	protected boolean areParentEntryTasksDone() {
+	protected boolean areParentEntryTasksDone(GenericTaskGraphTrace trace) {
 		boolean done = true;
 
 		if(hasParentTask()) {
-			done = parentTask().entryTasks().ifAll(entryTask -> {
-				throw new RuntimeException("FIXME: task state is in Trace now");
-			});
+			done = parentTask().entryTasks().ifAll(entryTask -> entryTask.isDone(trace));
 		}
 
 		return done;
 	}
 
 	@Override
-	public boolean isInProgress() {
-		return !isBlocked()
-				&& !isDone();
+	public boolean isInProgress(GenericTaskGraphTrace trace) {
+		return !isBlocked(trace)
+				&& !isDone(trace);
 	}
 
 	@Override
-	public boolean isDone() {
-		return !isBlocked()
-				&& areEntryTasksDone()
-				&& areSubTasksDone()
-				&& areExitTasksDone();
+	public boolean isDone(GenericTaskGraphTrace trace) {
+		return !isBlocked(trace)
+				&& areEntryTasksDone(trace)
+				&& areSubTasksDone(trace)
+				&& areExitTasksDone(trace);
 	}
 	
-	protected boolean areEntryTasksDone() {
-		throw new RuntimeException("FIXME: task state is in GraphTrace now");
-		//return entryTasks().ifAll(entryTask -> entryTask.isDone());
+	protected boolean areEntryTasksDone(GenericTaskGraphTrace trace) {
+		return entryTasks().ifAll(entryTask -> entryTask.isDone(trace));
 	}
 
-	protected boolean areExitTasksDone() {
-		throw new RuntimeException("FIXME: task state is in GraphTrace now");
-		//return exitTasks().ifAll(exitTask -> exitTask.isDone());
+	protected boolean areExitTasksDone(GenericTaskGraphTrace trace) {
+		return exitTasks().ifAll(exitTask -> exitTask.isDone(trace));
 	}
 
-	protected boolean areSubTasksDone() {
-		return subTasks().ifAll(subTask -> subTask.isDone());
+	protected boolean areSubTasksDone(GenericTaskGraphTrace trace) {
+		return subTasks().ifAll(subTask -> subTask.isDone(trace));
 	}
 
 	@Override
