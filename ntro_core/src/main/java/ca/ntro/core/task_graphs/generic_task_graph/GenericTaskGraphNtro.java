@@ -124,6 +124,10 @@ public class      GenericTaskGraphNtro<T  extends GenericTask<T,AT>,
 		getHdagBuilder().setGraphName(graphName);
 	}
 
+	public String getGraphName() {
+		return getHdagBuilder().getGraph().id().toKey().toString();
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public T addTask(TaskId id) {

@@ -26,35 +26,9 @@ public class GenericTaskGraphTests {
 	public static void initialize() {
 		InitializerTest.initialize();
 	}
-
-	@Test
-	public void simpleTaskGraph00() {
-
-		/* In fact, the state of the TaskGraph
-		 * 
-		 * depends entirely on the state of the
-		 * resultsIterator
-		 * 
-		 * when calling graph.resultsIterator()
-		 * 
-		 * it creates a structure that mimmick the
-		 * structure of the taskGraph but
-		 * also contains results
-		 * 
-		 * so the state of the TaskGraph changes when
-		 * 
-		 * iterator.advanceToNextResult(); is called
-		 * 
-		 * (some tasks could have empty results)
-		 * 
-		 * 
-		 * 
-		 */
-
-	}
 	
 	@Test
-	public void simpleTaskGraph01() {
+	public void genericTaskGraph01() {
 		
 		GenericTaskGraph<MockTask, MockAtomicTask> graph = GenericTaskGraph.newGenericGraph(MockTask.class, MockAtomicTask.class);
 		
@@ -72,7 +46,7 @@ public class GenericTaskGraphTests {
 
 		MockAtomicTask aa_entry = taskAA.addEntryTask("aa_entry");
 
-		graph.setGraphName("simpleTaskGraph01");
+		graph.setGraphName("genericTaskGraph01");
 		graph.write(Ntro.graphWriter());
 
 		GenericTaskGraphTrace trace = graph.newTrace();
