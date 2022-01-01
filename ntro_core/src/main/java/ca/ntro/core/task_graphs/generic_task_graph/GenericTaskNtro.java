@@ -13,14 +13,14 @@ import ca.ntro.core.stream.Stream;
 import ca.ntro.core.stream.StreamNtro;
 import ca.ntro.core.stream.Visitor;
 import ca.ntro.core.task_graphs.generic_task_graph_trace.ResultsAccumulatorNtro;
-import ca.ntro.core.task_graphs.generic_task_graph_trace.TaskTrace;
+import ca.ntro.core.task_graphs.generic_task_graph_trace.GenericTaskTrace;
 
 public abstract class GenericTaskNtro<T  extends GenericTask<T,AT>, 
-                               AT extends GenericAtomicTask<T,AT>>
+                                      AT extends GenericAtomicTask<T,AT>>
 
 	   implements     GenericTask<T,AT> {
 	
-	private TaskGraphNtro<T,AT> graph;
+	private GenericTaskGraphNtro<T,AT> graph;
 	private HierarchicalDagNodeBuilder<TaskGraphNode<T,AT>,TaskGraphEdge<T,AT>> nodeBuilder;
 
 	private Map<String, AT> entryTasks = new HashMap<>();
@@ -28,11 +28,11 @@ public abstract class GenericTaskNtro<T  extends GenericTask<T,AT>,
 	
 	private ResultsAccumulatorNtro resultsAccumulator = new ResultsAccumulatorNtro();
 	
-	public TaskGraphNtro<T,AT> getGraph() {
+	public GenericTaskGraphNtro<T,AT> getGraph() {
 		return graph;
 	}
 
-	public void setGraph(TaskGraphNtro<T,AT> graph) {
+	public void setGraph(GenericTaskGraphNtro<T,AT> graph) {
 		this.graph = graph;
 	}
 
@@ -86,7 +86,7 @@ public abstract class GenericTaskNtro<T  extends GenericTask<T,AT>,
 	}
 
 	@Override
-	public TaskGraph<T,AT> parentGraph() {
+	public GenericTaskGraph<T,AT> parentGraph() {
 		return getGraph();
 	}
 
@@ -407,7 +407,7 @@ public abstract class GenericTaskNtro<T  extends GenericTask<T,AT>,
 	
 	
 	@Override
-	public TaskTrace newTrace() {
+	public GenericTaskTrace newTrace() {
 		/*  TODO: create a TaskResultsIterator
 		 * 
 		 *        that refers to a TaskResultsIterator for each previousTask (and for the parentTask)

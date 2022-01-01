@@ -1,8 +1,8 @@
 package ca.ntro.core.task_graphs.task_graph;
 
-public interface ExecutableTaskGraphOptions {
+public interface TaskGraphOptions {
 	
-	boolean shouldHalt(ExecutableTaskGraph graph);
+	boolean shouldHalt(TaskGraph graph);
 	boolean shouldWriteGraph();
 	long    maxDelayMillis();
 

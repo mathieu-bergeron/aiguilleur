@@ -8,23 +8,23 @@ import ca.ntro.core.task_graphs.generic_task_graph.GenericTaskNtro;
 import ca.ntro.core.values.ObjectMap;
 import ca.ntro.core.values.ObjectMapNtro;
 
-public class     TaskTraceNtro 
+public class     GenericTaskTraceNtro 
 
        extends   GenericTraceNtro<ObjectMap>
 
-       implements TaskTrace {
+       implements GenericTaskTrace {
 
 	private GenericTaskNtro<?,?> task;
 
-	private Set<TaskTraceNtro> previousTasksTraces = new HashSet<>();
+	private Set<GenericTaskTraceNtro> previousTasksTraces = new HashSet<>();
 
-	private Set<AtomicTaskTraceNtro> parentEntryTasksTraces = new HashSet<>();
+	private Set<GenericAtomicTaskTraceNtro> parentEntryTasksTraces = new HashSet<>();
 
-	private Set<AtomicTaskTraceNtro> entryTasksTraces = new HashSet<>();
+	private Set<GenericAtomicTaskTraceNtro> entryTasksTraces = new HashSet<>();
 
-	private Set<TaskTraceNtro> subTasksTraces = new HashSet<>();
+	private Set<GenericTaskTraceNtro> subTasksTraces = new HashSet<>();
 
-	private Set<AtomicTaskTraceNtro> exitTasksTraces = new HashSet<>();
+	private Set<GenericAtomicTaskTraceNtro> exitTasksTraces = new HashSet<>();
 
 	public GenericTaskNtro<?, ?> getTask() {
 		return task;
@@ -38,34 +38,34 @@ public class     TaskTraceNtro
 	public void initialize() {
 		task.previousTasks().forEach(previousTask -> {
 			
-			TaskTraceNtro trace = (TaskTraceNtro) previousTask.newTrace();
+			GenericTaskTraceNtro trace = (GenericTaskTraceNtro) previousTask.newTrace();
 			previousTasksTraces.add(trace);
 		});
 		
 		if(task.hasParentTask()) {
 			task.parentTask().entryTasks().forEach(parentEntryTask -> {
-				parentEntryTasksTraces.add((AtomicTaskTraceNtro) parentEntryTask.newTrace());
+				parentEntryTasksTraces.add((GenericAtomicTaskTraceNtro) parentEntryTask.newTrace());
 			});
 		}
 	}
 	
-	protected Stream<TaskTraceNtro> previousTraces(){
+	protected Stream<GenericTaskTraceNtro> previousTraces(){
 		return Stream.fromSet(previousTasksTraces);
 	}
 
-	protected Stream<AtomicTaskTraceNtro> parentTraces(){
+	protected Stream<GenericAtomicTaskTraceNtro> parentTraces(){
 		return Stream.fromSet(parentEntryTasksTraces);
 	}
 
-	protected Stream<AtomicTaskTraceNtro> entryTraces(){
+	protected Stream<GenericAtomicTaskTraceNtro> entryTraces(){
 		return Stream.fromSet(entryTasksTraces);
 	}
 
-	protected Stream<TaskTraceNtro> subTraces(){
+	protected Stream<GenericTaskTraceNtro> subTraces(){
 		return Stream.fromSet(subTasksTraces);
 	}
 
-	protected Stream<AtomicTaskTraceNtro> exitTraces(){
+	protected Stream<GenericAtomicTaskTraceNtro> exitTraces(){
 		return Stream.fromSet(exitTasksTraces);
 	}
 
@@ -98,6 +98,24 @@ public class     TaskTraceNtro
 		
 		throw new RuntimeException("TODO: complete this");
 		//return current;
+	}
+
+	@Override
+	public void notifyWaitingForResult() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void notifyCurrentResultWasUsed() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void notifyCurrentResultCouldNotBeUsed() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

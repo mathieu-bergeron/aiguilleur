@@ -11,7 +11,7 @@ import ca.ntro.core.wrappers.optionnal.OptionnalNtro;
 public class ResultsAccumulatorNtro implements ResultsAccumulator {
 	
 	private List<ObjectMap> results = new ArrayList<>();
-	private Set<TaskTraceNtro> iterators = new HashSet<>();
+	private Set<GenericTaskTraceNtro> iterators = new HashSet<>();
 	private OptionnalNtro<Integer> smallestIndex = new OptionnalNtro<Integer>();
 
 	@Override
@@ -20,7 +20,7 @@ public class ResultsAccumulatorNtro implements ResultsAccumulator {
 	}
 
 	@Override
-	public TaskTrace resultsIterator() {
+	public GenericTaskTrace resultsIterator() {
 		return null;
 	}
 
@@ -47,7 +47,7 @@ public class ResultsAccumulatorNtro implements ResultsAccumulator {
 
 			forgetUnusedResults(currentIndex);
 			
-			for(TaskTraceNtro iterator : iterators) {
+			for(GenericTaskTraceNtro iterator : iterators) {
 				//iterator.decrementIndex(currentIndex);
 			}
 		}

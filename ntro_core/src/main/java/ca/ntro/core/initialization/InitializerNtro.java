@@ -11,8 +11,8 @@ import ca.ntro.core.identifyers.ObjectId;
 import ca.ntro.core.identifyers.ServiceId;
 import ca.ntro.core.services.TracerNtro;
 import ca.ntro.core.task_graphs.task_graph.Task;
-import ca.ntro.core.task_graphs.task_graph.ExecutableTaskGraph;
-import ca.ntro.core.task_graphs.task_graph.ExecutableTaskGraphNtro;
+import ca.ntro.core.task_graphs.task_graph.TaskGraph;
+import ca.ntro.core.task_graphs.task_graph.TaskGraphNtro;
 import ca.ntro.core.values.ObjectMap;
 import ca.ntro.core.values.ObjectMapNtro;
 import ca.ntro.core.wrappers.future.Future;
@@ -21,7 +21,7 @@ import ca.ntro.core.wrappers.result.ResultNtro;
 
 public abstract class InitializerNtro 
 
-       extends        ExecutableTaskGraphNtro
+       extends        TaskGraphNtro
 
        implements Initializer {
 	
@@ -38,9 +38,9 @@ public abstract class InitializerNtro
 		return initializedObjects;
 	}
 
-	private ExecutableTaskGraph buildGraph() {
+	private TaskGraph buildGraph() {
 		
-		ExecutableTaskGraph graph = null;
+		TaskGraph graph = null;
 		
 		/*
 		

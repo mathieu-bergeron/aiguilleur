@@ -1,11 +1,11 @@
 package ca.ntro.core.task_graphs.task_graph;
 
-import ca.ntro.core.task_graphs.generic_task_graph.GenericAtomicTaskEventHandler;
+import ca.ntro.core.task_graphs.generic_task_graph.GenericAtomicTaskCondition;
 import ca.ntro.core.wrappers.future.ExceptionHandler;
 
-public class      AtomicTaskEventHandler 
+public class      AtomicTaskCondition 
 
-       extends    GenericAtomicTaskEventHandler<Task, AtomicTask> 
+       extends    GenericAtomicTaskCondition<Task, AtomicTask> 
 
        implements AtomicTask {
 
@@ -33,7 +33,6 @@ public class      AtomicTaskEventHandler
 	public void handleException(ExceptionHandler exceptionHandler) {
 		getExecutor().setExceptionHandler(exceptionHandler);
 	}
-
 
 
 }

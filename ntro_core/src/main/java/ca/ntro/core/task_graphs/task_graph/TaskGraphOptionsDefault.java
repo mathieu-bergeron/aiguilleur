@@ -1,10 +1,10 @@
 package ca.ntro.core.task_graphs.task_graph;
 
 
-public class ExecutableTaskGraphOptionsDefault implements ExecutableTaskGraphOptions {
+public class TaskGraphOptionsDefault implements TaskGraphOptions {
 
 	@Override
-	public boolean shouldHalt(ExecutableTaskGraph graph) {
+	public boolean shouldHalt(TaskGraph graph) {
 		return graph.tasks().ifNone(task -> task.isInProgress());
 	}
 

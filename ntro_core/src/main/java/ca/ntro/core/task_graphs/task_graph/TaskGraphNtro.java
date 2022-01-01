@@ -3,21 +3,21 @@ package ca.ntro.core.task_graphs.task_graph;
 
 import ca.ntro.core.graphs.generics.graph.GraphId;
 import ca.ntro.core.initialization.Ntro;
-import ca.ntro.core.task_graphs.generic_task_graph.TaskGraphNtro;
+import ca.ntro.core.task_graphs.generic_task_graph.GenericTaskGraphNtro;
 import ca.ntro.core.values.ObjectMap;
 import ca.ntro.core.wrappers.future.Future;
 import ca.ntro.core.wrappers.future.FutureNtro;
 import ca.ntro.core.wrappers.result.Result;
 
-public class ExecutableTaskGraphNtro
+public class TaskGraphNtro
 
-       extends TaskGraphNtro<ExecutableTaskNtro, ExecutableAtomicTaskNtro>
+       extends GenericTaskGraphNtro<Task, AtomicTask>
 
-       implements ExecutableTaskGraph {
+       implements TaskGraph {
 	
 	private boolean executionInProgress = false;
 	
-	private ExecutableTaskGraphOptions options = new ExecutableTaskGraphOptionsDefault();
+	private TaskGraphOptions options = new TaskGraphOptionsDefault();
 	
 	private FutureNtro<ObjectMap> future;
 	private ObjectMap currentResults;
@@ -26,7 +26,7 @@ public class ExecutableTaskGraphNtro
 	private long executionStep;
 
 	@Override
-	public Future<ObjectMap> execute(ExecutableTaskGraphOptions options) {
+	public Future<ObjectMap> execute(TaskGraphOptions options) {
 		this.options = options;
 		return execute();
 	}
@@ -110,7 +110,7 @@ public class ExecutableTaskGraphNtro
 
 		tasks().forEach(task -> {
 			
-			toTaskNtro(task).continueExecution(currentResults);
+			//toTaskNtro(task).continueExecution(currentResults);
 			
 		});
 		
@@ -132,7 +132,7 @@ public class ExecutableTaskGraphNtro
 
 			tasks().forEach(task -> {
 				
-				toTaskNtro(task).continueExecution(currentResults);
+				//toTaskNtro(task).continueExecution(currentResults);
 				
 			});
 
@@ -160,7 +160,7 @@ public class ExecutableTaskGraphNtro
 	}
 
 	@Override
-	public Result<ObjectMap> executeBlocking(ExecutableTaskGraphOptions options) {
+	public Result<ObjectMap> executeBlocking(TaskGraphOptions options) {
 		return execute(options).get(options.maxDelayMillis());
 	}
 

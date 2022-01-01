@@ -10,23 +10,23 @@ import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagWriterOptionsNtro;
 import ca.ntro.core.identifyers.Key;
 import ca.ntro.core.initialization.Factory;
 import ca.ntro.core.stream.Stream;
-import ca.ntro.core.task_graphs.generic_task_graph_trace.TaskGraphTrace;
-import ca.ntro.core.task_graphs.generic_task_graph_trace.TaskGraphTraceNtro;
+import ca.ntro.core.task_graphs.generic_task_graph_trace.GenericTaskGraphTrace;
+import ca.ntro.core.task_graphs.generic_task_graph_trace.GenericTaskGraphTraceNtro;
 import ca.ntro.core.task_graphs.task_graph_writer.InternalTaskGraphWriterNtro;
 import ca.ntro.core.values.ObjectMap;
 import ca.ntro.core.values.ObjectMapNtro;
 
-public class TaskGraphNtro<T  extends GenericTask<T,AT>, 
-                           AT extends GenericAtomicTask<T,AT>>
+public class      GenericTaskGraphNtro<T  extends GenericTask<T,AT>, 
+                                       AT extends GenericAtomicTask<T,AT>>
 
-	   implements TaskGraph<T,AT> {
+	   implements GenericTaskGraph<T,AT> {
 	
 	private InternalHierarchicalDagBuilderNtro<T,AT> hdagBuilder = new InternalHierarchicalDagBuilderNtro<T,AT>();
 
 	private InternalTaskGraphWriterNtro<T,AT> internalWriter = new InternalTaskGraphWriterNtro<>();
 	
-	private Class<T> taskClass;
-	private Class<AT> defaultAtomicTaskClass;
+	private Class<? extends T> taskClass;
+	private Class<? extends AT> defaultAtomicTaskClass;
 	
 	private Map<String, GenericAtomicTaskNtro<T,AT>> atomicTasks = new HashMap<>();
 
@@ -46,19 +46,19 @@ public class TaskGraphNtro<T  extends GenericTask<T,AT>,
 		this.internalWriter = internalWriter;
 	}
 
-	public Class<T> getTaskClass() {
+	public Class<? extends T> getTaskClass() {
 		return taskClass;
 	}
 
-	public void setTaskClass(Class<T> taskClass) {
+	public void setTaskClass(Class<? extends T> taskClass) {
 		this.taskClass = taskClass;
 	}
 
-	public Class<AT> getDefaultAtomicTaskClass() {
+	public Class<? extends AT> getDefaultAtomicTaskClass() {
 		return defaultAtomicTaskClass;
 	}
 
-	public void setDefaultAtomicTaskClass(Class<AT> defaultAtomicTaskClass) {
+	public void setDefaultAtomicTaskClass(Class<? extends AT> defaultAtomicTaskClass) {
 		this.defaultAtomicTaskClass = defaultAtomicTaskClass;
 	}
 
@@ -73,7 +73,7 @@ public class TaskGraphNtro<T  extends GenericTask<T,AT>,
 	
 	
 
-	public TaskGraphNtro() {
+	public GenericTaskGraphNtro() {
 	}
 	
 	
@@ -175,7 +175,7 @@ public class TaskGraphNtro<T  extends GenericTask<T,AT>,
 	}
 
 	@Override
-	public TaskGraphTrace newTrace() {
+	public GenericTaskGraphTrace newTrace() {
 		/* TODO: create a GraphResultsIterator
 		 * 
 		 *       this mimmicks the graph structure
@@ -189,7 +189,7 @@ public class TaskGraphNtro<T  extends GenericTask<T,AT>,
 		 *            only to the iterator copy
 		 */
 
-		return new TaskGraphTraceNtro(this);
+		return new GenericTaskGraphTraceNtro(this);
 	}
 	
 }

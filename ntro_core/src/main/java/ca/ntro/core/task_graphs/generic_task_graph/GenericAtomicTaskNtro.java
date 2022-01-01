@@ -4,10 +4,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import ca.ntro.core.identifyers.Key;
-import ca.ntro.core.task_graphs.generic_task_graph_trace.AtomicTaskTraceNtro;
+import ca.ntro.core.task_graphs.generic_task_graph_trace.GenericAtomicTaskTraceNtro;
 
 public abstract class GenericAtomicTaskNtro<T  extends GenericTask<T,AT>, 
-                      AT extends GenericAtomicTask<T,AT>>
+                                            AT extends GenericAtomicTask<T,AT>>
 
        implements     GenericAtomicTask<T,AT> {
 	
@@ -15,7 +15,7 @@ public abstract class GenericAtomicTaskNtro<T  extends GenericTask<T,AT>,
 	private GenericTaskNtro<T,AT> parentTask;
 	private boolean isBlocked = false;
 	
-	private Set<AtomicTaskTraceNtro> traces = new HashSet<>();
+	private Set<GenericAtomicTaskTraceNtro> traces = new HashSet<>();
 
 	public AtomicTaskId getId() {
 		return id;
@@ -41,11 +41,11 @@ public abstract class GenericAtomicTaskNtro<T  extends GenericTask<T,AT>,
 		this.isBlocked = isBlocked;
 	}
 
-	public Set<AtomicTaskTraceNtro> getTraces() {
+	public Set<GenericAtomicTaskTraceNtro> getTraces() {
 		return traces;
 	}
 
-	public void setTraces(Set<AtomicTaskTraceNtro> traces) {
+	public void setTraces(Set<GenericAtomicTaskTraceNtro> traces) {
 		this.traces = traces;
 	}
 	
@@ -85,14 +85,14 @@ public abstract class GenericAtomicTaskNtro<T  extends GenericTask<T,AT>,
 	@Override
 	public void addResult(Object result) {
 		setIsBlocked(false);
-		for(AtomicTaskTraceNtro trace : getTraces()) {
+		for(GenericAtomicTaskTraceNtro trace : getTraces()) {
 			trace.addResult(result);
 		}
 	}
 
 	@Override
 	public void clearResults() {
-		for(AtomicTaskTraceNtro trace : getTraces()) {
+		for(GenericAtomicTaskTraceNtro trace : getTraces()) {
 			trace.clearResults();
 		}
 	}
@@ -101,4 +101,5 @@ public abstract class GenericAtomicTaskNtro<T  extends GenericTask<T,AT>,
 	public void notifyTaskBlocked() {
 		setIsBlocked(true);
 	}
+	
 }

@@ -7,8 +7,8 @@ import ca.ntro.core.graph_writer.NodeNotFoundException;
 import ca.ntro.core.initialization.InitializerTest;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.services.ExceptionThrowerMock;
-import ca.ntro.core.task_graphs.generic_task_graph.TaskGraph;
-import ca.ntro.core.task_graphs.generic_task_graph_trace.TaskGraphTrace;
+import ca.ntro.core.task_graphs.generic_task_graph.GenericTaskGraph;
+import ca.ntro.core.task_graphs.generic_task_graph_trace.GenericTaskGraphTrace;
 import ca.ntro.core.values.ObjectMap;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
@@ -50,15 +50,13 @@ public class TaskGraphTests {
 		 * 
 		 * 
 		 */
-		throw new RuntimeException("TODO");
 
 	}
 	
 	@Test
 	public void simpleTaskGraph01() {
 		
-		
-		TaskGraph<MockTask, MockAtomicTask> graph = TaskGraph.newGraph(MockTask.class, MockAtomicTask.class);
+		GenericTaskGraph<MockTask, MockAtomicTask> graph = GenericTaskGraph.newGraph(MockTask.class, MockAtomicTask.class);
 		
 		MockTask taskA = graph.addTask("A");
 
@@ -77,7 +75,7 @@ public class TaskGraphTests {
 		graph.setGraphName("simpleTaskGraph01");
 		graph.write(Ntro.graphWriter());
 
-		TaskGraphTrace trace = graph.newTrace();
+		GenericTaskGraphTrace trace = graph.newTrace();
 		
 		a_entry.addResult(1);
 		aa_entry.addResult(1);
@@ -95,10 +93,12 @@ public class TaskGraphTests {
 		trace.advanceToNext();
 		trace.write(Ntro.graphWriter());
 
+		ObjectMap nextResults = trace.current();
+
 		trace.advanceToNext();
 		trace.write(Ntro.graphWriter());
 
-		ObjectMap nextResults = trace.current();
+		ObjectMap nextNextResults = trace.current();
 
 		int a_entry_result = results.get(Integer.class, "a_entry");
 		int a_entry_next_result = nextResults.get(Integer.class, "a_entry");

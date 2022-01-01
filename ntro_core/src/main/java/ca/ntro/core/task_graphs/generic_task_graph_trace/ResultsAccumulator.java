@@ -6,6 +6,6 @@ public interface ResultsAccumulator {
 
 	void pushResults(ObjectMap newResults);
 
-	TaskTrace resultsIterator();
+	GenericTaskTrace resultsIterator();
 
 }
