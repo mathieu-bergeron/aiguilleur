@@ -45,13 +45,15 @@ public class TaskGraphTests extends NtroTests {
 
 			notifyer.notifyWaitingForResult();
 			Ntro.time().runAfterDelay(10, () -> {
+
 				notifyer.addResult(1);
+				
+				notifyer.notifyWaitingForResult();
+				Ntro.time().runAfterDelay(10, () -> {
+					notifyer.addResult(2);
+				});
 			});
 
-			notifyer.notifyWaitingForResult();
-			Ntro.time().runAfterDelay(20, () -> {
-				notifyer.addResult(2);
-			});
 		});
 		
 		b_entry.cancel((previousResults, notifyer) -> {
