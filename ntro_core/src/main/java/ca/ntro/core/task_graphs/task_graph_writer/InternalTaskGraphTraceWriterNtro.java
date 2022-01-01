@@ -5,6 +5,7 @@ import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagWriterOptions;
 import ca.ntro.core.task_graphs.generic_task_graph.GenericAtomicTask;
 import ca.ntro.core.task_graphs.generic_task_graph.GenericTask;
 import ca.ntro.core.task_graphs.generic_task_graph.TaskGraphNode;
+import ca.ntro.core.task_graphs.generic_task_graph_trace.GenericTaskGraphTraceNtro;
 
 public class InternalTaskGraphTraceWriterNtro<T  extends GenericTask<T,AT>, 
                                               AT extends GenericAtomicTask<T,AT>>
@@ -13,11 +14,16 @@ public class InternalTaskGraphTraceWriterNtro<T  extends GenericTask<T,AT>,
 
        implements InternalTaskGraphTraceWriter<T,AT> {
 
+	private GenericTaskGraphTraceNtro genericTaskGraphTraceNtro;
+
+	public InternalTaskGraphTraceWriterNtro(GenericTaskGraphTraceNtro genericTaskGraphTraceNtro) {
+		this.genericTaskGraphTraceNtro = genericTaskGraphTraceNtro;
+	}
+
 	@Override
 	protected void adjustNodeSpecAttributes(TaskGraphNode<T,AT> node,
 			                                HierarchicalDagWriterOptions options,
 			                                NodeSpecNtro nodeSpec) {
-		
 		
 		// FIXME: we should be able to access the task state
 		//        according to the current trace

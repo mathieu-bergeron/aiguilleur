@@ -17,7 +17,7 @@ public class GenericTaskGraphTraceNtro
 	
 	private GenericTaskGraphNtro<?,?> graph;
 	private Set<GenericTaskTraceNtro> traces = new HashSet<>();
-	private InternalTaskGraphTraceWriterNtro<?,?> internalWriter = new InternalTaskGraphTraceWriterNtro();
+	private InternalTaskGraphTraceWriterNtro<?,?> internalWriter = new InternalTaskGraphTraceWriterNtro(this);
 
 	public GenericTaskGraphNtro<?, ?> getGraph() {
 		return graph;
