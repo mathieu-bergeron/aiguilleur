@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import ca.ntro.core.graph_writer.GraphWriter;
+import ca.ntro.core.graphs.generics.graph.GenericGraph;
+import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagWriterOptionsNtro;
 import ca.ntro.core.task_graphs.generic_task_graph.GenericTaskGraphNtro;
 import ca.ntro.core.task_graphs.generic_task_graph.GenericTaskNtro;
 import ca.ntro.core.task_graphs.task_graph_writer.InternalTaskGraphTraceWriterNtro;
@@ -51,15 +53,11 @@ public class GenericTaskGraphTraceNtro
 	@Override
 	public void write(GraphWriter writer) {
 		
-		throw new RuntimeException("TODO: write the graph structure && the task states corresponding to the current trace frame");
-		
-		/*
 		String graphName = getGraph().getGraphName();
 		graphName += "__trace00";
 		getGraph().setGraphName(graphName);
 		
 		internalWriter.write((GenericGraph) getGraph().getHdagBuilder().getGraph(), new HierarchicalDagWriterOptionsNtro(), writer);
-		*/
 	}
 
 	@Override
