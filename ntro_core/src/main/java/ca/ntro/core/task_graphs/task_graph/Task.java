@@ -4,4 +4,5 @@ import ca.ntro.core.task_graphs.generic_task_graph.GenericTask;
 
 public interface Task extends GenericTask<Task, AtomicTask> {
 	
+	
 }

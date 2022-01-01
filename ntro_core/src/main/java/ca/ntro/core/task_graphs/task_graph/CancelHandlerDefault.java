@@ -7,6 +7,6 @@ public class CancelHandlerDefault implements CancelHandler {
 
 	@Override
 	public void cancel(ObjectMap currentResults, AtomicTaskNotifyer notifyer) throws Throwable {
-		notifyer.notifyTaskBlocked();
+		notifyer.notifyWaitingForResult();
 	}
 }

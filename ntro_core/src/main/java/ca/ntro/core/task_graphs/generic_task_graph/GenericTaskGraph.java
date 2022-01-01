@@ -24,7 +24,7 @@ public interface GenericTaskGraph<T  extends GenericTask<T,AT>,
 	
 	GenericTaskGraphTrace newTrace();
 
-	static <T extends GenericTask<T,AT>, AT extends GenericAtomicTask<T,AT>> GenericTaskGraph<T,AT> newGraph(Class<T> taskClass, Class<AT> atomicTaskClass) {
+	static <T extends GenericTask<T,AT>, AT extends GenericAtomicTask<T,AT>> GenericTaskGraph<T,AT> newGenericGraph(Class<T> taskClass, Class<AT> atomicTaskClass) {
 		
 		GenericTaskGraphNtro<T,AT> graph = new GenericTaskGraphNtro<>();
 		

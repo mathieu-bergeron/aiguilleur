@@ -98,7 +98,7 @@ public abstract class GenericAtomicTaskNtro<T  extends GenericTask<T,AT>,
 	}
 
 	@Override
-	public void notifyTaskBlocked() {
+	public void notifyWaitingForResult() {
 		setIsBlocked(true);
 	}
 	

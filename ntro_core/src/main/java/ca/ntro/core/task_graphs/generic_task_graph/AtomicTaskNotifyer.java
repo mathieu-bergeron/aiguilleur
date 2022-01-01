@@ -5,6 +5,6 @@ public interface AtomicTaskNotifyer {
 	void addResult(Object value);
 	void clearResults();
 
-	void notifyTaskBlocked();
+	void notifyWaitingForResult();
 
 }

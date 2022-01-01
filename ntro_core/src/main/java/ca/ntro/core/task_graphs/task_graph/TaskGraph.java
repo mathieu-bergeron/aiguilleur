@@ -14,7 +14,7 @@ public interface TaskGraph extends GenericTaskGraph<Task, AtomicTask> {
 	Result<ObjectMap> executeBlocking(TaskGraphOptions options);
 
 	// JSweet: name clash with TaskGraph.newGraph
-	public static TaskGraph newExecutableGraph() {
+	public static TaskGraph newGraph() {
 		
 		TaskGraphNtro graph = new TaskGraphNtro();
 
