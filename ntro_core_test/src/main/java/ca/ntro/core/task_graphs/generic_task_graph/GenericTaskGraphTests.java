@@ -39,7 +39,7 @@ public class GenericTaskGraphTests {
 		MockTask taskAB = taskAA.addNextTask("AB");
 		taskA.addSubTask(taskAB);
 
-		taskA.addNextTask("B");
+		MockTask taskB = taskA.addNextTask("B");
 
 		MockAtomicTask a_entry = taskA.addEntryTask("a_entry");
 		MockAtomicTask a_exit = taskA.addExitTask("a_exit");
@@ -52,12 +52,15 @@ public class GenericTaskGraphTests {
 		TaskGraphTrace trace = graph.newTrace();
 		
 		a_entry.addResult(1);
+		a_entry.addResult(2);
 		aa_entry.addResult(1);
 		aa_entry.addResult(2);
 		aa_entry.addResult(3);
-		aa_entry.addResult(4);
 		a_exit.addResult(1);
 
 		trace.writeTrace(Ntro.graphWriter());
+
+		a_exit.addResult(2);
+		a_exit.addResult(3);
 	}
 }
