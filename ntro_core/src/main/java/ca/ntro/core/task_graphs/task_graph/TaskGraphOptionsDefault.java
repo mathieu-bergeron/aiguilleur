@@ -7,7 +7,8 @@ public class TaskGraphOptionsDefault implements TaskGraphOptions {
 
 	@Override
 	public boolean shouldHalt(GenericTaskGraph<?,?> graph, TaskGraphTrace trace) {
-		return graph.tasks().ifNone(task -> task.isInProgress(trace));
+		return true;
+		//return graph.tasks().ifNone(task -> task.isInProgress(trace));
 	}
 
 	@Override

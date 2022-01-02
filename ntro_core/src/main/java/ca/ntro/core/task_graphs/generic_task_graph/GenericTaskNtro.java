@@ -13,6 +13,8 @@ import ca.ntro.core.stream.Stream;
 import ca.ntro.core.stream.StreamNtro;
 import ca.ntro.core.stream.Visitor;
 import ca.ntro.core.task_graphs.task_graph_trace.TaskGraphTrace;
+import ca.ntro.core.task_graphs.task_graph_trace.TaskTrace;
+import ca.ntro.core.task_graphs.task_graph_trace.TaskTraceNtro;
 
 public abstract class GenericTaskNtro<T  extends GenericTask<T,AT>, 
                                       AT extends GenericAtomicTask<T,AT>>
@@ -97,18 +99,18 @@ public abstract class GenericTaskNtro<T  extends GenericTask<T,AT>,
 	}
 
 	@Override
-	public boolean isBlocked(TaskGraphTrace trace) {
+	public boolean isBlocked(TaskTrace trace) {
 		return !arePreviousTasksDone(trace)
 				|| !areParentEntryTasksDone(trace);
 	}
 
-	protected boolean arePreviousTasksDone(TaskGraphTrace trace) {
+	protected boolean arePreviousTasksDone(TaskTrace trace) {
 		return previousTasks().ifAll(previousTask -> {
 			return previousTask.isDone(trace);
 		});
 	}
 	
-	protected boolean areParentEntryTasksDone(TaskGraphTrace trace) {
+	protected boolean areParentEntryTasksDone(TaskTrace trace) {
 		boolean done = true;
 
 		if(hasParentTask()) {
@@ -119,28 +121,28 @@ public abstract class GenericTaskNtro<T  extends GenericTask<T,AT>,
 	}
 
 	@Override
-	public boolean isInProgress(TaskGraphTrace trace) {
+	public boolean isInProgress(TaskTrace trace) {
 		return !isBlocked(trace)
 				&& !isDone(trace);
 	}
 
 	@Override
-	public boolean isDone(TaskGraphTrace trace) {
+	public boolean isDone(TaskTrace trace) {
 		return !isBlocked(trace)
 				&& areEntryTasksDone(trace)
 				&& areSubTasksDone(trace)
 				&& areExitTasksDone(trace);
 	}
 	
-	protected boolean areEntryTasksDone(TaskGraphTrace trace) {
+	protected boolean areEntryTasksDone(TaskTrace trace) {
 		return entryTasks().ifAll(entryTask -> entryTask.isDone(trace));
 	}
 
-	protected boolean areExitTasksDone(TaskGraphTrace trace) {
+	protected boolean areExitTasksDone(TaskTrace trace) {
 		return exitTasks().ifAll(exitTask -> exitTask.isDone(trace));
 	}
 
-	protected boolean areSubTasksDone(TaskGraphTrace trace) {
+	protected boolean areSubTasksDone(TaskTrace trace) {
 		return subTasks().ifAll(subTask -> subTask.isDone(trace));
 	}
 
@@ -389,6 +391,11 @@ public abstract class GenericTaskNtro<T  extends GenericTask<T,AT>,
 						   HierarchicalDagSearchOptions>> visitedNodes = getNodeBuilder().node().reachableNodes(options);
 		
 		return visitedNodes.map(visitedNode -> visitedNode.node().task());
+	}
+
+	@Override
+	public TaskTrace newTrace() {
+		return new TaskTraceNtro(this);
 	}
 
 }

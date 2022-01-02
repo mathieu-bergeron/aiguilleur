@@ -58,32 +58,6 @@ public class GenericTaskGraphTests {
 		aa_entry.addResult(4);
 		a_exit.addResult(1);
 
-		trace.write(Ntro.graphWriter());
-
-		Ntro.asserter().assertTrue("has results", trace.hasCurrent());
-
-		ObjectMap results = trace.current();
-		
-		trace.advanceToNext();
-		trace.write(Ntro.graphWriter());
-
-		ObjectMap nextResults = trace.current();
-
-		trace.advanceToNext();
-		trace.write(Ntro.graphWriter());
-
-		ObjectMap nextNextResults = trace.current();
-
-		int a_entry_result = results.get(Integer.class, "a_entry");
-		int a_entry_next_result = nextResults.get(Integer.class, "a_entry");
-
-		int aa_entry_result = results.get(Integer.class, "aa_entry");
-		int aa_entry_next_result = nextResults.get(Integer.class, "aa_entry");
-
-		Ntro.asserter().assertEquals(1, a_entry_result);
-		Ntro.asserter().assertEquals(1, a_entry_next_result);
-
-		Ntro.asserter().assertEquals(1, aa_entry_result);
-		Ntro.asserter().assertEquals(2, aa_entry_next_result);
+		trace.writeTrace(Ntro.graphWriter());
 	}
 }

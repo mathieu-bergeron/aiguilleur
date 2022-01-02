@@ -180,19 +180,6 @@ public class      GenericTaskGraphNtro<T  extends GenericTask<T,AT>,
 
 	@Override
 	public TaskGraphTrace newTrace() {
-		/* TODO: create a GraphResultsIterator
-		 * 
-		 *       this mimmicks the graph structure
-		 *       
-		 *       and determines the state of each task
-		 *       
-		 *       when printing the state of the graph,
-		 *       we need an iterator
-		 *       
-		 *       XXX: we should probably push results
-		 *            only to the iterator copy
-		 */
-
 		return new TaskGraphTraceNtro(this);
 	}
 	

@@ -6,6 +6,7 @@ import ca.ntro.core.task_graphs.generic_task_graph.GenericAtomicTask;
 import ca.ntro.core.task_graphs.generic_task_graph.GenericTask;
 import ca.ntro.core.task_graphs.generic_task_graph.TaskGraphNode;
 import ca.ntro.core.task_graphs.task_graph_trace.TaskGraphTraceNtro;
+import ca.ntro.core.task_graphs.task_graph_trace.TaskTrace;
 
 public class InternalTaskGraphTraceWriterNtro<T  extends GenericTask<T,AT>, 
                                               AT extends GenericAtomicTask<T,AT>>
@@ -16,8 +17,19 @@ public class InternalTaskGraphTraceWriterNtro<T  extends GenericTask<T,AT>,
 
 	private TaskGraphTraceNtro trace;
 
-	public InternalTaskGraphTraceWriterNtro(TaskGraphTraceNtro trace) {
+	public TaskGraphTraceNtro getTrace() {
+		return trace;
+	}
+
+	public void setTrace(TaskGraphTraceNtro trace) {
 		this.trace = trace;
+	}
+
+	public InternalTaskGraphTraceWriterNtro() {
+	}
+
+	public InternalTaskGraphTraceWriterNtro(TaskGraphTraceNtro trace) {
+		setTrace(trace);
 	}
 
 	@Override
@@ -25,18 +37,17 @@ public class InternalTaskGraphTraceWriterNtro<T  extends GenericTask<T,AT>,
 			                                HierarchicalDagWriterOptions options,
 			                                NodeSpecNtro nodeSpec) {
 		
-		// FIXME: we should be able to access the task state
-		//        according to the current trace
+		TaskTrace taskTrace = getTrace().getTaskTrace(node.task().id());
 
-		if(node.task().isBlocked(trace)) {
+		if(node.task().isBlocked(taskTrace)) {
 
 			nodeSpec.setColor("red");
 
-		} else if(node.task().isInProgress(trace)) {
+		} else if(node.task().isInProgress(taskTrace)) {
 
 			nodeSpec.setColor("yellow");
 
-		} else if(node.task().isDone(trace)) {
+		} else if(node.task().isDone(taskTrace)) {
 
 			nodeSpec.setColor("green");
 

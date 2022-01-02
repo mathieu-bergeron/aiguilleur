@@ -5,7 +5,7 @@ import java.util.Set;
 
 import ca.ntro.core.identifyers.Key;
 import ca.ntro.core.task_graphs.task_graph_trace.AtomicTaskTraceNtro;
-import ca.ntro.core.task_graphs.task_graph_trace.TaskGraphTrace;
+import ca.ntro.core.task_graphs.task_graph_trace.TaskTrace;
 
 public abstract class GenericAtomicTaskNtro<T  extends GenericTask<T,AT>, 
                                             AT extends GenericAtomicTask<T,AT>>
@@ -79,17 +79,17 @@ public abstract class GenericAtomicTaskNtro<T  extends GenericTask<T,AT>,
 	}
 
 	@Override
-	public boolean isBlocked(TaskGraphTrace trace) {
+	public boolean isBlocked(TaskTrace trace) {
 		return false;
 	}
 
 	@Override
-	public boolean isInProgress(TaskGraphTrace trace) {
+	public boolean isInProgress(TaskTrace trace) {
 		return getIsWaitingForResult();
 	}
 
 	@Override
-	public boolean isDone(TaskGraphTrace trace) {
+	public boolean isDone(TaskTrace trace) {
 		return trace.hasCurrent() 
 				&& trace.current().contains(this.id)
 				&& !trace.hasNext();

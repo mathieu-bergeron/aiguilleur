@@ -1,6 +1,7 @@
 package ca.ntro.core.task_graphs.generic_task_graph;
 
 import ca.ntro.core.stream.Stream;
+import ca.ntro.core.task_graphs.task_graph_trace.TaskTrace;
 
 public interface GenericTask<T  extends GenericTask<T,AT>, 
                       AT extends GenericAtomicTask<T,AT>> 
@@ -54,5 +55,7 @@ public interface GenericTask<T  extends GenericTask<T,AT>,
 
 	Stream<T> reachableTasks();
 	Stream<T> reachableTasks(TaskGraphSearchOptions options);
+	
+	TaskTrace newTrace();
 
 }

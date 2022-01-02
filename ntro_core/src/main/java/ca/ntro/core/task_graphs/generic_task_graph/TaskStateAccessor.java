@@ -1,11 +1,11 @@
 package ca.ntro.core.task_graphs.generic_task_graph;
 
-import ca.ntro.core.task_graphs.task_graph_trace.TaskGraphTrace;
+import ca.ntro.core.task_graphs.task_graph_trace.TaskTrace;
 
 public interface TaskStateAccessor {
 	
-	boolean isBlocked(TaskGraphTrace trace);
-	boolean isInProgress(TaskGraphTrace trace);
-	boolean isDone(TaskGraphTrace trace);
+	boolean isBlocked(TaskTrace trace);
+	boolean isInProgress(TaskTrace trace);
+	boolean isDone(TaskTrace trace);
 
 }
