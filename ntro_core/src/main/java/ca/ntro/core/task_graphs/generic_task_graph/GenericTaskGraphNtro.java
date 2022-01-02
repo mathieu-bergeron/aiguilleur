@@ -10,8 +10,8 @@ import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagWriterOptionsNtro;
 import ca.ntro.core.identifyers.Key;
 import ca.ntro.core.initialization.Factory;
 import ca.ntro.core.stream.Stream;
-import ca.ntro.core.task_graphs.generic_task_graph_trace.GenericTaskGraphTrace;
-import ca.ntro.core.task_graphs.generic_task_graph_trace.GenericTaskGraphTraceNtro;
+import ca.ntro.core.task_graphs.task_graph_trace.TaskGraphTrace;
+import ca.ntro.core.task_graphs.task_graph_trace.TaskGraphTraceNtro;
 import ca.ntro.core.task_graphs.task_graph_writer.InternalTaskGraphWriterNtro;
 import ca.ntro.core.values.ObjectMap;
 import ca.ntro.core.values.ObjectMapNtro;
@@ -179,7 +179,7 @@ public class      GenericTaskGraphNtro<T  extends GenericTask<T,AT>,
 	}
 
 	@Override
-	public GenericTaskGraphTrace newTrace() {
+	public TaskGraphTrace newTrace() {
 		/* TODO: create a GraphResultsIterator
 		 * 
 		 *       this mimmicks the graph structure
@@ -193,7 +193,7 @@ public class      GenericTaskGraphNtro<T  extends GenericTask<T,AT>,
 		 *            only to the iterator copy
 		 */
 
-		return new GenericTaskGraphTraceNtro(this);
+		return new TaskGraphTraceNtro(this);
 	}
 	
 }

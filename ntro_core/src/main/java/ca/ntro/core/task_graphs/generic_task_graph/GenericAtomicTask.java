@@ -1,16 +1,16 @@
 package ca.ntro.core.task_graphs.generic_task_graph;
 
-import ca.ntro.core.task_graphs.generic_task_graph_trace.GenericAtomicTaskTrace;
+import ca.ntro.core.task_graphs.task_graph_trace.AtomicTaskTrace;
 
 public interface GenericAtomicTask<T  extends GenericTask<T,AT>, 
                                    AT extends GenericAtomicTask<T,AT>> 
 
-       extends AtomicTaskNotifyer, 
-               TaskStateAccessor {
+       extends TaskStateAccessor,
+               AtomicTaskStateMutator {
 	
 	AtomicTaskId id();
 	T parentTask();
 	
-	GenericAtomicTaskTrace newTrace();
+	AtomicTaskTrace newTrace();
 
 }

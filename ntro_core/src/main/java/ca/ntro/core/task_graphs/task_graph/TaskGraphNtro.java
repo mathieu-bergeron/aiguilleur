@@ -4,7 +4,7 @@ package ca.ntro.core.task_graphs.task_graph;
 import ca.ntro.core.graphs.generics.graph.GraphId;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.task_graphs.generic_task_graph.GenericTaskGraphNtro;
-import ca.ntro.core.task_graphs.generic_task_graph_trace.GenericTaskGraphTrace;
+import ca.ntro.core.task_graphs.task_graph_trace.TaskGraphTrace;
 import ca.ntro.core.values.ObjectMap;
 import ca.ntro.core.wrappers.future.Future;
 import ca.ntro.core.wrappers.future.FutureNtro;
@@ -20,7 +20,7 @@ public class TaskGraphNtro
 	
 	private TaskGraphOptions options = new TaskGraphOptionsDefault();
 
-	private GenericTaskGraphTrace trace;
+	private TaskGraphTrace trace;
 	
 	private FutureNtro<ObjectMap> future;
 	private ObjectMap currentResults;

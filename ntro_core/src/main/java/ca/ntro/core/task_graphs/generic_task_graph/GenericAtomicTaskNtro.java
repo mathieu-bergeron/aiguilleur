@@ -4,8 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import ca.ntro.core.identifyers.Key;
-import ca.ntro.core.task_graphs.generic_task_graph_trace.GenericAtomicTaskTraceNtro;
-import ca.ntro.core.task_graphs.generic_task_graph_trace.GenericTaskGraphTrace;
+import ca.ntro.core.task_graphs.task_graph_trace.AtomicTaskTraceNtro;
+import ca.ntro.core.task_graphs.task_graph_trace.TaskGraphTrace;
 
 public abstract class GenericAtomicTaskNtro<T  extends GenericTask<T,AT>, 
                                             AT extends GenericAtomicTask<T,AT>>
@@ -16,7 +16,7 @@ public abstract class GenericAtomicTaskNtro<T  extends GenericTask<T,AT>,
 	private GenericTaskNtro<T,AT> parentTask;
 	private boolean isWaitingForResult = false;
 	
-	private Set<GenericAtomicTaskTraceNtro> traces = new HashSet<>();
+	private Set<AtomicTaskTraceNtro> traces = new HashSet<>();
 
 	public AtomicTaskId getId() {
 		return id;
@@ -42,11 +42,11 @@ public abstract class GenericAtomicTaskNtro<T  extends GenericTask<T,AT>,
 		this.isWaitingForResult = isWaitingForResult;
 	}
 
-	public Set<GenericAtomicTaskTraceNtro> getTraces() {
+	public Set<AtomicTaskTraceNtro> getTraces() {
 		return traces;
 	}
 
-	public void setTraces(Set<GenericAtomicTaskTraceNtro> traces) {
+	public void setTraces(Set<AtomicTaskTraceNtro> traces) {
 		this.traces = traces;
 	}
 	
@@ -79,17 +79,17 @@ public abstract class GenericAtomicTaskNtro<T  extends GenericTask<T,AT>,
 	}
 
 	@Override
-	public boolean isBlocked(GenericTaskGraphTrace trace) {
+	public boolean isBlocked(TaskGraphTrace trace) {
 		return false;
 	}
 
 	@Override
-	public boolean isInProgress(GenericTaskGraphTrace trace) {
+	public boolean isInProgress(TaskGraphTrace trace) {
 		return getIsWaitingForResult();
 	}
 
 	@Override
-	public boolean isDone(GenericTaskGraphTrace trace) {
+	public boolean isDone(TaskGraphTrace trace) {
 		return trace.hasCurrent() 
 				&& trace.current().contains(this.id)
 				&& !trace.hasNext();
@@ -98,7 +98,7 @@ public abstract class GenericAtomicTaskNtro<T  extends GenericTask<T,AT>,
 	@Override
 	public void addResult(Object result) {
 		setIsWaitingForResult(false);
-		for(GenericAtomicTaskTraceNtro trace : getTraces()) {
+		for(AtomicTaskTraceNtro trace : getTraces()) {
 			trace.addResult(result);
 		}
 	}
@@ -106,7 +106,7 @@ public abstract class GenericAtomicTaskNtro<T  extends GenericTask<T,AT>,
 	@Override
 	public void clearResults() {
 		setIsWaitingForResult(false);
-		for(GenericAtomicTaskTraceNtro trace : getTraces()) {
+		for(AtomicTaskTraceNtro trace : getTraces()) {
 			trace.clearResults();
 		}
 	}
@@ -115,5 +115,5 @@ public abstract class GenericAtomicTaskNtro<T  extends GenericTask<T,AT>,
 	public void notifyWaitingForResult() {
 		setIsWaitingForResult(true);
 	}
-	
+
 }

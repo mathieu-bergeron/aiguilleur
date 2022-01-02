@@ -12,9 +12,7 @@ import ca.ntro.core.identifyers.Key;
 import ca.ntro.core.stream.Stream;
 import ca.ntro.core.stream.StreamNtro;
 import ca.ntro.core.stream.Visitor;
-import ca.ntro.core.task_graphs.generic_task_graph_trace.ResultsAccumulatorNtro;
-import ca.ntro.core.task_graphs.generic_task_graph_trace.GenericTaskGraphTrace;
-import ca.ntro.core.task_graphs.generic_task_graph_trace.GenericTaskTrace;
+import ca.ntro.core.task_graphs.task_graph_trace.TaskGraphTrace;
 
 public abstract class GenericTaskNtro<T  extends GenericTask<T,AT>, 
                                       AT extends GenericAtomicTask<T,AT>>
@@ -26,8 +24,6 @@ public abstract class GenericTaskNtro<T  extends GenericTask<T,AT>,
 
 	private Map<String, AT> entryTasks = new HashMap<>();
 	private Map<String, AT> exitTasks = new HashMap<>();
-	
-	private ResultsAccumulatorNtro resultsAccumulator = new ResultsAccumulatorNtro();
 	
 	public GenericTaskGraphNtro<T,AT> getGraph() {
 		return graph;
@@ -61,14 +57,7 @@ public abstract class GenericTaskNtro<T  extends GenericTask<T,AT>,
 		this.nodeBuilder = node;
 	}
 
-	public ResultsAccumulatorNtro getResultsAccumulator() {
-		return resultsAccumulator;
-	}
 
-	public void setResultsAccumulator(ResultsAccumulatorNtro resultsAccumulator) {
-		this.resultsAccumulator = resultsAccumulator;
-	}
-	
 	
 	
 
@@ -108,18 +97,18 @@ public abstract class GenericTaskNtro<T  extends GenericTask<T,AT>,
 	}
 
 	@Override
-	public boolean isBlocked(GenericTaskGraphTrace trace) {
+	public boolean isBlocked(TaskGraphTrace trace) {
 		return !arePreviousTasksDone(trace)
 				|| !areParentEntryTasksDone(trace);
 	}
 
-	protected boolean arePreviousTasksDone(GenericTaskGraphTrace trace) {
+	protected boolean arePreviousTasksDone(TaskGraphTrace trace) {
 		return previousTasks().ifAll(previousTask -> {
 			return previousTask.isDone(trace);
 		});
 	}
 	
-	protected boolean areParentEntryTasksDone(GenericTaskGraphTrace trace) {
+	protected boolean areParentEntryTasksDone(TaskGraphTrace trace) {
 		boolean done = true;
 
 		if(hasParentTask()) {
@@ -130,28 +119,28 @@ public abstract class GenericTaskNtro<T  extends GenericTask<T,AT>,
 	}
 
 	@Override
-	public boolean isInProgress(GenericTaskGraphTrace trace) {
+	public boolean isInProgress(TaskGraphTrace trace) {
 		return !isBlocked(trace)
 				&& !isDone(trace);
 	}
 
 	@Override
-	public boolean isDone(GenericTaskGraphTrace trace) {
+	public boolean isDone(TaskGraphTrace trace) {
 		return !isBlocked(trace)
 				&& areEntryTasksDone(trace)
 				&& areSubTasksDone(trace)
 				&& areExitTasksDone(trace);
 	}
 	
-	protected boolean areEntryTasksDone(GenericTaskGraphTrace trace) {
+	protected boolean areEntryTasksDone(TaskGraphTrace trace) {
 		return entryTasks().ifAll(entryTask -> entryTask.isDone(trace));
 	}
 
-	protected boolean areExitTasksDone(GenericTaskGraphTrace trace) {
+	protected boolean areExitTasksDone(TaskGraphTrace trace) {
 		return exitTasks().ifAll(exitTask -> exitTask.isDone(trace));
 	}
 
-	protected boolean areSubTasksDone(GenericTaskGraphTrace trace) {
+	protected boolean areSubTasksDone(TaskGraphTrace trace) {
 		return subTasks().ifAll(subTask -> subTask.isDone(trace));
 	}
 
@@ -401,16 +390,5 @@ public abstract class GenericTaskNtro<T  extends GenericTask<T,AT>,
 		
 		return visitedNodes.map(visitedNode -> visitedNode.node().task());
 	}
-	
-	
-	@Override
-	public GenericTaskTrace newTrace() {
-		/*  TODO: create a TaskResultsIterator
-		 * 
-		 *        that refers to a TaskResultsIterator for each previousTask (and for the parentTask)
-		 *        
-		 *        AND that fetches from AtomicTask
-		 */
-		throw new RuntimeException("TODO");
-	}
+
 }

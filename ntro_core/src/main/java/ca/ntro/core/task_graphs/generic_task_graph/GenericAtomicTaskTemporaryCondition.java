@@ -1,7 +1,7 @@
 package ca.ntro.core.task_graphs.generic_task_graph;
 
-import ca.ntro.core.task_graphs.generic_task_graph_trace.GenericAtomicTaskTrace;
-import ca.ntro.core.task_graphs.generic_task_graph_trace.GenericAtomicTaskTraceTemporaryCondition;
+import ca.ntro.core.task_graphs.task_graph_trace.AtomicTaskTrace;
+import ca.ntro.core.task_graphs.task_graph_trace.AtomicTaskTraceTemporaryCondition;
 
 public class GenericAtomicTaskTemporaryCondition<T extends GenericTask<T,AT>, 
                                              AT extends GenericAtomicTask<T,AT>>
@@ -9,7 +9,7 @@ public class GenericAtomicTaskTemporaryCondition<T extends GenericTask<T,AT>,
        extends GenericAtomicTaskNtro<T,AT> {
 
 	@Override
-	public GenericAtomicTaskTrace newTrace() {
-		return new GenericAtomicTaskTraceTemporaryCondition(this);
+	public AtomicTaskTrace newTrace() {
+		return new AtomicTaskTraceTemporaryCondition(this);
 	}
 }

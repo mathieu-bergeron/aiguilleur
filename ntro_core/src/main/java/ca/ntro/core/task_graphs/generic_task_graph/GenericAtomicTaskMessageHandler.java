@@ -1,7 +1,7 @@
 package ca.ntro.core.task_graphs.generic_task_graph;
 
-import ca.ntro.core.task_graphs.generic_task_graph_trace.GenericAtomicTaskTrace;
-import ca.ntro.core.task_graphs.generic_task_graph_trace.GenericAtomicTaskTraceMessageHandler;
+import ca.ntro.core.task_graphs.task_graph_trace.AtomicTaskTrace;
+import ca.ntro.core.task_graphs.task_graph_trace.AtomicTaskTraceMessageHandler;
 
 public class GenericAtomicTaskMessageHandler<T extends GenericTask<T,AT>, 
                                              AT extends GenericAtomicTask<T,AT>>
@@ -17,7 +17,7 @@ public class GenericAtomicTaskMessageHandler<T extends GenericTask<T,AT>,
 	}
 
 	@Override
-	public GenericAtomicTaskTrace newTrace() {
-		return new GenericAtomicTaskTraceMessageHandler(this);
+	public AtomicTaskTrace newTrace() {
+		return new AtomicTaskTraceMessageHandler(this);
 	}
 }

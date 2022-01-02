@@ -1,9 +1,8 @@
-package ca.ntro.core.task_graphs.generic_task_graph_trace;
+package ca.ntro.core.task_graphs.task_graph_trace;
 
 public abstract class GenericTraceNtro<V extends Object> 
 
-       implements GenericTraceAccessor<V>,
-                  GenericTraceMutator<V> {
+       implements GenericTraceAccessor<V> {
 	
 	
 	@Override
@@ -35,17 +34,4 @@ public abstract class GenericTraceNtro<V extends Object>
 		// TODO Auto-generated method stub
 		
 	}
-
-	public void addResult(V result) {
-		
-	}
-
-	public void clearResults() {
-
-	}
-	
-	public void notifyIsWaiting() {
-		
-	}
-
 }

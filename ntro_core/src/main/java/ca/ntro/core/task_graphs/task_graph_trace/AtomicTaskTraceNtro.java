@@ -1,11 +1,11 @@
-package ca.ntro.core.task_graphs.generic_task_graph_trace;
+package ca.ntro.core.task_graphs.task_graph_trace;
 
 import ca.ntro.core.task_graphs.generic_task_graph.GenericAtomicTask;
 import ca.ntro.core.task_graphs.generic_task_graph.GenericAtomicTaskNtro;
 
-public abstract class GenericAtomicTaskTraceNtro 
+public abstract class AtomicTaskTraceNtro 
        extends        GenericTraceNtro<Object>
-       implements     GenericAtomicTaskTrace {
+       implements     AtomicTaskTrace {
 
 	private GenericAtomicTaskNtro<?,?> task;
 
@@ -19,10 +19,10 @@ public abstract class GenericAtomicTaskTraceNtro
 	
 	
 	
-	public GenericAtomicTaskTraceNtro() {
+	public AtomicTaskTraceNtro() {
 	}
 
-	public GenericAtomicTaskTraceNtro(GenericAtomicTaskNtro<?,?> task) {
+	public AtomicTaskTraceNtro(GenericAtomicTaskNtro<?,?> task) {
 		setTask(task);
 	}
 
@@ -31,5 +31,22 @@ public abstract class GenericAtomicTaskTraceNtro
 	@Override
 	public GenericAtomicTask<?, ?> task() {
 		return getTask();
+	}
+	
+	
+	
+	
+	
+
+	@Override
+	public void addResult(Object value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void clearResults() {
+		// TODO Auto-generated method stub
+		
 	}
 }

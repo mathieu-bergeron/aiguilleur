@@ -2,7 +2,7 @@ package ca.ntro.core.task_graphs.generic_task_graph;
 
 import ca.ntro.core.graph_writer.GraphWriter;
 import ca.ntro.core.stream.Stream;
-import ca.ntro.core.task_graphs.generic_task_graph_trace.GenericTaskGraphTrace;
+import ca.ntro.core.task_graphs.task_graph_trace.TaskGraphTrace;
 
 public interface GenericTaskGraph<T  extends GenericTask<T,AT>, 
                                   AT extends GenericAtomicTask<T,AT>> {
@@ -22,7 +22,7 @@ public interface GenericTaskGraph<T  extends GenericTask<T,AT>,
 	
 	void write(GraphWriter writer);      // XXX: writing w/o an iterator only writes the structure
 	
-	GenericTaskGraphTrace newTrace();
+	TaskGraphTrace newTrace();
 
 	static <T extends GenericTask<T,AT>, AT extends GenericAtomicTask<T,AT>> GenericTaskGraph<T,AT> newGenericGraph(Class<T> taskClass, Class<AT> atomicTaskClass) {
 		
