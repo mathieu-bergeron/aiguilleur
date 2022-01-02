@@ -51,6 +51,13 @@ public class TaskTraceNtro
 	
 	private void initialize() {
 		recursivelyAddPreconditions(getTask(), new HashSet<>());
+		//addResultsTasks();
+	}
+
+	private void addResultsTasks() {
+		getTask().atomicTasks().forEach(atomicTask -> {
+			getAtomicTasksTraces().put(atomicTask.id().toKey().toString(), (AtomicTaskTraceNtro) atomicTask.newTrace());
+		});
 	}
 	
 	private void recursivelyAddPreconditions(GenericTask<?,?> cursor,
