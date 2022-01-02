@@ -18,6 +18,7 @@ public interface GenericTaskGraph<T  extends GenericTask<T,AT>,
 	T addTask(TaskId id);
 	T addTask(String id);
 	
+	Stream<T> startTasks();
 	Stream<T> tasks();
 	
 	void write(GraphWriter writer);      // XXX: writing w/o an iterator only writes the structure

@@ -48,7 +48,7 @@ public class      RecordSpecNtro
 	public Stream<RecordItemSpec> items() {
 		return new StreamNtro<RecordItemSpec>() {
 			@Override
-			public void _forEach(Visitor<RecordItemSpec> visitor) throws Throwable {
+			public void forEach_(Visitor<RecordItemSpec> visitor) throws Throwable {
 				for(RecordItemSpec item : getItems()) {
 					visitor.visit(item);
 				}

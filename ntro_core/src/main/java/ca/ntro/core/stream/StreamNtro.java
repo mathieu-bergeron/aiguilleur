@@ -14,13 +14,13 @@ public abstract class StreamNtro<I extends Object>
        implements     Stream<I> {
 
 	@Override
-	public abstract void _forEach(Visitor<I> visitor) throws Throwable;
+	public abstract void forEach_(Visitor<I> visitor) throws Throwable;
 	
 	@Override
 	public <R> void applyReducer(ResultNtro<R> result, Reducer<I,R> reducer) {
 		try {
 
-			_forEach(i -> {
+			forEach_(i -> {
 
 				reducer.reduce(result, i);
 
@@ -114,7 +114,7 @@ public abstract class StreamNtro<I extends Object>
 	public void forEach(Visitor<I> visitor) {
 		try {
 
-			_forEach(visitor);
+			forEach_(visitor);
 
 		}catch(Throwable t) {
 
@@ -154,10 +154,10 @@ public abstract class StreamNtro<I extends Object>
 		return new StreamNtro<I>() {
 
 			@Override
-			public void _forEach(Visitor<I> visitor) throws Throwable {
-				StreamNtro.this._forEach(visitor);
+			public void forEach_(Visitor<I> visitor) throws Throwable {
+				StreamNtro.this.forEach_(visitor);
 
-				other._forEach(visitor);
+				other.forEach_(visitor);
 			}
 		};
 	}

@@ -1,8 +1,10 @@
 package ca.ntro.core.stream;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import ca.ntro.core.task_graphs.task_graph_trace.TaskTraceNtro;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
@@ -22,7 +24,7 @@ public interface Stream<I extends Object> {
 
 	void forEach(Visitor<I> visitor);
 
-	void _forEach(Visitor<I> visitor) throws Throwable;
+	void forEach_(Visitor<I> visitor) throws Throwable;
 	
 	I findFirst(Matcher<I> matcher);
 
@@ -40,12 +42,34 @@ public interface Stream<I extends Object> {
 
 	<R> void applyReducer(ResultNtro<R> result, Reducer<I,R> reducer);
 	
-	public static <V> Stream<V> fromSet(Set<V> set){
+	public static <V> Stream<V> forSet(Set<V> set){
 		return new StreamNtro<V>() {
 			@Override
-			public void _forEach(Visitor<V> visitor) throws Throwable {
+			public void forEach_(Visitor<V> visitor) throws Throwable {
 				for(V value : set) {
 					visitor.visit(value);
+				}
+			}
+		};
+	}
+
+	static <V> Stream<V> forMapValues(Map<?, V> map) {
+		return new StreamNtro<V>() {
+			@Override
+			public void forEach_(Visitor<V> visitor) throws Throwable {
+				for(V value : map.values()) {
+					visitor.visit(value);
+				}
+			}
+		};
+	}
+
+	static <K> Stream<K> forMapKeys(Map<K, ?> map) {
+		return new StreamNtro<K>() {
+			@Override
+			public void forEach_(Visitor<K> visitor) throws Throwable {
+				for(K key : map.keySet()) {
+					visitor.visit(key);
 				}
 			}
 		};

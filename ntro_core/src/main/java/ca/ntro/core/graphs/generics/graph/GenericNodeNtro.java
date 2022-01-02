@@ -168,7 +168,7 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 			return;
 		}
 		
-		edges(options)._forEach(e -> {
+		edges(options).forEach_(e -> {
 				if(options.internal().visitedNodes().contains(e.to().id().toKey().toString())) {
 					return;
 				}
@@ -207,7 +207,7 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 
 		visitReachableNodesDepthFirst(oneStepOptions, walked, visitor);
 
-		edges(options)._forEach(e -> {
+		edges(options).forEach_(e -> {
 
 			if(options.internal().visitedNodes().contains(e.to().id().toKey().toString())) {
 				return;
@@ -271,7 +271,7 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 		return new StreamNtro<WalkInProgress<N,E,SO>>(){
 
 			@Override
-			public void _forEach(Visitor<WalkInProgress<N, E, SO>> visitor) throws Throwable {
+			public void forEach_(Visitor<WalkInProgress<N, E, SO>> visitor) throws Throwable {
 				
 				visitWalk(new WalkNtro<N,E,SO>(), walk, options, visitor);
 				

@@ -115,7 +115,7 @@ public class InternalSearchOptionsNtro implements InternalSearchOptions {
 	public Stream<Direction> directionStream() {
 		return new StreamNtro<Direction>() {
 			@Override
-			public void _forEach(Visitor<Direction> visitor) throws Throwable {
+			public void forEach_(Visitor<Direction> visitor) throws Throwable {
 				
 				for(Direction direction : directions()) {
 					visitor.visit(direction);

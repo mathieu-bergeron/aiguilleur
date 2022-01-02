@@ -4,8 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import ca.ntro.core.identifyers.Key;
+import ca.ntro.core.task_graphs.task_graph_trace.AtomicTaskTrace;
 import ca.ntro.core.task_graphs.task_graph_trace.AtomicTaskTraceNtro;
-import ca.ntro.core.task_graphs.task_graph_trace.TaskTrace;
 
 public abstract class GenericAtomicTaskNtro<T  extends GenericTask<T,AT>, 
                                             AT extends GenericAtomicTask<T,AT>>
@@ -79,23 +79,6 @@ public abstract class GenericAtomicTaskNtro<T  extends GenericTask<T,AT>,
 	}
 
 	@Override
-	public boolean isBlocked(TaskTrace trace) {
-		return false;
-	}
-
-	@Override
-	public boolean isInProgress(TaskTrace trace) {
-		return getIsWaitingForResult();
-	}
-
-	@Override
-	public boolean isDone(TaskTrace trace) {
-		return trace.hasCurrent() 
-				&& trace.current().contains(this.id)
-				&& !trace.hasNext();
-	}
-
-	@Override
 	public void addResult(Object result) {
 		setIsWaitingForResult(false);
 		for(AtomicTaskTraceNtro trace : getTraces()) {
@@ -115,5 +98,16 @@ public abstract class GenericAtomicTaskNtro<T  extends GenericTask<T,AT>,
 	public void notifyWaitingForResult() {
 		setIsWaitingForResult(true);
 	}
+
+	@Override
+	public AtomicTaskTrace newTrace() {
+		AtomicTaskTrace trace = newTraceInstance();
+		
+		getTraces().add((AtomicTaskTraceNtro) trace);
+		
+		return trace;
+	}
+
+	protected abstract AtomicTaskTrace newTraceInstance();
 
 }

@@ -17,7 +17,7 @@ public class GenericAtomicTaskMessageHandler<T extends GenericTask<T,AT>,
 	}
 
 	@Override
-	public AtomicTaskTrace newTrace() {
+	protected AtomicTaskTrace newTraceInstance() {
 		return new AtomicTaskTraceMessageHandler(this);
 	}
 }

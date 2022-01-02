@@ -51,7 +51,7 @@ public abstract class ObjectGraphStructureNtro implements ObjectGraphStructure {
 		return new StreamNtro<ObjectNode>() {
 
 			@Override
-			public void _forEach(Visitor<ObjectNode> visitor) throws Throwable {
+			public void forEach_(Visitor<ObjectNode> visitor) throws Throwable {
 				if(startObjects.length == 1) {
 
 					visitStartNode(Path.emptyPath(), startObjects[0], visitor);

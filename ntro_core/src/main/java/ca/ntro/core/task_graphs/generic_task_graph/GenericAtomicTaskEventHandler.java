@@ -8,8 +8,9 @@ public class GenericAtomicTaskEventHandler<T extends GenericTask<T,AT>,
 
        extends GenericAtomicTaskNtro<T,AT> {
 
+
 	@Override
-	public AtomicTaskTrace newTrace() {
+	protected AtomicTaskTrace newTraceInstance() {
 		return new AtomicTaskTraceEventHandler(this);
 	}
 }

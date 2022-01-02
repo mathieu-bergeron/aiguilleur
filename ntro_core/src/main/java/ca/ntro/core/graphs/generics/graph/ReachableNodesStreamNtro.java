@@ -39,7 +39,7 @@ public class ReachableNodesStreamNtro<N extends GenericNode<N,E,SO>,
 	}
 
 	@Override
-	public void _forEach(Visitor<VisitedNode<N, E, SO>> visitor) throws Throwable {
+	public void forEach_(Visitor<VisitedNode<N, E, SO>> visitor) throws Throwable {
 		if(searchOptions.internal().searchStrategy() == SearchStrategy.DEPTH_FIRST_SEARCH) {
 
 			node.visitReachableNodesDepthFirst(searchOptions, new WalkNtro<N,E,SO>(), visitor);

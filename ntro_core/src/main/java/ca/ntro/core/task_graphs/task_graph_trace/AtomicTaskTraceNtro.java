@@ -1,5 +1,8 @@
 package ca.ntro.core.task_graphs.task_graph_trace;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ca.ntro.core.task_graphs.generic_task_graph.GenericAtomicTask;
 import ca.ntro.core.task_graphs.generic_task_graph.GenericAtomicTaskNtro;
 
@@ -7,6 +10,7 @@ public abstract class AtomicTaskTraceNtro
        implements     AtomicTaskTrace {
 
 	private GenericAtomicTaskNtro<?,?> task;
+	private List<Object> results = new ArrayList<>();
 
 	public GenericAtomicTaskNtro<?, ?> getTask() {
 		return task;
@@ -16,8 +20,15 @@ public abstract class AtomicTaskTraceNtro
 		this.task = task;
 	}
 	
+	public List<Object> getResults() {
+		return results;
+	}
+
+	public void setResults(List<Object> results) {
+		this.results = results;
+	}
 	
-	
+
 	public AtomicTaskTraceNtro() {
 	}
 
@@ -31,69 +42,46 @@ public abstract class AtomicTaskTraceNtro
 	public GenericAtomicTask<?, ?> task() {
 		return getTask();
 	}
-	
-	
-	
-	
-	
 
 	@Override
 	public void addResult(Object value) {
-		// TODO Auto-generated method stub
-		
+		getResults().add(value);
 	}
 
 	@Override
 	public void clearResults() {
-		// TODO Auto-generated method stub
-		
+		getResults().clear();
 	}
 
 	@Override
 	public boolean hasCurrent() {
-		// TODO Auto-generated method stub
-		return false;
+		return getResults().size() > 0;
 	}
 
 	@Override
 	public Object current() {
-		// TODO Auto-generated method stub
-		return null;
+		Object result = null;
+		
+		if(hasCurrent()) {
+			result = getResults().get(0);
+		}
+		
+		return result;
 	}
 
 	@Override
 	public boolean isWaiting() {
-		// TODO Auto-generated method stub
-		return false;
+		return getTask().getIsWaitingForResult();
 	}
 
 	@Override
 	public boolean hasNext() {
-		// TODO Auto-generated method stub
-		return false;
+		return getResults().size() > 1;
 	}
 
 	@Override
 	public void advanceToNext() {
-		// TODO Auto-generated method stub
-		
+		setResults(getResults().subList(1, getResults().size()));
 	}
 
-	@Override
-	public void notifyCurrentResultWasUsed() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void notifyCurrentResultCouldNotBeUsed() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void notifyWaitingForResult() {
-		// TODO Auto-generated method stub
-		
-	}
 }

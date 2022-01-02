@@ -45,7 +45,7 @@ public class EdgesByToIdNtro<N extends GenericNode<N,E,SO>,
 		return new StreamNtro<EdgeType>() {
 
 			@Override
-			public void _forEach(Visitor<EdgeType> visitor) throws Throwable {
+			public void forEach_(Visitor<EdgeType> visitor) throws Throwable {
 
 				for(E edge: edgesMap.values()) {
 
@@ -60,7 +60,7 @@ public class EdgesByToIdNtro<N extends GenericNode<N,E,SO>,
 		return new StreamNtro<E>() {
 
 			@Override
-			public void _forEach(Visitor<E> visitor) throws Throwable {
+			public void forEach_(Visitor<E> visitor) throws Throwable {
 				for(E edge: edgesMap.values()) {
 
 					visitor.visit(edge);

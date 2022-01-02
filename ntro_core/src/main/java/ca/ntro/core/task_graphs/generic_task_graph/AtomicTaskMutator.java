@@ -1,6 +1,6 @@
 package ca.ntro.core.task_graphs.generic_task_graph;
 
-public interface AtomicTaskStateMutator {
+public interface AtomicTaskMutator {
 
 	void addResult(Object value);
 	void clearResults();

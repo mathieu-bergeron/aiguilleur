@@ -205,7 +205,7 @@ public abstract class GenericGraphBuilderNtro<N extends GenericNode<N,E,SO>,
 		return new StreamNtro<N>() {
 
 			@Override
-			public void _forEach(Visitor<N> visitor) throws Throwable {
+			public void forEach_(Visitor<N> visitor) throws Throwable {
 				for(N node : getStartNodes().values()) {
 
 					visitor.visit(node);

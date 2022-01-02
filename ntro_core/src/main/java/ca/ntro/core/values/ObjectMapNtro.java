@@ -75,7 +75,7 @@ public class ObjectMapNtro implements ObjectMap {
 	public Stream<String> ids() {
 		return new StreamNtro<String>() {
 			@Override
-			public void _forEach(Visitor<String> visitor) throws Throwable {
+			public void forEach_(Visitor<String> visitor) throws Throwable {
 				for(String key : objects.keySet()) {
 					visitor.visit(key);
 				}
@@ -87,7 +87,7 @@ public class ObjectMapNtro implements ObjectMap {
 	public Stream<Object> objects() {
 		return new StreamNtro<Object>() {
 			@Override
-			public void _forEach(Visitor<Object> visitor) throws Throwable {
+			public void forEach_(Visitor<Object> visitor) throws Throwable {
 				for(Object object : objects.values()) {
 					visitor.visit(object);
 				}

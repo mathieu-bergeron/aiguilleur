@@ -175,7 +175,12 @@ public class      GenericTaskGraphNtro<T  extends GenericTask<T,AT>,
 
 	@Override
 	public Stream<T> tasks() {
-		return hdagBuilder.graph().nodes().map(node -> node.task());
+		return getHdagBuilder().graph().nodes().map(node -> node.task());
+	}
+
+	@Override
+	public Stream<T> startTasks() {
+		return getHdagBuilder().graph().startNodes().map(node -> node.task());
 	}
 
 	@Override

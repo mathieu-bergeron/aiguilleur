@@ -48,7 +48,7 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 	public Stream<EdgeType> edgeTypes(Direction direction) {
 		return new StreamNtro<EdgeType>() {
 			@Override
-			public void _forEach(Visitor<EdgeType> visitor) throws Throwable {
+			public void forEach_(Visitor<EdgeType> visitor) throws Throwable {
 				if(direction != Direction.FORWARD) {
 					return;
 				}
@@ -84,7 +84,7 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 	}
 	
 	protected void _visitEdgeTypesForUserDefinedObject(Visitor<EdgeType> visitor, Object object) throws Throwable {
-		methodNames(object)._forEach(methodName -> {
+		methodNames(object).forEach_(methodName -> {
 
 			if(ReflectionUtils.isGetterName(methodName) 
 					&& ReflectionUtils.isUserDefinedMethod(object, methodName)) {
@@ -101,7 +101,7 @@ public abstract class ObjectNodeStructureNtro implements ObjectNodeStructure {
 		return new StreamNtro<ReferenceEdge>(){
 
 			@Override
-			public void _forEach(Visitor<ReferenceEdge> visitor) throws Throwable {
+			public void forEach_(Visitor<ReferenceEdge> visitor) throws Throwable {
 				if(edgeType.direction() != Direction.FORWARD) {
 					return;
 				}

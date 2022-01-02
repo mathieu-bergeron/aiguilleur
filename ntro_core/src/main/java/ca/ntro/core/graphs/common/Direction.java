@@ -28,7 +28,7 @@ public enum Direction {
 	public static Stream<Direction> asStream(){
 		return new StreamNtro<Direction>() {
 			@Override
-			public void _forEach(Visitor<Direction> visitor) throws Throwable {
+			public void forEach_(Visitor<Direction> visitor) throws Throwable {
 				for(Direction direction : Direction.values()) {
 					visitor.visit(direction);
 				}

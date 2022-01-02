@@ -4,9 +4,7 @@ import ca.ntro.core.stream.Stream;
 import ca.ntro.core.task_graphs.task_graph_trace.TaskTrace;
 
 public interface GenericTask<T  extends GenericTask<T,AT>, 
-                      AT extends GenericAtomicTask<T,AT>> 
-
-       extends TaskStateAccessor {
+                      AT extends GenericAtomicTask<T,AT>> {
 
 	TaskId id();
 	GenericTaskGraph<T,AT> parentGraph();
@@ -52,6 +50,8 @@ public interface GenericTask<T  extends GenericTask<T,AT>,
 	Stream<T>  subTasks();
 	Stream<AT> exitTasks();
 	Stream<T>  nextTasks();
+
+	Stream<AT> atomicTasks();
 
 	Stream<T> reachableTasks();
 	Stream<T> reachableTasks(TaskGraphSearchOptions options);

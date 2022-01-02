@@ -13,8 +13,8 @@ public class ReduceToStreamNtro<I,R> extends StreamNtro<R> {
 	}
 
 	@Override
-	public void _forEach(Visitor<R> visitor) throws Throwable {
-		stream._forEach(item -> {
+	public void forEach_(Visitor<R> visitor) throws Throwable {
+		stream.forEach_(item -> {
 			streamReducer.reduce(item, mappedItem -> {
 				visitor.visit(mappedItem);
 			});

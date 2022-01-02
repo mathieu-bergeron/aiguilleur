@@ -51,7 +51,7 @@ public class ObjectNodeStructureJdk extends ObjectNodeStructureNtro {
 		return new StreamNtro<String>() {
 
 			@Override
-			public void _forEach(Visitor<String> visitor) throws Throwable {
+			public void forEach_(Visitor<String> visitor) throws Throwable {
 				for(Method method : object.getClass().getMethods()) {
 
 					visitor.visit(method.getName());

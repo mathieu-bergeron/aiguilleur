@@ -12,7 +12,6 @@ import ca.ntro.core.identifyers.Key;
 import ca.ntro.core.stream.Stream;
 import ca.ntro.core.stream.StreamNtro;
 import ca.ntro.core.stream.Visitor;
-import ca.ntro.core.task_graphs.task_graph_trace.TaskGraphTrace;
 import ca.ntro.core.task_graphs.task_graph_trace.TaskTrace;
 import ca.ntro.core.task_graphs.task_graph_trace.TaskTraceNtro;
 
@@ -96,54 +95,6 @@ public abstract class GenericTaskNtro<T  extends GenericTask<T,AT>,
 	@Override
 	public boolean hasParentTask() {
 		return getNodeBuilder().node().hasParent();
-	}
-
-	@Override
-	public boolean isBlocked(TaskTrace trace) {
-		return !arePreviousTasksDone(trace)
-				|| !areParentEntryTasksDone(trace);
-	}
-
-	protected boolean arePreviousTasksDone(TaskTrace trace) {
-		return previousTasks().ifAll(previousTask -> {
-			return previousTask.isDone(trace);
-		});
-	}
-	
-	protected boolean areParentEntryTasksDone(TaskTrace trace) {
-		boolean done = true;
-
-		if(hasParentTask()) {
-			done = parentTask().entryTasks().ifAll(entryTask -> entryTask.isDone(trace));
-		}
-
-		return done;
-	}
-
-	@Override
-	public boolean isInProgress(TaskTrace trace) {
-		return !isBlocked(trace)
-				&& !isDone(trace);
-	}
-
-	@Override
-	public boolean isDone(TaskTrace trace) {
-		return !isBlocked(trace)
-				&& areEntryTasksDone(trace)
-				&& areSubTasksDone(trace)
-				&& areExitTasksDone(trace);
-	}
-	
-	protected boolean areEntryTasksDone(TaskTrace trace) {
-		return entryTasks().ifAll(entryTask -> entryTask.isDone(trace));
-	}
-
-	protected boolean areExitTasksDone(TaskTrace trace) {
-		return exitTasks().ifAll(exitTask -> exitTask.isDone(trace));
-	}
-
-	protected boolean areSubTasksDone(TaskTrace trace) {
-		return subTasks().ifAll(subTask -> subTask.isDone(trace));
 	}
 
 	@Override
@@ -341,7 +292,7 @@ public abstract class GenericTaskNtro<T  extends GenericTask<T,AT>,
 	protected Stream<AT> atomicTasks(Map<String, AT> atomicTasks){
 		return new StreamNtro<AT>() {
 			@Override
-			public void _forEach(Visitor<AT> visitor) throws Throwable {
+			public void forEach_(Visitor<AT> visitor) throws Throwable {
 				for(AT atomicTask : atomicTasks.values()) {
 					visitor.visit(atomicTask);
 				}
@@ -349,7 +300,8 @@ public abstract class GenericTaskNtro<T  extends GenericTask<T,AT>,
 		};
 	}
 
-	protected Stream<AT> atomicTasks(){
+	@Override
+	public Stream<AT> atomicTasks(){
 		return atomicTasks(getEntryTasks()).append(atomicTasks(getExitTasks()));
 	}
 
