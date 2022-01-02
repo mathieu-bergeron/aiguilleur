@@ -8,20 +8,20 @@ import ca.ntro.core.graphs.generics.graph.GenericGraph;
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagWriterOptionsNtro;
 import ca.ntro.core.identifyers.Id;
 import ca.ntro.core.stream.Stream;
+import ca.ntro.core.stream.StreamNtro;
+import ca.ntro.core.stream.Visitor;
 import ca.ntro.core.task_graphs.generic_task_graph.GenericAtomicTask;
 import ca.ntro.core.task_graphs.generic_task_graph.GenericAtomicTaskNtro;
 import ca.ntro.core.task_graphs.generic_task_graph.GenericTaskGraphNtro;
 import ca.ntro.core.task_graphs.task_graph_writer.InternalTaskGraphTraceWriterNtro;
 import ca.ntro.core.values.ObjectMap;
 
-public class TaskGraphTraceNtro 
-
-       extends GenericTraceNtro<ObjectMap>
+public class      TaskGraphTraceNtro 
 
        implements TaskGraphTrace, ObjectMap {
 	
 	private GenericTaskGraphNtro<?,?> graph;
-	private Map<String, AtomicTaskTrace> traces = new HashMap<>();
+	private Map<String, AtomicTaskTraceNtro> traces = new HashMap<>();
 	private InternalTaskGraphTraceWriterNtro<?,?> internalWriter = new InternalTaskGraphTraceWriterNtro(this);
 
 	public GenericTaskGraphNtro<?, ?> getGraph() {
@@ -52,10 +52,21 @@ public class TaskGraphTraceNtro
 	
 	private void initializeAtomicTaskTrace(GenericAtomicTask<?,?> atomicTask) {
 		AtomicTaskTraceNtro trace = (AtomicTaskTraceNtro) atomicTask.newTrace();
-
+		
 		trace.setTask((GenericAtomicTaskNtro<?,?>) atomicTask);
 		
 		traces.put(atomicTask.id().toKey().toString(), trace);
+	}
+	
+	private Stream<AtomicTaskTraceNtro> traces(){
+		return new StreamNtro<AtomicTaskTraceNtro>() {
+			@Override
+			public void _forEach(Visitor<AtomicTaskTraceNtro> visitor) throws Throwable {
+				for(AtomicTaskTraceNtro trace : traces.values()) {
+					visitor.visit(trace);
+				}
+			}
+		};
 	}
 	
 	
@@ -78,43 +89,88 @@ public class TaskGraphTraceNtro
 	@Override
 	public boolean contains(String id) {
 		AtomicTaskTrace trace = traces.get(id);
-		return trace.hasCurrent();
+		return trace != null
+				&& trace.hasCurrent();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <O> O get(Class<O> _class, Id id) {
-		// TODO Auto-generated method stub
-		return null;
+		return (O) get(id);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <O> O get(Class<O> _class, String id) {
-		// TODO Auto-generated method stub
-		return null;
+		return (O) get(id);
 	}
 
 	@Override
 	public Object get(Id id) {
-		// TODO Auto-generated method stub
-		return null;
+		return get(id.toKey().toString());
 	}
 
 	@Override
 	public Object get(String id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void addAll(ObjectMap other) {
-		// TODO Auto-generated method stub
+		Object result = null;
 		
+		AtomicTaskTraceNtro trace = traces.get(id);
+		
+		if(trace != null
+				&& trace.hasCurrent()) {
+			
+			result = trace.current();
+		}
+		
+		return result;
+	}
+
+
+	@Override
+	public Stream<String> ids() {
+		return new StreamNtro<String>() {
+			@Override
+			public void _forEach(Visitor<String> visitor) throws Throwable {
+				for(String key : traces.keySet()) {
+					visitor.visit(key);
+				}
+			}
+		};
 	}
 
 	@Override
-	public Stream<String> keys() {
-		// TODO Auto-generated method stub
-		return null;
+	public Stream<Object> objects() {
+		return traces().reduceToStream((trace, visitor) -> {
+			if(trace.hasCurrent()) {
+				visitor.visit(trace.current());
+			}
+		});
 	}
+
+	@Override
+	public boolean hasCurrent() {
+		return traces().ifSome(trace -> trace.hasCurrent());
+	}
+
+	@Override
+	public ObjectMap current() {
+		return (ObjectMap) this;
+	}
+
+	@Override
+	public boolean isWaiting() {
+		return traces().ifSome(trace -> trace.isWaiting());
+	}
+
+	@Override
+	public boolean hasNext() {
+		return traces().ifSome(trace -> trace.hasNext());
+	}
+
+	@Override
+	public void advanceToNext() {
+		traces().forEach(trace -> trace.advanceToNext());
+	}
+
 
 }

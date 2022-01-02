@@ -65,20 +65,31 @@ public class ObjectMapNtro implements ObjectMap {
 		return getObjects().containsKey(id);
 	}
 
-	@Override
 	public void addAll(ObjectMap other) {
-		other.keys().forEach(id -> {
+		other.ids().forEach(id -> {
 			getObjects().put(id, other.get(id));
 		});
 	}
 
 	@Override
-	public Stream<String> keys() {
+	public Stream<String> ids() {
 		return new StreamNtro<String>() {
 			@Override
 			public void _forEach(Visitor<String> visitor) throws Throwable {
 				for(String key : objects.keySet()) {
 					visitor.visit(key);
+				}
+			}
+		};
+	}
+
+	@Override
+	public Stream<Object> objects() {
+		return new StreamNtro<Object>() {
+			@Override
+			public void _forEach(Visitor<Object> visitor) throws Throwable {
+				for(Object object : objects.values()) {
+					visitor.visit(object);
 				}
 			}
 		};

@@ -15,9 +15,8 @@ public interface ObjectMap {
 	Object get(Id id);
     Object get(String id);
 
-	void addAll(ObjectMap other);
-
-	Stream<String> keys();
+	Stream<String> ids();
+	Stream<Object> objects();
 
 	/*
 	<O extends Object> O getSingleton(ClassId<O> classId);
