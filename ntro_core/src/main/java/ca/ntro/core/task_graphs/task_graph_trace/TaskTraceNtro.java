@@ -51,7 +51,7 @@ public class TaskTraceNtro
 	
 	private void initialize() {
 		recursivelyAddPreconditions(getTask(), new HashSet<>());
-		//addResultsTasks();
+		addResultsTasks();
 	}
 
 	private void addResultsTasks() {

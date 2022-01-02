@@ -52,15 +52,26 @@ public class GenericTaskGraphTests {
 		TaskGraphTrace trace = graph.newTrace();
 		
 		a_entry.addResult(1);
+		
+		trace.writeCurrentState(Ntro.graphWriter());
+		
+		
 		a_entry.addResult(2);
+		a_entry.addResult(3);
+
 		aa_entry.addResult(1);
+		
+		trace.writeCurrentState(Ntro.graphWriter());
+
+		
 		aa_entry.addResult(2);
 		aa_entry.addResult(3);
+
 		a_exit.addResult(1);
-
-		trace.writeTrace(Ntro.graphWriter());
-
 		a_exit.addResult(2);
 		a_exit.addResult(3);
+
+		trace.writeCurrentState(Ntro.graphWriter());
+
 	}
 }
