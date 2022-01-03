@@ -74,7 +74,6 @@ public abstract class AtomicTaskTraceNtro
 	@Override
 	public void clearResults() {
 		getParentTrace().getParentTrace().notifyClearResults(getTask().id());
-		getResults().clear();
 	}
 
 	@Override
