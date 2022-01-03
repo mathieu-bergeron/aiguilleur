@@ -55,10 +55,12 @@ public class GenericTaskGraphTests {
 		graph.write(Ntro.graphWriter());
 
 		OptionnalNtro<Integer> stateChanges = (OptionnalNtro<Integer>) Optionnal.fromValue(0);
+		OptionnalNtro<Integer> a_entry_executed = (OptionnalNtro<Integer>) Optionnal.fromValue(0);
 
 		a_entry.execute((previousResults, notifyer) -> {
 			// ADS RESULT ONLY TO THE CURRENT TRACE
 			notifyer.addResult(2);
+			a_entry_executed.registerValue(a_entry_executed.value()+1);
 		});
 
 		a_entry.handleException(exception -> {
@@ -73,11 +75,13 @@ public class GenericTaskGraphTests {
 		});
 		
 		Ntro.asserter().assertEquals(0, stateChanges.value());
+		Ntro.asserter().assertEquals(0, a_entry_executed.value());
 		
 		trace.recomputeState();
 		trace.writeCurrentState(Ntro.graphWriter());
 
 		Ntro.asserter().assertEquals(1, stateChanges.value());
+		Ntro.asserter().assertEquals(1, a_entry_executed.value());
 
 		// MSG_RECEIVER: ADDING RESULTS TO ALL TRACES
 		aa_entry.addResult(1);

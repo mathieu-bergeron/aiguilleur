@@ -8,6 +8,7 @@ import java.util.Set;
 import ca.ntro.core.identifyers.Id;
 import ca.ntro.core.stream.Stream;
 import ca.ntro.core.task_graphs.generic_task_graph.AtomicTaskId;
+import ca.ntro.core.task_graphs.generic_task_graph.AtomicTaskMutator;
 import ca.ntro.core.task_graphs.generic_task_graph.GenericTask;
 import ca.ntro.core.task_graphs.generic_task_graph.GenericTaskNtro;
 import ca.ntro.core.values.ObjectMap;
@@ -318,9 +319,58 @@ public class TaskTraceNtro
 		
 		if(oldState != getState()) {
 			stateChanged = true;
+			
+			if(getState() == TaskState.EXECUTING_ENTRY_TASKS) {
+				
+				executeEntryTasks();
+
+			}else if(getState() == TaskState.EXECUTING_EXIT_TASKS) {
+
+				executeExitTasks();
+			}
 		}
 		
 		return stateChanged;
+	}
+
+	private void executeEntryTasks() {
+		executeAtomicTasks(entryTraces());
+	}
+
+	private void executeExitTasks() {
+		executeAtomicTasks(exitTraces());
+	}
+
+	private void executeAtomicTasks(Stream<AtomicTaskTraceNtro> traces) {
+		traces.forEach(trace -> {
+			if(trace.getTask().getExceptionHandler() != null) {
+				try {
+					trace.getTask().getExecuteHandler().execute((ObjectMap) this, new AtomicTaskMutator() {
+						@Override
+						public void addResult(Object value) {
+							trace.addResult(value);
+						}
+
+						@Override
+						public void clearResults() {
+							trace.clearResults();
+						}
+
+						@Override
+						public void notifyWaitingForResult() {
+							trace.notifyWaitingForResult();
+						}
+					});
+					
+				}catch(Throwable t) {
+					if(trace.getTask().getExceptionHandler() != null) {
+						trace.getTask().getExceptionHandler().handle(t);
+					}
+
+					getParentTrace().notifyException(t);
+				}
+			}
+		});
 	}
 
 	public TaskState currentState() {

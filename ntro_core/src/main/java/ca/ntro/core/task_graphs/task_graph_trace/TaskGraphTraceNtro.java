@@ -186,4 +186,8 @@ public class      TaskGraphTraceNtro
 		setStateChangeHandler(handler);
 	}
 
+	public void notifyException(Throwable t) {
+		throw new RuntimeException("TODO");
+	}
+
 }
