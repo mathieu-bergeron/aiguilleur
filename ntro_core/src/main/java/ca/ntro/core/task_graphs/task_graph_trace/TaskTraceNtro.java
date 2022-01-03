@@ -7,6 +7,7 @@ import java.util.Set;
 
 import ca.ntro.core.identifyers.Id;
 import ca.ntro.core.stream.Stream;
+import ca.ntro.core.stream.Visitor;
 import ca.ntro.core.task_graphs.generic_task_graph.AtomicTaskId;
 import ca.ntro.core.task_graphs.generic_task_graph.AtomicTaskMutator;
 import ca.ntro.core.task_graphs.generic_task_graph.GenericTask;
@@ -274,12 +275,43 @@ public class TaskTraceNtro
 	
 	@Override
 	public Stream<String> ids() {
-		throw new RuntimeException("TODO");
+		Stream<String> stream = null;
+		
+		stream = Stream.forMapKeys(getPreconditions());
+		stream.append(Stream.forMapKeys(getEntryTraces()));
+		stream.append(Stream.forMapKeys(getSubTraces()));
+		stream.append(Stream.forMapKeys(getExitTraces()));
+		
+		return stream;
 	}
 
 	@Override
 	public Stream<Object> objects() {
-		throw new RuntimeException("TODO");
+		Stream<Object> stream = null;
+		
+		stream = preconditions().reduceToStream((trace, visitor) -> {
+			addCurrentIfExists(trace, visitor);
+		});
+		
+		stream.append(entryTraces().reduceToStream((trace, visitor) -> {
+			addCurrentIfExists(trace, visitor);
+		}));
+
+		stream.append(subTraces().reduceToStream((trace, visitor) -> {
+			addCurrentIfExists(trace, visitor);
+		}));
+
+		stream.append(exitTraces().reduceToStream((trace, visitor) -> {
+			addCurrentIfExists(trace, visitor);
+		}));
+		
+		return stream;
+	}
+
+	private void addCurrentIfExists(AtomicTaskTraceNtro trace, Visitor<Object> visitor) throws Throwable {
+		if(trace.hasCurrent()) {
+			visitor.visit(trace.current());
+		}
 	}
 	
 	
