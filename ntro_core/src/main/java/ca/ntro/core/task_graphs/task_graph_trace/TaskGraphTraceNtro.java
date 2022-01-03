@@ -121,6 +121,8 @@ public class      TaskGraphTraceNtro
 		getGraph().setGraphName(getGraphName() + "_" + currentState);
 		
 		internalWriter.write((GenericGraph) getGraph().getHdagBuilder().getGraph(), new HierarchicalDagWriterOptionsNtro(), writer);
+		
+		currentState++;
 	}
 
 	@Override

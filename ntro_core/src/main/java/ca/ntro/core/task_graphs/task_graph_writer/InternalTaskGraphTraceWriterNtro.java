@@ -39,15 +39,15 @@ public class InternalTaskGraphTraceWriterNtro<T  extends GenericTask<T,AT>,
 		
 		TaskTrace taskTrace = getTrace().getTaskTrace(node.task().id());
 
-		if(!taskTrace.hasCurrent()) {
+		if(taskTrace.isBlocked()) {
 
 			nodeSpec.setColor("red");
 
-		} else if(taskTrace.hasCurrent() && taskTrace.hasNext()) {
+		} else if(taskTrace.isInProgress()) {
 
 			nodeSpec.setColor("yellow");
 
-		} else if(taskTrace.hasCurrent() && !taskTrace.hasNext()) {
+		} else if(taskTrace.isDone()) {
 
 			nodeSpec.setColor("green");
 

@@ -16,7 +16,10 @@ public class TaskTraceNtro
        implements TaskTrace, ObjectMap {
 
 	private GenericTaskNtro<?,?> task;
-	private Map<String, AtomicTaskTraceNtro> atomicTasksTraces = new HashMap<>();
+	private Map<String, AtomicTaskTraceNtro> beforeEntry = new HashMap<>();
+	private Map<String, AtomicTaskTraceNtro> beforeSubTasks = new HashMap<>();
+	private Map<String, AtomicTaskTraceNtro> beforeExit = new HashMap<>();
+	private Map<String, AtomicTaskTraceNtro> done = new HashMap<>();
 
 	public GenericTaskNtro<?, ?> getTask() {
 		return task;
@@ -26,19 +29,53 @@ public class TaskTraceNtro
 		this.task = task;
 	}
 
-	public Map<String, AtomicTaskTraceNtro> getAtomicTasksTraces() {
-		return atomicTasksTraces;
+	public Map<String, AtomicTaskTraceNtro> getBeforeEntry() {
+		return beforeEntry;
 	}
 
-	public void setAtomicTasksTraces(Map<String, AtomicTaskTraceNtro> atomicTasksTraces) {
-		this.atomicTasksTraces = atomicTasksTraces;
+	public void setBeforeEntry(Map<String, AtomicTaskTraceNtro> beforeEntry) {
+		this.beforeEntry = beforeEntry;
 	}
-	
-	private Stream<AtomicTaskTraceNtro> atomicTasksTraces(){
-		return Stream.forMapValues(getAtomicTasksTraces());
+
+	public Map<String, AtomicTaskTraceNtro> getBeforeSubTasks() {
+		return beforeSubTasks;
 	}
-	
-	
+
+	public void setBeforeSubTasks(Map<String, AtomicTaskTraceNtro> beforeSubTasks) {
+		this.beforeSubTasks = beforeSubTasks;
+	}
+
+	public Map<String, AtomicTaskTraceNtro> getBeforeExit() {
+		return beforeExit;
+	}
+
+	public void setBeforeExit(Map<String, AtomicTaskTraceNtro> beforeExit) {
+		this.beforeExit = beforeExit;
+	}
+
+	public Map<String, AtomicTaskTraceNtro> getDone() {
+		return done;
+	}
+
+	public void setDone(Map<String, AtomicTaskTraceNtro> done) {
+		this.done = done;
+	}
+
+	private Stream<AtomicTaskTraceNtro> beforeEntry(){
+		return Stream.forMapValues(getBeforeEntry());
+	}
+
+	private Stream<AtomicTaskTraceNtro> beforeSubTasks(){
+		return Stream.forMapValues(getBeforeSubTasks());
+	}
+
+	private Stream<AtomicTaskTraceNtro> beforeExit(){
+		return Stream.forMapValues(getBeforeExit());
+	}
+
+	private Stream<AtomicTaskTraceNtro> done(){
+		return Stream.forMapValues(getDone());
+	}
 	
 
 	public TaskTraceNtro() {
@@ -50,17 +87,22 @@ public class TaskTraceNtro
 	}
 	
 	private void initialize() {
-		recursivelyAddPreconditions(getTask(), new HashSet<>());
-		addResultsTasks();
+		recursivelyBuildBeforeEntry(getTask(), new HashSet<>());
+		recursivelyBuildBeforeExit(getTask(), new HashSet<>());
+		addLocalTraces();
 	}
 
-	private void addResultsTasks() {
-		getTask().atomicTasks().forEach(atomicTask -> {
-			getAtomicTasksTraces().put(atomicTask.id().toKey().toString(), (AtomicTaskTraceNtro) atomicTask.newTrace());
+	private void addLocalTraces() {
+		getTask().entryTasks().forEach(entryTask -> {
+			getBeforeSubTasks().put(entryTask.id().toKey().toString(), (AtomicTaskTraceNtro) entryTask.newTrace());
+		});
+
+		getTask().exitTasks().forEach(exitTask -> {
+			getDone().put(exitTask.id().toKey().toString(), (AtomicTaskTraceNtro) exitTask.newTrace());
 		});
 	}
 	
-	private void recursivelyAddPreconditions(GenericTask<?,?> cursor,
+	private void recursivelyBuildBeforeEntry(GenericTask<?,?> cursor,
 			                                 Set<String> visitedTasks) {
 
 		cursor.previousTasks().forEach(previousTask -> {
@@ -68,41 +110,49 @@ public class TaskTraceNtro
 				visitedTasks.add(previousTask.id().toKey().toString());
 				
 				previousTask.atomicTasks().forEach(atomicTask -> {
-					getAtomicTasksTraces().put(atomicTask.id().toKey().toString(), (AtomicTaskTraceNtro) atomicTask.newTrace());
+					getBeforeEntry().put(atomicTask.id().toKey().toString(), (AtomicTaskTraceNtro) atomicTask.newTrace());
 				});
 				
-				recursivelyAddPreconditions(previousTask, visitedTasks);
+				recursivelyBuildBeforeEntry(previousTask, visitedTasks);
 			}
 		});
+
+		if(cursor.hasParentTask()) {
+			if(!visitedTasks.contains(cursor.parentTask().id().toKey().toString())) {
+				visitedTasks.add(cursor.parentTask().id().toKey().toString());
+				
+				cursor.parentTask().entryTasks().forEach(entryTask -> {
+					getBeforeEntry().put(entryTask.id().toKey().toString(), (AtomicTaskTraceNtro) entryTask.newTrace());
+				});
+
+				recursivelyBuildBeforeEntry(cursor.parentTask(), visitedTasks);
+			}
+		}
+	}
+
+	private void recursivelyBuildBeforeExit(GenericTask<?,?> cursor,
+			                                 Set<String> visitedTasks) {
 
 		cursor.subTasks().forEach(subTask -> {
 			if(!visitedTasks.contains(subTask.id().toKey().toString())) {
 				visitedTasks.add(subTask.id().toKey().toString());
 				
 				subTask.atomicTasks().forEach(atomicTask -> {
-					getAtomicTasksTraces().put(atomicTask.id().toKey().toString(), (AtomicTaskTraceNtro) atomicTask.newTrace());
+					getBeforeExit().put(atomicTask.id().toKey().toString(), (AtomicTaskTraceNtro) atomicTask.newTrace());
 				});
 
-				recursivelyAddPreconditions(subTask, visitedTasks);
+				recursivelyBuildBeforeExit(subTask, visitedTasks);
 			}
 		});
 		
-		if(cursor.hasParentTask()) {
-			if(!visitedTasks.contains(cursor.parentTask().id().toKey().toString())) {
-				visitedTasks.add(cursor.parentTask().id().toKey().toString());
-				
-				cursor.parentTask().entryTasks().forEach(entryTask -> {
-					getAtomicTasksTraces().put(entryTask.id().toKey().toString(), (AtomicTaskTraceNtro) entryTask.newTrace());
-				});
-
-				recursivelyAddPreconditions(cursor.parentTask(), visitedTasks);
-			}
-		}
 	}
 
 	@Override
 	public boolean hasCurrent() {
-		return atomicTasksTraces().ifAll(trace -> trace.hasCurrent());
+		return beforeEntry().ifAll(trace -> trace.hasCurrent())
+				&& beforeSubTasks().ifAll(trace -> trace.hasCurrent())
+				&& beforeExit().ifAll(trace -> trace.hasCurrent())
+				&& done().ifAll(trace -> trace.hasCurrent());
 	}
 	
 	@Override
@@ -112,17 +162,26 @@ public class TaskTraceNtro
 
 	@Override
 	public boolean isWaiting() {
-		return atomicTasksTraces().ifSome(trace -> trace.isWaiting());
+		return beforeEntry().ifSome(trace -> trace.isWaiting())
+				|| beforeSubTasks().ifSome(trace -> trace.isWaiting())
+				|| beforeExit().ifSome(trace -> trace.isWaiting())
+				|| done().ifSome(trace -> trace.isWaiting());
 	}
 
 	@Override
 	public boolean hasNext() {
-		return atomicTasksTraces().ifSome(trace -> trace.hasNext());
+		return beforeEntry().ifSome(trace -> trace.hasNext())
+				|| beforeSubTasks().ifSome(trace -> trace.hasNext())
+				|| beforeExit().ifSome(trace -> trace.hasNext())
+				|| done().ifSome(trace -> trace.hasNext());
 	}
 
 	@Override
 	public void advanceToNext() {
-		atomicTasksTraces().forEach(trace -> trace.advanceToNext());
+		beforeEntry().forEach(trace -> trace.advanceToNext());
+		beforeSubTasks().forEach(trace -> trace.advanceToNext());
+		beforeExit().forEach(trace -> trace.advanceToNext());
+		done().forEach(trace -> trace.advanceToNext());
 	}
 
 	@Override
@@ -154,7 +213,27 @@ public class TaskTraceNtro
 	public Object get(String id) {
 		Object result = null;
 		
-		AtomicTaskTraceNtro trace = getAtomicTasksTraces().get(id);
+		result = get(id, getBeforeEntry());
+		
+		if(result == null) {
+			result = get(id, getBeforeSubTasks());
+		}
+
+		if(result == null) {
+			result = get(id, getBeforeExit());
+		}
+
+		if(result == null) {
+			result = get(id, getDone());
+		}
+		
+		return result;
+	}
+	
+	private Object get(String id, Map<String, AtomicTaskTraceNtro> traces) {
+		Object result = null;
+
+		AtomicTaskTraceNtro trace = traces.get(id);
 		
 		if(trace != null 
 				&& trace.hasCurrent()) {
@@ -167,16 +246,31 @@ public class TaskTraceNtro
 	
 	@Override
 	public Stream<String> ids() {
-		return Stream.forMapKeys(getAtomicTasksTraces());
+		throw new RuntimeException("TODO");
 	}
 
 	@Override
 	public Stream<Object> objects() {
-		return atomicTasksTraces().reduceToStream((trace, visitor) -> {
-			if(trace.hasCurrent()) {
-				visitor.visit(trace.current());
-			}
-		});
+		throw new RuntimeException("TODO");
+	}
+	
+	
+	
+	@Override
+	public boolean isBlocked() {
+		return !beforeEntry().ifAll(trace -> trace.hasCurrent());
+	}
+
+	@Override
+	public boolean isInProgress() {
+		return !isBlocked() && !isDone();
+	}
+
+	@Override
+	public boolean isDone() {
+		return hasCurrent()
+				&& !hasNext()
+				&& !isWaiting();
 	}
 
 }
