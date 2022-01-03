@@ -110,7 +110,7 @@ public class TaskTraceNtro
 
 	private void initialize() {
 		recursivelyAddPreconditions(getTask(), new HashSet<>());
-		recursivelyAddSubTraces(getTask(), new HashSet<>());
+		recursivelyAddSubTracesTo(getTask(), new HashSet<>(), getSubTraces());
 		addEntryTraces();
 		addExitTraces();
 	}
@@ -139,6 +139,7 @@ public class TaskTraceNtro
 				});
 				
 				recursivelyAddPreconditions(previousTask, visitedTasks);
+				recursivelyAddSubTracesTo(previousTask, visitedTasks, getPreconditions());
 			}
 		});
 
@@ -155,18 +156,19 @@ public class TaskTraceNtro
 		}
 	}
 
-	private void recursivelyAddSubTraces(GenericTask<?,?> cursor,
-			                                 Set<String> visitedTasks) {
+	private void recursivelyAddSubTracesTo(GenericTask<?,?> cursor,
+			                               Set<String> visitedTasks, 
+			                               Map<String, AtomicTaskTraceNtro> traces) {
 
 		cursor.subTasks().forEach(subTask -> {
 			if(!visitedTasks.contains(subTask.id().toKey().toString())) {
 				visitedTasks.add(subTask.id().toKey().toString());
 				
 				subTask.atomicTasks().forEach(atomicTask -> {
-					getSubTraces().put(atomicTask.id().toKey().toString(), (AtomicTaskTraceNtro) atomicTask.newTrace(this));
+					traces.put(atomicTask.id().toKey().toString(), (AtomicTaskTraceNtro) atomicTask.newTrace(this));
 				});
 
-				recursivelyAddSubTraces(subTask, visitedTasks);
+				recursivelyAddSubTracesTo(subTask, visitedTasks, traces);
 			}
 		});
 		
@@ -290,7 +292,8 @@ public class TaskTraceNtro
 	public boolean isInProgress() {
 		return getState() == TaskState.EXECUTING_ENTRY_TASKS
 				|| getState() == TaskState.EXECUTING_SUB_TASKS
-				|| getState() == TaskState.EXECUTING_EXIT_TASKS;
+				|| getState() == TaskState.EXECUTING_EXIT_TASKS
+				|| getState() == TaskState.HAS_NEXT;
 	}
 
 	@Override
