@@ -4,8 +4,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 import ca.ntro.core.identifyers.Key;
+import ca.ntro.core.task_graphs.generic_task_graph.handlers.CancelHandler;
+import ca.ntro.core.task_graphs.generic_task_graph.handlers.ExecuteHandler;
 import ca.ntro.core.task_graphs.task_graph_trace.AtomicTaskTrace;
 import ca.ntro.core.task_graphs.task_graph_trace.AtomicTaskTraceNtro;
+import ca.ntro.core.task_graphs.task_graph_trace.TaskTrace;
+import ca.ntro.core.task_graphs.task_graph_trace.TaskTraceNtro;
+import ca.ntro.core.wrappers.future.ExceptionHandler;
 
 public abstract class GenericAtomicTaskNtro<T  extends GenericTask<T,AT>, 
                                             AT extends GenericAtomicTask<T,AT>>
@@ -15,6 +20,10 @@ public abstract class GenericAtomicTaskNtro<T  extends GenericTask<T,AT>,
 	private AtomicTaskId id;
 	private GenericTaskNtro<T,AT> parentTask;
 	private boolean isWaitingForResult = false;
+
+	private ExecuteHandler executeHandler;
+	private CancelHandler cancelHandler;
+	private ExceptionHandler exceptionHandler;
 	
 	private Set<AtomicTaskTraceNtro> traces = new HashSet<>();
 
@@ -48,6 +57,30 @@ public abstract class GenericAtomicTaskNtro<T  extends GenericTask<T,AT>,
 
 	public void setTraces(Set<AtomicTaskTraceNtro> traces) {
 		this.traces = traces;
+	}
+
+	public ExecuteHandler getExecuteHandler() {
+		return executeHandler;
+	}
+
+	public void setExecuteHandler(ExecuteHandler executeHandler) {
+		this.executeHandler = executeHandler;
+	}
+
+	public CancelHandler getCancelHandler() {
+		return cancelHandler;
+	}
+
+	public void setCancelHandler(CancelHandler cancelHandler) {
+		this.cancelHandler = cancelHandler;
+	}
+
+	public ExceptionHandler getExceptionHandler() {
+		return exceptionHandler;
+	}
+
+	public void setExceptionHandler(ExceptionHandler exceptionHandler) {
+		this.exceptionHandler = exceptionHandler;
 	}
 	
 	
@@ -100,14 +133,29 @@ public abstract class GenericAtomicTaskNtro<T  extends GenericTask<T,AT>,
 	}
 
 	@Override
-	public AtomicTaskTrace newTrace() {
-		AtomicTaskTrace trace = newTraceInstance();
+	public AtomicTaskTrace newTrace(TaskTrace parentTrace) {
+		AtomicTaskTrace trace = newTraceInstance((TaskTraceNtro) parentTrace);
 		
 		getTraces().add((AtomicTaskTraceNtro) trace);
 		
 		return trace;
 	}
 
-	protected abstract AtomicTaskTrace newTraceInstance();
+	protected abstract AtomicTaskTrace newTraceInstance(TaskTraceNtro parentTrace);
+	
+	@Override
+	public void execute(ExecuteHandler executeHandler) {
+		setExecuteHandler(executeHandler);
+	}
+
+	@Override
+	public void cancel(CancelHandler cancelHandler) {
+		setCancelHandler(cancelHandler);
+	}
+
+	@Override
+	public void handleException(ExceptionHandler exceptionHandler) {
+		setExceptionHandler(exceptionHandler);
+	}
 
 }

@@ -59,8 +59,9 @@ public class TaskGraphTests extends NtroTests {
 		b_entry.cancel((previousResults, notifyer) -> {
 		});
 
-		/*
 		Result<ObjectMap> result = graph.executeBlocking();
+		
+		/*
 
 		Integer a_entry_result = result.value().get(Integer.class, "a_entry");
 		Integer b_entry_result = result.value().get(Integer.class, "b_entry");

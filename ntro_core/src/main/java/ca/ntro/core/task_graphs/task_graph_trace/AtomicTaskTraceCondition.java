@@ -13,12 +13,11 @@ public class      AtomicTaskTraceCondition
 	public AtomicTaskTraceCondition() {
 	}
 
-	public AtomicTaskTraceCondition(GenericAtomicTaskNtro<?,?> task) {
-		super(task);
+	public AtomicTaskTraceCondition(GenericAtomicTaskNtro<?,?> task, TaskTraceNtro parentTrace) {
+		super(task, parentTrace);
 	}
-	
-	
-	
+
+
 
 	@Override
 	public void notifyWaitingForResult() {

@@ -54,9 +54,18 @@ public class GenericTaskGraphTests {
 		TaskGraphTrace trace = graph.newTrace();
 
 		trace.writeCurrentState(Ntro.graphWriter());
-		
+
+		// MsgReceiver: ads result to all active traces
 		a_entry.addResult(1);
-		a_entry.addResult(1);
+
+		a_entry.execute((previousResults, notifyer) -> {
+			// ads result only when the atomictask is executing
+			notifyer.addResult(2);
+		});
+
+		a_entry.handleException(exception -> {
+			Ntro.exceptions().throwException(exception);
+		});
 		
 		trace.writeCurrentState(Ntro.graphWriter());
 

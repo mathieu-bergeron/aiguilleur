@@ -10,6 +10,7 @@ public abstract class AtomicTaskTraceNtro
        implements     AtomicTaskTrace {
 
 	private GenericAtomicTaskNtro<?,?> task;
+	private TaskTraceNtro parentTrace;
 	private List<Object> results = new ArrayList<>();
 
 	public GenericAtomicTaskNtro<?, ?> getTask() {
@@ -27,13 +28,25 @@ public abstract class AtomicTaskTraceNtro
 	public void setResults(List<Object> results) {
 		this.results = results;
 	}
+
+	public TaskTraceNtro getParentTrace() {
+		return parentTrace;
+	}
+
+	public void setParentTrace(TaskTraceNtro parentTrace) {
+		this.parentTrace = parentTrace;
+	}
+	
+	
+	
 	
 
 	public AtomicTaskTraceNtro() {
 	}
 
-	public AtomicTaskTraceNtro(GenericAtomicTaskNtro<?,?> task) {
+	public AtomicTaskTraceNtro(GenericAtomicTaskNtro<?,?> task, TaskTraceNtro parentTask) {
 		setTask(task);
+		setParentTrace(parentTask);
 	}
 
 	
@@ -46,6 +59,7 @@ public abstract class AtomicTaskTraceNtro
 	@Override
 	public void addResult(Object value) {
 		getResults().add(value);
+		getParentTrace().notifyNewResult();
 	}
 
 	@Override

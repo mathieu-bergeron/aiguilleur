@@ -1,6 +1,10 @@
 package ca.ntro.core.task_graphs.generic_task_graph;
 
+import ca.ntro.core.task_graphs.generic_task_graph.handlers.CancelHandler;
+import ca.ntro.core.task_graphs.generic_task_graph.handlers.ExecuteHandler;
 import ca.ntro.core.task_graphs.task_graph_trace.AtomicTaskTrace;
+import ca.ntro.core.task_graphs.task_graph_trace.TaskTrace;
+import ca.ntro.core.wrappers.future.ExceptionHandler;
 
 public interface GenericAtomicTask<T  extends GenericTask<T,AT>, 
                                    AT extends GenericAtomicTask<T,AT>> 
@@ -9,7 +13,11 @@ public interface GenericAtomicTask<T  extends GenericTask<T,AT>,
 	
 	AtomicTaskId id();
 	T parentTask();
+
+	void execute(ExecuteHandler executeHandler);
+	void cancel(CancelHandler cancelHandler);
+	void handleException(ExceptionHandler exceptionHandler);
 	
-	AtomicTaskTrace newTrace();
+	AtomicTaskTrace newTrace(TaskTrace parentTrace);
 
 }

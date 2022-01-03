@@ -13,8 +13,8 @@ public class      AtomicTaskTraceEventHandler
 	public AtomicTaskTraceEventHandler() {
 	}
 
-	public AtomicTaskTraceEventHandler(GenericAtomicTaskNtro<?,?> task) {
-		super(task);
+	public AtomicTaskTraceEventHandler(GenericAtomicTaskNtro<?,?> task, TaskTraceNtro parentTrace) {
+		super(task, parentTrace);
 	}
 	
 	

@@ -79,7 +79,7 @@ public class      TaskGraphTraceNtro
 	
 	public void initialize() {
 		getGraph().tasks().forEach(task -> {
-			getTraces().put(task.id().toKey().toString(), (TaskTraceNtro) task.newTrace());
+			getTraces().put(task.id().toKey().toString(), (TaskTraceNtro) task.newTrace(this));
 		});
 	}
 	

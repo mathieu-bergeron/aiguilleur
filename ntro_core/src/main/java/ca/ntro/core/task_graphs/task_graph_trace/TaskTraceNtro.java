@@ -16,6 +16,7 @@ public class TaskTraceNtro
        implements TaskTrace, ObjectMap {
 
 	private GenericTaskNtro<?,?> task;
+	private TaskGraphTraceNtro parentTrace;
 	private Map<String, AtomicTaskTraceNtro> beforeEntry = new HashMap<>();
 	private Map<String, AtomicTaskTraceNtro> beforeSubTasks = new HashMap<>();
 	private Map<String, AtomicTaskTraceNtro> beforeExit = new HashMap<>();
@@ -61,6 +62,14 @@ public class TaskTraceNtro
 		this.done = done;
 	}
 
+	public TaskGraphTraceNtro getParentTrace() {
+		return parentTrace;
+	}
+
+	public void setParentTrace(TaskGraphTraceNtro parentTrace) {
+		this.parentTrace = parentTrace;
+	}
+
 	private Stream<AtomicTaskTraceNtro> beforeEntry(){
 		return Stream.forMapValues(getBeforeEntry());
 	}
@@ -81,11 +90,13 @@ public class TaskTraceNtro
 	public TaskTraceNtro() {
 	}
 
-	public TaskTraceNtro(GenericTaskNtro<?, ?> task) {
+	public TaskTraceNtro(GenericTaskNtro<?, ?> task, TaskGraphTraceNtro parentTrace) {
 		setTask(task);
+		setParentTrace(parentTrace);
 		initialize();
 	}
 	
+
 	private void initialize() {
 		recursivelyBuildBeforeEntry(getTask(), new HashSet<>());
 		recursivelyBuildBeforeExit(getTask(), new HashSet<>());
@@ -95,13 +106,13 @@ public class TaskTraceNtro
 
 	private void buildBeforeSubTasks() {
 		getTask().entryTasks().forEach(entryTask -> {
-			getBeforeSubTasks().put(entryTask.id().toKey().toString(), (AtomicTaskTraceNtro) entryTask.newTrace());
+			getBeforeSubTasks().put(entryTask.id().toKey().toString(), (AtomicTaskTraceNtro) entryTask.newTrace(this));
 		});
 	}
 
 	private void buildDone() {
 		getTask().exitTasks().forEach(exitTask -> {
-			getDone().put(exitTask.id().toKey().toString(), (AtomicTaskTraceNtro) exitTask.newTrace());
+			getDone().put(exitTask.id().toKey().toString(), (AtomicTaskTraceNtro) exitTask.newTrace(this));
 		});
 	}
 	
@@ -113,7 +124,7 @@ public class TaskTraceNtro
 				visitedTasks.add(previousTask.id().toKey().toString());
 				
 				previousTask.atomicTasks().forEach(atomicTask -> {
-					getBeforeEntry().put(atomicTask.id().toKey().toString(), (AtomicTaskTraceNtro) atomicTask.newTrace());
+					getBeforeEntry().put(atomicTask.id().toKey().toString(), (AtomicTaskTraceNtro) atomicTask.newTrace(this));
 				});
 				
 				recursivelyBuildBeforeEntry(previousTask, visitedTasks);
@@ -125,7 +136,7 @@ public class TaskTraceNtro
 				visitedTasks.add(cursor.parentTask().id().toKey().toString());
 				
 				cursor.parentTask().entryTasks().forEach(entryTask -> {
-					getBeforeEntry().put(entryTask.id().toKey().toString(), (AtomicTaskTraceNtro) entryTask.newTrace());
+					getBeforeEntry().put(entryTask.id().toKey().toString(), (AtomicTaskTraceNtro) entryTask.newTrace(this));
 				});
 
 				recursivelyBuildBeforeEntry(cursor.parentTask(), visitedTasks);
@@ -141,7 +152,7 @@ public class TaskTraceNtro
 				visitedTasks.add(subTask.id().toKey().toString());
 				
 				subTask.atomicTasks().forEach(atomicTask -> {
-					getBeforeExit().put(atomicTask.id().toKey().toString(), (AtomicTaskTraceNtro) atomicTask.newTrace());
+					getBeforeExit().put(atomicTask.id().toKey().toString(), (AtomicTaskTraceNtro) atomicTask.newTrace(this));
 				});
 
 				recursivelyBuildBeforeExit(subTask, visitedTasks);
@@ -282,6 +293,10 @@ public class TaskTraceNtro
 		return hasCurrent()
 				&& !hasNext()
 				&& !isWaiting();
+	}
+
+	public void notifyNewResult() {
+		
 	}
 
 }

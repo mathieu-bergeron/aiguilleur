@@ -12,6 +12,8 @@ import ca.ntro.core.identifyers.Key;
 import ca.ntro.core.stream.Stream;
 import ca.ntro.core.stream.StreamNtro;
 import ca.ntro.core.stream.Visitor;
+import ca.ntro.core.task_graphs.task_graph_trace.TaskGraphTrace;
+import ca.ntro.core.task_graphs.task_graph_trace.TaskGraphTraceNtro;
 import ca.ntro.core.task_graphs.task_graph_trace.TaskTrace;
 import ca.ntro.core.task_graphs.task_graph_trace.TaskTraceNtro;
 
@@ -346,8 +348,8 @@ public abstract class GenericTaskNtro<T  extends GenericTask<T,AT>,
 	}
 
 	@Override
-	public TaskTrace newTrace() {
-		return new TaskTraceNtro(this);
+	public TaskTrace newTrace(TaskGraphTrace parentTrace) {
+		return new TaskTraceNtro(this, (TaskGraphTraceNtro) parentTrace);
 	}
 
 }

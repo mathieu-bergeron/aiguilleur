@@ -13,8 +13,8 @@ public class      AtomicTaskTraceTemporaryCondition
 	public AtomicTaskTraceTemporaryCondition() {
 	}
 
-	public AtomicTaskTraceTemporaryCondition(GenericAtomicTaskNtro<?,?> task) {
-		super(task);
+	public AtomicTaskTraceTemporaryCondition(GenericAtomicTaskNtro<?,?> task, TaskTraceNtro parentTrace) {
+		super(task, parentTrace);
 	}
 	
 	
