@@ -3,11 +3,8 @@ package ca.ntro.core.task_graphs.task_graph_trace;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.ntro.core.initialization.Ntro;
-import ca.ntro.core.task_graphs.generic_task_graph.AtomicTaskMutator;
 import ca.ntro.core.task_graphs.generic_task_graph.GenericAtomicTask;
 import ca.ntro.core.task_graphs.generic_task_graph.GenericAtomicTaskNtro;
-import ca.ntro.core.values.ObjectMap;
 
 public abstract class AtomicTaskTraceNtro 
        implements     AtomicTaskTrace {
@@ -15,6 +12,7 @@ public abstract class AtomicTaskTraceNtro
 	private GenericAtomicTaskNtro<?,?> task;
 	private TaskTraceNtro parentTrace;
 	private List<Object> results = new ArrayList<>();
+	private boolean isWaiting = false;
 
 	public GenericAtomicTaskNtro<?, ?> getTask() {
 		return task;
@@ -39,10 +37,14 @@ public abstract class AtomicTaskTraceNtro
 	public void setParentTrace(TaskTraceNtro parentTrace) {
 		this.parentTrace = parentTrace;
 	}
-	
-	
-	
-	
+
+	public void setIsWaiting(boolean isWaiting) {
+		this.isWaiting = isWaiting;
+	}
+
+	public boolean getIsWaiting() {
+		return isWaiting;
+	}
 
 	public AtomicTaskTraceNtro() {
 	}
@@ -61,15 +63,17 @@ public abstract class AtomicTaskTraceNtro
 
 	@Override
 	public void addResult(Object value) {
-		getParentTrace().notifyNewResult(getTask().id(), value);
+		getParentTrace().getParentTrace().notifyNewResult(getTask().id(), value);
 	}
 
 	public void silentlyAddResult(Object value) {
+		setIsWaiting(false);
 		getResults().add(value);
 	}
 
 	@Override
 	public void clearResults() {
+		getParentTrace().getParentTrace().notifyClearResults(getTask().id());
 		getResults().clear();
 	}
 
@@ -91,7 +95,7 @@ public abstract class AtomicTaskTraceNtro
 
 	@Override
 	public boolean isWaiting() {
-		return getTask().getIsWaitingForResult();
+		return getIsWaiting();
 	}
 
 	@Override
@@ -112,34 +116,9 @@ public abstract class AtomicTaskTraceNtro
 		}
 	}
 
-	public void execute() {
-		if(getTask().getExceptionHandler() != null) {
-
-			try {
-				getTask().getExecuteHandler().execute((ObjectMap) getParentTrace(), new AtomicTaskMutator() {
-					
-					@Override
-					public void notifyWaitingForResult() {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void clearResults() {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void addResult(Object value) {
-						getParentTrace().notifyNewResult(getTask().id(), value);
-					}
-				});
-
-			}catch(Throwable t) {
-				Ntro.exceptions().throwException(t);
-			}
-		}
+	@Override
+	public void notifyWaitingForResult() {
+		getParentTrace().getParentTrace().notifyWaitingForResult(getTask().id());
 	}
 
 }

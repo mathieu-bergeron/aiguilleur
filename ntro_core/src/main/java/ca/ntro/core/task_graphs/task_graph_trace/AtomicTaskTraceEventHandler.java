@@ -21,15 +21,13 @@ public class      AtomicTaskTraceEventHandler
 	
 
 	@Override
-	public void notifyWaitingForResult() {
-	}
-
-	@Override
 	public void notifyCurrentResultWasUsed() {
+		advanceToNext();
 	}
 
 	@Override
 	public void notifyCurrentResultCouldNotBeUsed() {
+		advanceToNext();
 	}
 
 }

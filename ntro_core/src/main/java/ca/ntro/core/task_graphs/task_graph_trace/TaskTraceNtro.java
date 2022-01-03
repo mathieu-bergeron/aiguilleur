@@ -338,11 +338,6 @@ public class TaskTraceNtro
 		getParentTrace().notifyNewResult(id, value);
 	}
 
-	public void notifyClearResults() {
-		getParentTrace().notifyClearResults();
-		
-	}
-	
 	public boolean recomputeState() {
 		boolean stateChanged = false;
 		TaskState oldState = getState();
@@ -463,14 +458,42 @@ public class TaskTraceNtro
 		
 		if(traces.containsKey(id.toKey().toString())) {
 			traces.get(id.toKey().toString()).silentlyAddResult(value);
+			added = true;
 		}
-		
 		
 		return added;
 	}
 
-	
-	
-	
+	public void notifyWaitingForResult(AtomicTaskId id) {
+		boolean notified = false;
+		
+		notified = notifyWaitingForResult(id, getPreconditions());
+		
+		if(!notified) {
+			notified = notifyWaitingForResult(id, getEntryTraces());
+		}
 
+		if(!notified) {
+			notified = notifyWaitingForResult(id, getSubTraces());
+		}
+
+		if(!notified) {
+			notified = notifyWaitingForResult(id, getExitTraces());
+		}
+	}
+
+	private boolean notifyWaitingForResult(AtomicTaskId id, Map<String, AtomicTaskTraceNtro> traces) {
+		boolean notified = false;
+		
+		if(traces.containsKey(id.toKey().toString())) {
+			traces.get(id.toKey().toString()).setIsWaiting(true);
+			notified = true;
+		}
+
+		return notified;
+	}
+
+	public Object notifyClearResults(AtomicTaskId id) {
+		throw new RuntimeException("TODO");
+	}
 }

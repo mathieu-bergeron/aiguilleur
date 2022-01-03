@@ -20,7 +20,6 @@ public abstract class GenericAtomicTaskNtro<T  extends GenericTask<T,AT>,
 	
 	private AtomicTaskId id;
 	private GenericTaskNtro<T,AT> parentTask;
-	private boolean isWaitingForResult = false;
 
 	private ExecuteHandler executeHandler;
 	private CancelHandler cancelHandler;
@@ -42,14 +41,6 @@ public abstract class GenericAtomicTaskNtro<T  extends GenericTask<T,AT>,
 
 	public void setParentTask(GenericTaskNtro<T, AT> parentTask) {
 		this.parentTask = parentTask;
-	}
-
-	public boolean getIsWaitingForResult() {
-		return isWaitingForResult;
-	}
-
-	public void setIsWaitingForResult(boolean isWaitingForResult) {
-		this.isWaitingForResult = isWaitingForResult;
 	}
 
 	public Set<TaskGraphTraceNtro> getTraces() {
@@ -114,7 +105,6 @@ public abstract class GenericAtomicTaskNtro<T  extends GenericTask<T,AT>,
 
 	@Override
 	public void addResult(Object result) {
-		setIsWaitingForResult(false);
 		for(TaskGraphTraceNtro trace : getTraces()) {
 			trace.notifyNewResult(getId(), result);
 		}
@@ -122,15 +112,16 @@ public abstract class GenericAtomicTaskNtro<T  extends GenericTask<T,AT>,
 
 	@Override
 	public void clearResults() {
-		setIsWaitingForResult(false);
 		for(TaskGraphTraceNtro trace : getTraces()) {
-			trace.notifyClearResults();
+			trace.notifyClearResults(id);
 		}
 	}
 
 	@Override
 	public void notifyWaitingForResult() {
-		setIsWaitingForResult(true);
+		for(TaskGraphTraceNtro trace : getTraces()) {
+			trace.notifyWaitingForResult(getId());
+		}
 	}
 
 	@Override

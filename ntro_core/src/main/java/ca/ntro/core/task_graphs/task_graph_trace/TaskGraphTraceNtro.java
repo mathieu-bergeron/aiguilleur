@@ -178,8 +178,8 @@ public class      TaskGraphTraceNtro
 		// XXX: recomputeState called by hand in the GenericVersion
 	}
 
-	public void notifyClearResults() {
-		// XXX: recomputeState called by hand in the GenericVersion
+	public void notifyClearResults(AtomicTaskId id) {
+		traces().forEach(trace -> trace.notifyClearResults(id));
 	}
 
 	@Override
@@ -194,6 +194,10 @@ public class      TaskGraphTraceNtro
 	@Override
 	public boolean isWaiting() {
 		return traces().ifSome(trace -> trace.isWaiting());
+	}
+
+	public void notifyWaitingForResult(AtomicTaskId id) {
+		traces().forEach(trace -> trace.notifyWaitingForResult(id));
 	}
 
 }

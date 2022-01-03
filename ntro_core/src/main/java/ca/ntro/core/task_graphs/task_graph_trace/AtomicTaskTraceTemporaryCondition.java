@@ -18,19 +18,25 @@ public class      AtomicTaskTraceTemporaryCondition
 	}
 	
 	
-	
+	@Override
+	public void silentlyAddResult(Object value) {
+		setIsWaiting(false);
+		getResults().set(0,value);
+	}
 
 	@Override
-	public void notifyWaitingForResult() {
+	public void advanceToNext() {
+		// XXX: nothing
 	}
 
 	@Override
 	public void notifyCurrentResultWasUsed() {
+		// XXX: nothing
 	}
 
 	@Override
 	public void notifyCurrentResultCouldNotBeUsed() {
+		getResults().clear();
 	}
-
 
 }

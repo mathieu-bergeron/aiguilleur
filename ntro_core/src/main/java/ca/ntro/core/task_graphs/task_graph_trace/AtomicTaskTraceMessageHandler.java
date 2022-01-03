@@ -16,20 +16,24 @@ public class      AtomicTaskTraceMessageHandler
 	public AtomicTaskTraceMessageHandler(GenericAtomicTaskNtro<?,?> task, TaskTraceNtro parentTrace) {
 		super(task, parentTrace);
 	}
-	
-	
-	
 
-	@Override
-	public void notifyWaitingForResult() {
-	}
 
 	@Override
 	public void notifyCurrentResultWasUsed() {
+		if(hasNext()) {
+
+			advanceToNext();
+
+		}else {
+
+			clearResults();
+
+		}
 	}
 
 	@Override
 	public void notifyCurrentResultCouldNotBeUsed() {
+		// XXX: nothing for a message handler
 	}
 
 }
