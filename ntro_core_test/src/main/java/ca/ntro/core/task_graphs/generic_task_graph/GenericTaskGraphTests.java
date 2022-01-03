@@ -70,14 +70,16 @@ public class GenericTaskGraphTests {
 		TaskGraphTraceNtro trace = (TaskGraphTraceNtro) graph.newTrace();
 		trace.writeCurrentState(Ntro.graphWriter());
 		
-		trace.onStateChange(() -> {
-			stateChanges.registerValue(stateChanges.value() + 1);
+		trace.onExecutionStep((stateChanged) -> {
+			if(stateChanged) {
+				stateChanges.registerValue(stateChanges.value() + 1);
+			}
 		});
 		
 		Ntro.asserter().assertEquals(0, stateChanges.value());
 		Ntro.asserter().assertEquals(0, a_entry_executed.value());
 		
-		trace.recomputeState();
+		trace.executeOneStep();
 		trace.writeCurrentState(Ntro.graphWriter());
 
 		Ntro.asserter().assertEquals(1, stateChanges.value());

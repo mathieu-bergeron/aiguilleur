@@ -8,9 +8,11 @@ public interface TaskGraphTrace extends GenericTraceNexter {
 	TaskTrace getTaskTrace(TaskId id);
 	TaskTrace getTaskTrace(String id);
 
+	boolean isWaiting();
+
 	void writeCurrentState(GraphWriter writer);
 	void writeTrace(GraphWriter writer);
 	
-	void onStateChange(StateChangeHandler handler);
+	void onExecutionStep(ExecutionStepHandler handler);
 
 }

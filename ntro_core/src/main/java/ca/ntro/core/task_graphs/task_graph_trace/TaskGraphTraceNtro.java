@@ -23,7 +23,7 @@ public class      TaskGraphTraceNtro
 	private Map<String, TaskTraceNtro> traces = new HashMap<>();
 	private InternalTaskGraphTraceWriterNtro<?,?> internalWriter = new InternalTaskGraphTraceWriterNtro(this);
 	private long currentState = 0;
-	private StateChangeHandler stateChangeHandler;
+	private ExecutionStepHandler executionStepHandler;
 	
 	
 
@@ -67,13 +67,16 @@ public class      TaskGraphTraceNtro
 		this.graphName = graphName;
 	}
 
-	public StateChangeHandler getStateChangeHandler() {
-		return stateChangeHandler;
+	public ExecutionStepHandler getExecutionStepHandler() {
+		return executionStepHandler;
 	}
 
-	public void setStateChangeHandler(StateChangeHandler stateChangeHandler) {
-		this.stateChangeHandler = stateChangeHandler;
+	public void setExecutionStepHandler(ExecutionStepHandler executionStepHandler) {
+		this.executionStepHandler = executionStepHandler;
 	}
+	
+	
+	
 
 	private Stream<TaskTraceNtro> traces(){
 		return new StreamNtro<TaskTraceNtro>() {
@@ -106,7 +109,7 @@ public class      TaskGraphTraceNtro
 		});
 	}
 
-	public void recomputeState() {
+	public void executeOneStep() {
 
 		boolean stateChanged = traces().reduceToResult(false, (accumulator, trace) -> {
 
@@ -119,11 +122,9 @@ public class      TaskGraphTraceNtro
 			return accumulator;
 
 		}).value();
-		
-		if(stateChanged
-				&& getStateChangeHandler() != null) {
 
-			getStateChangeHandler().onStateChanged();
+		if(getExecutionStepHandler() != null) {
+			getExecutionStepHandler().onExecutionStep(stateChanged);
 		}
 	}
 
@@ -182,12 +183,17 @@ public class      TaskGraphTraceNtro
 	}
 
 	@Override
-	public void onStateChange(StateChangeHandler handler) {
-		setStateChangeHandler(handler);
+	public void onExecutionStep(ExecutionStepHandler handler) {
+		setExecutionStepHandler(handler);
 	}
 
 	public void notifyException(Throwable t) {
 		throw new RuntimeException("TODO");
+	}
+
+	@Override
+	public boolean isWaiting() {
+		return traces().ifSome(trace -> trace.isWaiting());
 	}
 
 }

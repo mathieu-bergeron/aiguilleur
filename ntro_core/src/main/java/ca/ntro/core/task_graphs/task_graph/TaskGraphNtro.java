@@ -4,8 +4,7 @@ package ca.ntro.core.task_graphs.task_graph;
 import ca.ntro.core.graphs.generics.graph.GraphId;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.task_graphs.generic_task_graph.GenericTaskGraphNtro;
-import ca.ntro.core.task_graphs.generic_task_graph.handlers.ExecutableTaskNtro;
-import ca.ntro.core.task_graphs.task_graph_trace.TaskGraphTrace;
+import ca.ntro.core.task_graphs.task_graph_trace.TaskGraphTraceNtro;
 import ca.ntro.core.values.ObjectMap;
 import ca.ntro.core.wrappers.future.Future;
 import ca.ntro.core.wrappers.future.FutureNtro;
@@ -21,13 +20,10 @@ public class TaskGraphNtro
 	
 	private TaskGraphOptions options = new TaskGraphOptionsDefault();
 
-	private TaskGraphTrace trace;
+	private TaskGraphTraceNtro trace;
 	
 	private FutureNtro<ObjectMap> future;
 	private ObjectMap currentResults;
-	
-	private String baseGraphName;
-	private long executionStep;
 
 	@Override
 	public Future<ObjectMap> execute(TaskGraphOptions options) {
@@ -44,29 +40,37 @@ public class TaskGraphNtro
 	    setExecutionInProgress(true);
 	    
 		this.future = new FutureNtro<>();
-		this.executionStep = 0;
+		
+		trace = (TaskGraphTraceNtro) newTrace();
+		
+		trace.onExecutionStep((stateChanged) -> {
+			handleExecutionStep(stateChanged);
+		});
 
-		GraphId id = getHdagBuilder().getGraph().id();
-		if(id == null) {
-			id = GraphId.newGraphId();
-		}
-		this.baseGraphName = id.toKey().toString();
-		
-		this.trace = newTrace();
-		
-		startExecution();
+		handleExecutionStep(true);
 
 		return future;
 	}
-	
-	private void writeGraph() {
-		if(options.shouldWriteGraph()) {
 
-			getHdagBuilder().setGraphName(baseGraphName + "_" +  executionStep);
+	private void handleExecutionStep(boolean stateChanged) {
+		if(options.shouldWriteGraph()
+				&& stateChanged) {
+
+			trace.writeCurrentState(Ntro.graphWriter());
+		}
+		
+		if(options.shouldHalt(trace.getGraph(), trace)) {
 			
-			write(Ntro.graphWriter());
-			
-			executionStep++;
+			halt();
+
+		}else if(stateChanged){
+
+			trace.executeOneStep();
+
+		}else if(trace.hasNext()){
+
+			trace.advanceToNext();
+			trace.executeOneStep();
 		}
 	}
 	
@@ -84,80 +88,6 @@ public class TaskGraphNtro
 		if(!future.hasException()) {
 			future.registerValue(currentResults);
 		}
-	}
-
-	public void notifyOfException(Throwable t) {
-		future.registerException(t);
-		halt();
-	}
-	
-	public void notifyOfNewResult() {
-		try {
-
-			continueExecution();
-
-		}catch(Throwable t) {
-
-			future.registerException(t);
-			halt();
-		}
-	}
-	
-	private ExecutableTaskNtro toTaskNtro(Task task) {
-		return (ExecutableTaskNtro) task;
-	}
-
-	private void startExecution() {
-		if(!executionInProgress()) return;
-
-		writeGraph();
-			
-		currentResults = nextResults();
-
-		tasks().forEach(task -> {
-			
-			//toTaskNtro(task).continueExecution(currentResults);
-			
-		});
-		
-		writeGraph();
-		
-		if(options.shouldHalt(this, this.trace)) {
-			halt();
-		}
-	}
-
-	private void continueExecution() {
-		if(!executionInProgress()) return;
-		
-		if(hasNextResults()) {
-
-			currentResults = nextResults();
-
-			writeGraph();
-
-			tasks().forEach(task -> {
-				
-				//toTaskNtro(task).continueExecution(currentResults);
-				
-			});
-
-			writeGraph();
-		}
-
-		if(options.shouldHalt(this, this.trace)) {
-			halt();
-		}
-	}
-
-	private ObjectMap nextResults() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private boolean hasNextResults() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	@Override
