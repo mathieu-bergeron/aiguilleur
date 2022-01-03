@@ -89,14 +89,17 @@ public class TaskTraceNtro
 	private void initialize() {
 		recursivelyBuildBeforeEntry(getTask(), new HashSet<>());
 		recursivelyBuildBeforeExit(getTask(), new HashSet<>());
-		addLocalTraces();
+		buildBeforeSubTasks();
+		buildDone();
 	}
 
-	private void addLocalTraces() {
+	private void buildBeforeSubTasks() {
 		getTask().entryTasks().forEach(entryTask -> {
 			getBeforeSubTasks().put(entryTask.id().toKey().toString(), (AtomicTaskTraceNtro) entryTask.newTrace());
 		});
+	}
 
+	private void buildDone() {
 		getTask().exitTasks().forEach(exitTask -> {
 			getDone().put(exitTask.id().toKey().toString(), (AtomicTaskTraceNtro) exitTask.newTrace());
 		});
@@ -258,7 +261,15 @@ public class TaskTraceNtro
 	
 	@Override
 	public boolean isBlocked() {
-		return !beforeEntry().ifAll(trace -> trace.hasCurrent());
+		return !readyForEntryTasks();
+	}
+
+	private boolean readyForEntryTasks() {
+		return beforeEntry().ifAll(trace -> trace.hasCurrent());
+	}
+
+	private boolean entryTasksDone() {
+		return beforeSubTasks().ifAll(trace -> trace.hasCurrent());
 	}
 
 	@Override

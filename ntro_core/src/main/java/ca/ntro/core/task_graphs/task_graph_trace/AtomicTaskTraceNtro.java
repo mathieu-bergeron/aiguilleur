@@ -81,8 +81,14 @@ public abstract class AtomicTaskTraceNtro
 
 	@Override
 	public void advanceToNext() {
-		if(hasNext()) {
+		if(getResults().size() > 1) {
+
 			setResults(getResults().subList(1, getResults().size()));
+
+		}else {
+
+			getResults().clear();
+
 		}
 	}
 

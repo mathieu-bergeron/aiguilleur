@@ -48,8 +48,6 @@ public class GenericTaskGraphTests {
 
 		MockAtomicTask aa_entry = taskAA.addEntryTask("aa_entry");
 		
-		Ntro.asserter().assertFalse("AA not a previousTask of A", taskA.previousTasks().ifSome(task -> task == taskAA));
-		
 		graph.setGraphName("genericTaskGraph01");
 		graph.write(Ntro.graphWriter());
 
@@ -58,34 +56,25 @@ public class GenericTaskGraphTests {
 		trace.writeCurrentState(Ntro.graphWriter());
 		
 		a_entry.addResult(1);
+		a_entry.addResult(1);
 		
 		trace.writeCurrentState(Ntro.graphWriter());
 
+		aa_entry.addResult(1);
 		aa_entry.addResult(1);
 
 		trace.writeCurrentState(Ntro.graphWriter());
 		
 		a_exit.addResult(1);
-		
-		trace.writeCurrentState(Ntro.graphWriter());
-
-		/*
-		
-		a_entry.addResult(2);
-		a_entry.addResult(3);
-
-		
-
-		
-		aa_entry.addResult(2);
-		aa_entry.addResult(3);
-
 		a_exit.addResult(1);
-		a_exit.addResult(2);
-		a_exit.addResult(3);
-
+		
 		trace.writeCurrentState(Ntro.graphWriter());
-		*/
+		
+		trace.advanceToNext();
+		trace.writeCurrentState(Ntro.graphWriter());
+
+		trace.advanceToNext();
+		trace.writeCurrentState(Ntro.graphWriter());
 
 	}
 }
