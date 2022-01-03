@@ -10,5 +10,7 @@ public interface TaskGraphTrace extends GenericTraceNexter {
 
 	void writeCurrentState(GraphWriter writer);
 	void writeTrace(GraphWriter writer);
+	
+	void onStateChange(StateChangeHandler handler);
 
 }

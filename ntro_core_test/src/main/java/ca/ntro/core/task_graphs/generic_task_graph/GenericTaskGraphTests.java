@@ -11,7 +11,10 @@ import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.services.ExceptionThrowerMock;
 import ca.ntro.core.task_graphs.generic_task_graph.GenericTaskGraph;
 import ca.ntro.core.task_graphs.task_graph_trace.TaskGraphTrace;
+import ca.ntro.core.task_graphs.task_graph_trace.TaskGraphTraceNtro;
 import ca.ntro.core.values.ObjectMap;
+import ca.ntro.core.wrappers.optionnal.Optionnal;
+import ca.ntro.core.wrappers.optionnal.OptionnalNtro;
 import ca.ntro.core.wrappers.result.ResultNtro;
 
 public class GenericTaskGraphTests {
@@ -51,9 +54,7 @@ public class GenericTaskGraphTests {
 		graph.setGraphName("genericTaskGraph01");
 		graph.write(Ntro.graphWriter());
 
-		TaskGraphTrace trace = graph.newTrace();
-
-		trace.writeCurrentState(Ntro.graphWriter());
+		OptionnalNtro<Integer> stateChanges = (OptionnalNtro<Integer>) Optionnal.fromValue(0);
 
 		a_entry.execute((previousResults, notifyer) -> {
 			// ADS RESULT ONLY TO THE CURRENT TRACE
@@ -63,8 +64,20 @@ public class GenericTaskGraphTests {
 		a_entry.handleException(exception -> {
 			Ntro.exceptions().throwException(exception);
 		});
-		
+
+		TaskGraphTraceNtro trace = (TaskGraphTraceNtro) graph.newTrace();
 		trace.writeCurrentState(Ntro.graphWriter());
+		
+		trace.onStateChange(() -> {
+			stateChanges.registerValue(stateChanges.value() + 1);
+		});
+		
+		Ntro.asserter().assertEquals(0, stateChanges.value());
+		
+		trace.recomputeState();
+		trace.writeCurrentState(Ntro.graphWriter());
+
+		Ntro.asserter().assertEquals(1, stateChanges.value());
 
 		// MSG_RECEIVER: ADDING RESULTS TO ALL TRACES
 		aa_entry.addResult(1);

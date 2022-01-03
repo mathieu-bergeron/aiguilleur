@@ -18,10 +18,12 @@ public class TaskTraceNtro
 
 	private GenericTaskNtro<?,?> task;
 	private TaskGraphTraceNtro parentTrace;
-	private Map<String, AtomicTaskTraceNtro> beforeEntry = new HashMap<>();
-	private Map<String, AtomicTaskTraceNtro> beforeSubTasks = new HashMap<>();
-	private Map<String, AtomicTaskTraceNtro> beforeExit = new HashMap<>();
-	private Map<String, AtomicTaskTraceNtro> done = new HashMap<>();
+	private Map<String, AtomicTaskTraceNtro> preconditions = new HashMap<>();
+	private Map<String, AtomicTaskTraceNtro> entryTraces = new HashMap<>();
+	private Map<String, AtomicTaskTraceNtro> subTraces = new HashMap<>();
+	private Map<String, AtomicTaskTraceNtro> exitTraces = new HashMap<>();
+	
+	private TaskState state = TaskState.BLOCKED;
 
 	public GenericTaskNtro<?, ?> getTask() {
 		return task;
@@ -31,36 +33,36 @@ public class TaskTraceNtro
 		this.task = task;
 	}
 
-	public Map<String, AtomicTaskTraceNtro> getBeforeEntry() {
-		return beforeEntry;
+	public Map<String, AtomicTaskTraceNtro> getPreconditions() {
+		return preconditions;
 	}
 
-	public void setBeforeEntry(Map<String, AtomicTaskTraceNtro> beforeEntry) {
-		this.beforeEntry = beforeEntry;
+	public void setPreconditions(Map<String, AtomicTaskTraceNtro> preconditions) {
+		this.preconditions = preconditions;
 	}
 
-	public Map<String, AtomicTaskTraceNtro> getBeforeSubTasks() {
-		return beforeSubTasks;
+	public Map<String, AtomicTaskTraceNtro> getEntryTraces() {
+		return entryTraces;
 	}
 
-	public void setBeforeSubTasks(Map<String, AtomicTaskTraceNtro> beforeSubTasks) {
-		this.beforeSubTasks = beforeSubTasks;
+	public void setEntryTraces(Map<String, AtomicTaskTraceNtro> entryTraces) {
+		this.entryTraces = entryTraces;
 	}
 
-	public Map<String, AtomicTaskTraceNtro> getBeforeExit() {
-		return beforeExit;
+	public Map<String, AtomicTaskTraceNtro> getSubTraces() {
+		return subTraces;
 	}
 
-	public void setBeforeExit(Map<String, AtomicTaskTraceNtro> beforeExit) {
-		this.beforeExit = beforeExit;
+	public void setSubTraces(Map<String, AtomicTaskTraceNtro> subTraces) {
+		this.subTraces = subTraces;
 	}
 
-	public Map<String, AtomicTaskTraceNtro> getDone() {
-		return done;
+	public Map<String, AtomicTaskTraceNtro> getExitTraces() {
+		return exitTraces;
 	}
 
-	public void setDone(Map<String, AtomicTaskTraceNtro> done) {
-		this.done = done;
+	public void setExitTraces(Map<String, AtomicTaskTraceNtro> exitTraces) {
+		this.exitTraces = exitTraces;
 	}
 
 	public TaskGraphTraceNtro getParentTrace() {
@@ -71,20 +73,28 @@ public class TaskTraceNtro
 		this.parentTrace = parentTrace;
 	}
 
-	private Stream<AtomicTaskTraceNtro> beforeEntry(){
-		return Stream.forMapValues(getBeforeEntry());
+	public TaskState getState() {
+		return state;
 	}
 
-	private Stream<AtomicTaskTraceNtro> beforeSubTasks(){
-		return Stream.forMapValues(getBeforeSubTasks());
+	public void setState(TaskState state) {
+		this.state = state;
 	}
 
-	private Stream<AtomicTaskTraceNtro> beforeExit(){
-		return Stream.forMapValues(getBeforeExit());
+	private Stream<AtomicTaskTraceNtro> preconditions(){
+		return Stream.forMapValues(getPreconditions());
 	}
 
-	private Stream<AtomicTaskTraceNtro> done(){
-		return Stream.forMapValues(getDone());
+	private Stream<AtomicTaskTraceNtro> entryTraces(){
+		return Stream.forMapValues(getEntryTraces());
+	}
+
+	private Stream<AtomicTaskTraceNtro> subTraces(){
+		return Stream.forMapValues(getSubTraces());
+	}
+
+	private Stream<AtomicTaskTraceNtro> exitTraces(){
+		return Stream.forMapValues(getExitTraces());
 	}
 	
 
@@ -99,25 +109,25 @@ public class TaskTraceNtro
 	
 
 	private void initialize() {
-		recursivelyBuildBeforeEntry(getTask(), new HashSet<>());
-		recursivelyBuildBeforeExit(getTask(), new HashSet<>());
-		buildBeforeSubTasks();
-		buildDone();
+		recursivelyAddPreconditions(getTask(), new HashSet<>());
+		recursivelyAddSubTraces(getTask(), new HashSet<>());
+		addEntryTraces();
+		addExitTraces();
 	}
 
-	private void buildBeforeSubTasks() {
+	private void addEntryTraces() {
 		getTask().entryTasks().forEach(entryTask -> {
-			getBeforeSubTasks().put(entryTask.id().toKey().toString(), (AtomicTaskTraceNtro) entryTask.newTrace(this));
+			getEntryTraces().put(entryTask.id().toKey().toString(), (AtomicTaskTraceNtro) entryTask.newTrace(this));
 		});
 	}
 
-	private void buildDone() {
+	private void addExitTraces() {
 		getTask().exitTasks().forEach(exitTask -> {
-			getDone().put(exitTask.id().toKey().toString(), (AtomicTaskTraceNtro) exitTask.newTrace(this));
+			getExitTraces().put(exitTask.id().toKey().toString(), (AtomicTaskTraceNtro) exitTask.newTrace(this));
 		});
 	}
 	
-	private void recursivelyBuildBeforeEntry(GenericTask<?,?> cursor,
+	private void recursivelyAddPreconditions(GenericTask<?,?> cursor,
 			                                 Set<String> visitedTasks) {
 
 		cursor.previousTasks().forEach(previousTask -> {
@@ -125,10 +135,10 @@ public class TaskTraceNtro
 				visitedTasks.add(previousTask.id().toKey().toString());
 				
 				previousTask.atomicTasks().forEach(atomicTask -> {
-					getBeforeEntry().put(atomicTask.id().toKey().toString(), (AtomicTaskTraceNtro) atomicTask.newTrace(this));
+					getPreconditions().put(atomicTask.id().toKey().toString(), (AtomicTaskTraceNtro) atomicTask.newTrace(this));
 				});
 				
-				recursivelyBuildBeforeEntry(previousTask, visitedTasks);
+				recursivelyAddPreconditions(previousTask, visitedTasks);
 			}
 		});
 
@@ -137,15 +147,15 @@ public class TaskTraceNtro
 				visitedTasks.add(cursor.parentTask().id().toKey().toString());
 				
 				cursor.parentTask().entryTasks().forEach(entryTask -> {
-					getBeforeEntry().put(entryTask.id().toKey().toString(), (AtomicTaskTraceNtro) entryTask.newTrace(this));
+					getPreconditions().put(entryTask.id().toKey().toString(), (AtomicTaskTraceNtro) entryTask.newTrace(this));
 				});
 
-				recursivelyBuildBeforeEntry(cursor.parentTask(), visitedTasks);
+				recursivelyAddPreconditions(cursor.parentTask(), visitedTasks);
 			}
 		}
 	}
 
-	private void recursivelyBuildBeforeExit(GenericTask<?,?> cursor,
+	private void recursivelyAddSubTraces(GenericTask<?,?> cursor,
 			                                 Set<String> visitedTasks) {
 
 		cursor.subTasks().forEach(subTask -> {
@@ -153,10 +163,10 @@ public class TaskTraceNtro
 				visitedTasks.add(subTask.id().toKey().toString());
 				
 				subTask.atomicTasks().forEach(atomicTask -> {
-					getBeforeExit().put(atomicTask.id().toKey().toString(), (AtomicTaskTraceNtro) atomicTask.newTrace(this));
+					getSubTraces().put(atomicTask.id().toKey().toString(), (AtomicTaskTraceNtro) atomicTask.newTrace(this));
 				});
 
-				recursivelyBuildBeforeExit(subTask, visitedTasks);
+				recursivelyAddSubTraces(subTask, visitedTasks);
 			}
 		});
 		
@@ -164,10 +174,10 @@ public class TaskTraceNtro
 
 	@Override
 	public boolean hasCurrent() {
-		return beforeEntry().ifAll(trace -> trace.hasCurrent())
-				&& beforeSubTasks().ifAll(trace -> trace.hasCurrent())
-				&& beforeExit().ifAll(trace -> trace.hasCurrent())
-				&& done().ifAll(trace -> trace.hasCurrent());
+		return preconditions().ifAll(trace -> trace.hasCurrent())
+				&& entryTraces().ifAll(trace -> trace.hasCurrent())
+				&& subTraces().ifAll(trace -> trace.hasCurrent())
+				&& exitTraces().ifAll(trace -> trace.hasCurrent());
 	}
 	
 	@Override
@@ -177,26 +187,26 @@ public class TaskTraceNtro
 
 	@Override
 	public boolean isWaiting() {
-		return beforeEntry().ifSome(trace -> trace.isWaiting())
-				|| beforeSubTasks().ifSome(trace -> trace.isWaiting())
-				|| beforeExit().ifSome(trace -> trace.isWaiting())
-				|| done().ifSome(trace -> trace.isWaiting());
+		return preconditions().ifSome(trace -> trace.isWaiting())
+				|| entryTraces().ifSome(trace -> trace.isWaiting())
+				|| subTraces().ifSome(trace -> trace.isWaiting())
+				|| exitTraces().ifSome(trace -> trace.isWaiting());
 	}
 
 	@Override
 	public boolean hasNext() {
-		return beforeEntry().ifSome(trace -> trace.hasNext())
-				|| beforeSubTasks().ifSome(trace -> trace.hasNext())
-				|| beforeExit().ifSome(trace -> trace.hasNext())
-				|| done().ifSome(trace -> trace.hasNext());
+		return preconditions().ifSome(trace -> trace.hasNext())
+				|| entryTraces().ifSome(trace -> trace.hasNext())
+				|| subTraces().ifSome(trace -> trace.hasNext())
+				|| exitTraces().ifSome(trace -> trace.hasNext());
 	}
 
 	@Override
 	public void advanceToNext() {
-		beforeEntry().forEach(trace -> trace.advanceToNext());
-		beforeSubTasks().forEach(trace -> trace.advanceToNext());
-		beforeExit().forEach(trace -> trace.advanceToNext());
-		done().forEach(trace -> trace.advanceToNext());
+		preconditions().forEach(trace -> trace.advanceToNext());
+		entryTraces().forEach(trace -> trace.advanceToNext());
+		subTraces().forEach(trace -> trace.advanceToNext());
+		exitTraces().forEach(trace -> trace.advanceToNext());
 	}
 
 	@Override
@@ -228,18 +238,18 @@ public class TaskTraceNtro
 	public Object get(String id) {
 		Object result = null;
 		
-		result = get(id, getBeforeEntry());
+		result = get(id, getPreconditions());
 		
 		if(result == null) {
-			result = get(id, getBeforeSubTasks());
+			result = get(id, getEntryTraces());
 		}
 
 		if(result == null) {
-			result = get(id, getBeforeExit());
+			result = get(id, getSubTraces());
 		}
 
 		if(result == null) {
-			result = get(id, getDone());
+			result = get(id, getExitTraces());
 		}
 		
 		return result;
@@ -273,27 +283,19 @@ public class TaskTraceNtro
 	
 	@Override
 	public boolean isBlocked() {
-		return !readyForEntryTasks();
-	}
-
-	private boolean readyForEntryTasks() {
-		return beforeEntry().ifAll(trace -> trace.hasCurrent());
-	}
-
-	private boolean entryTasksDone() {
-		return beforeSubTasks().ifAll(trace -> trace.hasCurrent());
+		return getState() == TaskState.BLOCKED;
 	}
 
 	@Override
 	public boolean isInProgress() {
-		return !isBlocked() && !isDone();
+		return getState() == TaskState.EXECUTING_ENTRY_TASKS
+				|| getState() == TaskState.EXECUTING_SUB_TASKS
+				|| getState() == TaskState.EXECUTING_EXIT_TASKS;
 	}
 
 	@Override
 	public boolean isDone() {
-		return hasCurrent()
-				&& !hasNext()
-				&& !isWaiting();
+		return getState() == TaskState.DONE;
 	}
 
 	public void notifyNewResult(AtomicTaskId id, Object value) {
@@ -305,32 +307,69 @@ public class TaskTraceNtro
 		
 	}
 	
-	private boolean mustActuallyCheckIfWeChangedState = true;
-	
-	public void recomputeState() {
-		if(isInProgress() && mustActuallyCheckIfWeChangedState) {
-			mustActuallyCheckIfWeChangedState = false;
-			beforeSubTasks().forEach(trace -> {
-				trace.execute();
-			});
+	public boolean recomputeState() {
+		boolean stateChanged = false;
+		TaskState oldState = getState();
+
+		setState(currentState());
+		
+		if(oldState != getState()) {
+			stateChanged = true;
 		}
+		
+		return stateChanged;
 	}
+
+	public TaskState currentState() {
+		TaskState currentState = TaskState.BLOCKED;
+		
+		if(hasCurrent()
+				&& !hasNext()
+				&& !isWaiting()) {
+			
+			currentState = TaskState.DONE;
+
+		} else if(hasCurrent() && hasNext() && !isWaiting()) {
+			
+			currentState = TaskState.HAS_NEXT;
+
+		}else if((subTraces().ifAll(subTrace -> subTrace.hasCurrent()
+				&& exitTraces().ifSome(exitTrace -> !exitTrace.hasCurrent() || exitTrace.isWaiting())))) {
+			
+			currentState = TaskState.EXECUTING_EXIT_TASKS;
+
+		}else if(entryTraces().ifAll(entryTrace -> entryTrace.hasCurrent()
+				&& subTraces().ifSome(subTrace -> !subTrace.hasCurrent() || subTrace.isWaiting()))) {
+			
+			currentState = TaskState.EXECUTING_SUB_TASKS;
+
+		}else if(preconditions().ifAll(precondition -> precondition.hasCurrent()
+				&& entryTraces().ifSome(entryTrace -> !entryTrace.hasCurrent() || entryTrace.isWaiting()))) {
+			
+			currentState = TaskState.EXECUTING_ENTRY_TASKS;
+		}
+
+		
+		
+		return currentState;
+	}
+
 
 	public void silentlyAddResult(AtomicTaskId id, Object value) {
 		boolean added = false;
 		
-		added = silentlyAddResultTo(id, value, getBeforeEntry());
+		added = silentlyAddResultTo(id, value, getPreconditions());
 		
 		if(!added) {
-			added = silentlyAddResultTo(id, value, getBeforeSubTasks());
+			added = silentlyAddResultTo(id, value, getEntryTraces());
 		}
 
 		if(!added) {
-			added = silentlyAddResultTo(id, value, getBeforeExit());
+			added = silentlyAddResultTo(id, value, getSubTraces());
 		}
 
 		if(!added) {
-			added = silentlyAddResultTo(id, value, getDone());
+			added = silentlyAddResultTo(id, value, getExitTraces());
 		}
 	}
 	

@@ -23,6 +23,9 @@ public class      TaskGraphTraceNtro
 	private Map<String, TaskTraceNtro> traces = new HashMap<>();
 	private InternalTaskGraphTraceWriterNtro<?,?> internalWriter = new InternalTaskGraphTraceWriterNtro(this);
 	private long currentState = 0;
+	private StateChangeHandler stateChangeHandler;
+	
+	
 
 	public GenericTaskGraphNtro<?, ?> getGraph() {
 		return graph;
@@ -63,6 +66,25 @@ public class      TaskGraphTraceNtro
 	public void setGraphName(String graphName) {
 		this.graphName = graphName;
 	}
+
+	public StateChangeHandler getStateChangeHandler() {
+		return stateChangeHandler;
+	}
+
+	public void setStateChangeHandler(StateChangeHandler stateChangeHandler) {
+		this.stateChangeHandler = stateChangeHandler;
+	}
+
+	private Stream<TaskTraceNtro> traces(){
+		return new StreamNtro<TaskTraceNtro>() {
+			@Override
+			public void forEach_(Visitor<TaskTraceNtro> visitor) throws Throwable {
+				for(TaskTraceNtro trace : getTraces().values()) {
+					visitor.visit(trace);
+				}
+			}
+		};
+	}
 	
 	
 	
@@ -83,17 +105,28 @@ public class      TaskGraphTraceNtro
 			getTraces().put(task.id().toKey().toString(), (TaskTraceNtro) task.newTrace(this));
 		});
 	}
-	
-	private Stream<TaskTraceNtro> traces(){
-		return new StreamNtro<TaskTraceNtro>() {
-			@Override
-			public void forEach_(Visitor<TaskTraceNtro> visitor) throws Throwable {
-				for(TaskTraceNtro trace : getTraces().values()) {
-					visitor.visit(trace);
-				}
+
+	public void recomputeState() {
+
+		boolean stateChanged = traces().reduceToResult(false, (accumulator, trace) -> {
+
+			if(trace.recomputeState()) {
+
+				accumulator = true;
+
 			}
-		};
+			
+			return accumulator;
+
+		}).value();
+		
+		if(stateChanged
+				&& getStateChangeHandler() != null) {
+
+			getStateChangeHandler().onStateChanged();
+		}
 	}
+
 
 	@Override
 	public TaskTrace getTaskTrace(TaskId id) {
@@ -139,14 +172,18 @@ public class      TaskGraphTraceNtro
 	public void notifyNewResult(AtomicTaskId id, Object value) {
 		traces().forEach(trace -> {
 			trace.silentlyAddResult(id, value);
-			trace.recomputeState();
 		});
+
+		// XXX: recomputeState called by hand in the GenericVersion
 	}
 
 	public void notifyClearResults() {
-		traces().forEach(trace -> {
-			trace.recomputeState();
-		});
+		// XXX: recomputeState called by hand in the GenericVersion
+	}
+
+	@Override
+	public void onStateChange(StateChangeHandler handler) {
+		setStateChangeHandler(handler);
 	}
 
 }
