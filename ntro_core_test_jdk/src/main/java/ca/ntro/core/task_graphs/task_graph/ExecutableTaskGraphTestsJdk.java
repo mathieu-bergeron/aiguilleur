@@ -1,4 +1,4 @@
-package ca.ntro.core.task_graphs.executable_task_graph;
+package ca.ntro.core.task_graphs.task_graph;
 
 import org.junit.Before;
 

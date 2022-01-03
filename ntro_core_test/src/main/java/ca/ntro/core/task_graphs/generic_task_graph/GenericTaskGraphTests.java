@@ -55,11 +55,8 @@ public class GenericTaskGraphTests {
 
 		trace.writeCurrentState(Ntro.graphWriter());
 
-		// MsgReceiver: ads result to all active traces
-		a_entry.addResult(1);
-
 		a_entry.execute((previousResults, notifyer) -> {
-			// ads result only when the atomictask is executing
+			// ADS RESULT ONLY TO THE CURRENT TRACE
 			notifyer.addResult(2);
 		});
 
@@ -69,6 +66,7 @@ public class GenericTaskGraphTests {
 		
 		trace.writeCurrentState(Ntro.graphWriter());
 
+		// MSG_RECEIVER: ADDING RESULTS TO ALL TRACES
 		aa_entry.addResult(1);
 		aa_entry.addResult(1);
 
@@ -84,6 +82,12 @@ public class GenericTaskGraphTests {
 
 		trace.advanceToNext();
 		trace.writeCurrentState(Ntro.graphWriter());
+		
+		trace.advanceToNext();
+		trace.advanceToNext();
+		trace.advanceToNext();
+		trace.advanceToNext();
+		Ntro.asserter().assertTrue("execution can quit on !hasNext()", !trace.hasNext());
 
 	}
 }

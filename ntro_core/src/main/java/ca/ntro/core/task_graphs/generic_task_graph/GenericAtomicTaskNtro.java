@@ -8,6 +8,7 @@ import ca.ntro.core.task_graphs.generic_task_graph.handlers.CancelHandler;
 import ca.ntro.core.task_graphs.generic_task_graph.handlers.ExecuteHandler;
 import ca.ntro.core.task_graphs.task_graph_trace.AtomicTaskTrace;
 import ca.ntro.core.task_graphs.task_graph_trace.AtomicTaskTraceNtro;
+import ca.ntro.core.task_graphs.task_graph_trace.TaskGraphTraceNtro;
 import ca.ntro.core.task_graphs.task_graph_trace.TaskTrace;
 import ca.ntro.core.task_graphs.task_graph_trace.TaskTraceNtro;
 import ca.ntro.core.wrappers.future.ExceptionHandler;
@@ -25,7 +26,7 @@ public abstract class GenericAtomicTaskNtro<T  extends GenericTask<T,AT>,
 	private CancelHandler cancelHandler;
 	private ExceptionHandler exceptionHandler;
 	
-	private Set<AtomicTaskTraceNtro> traces = new HashSet<>();
+	private Set<TaskGraphTraceNtro> traces = new HashSet<>();
 
 	public AtomicTaskId getId() {
 		return id;
@@ -51,11 +52,11 @@ public abstract class GenericAtomicTaskNtro<T  extends GenericTask<T,AT>,
 		this.isWaitingForResult = isWaitingForResult;
 	}
 
-	public Set<AtomicTaskTraceNtro> getTraces() {
+	public Set<TaskGraphTraceNtro> getTraces() {
 		return traces;
 	}
 
-	public void setTraces(Set<AtomicTaskTraceNtro> traces) {
+	public void setTraces(Set<TaskGraphTraceNtro> traces) {
 		this.traces = traces;
 	}
 
@@ -114,16 +115,16 @@ public abstract class GenericAtomicTaskNtro<T  extends GenericTask<T,AT>,
 	@Override
 	public void addResult(Object result) {
 		setIsWaitingForResult(false);
-		for(AtomicTaskTraceNtro trace : getTraces()) {
-			trace.addResult(result);
+		for(TaskGraphTraceNtro trace : getTraces()) {
+			trace.notifyNewResult(getId(), result);
 		}
 	}
 
 	@Override
 	public void clearResults() {
 		setIsWaitingForResult(false);
-		for(AtomicTaskTraceNtro trace : getTraces()) {
-			trace.clearResults();
+		for(TaskGraphTraceNtro trace : getTraces()) {
+			trace.notifyClearResults();
 		}
 	}
 
@@ -136,7 +137,7 @@ public abstract class GenericAtomicTaskNtro<T  extends GenericTask<T,AT>,
 	public AtomicTaskTrace newTrace(TaskTrace parentTrace) {
 		AtomicTaskTrace trace = newTraceInstance((TaskTraceNtro) parentTrace);
 		
-		getTraces().add((AtomicTaskTraceNtro) trace);
+		getTraces().add(((TaskTraceNtro) parentTrace).getParentTrace());
 		
 		return trace;
 	}

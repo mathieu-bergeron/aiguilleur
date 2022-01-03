@@ -7,6 +7,7 @@ import java.util.Set;
 
 import ca.ntro.core.identifyers.Id;
 import ca.ntro.core.stream.Stream;
+import ca.ntro.core.task_graphs.generic_task_graph.AtomicTaskId;
 import ca.ntro.core.task_graphs.generic_task_graph.GenericTask;
 import ca.ntro.core.task_graphs.generic_task_graph.GenericTaskNtro;
 import ca.ntro.core.values.ObjectMap;
@@ -295,8 +296,57 @@ public class TaskTraceNtro
 				&& !isWaiting();
 	}
 
-	public void notifyNewResult() {
+	public void notifyNewResult(AtomicTaskId id, Object value) {
+		getParentTrace().notifyNewResult(id, value);
+	}
+
+	public void notifyClearResults() {
+		getParentTrace().notifyClearResults();
 		
 	}
+	
+	private boolean mustActuallyCheckIfWeChangedState = true;
+	
+	public void recomputeState() {
+		if(isInProgress() && mustActuallyCheckIfWeChangedState) {
+			mustActuallyCheckIfWeChangedState = false;
+			beforeSubTasks().forEach(trace -> {
+				trace.execute();
+			});
+		}
+	}
+
+	public void silentlyAddResult(AtomicTaskId id, Object value) {
+		boolean added = false;
+		
+		added = silentlyAddResultTo(id, value, getBeforeEntry());
+		
+		if(!added) {
+			added = silentlyAddResultTo(id, value, getBeforeSubTasks());
+		}
+
+		if(!added) {
+			added = silentlyAddResultTo(id, value, getBeforeExit());
+		}
+
+		if(!added) {
+			added = silentlyAddResultTo(id, value, getDone());
+		}
+	}
+	
+	private boolean silentlyAddResultTo(AtomicTaskId id, Object value, Map<String, AtomicTaskTraceNtro> traces) {
+		boolean added = false;
+		
+		if(traces.containsKey(id.toKey().toString())) {
+			traces.get(id.toKey().toString()).silentlyAddResult(value);
+		}
+		
+		
+		return added;
+	}
+
+	
+	
+	
 
 }

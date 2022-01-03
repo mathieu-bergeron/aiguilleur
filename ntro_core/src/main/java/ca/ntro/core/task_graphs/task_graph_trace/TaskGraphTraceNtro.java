@@ -9,6 +9,7 @@ import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagWriterOptionsNtro;
 import ca.ntro.core.stream.Stream;
 import ca.ntro.core.stream.StreamNtro;
 import ca.ntro.core.stream.Visitor;
+import ca.ntro.core.task_graphs.generic_task_graph.AtomicTaskId;
 import ca.ntro.core.task_graphs.generic_task_graph.GenericTaskGraphNtro;
 import ca.ntro.core.task_graphs.generic_task_graph.TaskId;
 import ca.ntro.core.task_graphs.task_graph_writer.InternalTaskGraphTraceWriterNtro;
@@ -133,6 +134,19 @@ public class      TaskGraphTraceNtro
 			advanceToNext();
 			writeCurrentState(writer);
 		}
+	}
+
+	public void notifyNewResult(AtomicTaskId id, Object value) {
+		traces().forEach(trace -> {
+			trace.silentlyAddResult(id, value);
+			trace.recomputeState();
+		});
+	}
+
+	public void notifyClearResults() {
+		traces().forEach(trace -> {
+			trace.recomputeState();
+		});
 	}
 
 }

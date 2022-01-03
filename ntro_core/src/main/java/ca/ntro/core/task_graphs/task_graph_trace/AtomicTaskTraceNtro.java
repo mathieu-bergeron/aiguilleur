@@ -3,8 +3,11 @@ package ca.ntro.core.task_graphs.task_graph_trace;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.ntro.core.initialization.Ntro;
+import ca.ntro.core.task_graphs.generic_task_graph.AtomicTaskMutator;
 import ca.ntro.core.task_graphs.generic_task_graph.GenericAtomicTask;
 import ca.ntro.core.task_graphs.generic_task_graph.GenericAtomicTaskNtro;
+import ca.ntro.core.values.ObjectMap;
 
 public abstract class AtomicTaskTraceNtro 
        implements     AtomicTaskTrace {
@@ -58,8 +61,11 @@ public abstract class AtomicTaskTraceNtro
 
 	@Override
 	public void addResult(Object value) {
+		getParentTrace().notifyNewResult(getTask().id(), value);
+	}
+
+	public void silentlyAddResult(Object value) {
 		getResults().add(value);
-		getParentTrace().notifyNewResult();
 	}
 
 	@Override
@@ -103,6 +109,36 @@ public abstract class AtomicTaskTraceNtro
 
 			getResults().clear();
 
+		}
+	}
+
+	public void execute() {
+		if(getTask().getExceptionHandler() != null) {
+
+			try {
+				getTask().getExecuteHandler().execute((ObjectMap) getParentTrace(), new AtomicTaskMutator() {
+					
+					@Override
+					public void notifyWaitingForResult() {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void clearResults() {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void addResult(Object value) {
+						getParentTrace().notifyNewResult(getTask().id(), value);
+					}
+				});
+
+			}catch(Throwable t) {
+				Ntro.exceptions().throwException(t);
+			}
 		}
 	}
 
