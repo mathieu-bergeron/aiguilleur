@@ -1,7 +1,9 @@
 package ca.ntro.app.backend;
 
+import ca.ntro.app.backend.handlers.HandlerCreator;
+
 public interface LocalBackend extends Backend {
 
-	void registerMessageHandlers(MessageHandlerRegistrar registrar);
+	void registerHandlers(HandlerCreator creator);
 
 }
