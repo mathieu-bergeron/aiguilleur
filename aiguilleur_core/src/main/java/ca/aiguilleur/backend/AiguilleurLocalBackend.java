@@ -12,19 +12,17 @@ public class AiguilleurLocalBackend implements LocalBackend {
 	@Override
 	public void registerHandlers(HandlerCreator creator) {
 
-		ceciEstUnTest(creator);
+		addAppointment(creator);
 
 	}
 	
 	
 
-	private void ceciEstUnTest(HandlerCreator creator) {
+	private void addAppointment(HandlerCreator creator) {
 
-		creator.to("Ceci est un test")
-		       .withModel(QueueModel.class)
-		       .withModel(PongModel.class)
-		       .when(msgReceived(MsgAddAppointment.class))
-		       .execute(results -> {
+		creator.to("addAppointment")
+
+		       .execute((results, notifyer) -> {
 		    	   
 		    	   // XXX: We have a lock on these models!
 		    	   QueueModel queue = results.getModel(QueueModel.class);
@@ -36,6 +34,22 @@ public class AiguilleurLocalBackend implements LocalBackend {
 		    	   
 		    	   
 		    	   // XXX: manually generate a ModelUpdate (for now)
+		    	   
+		       })
+
+		       .when(msgReceived(MsgAddAppointment.class))
+
+		       .and(modelLoaded(QueueModel.class))
+
+		       .and(modelLoaded(PongModel.class))
+		       
+		       .onCancel(() -> {
+		    	   
+		    	   
+		       })
+		       
+		       .onFailure(exception -> {
+		    	   
 		    	   
 		       });
 	}
