@@ -4,6 +4,6 @@ import ca.ntro.app.frontend.controllers.tasks.FrontendTasks;
 
 public interface GenericController {
 	
-	void createTasks(FrontendTasks creator);
+	void createTasks(FrontendTasks inOrder);
 
 }
