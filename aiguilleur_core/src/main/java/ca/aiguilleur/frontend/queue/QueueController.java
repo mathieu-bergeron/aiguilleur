@@ -19,16 +19,27 @@ public class QueueController implements Controller {
 
 		inOrder.to("displayQueue")
 
-		         .execute(results -> {
+		       .execute(results -> {
 
-		    	   QueueView view = results.getDisplayedView(QueueView.class);
-		    	   view.displayModelUpdates(results.getModelUpdates(QueueModel.id()));
+		    	 QueueView view = results.getDisplayedView(QueueView.class);
+		    	 view.displayModelUpdates(results.getModelUpdates(QueueModel.id()));
 
-		         })
+		       })
 
-				 .when(viewDisplayed(QueueView.class))
+			   .when(viewDisplayed(QueueView.class))
 
-		        .and(modelObserved(QueueModel.id()));
+		       .and(modelObserved(QueueModel.id()))
+		       
+		       .onCancel(() -> {
+		    	   
+		    	   
+		    	   
+		       })
+		       
+		       .onFailure(exception -> {
+		    	   
+		    	   
+		       });
 	}
 
 }
