@@ -11,13 +11,14 @@ public class QueueController implements Controller {
 	@Override
 	public void createTasks(FrontendTasks inOrder) {
 
-		observeQueueModel(inOrder);
+		displayQueue(inOrder);
 
 	}
 
-	private void observeQueueModel(FrontendTasks inOrder) {
+	private void displayQueue(FrontendTasks inOrder) {
 
-		inOrder.to("observeQueueModel")
+		inOrder.to("displayQueue")
+
 		         .execute(results -> {
 
 		    	   QueueView view = results.getDisplayedView(QueueView.class);
