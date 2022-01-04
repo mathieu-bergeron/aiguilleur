@@ -4,8 +4,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import ca.aiguilleur.frontend.menu.MenuView;
-import ca.aiguilleur.messages.DisplayPongMessage;
-import ca.aiguilleur.messages.DisplayQueueMessage;
+import ca.aiguilleur.messages.MsgDisplayPong;
+import ca.aiguilleur.messages.MsgDisplayQueue;
 import javafx.fxml.Initializable;
 
 public class MenuViewFx implements MenuView, Initializable {
@@ -16,12 +16,12 @@ public class MenuViewFx implements MenuView, Initializable {
 	}
 
 	@Override
-	public void installDisplayQueueMessage(DisplayQueueMessage displayQueueMessage) {
+	public void installDisplayQueueMessage(MsgDisplayQueue displayQueueMessage) {
 		
 	}
 
 	@Override
-	public void installDisplayPongMessage(DisplayPongMessage displayPongMessage) {
+	public void installDisplayPongMessage(MsgDisplayPong displayPongMessage) {
 		
 	}
 

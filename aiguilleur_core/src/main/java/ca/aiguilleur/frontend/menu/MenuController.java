@@ -1,24 +1,24 @@
 package ca.aiguilleur.frontend.menu;
 
-import ca.aiguilleur.messages.DisplayPongMessage;
-import ca.aiguilleur.messages.DisplayQueueMessage;
+import ca.aiguilleur.messages.MsgDisplayPong;
+import ca.aiguilleur.messages.MsgDisplayQueue;
 import ca.ntro.app.frontend.Controller;
-import ca.ntro.app.frontend.controllers.tasks.TaskCreator;
+import ca.ntro.app.frontend.controllers.tasks.FrontendTasks;
 
-import static ca.ntro.app.frontend.controllers.tasks.TaskCreator.*;
+import static ca.ntro.app.frontend.controllers.tasks.FrontendTasks.*;
 
 public class MenuController implements Controller {
 
 	@Override
-	public void createTasks(TaskCreator creator) {
+	public void createTasks(FrontendTasks creator) {
 
 		creator.when(viewDisplayed(MenuView.class))
 		       .execute(results -> {
 		    	   
 		    	   MenuView view = results.getDisplayedView(MenuView.class);
 
-		    	   view.installDisplayQueueMessage(new DisplayQueueMessage());
-		    	   view.installDisplayPongMessage(new DisplayPongMessage());
+		    	   view.installDisplayQueueMessage(new MsgDisplayQueue());
+		    	   view.installDisplayPongMessage(new MsgDisplayPong());
 		       });
 	}
 }

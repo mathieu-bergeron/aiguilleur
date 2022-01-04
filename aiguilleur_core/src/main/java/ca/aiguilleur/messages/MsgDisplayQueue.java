@@ -2,6 +2,6 @@ package ca.aiguilleur.messages;
 
 import ca.ntro.app.messages.Message;
 
-public class DisplayQueueMessage extends Message {
+public class MsgDisplayQueue extends Message {
 
 }

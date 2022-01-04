@@ -2,16 +2,16 @@ package ca.aiguilleur.frontend.queue;
 
 import ca.aiguilleur.models.QueueModel;
 import ca.ntro.app.frontend.Controller;
-import ca.ntro.app.frontend.controllers.tasks.TaskCreator;
+import ca.ntro.app.frontend.controllers.tasks.FrontendTasks;
 
-import static ca.ntro.app.frontend.controllers.tasks.TaskCreator.*;
+import static ca.ntro.app.frontend.controllers.tasks.FrontendTasks.*;
 
 public class QueueController implements Controller {
 
 	@Override
-	public void createTasks(TaskCreator creator) {
+	public void createTasks(FrontendTasks inOrderTo) {
 		
-		creator.when(viewDisplayed(QueueView.class))
+		inOrderTo.when(viewDisplayed(QueueView.class))
 		       .and(modelObserved(QueueModel.id()))
 		       .execute(results -> {
 

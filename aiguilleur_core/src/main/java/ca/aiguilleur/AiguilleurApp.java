@@ -2,8 +2,8 @@ package ca.aiguilleur;
 
 import ca.ntro.app.messages.MessageRegistrar;
 import ca.ntro.app.models.ModelRegistrar;
-import ca.aiguilleur.messages.DisplayPongMessage;
-import ca.aiguilleur.messages.DisplayQueueMessage;
+import ca.aiguilleur.messages.MsgDisplayPong;
+import ca.aiguilleur.messages.MsgDisplayQueue;
 import ca.aiguilleur.models.PongModel;
 import ca.aiguilleur.models.QueueModel;
 import ca.ntro.app.App;
@@ -21,7 +21,7 @@ public abstract class AiguilleurApp<VR extends ViewRegistrar<?>> implements App<
 	@Override
 	public void registerMessages(MessageRegistrar registrar) {
 
-		registrar.registerMessage(DisplayQueueMessage.class);
-		registrar.registerMessage(DisplayPongMessage.class);
+		registrar.registerMessage(MsgDisplayQueue.class);
+		registrar.registerMessage(MsgDisplayPong.class);
 	}
 }

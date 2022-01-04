@@ -4,23 +4,22 @@ import ca.aiguilleur.messages.MsgAddAppointment;
 import ca.aiguilleur.models.PongModel;
 import ca.aiguilleur.models.QueueModel;
 import ca.ntro.app.backend.LocalBackend;
-import ca.ntro.app.backend.handlers.HandlerCreator;
-import static ca.ntro.app.backend.handlers.HandlerCreator.*;
+import ca.ntro.app.backend.handlers.BackendTasks;
+import static ca.ntro.app.backend.handlers.BackendTasks.*;
 
 public class AiguilleurLocalBackend implements LocalBackend {
 
 	@Override
-	public void registerHandlers(HandlerCreator creator) {
+	public void createTasks(BackendTasks inOrder) {
 
-		addAppointment(creator);
-
+		addAppointment(inOrder);
 	}
 	
 	
 
-	private void addAppointment(HandlerCreator creator) {
+	private void addAppointment(BackendTasks inOrder) {
 
-		creator.to("addAppointment")
+		inOrder.to("addAppointment")
 
 		       .execute((results, notifyer) -> {
 		    	   

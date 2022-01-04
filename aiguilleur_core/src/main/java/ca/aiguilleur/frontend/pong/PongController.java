@@ -1,25 +1,25 @@
 package ca.aiguilleur.frontend.pong;
 
 import ca.ntro.app.frontend.Controller;
-import ca.ntro.app.frontend.controllers.tasks.TaskCreator;
+import ca.ntro.app.frontend.controllers.tasks.FrontendTasks;
 import ca.ntro.app.models.ModelUpdates;
 import ca.ntro.core.identifyers.ModelId;
 
-import static ca.ntro.app.frontend.controllers.tasks.TaskCreator.*;
+import static ca.ntro.app.frontend.controllers.tasks.FrontendTasks.*;
 
-import ca.aiguilleur.messages.DisplayPongMessage;
+import ca.aiguilleur.messages.MsgDisplayPong;
 
 public class PongController implements Controller {
 	
 	private ModelId lastModelId = null;
 
 	@Override
-	public void createTasks(TaskCreator creator) {
+	public void createTasks(FrontendTasks creator) {
 		
-		creator.when(messageReceived(DisplayPongMessage.class))
+		creator.when(messageReceived(MsgDisplayPong.class))
 			   .execute(results -> {
 				   
-				   DisplayPongMessage message = results.getMessage(DisplayPongMessage.class);
+				   MsgDisplayPong message = results.getMessage(MsgDisplayPong.class);
 				   ModelId modelId = message.getModelId();
 				   
 				   if(!modelId.equals(lastModelId)) {

@@ -3,7 +3,7 @@ package ca.aiguilleur.messages;
 import ca.ntro.app.messages.Message;
 import ca.ntro.core.identifyers.ModelId;
 
-public class DisplayPongMessage extends Message {
+public class MsgDisplayPong extends Message {
 	
 	private ModelId modelId;
 
