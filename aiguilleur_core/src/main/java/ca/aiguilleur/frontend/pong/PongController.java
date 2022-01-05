@@ -14,7 +14,6 @@ import ca.aiguilleur.messages.MsgDisplayPong;
 public class PongController implements Controller {
 	
 	private FrontendTask displayGameSubTask = null;
-	private ModelId lastModelId = null;
 
 	@Override
 	public void createTasks(FrontendTasks inOrder) {
@@ -28,15 +27,11 @@ public class PongController implements Controller {
 				   MsgDisplayPong message = inputs.getMessage(MsgDisplayPong.class);
 				   ModelId modelId = message.getModelId();
 				   
-				   if(lastModelId == null
-						   || lastModelId != modelId) {
-					   
-					   if(displayGameSubTask != null) {
-						   displayGameSubTask.cancel(); // XXX: removes the task from the TaskGraph
-					   }
-					   
-					   displayGameByModelId(outputs, modelId);
+				   if(displayGameSubTask != null) {
+					   displayGameSubTask.cancel(); // XXX: removes the task from the TaskGraph
 				   }
+					   
+				   displayGameSubTask = displayGameByModelId(outputs, modelId);
 		       })
 		       
 		       .when(messageReceived(MsgDisplayPong.class))
@@ -52,30 +47,31 @@ public class PongController implements Controller {
 		       });
 	}
 
-	private void displayGameByModelId(TaskOutputs outputs, ModelId modelId) {
-		displayGameSubTask = outputs.inOrder().to("displayGameByModelId")
-		                                         .execute((inputs2, outputs2) -> {
+	private FrontendTask displayGameByModelId(TaskOutputs outputs, ModelId modelId) {
 
-													  PongView view = inputs2.getDisplayedView(PongView.class);
-													  ModelUpdates updates = inputs2.getModelUpdates(modelId);
-							  
-													  view.displayModelUpdates(updates);
+		return outputs.inOrder().to("displayGameByModelId")
+							    .execute((inputs2, outputs2) -> {
 
-												})
-		                    
-												.when(modelObserved(modelId))
-												
-												.onCancel(() -> {
-													
-													
-												})
-												
-												.onFailure(exception2 -> {
-													
-													
-												})
+								     PongView view = inputs2.getDisplayedView(PongView.class);
+								     ModelUpdates updates = inputs2.getModelUpdates(modelId);
+		  
+								     view.displayModelUpdates(updates);
 
-												.getTask();
+							   })
+		
+							   .when(modelObserved(modelId))
+							
+							   .onCancel(() -> {
+								
+								
+							   })
+							
+							   .onFailure(exception2 -> {
+								
+								
+							   })
+
+							   .getTask();
 	}
 
 }
