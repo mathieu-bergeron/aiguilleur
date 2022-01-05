@@ -19,11 +19,11 @@ public class QueueController implements Controller {
 
 		inOrder.to("displayQueue")
 
-		       .execute(results -> {
+		       .execute((results, outputs) -> {
 
 		    	 QueueView view = results.getDisplayedView(QueueView.class);
 		    	 view.displayModelUpdates(results.getModelUpdates(QueueModel.id()));
-
+		    	 
 		       })
 
 			   .when(viewDisplayed(QueueView.class))

@@ -14,20 +14,20 @@ public class AiguilleurRootController implements RootController {
 
 		creator.when(viewCreated(AiguilleurRootView.class))
 			   .and(viewLoaded(MenuView.class))
-		       .execute(results -> {
+		       .execute((inputs, outputs) -> {
 		    	   
-		    	   AiguilleurRootView view = results.getDisplayedView(AiguilleurRootView.class);
-		    	   MenuView menuView = results.getViewLoader(MenuView.class).createView();
+		    	   AiguilleurRootView view = inputs.getDisplayedView(AiguilleurRootView.class);
+		    	   MenuView menuView = inputs.getViewLoader(MenuView.class).createView();
 
 		    	   view.displayMenuView(menuView);
 		       });
 
 		creator.when(viewCreated(AiguilleurRootView.class))
 			   .and(viewLoaded(PagesView.class))
-		       .execute(results -> {
+		       .execute((inputs, outputs) -> {
 		    	   
-		    	   AiguilleurRootView view = results.getDisplayedView(AiguilleurRootView.class);
-		    	   PagesView pagesView = results.getViewLoader(PagesView.class).createView();
+		    	   AiguilleurRootView view = inputs.getDisplayedView(AiguilleurRootView.class);
+		    	   PagesView pagesView = inputs.getViewLoader(PagesView.class).createView();
 
 		    	   view.displayPagesView(pagesView);
 		       });

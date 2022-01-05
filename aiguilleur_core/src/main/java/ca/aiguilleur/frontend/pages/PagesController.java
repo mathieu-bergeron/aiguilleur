@@ -21,21 +21,23 @@ public class PagesController implements Controller {
 		inOrder.when(viewDisplayed(PagesView.class))
 		       .and(viewCreated(QueueView.class))
 		       .and(messageReceived(MsgDisplayQueue.class))
-		       .execute(results -> {
+		       .execute((inputs, outputs) -> {
 		    	   
-		    	   PagesView view = results.getDisplayedView(PagesView.class);
-		    	   QueueView queueView = results.getCreatedView(QueueView.class);
+		    	   PagesView view = inputs.getDisplayedView(PagesView.class);
+		    	   QueueView queueView = inputs.getCreatedView(QueueView.class);
 		    	   
 		    	   view.displaySubView(queueView);
+		    	   
+		    	   outputs.notifyViewDisplayed(queueView);
 		       });
 
 		inOrder.when(viewDisplayed(PagesView.class))
 		       .and(viewCreated(PongView.class))
 		       .and(messageReceived(MsgDisplayPong.class))
-		       .execute(results -> {
+		       .execute((inputs, outputs) -> {
 		    	   
-		    	   PagesView view = results.getDisplayedView(PagesView.class);
-		    	   PongView pongView = results.getCreatedView(PongView.class);
+		    	   PagesView view = inputs.getDisplayedView(PagesView.class);
+		    	   PongView pongView = inputs.getCreatedView(PongView.class);
 		    	   
 		    	   view.displaySubView(pongView);
 		       });
@@ -45,10 +47,10 @@ public class PagesController implements Controller {
 
 		inOrder.to("createPongView")
 
-		       .execute(results -> {
+		       .execute((inputs, outputs) -> {
 
-		    	   PongView pongView = results.getViewLoader(PongView.class).createView();
-		    	   results.registerView(PongView.class, pongView);
+		    	   PongView pongView = inputs.getViewLoader(PongView.class).createView();
+		    	   outputs.registerView(PongView.class, pongView);
 
 		       })
 		
@@ -68,14 +70,13 @@ public class PagesController implements Controller {
 	private void createQueueView(FrontendTasks inOrder) {
 		inOrder.to("createQueueView")
 
-		       .execute(results -> {
+		       .execute((inputs, outputs) -> {
 
-		    	   QueueView queueView = results.getViewLoader(QueueView.class).createView();
-		    	   results.registerView(QueueView.class, queueView);
+		    	   QueueView queueView = inputs.getViewLoader(QueueView.class).createView();
+		    	   outputs.registerView(QueueView.class, queueView);
 
 		       })
 
 		       .when(viewLoaded(QueueView.class));
 	}
-
 }

@@ -38,7 +38,7 @@ public interface FrontendTasks {
 	FrontendTasks when(FrontendTask task);
 	FrontendTasks and(FrontendTask task);
 
-	FrontendTasks execute(TaskExecutor executor);
+	FrontendTasks execute(FrontendExecutor executor);
 	FrontendTasks onCancel(FrontendCancelHandler cancelHandler);
 	FrontendTasks onFailure(ExceptionHandler exceptionHandler);
 	FrontendTasks setTaskName(String taskName);
@@ -49,4 +49,8 @@ public interface FrontendTasks {
 	void removeModelObserver(ModelId modelId);
 
 	FrontendTasks to(String taskId);
+	
+	FrontendTask getTask();
+	
+	
 }

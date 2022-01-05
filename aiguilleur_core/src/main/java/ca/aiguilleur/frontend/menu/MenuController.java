@@ -13,9 +13,9 @@ public class MenuController implements Controller {
 	public void createTasks(FrontendTasks creator) {
 
 		creator.when(viewDisplayed(MenuView.class))
-		       .execute(results -> {
+		       .execute((inputs, outputs) -> {
 		    	   
-		    	   MenuView view = results.getDisplayedView(MenuView.class);
+		    	   MenuView view = inputs.getDisplayedView(MenuView.class);
 
 		    	   view.installDisplayQueueMessage(new MsgDisplayQueue());
 		    	   view.installDisplayPongMessage(new MsgDisplayPong());

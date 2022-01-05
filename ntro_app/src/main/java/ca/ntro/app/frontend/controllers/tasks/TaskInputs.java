@@ -5,7 +5,7 @@ import ca.ntro.app.messages.Message;
 import ca.ntro.app.models.ModelUpdates;
 import ca.ntro.core.identifyers.ModelId;
 
-public interface TaskResults {
+public interface TaskInputs {
 
 	<V extends View> V getDisplayedView(Class<V> viewClass);
 	<V extends View> V getCreatedView(Class<V> viewClass);
@@ -13,8 +13,6 @@ public interface TaskResults {
 
 
 	ModelUpdates getModelUpdates(ModelId id);
-
-	<V extends View> void registerView(Class<V> viewClass, V view);
 
 	<MSG extends Message> MSG getMessage(Class<MSG> messageClass);
 
