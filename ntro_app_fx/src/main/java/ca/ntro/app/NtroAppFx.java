@@ -7,6 +7,7 @@ import javafx.application.Application;
 
 public interface NtroAppFx extends App<ViewRegistrarFx> {
 	
+	@SuppressWarnings("unchecked")
 	public static void launch(String[] args) {
 
 		try {

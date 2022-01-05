@@ -4,26 +4,24 @@ import ca.aiguilleur.frontend.pong.PongView;
 import ca.aiguilleur.frontend.queue.QueueView;
 import ca.aiguilleur.messages.MsgDisplayPong;
 import ca.aiguilleur.messages.MsgDisplayQueue;
-import ca.ntro.app.frontend.Controller;
 import ca.ntro.app.frontend.controllers.tasks.FrontendTasks;
 
 import static ca.ntro.app.frontend.controllers.tasks.FrontendTasks.*;
 
-public class PagesController implements Controller {
+public class PagesController {
 
-	@Override
-	public void createTasks(FrontendTasks inOrder) {
+	public static void createTasks(FrontendTasks inOrder) {
 
 		createQueueView(inOrder);
 		createPongView(inOrder);
 		
 
-		inOrder.when(viewDisplayed(PagesView.class))
+		inOrder.whenExists(viewInstalled(PagesView.class))
 		       .and(viewCreated(QueueView.class))
 		       .and(messageReceived(MsgDisplayQueue.class))
 		       .execute((inputs, outputs) -> {
 		    	   
-		    	   PagesView view = inputs.getDisplayedView(PagesView.class);
+		    	   PagesView view = inputs.getView(PagesView.class);
 		    	   QueueView queueView = inputs.getCreatedView(QueueView.class);
 		    	   
 		    	   view.displaySubView(queueView);
@@ -31,21 +29,21 @@ public class PagesController implements Controller {
 		    	   outputs.notifyViewDisplayed(queueView);
 		       });
 
-		inOrder.when(viewDisplayed(PagesView.class))
+		inOrder.whenExists(viewInstalled(PagesView.class))
 		       .and(viewCreated(PongView.class))
 		       .and(messageReceived(MsgDisplayPong.class))
 		       .execute((inputs, outputs) -> {
 		    	   
-		    	   PagesView view = inputs.getDisplayedView(PagesView.class);
+		    	   PagesView view = inputs.getView(PagesView.class);
 		    	   PongView pongView = inputs.getCreatedView(PongView.class);
 		    	   
 		    	   view.displaySubView(pongView);
 		       });
 	}
 
-	private void createPongView(FrontendTasks inOrder) {
+	private static void createPongView(FrontendTasks inOrder) {
 
-		inOrder.to("createPongView")
+		inOrder.create("createPongView")
 
 		       .execute((inputs, outputs) -> {
 
@@ -54,7 +52,7 @@ public class PagesController implements Controller {
 
 		       })
 		
-		       .when(viewLoaded(PongView.class))
+		       .whenExists(viewLoaded(PongView.class))
 		       
 		       .onCancel(() -> {
 		    	   
@@ -67,8 +65,8 @@ public class PagesController implements Controller {
 		       });
 	}
 
-	private void createQueueView(FrontendTasks inOrder) {
-		inOrder.to("createQueueView")
+	private static void createQueueView(FrontendTasks inOrder) {
+		inOrder.create("createQueueView")
 
 		       .execute((inputs, outputs) -> {
 
@@ -77,6 +75,6 @@ public class PagesController implements Controller {
 
 		       })
 
-		       .when(viewLoaded(QueueView.class));
+		       .whenExists(viewLoaded(QueueView.class));
 	}
 }

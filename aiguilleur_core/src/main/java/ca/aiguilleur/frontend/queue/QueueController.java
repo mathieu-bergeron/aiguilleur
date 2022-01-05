@@ -1,32 +1,30 @@
 package ca.aiguilleur.frontend.queue;
 
 import ca.aiguilleur.models.QueueModel;
-import ca.ntro.app.frontend.Controller;
 import ca.ntro.app.frontend.controllers.tasks.FrontendTasks;
 
 import static ca.ntro.app.frontend.controllers.tasks.FrontendTasks.*;
 
-public class QueueController implements Controller {
+public class QueueController {
 
-	@Override
-	public void createTasks(FrontendTasks inOrder) {
+	public static void createTasks(FrontendTasks inOrder) {
 
 		displayQueue(inOrder);
 
 	}
 
-	private void displayQueue(FrontendTasks inOrder) {
+	private static void displayQueue(FrontendTasks inOrder) {
 
-		inOrder.to("displayQueue")
+		inOrder.create("displayQueue")
 
 		       .execute((results, outputs) -> {
 
-		    	 QueueView view = results.getDisplayedView(QueueView.class);
+		    	 QueueView view = results.getView(QueueView.class);
 		    	 view.displayModelUpdates(results.getModelUpdates(QueueModel.id()));
 		    	 
 		       })
 
-			   .when(viewDisplayed(QueueView.class))
+			   .whenExists(viewInstalled(QueueView.class))
 
 		       .and(modelObserved(QueueModel.id()))
 		       

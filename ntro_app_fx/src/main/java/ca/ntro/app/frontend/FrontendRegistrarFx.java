@@ -12,6 +12,7 @@ public class FrontendRegistrarFx implements FrontendRegistrar<ViewRegistrarFx>, 
 	@Override
 	public void registerFrontend(Frontend<ViewRegistrarFx> frontend) {
 		frontend.registerViews(viewRegistrar);
+		throw new RuntimeException("TODO: frontend.registerEvents()");
 	}
 	
 

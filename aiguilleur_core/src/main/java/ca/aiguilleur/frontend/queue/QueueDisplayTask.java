@@ -11,7 +11,7 @@ public class QueueDisplayTask implements FrontendExecutor {
 	@Override
 	public void execute(TaskInputs results, TaskOutputs outputs) {
 		
-		QueueView view = results.getDisplayedView(QueueView.class);
+		QueueView view = results.getView(QueueView.class);
 		ModelUpdates updates = results.getModelUpdates(QueueModel.id());
 		
 		view.displayModelUpdates(updates);

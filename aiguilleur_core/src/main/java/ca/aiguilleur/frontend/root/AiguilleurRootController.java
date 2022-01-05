@@ -1,36 +1,108 @@
 package ca.aiguilleur.frontend.root;
 
-import ca.aiguilleur.frontend.menu.MenuView;
-import ca.aiguilleur.frontend.pages.PagesView;
-import ca.ntro.app.frontend.RootController;
+
+import ca.ntro.app.frontend.Window;
 import ca.ntro.app.frontend.controllers.tasks.FrontendTasks;
+import ca.ntro.app.frontend.controllers.tasks.ViewLoader;
 
 import static ca.ntro.app.frontend.controllers.tasks.FrontendTasks.*;
+import static ca.ntro.app.frontend.controllers.tasks.TaskInputs.*;
 
-public class AiguilleurRootController implements RootController {
+import ca.aiguilleur.frontend.menu.MenuView;
+import ca.aiguilleur.messages.MsgAddAppointment;
 
-	@Override
-	public void createTasks(FrontendTasks creator) {
+public class AiguilleurRootController {
 
-		creator.when(viewCreated(AiguilleurRootView.class))
-			   .and(viewLoaded(MenuView.class))
-		       .execute((inputs, outputs) -> {
-		    	   
-		    	   AiguilleurRootView view = inputs.getDisplayedView(AiguilleurRootView.class);
-		    	   MenuView menuView = inputs.getViewLoader(MenuView.class).createView();
+	public static void createTasks(FrontendTasks inOrder) {
+		
+		// install splash view
+		// show window
+		
+		// connect to server
+		// switch to root view
+		// resize window
+		
+		// install Root/Menu/Queue views
+		// show window
 
-		    	   view.displayMenuView(menuView);
-		       });
+		// install PongView (can be after)
 
-		creator.when(viewCreated(AiguilleurRootView.class))
-			   .and(viewLoaded(PagesView.class))
-		       .execute((inputs, outputs) -> {
-		    	   
-		    	   AiguilleurRootView view = inputs.getDisplayedView(AiguilleurRootView.class);
-		    	   PagesView pagesView = inputs.getViewLoader(PagesView.class).createView();
+		createRootView(inOrder);
+		showMenuView(inOrder);
 
-		    	   view.displayPagesView(pagesView);
-		       });
 	}
 
+	private static void createRootView(FrontendTasks to) {
+		
+		to.create(view(AiguilleurRootView.class))
+		
+		  .waitFor(window())
+
+		  .waitFor(viewLoaderFor(AiguilleurRootView.class))
+
+		  .waitFor(message(MsgAddAppointment.class))
+		
+		  .thenExecute((inputs, notify) -> {
+		    	   
+			  Window window = inputs.get(window());
+			  ViewLoader<AiguilleurRootView> viewLoader = inputs.get(viewLoaderFor(AiguilleurRootView.class));
+
+			  AiguilleurRootView rootView = viewLoader.createView();
+
+			  window.resize(600,400);
+			  window.installRootView(rootView);
+			  window.show();
+			   
+			  notify.created(rootView);
+
+		  })
+		  
+		  .onCancel(() -> {
+			  
+			  
+		  })
+		  
+		  .onFailure(exception -> {
+			  
+			  
+		  })
+		  
+		  .getTask();
+	}
+
+	private static void createMenuView(FrontendTasks to) {
+		to.create(view(MenuView.class))
+		
+		  .waitFor(view(AiguilleurRootView.class))
+		  
+		  .waitFor(viewLoaderFor(MenuView.class))
+		
+		  .thenDo((inputs, notify) -> {
+			   
+			   AiguilleurRootView rootView = inputs.getView(AiguilleurRootView.class);
+			   ViewLoader<MenuView> viewLoader = inputs.getViewLoader(MenuView.class);
+
+			   MenuView menuView = viewLoader.createView();
+			   
+			   rootView.displayMenuView(menuView);
+
+			   notify.created(menuView);
+
+		   });
+		       
+	}
+
+	private static void blahBlah(FrontendTasks to) {
+		to.setCondition("blahBlah")
+		
+		  .waitFor(view(AiguilleurRootView.class))
+		  
+		  .waitFor(viewLoaderFor(MenuView.class))
+		
+		  .thenDo((inputs, notify) -> {
+			   
+			   notify.conditionIs(true);
+		   });
+		       
+	}
 }

@@ -25,8 +25,8 @@ public class FxAppWrapper extends Application {
 		FrontendRegistrarFx frontendRegistrar = new FrontendRegistrarFx();
 		app.registerFrontend(frontendRegistrar);
 
-		primaryStage.setScene(frontendRegistrar.viewRegistrar().rootScene());
 		primaryStage.show();
+		primaryStage.setScene(frontendRegistrar.viewRegistrar().rootScene());
 	}
 
 }

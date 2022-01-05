@@ -1,5 +1,6 @@
 package ca.ntro.app.frontend.controllers.tasks;
 
+import ca.aiguilleur.frontend.root.AiguilleurRootView;
 import ca.ntro.app.events.Event;
 import ca.ntro.app.frontend.View;
 import ca.ntro.app.frontend.handlers.FrontendCancelHandler;
@@ -19,7 +20,15 @@ public interface FrontendTasks {
 		return null;
 	}
 
-	public static <V extends View> FrontendTask viewDisplayed(Class<V> viewClass) {
+	public static FrontendTask windowDisplayed() {
+		return null;
+	}
+
+	public static <V extends View> FrontendTask viewInstalled(Class<V> viewClass) {
+		return null;
+	}
+
+	public static <V extends View> String installView(Class<V> viewClass) {
 		return null;
 	}
 
@@ -31,11 +40,19 @@ public interface FrontendTasks {
 		return null;
 	}
 
-	static FrontendTask evtTriggered(Class<? extends Event> eventClass) {
+	public static FrontendTask windowCreated() {
 		return null;
 	}
 
-	FrontendTasks when(FrontendTask task);
+	static FrontendTask eventTriggered(Class<? extends Event> eventClass) {
+		return null;
+	}
+
+	FrontendTasks whenExists(FrontendTask task);
+	FrontendTasks waitFor(FrontendTask task);
+
+	FrontendTasks withInput(Class<?> _class);
+
 	FrontendTasks and(FrontendTask task);
 
 	FrontendTasks execute(FrontendExecutor executor);
@@ -48,9 +65,16 @@ public interface FrontendTasks {
 	<M extends Model> void removeModelObservers(Class<M> modelClass);
 	void removeModelObserver(ModelId modelId);
 
-	FrontendTasks to(String taskId);
+	FrontendTasks create(String taskId);
 	
 	FrontendTask getTask();
+
+	void whenDisplayed(Class<?> _class);
+
+	FrontendTasks after(String string);
+
+	FrontendTasks create(Object b);
+
 	
 	
 }

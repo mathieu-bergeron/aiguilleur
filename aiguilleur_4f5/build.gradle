@@ -15,6 +15,9 @@ dependencies {
     implementation project(':ntro_app')
     implementation project(':ntro_app_jdk')
     implementation project(':ntro_app_fx')
+
+    implementation project(':aiguilleur_core')
+    implementation project(':aiguilleur_fx')
 }
 
 task(run, dependsOn: 'classes', type: JavaExec) {
