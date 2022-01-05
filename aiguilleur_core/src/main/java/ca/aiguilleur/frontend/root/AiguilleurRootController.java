@@ -15,6 +15,8 @@ public class AiguilleurRootController {
 
 	public static void createTasks(FrontendTasks inOrder) {
 		
+		// Sem02: show window (empty)
+		
 		// install splash view
 		// show window
 		
@@ -57,12 +59,12 @@ public class AiguilleurRootController {
 
 		  })
 		  
-		  .onCancel(() -> {
+		  .onCancelDo(() -> {
 			  
 			  
 		  })
 		  
-		  .onFailure(exception -> {
+		  .onFailureDo(exception -> {
 			  
 			  
 		  })

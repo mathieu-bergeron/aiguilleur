@@ -4,50 +4,51 @@ import ca.aiguilleur.messages.MsgAddAppointment;
 import ca.aiguilleur.models.PongModel;
 import ca.aiguilleur.models.QueueModel;
 import ca.ntro.app.backend.LocalBackend;
-import ca.ntro.app.backend.handlers.BackendTasks;
-import static ca.ntro.app.backend.handlers.BackendTasks.*;
+import ca.ntro.app.backend.handlers.BackendTaskCreator;
+import static ca.ntro.app.backend.handlers.BackendTaskCreator.*;
 
 public class AiguilleurLocalBackend implements LocalBackend {
 
 	@Override
-	public void createTasks(BackendTasks inOrder) {
+	public void createTasks(BackendTaskCreator to) {
 
-		addAppointment(inOrder);
+		addAppointment(to);
 	}
 	
 	
 
-	private void addAppointment(BackendTasks inOrder) {
+	private void addAppointment(BackendTaskCreator to) {
 
-		inOrder.to("addAppointment")
+		to.execute("addAppointment")
 
-		       .execute((results, notifyer) -> {
+		  .waitFor(message(MsgAddAppointment.class))
+
+		  .waitFor(model(QueueModel.class))
+
+		  .waitFor(model(PongModel.class))
+
+		  .thenDo((inputs, notify) -> {
 		    	   
 		    	   // XXX: We have a lock on these models!
-		    	   QueueModel queue = results.getModel(QueueModel.class);
-		    	   PongModel pong = results.getModel(PongModel.class);
+		    	   QueueModel queue = inputs.get(model(QueueModel.class));
+		    	   PongModel pong = inputs.get(model(PongModel.class));
 		    	   
-		    	   MsgAddAppointment message = results.getMessage(MsgAddAppointment.class);
+		    	   MsgAddAppointment message = inputs.get(message(MsgAddAppointment.class));
 		    	   
 		    	   // Do something
 		    	   
 		    	   
 		    	   // XXX: manually generate a ModelUpdate (for now)
 		    	   
+		    	   notify.notDoneYet();
 		       })
-
-		       .when(msgReceived(MsgAddAppointment.class))
-
-		       .and(modelLoaded(QueueModel.class))
-
-		       .and(modelLoaded(PongModel.class))
 		       
-		       .onCancel(() -> {
+		       .onCancelDo(() -> {
 		    	   
 		    	   
 		       })
 		       
-		       .onFailure(exception -> {
+		       .onFailureDo(exception -> {
 		    	   
 		    	   
 		       });

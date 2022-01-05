@@ -1,9 +1,9 @@
 package ca.ntro.app.backend;
 
-import ca.ntro.app.backend.handlers.BackendTasks;
+import ca.ntro.app.backend.handlers.BackendTaskCreator;
 
 public interface LocalBackend extends Backend {
 
-	void createTasks(BackendTasks creator);
+	void createTasks(BackendTaskCreator creator);
 
 }
