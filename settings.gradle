@@ -37,6 +37,8 @@ include 'ntro_app_test_jdk'
 include 'ntro_app_test_fx'
 include 'ntro_app_test_jsweet'
 
+include 'aiguilleur_4f5'
+
 include 'aiguilleur_core'
 include 'aiguilleur_jsweet'
 include 'aiguilleur_fx'

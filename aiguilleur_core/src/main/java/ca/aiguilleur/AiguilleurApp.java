@@ -7,6 +7,7 @@ import ca.aiguilleur.messages.MsgDisplayQueue;
 import ca.aiguilleur.models.PongModel;
 import ca.aiguilleur.models.QueueModel;
 import ca.ntro.app.App;
+import ca.ntro.app.events.EventRegistrar;
 import ca.ntro.app.frontend.ViewRegistrar;
 
 public abstract class AiguilleurApp<VR extends ViewRegistrar<?>> implements App<VR> {

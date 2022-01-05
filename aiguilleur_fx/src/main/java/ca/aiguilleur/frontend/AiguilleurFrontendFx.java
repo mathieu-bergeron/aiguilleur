@@ -4,10 +4,16 @@ import ca.aiguilleur.frontend.menu.MenuView;
 import ca.aiguilleur.frontend.pages.PagesView;
 import ca.aiguilleur.frontend.pong.PongView;
 import ca.aiguilleur.frontend.queue.QueueView;
+import ca.ntro.app.events.EventRegistrar;
 import ca.ntro.app.frontend.FrontendFx;
 import ca.ntro.app.frontend.ViewRegistrarFx;
 
 public class AiguilleurFrontendFx extends AiguilleurFrontend<ViewRegistrarFx> implements FrontendFx {
+
+	@Override
+	public void registerEvents(EventRegistrar registrar) {
+		
+	}
 
 	@Override
 	public void registerViews(ViewRegistrarFx registrar) {
@@ -19,4 +25,5 @@ public class AiguilleurFrontendFx extends AiguilleurFrontend<ViewRegistrarFx> im
 		registrar.registerView(QueueView.class, "/queue.xml");
 		registrar.registerView(PongView.class, "/pong.xml");
 	}
+
 }

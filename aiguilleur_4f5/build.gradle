@@ -1,0 +1,24 @@
+plugins {
+    id 'localJavaPlugin'
+    id 'localFxPlugin'
+    id 'localJSweetPlugin'
+}
+
+project.group = 'ca.aiguilleur'
+project.version = '0.1'
+
+dependencies {
+
+    implementation project(':ntro_core')
+    implementation project(':ntro_core_jdk')
+
+    implementation project(':ntro_app')
+    implementation project(':ntro_app_jdk')
+    implementation project(':ntro_app_fx')
+}
+
+task(run, dependsOn: 'classes', type: JavaExec) {
+   main = 'ca.aiguilleur.Aiguilleur4f5'
+   classpath = sourceSets.main.runtimeClasspath
+   jvmArgs('-Dfile.encoding=UTF-8')
+}

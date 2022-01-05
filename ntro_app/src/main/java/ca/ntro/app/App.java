@@ -1,6 +1,7 @@
 package ca.ntro.app;
 
 import ca.ntro.app.backend.BackendRegistrar;
+import ca.ntro.app.events.EventRegistrar;
 import ca.ntro.app.frontend.FrontendRegistrar;
 import ca.ntro.app.frontend.ViewRegistrar;
 import ca.ntro.app.messages.MessageRegistrar;
