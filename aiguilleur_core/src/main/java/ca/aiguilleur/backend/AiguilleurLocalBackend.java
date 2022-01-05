@@ -40,6 +40,10 @@ public class AiguilleurLocalBackend implements LocalBackend {
 		    	   
 		    	   // XXX: manually generate a ModelUpdate (for now)
 		    	   
+
+		    	   // XXX: when we are waiting for an external result
+		    	   //      otherwise it is considered done when this finishes
+		    	   //      to execute
 		    	   notify.notDoneYet();
 		       })
 		       
