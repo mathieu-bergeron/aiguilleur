@@ -8,8 +8,7 @@ import javafx.stage.Stage;
 public class WindowFx implements Window {
 	
 	private Stage primaryStage;
-	private Parent parent;
-	private Scene rootScene;
+	private Parent parent = (Parent) new DefaultRootView();
 
 	public Stage getPrimaryStage() {
 		return primaryStage;
@@ -17,14 +16,6 @@ public class WindowFx implements Window {
 
 	public void setPrimaryStage(Stage primaryStage) {
 		this.primaryStage = primaryStage;
-	}
-
-	public Scene getRootScene() {
-		return rootScene;
-	}
-
-	public void setRootScene(Scene rootScene) {
-		this.rootScene = rootScene;
 	}
 
 	public Parent getParent() {

@@ -13,7 +13,7 @@ public class FrontendTaskGraphOptions implements TaskGraphOptions {
 
 	@Override
 	public boolean shouldWriteGraph() {
-		return true;
+		return false;
 	}
 
 	@Override
