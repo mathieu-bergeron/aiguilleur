@@ -19,8 +19,8 @@ public interface NtroAppFx extends App<ViewRegistrarFx> {
 			throw new RuntimeException(e);
 		}
 		
-		FxAppWrapper.appClass = (Class<? extends NtroAppFx>) Ntro.stackAnalyzer().callerClass();
+		AppWrapperFx.appClass = (Class<? extends NtroAppFx>) Ntro.stackAnalyzer().callerClass();
 
-		Application.launch(FxAppWrapper.class, args);
+		Application.launch(AppWrapperFx.class, args);
 	}
 }

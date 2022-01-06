@@ -48,15 +48,6 @@ public abstract class FrontendRegistrarNtro<VR extends ViewRegistrar<?>>
 	
 	
 	
-	
-	public FrontendRegistrarNtro() {
-	}
-
-	public FrontendRegistrarNtro(Window window) {
-		setWindow(window);
-	}
-
-
 
 
 
@@ -71,8 +62,8 @@ public abstract class FrontendRegistrarNtro<VR extends ViewRegistrar<?>>
 	@Override
 	public void executeFrontendTasks() {
 		
-		getViewRegistrar().addViewLoaderTasks(getTaskCreator());
 		getTaskCreator().addWindowTask(getWindow());
+		getViewRegistrar().addViewLoaderTasks(getTaskCreator());
 
 		getTaskCreator().executeTasks();
 	}
