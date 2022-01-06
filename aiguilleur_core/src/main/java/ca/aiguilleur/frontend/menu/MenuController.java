@@ -20,7 +20,7 @@ public class MenuController {
 		
 		  .waitFor(view(MenuView.class))
 		  
-		  .thenExecute((inputs, notify) -> {
+		  .thenExecuteAsync((inputs, notify) -> {
 			  
 			  MenuView view = inputs.get(view(MenuView.class));
 

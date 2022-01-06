@@ -7,7 +7,6 @@ import ca.ntro.core.identifyers.Key;
 import ca.ntro.core.task_graphs.generic_task_graph.handlers.CancelHandler;
 import ca.ntro.core.task_graphs.generic_task_graph.handlers.ExecuteHandler;
 import ca.ntro.core.task_graphs.task_graph_trace.AtomicTaskTrace;
-import ca.ntro.core.task_graphs.task_graph_trace.AtomicTaskTraceNtro;
 import ca.ntro.core.task_graphs.task_graph_trace.TaskGraphTraceNtro;
 import ca.ntro.core.task_graphs.task_graph_trace.TaskTrace;
 import ca.ntro.core.task_graphs.task_graph_trace.TaskTraceNtro;

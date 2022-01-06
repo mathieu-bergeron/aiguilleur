@@ -172,7 +172,11 @@ public abstract class GenericTaskNtro<T  extends GenericTask<T,AT>,
 
 	@Override
 	public T addPreviousTask(TaskId id) {
-		T previousTask = getGraph().addTask(id);
+		T previousTask = getGraph().findTask(id);
+		
+		if(previousTask == null) {
+			previousTask = getGraph().addTask(id);
+		}
 		
 		addPreviousTask(previousTask);
 
@@ -192,7 +196,11 @@ public abstract class GenericTaskNtro<T  extends GenericTask<T,AT>,
 
 	@Override
 	public T addNextTask(TaskId id) {
-		T nextTask = getGraph().addTask(id);
+		T nextTask = getGraph().findTask(id);
+		
+		if(nextTask == null) {
+			nextTask = getGraph().addTask(id);
+		}
 		
 		addNextTask(nextTask);
 

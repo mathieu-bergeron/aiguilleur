@@ -32,8 +32,8 @@ public class Frontend4f5 implements FrontendFx {
 	public void createTasks(FrontendTaskCreator to) {
 
 		RootController.createTasks(to);
-		MenuController.createTasks(to);
-		QueueController.createTasks(to);
+		//MenuController.createTasks(to);
+		//QueueController.createTasks(to);
 
 	}
 }

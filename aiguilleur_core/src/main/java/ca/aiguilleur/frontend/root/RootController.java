@@ -1,7 +1,5 @@
 package ca.aiguilleur.frontend.root;
 
-
-import ca.ntro.app.frontend.View;
 import ca.ntro.app.frontend.ViewLoader;
 import ca.ntro.app.frontend.Window;
 import ca.ntro.app.frontend.tasks.FrontendTaskCreator;
@@ -18,6 +16,7 @@ public class RootController {
 
 		showWindow(to);
 		
+		/*
 		createRootView(to);
 		createMenuView(to);
 		createQueueView(to);
@@ -27,6 +26,7 @@ public class RootController {
 		installMenuView(to);
 		installQueueView(to);
 		installPongView(to);
+		*/
 	}
 
 	private static void showWindow(FrontendTaskCreator to) {
@@ -35,7 +35,7 @@ public class RootController {
 		
 		  .waitFor(window())
 		  
-		  .thenExecuteBlocking(inputs -> {
+		  .thenExecute(inputs -> {
 			  
 			  Window window = inputs.get(window());
 			  
@@ -45,43 +45,18 @@ public class RootController {
 		  });
 	}
 
-	private static <V extends View> void createView(FrontendTaskCreator to, Class<V> viewClass) {
-
-		to.create(view(viewClass))
-		
-		  .waitFor(viewLoader(viewClass))
-
-		  .thenExecuteBlocking(inputs -> {
-		    	   
-			  ViewLoader<V> viewLoader = inputs.get(viewLoader(viewClass));
-
-			  V view = viewLoader.createView();
-			  
-			  return view;
-		  });
-	}
-
-		
-
 	private static void createRootView(FrontendTaskCreator to) {
 		
 		to.create(view(RootView.class))
 		
-		  .waitFor(window())
-
 		  .waitFor(viewLoader(RootView.class))
 
 		  .thenExecuteBlocking(inputs -> {
 		    	   
-			  Window               window     = inputs.get(window());
 			  ViewLoader<RootView> viewLoader = inputs.get(viewLoader(RootView.class));
-
+			  
 			  RootView rootView = viewLoader.createView();
 
-			  window.installRootView(rootView);
-			  
-			  // FIXME: much better for students
-			  //        cannot forget that way
 			  return rootView;
 		  });
 	}
@@ -89,18 +64,13 @@ public class RootController {
 	private static void createMenuView(FrontendTaskCreator to) {
 		to.create(view(MenuView.class))
 		
-		  .waitFor(view(RootView.class))
-
 		  .waitFor(viewLoader(MenuView.class))
 		
 		  .thenExecuteBlocking(inputs -> {
 			   
-			   RootView             rootView   = inputs.get(view(RootView.class));
 			   ViewLoader<MenuView> viewLoader = inputs.get(viewLoader(MenuView.class));
 
 			   MenuView menuView = viewLoader.createView();
-			   
-			   rootView.installMenuView(menuView);
 			   
 			   return menuView;
 		   });
@@ -109,40 +79,98 @@ public class RootController {
 	private static void createQueueView(FrontendTaskCreator to) {
 		to.create(view(QueueView.class))
 		
-		  .waitFor(view(RootView.class))
-
 		  .waitFor(viewLoader(QueueView.class))
 		
 		  .thenExecuteBlocking(inputs -> {
 			   
-			   RootView              rootView   = inputs.get(view(RootView.class));
 			   ViewLoader<QueueView> viewLoader = inputs.get(viewLoader(QueueView.class));
 
 			   QueueView queueView = viewLoader.createView();
 			   
-			   rootView.installQueueView(queueView);
-
 			   return queueView;
 		   });
 	}
 
 	private static void createPongView(FrontendTaskCreator to) {
 		to.create(view(PongView.class))
-		
-		  .waitFor(view(RootView.class))
 
 		  .waitFor(viewLoader(PongView.class))
 		
 		  .thenExecuteBlocking(inputs -> {
 			   
-			   RootView             rootView   = inputs.get(view(RootView.class));
 			   ViewLoader<PongView> viewLoader = inputs.get(viewLoader(PongView.class));
 
 			   PongView pongView = viewLoader.createView();
 			   
-			   rootView.installPongView(pongView);
-
 			   return pongView;
 		   });
+	}
+
+	private static void installRootView(FrontendTaskCreator to) {
+		
+		to.implement(task("installRootView"))
+
+		  .waitFor(window())
+
+		  .waitFor(view(RootView.class))
+
+		  .thenExecute(inputs -> {
+		    	   
+			  Window   window   = inputs.get(window());
+			  RootView rootView = inputs.get(view(RootView.class));
+
+			  window.installRootView(rootView);
+		  });
+	}
+
+	private static void installMenuView(FrontendTaskCreator to) {
+
+		to.implement(task("installMenuView"))
+
+		  .waitFor(view(RootView.class))
+
+		  .waitFor(view(MenuView.class))
+
+		  .thenExecute(inputs -> {
+		    	   
+			  RootView rootView = inputs.get(view(RootView.class));
+			  MenuView menuView = inputs.get(view(MenuView.class));
+
+			  rootView.installMenuView(menuView);
+		  });
+	}
+
+	private static void installQueueView(FrontendTaskCreator to) {
+
+		to.implement(task("installQueueView"))
+
+		  .waitFor(view(RootView.class))
+
+		  .waitFor(view(QueueView.class))
+
+		  .thenExecute(inputs -> {
+		    	   
+			  RootView rootView   = inputs.get(view(RootView.class));
+			  QueueView queueView = inputs.get(view(QueueView.class));
+
+			  rootView.installQueueView(queueView);
+		  });
+	}
+
+	private static void installPongView(FrontendTaskCreator to) {
+
+		to.implement(task("installPongView"))
+
+		  .waitFor(view(RootView.class))
+
+		  .waitFor(view(PongView.class))
+
+		  .thenExecute(inputs -> {
+		    	   
+			  RootView rootView = inputs.get(view(RootView.class));
+			  PongView pongView = inputs.get(view(PongView.class));
+
+			  rootView.installPongView(pongView);
+		  });
 	}
 }

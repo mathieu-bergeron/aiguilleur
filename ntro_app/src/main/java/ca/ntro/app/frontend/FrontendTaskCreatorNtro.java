@@ -1,49 +1,86 @@
 package ca.ntro.app.frontend;
 
 import ca.ntro.app.frontend.handlers.FrontendCancelHandler;
+import ca.ntro.app.frontend.tasks.BlockingFrontendExecutor;
 import ca.ntro.app.frontend.tasks.FrontendExecutor;
 import ca.ntro.app.frontend.tasks.FrontendTaskCreator;
 import ca.ntro.app.frontend.tasks.TypedFrontendTaskCreator;
 import ca.ntro.app.frontend.tasks.TypedFrontendTaskDescriptor;
+import ca.ntro.app.frontend.tasks.TypedFrontendTaskDescriptorNtro;
+import ca.ntro.core.initialization.Ntro;
+import ca.ntro.core.task_graphs.task_graph.AtomicTask;
+import ca.ntro.core.task_graphs.task_graph.AtomicTaskCondition;
+import ca.ntro.core.task_graphs.task_graph.Task;
+import ca.ntro.core.task_graphs.task_graph.TaskGraph;
+import ca.ntro.core.task_graphs.task_graph.TaskGraphNtro;
 import ca.ntro.core.wrappers.future.ExceptionHandler;
 
 public class FrontendTaskCreatorNtro implements FrontendTaskCreator {
 	
-	public void executeTasks() {
-		throw new RuntimeException("TODO");
+	private TaskGraphNtro taskGraph = (TaskGraphNtro) TaskGraph.newGraph();
+	
+	private Task currentTask;
+
+	public TaskGraphNtro getTaskGraph() {
+		return taskGraph;
 	}
 
-	public void addWindowTask(Window window) {
+	public void setTaskGraph(TaskGraphNtro taskGraph) {
+		this.taskGraph = taskGraph;
+	}
+	
+	
+	
 
+	public void executeTasks() {
+		getTaskGraph().setGraphName("frontend");
+		getTaskGraph().write(Ntro.graphWriter());
+		getTaskGraph().execute(new FrontendTaskGraphOptions());
+	}
+	
+
+	public void addWindowTask(Window window) {
+		Task windowTask = getTaskGraph().addTask("window");
+		AtomicTask windowAtomicTask = windowTask.addEntryTask("window", AtomicTaskCondition.class);
+
+		windowAtomicTask.execute((inputs, notify) -> {
+			System.out.println("window");
+			
+			notify.addResult(window);
+		});
 	}
 
 	@Override
 	public <R> TypedFrontendTaskCreator<R> create(TypedFrontendTaskDescriptor<R> task) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public FrontendTaskCreator implement(TypedFrontendTaskDescriptor<?> task) {
-		// TODO Auto-generated method stub
-		return null;
+
+		((TypedFrontendTaskDescriptorNtro<?>) task).setTaskGraph(getTaskGraph());
+
+		currentTask = getTaskGraph().addTask(task.id());
+		
+		return this;
 	}
 
 	@Override
 	public FrontendTaskCreator waitFor(TypedFrontendTaskDescriptor<?> task) {
+		
+		currentTask.addPreviousTask(task.id());
+		
+		return this;
+	}
+
+	@Override
+	public FrontendTaskCreator executeAsync(FrontendExecutor executor) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public FrontendTaskCreator execute(FrontendExecutor executor) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public FrontendTaskCreator thenExecute(FrontendExecutor executor) {
-		// TODO Auto-generated method stub
+	public FrontendTaskCreator thenExecuteAsync(FrontendExecutor executor) {
 		return null;
 	}
 
@@ -63,6 +100,28 @@ public class FrontendTaskCreatorNtro implements FrontendTaskCreator {
 	public TypedFrontendTaskDescriptor<?> getTask() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public FrontendTaskCreator execute(BlockingFrontendExecutor executor) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public FrontendTaskCreator thenExecute(BlockingFrontendExecutor executor) {
+		AtomicTask entry = currentTask.addEntryTask(currentTask.id().toKey().toString(), AtomicTaskCondition.class);
+		
+		entry.execute((inputs, notify) -> {
+			System.out.println(currentTask.id().toKey().toString());
+			
+			executor.execute(new FrontendTaskInputsNtro(inputs));
+
+			notify.addResult(true);
+
+		});
+
+		return this;
 	}
 
 

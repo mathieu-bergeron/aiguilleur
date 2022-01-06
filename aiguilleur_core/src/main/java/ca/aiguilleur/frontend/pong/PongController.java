@@ -27,7 +27,7 @@ public class PongController {
 
 		  .waitFor(message(MsgDisplayPong.class))
 
-		  .thenExecute((inputs, notify) -> {
+		  .thenExecuteAsync((inputs, notify) -> {
 
 			  MsgDisplayPong message = inputs.get(message(MsgDisplayPong.class));
 			  String gameId = message.getGameId();
@@ -45,7 +45,7 @@ public class PongController {
 
 			     .waitFor(modelUpdates(QueueModel.class, gameId))
 
-				 .thenExecute((inputs, notify) -> {
+				 .thenExecuteAsync((inputs, notify) -> {
 
 					 PongView     view    = inputs.get(view(PongView.class));
 					 ModelUpdates updates = inputs.get(modelUpdates(PongModel.class, gameId));

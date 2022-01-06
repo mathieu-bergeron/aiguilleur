@@ -153,4 +153,10 @@ public class ReflectionServiceNull implements ReflectionService {
 		return null;
 	}
 
+	@Override
+	public String simpleName(Class<?> _class) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

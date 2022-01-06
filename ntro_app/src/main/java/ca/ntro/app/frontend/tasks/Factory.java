@@ -7,19 +7,35 @@ import ca.ntro.app.frontend.Window;
 import ca.ntro.app.messages.Message;
 import ca.ntro.app.models.Model;
 import ca.ntro.app.models.ModelUpdates;
+import ca.ntro.core.identifyers.Key;
+import ca.ntro.core.initialization.Ntro;
+import ca.ntro.core.task_graphs.generic_task_graph.TaskId;
+import ca.ntro.core.task_graphs.generic_task_graph.TaskIdNtro;
 
 public interface Factory {
 
 	public static TypedFrontendTaskDescriptor<Window> window() {
-		return null;
+		TypedFrontendTaskDescriptorNtro<Window> descriptor = new TypedFrontendTaskDescriptorNtro<>();
+		
+		descriptor.setId(new TaskIdNtro("window"));
+		
+		return descriptor;
 	}
 
-	public static <V extends View> TypedFrontendTaskDescriptor<?> task(String taskId) {
-		return null;
+	public static <O extends Object> TypedFrontendTaskDescriptor<O> task(String taskId) {
+		TypedFrontendTaskDescriptorNtro<O> descriptor = new TypedFrontendTaskDescriptorNtro<>();
+
+		descriptor.setId(new TaskIdNtro(taskId));
+
+		return descriptor;
 	}
 
 	public static <V extends View> TypedFrontendTaskDescriptor<V> view(Class<V> viewClass) {
-		return null;
+		TypedFrontendTaskDescriptorNtro<V> descriptor = new TypedFrontendTaskDescriptorNtro<>();
+
+		descriptor.setId(new TaskIdNtro(Ntro.reflectionService().simpleName(viewClass)));
+
+		return descriptor;
 	}
 
 	public static <V extends View> TypedFrontendTaskDescriptor<ViewLoader<V>> viewLoader(Class<V> viewClass) {

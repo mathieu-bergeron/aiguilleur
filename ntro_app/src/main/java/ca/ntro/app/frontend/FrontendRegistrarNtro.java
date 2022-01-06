@@ -56,15 +56,15 @@ public abstract class FrontendRegistrarNtro<VR extends ViewRegistrar<?>>
 	public void registerFrontend(Frontend<VR> frontend) {
 		frontend.registerEvents(getEventRegistrar());
 		frontend.registerViews(getViewRegistrar());
+
+		getTaskCreator().addWindowTask(getWindow());
+		getViewRegistrar().addViewLoaderTasks(getTaskCreator());
+
 		frontend.createTasks(getTaskCreator());
 	}
 
 	@Override
 	public void executeFrontendTasks() {
-		
-		getTaskCreator().addWindowTask(getWindow());
-		getViewRegistrar().addViewLoaderTasks(getTaskCreator());
-
 		getTaskCreator().executeTasks();
 	}
 

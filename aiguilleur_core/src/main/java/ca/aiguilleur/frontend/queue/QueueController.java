@@ -22,7 +22,7 @@ public class QueueController {
 		  
 		  .waitFor(modelUpdates(QueueModel.class))
 		  
-		  .thenExecute((inputs, notify) -> {
+		  .thenExecuteAsync((inputs, notify) -> {
 			  
 			  QueueView    view    = inputs.get(view(QueueView.class));
 			  ModelUpdates updates = inputs.get(modelUpdates(QueueModel.class));

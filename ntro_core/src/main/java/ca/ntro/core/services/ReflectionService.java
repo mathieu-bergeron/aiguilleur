@@ -9,6 +9,8 @@ import ca.ntro.core.stream.Stream;
 
 public interface ReflectionService {
 	
+	String simpleName(Class<?> _class);
+	
 	ObjectGraph objectGraph(Object o);
 	ObjectGraph objectGraph(Object o, String graphName);
 	

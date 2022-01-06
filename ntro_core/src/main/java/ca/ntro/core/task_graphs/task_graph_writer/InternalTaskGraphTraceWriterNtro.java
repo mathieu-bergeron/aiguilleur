@@ -4,9 +4,11 @@ import ca.ntro.core.graph_writer.NodeSpecNtro;
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagWriterOptions;
 import ca.ntro.core.task_graphs.generic_task_graph.GenericAtomicTask;
 import ca.ntro.core.task_graphs.generic_task_graph.GenericTask;
+import ca.ntro.core.task_graphs.generic_task_graph.GenericTaskNtro;
 import ca.ntro.core.task_graphs.generic_task_graph.TaskGraphNode;
 import ca.ntro.core.task_graphs.task_graph_trace.TaskGraphTraceNtro;
 import ca.ntro.core.task_graphs.task_graph_trace.TaskTrace;
+import ca.ntro.core.task_graphs.task_graph_trace.TaskTraceNtro;
 
 public class InternalTaskGraphTraceWriterNtro<T  extends GenericTask<T,AT>, 
                                               AT extends GenericAtomicTask<T,AT>>
@@ -37,8 +39,9 @@ public class InternalTaskGraphTraceWriterNtro<T  extends GenericTask<T,AT>,
 			                                HierarchicalDagWriterOptions options,
 			                                NodeSpecNtro nodeSpec) {
 		
-		TaskTrace taskTrace = getTrace().getTaskTrace(node.task().id());
-
+		
+		TaskTraceNtro taskTrace = (TaskTraceNtro) getTrace().getTaskTrace(node.task().id());
+		
 		if(taskTrace.isBlocked()) {
 
 			nodeSpec.setColor("red");
@@ -53,6 +56,12 @@ public class InternalTaskGraphTraceWriterNtro<T  extends GenericTask<T,AT>,
 
 		} 
 
+		String label = node.id().toKey().toString();
+		label += " [";
+		label += taskTrace.getState().name();
+		label += "]";
+
+		nodeSpec.setLabel(label);
 	}
 
 }

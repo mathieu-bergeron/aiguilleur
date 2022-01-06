@@ -121,4 +121,9 @@ public class ReflectionServiceJdk extends ReflectionServiceNtro {
 		
 		return list;
 	}
+
+	@Override
+	public String simpleName(Class<?> _class) {
+		return _class.getSimpleName();
+	}
 }

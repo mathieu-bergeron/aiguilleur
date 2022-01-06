@@ -25,10 +25,11 @@ public class AppWrapperFx extends Application {
 
 
 		FrontendRegistrarFx frontendRegistrar = new FrontendRegistrarFx();
-		app.registerFrontend(frontendRegistrar);
 
 		WindowFx window = new WindowFx(primaryStage);
 		frontendRegistrar.setWindow(window);
+		
+		app.registerFrontend(frontendRegistrar);
 
 		frontendRegistrar.executeFrontendTasks();
 	}

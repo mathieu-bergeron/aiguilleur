@@ -11,9 +11,11 @@ public interface FrontendTaskCreator {
 
 	FrontendTaskCreator waitFor(TypedFrontendTaskDescriptor<?> task);
 
-	FrontendTaskCreator execute(FrontendExecutor executor);
-	FrontendTaskCreator thenExecute(FrontendExecutor executor);
-	FrontendTaskCreator thenExecuteBlocking(BlockingFrontendExecutor executor);
+	FrontendTaskCreator execute(BlockingFrontendExecutor executor);
+	FrontendTaskCreator thenExecute(BlockingFrontendExecutor executor);
+
+	FrontendTaskCreator executeAsync(FrontendExecutor executor);
+	FrontendTaskCreator thenExecuteAsync(FrontendExecutor executor);
 
 	FrontendTaskCreator onCancel(FrontendCancelHandler cancelHandler);
 	FrontendTaskCreator onFailure(ExceptionHandler exceptionHandler);

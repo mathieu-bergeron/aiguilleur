@@ -6,6 +6,7 @@ import java.util.Map;
 import ca.ntro.core.graph_writer.GraphWriter;
 import ca.ntro.core.graphs.generics.graph.GenericGraph;
 import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagWriterOptionsNtro;
+import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.stream.Stream;
 import ca.ntro.core.stream.StreamNtro;
 import ca.ntro.core.stream.Visitor;
@@ -188,7 +189,8 @@ public class      TaskGraphTraceNtro
 	}
 
 	public void notifyException(Throwable t) {
-		throw new RuntimeException("TODO");
+		// FIXME:
+		Ntro.exceptions().throwException(t);
 	}
 
 	@Override

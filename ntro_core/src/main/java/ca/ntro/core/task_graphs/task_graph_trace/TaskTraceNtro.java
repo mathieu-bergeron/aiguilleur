@@ -370,7 +370,7 @@ public class TaskTraceNtro
 
 	private void executeAtomicTasks(Stream<AtomicTaskTraceNtro> traces) {
 		traces.forEach(trace -> {
-			if(trace.getTask().getExceptionHandler() != null) {
+			if(trace.getTask().getExecuteHandler() != null) {
 				try {
 					trace.getTask().getExecuteHandler().execute((ObjectMap) this, new AtomicTaskMutator() {
 						@Override
@@ -413,6 +413,11 @@ public class TaskTraceNtro
 			
 			currentState = TaskState.HAS_NEXT;
 
+		}else if(preconditions().ifAll(precondition -> precondition.hasCurrent()
+				&& entryTraces().ifSome(entryTrace -> !entryTrace.hasCurrent() || entryTrace.isWaiting()))) {
+			
+			currentState = TaskState.EXECUTING_ENTRY_TASKS;
+
 		}else if((subTraces().ifAll(subTrace -> subTrace.hasCurrent()
 				&& exitTraces().ifSome(exitTrace -> !exitTrace.hasCurrent() || exitTrace.isWaiting())))) {
 			
@@ -422,14 +427,7 @@ public class TaskTraceNtro
 				&& subTraces().ifSome(subTrace -> !subTrace.hasCurrent() || subTrace.isWaiting()))) {
 			
 			currentState = TaskState.EXECUTING_SUB_TASKS;
-
-		}else if(preconditions().ifAll(precondition -> precondition.hasCurrent()
-				&& entryTraces().ifSome(entryTrace -> !entryTrace.hasCurrent() || entryTrace.isWaiting()))) {
-			
-			currentState = TaskState.EXECUTING_ENTRY_TASKS;
 		}
-
-		
 		
 		return currentState;
 	}

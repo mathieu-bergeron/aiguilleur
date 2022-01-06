@@ -98,7 +98,15 @@ public class      GenericTaskGraphNtro<T  extends GenericTask<T,AT>,
 
 	@Override
 	public T findTask(TaskId id) {
-		return getHdagBuilder().graph().findNode(id).task();
+		T task = null;
+
+		TaskGraphNode<T, AT> node = getHdagBuilder().graph().findNode(id);
+		
+		if(node != null) {
+			task = node.task();
+		}
+		
+		return task;
 	}
 
 	@Override

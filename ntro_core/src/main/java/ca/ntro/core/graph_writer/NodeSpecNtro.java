@@ -8,6 +8,7 @@ public class NodeSpecNtro implements NodeSpec {
 	private GenericNode<?,?,?> node;
 	private String color;
 	private String shape;
+	private String label;
 
 	public GenericNode<?,?,?> getNode() {
 		return node;
@@ -33,7 +34,13 @@ public class NodeSpecNtro implements NodeSpec {
 		this.shape = shape;
 	}
 
-	
+	public String getLabel() {
+		return label;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
+	}
 
 	public NodeSpecNtro() {
 	}
@@ -51,7 +58,18 @@ public class NodeSpecNtro implements NodeSpec {
 
 	@Override
 	public String label() {
-		return node.label();
+		String label = null;
+
+		if(getLabel() == null) {
+			
+			label = node.label();
+			
+		}else {
+			
+			label = getLabel();
+		}
+
+		return label;
 	}
 
 	@Override

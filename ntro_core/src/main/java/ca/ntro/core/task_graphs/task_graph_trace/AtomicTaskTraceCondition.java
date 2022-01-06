@@ -21,7 +21,16 @@ public class      AtomicTaskTraceCondition
 	@Override
 	public void silentlyAddResult(Object value) {
 		setIsWaiting(false);
-		getResults().set(0,value);
+
+		if(getResults().size() > 0) {
+
+			getResults().set(0,value);
+
+		}else {
+
+			getResults().add(value);
+
+		}
 	}
 
 	@Override

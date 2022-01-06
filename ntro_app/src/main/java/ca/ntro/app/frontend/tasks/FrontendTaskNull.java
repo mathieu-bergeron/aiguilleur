@@ -1,6 +1,8 @@
 package ca.ntro.app.frontend.tasks;
 
-public class FrontendTaskNull implements TypedFrontendTaskDescriptor {
+import ca.ntro.core.task_graphs.generic_task_graph.TaskId;
+
+public class FrontendTaskNull implements TypedFrontendTaskDescriptor<Void> {
 
 	@Override
 	public void destroy() {
@@ -8,6 +10,11 @@ public class FrontendTaskNull implements TypedFrontendTaskDescriptor {
 
 	@Override
 	public void cancel() {
+	}
+
+	@Override
+	public TaskId id() {
+		return null;
 	}
 
 }
