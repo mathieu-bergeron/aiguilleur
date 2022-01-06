@@ -1,10 +1,10 @@
 package ca.aiguilleur.frontend.queue;
 
-import ca.aiguilleur.models.QueueModel;
-import ca.ntro.app.frontend.controllers.tasks.FrontendTaskCreator;
-import ca.ntro.app.models.ModelUpdates;
+import static ca.ntro.app.frontend.tasks.Factory.*;
 
-import static ca.ntro.app.frontend.controllers.tasks.FrontendTaskCreator.*;
+import ca.aiguilleur.models.QueueModel;
+import ca.ntro.app.frontend.tasks.FrontendTaskCreator;
+import ca.ntro.app.models.ModelUpdates;
 
 public class QueueController {
 

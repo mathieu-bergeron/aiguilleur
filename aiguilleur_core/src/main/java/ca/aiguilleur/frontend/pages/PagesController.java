@@ -1,12 +1,12 @@
 package ca.aiguilleur.frontend.pages;
 
+import static ca.ntro.app.frontend.tasks.FrontendTaskCreator.*;
+
 import ca.aiguilleur.frontend.pong.PongView;
 import ca.aiguilleur.frontend.queue.QueueView;
 import ca.aiguilleur.messages.MsgDisplayPong;
 import ca.aiguilleur.messages.MsgDisplayQueue;
-import ca.ntro.app.frontend.controllers.tasks.FrontendTaskCreator;
-
-import static ca.ntro.app.frontend.controllers.tasks.FrontendTaskCreator.*;
+import ca.ntro.app.frontend.tasks.FrontendTaskCreator;
 
 public class PagesController {
 

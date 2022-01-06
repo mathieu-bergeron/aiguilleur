@@ -1,10 +1,10 @@
 package ca.aiguilleur.frontend.menu;
 
+import static ca.ntro.app.frontend.tasks.Factory.*;
+
 import ca.aiguilleur.messages.MsgDisplayPong;
 import ca.aiguilleur.messages.MsgDisplayQueue;
-import ca.ntro.app.frontend.controllers.tasks.FrontendTaskCreator;
-
-import static ca.ntro.app.frontend.controllers.tasks.FrontendTaskCreator.*;
+import ca.ntro.app.frontend.tasks.FrontendTaskCreator;
 
 public class MenuController {
 

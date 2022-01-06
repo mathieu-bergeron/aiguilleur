@@ -1,11 +1,11 @@
 package ca.aiguilleur.frontend.pong;
 
-import ca.ntro.app.frontend.controllers.tasks.FrontendTaskDescriptor;
-import ca.ntro.app.frontend.controllers.tasks.FrontendTaskNull;
-import ca.ntro.app.frontend.controllers.tasks.FrontendTaskCreator;
+import ca.ntro.app.frontend.tasks.FrontendTaskCreator;
+import ca.ntro.app.frontend.tasks.TypedFrontendTaskDescriptor;
+import ca.ntro.app.frontend.tasks.FrontendTaskNull;
 import ca.ntro.app.models.ModelUpdates;
 
-import static ca.ntro.app.frontend.controllers.tasks.FrontendTaskCreator.*;
+import static ca.ntro.app.frontend.tasks.Factory.*;
 
 import ca.aiguilleur.messages.MsgDisplayPong;
 import ca.aiguilleur.models.PongModel;
@@ -13,7 +13,7 @@ import ca.aiguilleur.models.QueueModel;
 
 public class PongController {
 	
-	private static FrontendTaskDescriptor<?> displayGameSubTask = new FrontendTaskNull();
+	private static TypedFrontendTaskDescriptor<?> displayGameSubTask = new FrontendTaskNull();
 
 	public static void createTasks(FrontendTaskCreator to) {
 		displayCurrentGame(to);
@@ -39,7 +39,7 @@ public class PongController {
 		   });
 	}
 
-	private static FrontendTaskDescriptor<?> displayGameByModelId(FrontendTaskCreator to, String gameId) {
+	private static TypedFrontendTaskDescriptor<?> displayGameByModelId(FrontendTaskCreator to, String gameId) {
 
 		return to.implement(task("displayGameByModelId"))
 

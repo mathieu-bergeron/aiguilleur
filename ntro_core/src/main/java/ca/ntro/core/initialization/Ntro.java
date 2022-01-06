@@ -120,7 +120,7 @@ public class Ntro {
 	
 	
 	
-	/* <Sleeper> */
+	/* <Time> */
 	
 	private static Time time = new TimeNull();
 
@@ -132,5 +132,9 @@ public class Ntro {
 		return Ntro.time;
 	}
 
-	/* </Sleeper> */
+	/* </Time> */
+	
+	
+	
+	
 }

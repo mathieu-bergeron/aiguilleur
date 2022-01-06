@@ -1,24 +1,23 @@
 package ca.aiguilleur.frontend.root;
 
 
+import ca.ntro.app.frontend.ViewLoader;
 import ca.ntro.app.frontend.Window;
-import ca.ntro.app.frontend.controllers.tasks.FrontendTaskCreator;
-import ca.ntro.app.frontend.controllers.tasks.ViewLoader;
+import ca.ntro.app.frontend.tasks.FrontendTaskCreator;
 
-import static ca.ntro.app.frontend.controllers.tasks.FrontendTaskCreator.*;
+import static ca.ntro.app.frontend.tasks.Factory.*;
 
 import ca.aiguilleur.frontend.menu.MenuView;
 import ca.aiguilleur.frontend.pong.PongView;
 import ca.aiguilleur.frontend.queue.QueueView;
 
-public class AiguilleurRootController {
+public class RootController {
 
 	public static void createTasks(FrontendTaskCreator to) {
 
 		showWindow(to);
 
 		createRootView(to);
-
 		createMenuView(to);
 		createQueueView(to);
 		createPongView(to);
@@ -36,6 +35,7 @@ public class AiguilleurRootController {
 			  
 			  window.resize(600, 400);
 			  window.show();
+
 		  });
 	}
 		
