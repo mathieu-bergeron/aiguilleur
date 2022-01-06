@@ -6,19 +6,22 @@ import ca.ntro.app.frontend.controllers.tasks.FrontendTaskCreator;
 import ca.ntro.app.frontend.controllers.tasks.ViewLoader;
 
 import static ca.ntro.app.frontend.controllers.tasks.FrontendTaskCreator.*;
-import static ca.ntro.app.frontend.controllers.tasks.TaskInputs.*;
 
 import ca.aiguilleur.frontend.menu.MenuView;
-import ca.aiguilleur.messages.MsgAddAppointment;
+import ca.aiguilleur.frontend.pong.PongView;
+import ca.aiguilleur.frontend.queue.QueueView;
 
 public class AiguilleurRootController {
 
 	public static void createTasks(FrontendTaskCreator to) {
 
 		showWindow(to);
-		createRootView(to);
-		createMenuView(to);
 
+		createRootView(to);
+
+		createMenuView(to);
+		createQueueView(to);
+		createPongView(to);
 	}
 
 	private static void showWindow(FrontendTaskCreator to) {
@@ -72,10 +75,49 @@ public class AiguilleurRootController {
 
 			   MenuView menuView = viewLoader.createView();
 			   
-			   rootView.displayMenuView(menuView);
+			   rootView.installMenuView(menuView);
 
 			   notify.created(menuView);
 		   });
 	}
 
+	private static void createQueueView(FrontendTaskCreator to) {
+		to.create(view(QueueView.class))
+		
+		  .waitFor(view(RootView.class))
+
+		  .waitFor(viewLoader(QueueView.class))
+		
+		  .thenExecute((inputs, notify) -> {
+			   
+			   RootView              rootView   = inputs.get(view(RootView.class));
+			   ViewLoader<QueueView> viewLoader = inputs.get(viewLoader(QueueView.class));
+
+			   QueueView queueView = viewLoader.createView();
+			   
+			   rootView.installQueueView(queueView);
+
+			   notify.created(queueView);
+		   });
+	}
+
+	private static void createPongView(FrontendTaskCreator to) {
+		to.create(view(PongView.class))
+		
+		  .waitFor(view(RootView.class))
+
+		  .waitFor(viewLoader(PongView.class))
+		
+		  .thenExecute((inputs, notify) -> {
+			   
+			   RootView             rootView   = inputs.get(view(RootView.class));
+			   ViewLoader<PongView> viewLoader = inputs.get(viewLoader(PongView.class));
+
+			   PongView pongView = viewLoader.createView();
+			   
+			   rootView.installPongView(pongView);
+
+			   notify.created(pongView);
+		   });
+	}
 }

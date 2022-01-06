@@ -8,15 +8,25 @@ import static ca.ntro.app.frontend.controllers.tasks.FrontendTaskCreator.*;
 
 public class MenuController {
 
-	public static void createTasks(FrontendTaskCreator creator) {
+	public static void createTasks(FrontendTaskCreator to) {
 
-		creator.whenExists(viewInstalled(MenuView.class))
-		       .execute((inputs, outputs) -> {
-		    	   
-		    	   MenuView view = inputs.getView(MenuView.class);
+		installMenuEvents(to);
 
-		    	   view.installDisplayQueueMessage(new MsgDisplayQueue());
-		    	   view.installDisplayPongMessage(new MsgDisplayPong());
-		       });
+	}
+
+	private static void installMenuEvents(FrontendTaskCreator to) {
+
+		to.implement(task("installMenuEvents"))
+		
+		  .waitFor(view(MenuView.class))
+		  
+		  .thenExecute((inputs, notify) -> {
+			  
+			  MenuView view = inputs.get(view(MenuView.class));
+
+		      view.installDisplayQueueMessage(new MsgDisplayQueue());
+		      view.installDisplayPongMessage(new MsgDisplayPong());
+		  });
+
 	}
 }

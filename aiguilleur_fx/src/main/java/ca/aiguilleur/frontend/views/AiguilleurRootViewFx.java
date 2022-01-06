@@ -5,6 +5,8 @@ import java.util.ResourceBundle;
 
 import ca.aiguilleur.frontend.menu.MenuView;
 import ca.aiguilleur.frontend.pages.PagesView;
+import ca.aiguilleur.frontend.pong.PongView;
+import ca.aiguilleur.frontend.queue.QueueView;
 import ca.aiguilleur.frontend.root.RootView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -26,13 +28,19 @@ public class AiguilleurRootViewFx implements RootView, Initializable {
 	}
 
 	@Override
-	public void displayMenuView(MenuView menuView) {
+	public void installMenuView(MenuView menuView) {
 		
 	}
 
 	@Override
-	public void displayPagesView(PagesView pagesView) {
+	public void installQueueView(QueueView queueView) {
 		
 	}
+
+	@Override
+	public void installPongView(PongView pongView) {
+		
+	}
+
 }
 
