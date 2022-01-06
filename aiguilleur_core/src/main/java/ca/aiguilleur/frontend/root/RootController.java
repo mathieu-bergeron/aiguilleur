@@ -29,7 +29,7 @@ public class RootController {
 		
 		  .waitFor(window())
 		  
-		  .thenExecute((inputs, notify) -> {
+		  .thenExecute(inputs -> {
 			  
 			  Window window = inputs.get(window());
 			  
@@ -48,7 +48,7 @@ public class RootController {
 
 		  .waitFor(viewLoader(RootView.class))
 
-		  .thenExecute((inputs, notify) -> {
+		  .thenExecute(inputs -> {
 		    	   
 			  Window               window     = inputs.get(window());
 			  ViewLoader<RootView> viewLoader = inputs.get(viewLoader(RootView.class));
@@ -57,7 +57,9 @@ public class RootController {
 
 			  window.installRootView(rootView);
 			  
-			  notify.created(rootView);
+			  // FIXME: much better for students
+			  //        cannot forget that way
+			  return rootView;
 		  });
 	}
 
