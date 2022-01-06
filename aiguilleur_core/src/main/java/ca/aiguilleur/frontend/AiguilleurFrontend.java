@@ -7,12 +7,12 @@ import ca.aiguilleur.frontend.queue.QueueController;
 import ca.aiguilleur.frontend.root.AiguilleurRootController;
 import ca.ntro.app.frontend.Frontend;
 import ca.ntro.app.frontend.ViewRegistrar;
-import ca.ntro.app.frontend.controllers.tasks.FrontendTasks;
+import ca.ntro.app.frontend.controllers.tasks.FrontendTaskCreator;
 
 public abstract class AiguilleurFrontend<VR extends ViewRegistrar<?>> implements Frontend<VR> {
 
 	@Override
-	public void createTasks(FrontendTasks inOrder) {
+	public void createTasks(FrontendTaskCreator inOrder) {
 		new AiguilleurRootController().createTasks(inOrder);
 		new MenuController().createTasks(inOrder);
 		new PagesController().createTasks(inOrder);

@@ -5,13 +5,13 @@ import java.util.ResourceBundle;
 
 import ca.aiguilleur.frontend.menu.MenuView;
 import ca.aiguilleur.frontend.pages.PagesView;
-import ca.aiguilleur.frontend.root.AiguilleurRootView;
+import ca.aiguilleur.frontend.root.RootView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
-public class AiguilleurRootViewFx implements AiguilleurRootView, Initializable {
+public class AiguilleurRootViewFx implements RootView, Initializable {
 	
 	@FXML
 	Pane menuContainer;

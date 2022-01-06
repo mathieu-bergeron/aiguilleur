@@ -9,11 +9,11 @@ import ca.aiguilleur.frontend.pong.PongView;
 import ca.aiguilleur.frontend.queue.QueueController;
 import ca.aiguilleur.frontend.queue.QueueView;
 import ca.aiguilleur.frontend.root.AiguilleurRootController;
+import ca.aiguilleur.frontend.root.RootView;
 import ca.ntro.app.events.EventRegistrar;
 import ca.ntro.app.frontend.FrontendFx;
-import ca.ntro.app.frontend.RootView;
 import ca.ntro.app.frontend.ViewRegistrarFx;
-import ca.ntro.app.frontend.controllers.tasks.FrontendTasks;
+import ca.ntro.app.frontend.controllers.tasks.FrontendTaskCreator;
 
 public class Frontend4f5 implements FrontendFx {
 
@@ -33,7 +33,7 @@ public class Frontend4f5 implements FrontendFx {
 	}
 
 	@Override
-	public void createTasks(FrontendTasks inOrder) {
+	public void createTasks(FrontendTaskCreator inOrder) {
 
 		AiguilleurRootController.createTasks(inOrder);
 		MenuController.createTasks(inOrder);

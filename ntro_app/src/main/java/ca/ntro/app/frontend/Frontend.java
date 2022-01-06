@@ -1,7 +1,7 @@
 package ca.ntro.app.frontend;
 
 import ca.ntro.app.events.EventRegistrar;
-import ca.ntro.app.frontend.controllers.tasks.FrontendTasks;
+import ca.ntro.app.frontend.controllers.tasks.FrontendTaskCreator;
 
 public interface Frontend<VR extends ViewRegistrar<?>> {
 
@@ -9,6 +9,6 @@ public interface Frontend<VR extends ViewRegistrar<?>> {
 
 	void registerViews(VR registrar);
 
-	void createTasks(FrontendTasks inOrder);
+	void createTasks(FrontendTaskCreator inOrder);
 
 }

@@ -19,44 +19,30 @@ public class AiguilleurLocalBackend implements LocalBackend {
 
 	private void addAppointment(BackendTaskCreator to) {
 
-		to.execute("addAppointment")
+		to.implement(task("addAppointment"))
 
 		  .waitFor(message(MsgAddAppointment.class))
-
 		  .waitFor(model(QueueModel.class))
-
 		  .waitFor(model(PongModel.class))
 
-		  .thenDo((inputs, notify) -> {
-		    	   
-		    	   // XXX: We have a lock on these models!
-		    	   QueueModel queue = inputs.get(model(QueueModel.class));
-		    	   PongModel pong = inputs.get(model(PongModel.class));
-		    	   
+		  .thenExecute((inputs, notify) -> {
+
+				   // XXX: We have a lock on the models!
+		    	   QueueModel        queue   = inputs.get(model(QueueModel.class));
+		    	   PongModel         pong    = inputs.get(model(PongModel.class));
 		    	   MsgAddAppointment message = inputs.get(message(MsgAddAppointment.class));
+
 		    	   
 		    	   // Do something
 		    	   
 		    	   
-		    	   // XXX: manually generate a ModelUpdate (for now)
 		    	   
-
-		    	   // XXX: when we are waiting for an external result
-		    	   //      otherwise it is considered done when this finishes
-		    	   //      to execute
-		    	   notify.notDoneYet();
-		       })
-		       
-		       .onCancelDo(() -> {
+		    	   // XXX: moduleUpdates are generated according
+		    	   //      to how models were modified
 		    	   
 		    	   
-		       })
-		       
-		       .onFailureDo(exception -> {
 		    	   
-		    	   
+		    	   //      models are now unlocked
 		       });
 	}
-
-
 }

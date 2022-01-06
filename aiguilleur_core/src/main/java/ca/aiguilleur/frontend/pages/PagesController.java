@@ -4,16 +4,18 @@ import ca.aiguilleur.frontend.pong.PongView;
 import ca.aiguilleur.frontend.queue.QueueView;
 import ca.aiguilleur.messages.MsgDisplayPong;
 import ca.aiguilleur.messages.MsgDisplayQueue;
-import ca.ntro.app.frontend.controllers.tasks.FrontendTasks;
+import ca.ntro.app.frontend.controllers.tasks.FrontendTaskCreator;
 
-import static ca.ntro.app.frontend.controllers.tasks.FrontendTasks.*;
+import static ca.ntro.app.frontend.controllers.tasks.FrontendTaskCreator.*;
 
 public class PagesController {
 
-	public static void createTasks(FrontendTasks inOrder) {
+	public static void createTasks(FrontendTaskCreator inOrder) {
 
 		createQueueView(inOrder);
 		createPongView(inOrder);
+		
+		/*
 		
 
 		inOrder.whenExists(viewInstalled(PagesView.class))
@@ -39,9 +41,13 @@ public class PagesController {
 		    	   
 		    	   view.displaySubView(pongView);
 		       });
+		       
+		       */
 	}
 
-	private static void createPongView(FrontendTasks inOrder) {
+	private static void createPongView(FrontendTaskCreator inOrder) {
+		
+		/*
 
 		inOrder.create("createPongView")
 
@@ -63,9 +69,11 @@ public class PagesController {
 		    	   
 		    	   
 		       });
+		       */
 	}
 
-	private static void createQueueView(FrontendTasks inOrder) {
+	private static void createQueueView(FrontendTaskCreator inOrder) {
+		/*
 		inOrder.create("createQueueView")
 
 		       .execute((inputs, outputs) -> {
@@ -76,5 +84,6 @@ public class PagesController {
 		       })
 
 		       .whenExists(viewLoaded(QueueView.class));
+		       */
 	}
 }

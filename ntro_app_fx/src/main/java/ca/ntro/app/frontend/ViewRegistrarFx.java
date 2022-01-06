@@ -1,19 +1,13 @@
 package ca.ntro.app.frontend;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import ca.ntro.app.views.RootViewFx;
 import ca.ntro.app.views.FxView;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 
-public class ViewRegistrarFx implements ViewRegistrar<FxView>, ViewRegistrarAccessor<RootViewFx, FxView> {
+public class ViewRegistrarFx implements ViewRegistrar<FxView>, ViewRegistrarAccessor<FxView> {
 
-	private RootViewFx rootView;
 	private Scene rootScene;
 	
 	private Map<Class<? extends View>, Scene> scenes = new HashMap<>();
@@ -27,6 +21,7 @@ public class ViewRegistrarFx implements ViewRegistrar<FxView>, ViewRegistrarAcce
 		return scenes.get(viewClass);
 	}
 	
+	/*
 	public void registerRootView(String fxmlPath, 
 			                     int width, 
 			                     int height) {
@@ -53,14 +48,10 @@ public class ViewRegistrarFx implements ViewRegistrar<FxView>, ViewRegistrarAcce
 		
 		rootScene = new Scene(parent, width, height);
 	}
+	*/
 
 	public void registerView(Class<? extends View> viewClass, String fxmlPath) {
 		
-	}
-
-	@Override
-	public RootViewFx rootView() {
-		return rootView;
 	}
 
 	@Override

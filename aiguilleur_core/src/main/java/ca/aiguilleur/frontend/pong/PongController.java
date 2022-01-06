@@ -1,74 +1,58 @@
 package ca.aiguilleur.frontend.pong;
 
-import ca.ntro.app.frontend.controllers.tasks.FrontendTask;
+import ca.ntro.app.frontend.controllers.tasks.FrontendTaskDescriptor;
 import ca.ntro.app.frontend.controllers.tasks.FrontendTaskNull;
-import ca.ntro.app.frontend.controllers.tasks.FrontendTasks;
+import ca.ntro.app.frontend.controllers.tasks.FrontendTaskCreator;
 import ca.ntro.app.models.ModelUpdates;
-import ca.ntro.core.identifyers.ModelId;
 
-import static ca.ntro.app.frontend.controllers.tasks.FrontendTasks.*;
+import static ca.ntro.app.frontend.controllers.tasks.FrontendTaskCreator.*;
 
 import ca.aiguilleur.messages.MsgDisplayPong;
+import ca.aiguilleur.models.PongModel;
+import ca.aiguilleur.models.QueueModel;
 
 public class PongController {
 	
-	private static FrontendTask displayGameSubTask = new FrontendTaskNull();
+	private static FrontendTaskDescriptor<?> displayGameSubTask = new FrontendTaskNull();
 
-	public static void createTasks(FrontendTasks inOrder) {
-		displayCurrentGame(inOrder);
+	public static void createTasks(FrontendTaskCreator to) {
+		displayCurrentGame(to);
 	}
 
-	private static void displayCurrentGame(FrontendTasks inOrder) {
+	private static void displayCurrentGame(FrontendTaskCreator to) {
 		
-		inOrder.create("displayCurrentGame")
-		       .execute((inputs, outputs) -> {
+		to.implement(task("displayCurrentGame"))
 
-				   MsgDisplayPong message = inputs.getMessage(MsgDisplayPong.class);
-				   ModelId modelId = message.getModelId();
+		  .waitFor(view(PongView.class))
+
+		  .waitFor(message(MsgDisplayPong.class))
+
+		  .thenExecute((inputs, notify) -> {
+
+			  MsgDisplayPong message = inputs.get(message(MsgDisplayPong.class));
+			  String gameId = message.getGameId();
 				   
-				   displayGameSubTask.destroy(); // XXX: removes the task from the TaskGraph
+			  displayGameSubTask.destroy(); // XXX: removes the task from the TaskGraph
 				   
-				   displayGameSubTask = displayGameByModelId(outputs.inOrder(), modelId);
-		       })
-		       
-		       .whenExists(messageReceived(MsgDisplayPong.class))
-		       
-		       .onCancel(() -> {
-		    	   
-		    	   
-		       })
-		       
-		       .onFailure(exception -> {
-		    	   
-		    	   
-		       });
+			  displayGameSubTask = displayGameByModelId(notify.to(), gameId);
+
+		   });
 	}
 
-	private static FrontendTask displayGameByModelId(FrontendTasks inOrder, ModelId modelId) {
+	private static FrontendTaskDescriptor<?> displayGameByModelId(FrontendTaskCreator to, String gameId) {
 
-		return inOrder.create("displayGameByModelId")
-				      .execute((inputs, outputs) -> {
+		return to.implement(task("displayGameByModelId"))
 
-						   PongView view = inputs.getView(PongView.class);
-						   ModelUpdates updates = inputs.getModelUpdates(modelId);
+			     .waitFor(modelUpdates(QueueModel.class, gameId))
 
-						   view.displayModelUpdates(updates);
+				 .thenExecute((inputs, notify) -> {
 
-					   })
-		
-					   .whenExists(modelObserved(modelId))
-					
-					   .onCancel(() -> {
-						
-						
-					   })
-					
-					   .onFailure(exception2 -> {
-						
-						
-					   })
+					 PongView     view    = inputs.get(view(PongView.class));
+					 ModelUpdates updates = inputs.get(modelUpdates(PongModel.class, gameId));
 
-					   .getTask();
+					 view.displayModelUpdates(updates);
+			     })
+
+			     .getTask();
 	}
-
 }
