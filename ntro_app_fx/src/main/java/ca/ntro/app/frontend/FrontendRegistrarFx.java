@@ -1,20 +1,25 @@
 package ca.ntro.app.frontend;
 
-public class FrontendRegistrarFx implements FrontendRegistrar<ViewRegistrarFx>, FrontendRegistrarAccessor<ViewRegistrarFx> {
-	
-	private ViewRegistrarFx viewRegistrar = new ViewRegistrarFx();
+import javafx.stage.Stage;
 
-	@Override
-	public ViewRegistrarFx viewRegistrar() {
-		return viewRegistrar;
+public class      FrontendRegistrarFx 
+
+       extends    FrontendRegistrarNtro<ViewRegistrarFx>
+
+       implements FrontendRegistrar<ViewRegistrarFx> {
+
+
+	public FrontendRegistrarFx() {
+		super();
+	}
+
+	public FrontendRegistrarFx(WindowFx window) {
+		super(window);
 	}
 
 	@Override
-	public void registerFrontend(Frontend<ViewRegistrarFx> frontend) {
-		frontend.registerViews(viewRegistrar);
-		throw new RuntimeException("TODO: frontend.registerEvents()");
+	protected ViewRegistrarFx newViewRegistrarInstance() {
+		return new ViewRegistrarFx();
 	}
-	
-
 
 }

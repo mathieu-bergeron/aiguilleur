@@ -3,15 +3,15 @@ package ca.ntro.app.frontend;
 import java.util.HashMap;
 import java.util.Map;
 
-import ca.ntro.app.views.FxView;
+import ca.ntro.app.views.ViewFx;
 import javafx.scene.Scene;
 
-public class ViewRegistrarFx implements ViewRegistrar<FxView>, ViewRegistrarAccessor<FxView> {
+public class ViewRegistrarFx implements ViewRegistrar<ViewFx>, ViewRegistrarAccessor<ViewFx> {
 
 	private Scene rootScene;
 	
 	private Map<Class<? extends View>, Scene> scenes = new HashMap<>();
-	private Map<Class<? extends View>, FxView> views = new HashMap<>();
+	private Map<Class<? extends View>, ViewFx> views = new HashMap<>();
 
 	public Scene rootScene() {
 		return rootScene;
@@ -55,7 +55,13 @@ public class ViewRegistrarFx implements ViewRegistrar<FxView>, ViewRegistrarAcce
 	}
 
 	@Override
-	public FxView view(Class<? extends View> viewClass) {
+	public ViewFx view(Class<? extends View> viewClass) {
 		return views.get(viewClass);
+	}
+
+	@Override
+	public void addViewLoaderTasks(FrontendTaskCreatorNtro taskCreator) {
+		// TODO Auto-generated method stub
+		
 	}
 }

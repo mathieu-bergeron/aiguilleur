@@ -1,6 +1,7 @@
 package ca.ntro.app;
 
 import ca.ntro.app.frontend.FrontendRegistrarFx;
+import ca.ntro.app.frontend.WindowFx;
 import ca.ntro.core.initialization.Ntro;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -22,11 +23,12 @@ public class FxAppWrapper extends Application {
 			Ntro.exceptions().throwException(e);
 		}
 
-		FrontendRegistrarFx frontendRegistrar = new FrontendRegistrarFx();
+		WindowFx window = new WindowFx(primaryStage);
+
+		FrontendRegistrarFx frontendRegistrar = new FrontendRegistrarFx(window);
 		app.registerFrontend(frontendRegistrar);
 
-		primaryStage.show();
-		primaryStage.setScene(frontendRegistrar.viewRegistrar().rootScene());
+		frontendRegistrar.executeFrontendTasks();
 	}
 
 }
