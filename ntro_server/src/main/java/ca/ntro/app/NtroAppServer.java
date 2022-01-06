@@ -1,7 +1,7 @@
 package ca.ntro.app;
 
-import ca.ntro.app.frontend.ViewRegistrarNull;
+import ca.ntro.app.frontend.FrontendRegistrarNull;
 
-public interface NtroAppServer extends App<ViewRegistrarNull>{
+public interface NtroAppServer extends App<FrontendRegistrarNull>{
 
 }

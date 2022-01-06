@@ -5,11 +5,10 @@ import ca.aiguilleur.backend.AiguilleurLocalBackend;
 import ca.ntro.app.App;
 import ca.ntro.app.NtroAppServer;
 import ca.ntro.app.backend.BackendRegistrar;
-import ca.ntro.app.frontend.FrontendRegistrar;
-import ca.ntro.app.frontend.ViewRegistrarNull;
+import ca.ntro.app.frontend.FrontendRegistrarNull;
 import ca.ntro.core.static_imports.NtroJdk;
 
-public class AiguilleurMainServer extends AiguilleurApp<ViewRegistrarNull> implements NtroAppServer {
+public class AiguilleurMainServer extends AiguilleurApp<FrontendRegistrarNull> implements NtroAppServer {
 
 	public static void main(String[] args) throws Throwable {
 		NtroJdk.initializer().executeBlocking();
@@ -18,7 +17,7 @@ public class AiguilleurMainServer extends AiguilleurApp<ViewRegistrarNull> imple
 	}
 
 	@Override
-	public void registerFrontend(FrontendRegistrar<ViewRegistrarNull> registrar) {
+	public void registerFrontend(FrontendRegistrarNull registrar) {
 		// no frontend
 	}
 

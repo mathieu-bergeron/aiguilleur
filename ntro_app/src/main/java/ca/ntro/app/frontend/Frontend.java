@@ -9,6 +9,6 @@ public interface Frontend<VR extends ViewRegistrar<?>> {
 
 	void registerViews(VR registrar);
 
-	void createTasks(FrontendTaskCreator inOrder);
+	void createTasks(FrontendTaskCreator to);
 
 }

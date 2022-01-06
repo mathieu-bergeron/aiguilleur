@@ -2,16 +2,15 @@ package ca.ntro.app;
 
 import ca.ntro.app.backend.BackendRegistrar;
 import ca.ntro.app.frontend.FrontendRegistrar;
-import ca.ntro.app.frontend.ViewRegistrar;
 import ca.ntro.app.messages.MessageRegistrar;
 import ca.ntro.app.models.ModelRegistrar;
 
-public interface App<VR extends ViewRegistrar<?>> {
+public interface App<FR extends FrontendRegistrar<?>> {
 
 	void registerModels(ModelRegistrar registrar);
 	void registerMessages(MessageRegistrar registrar);
 	
-	void registerFrontend(FrontendRegistrar<VR> registrar);
+	void registerFrontend(FR registrar);
 	void registerBackend(BackendRegistrar registrar);
 
 	public static void launch(String[] args) {

@@ -2,6 +2,6 @@ package ca.ntro.app.models;
 
 public interface ModelRegistrar {
 	
-	<M extends Model> void registerModel(Class<M> modelClass);
+	<M extends Model> void registerModelClass(Class<M> modelClass);
 
 }

@@ -1,7 +1,6 @@
 package ca.aiguilleur.frontend;
 
 import ca.aiguilleur.frontend.menu.MenuController;
-import ca.aiguilleur.frontend.pages.PagesController;
 import ca.aiguilleur.frontend.pong.PongController;
 import ca.aiguilleur.frontend.queue.QueueController;
 import ca.aiguilleur.frontend.root.RootController;
@@ -13,11 +12,12 @@ public abstract class AiguilleurFrontend<VR extends ViewRegistrar<?>> implements
 
 	@Override
 	public void createTasks(FrontendTaskCreator inOrder) {
-		new RootController().createTasks(inOrder);
-		new MenuController().createTasks(inOrder);
-		new PagesController().createTasks(inOrder);
-		new QueueController().createTasks(inOrder);
-		new PongController().createTasks(inOrder);
+
+		RootController.createTasks(inOrder);
+		MenuController.createTasks(inOrder);
+		QueueController.createTasks(inOrder);
+		PongController.createTasks(inOrder);
+
 	}
 
 }

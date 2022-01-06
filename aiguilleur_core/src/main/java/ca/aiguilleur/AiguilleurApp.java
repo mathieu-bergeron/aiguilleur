@@ -7,22 +7,21 @@ import ca.aiguilleur.messages.MsgDisplayQueue;
 import ca.aiguilleur.models.PongModel;
 import ca.aiguilleur.models.QueueModel;
 import ca.ntro.app.App;
-import ca.ntro.app.events.EventRegistrar;
-import ca.ntro.app.frontend.ViewRegistrar;
+import ca.ntro.app.frontend.FrontendRegistrar;
 
-public abstract class AiguilleurApp<VR extends ViewRegistrar<?>> implements App<VR> {
+public abstract class AiguilleurApp<FR extends FrontendRegistrar<?>> implements App<FR> {
 
 	@Override
 	public void registerModels(ModelRegistrar registrar) {
 		
-		registrar.registerModel(QueueModel.class);
-		registrar.registerModel(PongModel.class);
+		registrar.registerModelClass(QueueModel.class);
+		registrar.registerModelClass(PongModel.class);
 	}
 
 	@Override
 	public void registerMessages(MessageRegistrar registrar) {
 
-		registrar.registerMessage(MsgDisplayQueue.class);
-		registrar.registerMessage(MsgDisplayPong.class);
+		registrar.registerMessageClass(MsgDisplayQueue.class);
+		registrar.registerMessageClass(MsgDisplayPong.class);
 	}
 }

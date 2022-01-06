@@ -1,11 +1,11 @@
 package ca.ntro.app;
 
-import ca.ntro.app.frontend.ViewRegistrarFx;
+import ca.ntro.app.frontend.FrontendRegistrarFx;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.static_imports.NtroJdk;
 import javafx.application.Application;
 
-public interface NtroAppFx extends App<ViewRegistrarFx> {
+public interface NtroAppFx extends App<FrontendRegistrarFx> {
 	
 	@SuppressWarnings("unchecked")
 	public static void launch(String[] args) {
