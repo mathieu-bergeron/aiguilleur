@@ -15,6 +15,8 @@ import ca.ntro.core.task_graphs.task_graph.TaskGraph;
 import ca.ntro.core.task_graphs.task_graph.TaskGraphNtro;
 import ca.ntro.core.wrappers.future.ExceptionHandler;
 
+import static ca.ntro.app.frontend.tasks.Factory.*;
+
 public class FrontendTaskCreatorNtro implements FrontendTaskCreator {
 	
 	private TaskGraphNtro taskGraph = (TaskGraphNtro) TaskGraph.newGraph();
@@ -40,19 +42,15 @@ public class FrontendTaskCreatorNtro implements FrontendTaskCreator {
 	
 
 	public void addWindowTask(Window window) {
-		Task windowTask = getTaskGraph().addTask("window");
-		AtomicTask windowAtomicTask = windowTask.addEntryTask("window", AtomicTaskCondition.class);
-
-		windowAtomicTask.execute((inputs, notify) -> {
-			System.out.println("window");
-			
-			notify.addResult(window);
+		create(window())
+		.thenExecute(inputs -> {
+			return window;
 		});
 	}
 
 	@Override
 	public <R> TypedFrontendTaskCreator<R> create(TypedFrontendTaskDescriptor<R> task) {
-		return null;
+		return new TypedFrontendTaskCreatorNtro<R>(getTaskGraph(), task);
 	}
 
 	@Override
@@ -113,12 +111,9 @@ public class FrontendTaskCreatorNtro implements FrontendTaskCreator {
 		AtomicTask entry = currentTask.addEntryTask(currentTask.id().toKey().toString(), AtomicTaskCondition.class);
 		
 		entry.execute((inputs, notify) -> {
-			System.out.println(currentTask.id().toKey().toString());
-			
 			executor.execute(new FrontendTaskInputsNtro(inputs));
 
 			notify.addResult(true);
-
 		});
 
 		return this;

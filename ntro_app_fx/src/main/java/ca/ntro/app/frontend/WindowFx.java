@@ -48,12 +48,21 @@ public class WindowFx implements Window {
 	@Override
 	public void installRootView(View view) {
 		ViewFx viewFx = (ViewFx) view;
+		
+		if(viewFx.getParent() != null) {
 
-		setParent(viewFx.getParent());
+			setParent(viewFx.getParent());
 
-		Scene rootScene = new Scene(getParent(), primaryStage.getWidth(), primaryStage.getHeight());
+			Scene rootScene = new Scene(getParent(), primaryStage.getWidth(), primaryStage.getHeight());
 
-		getPrimaryStage().setScene(rootScene);
+			getPrimaryStage().setScene(rootScene);
+			
+		}else {
+			
+			throw new RuntimeException("viewFx.getParent() is null");
+			
+		}
+
 	}
 
 	@Override

@@ -7,9 +7,11 @@ public interface TypedFrontendTaskCreator<R extends Object> {
 
 	TypedFrontendTaskCreator<R> waitFor(TypedFrontendTaskDescriptor<?> task);
 
-	TypedFrontendTaskCreator<R> execute(TypedFrontendExecutor<R> executor);
-	TypedFrontendTaskCreator<R> thenExecute(TypedFrontendExecutor<R> executor);
-	TypedFrontendTaskCreator<R> thenExecuteBlocking(TypedBlockingFrontendExecutor<R> executor);
+	TypedFrontendTaskCreator<R> execute(TypedBlockingFrontendExecutor<R> executor);
+	TypedFrontendTaskCreator<R> thenExecute(TypedBlockingFrontendExecutor<R> executor);
+
+	TypedFrontendTaskCreator<R> executeAsync(TypedFrontendExecutor<R> executor);
+	TypedFrontendTaskCreator<R> thenExecuteAsync(TypedFrontendExecutor<R> executor);
 
 	TypedFrontendTaskCreator<R> onCancel(FrontendCancelHandler cancelHandler);
 	TypedFrontendTaskCreator<R> onFailure(ExceptionHandler exceptionHandler);

@@ -1,9 +1,7 @@
 package ca.aiguilleur;
 
-import ca.aiguilleur.frontend.menu.MenuController;
 import ca.aiguilleur.frontend.menu.MenuView;
 import ca.aiguilleur.frontend.pong.PongView;
-import ca.aiguilleur.frontend.queue.QueueController;
 import ca.aiguilleur.frontend.queue.QueueView;
 import ca.aiguilleur.frontend.root.RootController;
 import ca.aiguilleur.frontend.root.RootView;
@@ -22,7 +20,7 @@ public class Frontend4f5 implements FrontendFx {
 	public void registerViews(ViewRegistrarFx registrar) {
 
 		registrar.registerView(RootView.class, "/root.xml");
-		registrar.registerView(MenuView.class, "/menu.xml");
+		//registrar.registerView(MenuView.class, "/menu.xml");
 		registrar.registerView(QueueView.class, "/queue.xml");
 		registrar.registerView(PongView.class, "/pong.xml");
 

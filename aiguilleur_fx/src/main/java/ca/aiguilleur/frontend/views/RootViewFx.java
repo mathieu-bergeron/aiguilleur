@@ -7,12 +7,15 @@ import ca.aiguilleur.frontend.menu.MenuView;
 import ca.aiguilleur.frontend.pong.PongView;
 import ca.aiguilleur.frontend.queue.QueueView;
 import ca.aiguilleur.frontend.root.RootView;
+import ca.ntro.app.views.ViewFx;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
 public class RootViewFx 
+
+       extends ViewFx
 
        implements RootView, 
                   Initializable {

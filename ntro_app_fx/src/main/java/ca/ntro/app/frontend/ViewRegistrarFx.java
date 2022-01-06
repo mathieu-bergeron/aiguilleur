@@ -1,10 +1,16 @@
 package ca.ntro.app.frontend;
 
+
 import java.util.HashMap;
 import java.util.Map;
 
 import ca.ntro.app.views.ViewFx;
+import ca.ntro.core.task_graphs.task_graph.AtomicTask;
+import ca.ntro.core.task_graphs.task_graph.AtomicTaskCondition;
+import ca.ntro.core.task_graphs.task_graph.Task;
 import javafx.scene.Scene;
+
+import static ca.ntro.app.frontend.tasks.Factory.*;
 
 public class ViewRegistrarFx implements ViewRegistrar<ViewFx>, ViewRegistrarAccessor<ViewFx> {
 
@@ -12,6 +18,8 @@ public class ViewRegistrarFx implements ViewRegistrar<ViewFx>, ViewRegistrarAcce
 	
 	private Map<Class<? extends View>, Scene> scenes = new HashMap<>();
 	private Map<Class<? extends View>, ViewFx> views = new HashMap<>();
+
+	private Map<Class<? extends View>, String> fxmlFiles = new HashMap<>();
 
 	public Scene rootScene() {
 		return rootScene;
@@ -51,7 +59,7 @@ public class ViewRegistrarFx implements ViewRegistrar<ViewFx>, ViewRegistrarAcce
 	*/
 
 	public void registerView(Class<? extends View> viewClass, String fxmlPath) {
-		
+		fxmlFiles.put(viewClass, fxmlPath);
 	}
 
 	@Override
@@ -61,7 +69,17 @@ public class ViewRegistrarFx implements ViewRegistrar<ViewFx>, ViewRegistrarAcce
 
 	@Override
 	public void addViewLoaderTasks(FrontendTaskCreatorNtro taskCreator) {
-		// TODO Auto-generated method stub
-		
+		for(Map.Entry<Class<? extends View>, String> entry : fxmlFiles.entrySet()) {
+
+			Class<? extends View> viewClass = entry.getKey();
+			String fxmlPath = entry.getValue();
+			
+			Task viewLoaderTask = taskCreator.getTaskGraph().addTask(viewLoader(viewClass).id());
+			AtomicTask createViewLoader = viewLoaderTask.addEntryTask(viewLoader(viewClass).id().toKey().toString(), AtomicTaskCondition.class);
+			
+			createViewLoader.execute((inputs, notify) -> {
+				notify.addResult(new ViewLoaderFx<>(fxmlPath));
+			});
+		}
 	}
 }

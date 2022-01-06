@@ -24,7 +24,6 @@ public class FrontendTaskInputsNtro implements FrontendTaskInputs {
 		setInputs(inputs);
 	}
 	
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public <O> O get(TypedFrontendTaskDescriptor<O> task) {

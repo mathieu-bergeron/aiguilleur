@@ -2,6 +2,7 @@ package ca.ntro.app.frontend.tasks;
 
 import ca.ntro.core.task_graphs.generic_task_graph.TaskId;
 import ca.ntro.core.task_graphs.task_graph.TaskGraphNtro;
+import ca.ntro.core.task_graphs.task_graph.TaskNtro;
 
 public class TypedFrontendTaskDescriptorNtro<O extends Object> implements TypedFrontendTaskDescriptor<O>  {
 	
@@ -23,9 +24,7 @@ public class TypedFrontendTaskDescriptorNtro<O extends Object> implements TypedF
 	public void setTaskGraph(TaskGraphNtro taskGraph) {
 		this.taskGraph = taskGraph;
 	}
-	
-	
-	
+
 
 	@Override
 	public TaskId id() {
@@ -43,5 +42,4 @@ public class TypedFrontendTaskDescriptorNtro<O extends Object> implements TypedF
 		// TODO Auto-generated method stub
 		
 	}
-
 }

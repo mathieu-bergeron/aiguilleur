@@ -39,7 +39,19 @@ public interface Factory {
 	}
 
 	public static <V extends View> TypedFrontendTaskDescriptor<ViewLoader<V>> viewLoader(Class<V> viewClass) {
-		return null;
+		TypedFrontendTaskDescriptorNtro<ViewLoader<V>> descriptor = new TypedFrontendTaskDescriptorNtro<>();
+
+		descriptor.setId(new TaskIdNtro("viewLoader[" + Ntro.reflectionService().simpleName(viewClass)+ "]"));
+
+		return descriptor;
+	}
+
+	public static TypedFrontendTaskDescriptor<String> fileLoader(String filePath) {
+		TypedFrontendTaskDescriptorNtro<String> descriptor = new TypedFrontendTaskDescriptorNtro<>();
+
+		descriptor.setId(new TaskIdNtro("fileLoader[" + filePath + "]"));
+
+		return descriptor;
 	}
 
 	public static <M extends Model, MU extends ModelUpdates> TypedFrontendTaskDescriptor<MU> modelUpdates(Class<M> modelClass, String modelId) {

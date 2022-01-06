@@ -16,17 +16,15 @@ public class RootController {
 
 		showWindow(to);
 		
-		/*
 		createRootView(to);
-		createMenuView(to);
+		//createMenuView(to);
 		createQueueView(to);
 		createPongView(to);
 
 		installRootView(to);
-		installMenuView(to);
+		//installMenuView(to);
 		installQueueView(to);
 		installPongView(to);
-		*/
 	}
 
 	private static void showWindow(FrontendTaskCreator to) {
@@ -51,7 +49,7 @@ public class RootController {
 		
 		  .waitFor(viewLoader(RootView.class))
 
-		  .thenExecuteBlocking(inputs -> {
+		  .thenExecute(inputs -> {
 		    	   
 			  ViewLoader<RootView> viewLoader = inputs.get(viewLoader(RootView.class));
 			  
@@ -66,7 +64,7 @@ public class RootController {
 		
 		  .waitFor(viewLoader(MenuView.class))
 		
-		  .thenExecuteBlocking(inputs -> {
+		  .thenExecute(inputs -> {
 			   
 			   ViewLoader<MenuView> viewLoader = inputs.get(viewLoader(MenuView.class));
 
@@ -81,7 +79,7 @@ public class RootController {
 		
 		  .waitFor(viewLoader(QueueView.class))
 		
-		  .thenExecuteBlocking(inputs -> {
+		  .thenExecute(inputs -> {
 			   
 			   ViewLoader<QueueView> viewLoader = inputs.get(viewLoader(QueueView.class));
 
@@ -96,7 +94,7 @@ public class RootController {
 
 		  .waitFor(viewLoader(PongView.class))
 		
-		  .thenExecuteBlocking(inputs -> {
+		  .thenExecute(inputs -> {
 			   
 			   ViewLoader<PongView> viewLoader = inputs.get(viewLoader(PongView.class));
 

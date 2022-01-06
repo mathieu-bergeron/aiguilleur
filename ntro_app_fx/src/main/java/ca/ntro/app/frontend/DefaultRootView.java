@@ -11,7 +11,6 @@ public class DefaultRootView extends VBox {
 	public DefaultRootView() {
 		super();
 		
-		
 		HBox hbox = new HBox();
 		hbox.setAlignment(Pos.CENTER);
 		hbox.getChildren().add(new Label("[NtroAppFx default view]"));
