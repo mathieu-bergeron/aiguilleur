@@ -9,6 +9,7 @@ public interface TypedFrontendTaskCreator<R extends Object> {
 
 	TypedFrontendTaskCreator<R> execute(TypedFrontendExecutor<R> executor);
 	TypedFrontendTaskCreator<R> thenExecute(TypedFrontendExecutor<R> executor);
+	TypedFrontendTaskCreator<R> thenExecuteBlocking(TypedBlockingFrontendExecutor<R> executor);
 
 	TypedFrontendTaskCreator<R> onCancel(FrontendCancelHandler cancelHandler);
 	TypedFrontendTaskCreator<R> onFailure(ExceptionHandler exceptionHandler);

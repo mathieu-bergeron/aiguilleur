@@ -13,6 +13,7 @@ public interface FrontendTaskCreator {
 
 	FrontendTaskCreator execute(FrontendExecutor executor);
 	FrontendTaskCreator thenExecute(FrontendExecutor executor);
+	FrontendTaskCreator thenExecuteBlocking(BlockingFrontendExecutor executor);
 
 	FrontendTaskCreator onCancel(FrontendCancelHandler cancelHandler);
 	FrontendTaskCreator onFailure(ExceptionHandler exceptionHandler);

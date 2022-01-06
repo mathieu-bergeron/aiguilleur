@@ -1,6 +1,7 @@
 package ca.aiguilleur.frontend.root;
 
 
+import ca.ntro.app.frontend.View;
 import ca.ntro.app.frontend.ViewLoader;
 import ca.ntro.app.frontend.Window;
 import ca.ntro.app.frontend.tasks.FrontendTaskCreator;
@@ -16,11 +17,16 @@ public class RootController {
 	public static void createTasks(FrontendTaskCreator to) {
 
 		showWindow(to);
-
+		
 		createRootView(to);
 		createMenuView(to);
 		createQueueView(to);
 		createPongView(to);
+
+		installRootView(to);
+		installMenuView(to);
+		installQueueView(to);
+		installPongView(to);
 	}
 
 	private static void showWindow(FrontendTaskCreator to) {
@@ -29,7 +35,7 @@ public class RootController {
 		
 		  .waitFor(window())
 		  
-		  .thenExecute(inputs -> {
+		  .thenExecuteBlocking(inputs -> {
 			  
 			  Window window = inputs.get(window());
 			  
@@ -38,6 +44,23 @@ public class RootController {
 
 		  });
 	}
+
+	private static <V extends View> void createView(FrontendTaskCreator to, Class<V> viewClass) {
+
+		to.create(view(viewClass))
+		
+		  .waitFor(viewLoader(viewClass))
+
+		  .thenExecuteBlocking(inputs -> {
+		    	   
+			  ViewLoader<V> viewLoader = inputs.get(viewLoader(viewClass));
+
+			  V view = viewLoader.createView();
+			  
+			  return view;
+		  });
+	}
+
 		
 
 	private static void createRootView(FrontendTaskCreator to) {
@@ -48,7 +71,7 @@ public class RootController {
 
 		  .waitFor(viewLoader(RootView.class))
 
-		  .thenExecute(inputs -> {
+		  .thenExecuteBlocking(inputs -> {
 		    	   
 			  Window               window     = inputs.get(window());
 			  ViewLoader<RootView> viewLoader = inputs.get(viewLoader(RootView.class));
@@ -70,7 +93,7 @@ public class RootController {
 
 		  .waitFor(viewLoader(MenuView.class))
 		
-		  .thenExecute((inputs, notify) -> {
+		  .thenExecuteBlocking(inputs -> {
 			   
 			   RootView             rootView   = inputs.get(view(RootView.class));
 			   ViewLoader<MenuView> viewLoader = inputs.get(viewLoader(MenuView.class));
@@ -78,8 +101,8 @@ public class RootController {
 			   MenuView menuView = viewLoader.createView();
 			   
 			   rootView.installMenuView(menuView);
-
-			   notify.created(menuView);
+			   
+			   return menuView;
 		   });
 	}
 
@@ -90,7 +113,7 @@ public class RootController {
 
 		  .waitFor(viewLoader(QueueView.class))
 		
-		  .thenExecute((inputs, notify) -> {
+		  .thenExecuteBlocking(inputs -> {
 			   
 			   RootView              rootView   = inputs.get(view(RootView.class));
 			   ViewLoader<QueueView> viewLoader = inputs.get(viewLoader(QueueView.class));
@@ -99,7 +122,7 @@ public class RootController {
 			   
 			   rootView.installQueueView(queueView);
 
-			   notify.created(queueView);
+			   return queueView;
 		   });
 	}
 
@@ -110,7 +133,7 @@ public class RootController {
 
 		  .waitFor(viewLoader(PongView.class))
 		
-		  .thenExecute((inputs, notify) -> {
+		  .thenExecuteBlocking(inputs -> {
 			   
 			   RootView             rootView   = inputs.get(view(RootView.class));
 			   ViewLoader<PongView> viewLoader = inputs.get(viewLoader(PongView.class));
@@ -119,7 +142,7 @@ public class RootController {
 			   
 			   rootView.installPongView(pongView);
 
-			   notify.created(pongView);
+			   return pongView;
 		   });
 	}
 }
