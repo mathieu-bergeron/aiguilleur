@@ -25,6 +25,12 @@ public class RootController {
 		//installMenuView(to);
 		installQueueView(to);
 		installPongView(to);
+		
+		to.define(taskGroup(view(RootView.class)))
+		  .addSubTask(createRootView(to))
+		  .addSubTask(installRootView(to));
+		
+		
 	}
 
 	private static void showWindow(FrontendTaskCreator to) {
