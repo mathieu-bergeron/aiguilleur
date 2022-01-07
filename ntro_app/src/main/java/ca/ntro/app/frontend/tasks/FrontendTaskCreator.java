@@ -9,6 +9,8 @@ public interface FrontendTaskCreator {
 
 	FrontendTaskCreator implement(TypedFrontendTaskDescriptor<?> task);
 
+	FrontendTaskCreator define(TypedFrontendTaskDescriptor<?> task);
+
 	FrontendTaskCreator waitFor(TypedFrontendTaskDescriptor<?> task);
 
 	FrontendTaskCreator execute(BlockingFrontendExecutor executor);

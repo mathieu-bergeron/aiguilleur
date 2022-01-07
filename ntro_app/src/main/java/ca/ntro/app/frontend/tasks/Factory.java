@@ -70,4 +70,8 @@ public interface Factory {
 		return null;
 	}
 
+	public static <EVT extends Event> TypedFrontendTaskDescriptor<EVT> taskGroup(TypedFrontendTaskDescriptor<?> descriptor) {
+		return null;
+	}
+
 }
