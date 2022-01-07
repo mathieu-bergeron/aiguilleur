@@ -39,6 +39,7 @@ public class InternalTaskGraphTraceWriterNtro<T  extends GenericTask<T,AT>,
 			                                HierarchicalDagWriterOptions options,
 			                                NodeSpecNtro nodeSpec) {
 		
+		super.adjustNodeSpecAttributes(node, options, nodeSpec);
 		
 		TaskTraceNtro taskTrace = (TaskTraceNtro) getTrace().getTaskTrace(node.task().id());
 		

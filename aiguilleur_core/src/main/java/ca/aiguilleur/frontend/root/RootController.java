@@ -26,9 +26,11 @@ public class RootController {
 		installQueueView(to);
 		installPongView(to);
 		
+		/* TODO
 		to.define(taskGroup(view(RootView.class)))
 		  .addSubTask(createRootView(to))
 		  .addSubTask(installRootView(to));
+		  */
 		
 		
 	}

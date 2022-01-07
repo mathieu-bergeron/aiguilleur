@@ -119,5 +119,11 @@ public class FrontendTaskCreatorNtro implements FrontendTaskCreator {
 		return this;
 	}
 
+	@Override
+	public FrontendTaskCreator define(TypedFrontendTaskDescriptor<?> task) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

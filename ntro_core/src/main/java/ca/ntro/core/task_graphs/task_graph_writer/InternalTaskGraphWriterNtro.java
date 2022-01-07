@@ -1,5 +1,7 @@
 package ca.ntro.core.task_graphs.task_graph_writer;
 
+import ca.ntro.core.graph_writer.NodeSpecNtro;
+import ca.ntro.core.graphs.hierarchical_dag.HierarchicalDagWriterOptions;
 import ca.ntro.core.graphs.hierarchical_dag.InternalHierarchicalDagWriterNtro;
 import ca.ntro.core.task_graphs.generic_task_graph.GenericAtomicTask;
 import ca.ntro.core.task_graphs.generic_task_graph.GenericTask;
@@ -13,5 +15,13 @@ public class InternalTaskGraphWriterNtro<T  extends GenericTask<T,AT>,
 	                                             TaskGraphEdge<T,AT>>
 
 	   implements InternalTaskGraphWriter<T,AT> {
+
+	@Override
+	protected void adjustNodeSpecAttributes(TaskGraphNode<T,AT> node,
+			                                HierarchicalDagWriterOptions options,
+			                                NodeSpecNtro nodeSpec) {
+		
+		nodeSpec.setShape("box");
+	}
 	
 }
