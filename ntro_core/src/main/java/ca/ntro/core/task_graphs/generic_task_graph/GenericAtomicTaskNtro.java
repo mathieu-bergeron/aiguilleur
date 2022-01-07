@@ -4,8 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import ca.ntro.core.identifyers.Key;
-import ca.ntro.core.task_graphs.generic_task_graph.handlers.CancelHandler;
-import ca.ntro.core.task_graphs.generic_task_graph.handlers.ExecuteHandler;
+import ca.ntro.core.task_graphs.handlers.CancelHandler;
+import ca.ntro.core.task_graphs.handlers.ExecuteHandler;
 import ca.ntro.core.task_graphs.task_graph_trace.AtomicTaskTrace;
 import ca.ntro.core.task_graphs.task_graph_trace.TaskGraphTraceNtro;
 import ca.ntro.core.task_graphs.task_graph_trace.TaskTrace;

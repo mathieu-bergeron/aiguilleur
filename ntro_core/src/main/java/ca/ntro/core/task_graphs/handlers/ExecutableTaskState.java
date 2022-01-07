@@ -1,4 +1,4 @@
-package ca.ntro.core.task_graphs.generic_task_graph.handlers;
+package ca.ntro.core.task_graphs.handlers;
 
 public enum ExecutableTaskState {
 	
