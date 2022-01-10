@@ -5,6 +5,6 @@ import ca.ntro.app.frontend.ViewModel;
 
 public interface GameView extends ViewModel {
 
-	void installShowQueueViewEvent(EvtShowQueueView newEvent);
+	void installShowQueueViewEvent(EvtShowQueueView event);
 
 }

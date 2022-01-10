@@ -6,6 +6,7 @@ import ca.aiguilleur.frontend.pong.GameView;
 import ca.aiguilleur.frontend.queue.QueueView;
 import ca.aiguilleur.frontend.root.RootController;
 import ca.aiguilleur.frontend.root.RootView;
+import ca.ntro.app.NtroApp;
 import ca.ntro.app.frontend.FrontendFx;
 import ca.ntro.app.frontend.ViewRegistrarFx;
 import ca.ntro.app.frontend.events.EventRegistrar;
@@ -36,6 +37,14 @@ public class Frontend4f5 implements FrontendFx {
 		RootController.createTasks(to);
 		//MenuController.createTasks(to);
 		//QueueController.createTasks(to);
+
+	}
+
+	@Override
+	public void execute() {
+
+		EvtShowQueueView evtShowQueueView = NtroApp.events().newEvent(EvtShowQueueView.class);
+		evtShowQueueView.trigger();
 
 	}
 }

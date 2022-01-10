@@ -22,4 +22,9 @@ public class AiguilleurFrontendFx extends AiguilleurFrontend<ViewRegistrarFx> im
 		
 	}
 
+	@Override
+	public void execute() {
+		
+	}
+
 }

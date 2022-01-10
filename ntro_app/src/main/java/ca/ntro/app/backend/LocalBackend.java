@@ -6,4 +6,6 @@ public interface LocalBackend extends Backend {
 
 	void createTasks(BackendTaskCreator creator);
 
+	void execute();
+
 }

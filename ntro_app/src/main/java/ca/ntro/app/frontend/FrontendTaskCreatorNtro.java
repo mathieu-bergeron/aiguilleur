@@ -70,8 +70,16 @@ public class FrontendTaskCreatorNtro implements FrontendTaskCreator {
 
 	@Override
 	public FrontendTaskCreator waitFor(TypedFrontendTaskDescriptor<?> task) {
+
+		Task waitFor = currentTask.addPreviousTask(task.id());
 		
-		currentTask.addPreviousTask(task.id());
+		// FIXME: 
+		if(task.id().toKey().toString().contains("event[")) {
+			
+			waitFor.addEntryTask("TODO_event_handler");
+			
+		}
+		
 		
 		return this;
 	}
