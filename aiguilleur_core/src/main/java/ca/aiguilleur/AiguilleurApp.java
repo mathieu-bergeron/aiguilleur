@@ -2,8 +2,7 @@ package ca.aiguilleur;
 
 import ca.ntro.app.messages.MessageRegistrar;
 import ca.ntro.app.models.ModelRegistrar;
-import ca.aiguilleur.messages.MsgDisplayPong;
-import ca.aiguilleur.messages.MsgDisplayQueue;
+import ca.aiguilleur.messages.MsgAddAppointment;
 import ca.aiguilleur.models.PongModel;
 import ca.aiguilleur.models.QueueModel;
 import ca.ntro.app.App;
@@ -21,7 +20,6 @@ public abstract class AiguilleurApp<FR extends FrontendRegistrar<?>> implements 
 	@Override
 	public void registerMessages(MessageRegistrar registrar) {
 
-		registrar.registerMessageClass(MsgDisplayQueue.class);
-		registrar.registerMessageClass(MsgDisplayPong.class);
+		registrar.registerMessageClass(MsgAddAppointment.class);
 	}
 }

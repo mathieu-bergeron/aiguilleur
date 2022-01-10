@@ -48,4 +48,9 @@ public class AsserterJdk implements Asserter {
 		}
 	}
 
+	@Override
+	public void assertNotNull(String message, Object object) {
+		Assert.assertNotNull(message, object);
+	}
+
 }

@@ -3,6 +3,7 @@ package ca.ntro.core.initialization;
 import ca.ntro.core.graph_writer.GraphWriter;
 import ca.ntro.core.identifyers.ClassId;
 import ca.ntro.core.identifyers.ObjectId;
+import ca.ntro.core.services.AsserterJdk;
 import ca.ntro.core.services.CollectionsJdk;
 import ca.ntro.core.services.ExceptionThrowerNtro;
 import ca.ntro.core.services.GraphWriterJdk;
@@ -28,6 +29,8 @@ public class InitializerJdk extends InitializerNtro {
 		Ntro.registerGraphWriter(GraphWriterJdk.class);
 		Ntro.registerCollections(new CollectionsJdk());
 		Ntro.registerTime(new TimeJdk());
+		
+		Ntro.registerAsserter(new AsserterJdk());
 		
 		
 		

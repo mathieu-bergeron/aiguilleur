@@ -1,4 +1,4 @@
-package ca.ntro.app.events;
+package ca.ntro.app.frontend.events;
 
 public interface EventRegistrar {
 	

@@ -3,7 +3,7 @@ package ca.aiguilleur.frontend.views;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import ca.aiguilleur.frontend.pong.PongView;
+import ca.aiguilleur.frontend.pong.GameView;
 import ca.ntro.app.models.ModelUpdates;
 import ca.ntro.app.views.ViewFx;
 import javafx.animation.AnimationTimer;
@@ -11,13 +11,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 
-public class PongViewFx 
+public class GameViewFx 
 
        extends ViewFx
 
-       implements PongView, Initializable {
+       implements GameView, Initializable {
 	
-	private PongModelRealTime realTimeModel;
+	private GameModelRealTime realTimeModel;
 	private AnimationTimer timer;
 	
 	@FXML

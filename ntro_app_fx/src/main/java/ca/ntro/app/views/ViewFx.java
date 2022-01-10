@@ -5,14 +5,14 @@ import javafx.scene.Parent;
 
 public class ViewFx implements View {
 	
-	private Parent parent;
+	private Parent rootNode;
 
-	public Parent getParent() {
-		return parent;
+	public Parent rootNode() {
+		return rootNode;
 	}
 
-	public void setParent(Parent parent) {
-		this.parent = parent;
+	public void setRootNode(Parent rootNode) {
+		this.rootNode = rootNode;
 	}
 
 }

@@ -26,4 +26,8 @@ public class AsserterNull implements Asserter {
 	public void assertFuture(long maxDelay, Runnable runnable) {
 	}
 
+	@Override
+	public void assertNotNull(String message, Object object) {
+	}
+
 }

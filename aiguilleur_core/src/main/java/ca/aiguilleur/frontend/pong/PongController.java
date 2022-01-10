@@ -7,7 +7,7 @@ import ca.ntro.app.models.ModelUpdates;
 
 import static ca.ntro.app.frontend.tasks.Factory.*;
 
-import ca.aiguilleur.messages.MsgDisplayPong;
+import ca.aiguilleur.frontend.events.EvtShowGameView;
 import ca.aiguilleur.models.PongModel;
 import ca.aiguilleur.models.QueueModel;
 
@@ -23,13 +23,13 @@ public class PongController {
 		
 		to.implement(task("displayCurrentGame"))
 
-		  .waitFor(view(PongView.class))
+		  .waitFor(view(GameView.class))
 
-		  .waitFor(message(MsgDisplayPong.class))
+		  .waitFor(event(EvtShowGameView.class))
 
 		  .thenExecuteAsync((inputs, notify) -> {
 
-			  MsgDisplayPong message = inputs.get(message(MsgDisplayPong.class));
+			  EvtShowGameView message = inputs.get(event(EvtShowGameView.class));
 			  String gameId = message.getGameId();
 				   
 			  displayGameSubTask.destroy(); // XXX: removes the task from the TaskGraph
@@ -47,7 +47,7 @@ public class PongController {
 
 				 .thenExecuteAsync((inputs, notify) -> {
 
-					 PongView     view    = inputs.get(view(PongView.class));
+					 GameView     view    = inputs.get(view(GameView.class));
 					 ModelUpdates updates = inputs.get(modelUpdates(PongModel.class, gameId));
 
 					 view.displayModelUpdates(updates);

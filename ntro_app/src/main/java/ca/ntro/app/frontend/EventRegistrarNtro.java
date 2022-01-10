@@ -1,7 +1,7 @@
 package ca.ntro.app.frontend;
 
-import ca.ntro.app.events.Event;
-import ca.ntro.app.events.EventRegistrar;
+import ca.ntro.app.frontend.events.Event;
+import ca.ntro.app.frontend.events.EventRegistrar;
 
 public class EventRegistrarNtro implements EventRegistrar {
 

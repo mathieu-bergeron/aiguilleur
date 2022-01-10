@@ -2,7 +2,7 @@ package ca.aiguilleur.frontend.pong;
 
 import ca.ntro.app.frontend.ViewModel;
 
-public interface PongView extends ViewModel {
+public interface GameView extends ViewModel {
 	
 	// PongView is responsible for the live-update the of game world
 	// Messages are sent to change the model either for:

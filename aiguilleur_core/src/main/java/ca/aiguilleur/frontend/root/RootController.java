@@ -7,8 +7,7 @@ import ca.ntro.app.frontend.tasks.TypedFrontendTaskDescriptor;
 
 import static ca.ntro.app.frontend.tasks.Factory.*;
 
-import ca.aiguilleur.frontend.menu.MenuView;
-import ca.aiguilleur.frontend.pong.PongView;
+import ca.aiguilleur.frontend.pong.GameView;
 import ca.aiguilleur.frontend.queue.QueueView;
 
 public class RootController {
@@ -73,21 +72,6 @@ public class RootController {
 		  }).getTask();
 	}
 
-	private static void createMenuView(FrontendTaskCreator to) {
-		to.create(view(MenuView.class))
-		
-		  .waitFor(viewLoader(MenuView.class))
-		
-		  .thenExecute(inputs -> {
-			   
-			   ViewLoader<MenuView> viewLoader = inputs.get(viewLoader(MenuView.class));
-
-			   MenuView menuView = viewLoader.createView();
-			   
-			   return menuView;
-		   });
-	}
-
 	private static void createQueueView(FrontendTaskCreator to) {
 		to.create(view(QueueView.class))
 		
@@ -104,15 +88,15 @@ public class RootController {
 	}
 
 	private static void createGameView(FrontendTaskCreator to) {
-		to.create(view(PongView.class))
+		to.create(view(GameView.class))
 
-		  .waitFor(viewLoader(PongView.class))
+		  .waitFor(viewLoader(GameView.class))
 		
 		  .thenExecute(inputs -> {
 			   
-			   ViewLoader<PongView> viewLoader = inputs.get(viewLoader(PongView.class));
+			   ViewLoader<GameView> viewLoader = inputs.get(viewLoader(GameView.class));
 
-			   PongView pongView = viewLoader.createView();
+			   GameView pongView = viewLoader.createView();
 			   
 			   return pongView;
 		   });
@@ -134,23 +118,6 @@ public class RootController {
 			  window.installRootView(rootView);
 
 		  }).getTask();
-	}
-
-	private static void installMenuView(FrontendTaskCreator to) {
-
-		to.implement(task("installMenuView"))
-
-		  .waitFor(view(RootView.class))
-
-		  .waitFor(view(MenuView.class))
-
-		  .thenExecute(inputs -> {
-		    	   
-			  RootView rootView = inputs.get(view(RootView.class));
-			  MenuView menuView = inputs.get(view(MenuView.class));
-
-			  rootView.installMenuView(menuView);
-		  });
 	}
 
 	private static void installQueueView(FrontendTaskCreator to) {
@@ -176,14 +143,14 @@ public class RootController {
 
 		  .waitFor(view(RootView.class))
 
-		  .waitFor(view(PongView.class))
+		  .waitFor(view(GameView.class))
 
 		  .thenExecute(inputs -> {
 		    	   
 			  RootView rootView = inputs.get(view(RootView.class));
-			  PongView pongView = inputs.get(view(PongView.class));
+			  GameView pongView = inputs.get(view(GameView.class));
 
-			  rootView.installPongView(pongView);
+			  rootView.installGameView(pongView);
 		  });
 	}
 }

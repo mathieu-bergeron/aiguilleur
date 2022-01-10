@@ -2,12 +2,12 @@ package ca.aiguilleur.frontend.views;
 
 import javafx.animation.AnimationTimer;
 
-public class PongAnimationTimer extends AnimationTimer {
+public class GameAnimationTimer extends AnimationTimer {
 	
-	private PongModelRealTime model;
+	private GameModelRealTime model;
 	private long previousNowNanoSeconds;
 	
-	public PongAnimationTimer(PongModelRealTime model) {
+	public GameAnimationTimer(GameModelRealTime model) {
 		super();
 		
 		this.model = model;

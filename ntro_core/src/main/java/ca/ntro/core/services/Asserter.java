@@ -9,5 +9,6 @@ public interface Asserter {
 	
 	void assertFuture(Runnable runnable);
 	void assertFuture(long maxDelay, Runnable runnable);
+	void assertNotNull(String message, Object object);
 
 }

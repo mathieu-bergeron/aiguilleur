@@ -5,11 +5,11 @@ import ca.ntro.app.models.ModelUpdates;
 import ca.ntro.core.path.ValuePath;
 import javafx.scene.canvas.GraphicsContext;
 
-public class PongModelRealTime extends PongModel {
+public class GameModelRealTime extends PongModel {
 
 	private GraphicsContext gc;
 
-	public PongModelRealTime(GraphicsContext gc) {
+	public GameModelRealTime(GraphicsContext gc) {
 		super();
 
 		this.gc = gc;

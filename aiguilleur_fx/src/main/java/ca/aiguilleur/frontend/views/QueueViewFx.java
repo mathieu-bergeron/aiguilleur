@@ -3,13 +3,16 @@ package ca.aiguilleur.frontend.views;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import ca.aiguilleur.frontend.events.EvtShowGameView;
 import ca.aiguilleur.frontend.queue.QueueView;
 import ca.aiguilleur.frontend.widgets.AppointmentListWidget;
 import ca.ntro.app.models.ModelUpdates;
 import ca.ntro.app.views.ViewFx;
+import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.path.ValuePath;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 
 public class QueueViewFx 
 
@@ -18,11 +21,15 @@ public class QueueViewFx
        implements QueueView, Initializable {
 	
 	@FXML
-	AppointmentListWidget appointments;
+	private AppointmentListWidget appointments;
+	
+	@FXML
+	private Button showGameView;
+
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
+		Ntro.asserter().assertNotNull("showGameView", showGameView);
 	}
 
 	@Override
@@ -37,5 +44,15 @@ public class QueueViewFx
 				appointments.displayModelUpdate(updateType, valuePath.subPath(1), newValue);
 			}
 		});
+	}
+
+	@Override
+	public void installShowGameViewEvent(EvtShowGameView event) {
+		showGameView.setOnAction(fxmlEvent -> {
+
+			event.trigger();
+
+		});
+		
 	}
 }

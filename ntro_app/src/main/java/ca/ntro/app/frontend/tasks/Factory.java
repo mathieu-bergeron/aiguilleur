@@ -1,9 +1,9 @@
 package ca.ntro.app.frontend.tasks;
 
-import ca.ntro.app.events.Event;
 import ca.ntro.app.frontend.View;
 import ca.ntro.app.frontend.ViewLoader;
 import ca.ntro.app.frontend.Window;
+import ca.ntro.app.frontend.events.Event;
 import ca.ntro.app.messages.Message;
 import ca.ntro.app.models.Model;
 import ca.ntro.app.models.ModelUpdates;

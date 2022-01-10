@@ -50,7 +50,7 @@ public class ViewLoaderFx<V extends ViewFx> implements ViewLoader<V> {
 			throw new RuntimeException("Error with fx:controller (view == null)");
 		}
 		
-		view.setParent(parent);
+		view.setRootNode(parent);
 
 		return view;
 	}
