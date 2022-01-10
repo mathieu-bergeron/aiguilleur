@@ -1,5 +1,8 @@
 package ca.ntro.app.frontend;
 
+import ca.ntro.app.services.Window;
+import ca.ntro.app.services.WindowNull;
+
 public abstract class FrontendRegistrarNtro<VR extends ViewRegistrar<?>> 
 
        implements     FrontendRegistrar<VR>,

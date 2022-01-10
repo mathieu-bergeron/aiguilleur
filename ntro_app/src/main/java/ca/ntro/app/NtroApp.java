@@ -1,7 +1,9 @@
 package ca.ntro.app;
 
-import ca.ntro.app.frontend.Window;
-import ca.ntro.app.frontend.WindowNull;
+import ca.ntro.app.services.EventService;
+import ca.ntro.app.services.EventServiceNtro;
+import ca.ntro.app.services.Window;
+import ca.ntro.app.services.WindowNull;
 
 public class NtroApp {
 
@@ -18,5 +20,22 @@ public class NtroApp {
 	}
 
 	/* </Window> */
+
+	
+	
+	/* <Events> */
+
+	private static EventService eventService = new EventServiceNtro();
+
+	static void registerEventService(EventService eventService){
+		NtroApp.eventService = eventService;
+	}
+
+	public static EventService events(){
+		return NtroApp.eventService;
+	}
+
+	/* </Window> */
+	
 
 }

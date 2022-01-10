@@ -2,11 +2,11 @@ package ca.ntro.app.frontend.tasks;
 
 import ca.ntro.app.frontend.View;
 import ca.ntro.app.frontend.ViewLoader;
-import ca.ntro.app.frontend.Window;
 import ca.ntro.app.frontend.events.Event;
 import ca.ntro.app.messages.Message;
 import ca.ntro.app.models.Model;
 import ca.ntro.app.models.ModelUpdates;
+import ca.ntro.app.services.Window;
 import ca.ntro.core.identifyers.Key;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.task_graphs.generic_task_graph.TaskId;
@@ -67,7 +67,11 @@ public interface Factory {
 	}
 
 	public static <EVT extends Event> TypedFrontendTaskDescriptor<EVT> event(Class<EVT> eventClass) {
-		return null;
+		TypedFrontendTaskDescriptorNtro<EVT> descriptor = new TypedFrontendTaskDescriptorNtro<>();
+
+		descriptor.setId(new TaskIdNtro("event[" + Ntro.reflectionService().simpleName(eventClass)+ "]"));
+
+		return descriptor;
 	}
 
 	public static TypedFrontendTaskDescriptor<?> taskGroup(TypedFrontendTaskDescriptor<?> task) {

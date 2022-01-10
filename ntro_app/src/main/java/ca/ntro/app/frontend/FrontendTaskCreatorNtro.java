@@ -7,6 +7,7 @@ import ca.ntro.app.frontend.tasks.FrontendTaskCreator;
 import ca.ntro.app.frontend.tasks.TypedFrontendTaskCreator;
 import ca.ntro.app.frontend.tasks.TypedFrontendTaskDescriptor;
 import ca.ntro.app.frontend.tasks.TypedFrontendTaskDescriptorNtro;
+import ca.ntro.app.services.Window;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.task_graphs.task_graph.AtomicTask;
 import ca.ntro.core.task_graphs.task_graph.AtomicTaskCondition;

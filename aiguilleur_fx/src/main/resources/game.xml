@@ -22,6 +22,6 @@
 <VBox xmlns:fx="http://javafx.com/fxml"
     fx:controller="ca.aiguilleur.frontend.views.GameViewFx">
 
-	    <Button>Retour</Button>
+	    <Button fx:id="showQueueViewButton">Retour</Button>
 
 </VBox>

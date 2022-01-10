@@ -24,12 +24,12 @@ public class QueueViewFx
 	private AppointmentListWidget appointments;
 	
 	@FXML
-	private Button showGameView;
+	private Button showGameViewButton;
 
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		Ntro.asserter().assertNotNull("showGameView", showGameView);
+		Ntro.asserter().assertNotNull("showGameViewButton", showGameViewButton);
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class QueueViewFx
 
 	@Override
 	public void installShowGameViewEvent(EvtShowGameView event) {
-		showGameView.setOnAction(fxmlEvent -> {
+		showGameViewButton.setOnAction(fxmlEvent -> {
 
 			event.trigger();
 

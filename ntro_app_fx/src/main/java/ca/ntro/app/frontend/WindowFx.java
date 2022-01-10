@@ -1,5 +1,6 @@
 package ca.ntro.app.frontend;
 
+import ca.ntro.app.services.Window;
 import ca.ntro.app.views.ViewFx;
 import javafx.scene.Parent;
 import javafx.scene.Scene;

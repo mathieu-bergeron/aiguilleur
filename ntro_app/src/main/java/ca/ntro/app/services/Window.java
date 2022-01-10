@@ -1,4 +1,6 @@
-package ca.ntro.app.frontend;
+package ca.ntro.app.services;
+
+import ca.ntro.app.frontend.View;
 
 public interface Window {
 

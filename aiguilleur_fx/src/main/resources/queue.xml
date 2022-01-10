@@ -23,7 +23,7 @@
     fx:controller="ca.aiguilleur.frontend.views.QueueViewFx">
 
 
-	    <Button fx:id="showGameView">Ouvrir partie</Button>
+	    <Button fx:id="showGameViewButton">Ouvrir partie</Button>
 
 
 </VBox>

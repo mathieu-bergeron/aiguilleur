@@ -1,12 +1,15 @@
 package ca.aiguilleur.frontend.root;
 
+import ca.ntro.app.NtroApp;
 import ca.ntro.app.frontend.ViewLoader;
-import ca.ntro.app.frontend.Window;
 import ca.ntro.app.frontend.tasks.FrontendTaskCreator;
 import ca.ntro.app.frontend.tasks.TypedFrontendTaskDescriptor;
+import ca.ntro.app.services.Window;
 
 import static ca.ntro.app.frontend.tasks.Factory.*;
 
+import ca.aiguilleur.frontend.events.EvtShowGameView;
+import ca.aiguilleur.frontend.events.EvtShowQueueView;
 import ca.aiguilleur.frontend.pong.GameView;
 import ca.aiguilleur.frontend.queue.QueueView;
 
@@ -37,6 +40,8 @@ public class RootController {
 		createGameView(to);
 		installGameView(to);
 		
+		showQueueView(to);
+		showGameView(to);
 	}
 
 	private static void showWindow(FrontendTaskCreator to) {
@@ -83,6 +88,8 @@ public class RootController {
 
 			   QueueView queueView = viewLoader.createView();
 			   
+			   queueView.installShowGameViewEvent(NtroApp.events().newEvent(EvtShowGameView.class));
+
 			   return queueView;
 		   });
 	}
@@ -96,9 +103,11 @@ public class RootController {
 			   
 			   ViewLoader<GameView> viewLoader = inputs.get(viewLoader(GameView.class));
 
-			   GameView pongView = viewLoader.createView();
+			   GameView gameView = viewLoader.createView();
+
+			   gameView.installShowQueueViewEvent(NtroApp.events().newEvent(EvtShowQueueView.class));
 			   
-			   return pongView;
+			   return gameView;
 		   });
 	}
 
@@ -139,7 +148,7 @@ public class RootController {
 
 	private static void installGameView(FrontendTaskCreator to) {
 
-		to.implement(task("installPongView"))
+		to.implement(task("installGameView"))
 
 		  .waitFor(view(RootView.class))
 
@@ -151,6 +160,43 @@ public class RootController {
 			  GameView pongView = inputs.get(view(GameView.class));
 
 			  rootView.installGameView(pongView);
+		  });
+	}
+
+	private static void showQueueView(FrontendTaskCreator to) {
+
+		to.implement(task("showQueueView"))
+
+		  .waitFor(task("installRootView"))
+
+		  .waitFor(task("installQueueView"))
+
+		  .waitFor(event(EvtShowQueueView.class))
+
+		  .thenExecute(inputs -> {
+		    	   
+			  RootView rootView = inputs.get(view(RootView.class));
+			  
+			  rootView.showQueueView();
+
+		  });
+	}
+
+	private static void showGameView(FrontendTaskCreator to) {
+
+		to.implement(task("showGameView"))
+
+		  .waitFor(task("installRootView"))
+
+		  .waitFor(task("installGameView"))
+
+		  .waitFor(event(EvtShowGameView.class))
+
+		  .thenExecute(inputs -> {
+		    	   
+			  RootView rootView = inputs.get(view(RootView.class));
+			  
+			  rootView.showGameView();
 		  });
 	}
 }

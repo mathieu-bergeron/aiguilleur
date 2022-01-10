@@ -9,4 +9,7 @@ public interface RootView extends View {
 	void installQueueView(QueueView queueView);
 	void installGameView(GameView pongView);
 
+	void showQueueView();
+	void showGameView();
+
 }
