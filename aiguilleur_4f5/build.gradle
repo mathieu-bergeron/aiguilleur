@@ -7,7 +7,7 @@ plugins {
 
 javafx {
     version = "17"
-    modules = [ 'javafx.controls' ]
+    modules = [ 'javafx.base', 'javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.media' ]
 }
 
 project.group = 'ca.aiguilleur'
