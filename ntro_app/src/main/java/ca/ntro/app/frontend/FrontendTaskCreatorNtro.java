@@ -22,6 +22,9 @@ public class FrontendTaskCreatorNtro implements FrontendTaskCreator {
 	
 	private TaskGraphNtro taskGraph = (TaskGraphNtro) TaskGraph.newGraph();
 	
+	// FIXME: not that simple
+	//        we need a stack of currentTasks
+	//        as taskGroup/addSubTask is hierarchical
 	private Task currentTask;
 
 	public TaskGraphNtro getTaskGraph() {

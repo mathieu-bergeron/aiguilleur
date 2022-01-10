@@ -17,8 +17,14 @@ public class RootController {
 
 		showWindow(to);
 		
-		// FIXME: installRootView(to) creates a new currentTask
-		//        (forgets taskGroup's currentTask
+		/*
+		 * FIXME: installRootView(to) creates a new currentTask
+	     *        (forgets taskGroup's currentTask
+		 * 
+		 * TODO:  the getTask() descriptor 
+		 *        must remember all the waitFor previous tasks
+		 *        (these will be pushed inside the taskGroup)
+		 */
 		//to.define(taskGroup(view(RootView.class)))
 		  //.addSubTask(createRootView(to))
 		  //.addSubTask(installRootView(to));
@@ -26,12 +32,11 @@ public class RootController {
 		createRootView(to);
 		installRootView(to);
 		
-		
 		createQueueView(to);
 		installQueueView(to);
 
-		createPongView(to);
-		installPongView(to);
+		createGameView(to);
+		installGameView(to);
 		
 	}
 
@@ -98,7 +103,7 @@ public class RootController {
 		   });
 	}
 
-	private static void createPongView(FrontendTaskCreator to) {
+	private static void createGameView(FrontendTaskCreator to) {
 		to.create(view(PongView.class))
 
 		  .waitFor(viewLoader(PongView.class))
@@ -165,7 +170,7 @@ public class RootController {
 		  });
 	}
 
-	private static void installPongView(FrontendTaskCreator to) {
+	private static void installGameView(FrontendTaskCreator to) {
 
 		to.implement(task("installPongView"))
 
