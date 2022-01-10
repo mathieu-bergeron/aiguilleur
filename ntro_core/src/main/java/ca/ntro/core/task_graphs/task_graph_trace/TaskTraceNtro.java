@@ -341,6 +341,7 @@ public class TaskTraceNtro
 	public boolean recomputeState() {
 		boolean stateChanged = false;
 		TaskState oldState = getState();
+		
 
 		setState(currentState());
 		
@@ -348,6 +349,11 @@ public class TaskTraceNtro
 			stateChanged = true;
 			
 			if(getState() == TaskState.EXECUTING_ENTRY_TASKS) {
+
+				// FIXME: this should be guarded
+				//        by preconditions
+				//        if preconditions have not changed
+				//        we do not want to re-execute
 				
 				executeEntryTasks();
 
