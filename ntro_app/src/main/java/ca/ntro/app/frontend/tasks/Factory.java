@@ -70,8 +70,12 @@ public interface Factory {
 		return null;
 	}
 
-	public static <EVT extends Event> TypedFrontendTaskDescriptor<EVT> taskGroup(TypedFrontendTaskDescriptor<?> descriptor) {
-		return null;
+	public static TypedFrontendTaskDescriptor<?> taskGroup(TypedFrontendTaskDescriptor<?> task) {
+		TypedFrontendTaskDescriptorNtro<?> descriptor = new TypedFrontendTaskDescriptorNtro<>();
+
+		descriptor.setId(new TaskIdNtro("[" + task.id().toKey().toString() + "]"));
+
+		return descriptor;
 	}
 
 }

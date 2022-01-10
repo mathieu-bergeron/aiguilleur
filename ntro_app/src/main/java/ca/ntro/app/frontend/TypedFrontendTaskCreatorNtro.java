@@ -5,6 +5,7 @@ import ca.ntro.app.frontend.tasks.TypedBlockingFrontendExecutor;
 import ca.ntro.app.frontend.tasks.TypedFrontendExecutor;
 import ca.ntro.app.frontend.tasks.TypedFrontendTaskCreator;
 import ca.ntro.app.frontend.tasks.TypedFrontendTaskDescriptor;
+import ca.ntro.app.frontend.tasks.TypedFrontendTaskDescriptorNtro;
 import ca.ntro.core.task_graphs.task_graph.AtomicTask;
 import ca.ntro.core.task_graphs.task_graph.Task;
 import ca.ntro.core.task_graphs.task_graph.TaskGraphNtro;
@@ -17,7 +18,22 @@ public class TypedFrontendTaskCreatorNtro<O extends Object>
 	private TaskGraphNtro taskGraph;
 	private Task currentTask;
 	
-	
+	public TaskGraphNtro getTaskGraph() {
+		return taskGraph;
+	}
+
+	public void setTaskGraph(TaskGraphNtro taskGraph) {
+		this.taskGraph = taskGraph;
+	}
+
+	public Task getCurrentTask() {
+		return currentTask;
+	}
+
+	public void setCurrentTask(Task currentTask) {
+		this.currentTask = currentTask;
+	}
+
 	public TypedFrontendTaskCreatorNtro(TaskGraphNtro taskGraph, TypedFrontendTaskDescriptor<?> task) {
 		this.taskGraph = taskGraph;
 		this.currentTask = taskGraph.addTask(task.id());
@@ -81,7 +97,11 @@ public class TypedFrontendTaskCreatorNtro<O extends Object>
 
 	@Override
 	public TypedFrontendTaskDescriptor<O> getTask() {
-		// TODO Auto-generated method stub
-		return null;
+		TypedFrontendTaskDescriptorNtro<O> descriptor = new TypedFrontendTaskDescriptorNtro<>();
+
+		descriptor.setId(currentTask.id());
+		((TypedFrontendTaskDescriptorNtro<?>) descriptor).setTaskGraph(getTaskGraph());
+
+		return descriptor;
 	}
 }

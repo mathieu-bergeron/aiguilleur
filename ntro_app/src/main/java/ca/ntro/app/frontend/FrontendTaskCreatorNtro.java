@@ -19,6 +19,7 @@ import static ca.ntro.app.frontend.tasks.Factory.*;
 
 public class FrontendTaskCreatorNtro implements FrontendTaskCreator {
 	
+	
 	private TaskGraphNtro taskGraph = (TaskGraphNtro) TaskGraph.newGraph();
 	
 	private Task currentTask;
@@ -96,8 +97,12 @@ public class FrontendTaskCreatorNtro implements FrontendTaskCreator {
 
 	@Override
 	public TypedFrontendTaskDescriptor<?> getTask() {
-		// TODO Auto-generated method stub
-		return null;
+		TypedFrontendTaskDescriptorNtro<?> descriptor = new TypedFrontendTaskDescriptorNtro<>();
+
+		descriptor.setId(currentTask.id());
+		((TypedFrontendTaskDescriptorNtro<?>) descriptor).setTaskGraph(getTaskGraph());
+
+		return descriptor;
 	}
 
 	@Override
@@ -121,8 +126,24 @@ public class FrontendTaskCreatorNtro implements FrontendTaskCreator {
 
 	@Override
 	public FrontendTaskCreator define(TypedFrontendTaskDescriptor<?> task) {
-		// TODO Auto-generated method stub
-		return null;
+		currentTask = getTaskGraph().addTask(task.id());
+
+		return this;
+	}
+
+	@Override
+	public FrontendTaskCreator addSubTask(TypedFrontendTaskDescriptor<?> task) {
+
+		Task subTask = getTaskGraph().findTask(task.id());
+
+		currentTask.addSubTask(subTask);
+		
+		subTask.previousTasks().forEach(previousTask -> {
+			currentTask.addSubTask(previousTask);
+		});
+
+	
+		return this;
 	}
 
 

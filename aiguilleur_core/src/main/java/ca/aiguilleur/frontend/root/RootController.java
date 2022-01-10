@@ -3,6 +3,7 @@ package ca.aiguilleur.frontend.root;
 import ca.ntro.app.frontend.ViewLoader;
 import ca.ntro.app.frontend.Window;
 import ca.ntro.app.frontend.tasks.FrontendTaskCreator;
+import ca.ntro.app.frontend.tasks.TypedFrontendTaskDescriptor;
 
 import static ca.ntro.app.frontend.tasks.Factory.*;
 
@@ -16,22 +17,21 @@ public class RootController {
 
 		showWindow(to);
 		
+		// FIXME: installRootView(to) creates a new currentTask
+		//        (forgets taskGroup's currentTask
+		//to.define(taskGroup(view(RootView.class)))
+		  //.addSubTask(createRootView(to))
+		  //.addSubTask(installRootView(to));
+		
 		createRootView(to);
-		//createMenuView(to);
-		createQueueView(to);
-		createPongView(to);
-
 		installRootView(to);
-		//installMenuView(to);
+		
+		
+		createQueueView(to);
 		installQueueView(to);
+
+		createPongView(to);
 		installPongView(to);
-		
-		/* TODO
-		to.define(taskGroup(view(RootView.class)))
-		  .addSubTask(createRootView(to))
-		  .addSubTask(installRootView(to));
-		  */
-		
 		
 	}
 
@@ -51,9 +51,9 @@ public class RootController {
 		  });
 	}
 
-	private static void createRootView(FrontendTaskCreator to) {
+	private static TypedFrontendTaskDescriptor<RootView> createRootView(FrontendTaskCreator to) {
 		
-		to.create(view(RootView.class))
+		return to.create(view(RootView.class))
 		
 		  .waitFor(viewLoader(RootView.class))
 
@@ -64,7 +64,8 @@ public class RootController {
 			  RootView rootView = viewLoader.createView();
 
 			  return rootView;
-		  });
+
+		  }).getTask();
 	}
 
 	private static void createMenuView(FrontendTaskCreator to) {
@@ -112,9 +113,9 @@ public class RootController {
 		   });
 	}
 
-	private static void installRootView(FrontendTaskCreator to) {
+	private static TypedFrontendTaskDescriptor<?> installRootView(FrontendTaskCreator to) {
 		
-		to.implement(task("installRootView"))
+		return to.implement(task("installRootView"))
 
 		  .waitFor(window())
 
@@ -126,7 +127,8 @@ public class RootController {
 			  RootView rootView = inputs.get(view(RootView.class));
 
 			  window.installRootView(rootView);
-		  });
+
+		  }).getTask();
 	}
 
 	private static void installMenuView(FrontendTaskCreator to) {

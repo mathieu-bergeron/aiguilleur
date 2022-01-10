@@ -10,6 +10,7 @@ public interface FrontendTaskCreator {
 	FrontendTaskCreator implement(TypedFrontendTaskDescriptor<?> task);
 
 	FrontendTaskCreator define(TypedFrontendTaskDescriptor<?> task);
+	FrontendTaskCreator addSubTask(TypedFrontendTaskDescriptor<?> task);
 
 	FrontendTaskCreator waitFor(TypedFrontendTaskDescriptor<?> task);
 
