@@ -1,5 +1,6 @@
 package ca.ntro.app.frontend;
 
+import ca.ntro.app.frontend.events.EventNtro;
 import ca.ntro.app.frontend.handlers.FrontendCancelHandler;
 import ca.ntro.app.frontend.tasks.BlockingFrontendExecutor;
 import ca.ntro.app.frontend.tasks.FrontendExecutor;
@@ -11,12 +12,16 @@ import ca.ntro.app.services.Window;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.task_graphs.task_graph.AtomicTask;
 import ca.ntro.core.task_graphs.task_graph.AtomicTaskCondition;
+import ca.ntro.core.task_graphs.task_graph.AtomicTaskEventHandler;
+import ca.ntro.core.task_graphs.task_graph.AtomicTaskMessageHandler;
 import ca.ntro.core.task_graphs.task_graph.Task;
 import ca.ntro.core.task_graphs.task_graph.TaskGraph;
 import ca.ntro.core.task_graphs.task_graph.TaskGraphNtro;
 import ca.ntro.core.wrappers.future.ExceptionHandler;
 
 import static ca.ntro.app.frontend.tasks.Factory.*;
+
+import ca.ntro.app.NtroApp;
 
 public class FrontendTaskCreatorNtro implements FrontendTaskCreator {
 	
@@ -76,8 +81,10 @@ public class FrontendTaskCreatorNtro implements FrontendTaskCreator {
 		// FIXME: 
 		if(task.id().toKey().toString().contains("event[")) {
 			
-			waitFor.addEntryTask("TODO_event_handler");
+			AtomicTask eventHandler = waitFor.addEntryTask(task.id().toKey().toString(), AtomicTaskEventHandler.class);
 			
+			// FIXME: TaskDescriptor must save eventClass
+			NtroApp.events().registerEventHandler(EventNtro.class, eventHandler);
 		}
 		
 		
@@ -125,7 +132,7 @@ public class FrontendTaskCreatorNtro implements FrontendTaskCreator {
 
 	@Override
 	public FrontendTaskCreator thenExecute(BlockingFrontendExecutor executor) {
-		AtomicTask entry = currentTask.addEntryTask(currentTask.id().toKey().toString(), AtomicTaskCondition.class);
+		AtomicTask entry = currentTask.addEntryTask(currentTask.id().toKey().toString(), AtomicTaskEventHandler.class);
 		
 		entry.execute((inputs, notify) -> {
 			executor.execute(new FrontendTaskInputsNtro(inputs));
@@ -157,6 +164,7 @@ public class FrontendTaskCreatorNtro implements FrontendTaskCreator {
 	
 		return this;
 	}
+
 
 
 }

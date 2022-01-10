@@ -26,7 +26,6 @@ public class QueueViewFx
 	@FXML
 	private Button showGameViewButton;
 
-
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		Ntro.asserter().assertNotNull("showGameViewButton", showGameViewButton);
@@ -51,8 +50,6 @@ public class QueueViewFx
 		showGameViewButton.setOnAction(fxmlEvent -> {
 
 			event.trigger();
-
 		});
-		
 	}
 }

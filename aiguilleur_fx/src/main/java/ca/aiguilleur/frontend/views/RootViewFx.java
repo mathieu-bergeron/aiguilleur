@@ -37,6 +37,8 @@ public class RootViewFx
 	@Override
 	public void installQueueView(QueueView queueView) {
 		queueViewFx = (QueueViewFx) queueView;
+		pageContainer.getChildren().clear();
+		pageContainer.getChildren().add(queueViewFx.rootNode());
 		
 	}
 
@@ -48,7 +50,6 @@ public class RootViewFx
 
 	@Override
 	public void showQueueView() {
-		System.out.println("showQueueView");
 		pageContainer.getChildren().clear();
 		pageContainer.getChildren().add(queueViewFx.rootNode());
 	}
@@ -56,7 +57,6 @@ public class RootViewFx
 
 	@Override
 	public void showGameView() {
-		System.out.println("showGameView");
 		pageContainer.getChildren().clear();
 		pageContainer.getChildren().add(gameViewFx.rootNode());
 	}

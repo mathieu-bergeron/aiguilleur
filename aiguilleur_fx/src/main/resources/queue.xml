@@ -25,5 +25,4 @@
 
 	    <Button fx:id="showGameViewButton">Ouvrir partie</Button>
 
-
 </VBox>

@@ -32,6 +32,7 @@ public class AppWrapperFx extends Application {
 		app.registerFrontend(frontendRegistrar);
 
 		frontendRegistrar.executeFrontendTasks();
+		
 	}
 
 }

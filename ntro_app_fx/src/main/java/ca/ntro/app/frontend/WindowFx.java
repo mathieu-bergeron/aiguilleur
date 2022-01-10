@@ -10,6 +10,8 @@ public class WindowFx implements Window {
 	
 	private Stage primaryStage;
 	private Parent parent = (Parent) new DefaultRootView();
+	
+	private boolean windowShown = false;
 
 	public Stage getPrimaryStage() {
 		return primaryStage;
@@ -42,8 +44,10 @@ public class WindowFx implements Window {
 
 	@Override
 	public void resize(int width, int height) {
-		Scene rootScene = new Scene(getParent(), width, height);
-		getPrimaryStage().setScene(rootScene);
+		if(!windowShown) {
+			Scene rootScene = new Scene(getParent(), width, height);
+			getPrimaryStage().setScene(rootScene);
+		}
 	}
 
 	@Override
@@ -68,7 +72,10 @@ public class WindowFx implements Window {
 
 	@Override
 	public void show() {
-		getPrimaryStage().show();
+		if(!windowShown) {
+			getPrimaryStage().show();
+			windowShown = true;
+		}
 	}
 
 }

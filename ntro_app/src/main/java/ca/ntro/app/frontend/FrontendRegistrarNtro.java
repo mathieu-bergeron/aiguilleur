@@ -1,5 +1,7 @@
 package ca.ntro.app.frontend;
 
+import java.io.ObjectInputStream.GetField;
+
 import ca.ntro.app.services.Window;
 import ca.ntro.app.services.WindowNull;
 
@@ -13,6 +15,7 @@ public abstract class FrontendRegistrarNtro<VR extends ViewRegistrar<?>>
 	private FrontendTaskCreatorNtro taskCreator = new FrontendTaskCreatorNtro();
 	private VR viewRegistrar = newViewRegistrarInstance();
 	private Window window = new WindowNull();
+	private Frontend<VR> frontend;
 	
 	protected abstract VR newViewRegistrarInstance();
 
@@ -64,11 +67,15 @@ public abstract class FrontendRegistrarNtro<VR extends ViewRegistrar<?>>
 		getViewRegistrar().addViewLoaderTasks(getTaskCreator());
 
 		frontend.createTasks(getTaskCreator());
+		
+		this.frontend = frontend;
 	}
 
 	@Override
 	public void executeFrontendTasks() {
 		getTaskCreator().executeTasks();
+		
+		frontend.execute();
 	}
 
 }

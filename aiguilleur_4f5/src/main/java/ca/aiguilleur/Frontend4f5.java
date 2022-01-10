@@ -42,9 +42,7 @@ public class Frontend4f5 implements FrontendFx {
 
 	@Override
 	public void execute() {
-
 		EvtShowQueueView evtShowQueueView = NtroApp.events().newEvent(EvtShowQueueView.class);
 		evtShowQueueView.trigger();
-
 	}
 }

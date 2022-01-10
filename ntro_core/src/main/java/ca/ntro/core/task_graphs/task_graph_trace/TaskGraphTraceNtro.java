@@ -174,9 +174,11 @@ public class      TaskGraphTraceNtro
 	public void notifyNewResult(AtomicTaskId id, Object value) {
 		traces().forEach(trace -> {
 			trace.silentlyAddResult(id, value);
-		});
 
-		// XXX: recomputeState called by hand in the GenericVersion
+			// XXX: re-launch execution
+			//      e.g. for eventHandlers
+			trace.getParentTrace().executeOneStep();
+		});
 	}
 
 	public void notifyClearResults(AtomicTaskId id) {

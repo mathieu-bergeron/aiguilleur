@@ -70,9 +70,6 @@ public class TaskGraphNtro
 			trace.advanceToNext();
 			trace.executeOneStep();
 
-		}else {
-
-			halt();
 		}
 	}
 	

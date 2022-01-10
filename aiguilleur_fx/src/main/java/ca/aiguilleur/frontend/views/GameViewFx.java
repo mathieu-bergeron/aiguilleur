@@ -51,7 +51,7 @@ public class GameViewFx
 	@Override
 	public void installShowQueueViewEvent(EvtShowQueueView event) {
 		showQueueViewButton.setOnAction(fxmlEvent -> {
-			System.out.println("showQueueViewButton");
+
 			event.trigger();
 		});
 	}
