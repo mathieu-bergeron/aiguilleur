@@ -64,6 +64,9 @@ task obfuscate(type: proguard.gradle.ProGuardTask) {
 
     injars jar.archivePath
     injars "/home/mbergeron/aiguilleur/aiguilleur_core/build/libs/aiguilleur_core-0.1.jar"
+    injars "/home/mbergeron/aiguilleur/ntro_app/build/libs/ntro_app-0.1.jar"
+    injars "/home/mbergeron/aiguilleur/ntro_core/build/libs/ntro_core-0.1.jar"
+    injars "/home/mbergeron/aiguilleur/ntro_app_fx/build/libs/ntro_app_fx-0.1.jar"
 
 /*
     fileTree("$buildDir/assemble/izpack/proguard").include("*.jar").each { f ->
@@ -75,12 +78,10 @@ task obfuscate(type: proguard.gradle.ProGuardTask) {
 
     libraryjars "${System.getProperty('java.home')}/lib/rt.jar"
     libraryjars "${System.getProperty('java.home')}/lib/jce.jar"
+    libraryjars "${System.getProperty('java.home')}/lib/ext/jfxrt.jar"
     libraryjars "/home/mbergeron/.gradle/caches/jars-8/0fee12534dde41454e18e9452c34c7eb/jsweet-core-6.jar"
     libraryjars "/home/mbergeron/.gradle/caches/jars-8/61c06a541ea0a0c9c8c7d74652c637d3/jsweet-transpiler-2.2.0.jar"
     libraryjars "/home/mbergeron/.gradle/caches/jars-8/2d712621d621a76b8cb28f4bdd26879f/jsweet-gradle-plugin-2.3.0-SNAPSHOT.jar"
-    libraryjars "/home/mbergeron/aiguilleur/ntro_app_fx/build/libs/ntro_app_fx-0.1.jar"
-    libraryjars "/home/mbergeron/aiguilleur/ntro_app/build/libs/ntro_app-0.1.jar"
-    libraryjars "/home/mbergeron/aiguilleur/ntro_core/build/libs/ntro_core-0.1.jar"
 
     //fileTree("$buildDir/assemble/izpack/lib").include("**/*.jar").collect { f -> libraryjars f.path }
     //fileTree("$buildDir/assemble/izpack/web").include("**/*.jar").collect { f -> libraryjars f.path }
