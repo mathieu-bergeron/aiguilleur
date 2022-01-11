@@ -3,7 +3,7 @@ plugins {
     id 'maven'
 }
 
-class LocalJSweetPluginExtension {
+class LocalJSweetPluginExtension implements Serializable {
    String storageDir = null
    List<Map<String,String>> localJSweetDependencies = []
 }
@@ -85,7 +85,7 @@ repositories {
 }
 
 dependencies {
-    implementation group: 'org.jsweet', name: 'jsweet-transpiler', version: "2.3.0-SNAPSHOT"
+    implementation group: 'org.jsweet', name: 'jsweet-transpiler', version: "3.0.0"
     implementation group: 'org.jsweet', name: 'jsweet-core', version: "6"
 }
 
