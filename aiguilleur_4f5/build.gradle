@@ -2,6 +2,7 @@ plugins {
     id 'localJavaPlugin'
     id 'localFxPlugin'
     id 'localJSweetPlugin'
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
 }
 
 dependencies {
@@ -23,8 +24,17 @@ task(run, dependsOn: 'classes', type: JavaExec) {
    jvmArgs('-Dfile.encoding=UTF-8')
 }
 
-jar { 
+jar {
 
-	baseName = 'tut01'
-
+    manifest {
+        attributes 'Main-Class': 'ca.aiguilleur.Aiguilleur4f5'
+    }
 }
+
+
+shadowJar {
+    archiveBaseName.set('tut01')
+    archiveClassifier.set('')
+    archiveVersion.set('')
+}
+
