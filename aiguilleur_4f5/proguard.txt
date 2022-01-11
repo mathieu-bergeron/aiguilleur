@@ -9,7 +9,7 @@
 -keep class java.** { *; }
 -keep class org.** { *; }
 
--keep class ca.aiguilleur.Aiguilleur4f5  { *; }
+-keep, allowobfuscation class ca.aiguilleur.Aiguilleur4f5  { *; }
 
 -keepnames class * implements ca.ntro.app.message.Message
 -keepnames class * implements ca.ntro.app.frontend.events.Event
