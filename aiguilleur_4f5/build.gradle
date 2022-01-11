@@ -2,12 +2,6 @@ plugins {
     id 'localJavaPlugin'
     id 'localFxPlugin'
     id 'localJSweetPlugin'
-    id 'org.openjfx.javafxplugin' version '0.0.10'
-}
-
-javafx {
-    version = "17"
-    modules = [ 'javafx.controls' ]
 }
 
 project.group = 'ca.aiguilleur'
