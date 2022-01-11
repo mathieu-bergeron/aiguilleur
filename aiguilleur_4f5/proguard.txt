@@ -11,6 +11,7 @@
 -keep class javax.** { *; }
 -keep class java.** { *; }
 -keep class org.** { *; }
+-keep class ca.aiguilleur.Aiguilleur4f5 { *; }
 
 -keepclasseswithmembernames class * {
     native <methods>;
