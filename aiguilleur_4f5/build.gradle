@@ -38,3 +38,42 @@ shadowJar {
     archiveVersion.set('')
 }
 
+task prepare(type: Copy) {
+
+    dependsOn 'jar'
+
+    destinationDir = file("$buildDir/assemble/izpack")
+    includeEmptyDirs = true
+
+    into('lib') {
+        from configurations.compile
+    }
+
+    into('proguard') {
+        from configurations.runtime {  include '*truelicense*.jar' }
+    }
+}
+
+
+
+task obfuscate(type: proguard.gradle.ProGuardTask) {
+     dependsOn 'prepare'
+
+     configuration 'proguard.txt'
+
+
+    injars jar.archivePath
+    fileTree("$buildDir/assemble/izpack/proguard").include("*.jar").each { f ->
+        injars f.path, filter: '!META-INF/MANIFEST.MF'
+    }
+
+    outjars "$buildDir/assemble/izpack/web/WEB-INF/lib/${jar.baseName}-${jar.version}.${jar.extension}"
+
+    libraryjars "${System.getProperty('java.home')}/lib/rt.jar"
+    libraryjars "${System.getProperty('java.home')}/lib/jce.jar"
+    fileTree("$buildDir/assemble/izpack/lib").include("**/*.jar").collect { f -> libraryjars f.path }
+    fileTree("$buildDir/assemble/izpack/web").include("**/*.jar").collect { f -> libraryjars f.path }
+
+}
+
+

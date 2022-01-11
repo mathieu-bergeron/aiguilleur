@@ -1,0 +1,22 @@
+-dontskipnonpubliclibraryclassmembers
+
+-keepparameternames
+-renamesourcefileattribute SourceFile
+-keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,*Annotation*,EnclosingMethod
+-keep class com.myfiles.api.** { *; }
+-keep class com.myfiles.internal.json.** { *; }
+-keepclassmembernames class * { java.lang.Class class$(java.lang.String); java.lang.Class class$(java.lang.String, boolean); }
+-optimizations !code/allocation/variable
+ 
+-keep class javax.** { *; }
+-keep class java.** { *; }
+-keep class org.** { *; }
+
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
+       
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
