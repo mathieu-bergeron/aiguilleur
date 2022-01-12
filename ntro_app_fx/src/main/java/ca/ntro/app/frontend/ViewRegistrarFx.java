@@ -2,6 +2,7 @@ package ca.ntro.app.frontend;
 
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import ca.ntro.app.views.ViewFx;
