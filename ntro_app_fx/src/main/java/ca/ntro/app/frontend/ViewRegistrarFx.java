@@ -62,6 +62,15 @@ public class ViewRegistrarFx implements ViewRegistrar<ViewFx>, ViewRegistrarAcce
 		fxmlFiles.put(viewClass, fxmlPath);
 	}
 
+	public void registerDefaultStrings(String propertiesPath) {
+	}
+
+	public void registerStylesheet(String cssPath) {
+	}
+
+	public void registerTranslatedStrings(String lang, String propertiesPath) {
+	}
+
 	@Override
 	public ViewFx view(Class<? extends View> viewClass) {
 		return views.get(viewClass);
