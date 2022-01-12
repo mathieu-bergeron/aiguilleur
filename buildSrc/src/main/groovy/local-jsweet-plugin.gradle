@@ -3,9 +3,9 @@ plugins {
     id 'maven'
 }
 
-class LocalJSweetPluginExtension {
+class LocalJSweetPluginExtension implements Serializable {
    String storageDir = null
-   List<Map<String,String>> localJSweetDependencies = []
+   List<String> localJSweetDependencies = []
 }
 
 def extension = project.extensions.create('localJSweetPlugin', LocalJSweetPluginExtension) 
@@ -85,8 +85,8 @@ repositories {
 }
 
 dependencies {
-    implementation group: 'org.jsweet', name: 'jsweet-transpiler', version: "2.3.0-SNAPSHOT"
-    implementation group: 'org.jsweet', name: 'jsweet-core', version: "6"
+    implementation group: 'org.jsweet', name: 'jsweet-transpiler', version: "3.0.0"
+    implementation group: 'org.jsweet', name: 'jsweet-core', version: "6.3.0"
 }
 
 
