@@ -1,10 +1,9 @@
 plugins {
     id 'localJavaPlugin'
-    //id 'localJSweetPlugin'
-    id 'org.jsweet.jsweet-gradle-plugin'
+    id 'localJSweetPlugin'
 }
 
-project.group = 'ca.ntro.jj'
+project.group = 'ca.ntro'
 project.version = '0.1'
 
 tasks.test{

@@ -4,7 +4,7 @@ plugins {
     id 'maven'
 }
 
-project.group = 'ca.ntro.jj'
+project.group = 'ca.ntro'
 project.version = '0.1'
 
 dependencies {

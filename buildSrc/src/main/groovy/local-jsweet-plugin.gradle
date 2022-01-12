@@ -105,7 +105,12 @@ tasks.build {
 tasks.jsweet {
 
     inputs.dir("${project.projectDir}/src/main/java")
-    outputs.dir("${project.projectDir}/_jsweet")
+
+    // FIXME: this causes the following error:
+    // Property 'configuration' with value 'extension 'jsweet'' cannot be serialized.
+    // outputs.dir("${project.projectDir}/_jsweet")
+    
+    // NOTE: it should still work, but will be less guarded against re-building when not necessary
 
     finalizedBy('jar')
 }

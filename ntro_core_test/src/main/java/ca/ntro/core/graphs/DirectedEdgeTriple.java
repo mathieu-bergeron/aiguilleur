@@ -31,7 +31,8 @@ public class DirectedEdgeTriple<N extends GenericNode<N,E,SO>,
 				return false;
 			}
 
-			if(e.from != null && !e.from.equals(from)) {
+			// JSWeet error: property 'equals' does not exist on type 'N'
+			if(e.from != null && !((Object) e.from).equals(from)) {
 				return false;
 			}
 			
@@ -51,7 +52,8 @@ public class DirectedEdgeTriple<N extends GenericNode<N,E,SO>,
 				return false;
 			}
 
-			if(e.to != null && !e.to.equals(to)) {
+			// JSWeet error: property 'equals' does not exist on type 'N'
+			if(e.to != null && !((Object) e.to).equals(to)) {
 				return false;
 			}
 			

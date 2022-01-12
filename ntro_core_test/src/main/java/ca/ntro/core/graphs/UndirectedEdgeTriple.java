@@ -51,7 +51,8 @@ public class  UndirectedEdgeTriple<N extends GenericNode<N,E,SO>,
 		return equalsForward(e.to, e.from);
 	}
 
-	private boolean equalsForward(N otherFrom, N otherTo) {
+	// JSWeet error: property 'equals' does not exist on type 'N'
+	private boolean equalsForward(Object otherFrom, Object otherTo) {
 		if(otherFrom == null && from != null) {
 			return false;
 		}

@@ -18,9 +18,6 @@ include 'ntro_core_test_jdk'
 include 'ntro_core_test_fx'
 include 'ntro_core_test_jsweet'
 
-include 'jj_server'
-include 'jj_server_jdk'
-
 include 'ntro_app'
 include 'ntro_app_jdk'
 include 'ntro_app_fx'
