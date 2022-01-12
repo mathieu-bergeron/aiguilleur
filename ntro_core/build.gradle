@@ -1,6 +1,7 @@
 plugins {
     id 'localJavaPlugin'
-    id 'localJSweetPlugin'
+    //id 'localJSweetPlugin'
+    id 'org.jsweet.jsweet-gradle-plugin'
 }
 
 project.group = 'ca.ntro.jj'

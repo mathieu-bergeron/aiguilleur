@@ -26,9 +26,10 @@ public abstract class GenericHierarchicalNodeBuilderNtro<N extends GenericHierar
 	public void addSubNode(NB subNode) {
 		EdgeTypeNtro edgeType = new EdgeTypeNtro(Direction.DOWN, "");
 
-		E edge = (E) new GenericEdgeNtro<N,E,SO>(this.node(), edgeType, subNode.node());
+		// JSweet: local variable before casting
+		GenericEdgeNtro<N, E, SO> edge = new GenericEdgeNtro<N,E,SO>(this.node(), edgeType, subNode.node());
 
-		getEdgesByDirection().addEdge(edge);
+		getEdgesByDirection().addEdge((E) edge);
 
 		((GenericHierarchicalNodeBuilderNtro<N,E,SO,NB>) subNode).addParentNode(this.node());
 	}
@@ -37,13 +38,14 @@ public abstract class GenericHierarchicalNodeBuilderNtro<N extends GenericHierar
 	protected void addParentNode(N parentNode) {
 		EdgeTypeNtro edgeType = new EdgeTypeNtro(Direction.UP, "");
 
-		E edge = (E) new GenericEdgeNtro<N,E,SO>(this.node(), edgeType, parentNode);
+		// JSweet: local variable before casting
+		GenericEdgeNtro<N, E, SO> edge = new GenericEdgeNtro<N,E,SO>(this.node(), edgeType, parentNode);
 
 		((GenericHierarchicalNodeBuilderNtro<N,E,SO,NB>) this).setIsStartNode(false);
 		
 		getGraphBuilder().removeStartNode(this.node());
 		
-		getEdgesByDirection().addEdge(edge);
+		getEdgesByDirection().addEdge((E) edge);
 	}
 
 	@SuppressWarnings("unchecked")
