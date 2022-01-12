@@ -23,7 +23,8 @@ public class      EdgesByDirectionNtro<N extends GenericNode<N,E,SO>,
 	@SuppressWarnings("unchecked")
 	@Override
 	protected SUBMAP createSubMap() {
-		return (SUBMAP) new EdgesByTypeNtro<N,E,SO, EdgesByToId<N,E,SO>>();
+		EdgesByTypeNtro<N, E, SO, EdgesByToId<N, E, SO>> subMap = new EdgesByTypeNtro<N,E,SO, EdgesByToId<N,E,SO>>();
+		return (SUBMAP) subMap;
 	}
 
 	@Override

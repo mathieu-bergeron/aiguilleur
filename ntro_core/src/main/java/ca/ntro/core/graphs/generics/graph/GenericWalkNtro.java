@@ -54,9 +54,12 @@ public class GenericWalkNtro<E extends GenericStep, W extends GenericWalk<E,W>> 
 		return edges.isEmpty();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public W subWalk(int fromIndex) {
-		return (W) new GenericWalkNtro<E,W>(edges.subList(fromIndex, edges.size()-1));
+		GenericWalkNtro<E, W> subWalk = new GenericWalkNtro<E,W>(edges.subList(fromIndex, edges.size()-1));
+
+		return (W) subWalk;
 	}
 
 }

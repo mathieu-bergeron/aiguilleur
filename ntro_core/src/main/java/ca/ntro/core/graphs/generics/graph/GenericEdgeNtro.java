@@ -75,24 +75,12 @@ public class     GenericEdgeNtro<N extends GenericNode<N,E,SO>,
 		return false;
 	}
 
-	protected boolean equals(N nodeA, N nodeB) {
-		if(nodeA == null && nodeB != null) {
+	protected boolean equals(Object a, Object b) {
+		if(a == null && b != null) {
 			return false;
 		}
 		
-		if(nodeA != null && !nodeA.equals(nodeB)) {
-			return false;
-		}
-		
-		return true;
-	}
-
-	protected boolean equals(EdgeType typeA, EdgeType typeB) {
-		if(typeA == null && typeB != null) {
-			return false;
-		}
-		
-		if(typeA != null && !typeA.equals(typeB)) {
+		if(a != null && !a.equals(b)) {
 			return false;
 		}
 		

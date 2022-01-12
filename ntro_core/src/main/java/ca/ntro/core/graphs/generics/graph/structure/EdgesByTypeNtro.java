@@ -19,7 +19,11 @@ public class   EdgesByTypeNtro <N extends GenericNode<N,E,SO>,
 	@SuppressWarnings("unchecked")
 	@Override
 	protected SUBMAP createSubMap() {
-		return (SUBMAP) new EdgesByToIdNtro<N,E,SO>();
+		
+		// JSWeet: local variable before subtyping
+		EdgesByToIdNtro<N, E, SO> subMap = new EdgesByToIdNtro<N,E,SO>();
+		
+		return (SUBMAP) subMap;
 	}
 
 	@Override

@@ -78,4 +78,9 @@ public class WindowFx implements Window {
 		}
 	}
 
+	@Override
+	public void fullscreen(boolean isFullScreen) {
+		getPrimaryStage().setFullScreen(true);
+	}
+
 }

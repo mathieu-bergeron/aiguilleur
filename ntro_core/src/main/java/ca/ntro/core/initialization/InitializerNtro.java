@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ca.ntro.core.graph_writer.GraphWriter;
 import ca.ntro.core.identifyers.ClassId;
 import ca.ntro.core.identifyers.ObjectId;
 import ca.ntro.core.identifyers.ServiceId;
@@ -149,7 +148,11 @@ public abstract class InitializerNtro
 		return objectMap;
 		*/
 		
-		return new ResultNtro<>(new ObjectMapNtro());
+		// JSweet: typing error
+		//Result<ObjectMap> resultNtro = new ResultNtro<>(new ObjectMapNtro());
+		//return (Result<ObjectMap>) resultNtro;
+		
+		return null;
 	}
 
 	@Override

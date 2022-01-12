@@ -16,4 +16,8 @@ public class WindowNull implements Window {
 	public void show() {
 	}
 
+	@Override
+	public void fullscreen(boolean isFullScreen) {
+	}
+
 }

@@ -51,6 +51,7 @@ public abstract class GenericHierarchicalNodeBuilderNtro<N extends GenericHierar
 	@SuppressWarnings("unchecked")
 	@Override
 	protected SO defaultSearchOptions() {
-		return (SO) new HierarchicalSearchOptionsNtro();
+		HierarchicalSearchOptionsNtro options = new HierarchicalSearchOptionsNtro();
+		return (SO) options;
 	}
 }

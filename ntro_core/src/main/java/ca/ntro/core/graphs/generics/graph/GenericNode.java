@@ -27,5 +27,7 @@ public interface GenericNode<N extends GenericNode<N,E,SO>,
 
 	Stream<WalkInProgress<N,E,SO>> walk(WalkId walk);
 	Stream<WalkInProgress<N,E,SO>> walk(WalkId walk, SO options);
+	
+	boolean equals(Object o);
 
 }

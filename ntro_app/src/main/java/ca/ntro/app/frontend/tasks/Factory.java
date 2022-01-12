@@ -1,5 +1,8 @@
 package ca.ntro.app.frontend.tasks;
 
+import java.util.Locale;
+
+import ca.ntro.app.backend.Session;
 import ca.ntro.app.frontend.View;
 import ca.ntro.app.frontend.ViewLoader;
 import ca.ntro.app.frontend.events.Event;
@@ -7,12 +10,32 @@ import ca.ntro.app.messages.Message;
 import ca.ntro.app.models.Model;
 import ca.ntro.app.models.ModelUpdates;
 import ca.ntro.app.services.Window;
-import ca.ntro.core.identifyers.Key;
 import ca.ntro.core.initialization.Ntro;
-import ca.ntro.core.task_graphs.generic_task_graph.TaskId;
 import ca.ntro.core.task_graphs.generic_task_graph.TaskIdNtro;
 
 public interface Factory {
+
+	/* TODO: session
+	 * 
+	 * must ask backend (which means asking server for remoteBackend)
+	 */
+	public static TypedFrontendTaskDescriptor<Session> session() {
+		TypedFrontendTaskDescriptorNtro<Session> descriptor = new TypedFrontendTaskDescriptorNtro<>();
+		
+		descriptor.setId(new TaskIdNtro("session"));
+		
+		return descriptor;
+	}
+
+	/* TODO: locale, to reload views when lang has changed
+	 */
+	public static TypedFrontendTaskDescriptor<Locale> locale() {
+		TypedFrontendTaskDescriptorNtro<Locale> descriptor = new TypedFrontendTaskDescriptorNtro<>();
+		
+		descriptor.setId(new TaskIdNtro("locale"));
+		
+		return descriptor;
+	}
 
 	public static TypedFrontendTaskDescriptor<Window> window() {
 		TypedFrontendTaskDescriptorNtro<Window> descriptor = new TypedFrontendTaskDescriptorNtro<>();
@@ -29,6 +52,19 @@ public interface Factory {
 
 		return descriptor;
 	}
+
+	/* TODO: loading a localized view
+	 */
+	public static <V extends View> TypedFrontendTaskDescriptor<V> view(Class<V> viewClass, Locale locale) {
+		TypedFrontendTaskDescriptorNtro<V> descriptor = new TypedFrontendTaskDescriptorNtro<>();
+
+		descriptor.setId(new TaskIdNtro(Ntro.reflectionService().simpleName(viewClass) + "_" + locale.toString()));
+
+		return descriptor;
+	}
+	
+	/* TODO: load the view of the current locale (or default locale?)
+	 */
 
 	public static <V extends View> TypedFrontendTaskDescriptor<V> view(Class<V> viewClass) {
 		TypedFrontendTaskDescriptorNtro<V> descriptor = new TypedFrontendTaskDescriptorNtro<>();

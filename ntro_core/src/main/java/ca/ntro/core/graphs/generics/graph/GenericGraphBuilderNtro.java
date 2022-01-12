@@ -27,7 +27,17 @@ public abstract class GenericGraphBuilderNtro<N extends GenericNode<N,E,SO>,
 	private GenericEdgeFactory<N,E,SO> edgeFactory;
 	
 	private G graph;
-	private Map<String, N> startNodes = new HashMap<>();
+
+	
+	
+	
+	
+	
+	
+	
+	private Map<String, Object> startNodes = new HashMap<>();
+	// JSweet type error: property 'equals' does not exist on type 'N'
+	//private Map<String, N> startNodes = new HashMap<>();
 	
 	protected abstract G newGraphInstance();
 	protected abstract NB newNodeBuilderInstance();
@@ -48,11 +58,11 @@ public abstract class GenericGraphBuilderNtro<N extends GenericNode<N,E,SO>,
 		this.edgeFactory = edgeFactory;
 	}
 
-	public Map<String, N> getStartNodes() {
+	public Map<String, Object> getStartNodes() {
 		return startNodes;
 	}
 
-	public void setStartNodes(Map<String, N> nodes) {
+	public void setStartNodes(Map<String, Object> nodes) {
 		this.startNodes = nodes;
 	}
 
@@ -206,9 +216,9 @@ public abstract class GenericGraphBuilderNtro<N extends GenericNode<N,E,SO>,
 
 			@Override
 			public void forEach_(Visitor<N> visitor) throws Throwable {
-				for(N node : getStartNodes().values()) {
+				for(Object node : getStartNodes().values()) {
 
-					visitor.visit(node);
+					visitor.visit((N) node);
 				}
 			}
 		};
