@@ -1,6 +1,12 @@
 plugins {
     id 'localJavaPlugin'
     id 'localFxPlugin'
+    id 'org.openjfx.javafxplugin' version '0.0.10'
+}
+
+javafx {
+    version = "17"
+    modules = [ 'javafx.base', 'javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.media' ]
 }
 
 project.group = 'ca.ntro'
