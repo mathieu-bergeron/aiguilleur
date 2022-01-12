@@ -42,37 +42,19 @@ public interface Stream<I extends Object> {
 
 	<R> void applyReducer(ResultNtro<R> result, Reducer<I,R> reducer);
 	
-	public static <V> Stream<V> forSet(Set<V> set){
-		return new StreamNtro<V>() {
-			@Override
-			public void forEach_(Visitor<V> visitor) throws Throwable {
-				for(V value : set) {
-					visitor.visit(value);
-				}
-			}
-		};
+	public static <V extends Object> Stream<V> forSet(Set<V> set){
+		// JSWeet: explicit class to avoid type errors
+		return new StreamForSet<V>(set);
 	}
 
 	static <V> Stream<V> forMapValues(Map<?, V> map) {
-		return new StreamNtro<V>() {
-			@Override
-			public void forEach_(Visitor<V> visitor) throws Throwable {
-				for(V value : map.values()) {
-					visitor.visit(value);
-				}
-			}
-		};
+		// JSWeet: explicit class to avoid type errors
+		return new StreamForMapValues<V>(map);
 	}
 
 	static <K> Stream<K> forMapKeys(Map<K, ?> map) {
-		return new StreamNtro<K>() {
-			@Override
-			public void forEach_(Visitor<K> visitor) throws Throwable {
-				for(K key : map.keySet()) {
-					visitor.visit(key);
-				}
-			}
-		};
+		// JSWeet: explicit class to avoid type errors
+		return new StreamForMapKeys<K>(map);
 	}
 
 }

@@ -107,7 +107,9 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 
 	@Override
 	public boolean isPartOfCycle() {
-		return reachableNodes(cycleOptions()).ifSome(visitedNode -> visitedNode.node().equals(this));
+		// JSWeet: line number was wrong in error message
+		// JSWeet: equals does not exists for N
+		return reachableNodes(cycleOptions()).ifSome(visitedNode -> ((Object)visitedNode.node()).equals(this));
 	}
 
 	protected SO cycleOptions() {
