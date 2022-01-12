@@ -2,6 +2,7 @@ rootProject.name = 'aiguilleur'
 
 include '_drafting_one'
 include '_drafting_two'
+include '_drafting_three'
 
 include '_demo_core'
 include '_demo_core_jsweet'

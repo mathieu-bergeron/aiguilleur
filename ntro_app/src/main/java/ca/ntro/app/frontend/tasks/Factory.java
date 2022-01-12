@@ -1,7 +1,7 @@
 package ca.ntro.app.frontend.tasks;
 
-import java.util.Locale;
 
+import ca.ntro.app.Locale;
 import ca.ntro.app.backend.Session;
 import ca.ntro.app.frontend.View;
 import ca.ntro.app.frontend.ViewLoader;

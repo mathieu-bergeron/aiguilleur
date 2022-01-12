@@ -2,6 +2,8 @@ package ca.ntro.app;
 
 import ca.ntro.app.services.EventService;
 import ca.ntro.app.services.EventServiceNtro;
+import ca.ntro.app.services.LocaleService;
+import ca.ntro.app.services.LocaleServiceNull;
 import ca.ntro.app.services.Window;
 import ca.ntro.app.services.WindowNull;
 
@@ -20,6 +22,35 @@ public class NtroApp {
 	}
 
 	/* </Window> */
+	
+	
+	
+
+	/* <Locale> */
+
+	private static LocaleService localeService = new LocaleServiceNull();
+
+	static void registerLocaleService(LocaleService localeService){
+		NtroApp.localeService = localeService;
+	}
+
+	public static Locale currentLocale() {
+		return NtroApp.localeService.currentLocale();
+	}
+
+	public static Locale locale(String language){
+		return NtroApp.localeService.newLocale(language);
+	}
+
+	public static Locale locale(String language, String country){
+		return NtroApp.localeService.newLocale(language, country);
+	}
+
+	public static Locale locale(String language, String country, String variant){
+		return NtroApp.localeService.newLocale(language, country, variant);
+	}
+
+	/* </Locale> */
 
 	
 	

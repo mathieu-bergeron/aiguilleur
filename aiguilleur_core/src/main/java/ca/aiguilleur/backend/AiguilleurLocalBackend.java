@@ -4,6 +4,7 @@ import ca.aiguilleur.messages.MsgAddAppointment;
 import ca.aiguilleur.models.PongModel;
 import ca.aiguilleur.models.QueueModel;
 import ca.ntro.app.backend.LocalBackend;
+import ca.ntro.app.backend.Session;
 import ca.ntro.app.backend.handlers.BackendTaskCreator;
 import static ca.ntro.app.backend.handlers.BackendTaskCreator.*;
 
@@ -51,5 +52,13 @@ public class AiguilleurLocalBackend implements LocalBackend {
 	@Override
 	public void execute() {
 		
+	}
+
+
+
+	@Override
+	public Session session() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
