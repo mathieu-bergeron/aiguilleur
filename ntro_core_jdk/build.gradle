@@ -11,19 +11,20 @@ dependencies {
     implementation project(':ntro_core')
 
     // https://github.com/google/gson
-    implementation ('com.google.code.gson:gson:2.8.6')
+    //implementation ('com.google.code.gson:gson:2.8.6')
 
     // jsoup HTML parser library @ https://jsoup.org/
-    implementation 'org.jsoup:jsoup:1.13.1'
+    //implementation 'org.jsoup:jsoup:1.13.1'
 
     // https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver
     implementation group: 'org.mongodb', name: 'mongo-java-driver', version: '3.12.8'
 
     // https://mvnrepository.com/artifact/commons-codec/commons-codec
-    implementation group: 'commons-codec', name: 'commons-codec', version: '1.15'
+    //implementation group: 'commons-codec', name: 'commons-codec', version: '1.15'
 
     implementation 'guru.nidi:graphviz-java-all-j2v8:0.18.0'
-    implementation group: 'org.dizitart', name: 'nitrite', version: '3.4.1'
+
+    //implementation group: 'org.dizitart', name: 'nitrite', version: '3.4.1'
 
 }
 
