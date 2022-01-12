@@ -1,13 +1,8 @@
 plugins {
     id 'localJavaPlugin'
     id 'localJSweetPlugin'
+    id 'localFxPlugin'
     id 'com.github.johnrengelman.shadow' version '6.1.0'
-    id 'org.openjfx.javafxplugin' version '0.0.10'
-}
-
-javafx {
-    version = "17"
-    modules = [ 'javafx.base', 'javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.media' ]
 }
 
 dependencies {

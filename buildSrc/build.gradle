@@ -2,15 +2,6 @@ plugins {
     id 'groovy-gradle-plugin'
 }
 
-repositories {
-    gradlePluginPortal()
-	mavenCentral()
-	maven { url "http://repository.jsweet.org/artifactory/libs-release-local" }
-	maven { url "http://repository.jsweet.org/artifactory/libs-snapshot-local" }
-	maven { url "http://repository.jsweet.org/artifactory/plugins-release-local" }
-	maven { url "http://repository.jsweet.org/artifactory/plugins-snapshot-local" }
-	maven { url "http://google-diff-match-patch.googlecode.com/svn/trunk/maven" }
-}
 
 gradlePlugin {
     plugins {
