@@ -18,7 +18,6 @@ public class ViewLoaderFx<V extends View<?>> implements ViewLoader<V> {
 	private String cssPath;
 	private String resourcesPath;
 
-	private FXMLLoader loader;
 
 	public String getFxmlPath() {
 		return fxmlPath;
@@ -70,7 +69,9 @@ public class ViewLoaderFx<V extends View<?>> implements ViewLoader<V> {
 	}
 	
 
-	public void createFxmlLoader() {
+	private FXMLLoader createFxmlLoader() {
+		
+		FXMLLoader loader = null;
 		
 		URL fxmlUrl = urlFromPath(getFxmlPath());
 		ResourceBundle resources = loadResourceBundle();
@@ -83,6 +84,8 @@ public class ViewLoaderFx<V extends View<?>> implements ViewLoader<V> {
 
 			loader = new FXMLLoader(fxmlUrl);
 		}
+		
+		return loader;
 	}
 	
 	public ResourceBundle loadResourceBundle() {
@@ -111,6 +114,8 @@ public class ViewLoaderFx<V extends View<?>> implements ViewLoader<V> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public V createView() {
+
+		FXMLLoader loader = createFxmlLoader();
 		
 		Parent parent = null;
 		try {
