@@ -18,21 +18,23 @@ dependencies {
     implementation project(':aiguilleur_fx')
 }
 
-task(run, dependsOn: 'classes', type: JavaExec) {
+def common = {
    main = 'ca.aiguilleur.Aiguilleur4f5'
    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(run, dependsOn: 'classes', type: JavaExec) {
+   configure common
    jvmArgs('-Dfile.encoding=UTF-8')
 }
 
 task(runFr, dependsOn: 'classes', type: JavaExec) {
-   main = 'ca.aiguilleur.Aiguilleur4f5'
-   classpath = sourceSets.main.runtimeClasspath
+   configure common
    jvmArgs('-Dfile.encoding=UTF-8', '-Duser.language=fr')
 }
 
 task(runEn, dependsOn: 'classes', type: JavaExec) {
-   main = 'ca.aiguilleur.Aiguilleur4f5'
-   classpath = sourceSets.main.runtimeClasspath
+   configure common
    jvmArgs('-Dfile.encoding=UTF-8','-Duser.language=en')
 }
 
