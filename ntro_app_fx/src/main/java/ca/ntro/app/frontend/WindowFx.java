@@ -100,8 +100,6 @@ public class WindowFx implements Window {
 
 	@Override
 	public void show() {
-		getPrimaryStage().setWidth(width);
-		getPrimaryStage().setHeight(height);
 		getPrimaryStage().show();
 		getPrimaryStage().setIconified(false);
 	}

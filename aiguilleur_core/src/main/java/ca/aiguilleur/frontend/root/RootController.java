@@ -17,7 +17,6 @@ public class RootController {
 	
 	public static void createTasks(FrontendTaskCreator to) {
 
-		showWindow(to);
 		
 		/*
 		 * FIXME: installRootView(to) creates a new currentTask
@@ -33,6 +32,8 @@ public class RootController {
 		
 		createRootView(to);
 		installRootView(to);
+
+		showWindow(to);
 		
 		createQueueView(to);
 		installQueueView(to);
@@ -49,6 +50,8 @@ public class RootController {
 		to.implement(task("showWindow"))
 		
 		  .waitFor(window())
+
+		  .waitFor(task("installRootView"))
 		  
 		  .thenExecute(inputs -> {
 
