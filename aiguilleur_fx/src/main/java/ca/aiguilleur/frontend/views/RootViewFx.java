@@ -13,8 +13,8 @@ import javafx.scene.layout.VBox;
 
 public class RootViewFx 
 
-       implements RootView<VBox>, 
-                  Initializable {
+       extends ViewFx {
+
 	@FXML
 	private VBox rootNode;
 	

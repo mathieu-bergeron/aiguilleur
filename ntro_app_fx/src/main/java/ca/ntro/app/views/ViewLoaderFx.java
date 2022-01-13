@@ -1,4 +1,4 @@
-package ca.ntro.app.frontend;
+package ca.ntro.app.views;
 
 
 import java.io.IOException;
@@ -6,6 +6,8 @@ import java.net.URL;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import ca.ntro.app.frontend.View;
+import ca.ntro.app.frontend.ViewLoader;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
