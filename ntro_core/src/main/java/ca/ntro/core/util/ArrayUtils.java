@@ -1,6 +1,18 @@
 package ca.ntro.core.util;
 
+import java.util.List;
+
 public class ArrayUtils {
+
+	public static Object[] fromList(List<Object> list) {
+		Object[] array = new Object[list.size()];
+		
+		for(int i = 0; i < list.size(); i++) {
+			array[i] = list.get(i);
+		}
+		
+		return array;
+	}
 
 	public static boolean containsString(String[] array, String value) {
 		return contains(array,value);
@@ -40,4 +52,5 @@ public class ArrayUtils {
 		
 		return newArray;
 	}
+
 }
