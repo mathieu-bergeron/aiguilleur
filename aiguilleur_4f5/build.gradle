@@ -24,6 +24,18 @@ task(run, dependsOn: 'classes', type: JavaExec) {
    jvmArgs('-Dfile.encoding=UTF-8')
 }
 
+task(runFr, dependsOn: 'classes', type: JavaExec) {
+   main = 'ca.aiguilleur.Aiguilleur4f5'
+   classpath = sourceSets.main.runtimeClasspath
+   jvmArgs('-Dfile.encoding=UTF-8', '-Duser.language=fr')
+}
+
+task(runEn, dependsOn: 'classes', type: JavaExec) {
+   main = 'ca.aiguilleur.Aiguilleur4f5'
+   classpath = sourceSets.main.runtimeClasspath
+   jvmArgs('-Dfile.encoding=UTF-8','-Duser.language=en')
+}
+
 jar {
 
     manifest {

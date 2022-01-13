@@ -63,6 +63,8 @@ public class ViewRegistrarFx implements ViewRegistrar, ViewRegistrarAccessor {
 					viewLoader.setCssPath(cssPath);
 				}
 				
+				Locale currentLocale = NtroApp.currentLocale();
+				
 				String resourcesPath = resourcesPaths.get(NtroApp.currentLocale());
 				if(resourcesPath != null) {
 					viewLoader.setResourcesPath(resourcesPath);

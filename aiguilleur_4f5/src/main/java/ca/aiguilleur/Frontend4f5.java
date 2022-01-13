@@ -25,6 +25,11 @@ public class Frontend4f5 implements FrontendFx {
 	@Override
 	public void registerViews(ViewRegistrarFx registrar) {
 
+		registrar.registerStylesheet("/style.css");
+
+		registrar.registerResources(NtroApp.locale("fr"), "/strings_fr.properties");
+		registrar.registerResources(NtroApp.locale("en"), "/strings_en.properties");
+
 		registrar.registerView(RootView.class, "/root.xml");
 		registrar.registerView(QueueView.class, "/queue.xml");
 		registrar.registerView(GameView.class, "/game.xml");

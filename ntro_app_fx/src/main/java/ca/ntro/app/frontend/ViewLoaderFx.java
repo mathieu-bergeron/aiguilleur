@@ -58,6 +58,11 @@ public class ViewLoaderFx<V extends View<?>> implements ViewLoader<V> {
 			resourceName = resourceName.substring(1);
 		}
 
+		if(resourceName.endsWith(".properties")) {
+			int index = resourceName.lastIndexOf(".properties");
+			resourceName = resourceName.substring(0,index);
+		}
+
 		return resourceName;
 	}
 	
@@ -68,12 +73,12 @@ public class ViewLoaderFx<V extends View<?>> implements ViewLoader<V> {
 		ResourceBundle resources = loadResourceBundle();
 		
 		if(resources != null) {
-			
-			loader = new FXMLLoader(fxmlUrl);
+
+			loader = new FXMLLoader(fxmlUrl, resources);
 			
 		}else {
 
-			loader = new FXMLLoader(fxmlUrl, resources);
+			loader = new FXMLLoader(fxmlUrl);
 		}
 	}
 	
@@ -83,8 +88,12 @@ public class ViewLoaderFx<V extends View<?>> implements ViewLoader<V> {
 		if(getResourcesPath() != null) {
 			
 			try {
-
+				
 				resources = ResourceBundle.getBundle(resourceNameFromPath(getResourcesPath()));
+				
+				if(resources == null) {
+					throw new RuntimeException("Resources not found: " + getResourcesPath());
+				}
 
 			}catch(MissingResourceException e) {
 				

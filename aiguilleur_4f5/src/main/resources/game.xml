@@ -25,6 +25,6 @@
     fx:id="rootNode"
     styleClass="vbox">
 
-	    <Button fx:id="showQueueViewButton">Retour</Button>
+	    <Button fx:id="showQueueViewButton" text="%back"></Button>
 
 </VBox>
