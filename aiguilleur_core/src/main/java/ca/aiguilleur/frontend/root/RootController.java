@@ -125,10 +125,8 @@ public class RootController {
 
 		  .thenExecute(inputs -> {
 			  
-			  System.out.println("installRootView");
-		    	   
 			  Window   window   = inputs.get(window());
-			  RootView rootView = inputs.get(view(RootView.class));
+			  RootView<?> rootView = inputs.get(view(RootView.class));
 
 			  window.registerRootView(rootView);
 
@@ -145,8 +143,8 @@ public class RootController {
 
 		  .thenExecute(inputs -> {
 		    	   
-			  RootView rootView   = inputs.get(view(RootView.class));
-			  QueueView queueView = inputs.get(view(QueueView.class));
+			  RootView<?> rootView   = inputs.get(view(RootView.class));
+			  QueueView<?> queueView = inputs.get(view(QueueView.class));
 
 			  rootView.registerQueueView(queueView);
 		  });
@@ -162,8 +160,8 @@ public class RootController {
 
 		  .thenExecute(inputs -> {
 		    	   
-			  RootView rootView = inputs.get(view(RootView.class));
-			  GameView pongView = inputs.get(view(GameView.class));
+			  RootView<?> rootView = inputs.get(view(RootView.class));
+			  GameView<?> pongView = inputs.get(view(GameView.class));
 
 			  rootView.registerGameView(pongView);
 		  });
