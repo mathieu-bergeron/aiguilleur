@@ -27,7 +27,6 @@
     <Button 
         fx:id="showGameViewButton" 
         text="%openGame"
-        alignment="CENTER"
         styleClass="button"
         id="openGameButton">
     </Button>
