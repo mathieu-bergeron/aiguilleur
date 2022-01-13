@@ -55,7 +55,7 @@ public class RootController {
 			  Window window = inputs.get(window());
 			  
 			  //window.resize(600, 400);
-			  window.fullscreen(true);
+			  //window.fullscreen(true);
 			  window.show();
 		  });
 	}
