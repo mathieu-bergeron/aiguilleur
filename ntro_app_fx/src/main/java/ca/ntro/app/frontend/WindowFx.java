@@ -51,11 +51,11 @@ public class WindowFx implements Window {
 	}
 
 	@Override
-	public void installRootView(View<?> view) {
+	public void registerRootView(View<?> rootView) {
 		
-		if(view.rootNode() != null) {
+		if(rootView.rootNode() != null) {
 
-			setParent((Parent) view.rootNode());
+			setParent((Parent) rootView.rootNode());
 
 			Scene rootScene = new Scene(getParent(), primaryStage.getWidth(), primaryStage.getHeight());
 
@@ -63,8 +63,8 @@ public class WindowFx implements Window {
 			
 		}else {
 			
-			throw new RuntimeException("[WindowFx.installRootView] view.rootNode() is null");
-			
+			throw new RuntimeException("[WindowFx.installRootView] rootView.rootNode() is null");
+
 		}
 
 	}

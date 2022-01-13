@@ -130,7 +130,7 @@ public class RootController {
 			  Window   window   = inputs.get(window());
 			  RootView rootView = inputs.get(view(RootView.class));
 
-			  window.installRootView(rootView);
+			  window.registerRootView(rootView);
 
 		  }).getTask();
 	}
@@ -148,7 +148,7 @@ public class RootController {
 			  RootView rootView   = inputs.get(view(RootView.class));
 			  QueueView queueView = inputs.get(view(QueueView.class));
 
-			  rootView.installQueueView(queueView);
+			  rootView.registerQueueView(queueView);
 		  });
 	}
 
@@ -165,7 +165,7 @@ public class RootController {
 			  RootView rootView = inputs.get(view(RootView.class));
 			  GameView pongView = inputs.get(view(GameView.class));
 
-			  rootView.installGameView(pongView);
+			  rootView.registerGameView(pongView);
 		  });
 	}
 

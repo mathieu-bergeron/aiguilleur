@@ -7,10 +7,7 @@ import ca.aiguilleur.frontend.pong.GameView;
 import ca.aiguilleur.frontend.queue.QueueView;
 import ca.aiguilleur.frontend.root.RootView;
 import ca.ntro.app.views.ViewFx;
-import ca.ntro.core.initialization.Ntro;
-import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 
 public class RootViewFx 
 
@@ -28,13 +25,13 @@ public class RootViewFx
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void installQueueView(QueueView<?> queueView) {
+	public void registerQueueView(QueueView<?> queueView) {
 		this.queueView = (QueueView<Pane>) queueView;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void installGameView(GameView<?> gameView) {
+	public void registerGameView(GameView<?> gameView) {
 		this.gameView = (GameView<Pane>) gameView;
 	}
 

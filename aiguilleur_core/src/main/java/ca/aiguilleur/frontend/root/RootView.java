@@ -6,8 +6,8 @@ import ca.ntro.app.frontend.View;
 
 public interface RootView<VN extends Object> extends View<VN> {
 
-	void installQueueView(QueueView<?> queueView);
-	void installGameView(GameView<?> pongView);
+	void registerQueueView(QueueView<?> queueView);
+	void registerGameView(GameView<?> pongView);
 
 	void showQueueView();
 	void showGameView();

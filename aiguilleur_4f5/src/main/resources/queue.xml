@@ -20,13 +20,16 @@
 <?import javafx.scene.control.Button?>
 
 <VBox xmlns:fx="http://javafx.com/fxml"
-      fx:controller="ca.aiguilleur.frontend.views.QueueViewFx"
-
-    fx:id="rootNode"
-    styleClass="vbox">
-
+    fx:controller="ca.aiguilleur.frontend.views.QueueViewFx" 
+    styleClass="vbox"
+    id="queueView">
 
     <Button 
-        fx:id="showGameViewButton" text="%openGame"></Button>
+        fx:id="showGameViewButton" 
+        text="%openGame"
+        alignment="CENTER"
+        styleClass="button"
+        id="openGameButton">
+    </Button>
 
 </VBox>

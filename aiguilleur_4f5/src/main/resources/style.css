@@ -1,0 +1,26 @@
+.vbox {
+    -fx-background-color:aliceblue;
+}
+
+.pane {
+    -fx-background-color:honeydew;
+}
+
+#queueView {
+
+    -fx-alignment: center;
+
+}
+
+#rootView {
+
+    -fx-alignment: center;
+
+}
+
+#gameView {
+
+    -fx-alignment: center;
+
+}
+

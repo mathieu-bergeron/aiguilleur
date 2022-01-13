@@ -21,10 +21,13 @@
 
 <VBox xmlns:fx="http://javafx.com/fxml"
     fx:controller="ca.aiguilleur.frontend.views.GameViewFx"
+    styleClass="vbox"
+    id="gameView">
 
-    fx:id="rootNode"
-    styleClass="vbox">
-
-	    <Button fx:id="showQueueViewButton" text="%back"></Button>
+    <Button fx:id="showQueueViewButton" 
+        text="%back"
+        styleClass="button"
+        id="gameViewBackButton">
+    </Button>
 
 </VBox>

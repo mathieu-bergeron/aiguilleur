@@ -9,7 +9,7 @@ public class WindowNull implements Window {
 	}
 
 	@Override
-	public void installRootView(View view) {
+	public void registerRootView(View view) {
 	}
 
 	@Override

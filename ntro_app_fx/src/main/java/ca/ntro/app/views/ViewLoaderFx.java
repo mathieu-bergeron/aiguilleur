@@ -120,6 +120,16 @@ public class ViewLoaderFx<V extends View<?>> implements ViewLoader<V> {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+
+		if(getCssPath() != null) {
+			URL cssUrl = urlFromPath(getCssPath());
+			
+			if(cssUrl == null) {
+				throw new RuntimeException(".css file not found: " + getCssPath());
+			}
+
+			parent.getStylesheets().add(cssUrl.toExternalForm());
+		}
 		
 		V view = null;
 		try {
@@ -133,6 +143,10 @@ public class ViewLoaderFx<V extends View<?>> implements ViewLoader<V> {
 		
 		if(view == null) {
 			throw new RuntimeException("Error with fx:controller (view == null)");
+		}
+
+		if(!(view instanceof ViewFx)) {
+			throw new RuntimeException("Error with fx:controller (view !instanceof ViewFx)");
 		}
 		
 		((ViewFx) view).setPane((Pane) parent);
