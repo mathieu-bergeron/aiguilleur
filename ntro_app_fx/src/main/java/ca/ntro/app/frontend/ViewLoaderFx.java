@@ -3,29 +3,102 @@ package ca.ntro.app.frontend;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
-import ca.ntro.app.views.ViewFx;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
-public class ViewLoaderFx<V extends ViewFx> implements ViewLoader<V> {
+public class ViewLoaderFx<V extends View<?>> implements ViewLoader<V> {
 	
-	private URL xmlFile;
-	
-	public ViewLoaderFx(String fxmlPath) {
+	private String fxmlPath;
+	private String cssPath;
+	private String resourcesPath;
 
-		xmlFile = ViewLoaderFx.class.getResource(fxmlPath);
-		
-		if(xmlFile == null) {
-			throw new RuntimeException("Not found " + fxmlPath);
-		}
-		
+	private FXMLLoader loader;
+
+	public String getFxmlPath() {
+		return fxmlPath;
 	}
 
+	public void setFxmlPath(String fxmlPath) {
+		this.fxmlPath = fxmlPath;
+	}
+
+	public String getCssPath() {
+		return cssPath;
+	}
+
+	public void setCssPath(String cssPath) {
+		this.cssPath = cssPath;
+	}
+
+	public String getResourcesPath() {
+		return resourcesPath;
+	}
+
+	public void setResourcesPath(String resourcesPath) {
+		this.resourcesPath = resourcesPath;
+	}
+
+	private URL urlFromPath(String path) {
+		URL url = ViewLoaderFx.class.getResource(path);
+		
+		if(url == null) {
+			throw new RuntimeException("Not found " + path);
+		}
+
+		return url;
+	}
+
+	private String resourceNameFromPath(String path) {
+		String resourceName = path.replace("/", ".");
+
+		if(resourceName.startsWith(".")) {
+			resourceName = resourceName.substring(1);
+		}
+
+		return resourceName;
+	}
+	
+
+	public void createFxmlLoader() {
+		
+		URL fxmlUrl = urlFromPath(getFxmlPath());
+		ResourceBundle resources = loadResourceBundle();
+		
+		if(resources != null) {
+			
+			loader = new FXMLLoader(fxmlUrl);
+			
+		}else {
+
+			loader = new FXMLLoader(fxmlUrl, resources);
+		}
+	}
+	
+	public ResourceBundle loadResourceBundle() {
+		ResourceBundle resources = null;
+		
+		if(getResourcesPath() != null) {
+			
+			try {
+
+				resources = ResourceBundle.getBundle(resourceNameFromPath(getResourcesPath()));
+
+			}catch(MissingResourceException e) {
+				
+				throw new RuntimeException("Resources not found: " + getResourcesPath());
+			}
+		}
+		
+		return resources;
+	}
+
+
+	@SuppressWarnings("unchecked")
 	@Override
 	public V createView() {
-
-		FXMLLoader loader = new FXMLLoader(xmlFile);
 		
 		Parent parent = null;
 		try {
@@ -49,9 +122,8 @@ public class ViewLoaderFx<V extends ViewFx> implements ViewLoader<V> {
 		if(view == null) {
 			throw new RuntimeException("Error with fx:controller (view == null)");
 		}
-		
-		view.setRootNode(parent);
 
 		return view;
 	}
+
 }

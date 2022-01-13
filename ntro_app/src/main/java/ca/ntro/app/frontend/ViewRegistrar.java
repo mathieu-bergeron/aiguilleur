@@ -1,6 +1,6 @@
 package ca.ntro.app.frontend;
 
-public interface ViewRegistrar<V extends View> {
+public interface ViewRegistrar {
 
 	void addViewLoaderTasks(FrontendTaskCreatorNtro taskCreator);
 

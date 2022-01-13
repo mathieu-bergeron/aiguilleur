@@ -1,11 +1,9 @@
 package ca.ntro.app.frontend;
 
-import java.io.ObjectInputStream.GetField;
-
 import ca.ntro.app.services.Window;
 import ca.ntro.app.services.WindowNull;
 
-public abstract class FrontendRegistrarNtro<VR extends ViewRegistrar<?>> 
+public abstract class FrontendRegistrarNtro<VR extends ViewRegistrar> 
 
        implements     FrontendRegistrar<VR>,
                       FrontendExecutor {

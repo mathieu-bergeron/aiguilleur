@@ -1,18 +1,9 @@
 package ca.ntro.app.views;
 
 import ca.ntro.app.frontend.View;
-import javafx.scene.Parent;
+import javafx.scene.Node;
 
-public class ViewFx implements View {
+public interface ViewFx<VN extends Node> extends View<VN> {
 	
-	private Parent rootNode;
-
-	public Parent rootNode() {
-		return rootNode;
-	}
-
-	public void setRootNode(Parent rootNode) {
-		this.rootNode = rootNode;
-	}
 
 }

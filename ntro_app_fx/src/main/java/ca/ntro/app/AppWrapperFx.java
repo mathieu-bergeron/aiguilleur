@@ -2,6 +2,7 @@ package ca.ntro.app;
 
 import ca.ntro.app.frontend.FrontendRegistrarFx;
 import ca.ntro.app.frontend.WindowFx;
+import ca.ntro.app.services.LocaleServiceJdk;
 import ca.ntro.core.initialization.Ntro;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -12,6 +13,8 @@ public class AppWrapperFx extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		
+		NtroApp.registerLocaleService(new LocaleServiceJdk());
 		
 		NtroAppFx app = null;
 		try {

@@ -6,7 +6,6 @@ import java.util.ResourceBundle;
 import ca.aiguilleur.frontend.pong.GameView;
 import ca.aiguilleur.frontend.queue.QueueView;
 import ca.aiguilleur.frontend.root.RootView;
-import ca.ntro.app.views.ViewFx;
 import ca.ntro.core.initialization.Ntro;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,32 +13,28 @@ import javafx.scene.layout.VBox;
 
 public class RootViewFx 
 
-       extends ViewFx
-
-       implements RootView, 
+       implements RootView<VBox>, 
                   Initializable {
-
 	@FXML
-	private VBox pageContainer;
+	private VBox rootNode;
 	
 	private QueueViewFx queueViewFx;
 	private GameViewFx gameViewFx;
-	
-	
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		Ntro.asserter().assertNotNull("rootNode", rootNode);
+	}
 
-		Ntro.asserter().assertNotNull("pageContainer", pageContainer);
+	@Override
+	public VBox rootNode() {
+		return rootNode;
 	}
 
 
 	@Override
 	public void installQueueView(QueueView queueView) {
 		queueViewFx = (QueueViewFx) queueView;
-		pageContainer.getChildren().clear();
-		pageContainer.getChildren().add(queueViewFx.rootNode());
-		
 	}
 
 	@Override
@@ -50,15 +45,17 @@ public class RootViewFx
 
 	@Override
 	public void showQueueView() {
-		pageContainer.getChildren().clear();
-		pageContainer.getChildren().add(queueViewFx.rootNode());
+		rootNode().getChildren().clear();
+		rootNode().getChildren().add(queueViewFx.rootNode());
 	}
 
 
 	@Override
 	public void showGameView() {
-		pageContainer.getChildren().clear();
-		pageContainer.getChildren().add(gameViewFx.rootNode());
+		rootNode.getChildren().clear();
+		rootNode.getChildren().add(gameViewFx.rootNode());
 	}
+
+
 }
 

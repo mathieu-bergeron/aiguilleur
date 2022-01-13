@@ -5,30 +5,33 @@ import java.util.ResourceBundle;
 
 import ca.aiguilleur.frontend.events.EvtShowGameView;
 import ca.aiguilleur.frontend.queue.QueueView;
-import ca.aiguilleur.frontend.widgets.AppointmentListWidget;
 import ca.ntro.app.models.ModelUpdates;
-import ca.ntro.app.views.ViewFx;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.path.ValuePath;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
 
 public class QueueViewFx 
 
-       extends ViewFx
-
-       implements QueueView, Initializable {
+       implements QueueView<VBox>, Initializable {
 	
 	@FXML
-	private AppointmentListWidget appointments;
+	private VBox rootNode;
 	
 	@FXML
 	private Button showGameViewButton;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		Ntro.asserter().assertNotNull("rootNode", rootNode);
 		Ntro.asserter().assertNotNull("showGameViewButton", showGameViewButton);
+	}
+
+	@Override
+	public VBox rootNode() {
+		return rootNode;
 	}
 
 	@Override
@@ -40,7 +43,7 @@ public class QueueViewFx
 
 			if(valuePath.startsWith("appointements")) {
 				
-				appointments.displayModelUpdate(updateType, valuePath.subPath(1), newValue);
+				//appointments.displayModelUpdate(updateType, valuePath.subPath(1), newValue);
 			}
 		});
 	}
@@ -52,4 +55,5 @@ public class QueueViewFx
 			event.trigger();
 		});
 	}
+
 }

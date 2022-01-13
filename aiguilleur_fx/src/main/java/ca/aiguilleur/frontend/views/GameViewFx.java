@@ -13,12 +13,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
 
 public class GameViewFx 
 
-       extends ViewFx
+       implements GameView<VBox>, Initializable {
 
-       implements GameView, Initializable {
+	@FXML
+	private VBox rootNode;
+	
 	
 	private GameModelRealTime realTimeModel;
 	private AnimationTimer timer;
@@ -43,6 +46,11 @@ public class GameViewFx
 	}
 
 	@Override
+	public VBox rootNode() {
+		return rootNode;
+	}
+
+	@Override
 	public void displayModelUpdates(ModelUpdates updates) {
 
 		realTimeModel.applyModelUpdates(updates);
@@ -55,5 +63,6 @@ public class GameViewFx
 			event.trigger();
 		});
 	}
+
 
 }

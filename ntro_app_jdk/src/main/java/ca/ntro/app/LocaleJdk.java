@@ -21,11 +21,13 @@ public class LocaleJdk implements ca.ntro.app.Locale {
 
 	
 	public LocaleJdk(String language) {
-		setLocale(new Locale(language));
+		Locale currentLocale = Locale.getDefault();
+		setLocale(new Locale(language, currentLocale.getCountry(), currentLocale.getVariant()));
 	}
 
 	public LocaleJdk(String language, String country) {
-		setLocale(new Locale(language, country));
+		Locale currentLocale = Locale.getDefault();
+		setLocale(new Locale(language, country, currentLocale.getVariant()));
 	}
 
 	public LocaleJdk(String language, String country, String variant) {
@@ -37,6 +39,16 @@ public class LocaleJdk implements ca.ntro.app.Locale {
 	@Override
 	public String toString() {
 		return getLocale().toString();
+	}
+
+	@Override
+	public int hashCode() {
+		return getLocale().hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		return getLocale().equals(o);
 	}
 	
 	

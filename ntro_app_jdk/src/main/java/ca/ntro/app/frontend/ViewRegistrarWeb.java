@@ -1,5 +1,5 @@
 package ca.ntro.app.frontend;
 
-public interface ViewRegistrarWeb extends ViewRegistrar<ViewWeb> {
+public interface ViewRegistrarWeb extends ViewRegistrar {
 
 }

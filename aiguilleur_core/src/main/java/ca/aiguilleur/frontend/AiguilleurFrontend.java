@@ -7,7 +7,7 @@ import ca.ntro.app.frontend.Frontend;
 import ca.ntro.app.frontend.ViewRegistrar;
 import ca.ntro.app.frontend.tasks.FrontendTaskCreator;
 
-public abstract class AiguilleurFrontend<VR extends ViewRegistrar<?>> implements Frontend<VR> {
+public abstract class AiguilleurFrontend<VR extends ViewRegistrar> implements Frontend<VR> {
 
 	@Override
 	public void createTasks(FrontendTaskCreator inOrder) {
