@@ -10,18 +10,17 @@ import ca.ntro.app.views.ViewFx;
 import ca.ntro.core.initialization.Ntro;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 public class GameViewFx 
+      
+       extends ViewFx
 
-       implements GameView<VBox>, Initializable {
+       implements GameView<Pane> {
 
-	@FXML
-	private VBox rootNode;
-	
 	
 	private GameModelRealTime realTimeModel;
 	private AnimationTimer timer;
@@ -43,11 +42,6 @@ public class GameViewFx
 
 		timer.start();
 		*/
-	}
-
-	@Override
-	public VBox rootNode() {
-		return rootNode;
 	}
 
 	@Override

@@ -10,6 +10,7 @@ import ca.ntro.app.frontend.View;
 import ca.ntro.app.frontend.ViewLoader;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.layout.Pane;
 
 public class ViewLoaderFx<V extends View<?>> implements ViewLoader<V> {
 	
@@ -133,6 +134,9 @@ public class ViewLoaderFx<V extends View<?>> implements ViewLoader<V> {
 		if(view == null) {
 			throw new RuntimeException("Error with fx:controller (view == null)");
 		}
+		
+		((ViewFx) view).setPane((Pane) parent);
+		
 
 		return view;
 	}

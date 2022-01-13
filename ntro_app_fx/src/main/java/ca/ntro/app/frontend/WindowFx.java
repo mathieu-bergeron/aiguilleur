@@ -63,7 +63,7 @@ public class WindowFx implements Window {
 			
 		}else {
 			
-			throw new RuntimeException("viewFx.getParent() is null");
+			throw new RuntimeException("[WindowFx.installRootView] view.rootNode() is null");
 			
 		}
 

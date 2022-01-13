@@ -6,54 +6,50 @@ import java.util.ResourceBundle;
 import ca.aiguilleur.frontend.pong.GameView;
 import ca.aiguilleur.frontend.queue.QueueView;
 import ca.aiguilleur.frontend.root.RootView;
+import ca.ntro.app.views.ViewFx;
 import ca.ntro.core.initialization.Ntro;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 public class RootViewFx 
 
-       extends ViewFx {
+       extends ViewFx 
+       
+       implements RootView<Pane> {
 
-	@FXML
-	private VBox rootNode;
-	
-	private QueueViewFx queueViewFx;
-	private GameViewFx gameViewFx;
+	private QueueView<Pane> queueView;
+	private GameView<Pane> gameView;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		Ntro.asserter().assertNotNull("rootNode", rootNode);
+
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public VBox rootNode() {
-		return rootNode;
+	public void installQueueView(QueueView<?> queueView) {
+		this.queueView = (QueueView<Pane>) queueView;
 	}
 
-
+	@SuppressWarnings("unchecked")
 	@Override
-	public void installQueueView(QueueView queueView) {
-		queueViewFx = (QueueViewFx) queueView;
-	}
-
-	@Override
-	public void installGameView(GameView gameView) {
-		gameViewFx = (GameViewFx) gameView;
+	public void installGameView(GameView<?> gameView) {
+		this.gameView = (GameView<Pane>) gameView;
 	}
 
 
 	@Override
 	public void showQueueView() {
 		rootNode().getChildren().clear();
-		rootNode().getChildren().add(queueViewFx.rootNode());
+		rootNode().getChildren().add(queueView.rootNode());
 	}
 
 
 	@Override
 	public void showGameView() {
-		rootNode.getChildren().clear();
-		rootNode.getChildren().add(gameViewFx.rootNode());
+		rootNode().getChildren().clear();
+		rootNode().getChildren().add(gameView.rootNode());
 	}
 
 

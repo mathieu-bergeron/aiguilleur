@@ -6,12 +6,10 @@ import java.util.Map;
 
 import ca.ntro.app.Locale;
 import ca.ntro.app.NtroApp;
-import ca.ntro.app.views.ViewFx;
 import ca.ntro.app.views.ViewLoaderFx;
 import ca.ntro.core.task_graphs.task_graph.AtomicTask;
 import ca.ntro.core.task_graphs.task_graph.AtomicTaskCondition;
 import ca.ntro.core.task_graphs.task_graph.Task;
-import javafx.scene.Scene;
 
 import static ca.ntro.app.frontend.tasks.Factory.*;
 
