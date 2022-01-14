@@ -10,6 +10,10 @@ import ca.ntro.core.stream.Stream;
 public interface ReflectionService {
 	
 	String simpleName(Class<?> _class);
+
+	Object clone(Object o);
+
+	boolean equals(Object a, Object b);
 	
 	ObjectGraph objectGraph(Object o);
 	ObjectGraph objectGraph(Object o, String graphName);
