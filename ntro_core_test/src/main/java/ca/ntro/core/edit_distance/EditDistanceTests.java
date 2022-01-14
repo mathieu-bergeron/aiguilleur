@@ -146,5 +146,56 @@ public class EditDistanceTests extends NtroTests {
 		Ntro.asserter().assertEquals(2, sequence.get(2).asDelete().index());
 	}
 
+	@Test
+	public void editSequence06() {
+		String source = "1a2b3";
+		String target = "aFb";
+		
+		EditDistance editDistance =  EditDistance.newEditDistance(source, target);
+		int distance = editDistance.editDistance();
+		List<Edit> sequence = editDistance.editSequence();
+		
+		Ntro.asserter().assertEquals(3, distance);
+		Ntro.asserter().assertEquals(3, sequence.size());
+
+		Ntro.asserter().assertTrue("edit[0] == delete", sequence.get(0).isDelete());
+		Ntro.asserter().assertEquals(0, sequence.get(0).asDelete().index());
+
+		Ntro.asserter().assertTrue("edit[1] == update", sequence.get(1).isUpdate());
+		Ntro.asserter().assertEquals(1, sequence.get(1).asUpdate().index());
+		Ntro.asserter().assertEquals('F', sequence.get(1).asUpdate().value());
+
+		Ntro.asserter().assertTrue("edit[2] == delete", sequence.get(2).isDelete());
+		Ntro.asserter().assertEquals(3, sequence.get(2).asDelete().index());
+	}
+
+	@Test
+	public void editSequence07() {
+		String source = "1a2b3";
+		String target = "aFGb";
+		
+		EditDistance editDistance =  EditDistance.newEditDistance(source, target);
+		int distance = editDistance.editDistance();
+		List<Edit> sequence = editDistance.editSequence();
+		
+		Ntro.asserter().assertEquals(4, distance);
+		Ntro.asserter().assertEquals(4, sequence.size());
+
+		Ntro.asserter().assertTrue("edit[0] == delete", sequence.get(0).isDelete());
+		Ntro.asserter().assertEquals(0, sequence.get(0).asDelete().index());
+
+		Ntro.asserter().assertTrue("edit[1] == update", sequence.get(1).isUpdate());
+		Ntro.asserter().assertEquals(1, sequence.get(1).asUpdate().index());
+		Ntro.asserter().assertEquals('F', sequence.get(1).asUpdate().value());
+
+		Ntro.asserter().assertTrue("edit[2] == update", sequence.get(2).isInsert());
+		Ntro.asserter().assertEquals(2, sequence.get(2).asInsert().index());
+		Ntro.asserter().assertEquals('G', sequence.get(2).asInsert().value());
+
+		Ntro.asserter().assertTrue("edit[3] == update", sequence.get(3).isInsert());
+		Ntro.asserter().assertEquals(3, sequence.get(3).asInsert().index());
+		Ntro.asserter().assertEquals('b', sequence.get(3).asInsert().value());
+	}
+
 
 }

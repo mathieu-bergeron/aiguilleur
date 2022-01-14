@@ -153,7 +153,7 @@ public class EditDistanceNtro implements EditDistance {
 					&& deleteDistance < insertDistance) {
 
 				i = i - 1;
-				currentEdit = new DeleteNtro(i);
+				currentEdit = new DeleteNtro(j);
 				
 			}else if(insertDistance < deleteDistance
 					&& insertDistance < updateDistance) {
@@ -168,7 +168,7 @@ public class EditDistanceNtro implements EditDistance {
 				
 				if(!source[i].equals(target[j])) {
 
-					currentEdit = new UpdateNtro(i, target[j]);
+					currentEdit = new UpdateNtro(j, target[j]);
 				}
 			}
 
