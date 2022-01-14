@@ -3,8 +3,8 @@ package ca.ntro.core.services;
 import java.util.List;
 import java.util.Map;
 
+import ca.ntro.core.object_diff.updates.ObjectUpdate;
 import ca.ntro.core.reflection.object_graph.ObjectGraph;
-import ca.ntro.core.reflection.object_updates.ObjectUpdate;
 import ca.ntro.core.stream.Stream;
 
 public interface ReflectionService {

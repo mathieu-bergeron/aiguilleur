@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import ca.ntro.core.object_diff.updates.ObjectUpdate;
 import ca.ntro.core.task_graphs.task_graph_trace.TaskTraceNtro;
 import ca.ntro.core.wrappers.result.Result;
 import ca.ntro.core.wrappers.result.ResultNtro;
@@ -55,6 +56,17 @@ public interface Stream<I extends Object> {
 	static <K> Stream<K> forMapKeys(Map<K, ?> map) {
 		// JSWeet: explicit class to avoid type errors
 		return new StreamForMapKeys<K>(map);
+	}
+
+	static <O> Stream<O> fromList(List<O> list) {
+		return new StreamNtro<O>() {
+			@Override
+			public void forEach_(Visitor<O> visitor) throws Throwable {
+				for(O item : list) {
+					visitor.visit(item);
+				}
+			}
+		};
 	}
 
 }

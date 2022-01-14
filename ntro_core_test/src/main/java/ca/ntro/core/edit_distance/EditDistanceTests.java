@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import ca.ntro.core.edit_distance.edits.Edit;
 import ca.ntro.core.initialization.Ntro;
+import ca.ntro.core.stream.Stream;
 import ca.ntro.core.tests.NtroTests;
 import ca.ntro.core.util.ListUtils;
 import ca.ntro.core.util.StringUtils;
@@ -49,7 +50,7 @@ public class EditDistanceTests extends NtroTests {
 		String source = "abc";
 		String target = "abc";
 		
-		List<Edit> sequence = EditDistance.editSequence(source, target);
+		Stream<Edit> sequence = EditDistance.editSequence(source, target);
 		
 		Ntro.asserter().assertEquals(0, sequence.size());
 	}
@@ -59,7 +60,7 @@ public class EditDistanceTests extends NtroTests {
 		String source = "";
 		String target = "abc";
 		
-		List<Edit> sequence = EditDistance.editSequence(source, target);
+		Stream<Edit> sequence = EditDistance.editSequence(source, target);
 		
 		Ntro.asserter().assertEquals(3, sequence.size());
 
@@ -81,7 +82,7 @@ public class EditDistanceTests extends NtroTests {
 		String source = "abc";
 		String target = "";
 		
-		List<Edit> sequence = EditDistance.editSequence(source, target);
+		Stream<Edit> sequence = EditDistance.editSequence(source, target);
 		
 		Ntro.asserter().assertEquals(3, sequence.size());
 
@@ -100,7 +101,7 @@ public class EditDistanceTests extends NtroTests {
 		String source = "ac";
 		String target = "abc";
 		
-		List<Edit> sequence = EditDistance.editSequence(source, target);
+		Stream<Edit> sequence = EditDistance.editSequence(source, target);
 		
 		Ntro.asserter().assertEquals(1, sequence.size());
 
@@ -114,7 +115,7 @@ public class EditDistanceTests extends NtroTests {
 		String source = "ac";
 		String target = "abcd";
 		
-		List<Edit> sequence = EditDistance.editSequence(source, target);
+		Stream<Edit> sequence = EditDistance.editSequence(source, target);
 		
 		Ntro.asserter().assertEquals(2, sequence.size());
 
@@ -134,7 +135,7 @@ public class EditDistanceTests extends NtroTests {
 		
 		EditDistance editDistance =  EditDistance.newEditDistance(source, target);
 		int distance = editDistance.editDistance();
-		List<Edit> sequence = editDistance.editSequence();
+		Stream<Edit> sequence = editDistance.editSequence();
 		
 		Ntro.asserter().assertEquals(3, distance);
 		Ntro.asserter().assertEquals(3, sequence.size());
@@ -156,7 +157,7 @@ public class EditDistanceTests extends NtroTests {
 		
 		EditDistance editDistance =  EditDistance.newEditDistance(source, target);
 		int distance = editDistance.editDistance();
-		List<Edit> sequence = editDistance.editSequence();
+		Stream<Edit> sequence = editDistance.editSequence();
 		
 		Ntro.asserter().assertEquals(3, distance);
 		Ntro.asserter().assertEquals(3, sequence.size());
@@ -179,7 +180,7 @@ public class EditDistanceTests extends NtroTests {
 		
 		EditDistance editDistance =  EditDistance.newEditDistance(source, target);
 		int distance = editDistance.editDistance();
-		List<Edit> sequence = editDistance.editSequence();
+		Stream<Edit> sequence = editDistance.editSequence();
 		
 		Ntro.asserter().assertEquals(4, distance);
 		Ntro.asserter().assertEquals(4, sequence.size());
@@ -212,7 +213,7 @@ public class EditDistanceTests extends NtroTests {
 			String source = randomString(stringSize);
 			String target = mutateString(source, numberOfMutations);
 
-			List<Edit> sequence = EditDistance.editSequence(source, target);
+			Stream<Edit> sequence = EditDistance.editSequence(source, target);
 			
 			String computedTarget = EditDistance.applyEditSequence(source, sequence);
 			
@@ -275,10 +276,5 @@ public class EditDistanceTests extends NtroTests {
 		
 		return StringUtils.fromList(result);
 	}
-	
-	
-	
-
-
 
 }

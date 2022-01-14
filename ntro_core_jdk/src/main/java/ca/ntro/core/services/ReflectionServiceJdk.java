@@ -5,9 +5,10 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.ntro.core.object_diff.ObjectDiff;
+import ca.ntro.core.object_diff.updates.ObjectUpdate;
 import ca.ntro.core.reflection.ObjectGraphJdk;
 import ca.ntro.core.reflection.object_graph.ObjectGraph;
-import ca.ntro.core.reflection.object_updates.ObjectUpdate;
 import ca.ntro.core.stream.Stream;
 
 public class ReflectionServiceJdk extends ReflectionServiceNtro { 
@@ -68,8 +69,7 @@ public class ReflectionServiceJdk extends ReflectionServiceNtro {
 
 	@Override
 	public Stream<ObjectUpdate> objectDiff(Object o1, Object o2) {
-		// TODO Auto-generated method stub
-		return null;
+		return ObjectDiff.diff(o1, o2);
 	}
 
 	@Override
@@ -126,4 +126,5 @@ public class ReflectionServiceJdk extends ReflectionServiceNtro {
 	public String simpleName(Class<?> _class) {
 		return _class.getSimpleName();
 	}
+
 }

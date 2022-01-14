@@ -1,14 +1,13 @@
 package ca.ntro.core.object_diff;
 
-import java.util.List;
-
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.object_diff.updates.ObjectUpdate;
 import ca.ntro.core.reflection.object_graph.ObjectGraph;
+import ca.ntro.core.stream.Stream;
 
 public interface ObjectDiff {
 	
-	List<ObjectUpdate> updates();
+	Stream<ObjectUpdate> updates();
 	
 	public static ObjectDiff newObjectDiff(Object source, Object target){
 		return newObjectDiff(Ntro.reflectionService().objectGraph(source), Ntro.reflectionService().objectGraph(target));
@@ -18,7 +17,7 @@ public interface ObjectDiff {
 		return new ObjectDiffNtro(source, target);
 	}
 	
-	public static List<ObjectUpdate> diff(Object source, Object target){
+	public static Stream<ObjectUpdate> diff(Object source, Object target){
 		return newObjectDiff(source, target).updates();
 	}
 	

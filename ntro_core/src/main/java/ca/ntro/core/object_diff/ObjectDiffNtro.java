@@ -19,6 +19,7 @@ import ca.ntro.core.reflection.object_graph.ObjectGraph;
 import ca.ntro.core.reflection.object_graph.ObjectGraphSearchOptions;
 import ca.ntro.core.reflection.object_graph.ObjectNode;
 import ca.ntro.core.reflection.object_graph.ReferenceEdge;
+import ca.ntro.core.stream.Stream;
 
 public class ObjectDiffNtro implements ObjectDiff {
 	
@@ -60,12 +61,12 @@ public class ObjectDiffNtro implements ObjectDiff {
 	
 
 	@Override
-	public List<ObjectUpdate> updates() {
+	public Stream<ObjectUpdate> updates() {
 		if(updates == null) {
 			computeUpdates();
 		}
 		
-		return updates;
+		return Stream.fromList(updates);
 	}
 	
 	
@@ -122,8 +123,8 @@ public class ObjectDiffNtro implements ObjectDiff {
 
 	private void addUpdatesForCorrespondingLists(Path valuePath, List<?> source, List<?> target) {
 
-		for(Edit edit : EditDistance.editSequence(source, target)) {
-									
+		EditDistance.editSequence(source, target).forEach(edit -> {
+
 			Path itemPath = Path.fromPath(valuePath);
 			itemPath.addName(String.valueOf(edit.index()));
 			
@@ -138,7 +139,7 @@ public class ObjectDiffNtro implements ObjectDiff {
 			else if(edit.isDelete()) {
 				updates.add(new DeleteNtro(itemPath));
 			}
-		}
+		});
 	}
 
 	private void addUpdatesForCorrespondingMaps(Path valuePath, Map<String, ?> source, Map<String, ?> target) {

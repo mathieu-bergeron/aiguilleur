@@ -7,6 +7,7 @@ import ca.ntro.core.edit_distance.edits.DeleteNtro;
 import ca.ntro.core.edit_distance.edits.Edit;
 import ca.ntro.core.edit_distance.edits.InsertNtro;
 import ca.ntro.core.edit_distance.edits.ModifyNtro;
+import ca.ntro.core.stream.Stream;
 
 // https://en.wikipedia.org/wiki/Wagner%E2%80%93Fischer_algorithm
 
@@ -208,7 +209,7 @@ public class EditDistanceNtro implements EditDistance {
 	}
 
 	@Override
-	public List<Edit> editSequence() {
+	public Stream<Edit> editSequence() {
 		if(distances == null) {
 			computeDistances();
 		}
@@ -217,6 +218,6 @@ public class EditDistanceNtro implements EditDistance {
 			compileSequence();
 		}
 
-		return editSequence;
+		return Stream.fromList(editSequence);
 	}
 }

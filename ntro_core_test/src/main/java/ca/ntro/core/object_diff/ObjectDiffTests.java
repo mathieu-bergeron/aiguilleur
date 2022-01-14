@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.object_diff.updates.ObjectUpdate;
+import ca.ntro.core.stream.Stream;
 import ca.ntro.core.tests.NtroTests;
 import ca.ntro.core.util.ListUtils;
 
@@ -20,7 +21,7 @@ public class ObjectDiffTests extends NtroTests {
 		source.setAttr01("a");
 		target.setAttr01("a");
 		
-		List<ObjectUpdate> updates = ObjectDiff.diff(source, target);
+		Stream<ObjectUpdate> updates = ObjectDiff.diff(source, target);
 		
 		Ntro.asserter().assertEquals(0, updates.size());
 	}
@@ -33,7 +34,7 @@ public class ObjectDiffTests extends NtroTests {
 		source.setAttr01("a");
 		target.setAttr01("b");
 		
-		List<ObjectUpdate> updates = ObjectDiff.diff(source, target);
+		Stream<ObjectUpdate> updates = ObjectDiff.diff(source, target);
 		
 		Ntro.asserter().assertEquals(1, updates.size());
 
@@ -49,7 +50,7 @@ public class ObjectDiffTests extends NtroTests {
 		source.setAttr02(ListUtils.fromString("abc"));
 		target.setAttr02(ListUtils.fromString("ab2c"));
 		
-		List<ObjectUpdate> updates = ObjectDiff.diff(source, target);
+		Stream<ObjectUpdate> updates = ObjectDiff.diff(source, target);
 		
 		Ntro.asserter().assertEquals(1, updates.size());
 

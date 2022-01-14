@@ -3,9 +3,9 @@ package ca.ntro.core.services;
 import java.util.List;
 import java.util.Map;
 
+import ca.ntro.core.object_diff.updates.ObjectUpdate;
 import ca.ntro.core.reflection.object_graph.ObjectGraph;
 import ca.ntro.core.reflection.object_graph.ObjectGraphNull;
-import ca.ntro.core.reflection.object_updates.ObjectUpdate;
 import ca.ntro.core.stream.Stream;
 
 public class ReflectionServiceNull implements ReflectionService {
@@ -157,6 +157,24 @@ public class ReflectionServiceNull implements ReflectionService {
 	public String simpleName(Class<?> _class) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Object clone(Object o) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean equals(Object a, Object b) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void applyUpdates(Object o, Stream<ObjectUpdate> updates) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

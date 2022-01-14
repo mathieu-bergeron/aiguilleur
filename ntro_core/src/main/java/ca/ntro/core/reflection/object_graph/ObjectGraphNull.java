@@ -7,7 +7,6 @@ import ca.ntro.core.graphs.generics.graph.VisitedEdge;
 import ca.ntro.core.graphs.generics.graph.VisitedNode;
 import ca.ntro.core.graphs.generics.graph.WalkId;
 import ca.ntro.core.graphs.generics.graph.WalkInProgress;
-import ca.ntro.core.reflection.object_updates.ObjectUpdate;
 import ca.ntro.core.stream.Stream;
 
 public class ObjectGraphNull implements ObjectGraph {
@@ -100,12 +99,6 @@ public class ObjectGraphNull implements ObjectGraph {
 	@Override
 	public Stream<VisitedEdge<ObjectNode, ReferenceEdge, ObjectGraphSearchOptions>> visitEdges(
 			ObjectGraphSearchOptions options) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Stream<ObjectUpdate> objectAsUpdates(Object object) {
 		// TODO Auto-generated method stub
 		return null;
 	}
