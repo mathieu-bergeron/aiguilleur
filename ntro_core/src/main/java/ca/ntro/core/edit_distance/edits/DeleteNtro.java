@@ -11,6 +11,21 @@ public class DeleteNtro
 	public DeleteNtro(int index) {
 		super(index);
 	}
+
+	@Override
+	public boolean isInsert() {
+		return false;
+	}
+
+	@Override
+	public boolean isUpdate() {
+		return false;
+	}
+
+	@Override
+	public boolean isDelete() {
+		return true;
+	}
 	
 
 }

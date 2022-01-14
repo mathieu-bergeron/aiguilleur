@@ -13,4 +13,19 @@ public class UpdateNtro
 		super(index, value);
 	}
 
+	@Override
+	public boolean isInsert() {
+		return false;
+	}
+
+	@Override
+	public boolean isUpdate() {
+		return true;
+	}
+
+	@Override
+	public boolean isDelete() {
+		return false;
+	}
+
 }

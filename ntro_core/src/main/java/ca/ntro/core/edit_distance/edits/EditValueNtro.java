@@ -1,10 +1,10 @@
 package ca.ntro.core.edit_distance.edits;
 
-public class      EditValueNtro 
+public abstract class EditValueNtro 
 
-       extends    EditNtro 
+       extends        EditNtro 
        
-       implements EditValue {
+       implements     EditValue {
 	
 	private Object value;
 

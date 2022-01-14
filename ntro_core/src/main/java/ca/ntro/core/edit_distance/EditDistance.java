@@ -1,18 +1,34 @@
 package ca.ntro.core.edit_distance;
 
-import ca.ntro.core.edit_distance.edits.Edit;
-
 public class EditDistance {
 	
-	private Edit edit;
+	private int i;
+	private int j;
+	private EditType type;
 	private int distance = 0;
 
-	public Edit getEdit() {
-		return edit;
+	public int getI() {
+		return i;
 	}
 
-	public void setEdit(Edit edit) {
-		this.edit = edit;
+	public void setI(int i) {
+		this.i = i;
+	}
+
+	public int getJ() {
+		return j;
+	}
+
+	public void setJ(int j) {
+		this.j = j;
+	}
+
+	public EditType getType() {
+		return type;
+	}
+
+	public void setType(EditType type) {
+		this.type = type;
 	}
 
 	public int getDistance() {

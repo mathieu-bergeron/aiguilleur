@@ -1,6 +1,8 @@
 package ca.ntro.core.edit_distance.edits;
 
-public class EditNtro implements Edit {
+public abstract class EditNtro 
+
+       implements     Edit {
 
 	private int index;
 
@@ -24,4 +26,18 @@ public class EditNtro implements Edit {
 		return getIndex();
 	}
 
+	@Override
+	public Insert asInsert() {
+		return (Insert) this;
+	}
+
+	@Override
+	public Update asUpdate() {
+		return (Update) this;
+	}
+
+	@Override
+	public Delete asDelete() {
+		return (Delete) this;
+	}
 }

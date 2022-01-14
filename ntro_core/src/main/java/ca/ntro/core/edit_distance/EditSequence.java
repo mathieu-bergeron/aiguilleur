@@ -3,10 +3,7 @@ package ca.ntro.core.edit_distance;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.ntro.core.edit_distance.edits.DeleteNtro;
 import ca.ntro.core.edit_distance.edits.Edit;
-import ca.ntro.core.edit_distance.edits.InsertNtro;
-import ca.ntro.core.edit_distance.edits.UpdateNtro;
 import ca.ntro.core.util.ArrayUtils;
 
 // https://en.wikipedia.org/wiki/Wagner%E2%80%93Fischer_algorithm
@@ -19,7 +16,8 @@ public class EditSequence {
 	private int m;
 	private int n;
 
-	private EditDistance[][] distances;
+	private int[][]      distances;
+	private EditType[][] types;
 
 	
 	public static List<Edit> editSequence(List<Object> source, List<Object> target)  {
@@ -39,15 +37,15 @@ public class EditSequence {
 		source = ArrayUtils.fromList(sourceList);
 		target = ArrayUtils.fromList(targetList);
 		
-		m = source.length;
-		n = target.length;
+		m = source.length + 1;
+		n = target.length + 1;
 		
-		// FIXME: the algorithm is expressed with 1..n for input arrays
-		distances = new EditDistance[m+1][n+1];
+		distances = new int[m][n];
+		types =     new EditType[m][n];
 		
 		for(int i = 0; i < m; i++) {
 			for(int j = 0; j < n; j++) {
-				distances[i][j] = new EditDistance();
+				distances[i][j] = 0;
 			}
 		}
 	}
@@ -57,15 +55,15 @@ public class EditSequence {
 	    // source prefixes can be transformed into empty string by
 	    // dropping all characters
 		for(int i = 0; i < m; i++) {
-			distances[i][0].setDistance(i);
-			distances[i][0].setEdit(new DeleteNtro(i));
+			distances[i][0] = i;
+			types[i][0] = EditType.DELETE;
 		}
 		
 	    // target prefixes can be reached from empty source prefix
 	    // by inserting every character
 		for(int j = 0; j < n; j++) {
-			distances[0][j].setDistance(j);
-			distances[0][j].setEdit(new InsertNtro(j, target[j]));
+			distances[0][j] = j;
+			types[0][j] = EditType.INSERT;
 		}
 		
 		for(int j = 0; j < n; j++) {
@@ -76,26 +74,31 @@ public class EditSequence {
 					updateCost = 0;
 				}
 				
-				int deleteDistance = distances[i-1][j].getDistance() + 1;
-				int insertDistance = distances[i][j-1].getDistance() + 1;
-				int updateDistance = distances[i-1][j-1].getDistance() + updateCost;
+				int deleteDistance = distances[i-1][j] + 1;
+				int insertDistance = distances[i][j-1] + 1;
+				int updateDistance = distances[i-1][j-1] + updateCost;
 				
 				if(deleteDistance < insertDistance
 						&& deleteDistance < updateDistance) {
 					
-					distances[i][j].setDistance(deleteDistance);
-					distances[i][j].setEdit(new DeleteNtro(i));
+					distances[i][j] = deleteDistance;
+					types[i][j] = EditType.DELETE;
 
 				}else if(insertDistance < deleteDistance
 						&& insertDistance < updateDistance) {
 
-					distances[i][j].setDistance(insertDistance);
-					distances[i][j].setEdit(new InsertNtro(i, target[j]));
+					distances[i][j] = insertDistance;
+					types[i][j] = EditType.INSERT;
 					
+				}else if(updateCost == 1){
+
+					distances[i][j] = updateDistance;
+					types[i][j] = EditType.UPDATE;
+
 				}else {
 
-					distances[i][j].setDistance(updateDistance);
-					distances[i][j].setEdit(new UpdateNtro(i, target[j]));
+					distances[i][j] = updateDistance;
+					types[i][j] = EditType.NONE;
 				}
 			}
 		}
@@ -103,9 +106,86 @@ public class EditSequence {
 
 	private List<Edit> compileSequence() {
 		List<Edit> editSequence = new ArrayList<Edit>();
+		
+		int i = m-1;
+		int j = n-1;
+		
+		while(i > 0 && j > 0) {
+
+			Edit edit = currentEdit(i,j);
+			
+			if(edit != null) {
+				editSequence.add(0, edit);
+			}
+			
+			int east = distances[i-1][j];
+			int northEast = distances[i-1][j-1];
+			int north = distances[i][j-1];
+			
+			if(east < northEast
+					&& east < north) {
+				
+				i = i - 1;
+				
+			}else if(northEast < east
+					&& northEast < north) {
+				
+				i = i - 1;
+				j = j - 1;
+				
+			}else {
+				
+				j = j - 1;
+			}
+		}
+		
+		while(i >= 0) {
+			Edit edit = currentEdit(i,j);
+			
+			if(edit != null) {
+				editSequence.add(0, edit);
+			}
+			
+			i--;
+		}
+
+		while(j >= 0) {
+			Edit edit = currentEdit(i,j);
+			
+			if(edit != null) {
+				editSequence.add(0, edit);
+			}
+			
+			j--;
+		}
 
 		return editSequence;
 	}
+
+	private Edit currentEdit(int i, int j) {
+		Edit edit = null;
+		
+		switch(types[i][j]) {
+		
+		case INSERT:
+			edit = new InsertNtro();
+			break;
+
+		case DELETE:
+			break;
+
+		case UPDATE:
+			break;
+		
+		
+		}
+			
+			
+
+
+		return edit;
+	}
+	
 
 
 
