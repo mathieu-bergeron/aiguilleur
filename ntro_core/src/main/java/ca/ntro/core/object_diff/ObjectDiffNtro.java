@@ -1,7 +1,10 @@
 package ca.ntro.core.object_diff;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import ca.ntro.core.edit_distance.EditDistance;
 import ca.ntro.core.edit_distance.edits.Edit;
@@ -72,6 +75,9 @@ public class ObjectDiffNtro implements ObjectDiff {
 	private void computeUpdates() {
 		updates = new ArrayList<>();
 		
+		// FIXME: must maintain a localHeap to detect when multiple attributes point to the same object
+		//        must not give update twice for the values of that object
+		
 		getTarget().visitNodes().forEach(visitedNode -> {
 			
 			Walk<ObjectNode, ReferenceEdge, ObjectGraphSearchOptions> walked = visitedNode.walked();
@@ -80,49 +86,76 @@ public class ObjectDiffNtro implements ObjectDiff {
 			
 			getSource().walk(walk).forEach(walkInProgress -> {
 				
-				// We reached the same node in the other object
-				if(walkInProgress.walked().size() == walk.size()) {
+				if(walkInProgress.remainingWalk().isEmpty()) {
 					
-					if(visitedNode.node().isSimpleValue()
-							&& !visitedNode.node().asSimpleValue().isNull()
-							&& walkInProgress.currentNode().isSimpleValue()
-							&& !walkInProgress.currentNode().asSimpleValue().isNull()
-							&& !visitedNode.node().asSimpleValue().value().equals(walkInProgress.currentNode().asSimpleValue().value())) {
-						
-						updates.add(new ModifyNtro(walk.toPath(), visitedNode.node().asSimpleValue().value()));
-					}
+					addUpdatesForCorrespondingNodes(walk.toPath(), walkInProgress.currentNode(), visitedNode.node());
 					
-					else if(visitedNode.node().isList()
-							&& walkInProgress.currentNode().isList()) {
-						
-						Path baseValuePath = walk.toPath();
-						
-						for(Edit edit : EditDistance.editSequence(walkInProgress.currentNode().asList(), visitedNode.node().asList())) {
-							
-							Path valuePath = Path.fromPath(baseValuePath);
-							valuePath.addName(String.valueOf(edit.index()));
-							
-							if(edit.isModify()) {
-								updates.add(new ModifyNtro(valuePath, edit.asModify().value()));
-							}
-
-							else if(edit.isInsert()) {
-								updates.add(new InsertNtro(valuePath, edit.asInsert().value()));
-							}
-
-							else if(edit.isDelete()) {
-								updates.add(new DeleteNtro(valuePath));
-							}
-						}
-					}
+				}else if(!walkInProgress.hasCurrentNode()){
+					// The target value does not exists in the source graph
+					// We need to insert it
+					updates.add(new InsertNtro(walked.id().toPath(), visitedNode.node().object()));
 				}
+
 			});
 		});
+	}
+
+	private void addUpdatesForCorrespondingNodes(Path valuePath, ObjectNode source, ObjectNode target) {
+
+		if(shouldModifySimpleValue(source, target)) {
+
+			updates.add(new ModifyNtro(valuePath, target.asSimpleValue().value()));
+		}
+
+		else if(source.isList()
+				&& target.isList()) {
+			
+			addUpdatesForCorrespondingLists(valuePath, source.asList(), target.asList());
+		}
+
+		else if(source.isMap()
+				&& target.isMap()) {
+			
+			addUpdatesForCorrespondingMaps(valuePath, source.asMap(), target.asMap());
+		}
+	}
+
+	private void addUpdatesForCorrespondingLists(Path valuePath, List<?> source, List<?> target) {
+
+		for(Edit edit : EditDistance.editSequence(source, target)) {
+									
+			Path itemPath = Path.fromPath(valuePath);
+			itemPath.addName(String.valueOf(edit.index()));
+			
+			if(edit.isModify()) {
+				updates.add(new ModifyNtro(itemPath, edit.asModify().value()));
+			}
+
+			else if(edit.isInsert()) {
+				updates.add(new InsertNtro(itemPath, edit.asInsert().value()));
+			}
+
+			else if(edit.isDelete()) {
+				updates.add(new DeleteNtro(itemPath));
+			}
+		}
+	}
+
+	private void addUpdatesForCorrespondingMaps(Path valuePath, Map<String, ?> source, Map<String, ?> target) {
 		
-		
-		
+		throw new RuntimeException("Maps covered by 'normal' ObjectGraph visit. Only Lists are special cases.");
 
 	}
+
+
+	private boolean shouldModifySimpleValue(ObjectNode source, ObjectNode target) {
+		return source.isSimpleValue() 
+				&& !source.asSimpleValue().isNull() 
+				&& target.isSimpleValue() 
+				&& !target.asSimpleValue().isNull() 
+				&& !source.asSimpleValue().value().equals(target.asSimpleValue().value());
+	}
+
 	
 	
 	

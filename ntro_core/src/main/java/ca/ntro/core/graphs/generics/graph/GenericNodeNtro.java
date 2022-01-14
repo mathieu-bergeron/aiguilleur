@@ -309,6 +309,17 @@ public abstract class GenericNodeNtro<N extends GenericNode<N,E,SO>,
 			WalkInProgressNtro<N,E,SO> walkInProgress = new WalkInProgressNtro<N,E,SO>(newWalked, remainingWalk, nextEdge.to());
 			
 			visitor.visit(walkInProgress);
+
+		} else {
+			
+			while(remainingWalk.size() > 0) {
+
+				remainingWalk = remainingWalk.subWalk(1);
+				
+				WalkInProgressNtro<N,E,SO> walkInProgress = new WalkInProgressNtro<N,E,SO>(walked, remainingWalk);
+				
+				visitor.visit(walkInProgress);
+			}
 		}
 	}
 

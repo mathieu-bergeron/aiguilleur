@@ -36,6 +36,11 @@ public class      WalkInProgressNtro<N extends GenericNode<N,E,SO>,
 		setCurrentNode(currentNode);
 	}
 
+	public WalkInProgressNtro(WalkNtro<N, E, SO> walked, WalkId remainingWalk) {
+		super(walked);
+		setRemainingWalk(remainingWalk);
+	}
+
 	@Override
 	public WalkId remainingWalk() {
 		return getRemainingWalk();
@@ -44,5 +49,10 @@ public class      WalkInProgressNtro<N extends GenericNode<N,E,SO>,
 	@Override
 	public N currentNode() {
 		return getCurrentNode();
+	}
+
+	@Override
+	public boolean hasCurrentNode() {
+		return getCurrentNode() != null;
 	}
 }

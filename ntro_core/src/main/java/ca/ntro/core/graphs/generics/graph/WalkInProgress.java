@@ -7,6 +7,8 @@ public interface WalkInProgress<N extends GenericNode<N,E,SO>,
        extends VisitedItem<N,E,SO> {
 
 	WalkId remainingWalk();
+
+	boolean hasCurrentNode();
 	N currentNode();
 
 }
