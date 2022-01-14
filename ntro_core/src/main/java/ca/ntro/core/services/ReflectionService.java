@@ -14,7 +14,9 @@ public interface ReflectionService {
 	Object clone(Object o);
 
 	boolean equals(Object a, Object b);
-	
+
+	void applyUpdates(Object o, Stream<ObjectUpdate> updates);
+
 	ObjectGraph objectGraph(Object o);
 	ObjectGraph objectGraph(Object o, String graphName);
 	
