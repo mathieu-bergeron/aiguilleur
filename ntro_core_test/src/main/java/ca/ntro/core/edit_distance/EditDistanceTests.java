@@ -172,7 +172,7 @@ public class EditDistanceTests extends NtroTests {
 	@Test
 	public void editSequence07() {
 		String source = "1a2b3";
-		String target = "aFGb";
+		String target = "aFGbc";
 		
 		EditDistance editDistance =  EditDistance.newEditDistance(source, target);
 		int distance = editDistance.editDistance();
@@ -188,13 +188,17 @@ public class EditDistanceTests extends NtroTests {
 		Ntro.asserter().assertEquals(1, sequence.get(1).asUpdate().index());
 		Ntro.asserter().assertEquals('F', sequence.get(1).asUpdate().value());
 
-		Ntro.asserter().assertTrue("edit[2] == update", sequence.get(2).isInsert());
-		Ntro.asserter().assertEquals(2, sequence.get(2).asInsert().index());
-		Ntro.asserter().assertEquals('G', sequence.get(2).asInsert().value());
+		Ntro.asserter().assertTrue("edit[2] == update", sequence.get(2).isUpdate());
+		Ntro.asserter().assertEquals(2, sequence.get(2).asUpdate().index());
+		Ntro.asserter().assertEquals('G', sequence.get(2).asUpdate().value());
 
-		Ntro.asserter().assertTrue("edit[3] == update", sequence.get(3).isInsert());
-		Ntro.asserter().assertEquals(3, sequence.get(3).asInsert().index());
-		Ntro.asserter().assertEquals('b', sequence.get(3).asInsert().value());
+		Ntro.asserter().assertTrue("edit[3] == update", sequence.get(3).isUpdate());
+		Ntro.asserter().assertEquals(3, sequence.get(3).asUpdate().index());
+		Ntro.asserter().assertEquals('b', sequence.get(3).asUpdate().value());
+
+		Ntro.asserter().assertTrue("edit[4] == insert", sequence.get(4).isInsert());
+		Ntro.asserter().assertEquals(4, sequence.get(4).asInsert().index());
+		Ntro.asserter().assertEquals('c', sequence.get(4).asInsert().value());
 	}
 
 
