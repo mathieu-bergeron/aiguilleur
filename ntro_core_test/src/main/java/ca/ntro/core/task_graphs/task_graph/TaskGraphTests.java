@@ -1,12 +1,10 @@
 package ca.ntro.core.task_graphs.task_graph;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.services.ExceptionThrowerMock;
-import ca.ntro.core.task_graphs.task_graph.AtomicTask;
-import ca.ntro.core.task_graphs.task_graph.Task;
-import ca.ntro.core.task_graphs.task_graph.TaskGraph;
 import ca.ntro.core.tests.NtroTests;
 import ca.ntro.core.values.ObjectMap;
 import ca.ntro.core.wrappers.result.Result;
@@ -15,6 +13,7 @@ public class TaskGraphTests extends NtroTests {
 	
 	
 	@Test
+	@Ignore
 	public void executableTaskGraph01() {
 		TaskGraph graph = TaskGraph.newGraph();
 		graph.setGraphName("executableTaskGraph01");
@@ -73,6 +72,7 @@ public class TaskGraphTests extends NtroTests {
 	}
 
 	@Test
+	@Ignore
 	public void executableTaskGraph02() {
 
 		TaskGraph graph = TaskGraph.newGraph();
@@ -132,6 +132,7 @@ public class TaskGraphTests extends NtroTests {
 	}
 
 	@Test
+	@Ignore
 	public void executableTaskGraphException01() {
 		ExceptionThrowerMock exceptionThrower = registerMockExceptionThrower();
 

@@ -1,41 +1,52 @@
 package ca.ntro.core.edit_distance;
 
-public class EditDistance {
+import java.util.List;
+
+import ca.ntro.core.edit_distance.edits.Edit;
+import ca.ntro.core.util.ArrayUtils;
+
+public interface EditDistance {
 	
-	private int i;
-	private int j;
-	private EditType type;
-	private int distance = 0;
+	Object[] source();
+	Object[] target();
 
-	public int getI() {
-		return i;
+	int editDistance();
+	List<Edit> editSequence();
+	
+	public static EditDistance newEditDistance(Object[] source, Object[] target) {
+		return new EditDistanceNtro(source, target);
 	}
 
-	public void setI(int i) {
-		this.i = i;
+	public static EditDistance newEditDistance(List<Object> source, List<Object> target) {
+		return new EditDistanceNtro(ArrayUtils.fromList(source), ArrayUtils.fromList(target));
 	}
 
-	public int getJ() {
-		return j;
+	public static EditDistance newEditDistance(String source, String target) {
+		return new EditDistanceNtro(ArrayUtils.fromString(source), ArrayUtils.fromString(target));
 	}
 
-	public void setJ(int j) {
-		this.j = j;
+	public static int editDistance(Object[] source, Object[] target) {
+		return newEditDistance(source, target).editDistance();
 	}
 
-	public EditType getType() {
-		return type;
+	public static int editDistance(List<Object> source, List<Object> target) {
+		return newEditDistance(source, target).editDistance();
 	}
 
-	public void setType(EditType type) {
-		this.type = type;
+	public static int editDistance(String source, String target) {
+		return newEditDistance(source, target).editDistance();
 	}
 
-	public int getDistance() {
-		return distance;
+	public static List<Edit> editSequence(Object[] source, Object[] target) {
+		return newEditDistance(source, target).editSequence();
 	}
 
-	public void setDistance(int distance) {
-		this.distance = distance;
+	public static List<Edit> editSequence(List<Object> source, List<Object> target) {
+		return newEditDistance(source, target).editSequence();
 	}
+
+	public static List<Edit> editSequence(String source, String target) {
+		return newEditDistance(source, target).editSequence();
+	}
+	
 }

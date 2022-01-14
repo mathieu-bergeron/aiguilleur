@@ -7,10 +7,20 @@ public class ArrayUtils {
 	public static Object[] fromList(List<Object> list) {
 		Object[] array = new Object[list.size()];
 		
-		for(int i = 0; i < list.size(); i++) {
+		for(int i = 0; i < array.length; i++) {
 			array[i] = list.get(i);
 		}
 		
+		return array;
+	}
+
+	public static Object[] fromString(String input) {
+		Character[] array = new Character[input.length()];
+
+		for(int i = 0; i < array.length; i++) {
+			array[i] = input.charAt(i);
+		}
+
 		return array;
 	}
 
