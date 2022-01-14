@@ -6,6 +6,7 @@ import ca.ntro.core.services.AsserterJdk;
 import ca.ntro.core.services.CollectionsJdk;
 import ca.ntro.core.services.ExceptionThrowerNtro;
 import ca.ntro.core.services.GraphWriterJdk;
+import ca.ntro.core.services.RandomJdk;
 import ca.ntro.core.services.ReflectionServiceJdk;
 import ca.ntro.core.services.StackAnalyzerJdk;
 import ca.ntro.core.services.TimeJdk;
@@ -28,6 +29,8 @@ public class InitializerJdk extends InitializerNtro {
 		Ntro.registerTime(new TimeJdk());
 		
 		Ntro.registerAsserter(new AsserterJdk());
+
+		Ntro.registerRandom(new RandomJdk());
 		
 		
 		return super.executeBlocking();

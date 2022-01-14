@@ -1,7 +1,6 @@
 package ca.ntro.core.edit_distance;
 
 import java.util.List;
-import java.util.Random;
 
 import org.junit.Test;
 
@@ -14,7 +13,6 @@ import ca.ntro.core.util.StringUtils;
 public class EditDistanceTests extends NtroTests {
 	
 	private char[] alphabet = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'x', 'z',}; 
-	private Random random = new Random();
 
 	@Test
 	public void editDistance00() {
@@ -239,19 +237,15 @@ public class EditDistanceTests extends NtroTests {
 	}
 
 	private char randomChar() {
-		return alphabet[random.nextInt(alphabet.length)];
+		return alphabet[Ntro.random().nextInt(alphabet.length)];
 	}
 
 	private int randomIndex(List<Object> list) {
-		return random.nextInt(list.size());
-	}
-
-	private int randomIndex(Object[] array) {
-		return random.nextInt(array.length);
+		return Ntro.random().nextInt(list.size());
 	}
 
 	private EditType randomEditType() {
-		return EditType.values()[random.nextInt(EditType.values().length)];
+		return EditType.values()[Ntro.random().nextInt(EditType.values().length)];
 	}
 	
 	public String mutateString(String source, int numberOfMutations) {
