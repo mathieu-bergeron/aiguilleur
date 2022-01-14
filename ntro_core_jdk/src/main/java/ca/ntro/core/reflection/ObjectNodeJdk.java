@@ -42,4 +42,6 @@ public class ObjectNodeJdk extends ObjectNodeNtro {
 		return new ObjectNodeStructureJdk((ObjectNodeNtro) this, (ObjectGraphNtro) getGraph());
 	}
 
+
+
 }

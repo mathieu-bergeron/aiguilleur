@@ -1,15 +1,15 @@
-package ca.ntro.core.edit_distance.edits;
+package ca.ntro.core.object_diff.updates;
+
+import ca.ntro.core.path.Path;
 
 public class DeleteNtro 
+
+       extends ObjectUpdateNtro 
        
-       extends EditNtro
-
        implements Delete {
-	
 
-
-	public DeleteNtro(int index) {
-		super(index);
+	public DeleteNtro(Path valuePath) {
+		super(valuePath);
 	}
 
 	@Override
@@ -26,6 +26,4 @@ public class DeleteNtro
 	public boolean isDelete() {
 		return true;
 	}
-	
-
 }

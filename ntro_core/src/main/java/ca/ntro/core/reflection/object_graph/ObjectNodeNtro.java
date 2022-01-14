@@ -222,6 +222,11 @@ public abstract class ObjectNodeNtro
 	public double asDouble() {
 		return Ntro.reflectionService().asDouble(getObject());
 	}
+
+	@Override
+	public Object value() {
+		return getObject();
+	}
 	
 	@Override 
 	public String toString() {

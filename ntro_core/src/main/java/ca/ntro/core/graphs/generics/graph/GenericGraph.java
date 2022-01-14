@@ -33,4 +33,7 @@ public interface GenericGraph<N extends GenericNode<N,E,SO>,
 	Stream<VisitedEdge<N,E,SO>> visitEdges();
 	Stream<VisitedEdge<N,E,SO>> visitEdges(SO options);
 
+	Stream<WalkInProgress<N,E,SO>> walk(WalkId walk);
+	Stream<WalkInProgress<N,E,SO>> walk(WalkId walk, SO options);
+
 }

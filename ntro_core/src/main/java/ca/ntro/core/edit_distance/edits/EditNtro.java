@@ -32,8 +32,8 @@ public abstract class EditNtro
 	}
 
 	@Override
-	public Update asUpdate() {
-		return (Update) this;
+	public Modify asModify() {
+		return (Modify) this;
 	}
 
 	@Override

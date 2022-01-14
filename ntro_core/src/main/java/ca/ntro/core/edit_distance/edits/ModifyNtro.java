@@ -1,15 +1,15 @@
 package ca.ntro.core.edit_distance.edits;
 
-public class UpdateNtro 
+public class ModifyNtro 
 
        extends EditValueNtro
 
-       implements Update {
+       implements Modify {
 	
 	
 	
 
-	public UpdateNtro(int index, Object value) {
+	public ModifyNtro(int index, Object value) {
 		super(index, value);
 	}
 
@@ -19,7 +19,7 @@ public class UpdateNtro
 	}
 
 	@Override
-	public boolean isUpdate() {
+	public boolean isModify() {
 		return true;
 	}
 

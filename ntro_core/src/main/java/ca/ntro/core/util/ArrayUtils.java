@@ -4,7 +4,7 @@ import java.util.List;
 
 public class ArrayUtils {
 
-	public static Object[] fromList(List<Object> list) {
+	public static Object[] fromList(List<?> list) {
 		Object[] array = new Object[list.size()];
 		
 		for(int i = 0; i < array.length; i++) {

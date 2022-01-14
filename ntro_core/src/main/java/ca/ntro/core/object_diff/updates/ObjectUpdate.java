@@ -1,7 +1,9 @@
-package ca.ntro.core.edit_distance.edits;
+package ca.ntro.core.object_diff.updates;
 
-public interface Edit {
-	
+import ca.ntro.core.path.Path;
+
+public interface ObjectUpdate {
+
 	boolean isInsert();
 	Insert  asInsert();
 	
@@ -10,7 +12,7 @@ public interface Edit {
 
 	boolean isDelete();
 	Delete  asDelete();
-
-	int index();
+	
+	Path valuePath();
 
 }

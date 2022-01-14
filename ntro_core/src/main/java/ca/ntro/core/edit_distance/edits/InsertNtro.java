@@ -18,7 +18,7 @@ public class InsertNtro
 	}
 
 	@Override
-	public boolean isUpdate() {
+	public boolean isModify() {
 		return false;
 	}
 

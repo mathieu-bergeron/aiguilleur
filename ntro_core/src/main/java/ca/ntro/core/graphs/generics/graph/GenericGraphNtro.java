@@ -6,6 +6,8 @@ import ca.ntro.core.graphs.common.Direction;
 import ca.ntro.core.graphs.common.NodeId;
 import ca.ntro.core.graphs.common.NodeIdNtro;
 import ca.ntro.core.stream.Stream;
+import ca.ntro.core.stream.StreamNtro;
+import ca.ntro.core.stream.Visitor;
 
 public abstract class GenericGraphNtro<N extends GenericNode<N,E,SO>, 
                                        E extends GenericEdge<N,E,SO>,
@@ -157,5 +159,29 @@ public abstract class GenericGraphNtro<N extends GenericNode<N,E,SO>,
 	@Override
 	public Stream<VisitedEdge<N,E,SO>> visitEdges(){
 		return visitEdges(defaultSearchOptions());
+	}
+
+	@Override
+	public Stream<WalkInProgress<N,E,SO>> walk(WalkId walk){
+		return walk(walk, defaultSearchOptions());
+	}
+
+	@Override
+	public Stream<WalkInProgress<N,E,SO>> walk(WalkId walk, SO options){
+		
+		return new StreamNtro<WalkInProgress<N,E,SO>>(){
+
+			@Override
+			public void forEach_(Visitor<WalkInProgress<N, E, SO>> visitor) throws Throwable {
+
+				startNodes().forEach(startNode -> {
+
+					startNode.walk(walk, options).forEach(walked -> {
+
+						visitor.visit(walked);
+					});
+				});
+			}
+		};
 	}
 }

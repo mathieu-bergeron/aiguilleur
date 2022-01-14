@@ -15,5 +15,7 @@ public interface ObjectNodeSimpleValue extends GenericObjectNode {
 	long    asLong();
 	float   asFloat();
 	double  asDouble();
+	
+	Object value();
 
 }

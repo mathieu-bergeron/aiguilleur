@@ -6,7 +6,7 @@ import java.util.List;
 import ca.ntro.core.edit_distance.edits.DeleteNtro;
 import ca.ntro.core.edit_distance.edits.Edit;
 import ca.ntro.core.edit_distance.edits.InsertNtro;
-import ca.ntro.core.edit_distance.edits.UpdateNtro;
+import ca.ntro.core.edit_distance.edits.ModifyNtro;
 
 // https://en.wikipedia.org/wiki/Wagner%E2%80%93Fischer_algorithm
 
@@ -75,34 +75,34 @@ public class EditDistanceNtro implements EditDistance {
 		for(int j = 1; j < n; j++) {
 			for(int i = 1; i < m; i++) {
 
-				int updateCost;
+				int modifyCost;
 				
 				if(!source[i-1].equals(target[j-1])) {
 
-					updateCost = 1;
+					modifyCost = 1;
 
 				}else {
 
-					updateCost = 0;
+					modifyCost = 0;
 				}
 				
 				int deleteDistance = distances[i-1][j] + 1;
 				int insertDistance = distances[i][j-1] + 1;
-				int updateDistance = distances[i-1][j-1] + updateCost;
+				int modifyDistance = distances[i-1][j-1] + modifyCost;
 				
 				if(deleteDistance < insertDistance
-						&& deleteDistance < updateDistance) {
+						&& deleteDistance < modifyDistance) {
 					
 					distances[i][j] = deleteDistance;
 
 				}else if(insertDistance < deleteDistance
-						&& insertDistance < updateDistance) {
+						&& insertDistance < modifyDistance) {
 
 					distances[i][j] = insertDistance;
 
 				}else {
 
-					distances[i][j] = updateDistance;
+					distances[i][j] = modifyDistance;
 
 				}
 			}
@@ -147,16 +147,16 @@ public class EditDistanceNtro implements EditDistance {
 			
 			int deleteDistance = distances[i-1][j];
 			int insertDistance = distances[i][j-1];
-			int updateDistance = distances[i-1][j-1];
+			int modifyDistance = distances[i-1][j-1];
 			
-			if(deleteDistance < updateDistance
+			if(deleteDistance < modifyDistance
 					&& deleteDistance < insertDistance) {
 
 				i = i - 1;
 				currentEdit = new DeleteNtro(j);
 				
 			}else if(insertDistance < deleteDistance
-					&& insertDistance < updateDistance) {
+					&& insertDistance < modifyDistance) {
 				
 				j = j - 1;
 				currentEdit = new InsertNtro(j, target[j]);
@@ -168,7 +168,7 @@ public class EditDistanceNtro implements EditDistance {
 				
 				if(!source[i].equals(target[j])) {
 
-					currentEdit = new UpdateNtro(j, target[j]);
+					currentEdit = new ModifyNtro(j, target[j]);
 				}
 			}
 

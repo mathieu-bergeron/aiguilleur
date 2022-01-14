@@ -19,7 +19,7 @@ public interface EditDistance {
 		return new EditDistanceNtro(source, target);
 	}
 
-	public static EditDistance newEditDistance(List<Object> source, List<Object> target) {
+	public static EditDistance newEditDistance(List<?> source, List<?> target) {
 		return new EditDistanceNtro(ArrayUtils.fromList(source), ArrayUtils.fromList(target));
 	}
 
@@ -43,7 +43,7 @@ public interface EditDistance {
 		return newEditDistance(source, target).editSequence();
 	}
 
-	public static List<Edit> editSequence(List<Object> source, List<Object> target) {
+	public static List<Edit> editSequence(List<?> source, List<?> target) {
 		return newEditDistance(source, target).editSequence();
 	}
 
@@ -71,9 +71,9 @@ public interface EditDistance {
 				
 				source.add(edit.index(), edit.asInsert().value());
 
-			}else if(edit.isUpdate()) {
+			}else if(edit.isModify()) {
 				
-				source.set(edit.index(), edit.asUpdate().value());
+				source.set(edit.index(), edit.asModify().value());
 			}
 		}
 
