@@ -1,15 +1,20 @@
 package ca.ntro.core.edit_distance;
 
 import java.util.List;
+import java.util.Random;
 
 import org.junit.Test;
 
 import ca.ntro.core.edit_distance.edits.Edit;
 import ca.ntro.core.initialization.Ntro;
 import ca.ntro.core.tests.NtroTests;
+import ca.ntro.core.util.ListUtils;
+import ca.ntro.core.util.StringUtils;
 
 public class EditDistanceTests extends NtroTests {
-
+	
+	private char[] alphabet = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'x', 'z',}; 
+	private Random random = new Random();
 
 	@Test
 	public void editDistance00() {
@@ -172,7 +177,7 @@ public class EditDistanceTests extends NtroTests {
 	@Test
 	public void editSequence07() {
 		String source = "1a2b3";
-		String target = "aFGbc";
+		String target = "aFGb";
 		
 		EditDistance editDistance =  EditDistance.newEditDistance(source, target);
 		int distance = editDistance.editDistance();
@@ -196,10 +201,95 @@ public class EditDistanceTests extends NtroTests {
 		Ntro.asserter().assertEquals(3, sequence.get(3).asUpdate().index());
 		Ntro.asserter().assertEquals('b', sequence.get(3).asUpdate().value());
 
-		Ntro.asserter().assertTrue("edit[4] == insert", sequence.get(4).isInsert());
-		Ntro.asserter().assertEquals(4, sequence.get(4).asInsert().index());
-		Ntro.asserter().assertEquals('c', sequence.get(4).asInsert().value());
 	}
+
+	@Test
+	public void editSequenceRandom() {
+		int numberOfTests = 50;
+		int stringSize = 50;
+		int numberOfMutations = 100;
+		
+		for(int i = 0; i < numberOfTests; i++) {
+			
+			String source = randomString(stringSize);
+			String target = mutateString(source, numberOfMutations);
+			
+			System.out.println(source);
+			System.out.println(target);
+			System.out.println();
+			System.out.println();
+
+			List<Edit> sequence = EditDistance.editSequence(source, target);
+			
+			String computedTarget = EditDistance.applyEditSequence(source, sequence);
+			
+			Ntro.asserter().assertEquals(target, computedTarget);
+		}
+	}
+	
+	public String randomString(int size) {
+		StringBuilder builder = new StringBuilder();
+		
+		for(int i = 0; i < size; i++) {
+			
+			builder.append(randomChar());
+		}
+		
+		return builder.toString();
+	}
+
+	private char randomChar() {
+		return alphabet[random.nextInt(alphabet.length)];
+	}
+
+	private int randomIndex(List<Object> list) {
+		return random.nextInt(list.size());
+	}
+
+	private int randomIndex(Object[] array) {
+		return random.nextInt(array.length);
+	}
+
+	private EditType randomEditType() {
+		return EditType.values()[random.nextInt(EditType.values().length)];
+	}
+	
+	public String mutateString(String source, int numberOfMutations) {
+		
+		List<Object> result = ListUtils.fromString(source);
+		
+		for(int i = 0; i < numberOfMutations; i++) {
+
+			EditType editType = randomEditType();
+			int index = randomIndex(result);
+			
+			if(ListUtils.ifIndexValid(result, index)) {
+				continue;
+			}
+			
+			switch(editType) {
+			
+			case DELETE:
+				result.remove(index);
+				break;
+
+			case INSERT:
+				result.add(index, randomChar());
+				break;
+
+			case UPDATE:
+				result.set(index, randomChar());
+				break;
+
+			}
+		}
+		
+		return StringUtils.fromList(result);
+	}
+	
+	
+	
+
 
 
 }
